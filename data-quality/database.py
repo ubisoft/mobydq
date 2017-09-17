@@ -1,10 +1,12 @@
+import argparse
+import sys
 import sqlite3
 import ast
 import utils
 
-if __name__ == '__main__':
+def initDatabase():
 	# Create database
-	print('Connect to database data_quality.db')
+	print('Create database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -158,6 +160,17 @@ if __name__ == '__main__':
 		constraint fk_session foreign key (session_id) references session(session_id))
 		''')
 
+	# Save changes
+	connection.commit()
+	connection.close()
+
+
+def insertData():
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
 	# Insert data
 	dataFile = open('data_quality.dat','r')
 	dataDictionary = ast.literal_eval(dataFile.read())
@@ -169,7 +182,19 @@ if __name__ == '__main__':
 			try: cursor.execute(insertRecord)
 			except sqlite3.IntegrityError: print('Table {}, value already exists: {}'.format(table['table'], record['values']))
 
-
 	# Save changes
 	connection.commit()
 	connection.close()
+
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','insertData'])
+	arguments = parser.parse_args()
+
+	# Execute module
+	if not arguments.function:
+		getattr(sys.modules[__name__], 'initDatabase')()
+		getattr(sys.modules[__name__], 'insertData')()
+	else:
+		getattr(sys.modules[__name__], arguments.function)()
