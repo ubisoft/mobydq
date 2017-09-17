@@ -1,0 +1,35 @@
+{"dataset": [{
+	"table": "data_source_type",
+	"columns": "data_source_type",
+	"records": [
+		{"values":"'Database'"},
+		{"values":"'Api'"},
+		{"values":"'File'"}
+	]},
+	{
+	"table": "status",
+	"columns": "status",
+	"records": [
+		{"values":"'Running'"},
+		{"values":"'Succeeded'"},
+		{"values":"'Failed'"}
+	]},
+	{
+	"table": "indicator_type",
+	"columns": "indicator_type, module, function",
+	"records": [
+		{"values":"'Completeness', 'completeness', 'evaluateCompleteness'"},
+		{"values":"'Freshness', 'timeliness', 'evaluateFreshness'"},
+		{"values":"'Latency', 'timeliness', 'evaluateLatency'"},
+		{"values":"'Validity', 'validity', 'evaluateValidity'"}
+	]},
+	{
+	"table": "event_type",
+	"columns": "event_type",
+	"records": [
+		{"values":"'Start'"},
+		{"values":"'Stop'"},
+		{"values":"'Error'"},
+		{"values":"'Dataset'"}
+	]}
+]}
