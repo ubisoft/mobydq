@@ -1,4 +1,4 @@
-{"dataset": [{
+{"list_of_values": [{
 	"table": "data_source_type",
 	"columns": "data_source_type",
 	"records": [
@@ -27,8 +27,8 @@
 	"table": "event_type",
 	"columns": "event_type",
 	"records": [
-		{"values":"'Start'"},
-		{"values":"'Stop'"},
+		{"values":"'sessionStart'"},
+		{"values":"'sessionStop'"},
 		{"values":"'Error'"},
 		{"values":"'Dataset'"}
 	]}
