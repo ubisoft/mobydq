@@ -1,10 +1,15 @@
+import argparse
+import sys
 import sqlite3
 import ast
 import utils
 
-if __name__ == '__main__':
+# Create database and tables
+def initDatabase():
+	print('Initialize database')
+
 	# Create database
-	print('Connect to database data_quality.db')
+	print('Create database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -158,10 +163,25 @@ if __name__ == '__main__':
 		constraint fk_session foreign key (session_id) references session(session_id))
 		''')
 
+	# Save changes
+	connection.commit()
+	connection.close()
+	return(True)
+
+
+# Insert default list of values into database
+def postListOfValues():
+	print('Insert list of values into database')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
 	# Insert data
 	dataFile = open('data_quality.dat','r')
 	dataDictionary = ast.literal_eval(dataFile.read())
-	for table in dataDictionary['dataset']:
+	for table in dataDictionary['list_of_values']:
 		print('Insert data in table: {}'.format(table['table']))
 		insertTable = utils.updateQuery("insert into {{table}} ({{columns}})", table)
 		for record in table['records']:
@@ -169,7 +189,94 @@ if __name__ == '__main__':
 			try: cursor.execute(insertRecord)
 			except sqlite3.IntegrityError: print('Table {}, value already exists: {}'.format(table['table'], record['values']))
 
+	# Save changes
+	connection.commit()
+	connection.close()
+	return(True)
+
+
+# Create a batch owner
+def postBatchOwner():
+	print('Create a batch owner')
+	batchOwner = input('Enter batch owner name: ')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Insert data
+	print('Insert data in table: batch_owner')
+	insertRecord = "insert into batch_owner (batch_owner) values ('{}');".format(batchOwner)
+	try: cursor.execute(insertRecord)
+	except sqlite3.IntegrityError: print('Batch owner {} already exists'.format(batchOwner))
 
 	# Save changes
 	connection.commit()
 	connection.close()
+	return(True)
+
+# Update a batch owner
+def putBatchOwner():
+	print('Update a batch owner')
+	batchOwner = input('Enter existing batch owner name: ')
+	newBatchOwner = input('Enter new batch owner name: ')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Verify existing batch owner
+	selectRecord = "select batch_owner from batch_owner where batch_owner='{}';".format(batchOwner)
+	cursor.execute(selectRecord)
+	if len(list(cursor)) == 0:
+		print('Batch owner {} does not exist'.format(batchOwner))
+		return(False)
+
+
+	# Update data
+	print('Update data in table: batch_owner')
+	updateRecord = "update batch_owner set batch_owner='{}', last_updated_date=strftime('%Y-%m-%d %H:%M:%f', 'now') where batch_owner='{}';".format(newBatchOwner, batchOwner)
+	cursor.execute(updateRecord)
+	try: cursor.execute(updateRecord)
+	except sqlite3.IntegrityError: print('Batch owner {} already exists'.format(newBatchOwner))
+
+	# Save changes
+	connection.commit()
+	connection.close()
+	return(True)
+
+# Get batch owners
+def getBatchOwner():
+	print('Get batch owners')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Select data
+	print('(batch_owner_id, batch_owner, created_date, last_updated_date)')
+	selectRecord = "select * from batch_owner order by batch_owner_id;"
+	cursor.execute(selectRecord)
+	for record in cursor:
+		print(record)
+
+	# Close connection
+	connection.close()
+	return(True)
+
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','postListOfValues','postBatchOwner','putBatchOwner','getBatchOwner'])
+	arguments = parser.parse_args()
+
+	# Execute module
+	if not arguments.function:
+		getattr(sys.modules[__name__], 'initDatabase')()
+		getattr(sys.modules[__name__], 'postListOfValues')()
+		getattr(sys.modules[__name__], 'postBatchOwner')()
+	else:
+		getattr(sys.modules[__name__], arguments.function)()
