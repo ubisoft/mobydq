@@ -168,7 +168,6 @@ def initDatabase():
 	connection.close()
 	return(True)
 
-
 # Insert default list of values into database
 def postListOfValues():
 	print('Insert list of values into database')
@@ -193,7 +192,6 @@ def postListOfValues():
 	connection.commit()
 	connection.close()
 	return(True)
-
 
 # Create a batch owner
 def postBatchOwner():
@@ -230,10 +228,10 @@ def putBatchOwner():
 	# Verify existing batch owner
 	selectRecord = "select batch_owner from batch_owner where batch_owner='{}';".format(batchOwner)
 	cursor.execute(selectRecord)
-	if len(list(cursor)) == 0:
+	data = cursor.fetchall()
+	if len(data) == 0:
 		print('Batch owner {} does not exist'.format(batchOwner))
 		return(False)
-
 
 	# Update data
 	print('Update data in table: batch_owner')
@@ -267,16 +265,73 @@ def getBatchOwner():
 	connection.close()
 	return(True)
 
+# Create a data source
+def postDataSource():
+	print('Create a data source')
+	dataSource = input('Enter data source name: ')
+	dataSourceType = input('Enter data source type (Database, Api, File): ')
+	connectionString = input('Enter connection string: ')
+	login = input('Enter login: ')
+	password = input('Enter password: ')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Get data source type id
+	selectRecord = "select data_source_type_id from data_source_type where data_source_type='{}';".format(dataSourceType)
+	cursor.execute(selectRecord)
+	data = cursor.fetchall()
+	if len(data) == 0:
+		print('Data source type {} does not exist'.format(dataSourceType))
+		return(False)
+	else: dataSourceTypeId = data[0][0]
+
+	# Insert data
+	print('Insert data in table: data_source')
+	insertRecord = "insert into data_source (data_source, data_source_type_id, connection_string, login, password) values ('{}','{}','{}','{}','{}');".format(dataSource, dataSourceTypeId, connectionString, login, password)
+	try: cursor.execute(insertRecord)
+	except sqlite3.IntegrityError: print('Data source {} already exists'.format(dataSource))
+
+	# Save changes
+	connection.commit()
+	connection.close()
+	return(True)
+
+# Update a data source
+def putDataSource():
+	return(True)
+
+# Get data sources
+def getDataSource():
+	print('Get data sources')
+
+	# Connect to database
+	print('Connect to database data_quality.db')
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Select data
+	print('(data_source_id, data_source, data_source_type, connection_string, created_date, last_updated_date)')
+	selectRecord = """select a.data_source_id, a.data_source, b.data_source_type, a.connection_string, a.created_date, a.last_updated_date
+	from data_source a inner join data_source_type b on a.data_source_type_id= b.data_source_type_id order by data_source_id;"""
+	cursor.execute(selectRecord)
+	for record in cursor:
+		print(record)
+
+	# Close connection
+	connection.close()
+	return(True)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','postListOfValues','postBatchOwner','putBatchOwner','getBatchOwner'])
+	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','postListOfValues','postBatchOwner','putBatchOwner','getBatchOwner', 'postDataSource','putDataSource','getDataSource'])
 	arguments = parser.parse_args()
 
 	# Execute module
 	if not arguments.function:
 		getattr(sys.modules[__name__], 'initDatabase')()
 		getattr(sys.modules[__name__], 'postListOfValues')()
-		getattr(sys.modules[__name__], 'postBatchOwner')()
 	else:
 		getattr(sys.modules[__name__], arguments.function)()
