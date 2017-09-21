@@ -173,7 +173,6 @@ def postListOfValues():
 	print('Insert list of values into database')
 
 	# Connect to database
-	print('Connect to database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -193,13 +192,12 @@ def postListOfValues():
 	connection.close()
 	return(True)
 
-# Create a batch owner
+# Create batch owner
 def postBatchOwner():
-	print('Create a batch owner')
+	print('Create batch owner')
 	batchOwner = input('Enter batch owner name: ')
 
 	# Connect to database
-	print('Connect to database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -214,14 +212,13 @@ def postBatchOwner():
 	connection.close()
 	return(True)
 
-# Update a batch owner
+# Update batch owner
 def putBatchOwner():
-	print('Update a batch owner')
+	print('Update batch owner')
 	batchOwner = input('Enter existing batch owner name: ')
 	newBatchOwner = input('Enter new batch owner name: ')
 
 	# Connect to database
-	print('Connect to database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -236,7 +233,6 @@ def putBatchOwner():
 	# Update data
 	print('Update data in table: batch_owner')
 	updateRecord = "update batch_owner set batch_owner='{}', last_updated_date=strftime('%Y-%m-%d %H:%M:%f', 'now') where batch_owner='{}';".format(newBatchOwner, batchOwner)
-	cursor.execute(updateRecord)
 	try: cursor.execute(updateRecord)
 	except sqlite3.IntegrityError: print('Batch owner {} already exists'.format(newBatchOwner))
 
@@ -250,7 +246,6 @@ def getBatchOwner():
 	print('Get batch owners')
 
 	# Connect to database
-	print('Connect to database data_quality.db')
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -265,28 +260,77 @@ def getBatchOwner():
 	connection.close()
 	return(True)
 
-# Create a data source
-def postDataSource():
-	print('Create a data source')
-	dataSource = input('Enter data source name: ')
-	dataSourceType = input('Enter data source type (Database, Api, File): ')
-	connectionString = input('Enter connection string: ')
-	login = input('Enter login: ')
-	password = input('Enter password: ')
+# Delete batch owner
+def deleteBatchOwner():
+	print('Delete batch owner')
+	batchOwner = input('Enter batch owner name: ')
 
-	# Connect to database
-	print('Connect to database data_quality.db')
+	# Verify if batch owner is used by indicators
+	
+	confirm = input('This will delete all events, sessions and batches for this batch owner. Are you sure (Y/n): ')
+	if confirm == 'Y':
+		# Connect to database
+		connection = sqlite3.connect('data_quality.db')
+		cursor = connection.cursor()
+
+		# Delete data
+		print('Delete data in table: event')
+		deleteEventRecord = """delete from event where event_id in (
+		select event_id from event a
+		inner join session b on a.session_id=b.session_id
+		inner join batch c on b.batch_id=c.batch_id
+		inner join batch_owner d on c.batch_owner_id=d.batch_owner_id
+		where d.batch_owner='{}');""".format(batchOwner)
+		cursor.execute(deleteEventRecord)
+
+		print('Delete data in table: session')
+		deleteSessionRecord = """delete from session where session_id in (
+		select session_id from session a
+		inner join batch b on a.batch_id=b.batch_id
+		inner join batch_owner c on b.batch_owner_id=c.batch_owner_id
+		where c.batch_owner='{}');""".format(batchOwner)
+		cursor.execute(deleteSessionRecord)
+
+		print('Delete data in table: batch')
+		deleteBatchRecord = """delete from batch where batch_id in (
+		select batch_id from batch a
+		inner join batch_owner b on a.batch_owner_id=b.batch_owner_id
+		where b.batch_owner='{}');""".format(batchOwner)
+		cursor.execute(deleteBatchRecord)
+
+		print('Delete data in table: batch_owner')
+		deleteRecord = "delete from batch_owner where batch_owner='{}';".format(batchOwner)
+		cursor.execute(deleteRecord)
+
+		# Close connection
+		connection.commit()
+		connection.close()
+	return(True)
+
+# Create data source
+def postDataSource():
+	print('Create data source')
+	dataSourceType = input('Enter data source type (Database, Api, File): ')
+
+	# Verify data source type id
+	selectRecord = "select data_source_type_id from data_source_type where data_source_type='{}';".format(dataSourceType)
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
-
-	# Get data source type id
-	selectRecord = "select data_source_type_id from data_source_type where data_source_type='{}';".format(dataSourceType)
 	cursor.execute(selectRecord)
 	data = cursor.fetchall()
 	if len(data) == 0:
 		print('Data source type {} does not exist'.format(dataSourceType))
 		return(False)
 	else: dataSourceTypeId = data[0][0]
+
+	dataSource = input('Enter data source name: ')
+	connectionString = input('Enter connection string: ')
+	login = input('Enter login: ')
+	password = input('Enter password: ')
+
+	# Connect to database
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
 
 	# Insert data
 	print('Insert data in table: data_source')
@@ -299,16 +343,58 @@ def postDataSource():
 	connection.close()
 	return(True)
 
-# Update a data source
+# Update data source
 def putDataSource():
+	print('Update data source')
+	dataSourceType = input('Enter data source type (Database, Api, File): ')
+	
+	# Verify data source type id
+	selectRecord = "select data_source_type_id from data_source_type where data_source_type='{}';".format(dataSourceType)
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+	cursor.execute(selectRecord)
+	data = cursor.fetchall()
+	if len(data) == 0:
+		print('Data source type {} does not exist'.format(dataSourceType))
+		return(False)
+	else: dataSourceTypeId = data[0][0]
+
+	dataSource = input('Enter existing data source name: ')
+	newDataSource = input('Enter new data source name: ')
+	connectionString = input('Enter connection string: ')
+	login = input('Enter login: ')
+	password = input('Enter password: ')
+
+	# Connect to databas
+	connection = sqlite3.connect('data_quality.db')
+	cursor = connection.cursor()
+
+	# Verify existing data source
+	selectRecord = "select data_source from data_source where data_source='{}';".format(dataSource)
+	cursor.execute(selectRecord)
+	data = cursor.fetchall()
+	if len(data) == 0:
+		print('Data source {} does not exist'.format(dataSource))
+		return(False)
+
+	# Update data
+	print('Update data in table: data_source')
+	updateRecord = """update data_source set data_source='{}', data_source_type_id='{}', connection_string='{}',
+	login='{}', password='{}', last_updated_date=strftime('%Y-%m-%d %H:%M:%f', 'now') where data_source='{}';""".format(newDataSource, dataSourceTypeId, connectionString, login, password, dataSource)
+	try: cursor.execute(updateRecord)
+	except sqlite3.IntegrityError: print('Data source {} already exists'.format(newDataSource))
+
+	# Save changes
+	connection.commit()
+	connection.close()
 	return(True)
+
 
 # Get data sources
 def getDataSource():
 	print('Get data sources')
 
-	# Connect to database
-	print('Connect to database data_quality.db')
+	# Connect to databas
 	connection = sqlite3.connect('data_quality.db')
 	cursor = connection.cursor()
 
@@ -324,9 +410,32 @@ def getDataSource():
 	connection.close()
 	return(True)
 
+# Delete data source
+def deleteDataSource():
+	print('Delete data source')
+	dataSource = input('Enter data source name: ')
+
+	# Verify if data source is used by indicators
+	
+	confirm = input('Are you sure (Y/n): ')
+	if confirm == 'Y':
+		# Connect to database
+		connection = sqlite3.connect('data_quality.db')
+		cursor = connection.cursor()
+
+		# Delete data
+		print('Delete data in table: data_source')
+		deleteRecord = "delete from data_source where data_source='{}';".format(dataSource)
+		cursor.execute(deleteRecord)
+
+		# Close connection
+		connection.commit()
+		connection.close()
+	return(True)
+
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','postListOfValues','postBatchOwner','putBatchOwner','getBatchOwner', 'postDataSource','putDataSource','getDataSource'])
+	parser.add_argument('-f', dest='function', type=str, help='Enter the name of the function you wish to exectue', choices=['initDatabase','postListOfValues','postBatchOwner','putBatchOwner','getBatchOwner','deleteBatchOwner','postDataSource','putDataSource','getDataSource','deleteDataSource'])
 	arguments = parser.parse_args()
 
 	# Execute module
