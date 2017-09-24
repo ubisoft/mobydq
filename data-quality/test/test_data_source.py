@@ -1,18 +1,22 @@
-import data_source
+from data_source import DataSourceType
+import logging
 import unittest
+import utils
 
-utils.configLogger()
+
 log = logging.getLogger(__name__)
 
-class TestDataSourceType(unittest.TestCase):
-	@classmethod
-	def setUpClass(self):
-		log.info('Start unit tests')
 
-	def test_getWithoutName(self):
-		DataSourceType = DataSourceType()
-		result = DataSourceType.get()
+class TestDataSourceType(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        log.info('Start unit tests')
+
+    def test_getWithoutName(self):
+        data_source_type = DataSourceType()
+        data_source_type.get()
 
 
 if __name__ == '__main__':
-	unittest.main()
+    utils.configLogger()
+    unittest.main()
