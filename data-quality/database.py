@@ -10,12 +10,13 @@ log = logging.getLogger(__name__)
 class Database:
 	"""Perform database operations on dataquality.db."""
 
-	def __init__(self):
+	def __enter__(self):
 		self.connection = sqlite3.connect('data_quality.db')
 		self.connection.row_factory = utils.dictionary # Converts cursor result to dictionary
 		self.cursor = self.connection.cursor()
+		return self
 
-	def __del__(self):
+	def __exit__(self, ext_type, exc_value, traceback):
 		self.connection.commit()
 		self.connection.close()
 

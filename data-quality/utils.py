@@ -11,8 +11,8 @@ def updateQuery(query, parameters):
 def configLogger():
 	"""Load logging configuration"""
 	logging.basicConfig(
-		filename='data_quality.log',
-		#stream=sys.stdout,
+		#filename='data_quality.log',
+		stream=sys.stdout,
 		level=logging.DEBUG,
 		format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 

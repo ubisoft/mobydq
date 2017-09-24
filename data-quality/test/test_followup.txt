@@ -1,0 +1,15 @@
+TESTS
+
+DataSourceType
+--------------
+get without name			OK
+get with name				OK
+create without name			OK
+create with name			OK
+create existing name		OK
+update without name			OK
+update with name			OK
+update non existing name	OK
+delete without name			OK
+delete with name			OK
+delete non existing name	OK
