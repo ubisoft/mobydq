@@ -1,0 +1,38 @@
+{
+    "list_of_values": [
+        {
+            "class": "Status",
+            "records": [
+                {"name": "Running"},
+                {"name": "Succeeded"},
+                {"name": "Failed"}
+            ]
+        },
+        {
+            "class": "DataSourceType",
+            "records": [
+                {"name": "Database"},
+                {"name": "Api"},
+                {"name": "File"}
+            ]
+        },
+        {
+            "class": "IndicatorType",
+            "records": [
+                {"name": "Completeness", "module": "completeness", "function": "evaluatecompleteness"},
+                {"name": "Freshness", "module": "timeliness", "function": "evaluatefreshness"},
+                {"name": "Latency", "module": "timeliness", "function": "evaluatelatency"},
+                {"name": "Validity", "module":"validity", "function":"evaluatevalidity"}
+            ]
+        },
+        {
+            "class": "EventType",
+            "records": [
+                {"name": "Session start"},
+                {"name": "Session stop"},
+                {"name": "Error"},
+                {"name": "Data set"}
+            ]
+        }
+    ]
+}
