@@ -29,6 +29,7 @@ def loadconfiguration(filename=None):
 
     # Load files
     parser = configparser.ConfigParser()
+    parser.optionxform = str  # Makes parser case sensitive
     for file in indicatorfilelist:
         log.info('Loading configuration file: {}'.format(utils.getfilename(file)))
         parser.read(file)
@@ -37,8 +38,8 @@ def loadconfiguration(filename=None):
         indicator = parser['INDICATOR']
 
         # Get indicator type Id
-        indicatortype = indicator['Indicator type']
-        with database.DatabaseFunction('IndicatorType') as function:
+        indicatortype = indicator['indicatorType']
+        with database.Function('IndicatorType') as function:
             indicatortypelist = function.read(name=indicatortype)
 
         if not indicatortypelist:
@@ -46,8 +47,8 @@ def loadconfiguration(filename=None):
             break
 
         # Get batch owner Id
-        batchowner = indicator['Batch owner']
-        with database.DatabaseFunction('BatchOwner') as function:
+        batchowner = indicator['batchOwner']
+        with database.Function('BatchOwner') as function:
             batchownerlist = function.read(name=batchowner)
 
         if not batchownerlist:
@@ -55,49 +56,49 @@ def loadconfiguration(filename=None):
             break
 
         # Verify if indicator exists
-        with database.DatabaseFunction('Indicator') as function:
-            indicatorlist = function.read(name=indicator['Name'])
+        with database.Function('Indicator') as function:
+            indicatorlist = function.read(name=indicator['name'])
 
         if indicatorlist:
-            log.info('Indicator already exists: {}'.format(indicator['Name']))
+            log.info('Indicator already exists: {}'.format(indicator['name']))
             # Update data quality indicator
-            with database.DatabaseFunction('Indicator') as function:
+            with database.Function('Indicator') as function:
                 function.update(
                     id=indicatorlist[0].id,
-                    name=indicator['Name'],
-                    description=indicator['Descriptions'],
+                    name=indicator['name'],
+                    description=indicator['descriptions'],
                     indicatorTypeId=indicatortypelist[0].id,
                     batchOwnerId=batchownerlist[0].id,
-                    executionOrder=indicator['Execution order'],
-                    alertOperator=indicator['Alert operator'],
-                    alertThreshold=float(indicator['Alert Threshold']),
-                    distributionList=indicator['Distribution list'],
-                    active=indicator.getboolean('Active'))
+                    executionOrder=indicator['executionOrder'],
+                    alertOperator=indicator['alertOperator'],
+                    alertThreshold=float(indicator['alertThreshold']),
+                    distributionList=indicator['distributionList'],
+                    active=indicator.getboolean('active'))
 
         else:
             # Create data quality indicator
-            with database.DatabaseFunction('Indicator') as function:
+            with database.Function('Indicator') as function:
                 indicatorlist = function.create(
-                    name=indicator['Name'],
-                    description=indicator['Descriptions'],
+                    name=indicator['name'],
+                    description=indicator['descriptions'],
                     indicatorTypeId=indicatortypelist[0].id,
                     batchOwnerId=batchownerlist[0].id,
-                    executionOrder=indicator['Execution order'],
-                    alertOperator=indicator['Alert operator'],
-                    alertThreshold=float(indicator['Alert Threshold']),
-                    distributionList=indicator['Distribution list'],
-                    active=indicator.getboolean('Active'))
+                    executionOrder=indicator['executionOrder'],
+                    alertOperator=indicator['alertOperator'],
+                    alertThreshold=float(indicator['alertThreshold']),
+                    distributionList=indicator['distributionList'],
+                    active=indicator.getboolean('active'))
 
         # Load indicator parameters
         indicatorparameter = parser['INDICATOR PARAMETERS']
 
         for parameter in indicatorparameter:
             # Verify if indicator parameter exists
-            with database.DatabaseFunction('IndicatorParameter') as function:
+            with database.Function('IndicatorParameter') as function:
                 indicatorparameterlist = function.read(name=parameter, indicatorId=indicatorlist[0].id)
 
             if indicatorparameterlist:
-                with database.DatabaseFunction('IndicatorParameter') as function:
+                with database.Function('IndicatorParameter') as function:
                     function.update(
                         id=indicatorparameterlist[0].id,
                         name=parameter,
@@ -105,7 +106,7 @@ def loadconfiguration(filename=None):
                         indicatorId=indicatorlist[0].id)
 
             else:
-                with database.DatabaseFunction('IndicatorParameter') as function:
+                with database.Function('IndicatorParameter') as function:
                     function.create(
                         name=parameter,
                         value=indicatorparameter[parameter],

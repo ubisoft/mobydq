@@ -25,7 +25,7 @@ class TestDatabaseModule(unittest.TestCase):
         testcasename = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append(testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.create(name=testcasename)
 
         self.assertEqual(batchownerlist[0].name, testcasename)
@@ -35,10 +35,10 @@ class TestDatabaseModule(unittest.TestCase):
         testcasename = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append(testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             f.create(name=testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.read(name=testcasename)
 
         self.assertEqual(batchownerlist[0].name, testcasename)
@@ -48,16 +48,16 @@ class TestDatabaseModule(unittest.TestCase):
         testcasename = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append(testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.create(name=testcasename)
 
         testcasenamenew = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append(testcasenamenew)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             f.update(id=batchownerlist[0].id, name=testcasenamenew)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.read(name=testcasenamenew)
 
         self.assertEqual(batchownerlist[0].name, testcasenamenew)
@@ -67,13 +67,13 @@ class TestDatabaseModule(unittest.TestCase):
         testcasename = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append(testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.create(name=testcasename)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             f.delete(id=batchownerlist[0].id)
 
-        with database.DatabaseFunction('BatchOwner') as f:
+        with database.Function('BatchOwner') as f:
             batchownerlist = f.read(name=testcasename)
 
         self.assertEqual(batchownerlist, [])
@@ -82,7 +82,7 @@ class TestDatabaseModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for testcasename in self.testcaselist:
-            with database.DatabaseFunction('BatchOwner') as f:
+            with database.Function('BatchOwner') as f:
                 f.delete(name=testcasename)
 
 if __name__ == '__main__':
