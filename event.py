@@ -1,70 +1,11 @@
 """Controls indicators execution and logs events."""
-from database import DatabaseFunction
+from database import Function
 import logging
 import utils
 
 # Load logger
 utils.configlogger()
 log = logging.getLogger(__name__)
-
-
-def logbatch(batchowner, event):
-    """
-    Manage batch status for the corresponding batch owner. Return batch object.
-
-    If event is Batch start:
-    * Insert a new batch
-    * New batch status is set to Running (Id: 1)
-    * Returns the corresponding batch object
-
-    If event is Batch stop:
-    * Terminate an existing running batch
-    * Existing batch status is set to Succeeded (Id: 2)
-    * Returns the corresponding batch object
-    """
-    # Verify batch owner exists
-    with DatabaseFunction('BatchOwner') as function:
-        batchownerlist = function.read(name=batchowner)
-
-    if not batchownerlist:
-        log.error('Cannot start batch because batch owner {} does not exist'.format(batchowner))
-        return False
-
-    # Start new batch
-    if event == 'Batch start':
-        # Verify there is no running batch
-        with DatabaseFunction('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerlist[0].id, statusId=1)
-
-        if batchlist:
-            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batchowner, batchlist[0].id))
-            return False
-
-        # Insert new running batch
-        with DatabaseFunction('Batch') as function:
-            batchlist = function.create(batchOwnerId=batchownerlist[0].id, statusId=1)
-
-    # End running batch
-    elif event == 'Batch stop':
-        # Find current running batch
-        with DatabaseFunction('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerlist[0].id, statusId=1)
-
-        if not batchlist:
-            log.error('Cannot end batch because batch owner {} does not have a running batch'.format(batchowner))
-            return False
-
-        # Update running batch
-        with DatabaseFunction('Batch') as function:
-            batchlist = function.update(id=batchlist[0].id, statusId=2)
-
-    # Invalid event
-    else:
-        log.error('Invalid argument event: {}'.format(event))
-        return False
-
-    # Return first and only record in list
-    return batchlist[0]
 
 
 def logevent(indicatorid, batchid, event, dataset={}):
@@ -95,7 +36,7 @@ def logevent(indicatorid, batchid, event, dataset={}):
     * Returns the corresponding event object
     """
     # Verify indicator exists
-    with DatabaseFunction('Indicator') as function:
+    with Function('Indicator') as function:
         indicatorlist = function.read(id=indicatorid)
 
     if not indicatorlist:
@@ -103,7 +44,7 @@ def logevent(indicatorid, batchid, event, dataset={}):
         return False
 
     # Verify batch exists and is running
-    with DatabaseFunction('Batch') as function:
+    with Function('Batch') as function:
         batchlist = function.read(id=batchid, statusId=1)
 
     if not batchlist:
@@ -111,7 +52,7 @@ def logevent(indicatorid, batchid, event, dataset={}):
         return False
 
     # Verify event type exists
-    with DatabaseFunction('EventType') as function:
+    with Function('EventType') as function:
         eventtypelist = function.read(name=event)
 
     if not eventtypelist:
@@ -121,7 +62,7 @@ def logevent(indicatorid, batchid, event, dataset={}):
     # Log session start, insert new running session
     if event == 'Session start':
         # Verify current indicator is not running already
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.read(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         if sessionlist:
@@ -129,17 +70,17 @@ def logevent(indicatorid, batchid, event, dataset={}):
             return False
 
         # Insert new running session
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.create(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         # Insert session start event
-        with DatabaseFunction('Event') as function:
+        with Function('Event') as function:
             eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
     # Log session stop, update running session to succeeded
     elif event == 'Session stop':
         # Verify current indicator is running
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.read(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         if not sessionlist:
@@ -147,17 +88,17 @@ def logevent(indicatorid, batchid, event, dataset={}):
             return False
 
         # Insert session stop event
-        with DatabaseFunction('Event') as function:
+        with Function('Event') as function:
             eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
         # Update running session to succeeded
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.update(id=sessionlist[0].id, statusId=2)
 
     # Log error, update running session to failed
     elif event == 'Error':
         # Verify current indicator is running
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.read(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         if not sessionlist:
@@ -165,17 +106,17 @@ def logevent(indicatorid, batchid, event, dataset={}):
             return False
 
         # Insert error event
-        with DatabaseFunction('Event') as function:
+        with Function('Event') as function:
             eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
         # Update running session to failed
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.update(id=sessionlist[0].id, statusId=3)
 
     # Log data set
     elif event == 'Data set':
         # Verify current indicator is running
-        with DatabaseFunction('Session') as function:
+        with Function('Session') as function:
             sessionlist = function.read(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         if not sessionlist:
@@ -183,7 +124,7 @@ def logevent(indicatorid, batchid, event, dataset={}):
             return False
 
         # Insert data set event
-        with DatabaseFunction('Event') as function:
+        with Function('Event') as function:
             eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
     # Invalid event
