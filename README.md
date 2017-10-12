@@ -10,7 +10,7 @@ Skip the bla bla and run your data quality indicators immediately by following t
 Full documentation is available on [Github Wiki](https://github.com/alexisrolland/data-quality/wiki).
 
 ## Dependencies
-This framework has been developed on **Python 3.5** and is powered by the following awesome packages
+This framework has been developed on **Python 3.5** and is powered by the following awesome packages:
 * [argparse](https://docs.python.org/3/library/argparse.html)
 * [configparser](https://docs.python.org/3/library/configparser.html)
 * [pandas](http://pandas.pydata.org/)
