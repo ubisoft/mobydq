@@ -1,8 +1,7 @@
 """Setup data quality framework database and perform CRUD operations."""
 from ast import literal_eval
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, TypeDecorator
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy import create_engine
-from sqlalchemy.ext import mutable
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.sql import func
@@ -16,21 +15,6 @@ import utils
 utils.configlogger()
 log = logging.getLogger(__name__)
 
-
-class JsonEncodedDict(TypeDecorator):
-    """Create custom data type to enable json storage in event table."""
-
-    impl = String
-
-    def process_bind_param(self, value, dialect):
-        """Dump."""
-        return json.dumps(value)
-
-    def process_result_value(self, value, dialect):
-        """Load."""
-        return json.loads(value)
-
-mutable.MutableDict.associate_with(JsonEncodedDict)
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
@@ -194,7 +178,7 @@ class Event(Base):
     id = Column('event_id', Integer, primary_key=True)
     eventTypeId = Column('event_type_id', Integer, ForeignKey('event_type.event_type_id'), nullable=False)
     sessionId = Column('session_id', Integer, ForeignKey('session.session_id', ondelete='CASCADE'), nullable=False)
-    content = Column('content', JsonEncodedDict)
+    content = Column('content', utils.JsonEncodedDict)
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
@@ -244,10 +228,10 @@ class Function:
 
     def create(self, **kwargs):
         """Create record. Return list of objects."""
-        if not kwargs:
+        """if not kwargs:
             print('Enter attributes of the {} to be created in JSON format.'.format(self.object.__name__))
             print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())
+            kwargs = literal_eval(input())"""
 
         # Verify record does not exist
         instance = self.session.query(self.object).filter_by(**kwargs).first()
@@ -260,15 +244,15 @@ class Function:
             log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
 
         # Return list of objects
-        instance = self.session.query(self.object).filter_by(**kwargs).all()
+        instance = self.session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def read(self, **kwargs):
         """Get record or list of records. Return list of objects."""
-        if not kwargs:
+        """if not kwargs:
             print('Enter attributes of the {} to be selected in JSON format.'.format(self.object.__name__))
             print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())
+            kwargs = literal_eval(input())"""
 
         instance = self.session.query(self.object).filter_by(**kwargs).all()
         log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
@@ -278,11 +262,11 @@ class Function:
 
     def update(self, **kwargs):
         """Update record. Return list of objects."""
-        if not kwargs:
+        """if not kwargs:
             print('Enter attributes of the {} to be updated in JSON format.'.format(self.object.__name__))
             print('JSON must contain the Id of the record to be updated.')
             print('Example {"id": "1", "attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())
+            kwargs = literal_eval(input())"""
 
         # Verify record exists
         instance = self.session.query(self.object).filter_by(id=kwargs['id']).first()
@@ -294,7 +278,7 @@ class Function:
             log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
         # Return list of objects
-        instance = self.session.query(self.object).filter_by(**kwargs).all()
+        instance = self.session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def delete(self, **kwargs):

@@ -1,8 +1,15 @@
 """Utility functions used by unit test scripts."""
 from datetime import datetime
-from sqlalchemy import event
-from sqlalchemy.engine import Engine
+import inspect
+import os
+import sys
 import time
+
+
+# Modify python path to allow import module from parent folder
+currentdirectory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdirectory = os.path.dirname(currentdirectory)
+sys.path.insert(0, parentdirectory)
 
 
 def testcasename(testcaselist):
@@ -12,11 +19,3 @@ def testcasename(testcaselist):
         time.sleep(1)
         testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
     return testcasename
-
-
-@event.listens_for(Engine, 'connect')
-def setsqlitepragma(dbapiconnection, connectionrecord):
-    """Activate sqlite pragma to enforce foreign keys integrity, in particular for cascade delete."""
-    cursor = dbapiconnection.cursor()
-    cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
