@@ -1,17 +1,9 @@
 """Unit test for database module."""
-import inspect
-import os
-import sys
 import test_utils
-import unittest
-
-# Needed to import custom modules from parent directory
-currentdirectory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdirectory = os.path.dirname(currentdirectory)
-sys.path.insert(0, parentdirectory)
 import batch
 import database
 import event
+import unittest
 
 
 class TestEventModule(unittest.TestCase):
