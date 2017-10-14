@@ -427,4 +427,4 @@ class Status(Resource):
 
 if __name__ == '__main__':
     hostname = socket.gethostname()
-    app.run(host=hostname, threaded=True, debug=True)
+    app.run(host=hostname, threaded=True)  # debug=True
