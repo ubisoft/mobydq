@@ -13,6 +13,9 @@ Full documentation is available on [Github Wiki](https://github.com/alexisrollan
 This framework has been developed on **Python 3.5** and is powered by the following awesome packages:
 * [argparse](https://docs.python.org/3/library/argparse.html)
 * [configparser](https://docs.python.org/3/library/configparser.html)
+* [flask](http://flask.pocoo.org/)
+* [flask_cors](http://flask-cors.readthedocs.io)
+* [flask_restplus](http://flask-restplus.readthedocs.io)
 * [pandas](http://pandas.pydata.org/)
 * [pyodbc](https://github.com/mkleehammer/pyodbc)
 * [sqlalchemy](https://www.sqlalchemy.org/)
