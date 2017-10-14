@@ -8,6 +8,7 @@ from sqlalchemy.sql import func
 import argparse
 import json
 import logging
+import os
 import sys
 import utils
 
@@ -206,7 +207,9 @@ class Function:
 
     def __init__(self, object):
         """Initialize class."""
-        engine = create_engine('sqlite:///data_quality.db')
+        dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+        dburi = 'sqlite:///{}'.format(dbpath)
+        engine = create_engine(dburi)
 
         # Bind engine to metadata of the base class
         Base.metadata.bind = engine
@@ -243,7 +246,7 @@ class Function:
             self.session.commit()
             log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
 
-        # Return list of objects
+        # Return object
         instance = self.session.query(self.object).filter_by(**kwargs).first()
         return instance
 
@@ -277,16 +280,16 @@ class Function:
             self.session.commit()
             log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
-        # Return list of objects
+        # Return object
         instance = self.session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def delete(self, **kwargs):
         """Delete record. Return empty list of objects."""
-        if not kwargs:
+        """if not kwargs:
             print('Enter attributes of the {} to be deleted in JSON format.'.format(self.object.__name__))
             print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())
+            kwargs = literal_eval(input())"""
 
         # Verify record exists
         instance = self.session.query(self.object).filter_by(**kwargs).first()
@@ -297,7 +300,7 @@ class Function:
             self.session.commit()
             log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
 
-        # Return empty list of object
+        # Return empty object
         return instance
 
 
@@ -317,7 +320,9 @@ Example: python3 database.py create BatchOwner''')
 
     # If no command line argument is supplied, create or repair database
     if len(arguments.commands) == 0:
-        engine = create_engine('sqlite:///data_quality.db')
+        dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+        dburi = 'sqlite:///{}'.format(dbpath)
+        engine = create_engine(dburi)
 
         # Create all tables in the engine
         log.info('Create database and tables')

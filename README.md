@@ -18,4 +18,5 @@ This framework has been developed on **Linux** with **Python 3.5** and is powere
 * [flask_restplus](http://flask-restplus.readthedocs.io)
 * [pandas](http://pandas.pydata.org/)
 * [pyodbc](https://github.com/mkleehammer/pyodbc)
+* [requests](http://docs.python-requests.org)
 * [sqlalchemy](https://www.sqlalchemy.org/)

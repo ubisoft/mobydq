@@ -16,40 +16,40 @@ class TestBatchModule(unittest.TestCase):
     def test_logbatch_batchstart(self):
         """Test log batch function with batch start batch."""
         testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append(testcasename)
+        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
 
         # Create batch owner
         with database.Function('BatchOwner') as function:
-            batchownerlist = function.create(name=testcasename)
+            batchowner = function.create(name=testcasename)
 
         # Start batch
         batchrecord = batch.logbatch(testcasename, 'Batch start')
 
-        self.assertEqual(batchrecord.batchOwnerId, batchownerlist[0].id)
+        self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 1)
 
     def test_logbatch_batchstop(self):
         """Test log batch function with batch stop batch."""
         testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append(testcasename)
+        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
 
         # Create batch owner
         with database.Function('BatchOwner') as function:
-            batchownerlist = function.create(name=testcasename)
+            batchowner = function.create(name=testcasename)
 
         # Start and stop batch
         batchrecord = batch.logbatch(testcasename, 'Batch start')
         batchrecord = batch.logbatch(testcasename, 'Batch stop')
 
-        self.assertEqual(batchrecord.batchOwnerId, batchownerlist[0].id)
+        self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 2)
 
     @classmethod
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
-        for testcasename in self.testcaselist:
-            with database.Function('BatchOwner') as function:
-                function.delete(name=testcasename)
+        for testcase in self.testcaselist:
+            with database.Function(testcase['class']) as function:
+                function.delete(name=testcase['testcase'])
 
 if __name__ == '__main__':
     # Test log batch function in event module

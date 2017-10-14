@@ -63,5 +63,5 @@ def logbatch(batchowner, event):
         log.error('Invalid argument event: {}'.format(event))
         return False
 
-    # Return first and only record in list
-    return batchlist[0]
+    # Return record
+    return batchlist
