@@ -14,7 +14,8 @@ api = Api(
     blueprint,
     title='Data Quality Framework API',
     version='v1',
-    description='RESTful API to perform CRUD operations on the Data Quality Framework database.',
+    description='''RESTful API to perform CRUD operations on the Data Quality Framework database.
+    Base URL: http://{}:5000/dataquality/api'''.format(socket.gethostname()),
     doc='/doc')
 app.register_blueprint(blueprint)
 
@@ -348,7 +349,7 @@ class IndicatorType(Resource):
 
         Use this method to create an Indicator Type.
         """
-        return api_utils.create('IndicatorType')
+        return api_utils.create('IndicatorType', request.json)
 
     def get(self):
         """
@@ -365,7 +366,7 @@ class IndicatorType(Resource):
 
         Use this method to update an Indicator Type.
         """
-        return api_utils.update('IndicatorType')
+        return api_utils.update('IndicatorType', request.json)
 
     @nsIndicatorType.expect(api.models['IndicatorType'], validate=True)
     def delete(self):
@@ -374,7 +375,7 @@ class IndicatorType(Resource):
 
         Use this method to delete an Indicator Type.
         """
-        return api_utils.delete('IndicatorType')
+        return api_utils.delete('IndicatorType', request.json)
 
 
 # Status
@@ -396,7 +397,7 @@ class Status(Resource):
 
         Use this method to create a Status.
         """
-        return api_utils.create('Status')
+        return api_utils.create('Status', request.json)
 
     def get(self):
         """
@@ -413,7 +414,7 @@ class Status(Resource):
 
         Use this method to update a Status.
         """
-        return api_utils.update('Status')
+        return api_utils.update('Status', request.json)
 
     @nsStatus.expect(api.models['Status'], validate=True)
     def delete(self):
@@ -422,9 +423,9 @@ class Status(Resource):
 
         Use this method to delete a Status.
         """
-        return api_utils.delete('Status')
+        return api_utils.delete('Status', request.json)
 
 
 if __name__ == '__main__':
     hostname = socket.gethostname()
-    app.run(host=hostname, threaded=True, debug=True)
+    app.run(host=hostname, threaded=True)  # debug=True

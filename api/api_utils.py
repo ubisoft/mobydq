@@ -1,4 +1,13 @@
 """Utility functions used by API scripts."""
+import inspect
+import os
+import sys
+
+# Modify python path to allow import module from parent folder
+currentdirectory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdirectory = os.path.dirname(currentdirectory)
+sys.path.insert(0, parentdirectory)
+
 import database
 import utils
 
@@ -7,7 +16,6 @@ def create(resourcename, payload={}):
     """Generic create function called by post methods in apy.py."""
     with database.Function(resourcename) as function:
         record = function.create(**payload)
-        print(record)
 
         # Convert database object into json
         response = utils.getobjectattributes(record)

@@ -15,7 +15,8 @@ sys.path.insert(0, parentdirectory)
 def testcasename(testcaselist):
     """Generate unique name for unit test case."""
     testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
-    if testcasename in testcaselist:
-        time.sleep(1)
-        testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
+    for testcase in testcaselist:
+        if testcasename in testcase['testcase']:
+            time.sleep(1)
+            testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
     return testcasename

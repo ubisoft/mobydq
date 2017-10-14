@@ -71,11 +71,11 @@ def logevent(indicatorid, batchid, event, dataset={}):
 
         # Insert new running session
         with Function('Session') as function:
-            sessionlist = function.create(indicatorId=indicatorid, batchId=batchid, statusId=1)
+            session = function.create(indicatorId=indicatorid, batchId=batchid, statusId=1)
 
         # Insert session start event
         with Function('Event') as function:
-            eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
+            event = function.create(eventTypeId=eventtypelist[0].id, sessionId=session.id, content=dataset)
 
     # Log session stop, update running session to succeeded
     elif event == 'Session stop':
@@ -89,11 +89,11 @@ def logevent(indicatorid, batchid, event, dataset={}):
 
         # Insert session stop event
         with Function('Event') as function:
-            eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
+            event = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
         # Update running session to succeeded
         with Function('Session') as function:
-            sessionlist = function.update(id=sessionlist[0].id, statusId=2)
+            function.update(id=sessionlist[0].id, statusId=2)
 
     # Log error, update running session to failed
     elif event == 'Error':
@@ -107,11 +107,11 @@ def logevent(indicatorid, batchid, event, dataset={}):
 
         # Insert error event
         with Function('Event') as function:
-            eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
+            event = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
         # Update running session to failed
         with Function('Session') as function:
-            sessionlist = function.update(id=sessionlist[0].id, statusId=3)
+            function.update(id=sessionlist[0].id, statusId=3)
 
     # Log data set
     elif event == 'Data set':
@@ -125,11 +125,11 @@ def logevent(indicatorid, batchid, event, dataset={}):
 
         # Insert data set event
         with Function('Event') as function:
-            eventlist = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
+            event = function.create(eventTypeId=eventtypelist[0].id, sessionId=sessionlist[0].id, content=dataset)
 
     # Invalid event
     else:
         log.error('Invalid argument event: {}'.format(event))
         return False
 
-    return eventlist[0]
+    return event
