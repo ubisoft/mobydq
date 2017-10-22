@@ -7,7 +7,7 @@ import unittest
 
 
 class TestEventModule(unittest.TestCase):
-    """Class to execute unit tests for database.py."""
+    """Class to execute unit tests for event.py."""
 
     @classmethod
     def setUpClass(self):
