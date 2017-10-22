@@ -1,5 +1,7 @@
 """Controls indicators execution and logs events."""
 from database import Function
+import argparse
+import indicator
 import logging
 import utils
 
@@ -8,7 +10,7 @@ utils.configlogger()
 log = logging.getLogger(__name__)
 
 
-def logbatch(batchowner, event):
+def logbatch(batchownerid, event):
     """
     Manage batch status for the corresponding batch owner. Return batch object.
 
@@ -24,34 +26,34 @@ def logbatch(batchowner, event):
     """
     # Verify batch owner exists
     with Function('BatchOwner') as function:
-        batchownerlist = function.read(name=batchowner)
+        batchownerlist = function.read(id=batchownerid)
 
     if not batchownerlist:
-        log.error('Cannot start batch because batch owner {} does not exist'.format(batchowner))
+        log.error('Cannot start batch because batch owner Id {} does not exist'.format(batchownerid))
         return False
 
     # Start new batch
     if event == 'Batch start':
         # Verify there is no running batch
         with Function('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerlist[0].id, statusId=1)
+            batchlist = function.read(batchOwnerId=batchownerid, statusId=1)
 
         if batchlist:
-            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batchowner, batchlist[0].id))
+            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batchownerid, batchlist[0].id))
             return False
 
         # Insert new running batch
         with Function('Batch') as function:
-            batchlist = function.create(batchOwnerId=batchownerlist[0].id, statusId=1)
+            batchlist = function.create(batchOwnerId=batchownerid, statusId=1)
 
     # End running batch
     elif event == 'Batch stop':
         # Find current running batch
         with Function('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerlist[0].id, statusId=1)
+            batchlist = function.read(batchOwnerId=batchownerid, statusId=1)
 
         if not batchlist:
-            log.error('Cannot end batch because batch owner {} does not have a running batch'.format(batchowner))
+            log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batchownerid))
             return False
 
         # Update running batch
@@ -65,3 +67,21 @@ def logbatch(batchowner, event):
 
     # Return record
     return batchlist
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('Id', type=int, help='Enter the Id of the batch owner for which you want to run a batch.')
+    arguments = parser.parse_args()
+
+    # Start batch
+    batchrecord = logbatch(arguments.Id, 'Batch start')
+
+    # Get indicators for the batch owner
+    with Function('Indicator') as function:
+        indicatorlist = function.read(batchOwnerId=arguments.Id)
+
+    for indicatorrecord in indicatorlist:
+        indicator.execute(indicatorrecord.id, batchrecord.id)
+
+    # Stop batch
+    logbatch(arguments.Id, 'Batch stop')

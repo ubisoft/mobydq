@@ -23,7 +23,7 @@ class TestBatchModule(unittest.TestCase):
             batchowner = function.create(name=testcasename)
 
         # Start batch
-        batchrecord = batch.logbatch(testcasename, 'Batch start')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
 
         self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 1)
@@ -38,8 +38,8 @@ class TestBatchModule(unittest.TestCase):
             batchowner = function.create(name=testcasename)
 
         # Start and stop batch
-        batchrecord = batch.logbatch(testcasename, 'Batch start')
-        batchrecord = batch.logbatch(testcasename, 'Batch stop')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch stop')
 
         self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 2)

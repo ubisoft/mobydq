@@ -132,7 +132,7 @@ class TestEventModule(unittest.TestCase):
         self.assertEqual(errorevent.sessionId, sessionlist[0].id)
 
     def test_logevent_dataset(self):
-        """Test log event function with error event."""
+        """Test log event function with dataset event."""
         testcasename = test_utils.testcasename(self.testcaselist)
         self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
         self.testcaselist.append({'class': 'Indicator', 'testcase': testcasename})

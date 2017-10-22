@@ -4,10 +4,10 @@ The objective of this framework is to provide a solution for data engineering te
 ![Data pipeline](/doc/data_pipeline.png)
 
 ## Getting Started
-Skip the bla bla and run your data quality indicators immediately by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) page. However, for a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
+Skip the bla bla and run your data quality indicators immediately by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. However, for a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
 
 ## Documentation
-the complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
+The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
 
 ## Dependencies
 This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages:
