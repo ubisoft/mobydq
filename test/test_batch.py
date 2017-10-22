@@ -6,7 +6,7 @@ import unittest
 
 
 class TestBatchModule(unittest.TestCase):
-    """Class to execute unit tests for database.py."""
+    """Class to execute unit tests for batch.py."""
 
     @classmethod
     def setUpClass(self):
@@ -23,7 +23,7 @@ class TestBatchModule(unittest.TestCase):
             batchowner = function.create(name=testcasename)
 
         # Start batch
-        batchrecord = batch.logbatch(testcasename, 'Batch start')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
 
         self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 1)
@@ -38,8 +38,8 @@ class TestBatchModule(unittest.TestCase):
             batchowner = function.create(name=testcasename)
 
         # Start and stop batch
-        batchrecord = batch.logbatch(testcasename, 'Batch start')
-        batchrecord = batch.logbatch(testcasename, 'Batch stop')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
+        batchrecord = batch.logbatch(batchowner.id, 'Batch stop')
 
         self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
         self.assertEqual(batchrecord.statusId, 2)
@@ -52,6 +52,6 @@ class TestBatchModule(unittest.TestCase):
                 function.delete(name=testcase['testcase'])
 
 if __name__ == '__main__':
-    # Test log batch function in event module
+    # Test log batch function in batch module
     suite = unittest.TestLoader().loadTestsFromTestCase(TestBatchModule)
     unittest.TextTestRunner(verbosity=2).run(suite)

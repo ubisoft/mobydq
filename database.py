@@ -5,8 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.sql import func
-import argparse
-import json
 import logging
 import os
 import sys
@@ -231,11 +229,6 @@ class Function:
 
     def create(self, **kwargs):
         """Create record. Return list of objects."""
-        """if not kwargs:
-            print('Enter attributes of the {} to be created in JSON format.'.format(self.object.__name__))
-            print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())"""
-
         # Verify record does not exist
         instance = self.session.query(self.object).filter_by(**kwargs).first()
         if instance:
@@ -252,11 +245,6 @@ class Function:
 
     def read(self, **kwargs):
         """Get record or list of records. Return list of objects."""
-        """if not kwargs:
-            print('Enter attributes of the {} to be selected in JSON format.'.format(self.object.__name__))
-            print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())"""
-
         instance = self.session.query(self.object).filter_by(**kwargs).all()
         log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
 
@@ -265,12 +253,6 @@ class Function:
 
     def update(self, **kwargs):
         """Update record. Return list of objects."""
-        """if not kwargs:
-            print('Enter attributes of the {} to be updated in JSON format.'.format(self.object.__name__))
-            print('JSON must contain the Id of the record to be updated.')
-            print('Example {"id": "1", "attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())"""
-
         # Verify record exists
         instance = self.session.query(self.object).filter_by(id=kwargs['id']).first()
         if not instance:
@@ -286,11 +268,6 @@ class Function:
 
     def delete(self, **kwargs):
         """Delete record. Return empty list of objects."""
-        """if not kwargs:
-            print('Enter attributes of the {} to be deleted in JSON format.'.format(self.object.__name__))
-            print('Example {"attribute1": "Value 1", "attribute2": "Value 2"}:')
-            kwargs = literal_eval(input())"""
-
         # Verify record exists
         instance = self.session.query(self.object).filter_by(**kwargs).first()
         if not instance:
@@ -305,53 +282,23 @@ class Function:
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, prog='database.py', description='''
-Execute this module to create data_quality.db database and populate it with default list of values.
-Example: python3 database.py
+    dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+    dburi = 'sqlite:///{}'.format(dbpath)
+    engine = create_engine(dburi)
 
-Execute this module with the following arguments to perform database operations:
-- Name of the function you want to execute: create, read, update, delete
-- Class name of the object on which you want to execute it: BatchOwner, DataSource, etc...
-Example: python3 database.py create BatchOwner''')
+    # Create all tables in the engine
+    log.info('Create database and tables')
+    Base.metadata.create_all(engine)
 
-    parser.add_argument('commands', nargs='*', type=str)
-    arguments = parser.parse_args()
-    arguments.commands
+    # Create database session to populate default list of values
+    dbSession = sessionmaker(bind=engine)
+    session = dbSession()
 
-    # If no command line argument is supplied, create or repair database
-    if len(arguments.commands) == 0:
-        dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
-        dburi = 'sqlite:///{}'.format(dbpath)
-        engine = create_engine(dburi)
-
-        # Create all tables in the engine
-        log.info('Create database and tables')
-        Base.metadata.create_all(engine)
-
-        # Create database session to populate default list of values
-        dbSession = sessionmaker(bind=engine)
-        session = dbSession()
-
-        # Insert default list of values
-        with open('data_quality.dat', 'r') as dataFile:
-            datadictionary = literal_eval(dataFile.read())
-            for object in datadictionary['list_of_values']:
-                    log.info('Insert default list of values for: {}'.format(object['class']))
-                    for record in object['records']:
-                        with Function(object['class']) as function:
-                            function.create(**record)
-
-    # If command line arguments are supplied execute corresponding functions
-    elif len(arguments.commands) == 2:
-        functionname = arguments.commands[0]
-        classname = arguments.commands[1]
-        with Function(classname) as function:
-            instance = getattr(function, functionname)()
-
-            # Print results if function is read
-            if functionname == 'read':
-                for item in instance:
-                    record = utils.getobjectattributes(item)
-                    print(json.dumps(record, indent=4, sort_keys=True))
-    else:
-        log.error('Invalid number of arguments, {} instead of 2'.format(len(arguments.commands)))
+    # Insert default list of values
+    with open('data_quality.dat', 'r') as dataFile:
+        datadictionary = literal_eval(dataFile.read())
+        for object in datadictionary['list_of_values']:
+                log.info('Insert default list of values for: {}'.format(object['class']))
+                for record in object['records']:
+                    with Function(object['class']) as function:
+                        function.create(**record)
