@@ -5,6 +5,7 @@ from sqlalchemy.ext import mutable
 import json
 import inspect
 import logging
+import re
 import sys
 import ntpath
 
@@ -37,8 +38,9 @@ def getobjectattributes(object):
     attributes = inspect.getmembers(object, lambda a: not(inspect.isroutine(a)))
     dictionary = {}
     for attribute in attributes:
-        if not attribute[0].startswith('_') and attribute[1] != [] and attribute[0] != 'metadata':
-            dictionary[attribute[0]] = str(attribute[1])
+        # Exclude object attributes belonging to sqlachemy and database classes
+        if not attribute[0].startswith('_') and not re.search("<class 'sqlalchemy*|<class 'database*", str(type(attribute[1]))):
+                dictionary[attribute[0]] = str(attribute[1])
     return dictionary
 
 
