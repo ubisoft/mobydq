@@ -11,7 +11,7 @@ import sys
 import utils
 
 # Load logger
-utils.configlogger()
+utils.config_logger()
 log = logging.getLogger(__name__)
 
 

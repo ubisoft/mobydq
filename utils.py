@@ -10,7 +10,7 @@ import sys
 import ntpath
 
 
-def configlogger():
+def config_logger():
     """Load logging configuration."""
     logging.basicConfig(
         # filename='data_quality.log',
@@ -20,20 +20,20 @@ def configlogger():
 
 
 @event.listens_for(Engine, 'connect')
-def setsqlitepragma(dbapiconnection, connectionrecord):
+def set_sqlite_pragma(dbapiconnection, connectionrecord):
     """Activate sqlite pragma to enforce foreign keys integrity, in particular for cascade delete."""
     cursor = dbapiconnection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
 
-def getfilename(path):
+def get_filename(path):
     """Extract file name from absolute path."""
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
 
-def getobjectattributes(object):
+def get_object_attributes(object):
     """Get attributes and their values from the instance of a class and returns them as a dictionary."""
     attributes = inspect.getmembers(object, lambda a: not(inspect.isroutine(a)))
     dictionary = {}
@@ -56,5 +56,6 @@ class JsonEncodedDict(TypeDecorator):
     def process_result_value(self, value, dialect):
         """Load."""
         return json.loads(value)
+
 
 mutable.MutableDict.associate_with(JsonEncodedDict)

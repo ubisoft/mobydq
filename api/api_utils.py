@@ -18,7 +18,7 @@ def create(resourcename, payload={}):
         record = function.create(**payload)
 
         # Convert database object into json
-        response = utils.getobjectattributes(record)
+        response = utils.get_object_attributes(record)
     return(response)
 
 
@@ -30,7 +30,7 @@ def read(resourcename, payload={}):
         # Convert database object into json
         response = []
         for record in recordlist:
-            response.append(utils.getobjectattributes(record))
+            response.append(utils.get_object_attributes(record))
     return(response)
 
 
@@ -40,7 +40,7 @@ def update(resourcename, payload={}):
         record = function.update(**payload)
 
         # Convert database object into json
-        response = utils.getobjectattributes(record)
+        response = utils.get_object_attributes(record)
     return (response)
 
 
