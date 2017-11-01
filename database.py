@@ -205,22 +205,22 @@ class Function:
 
     def __init__(self, object):
         """Initialize class."""
-        dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
-        dburi = 'sqlite:///{}'.format(dbpath)
-        engine = create_engine(dburi)
+        db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+        db_uri = 'sqlite:///{}'.format(db_path)
+        engine = create_engine(db_uri)
 
         # Bind engine to metadata of the base class
         Base.metadata.bind = engine
 
         # Create database session object
-        self.dbsession = sessionmaker(bind=engine, expire_on_commit=False)
+        self.dbSession = sessionmaker(bind=engine, expire_on_commit=False)
 
         # Get class of the object on which to perform operations
         self.object = getattr(sys.modules[__name__], object)
 
     def __enter__(self):
         """Open database session."""
-        self.session = self.dbsession()
+        self.session = self.dbSession()
         return self
 
     def __exit__(self, ext_type, exc_value, traceback):
@@ -282,22 +282,22 @@ class Function:
 
 
 if __name__ == '__main__':
-    dbpath = os.path.join(os.path.dirname(__file__), 'data_quality.db')
-    dburi = 'sqlite:///{}'.format(dbpath)
-    engine = create_engine(dburi)
+    db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+    db_uri = 'sqlite:///{}'.format(db_path)
+    engine = create_engine(db_uri)
 
     # Create all tables in the engine
     log.info('Create database and tables')
     Base.metadata.create_all(engine)
 
     # Create database session to populate default list of values
-    dbSession = sessionmaker(bind=engine)
-    session = dbSession()
+    db_session = sessionmaker(bind=engine)
+    session = db_session()
 
     # Insert default list of values
-    with open('data_quality.json', 'r') as dataFile:
-        datadictionary = literal_eval(dataFile.read())
-        for object in datadictionary['list_of_values']:
+    with open('data_quality.json', 'r') as data_file:
+        data_dictionary = literal_eval(data_file.read())
+        for object in data_dictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
                 for record in object['records']:
                     with Function(object['class']) as function:
