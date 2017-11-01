@@ -167,6 +167,7 @@ class DataSourceType(Resource):
         """
         return api_utils.delete('DataSourceType', request.json)
 
+
 # EventType
 nsEventType = api.namespace('EventType', path='/v1')
 mdEventType = api.model(

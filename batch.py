@@ -10,7 +10,7 @@ utils.config_logger()
 log = logging.getLogger(__name__)
 
 
-def logbatch(batchownerid, event):
+def log_batch(batch_owner_id, event):
     """
     Manage batch status for the corresponding batch owner. Return batch object.
 
@@ -26,34 +26,34 @@ def logbatch(batchownerid, event):
     """
     # Verify batch owner exists
     with DbOperation('BatchOwner') as op:
-        batchownerlist = op.read(id=batchownerid)
+        batchownerlist = op.read(id=batch_owner_id)
 
     if not batchownerlist:
-        log.error('Cannot start batch because batch owner Id {} does not exist'.format(batchownerid))
+        log.error('Cannot start batch because batch owner Id {} does not exist'.format(batch_owner_id))
         return False
 
     # Start new batch
     if event == 'Batch start':
         # Verify there is no running batch
         with DbOperation('Batch') as op:
-            batchlist = op.read(batchOwnerId=batchownerid, statusId=1)
+            batchlist = op.read(batchOwnerId=batch_owner_id, statusId=1)
 
         if batchlist:
-            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batchownerid, batchlist[0].id))
+            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batch_owner_id, batchlist[0].id))
             return False
 
         # Insert new running batch
         with DbOperation('Batch') as op:
-            batchlist = op.create(batchOwnerId=batchownerid, statusId=1)
+            batchlist = op.create(batchOwnerId=batch_owner_id, statusId=1)
 
     # End running batch
     elif event == 'Batch stop':
         # Find current running batch
         with DbOperation('Batch') as op:
-            batchlist = op.read(batchOwnerId=batchownerid, statusId=1)
+            batchlist = op.read(batchOwnerId=batch_owner_id, statusId=1)
 
         if not batchlist:
-            log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batchownerid))
+            log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batch_owner_id))
             return False
 
         # Update running batch
@@ -75,14 +75,14 @@ if __name__ == '__main__':
     arguments = parser.parse_args()
 
     # Start batch
-    batchrecord = logbatch(arguments.Id, 'Batch start')
+    batch_record = log_batch(arguments.Id, 'Batch start')
 
     # Get indicators for the batch owner
     with DbOperation('Indicator') as op:
         indicatorlist = op.read(batchOwnerId=arguments.Id)
 
     for indicatorrecord in indicatorlist:
-        indicator.execute(indicatorrecord.id, batchrecord.id)
+        indicator.execute(indicatorrecord.id, batch_record.id)
 
     # Stop batch
-    logbatch(arguments.Id, 'Batch stop')
+    log_batch(arguments.Id, 'Batch stop')
