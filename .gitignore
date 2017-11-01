@@ -1,3 +1,5 @@
 __pycache__
 data_quality.db
 *.bkp
+
+*.pyc
