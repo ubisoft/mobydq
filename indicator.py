@@ -20,15 +20,15 @@ def execute(indicatorid, batchid):
 
     # Get indicator type
     with DbOperation('Indicator') as op:
-        indicatorlist = op.read(id=indicatorid)
+        indicator_list = op.read(id=indicatorid)
 
     # Get indicator module and function
     with DbOperation('IndicatorType') as op:
-        indicatortypelist = op.read(id=indicatorlist[0].indicatorTypeId)
+        indicator_type_list = op.read(id=indicator_list[0].indicatorTypeId)
 
     # Import module and execute indicator function
-    importlib.import_module(indicatortypelist[0].module)
-    getattr(sys.modules[indicatortypelist[0].module], indicatortypelist[0].function)(indicatorid, batchid)
+    importlib.import_module(indicator_type_list[0].module)
+    getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicatorid, batchid)
 
     event.logevent(indicatorid, batchid, 'Session stop')
 
@@ -40,13 +40,13 @@ if __name__ == '__main__':
 
     # Get batch owner of the indicator
     with DbOperation('Indicator') as op:
-        indicatorlist = op.read(id=arguments.Id)
+        indicator_list = op.read(id=arguments.Id)
 
     # Start batch
-    batchrecord = batch.logbatch(indicatorlist[0].batchOwnerId, 'Batch start')
+    batch_record = batch.logbatch(indicator_list[0].batchOwnerId, 'Batch start')
 
     # Execute indicator
-    execute(arguments.Id, batchrecord.id)
+    execute(arguments.Id, batch_record.id)
 
     # Stop batch
-    batch.logbatch(indicatorlist[0].batchOwnerId, 'Batch stop')
+    batch.logbatch(indicator_list[0].batchOwnerId, 'Batch stop')
