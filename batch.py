@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Controls indicators execution and logs events."""
 from database import DbOperation
 import argparse

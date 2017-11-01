@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Indicators related functions."""
 from database import DbOperation
 import argparse

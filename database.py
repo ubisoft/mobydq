@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Setup data quality framework database and perform CRUD operations."""
 from ast import literal_eval
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String

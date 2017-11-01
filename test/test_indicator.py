@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Unit test for indicator module."""
 import test_utils
 import batch

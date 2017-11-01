@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Main module of the data quality framework API."""
 from flask import Blueprint, Flask, request
 from flask_cors import CORS
