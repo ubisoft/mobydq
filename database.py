@@ -290,10 +290,6 @@ if __name__ == '__main__':
     log.info('Create database and tables')
     Base.metadata.create_all(engine)
 
-    # Create database session to populate default list of values
-    db_session = sessionmaker(bind=engine)
-    session = db_session()
-
     # Insert default list of values
     with open('data_quality.json', 'r') as data_file:
         data_dictionary = literal_eval(data_file.read())
