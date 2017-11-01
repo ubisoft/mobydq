@@ -1,5 +1,5 @@
 """Indicators related functions."""
-from database import Function
+from database import DbOperation
 import argparse
 import batch
 import event
@@ -19,12 +19,12 @@ def execute(indicatorid, batchid):
     event.logevent(indicatorid, batchid, 'Session start')
 
     # Get indicator type
-    with Function('Indicator') as function:
-        indicatorlist = function.read(id=indicatorid)
+    with DbOperation('Indicator') as op:
+        indicatorlist = op.read(id=indicatorid)
 
     # Get indicator module and function
-    with Function('IndicatorType') as function:
-        indicatortypelist = function.read(id=indicatorlist[0].indicatorTypeId)
+    with DbOperation('IndicatorType') as op:
+        indicatortypelist = op.read(id=indicatorlist[0].indicatorTypeId)
 
     # Import module and execute indicator function
     importlib.import_module(indicatortypelist[0].module)
@@ -32,14 +32,15 @@ def execute(indicatorid, batchid):
 
     event.logevent(indicatorid, batchid, 'Session stop')
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('Id', type=int, help='Enter the Id of the indicator you want to execute.')
     arguments = parser.parse_args()
 
     # Get batch owner of the indicator
-    with Function('Indicator') as function:
-        indicatorlist = function.read(id=arguments.Id)
+    with DbOperation('Indicator') as op:
+        indicatorlist = op.read(id=arguments.Id)
 
     # Start batch
     batchrecord = batch.logbatch(indicatorlist[0].batchOwnerId, 'Batch start')

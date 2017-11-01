@@ -429,8 +429,8 @@ class TestApiModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for testcase in self.testcaselist:
-            with database.Function(testcase['class']) as function:
-                function.delete(name=testcase['testcase'])
+            with database.DbOperation(testcase['class']) as op:
+                op.delete(name=testcase['testcase'])
 
 if __name__ == '__main__':
     # Test api endpoints

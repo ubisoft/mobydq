@@ -21,12 +21,12 @@ class TestIndicatorModule(unittest.TestCase):
         self.testcaselist.append({'class': 'Indicator', 'testcase': testcasename})
 
         # Create batch owner
-        with database.Function('BatchOwner') as function:
-            batchowner = function.create(name=testcasename)
+        with database.DbOperation('BatchOwner') as op:
+            batchowner = op.create(name=testcasename)
 
         # Create indicator
-        with database.Function('Indicator') as function:
-            indicatorrecord = function.create(
+        with database.DbOperation('Indicator') as op:
+            indicatorrecord = op.create(
                 name=testcasename,
                 description=testcasename,
                 indicatorTypeId=4,
@@ -47,8 +47,8 @@ class TestIndicatorModule(unittest.TestCase):
         batchrecord = batch.logbatch(batchowner.id, 'Batch stop')
 
         # Get session status
-        with database.Function('Session') as function:
-            session = function.read(indicatorId=indicatorrecord.id, batchId=batchrecord.id)
+        with database.DbOperation('Session') as op:
+            session = op.read(indicatorId=indicatorrecord.id, batchId=batchrecord.id)
 
         self.assertEqual(session[0].statusId, 2)
 
@@ -57,12 +57,13 @@ class TestIndicatorModule(unittest.TestCase):
         """Tear down function called when class is deconstructed."""
         for testcase in self.testcaselist:
             # Delete indicator
-            with database.Function('Indicator') as function:
-                function.delete(name=testcase['testcase'])
+            with database.DbOperation('Indicator') as op:
+                op.delete(name=testcase['testcase'])
 
             # Delete batch owner, batch, session, event
-            with database.Function('BatchOwner') as function:
-                function.delete(name=testcase['testcase'])
+            with database.DbOperation('BatchOwner') as op:
+                op.delete(name=testcase['testcase'])
+
 
 if __name__ == '__main__':
     # Test execute function in indicator module

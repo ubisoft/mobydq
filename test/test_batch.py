@@ -19,8 +19,8 @@ class TestBatchModule(unittest.TestCase):
         self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
 
         # Create batch owner
-        with database.Function('BatchOwner') as function:
-            batchowner = function.create(name=testcasename)
+        with database.DbOperation('BatchOwner') as op:
+            batchowner = op.create(name=testcasename)
 
         # Start batch
         batchrecord = batch.logbatch(batchowner.id, 'Batch start')
@@ -34,8 +34,8 @@ class TestBatchModule(unittest.TestCase):
         self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
 
         # Create batch owner
-        with database.Function('BatchOwner') as function:
-            batchowner = function.create(name=testcasename)
+        with database.DbOperation('BatchOwner') as op:
+            batchowner = op.create(name=testcasename)
 
         # Start and stop batch
         batchrecord = batch.logbatch(batchowner.id, 'Batch start')
@@ -48,8 +48,9 @@ class TestBatchModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for testcase in self.testcaselist:
-            with database.Function(testcase['class']) as function:
-                function.delete(name=testcase['testcase'])
+            with database.DbOperation(testcase['class']) as op:
+                op.delete(name=testcase['testcase'])
+
 
 if __name__ == '__main__':
     # Test log batch function in batch module

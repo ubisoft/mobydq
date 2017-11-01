@@ -1,5 +1,5 @@
 """Controls indicators execution and logs events."""
-from database import Function
+from database import DbOperation
 import argparse
 import indicator
 import logging
@@ -25,8 +25,8 @@ def logbatch(batchownerid, event):
     * Returns the corresponding batch object
     """
     # Verify batch owner exists
-    with Function('BatchOwner') as function:
-        batchownerlist = function.read(id=batchownerid)
+    with DbOperation('BatchOwner') as op:
+        batchownerlist = op.read(id=batchownerid)
 
     if not batchownerlist:
         log.error('Cannot start batch because batch owner Id {} does not exist'.format(batchownerid))
@@ -35,30 +35,30 @@ def logbatch(batchownerid, event):
     # Start new batch
     if event == 'Batch start':
         # Verify there is no running batch
-        with Function('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerid, statusId=1)
+        with DbOperation('Batch') as op:
+            batchlist = op.read(batchOwnerId=batchownerid, statusId=1)
 
         if batchlist:
             log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batchownerid, batchlist[0].id))
             return False
 
         # Insert new running batch
-        with Function('Batch') as function:
-            batchlist = function.create(batchOwnerId=batchownerid, statusId=1)
+        with DbOperation('Batch') as op:
+            batchlist = op.create(batchOwnerId=batchownerid, statusId=1)
 
     # End running batch
     elif event == 'Batch stop':
         # Find current running batch
-        with Function('Batch') as function:
-            batchlist = function.read(batchOwnerId=batchownerid, statusId=1)
+        with DbOperation('Batch') as op:
+            batchlist = op.read(batchOwnerId=batchownerid, statusId=1)
 
         if not batchlist:
             log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batchownerid))
             return False
 
         # Update running batch
-        with Function('Batch') as function:
-            batchlist = function.update(id=batchlist[0].id, statusId=2)
+        with DbOperation('Batch') as op:
+            batchlist = op.update(id=batchlist[0].id, statusId=2)
 
     # Invalid event
     else:
@@ -67,6 +67,7 @@ def logbatch(batchownerid, event):
 
     # Return record
     return batchlist
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -77,8 +78,8 @@ if __name__ == '__main__':
     batchrecord = logbatch(arguments.Id, 'Batch start')
 
     # Get indicators for the batch owner
-    with Function('Indicator') as function:
-        indicatorlist = function.read(batchOwnerId=arguments.Id)
+    with DbOperation('Indicator') as op:
+        indicatorlist = op.read(batchOwnerId=arguments.Id)
 
     for indicatorrecord in indicatorlist:
         indicator.execute(indicatorrecord.id, batchrecord.id)

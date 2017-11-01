@@ -200,7 +200,7 @@ class IndicatorResult(Base):
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
-class Function:
+class DbOperation:
     """Set of functions used to perform create, read, update or delete operations in the database."""
 
     def __init__(self, object):
@@ -296,5 +296,5 @@ if __name__ == '__main__':
         for object in data_dictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
                 for record in object['records']:
-                    with Function(object['class']) as function:
-                        function.create(**record)
+                    with DbOperation(object['class']) as op:
+                        op.create(**record)
