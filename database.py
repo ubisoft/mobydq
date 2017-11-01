@@ -295,7 +295,7 @@ if __name__ == '__main__':
     session = dbSession()
 
     # Insert default list of values
-    with open('data_quality.dat', 'r') as dataFile:
+    with open('data_quality.json', 'r') as dataFile:
         datadictionary = literal_eval(dataFile.read())
         for object in datadictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
