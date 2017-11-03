@@ -27,9 +27,9 @@ def log_batch(batch_owner_id, event):
     """
     # Verify batch owner exists
     with DbOperation('BatchOwner') as op:
-        batchownerlist = op.read(id=batch_owner_id)
+        batch_owner_list = op.read(id=batch_owner_id)
 
-    if not batchownerlist:
+    if not batch_owner_list:
         log.error('Cannot start batch because batch owner Id {} does not exist'.format(batch_owner_id))
         return False
 
@@ -37,29 +37,29 @@ def log_batch(batch_owner_id, event):
     if event == 'Batch start':
         # Verify there is no running batch
         with DbOperation('Batch') as op:
-            batchlist = op.read(batchOwnerId=batch_owner_id, statusId=1)
+            batch_list = op.read(batchOwnerId=batch_owner_id, statusId=1)
 
-        if batchlist:
-            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batch_owner_id, batchlist[0].id))
+        if batch_list:
+            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batch_owner_id, batch_list[0].id))
             return False
 
         # Insert new running batch
         with DbOperation('Batch') as op:
-            batchlist = op.create(batchOwnerId=batch_owner_id, statusId=1)
+            batch_list = op.create(batchOwnerId=batch_owner_id, statusId=1)
 
     # End running batch
     elif event == 'Batch stop':
         # Find current running batch
         with DbOperation('Batch') as op:
-            batchlist = op.read(batchOwnerId=batch_owner_id, statusId=1)
+            batch_list = op.read(batchOwnerId=batch_owner_id, statusId=1)
 
-        if not batchlist:
+        if not batch_list:
             log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batch_owner_id))
             return False
 
         # Update running batch
         with DbOperation('Batch') as op:
-            batchlist = op.update(id=batchlist[0].id, statusId=2)
+            batch_list = op.update(id=batch_list[0].id, statusId=2)
 
     # Invalid event
     else:
@@ -67,7 +67,7 @@ def log_batch(batch_owner_id, event):
         return False
 
     # Return record
-    return batchlist
+    return batch_list
 
 
 if __name__ == '__main__':
@@ -80,10 +80,10 @@ if __name__ == '__main__':
 
     # Get indicators for the batch owner
     with DbOperation('Indicator') as op:
-        indicatorlist = op.read(batchOwnerId=arguments.Id)
+        indicator_list = op.read(batchOwnerId=arguments.Id)
 
-    for indicatorrecord in indicatorlist:
-        indicator.execute(indicatorrecord.id, batch_record.id)
+    for indicator_record in indicator_list:
+        indicator.execute(indicator_record.id, batch_record.id)
 
     # Stop batch
     log_batch(arguments.Id, 'Batch stop')

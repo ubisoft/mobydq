@@ -12,45 +12,45 @@ class TestBatchModule(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         """Set up function called when class is consructed."""
-        self.testcaselist = []
+        self.test_case_list = []
 
-    def test_logbatch_batchstart(self):
+    def test_log_batch_batch_start(self):
         """Test log batch function with batch start batch."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
-            batchowner = op.create(name=testcasename)
+            batch_owner = op.create(name=test_case_name)
 
         # Start batch
-        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
 
-        self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
-        self.assertEqual(batchrecord.statusId, 1)
+        self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
+        self.assertEqual(batch_record.statusId, 1)
 
-    def test_logbatch_batchstop(self):
+    def test_log_batch_batch_stop(self):
         """Test log batch function with batch stop batch."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
-            batchowner = op.create(name=testcasename)
+            batch_owner = op.create(name=test_case_name)
 
         # Start and stop batch
-        batchrecord = batch.logbatch(batchowner.id, 'Batch start')
-        batchrecord = batch.logbatch(batchowner.id, 'Batch stop')
+        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Batch stop')
 
-        self.assertEqual(batchrecord.batchOwnerId, batchowner.id)
-        self.assertEqual(batchrecord.statusId, 2)
+        self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
+        self.assertEqual(batch_record.statusId, 2)
 
     @classmethod
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
-        for testcase in self.testcaselist:
-            with database.DbOperation(testcase['class']) as op:
-                op.delete(name=testcase['testcase'])
+        for test_case in self.test_case_list:
+            with database.DbOperation(test_case['class']) as op:
+                op.delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':
