@@ -13,14 +13,14 @@ Skip the bla bla and run your data quality indicators immediately by following t
 ## Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
 
-## Dependencies
+## Requirements
 This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages:
 * [argparse](https://docs.python.org/3/library/argparse.html)
 * [configparser](https://docs.python.org/3/library/configparser.html)
-* [flask](http://flask.pocoo.org/)
-* [flask_cors](http://flask-cors.readthedocs.io)
-* [flask_restplus](http://flask-restplus.readthedocs.io)
+* [flask](http://flask.pocoo.org/) (0.12.2)
+* [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
+* [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
 * [pandas](http://pandas.pydata.org/)
 * [pyodbc](https://github.com/mkleehammer/pyodbc)
-* [requests](http://docs.python-requests.org)
-* [sqlalchemy](https://www.sqlalchemy.org/)
+* [requests](http://docs.python-requests.org) (2.9.1)
+* [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)

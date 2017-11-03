@@ -1,7 +1,6 @@
 """Utility functions used by the data quality framework."""
 from sqlalchemy import event, String, TypeDecorator
 from sqlalchemy.engine import Engine
-from sqlalchemy.ext import mutable
 import json
 import inspect
 import logging
