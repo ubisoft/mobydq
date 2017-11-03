@@ -7,16 +7,16 @@ import time
 
 
 # Modify python path to allow import module from parent folder
-currentdirectory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdirectory = os.path.dirname(currentdirectory)
-sys.path.insert(0, parentdirectory)
+current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_directory = os.path.dirname(current_directory)
+sys.path.insert(0, parent_directory)
 
 
-def testcasename(testcaselist):
+def test_case_name(test_case_list):
     """Generate unique name for unit test case."""
-    testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
-    for testcase in testcaselist:
-        if testcasename in testcase['testcase']:
+    test_case_name = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
+    for test_case in test_case_list:
+        if test_case_name in test_case['test_case']:
             time.sleep(1)
-            testcasename = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
-    return testcasename
+            test_case_name = 'Unit Test {}'.format(datetime.now().strftime("%Y%m%d%H%M%S"))
+    return test_case_name

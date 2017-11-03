@@ -281,52 +281,52 @@ mdIndicatorParameter = api.model(
         'value': fields.String(required=False, description='Indicator parameter value')})
 
 
-@nsIndicator.route('/indicators/<int:indicatorid>/indicatorparameters')
-@nsIndicator.param('indicatorid', 'Indicator Id')
+@nsIndicator.route('/indicators/<int:indicator_id>/indicatorparameters')
+@nsIndicator.param('indicator_id', 'Indicator Id')
 class IndicatorParameter(Resource):
     """Class for Indicator Parameter API endpoints."""
 
     @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
-    def post(self, indicatorid):
+    def post(self, indicator_id):
         """
         Create Indicator Parameter.
 
         Use this method to create an Indicator Parameter.
         """
         parameters = request.json
-        parameters['indicatorId'] = indicatorid
+        parameters['indicatorId'] = indicator_id
         return api_utils.create('IndicatorParameter', parameters)
 
-    def get(self, indicatorid):
+    def get(self, indicator_id):
         """
         Get list of Indicator Parameter.
 
         Use this method to get the list of Indicator Parameters.
         """
         parameters = {}
-        parameters['indicatorId'] = indicatorid
+        parameters['indicatorId'] = indicator_id
         return api_utils.read('IndicatorParameter', parameters)
 
     @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
-    def put(self, indicatorid):
+    def put(self, indicator_id):
         """
         Update Indicator Parameter.
 
         Use this method to update an Indicator Parameter.
         """
         parameters = request.json
-        parameters['indicatorId'] = indicatorid
+        parameters['indicatorId'] = indicator_id
         return api_utils.update('IndicatorParameter', parameters)
 
     @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
-    def delete(self, indicatorid):
+    def delete(self, indicator_id):
         """
         Delete Indicator Parameter.
 
         Use this method to delete an Indicator Parameter.
         """
         parameters = request.json
-        parameters['indicatorId'] = indicatorid
+        parameters['indicatorId'] = indicator_id
         return api_utils.delete('IndicatorParameter', parameters)
 
 
@@ -429,5 +429,5 @@ class Status(Resource):
 
 
 if __name__ == '__main__':
-    hostname = socket.gethostname()
-    app.run(host=hostname, threaded=True)  # debug=True
+    host_name = socket.gethostname()
+    app.run(host=host_name, threaded=True)  # debug=True

@@ -13,424 +13,424 @@ class TestApiModule(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         """Set up function called when class is consructed."""
-        self.baseurl = 'http://{}:5000/dataquality/api'.format(socket.gethostname())
+        self.base_url = 'http://{}:5000/dataquality/api'.format(socket.gethostname())
         self.headers = {'content-type': 'application/json'}
-        self.testcaselist = []
+        self.test_case_list = []
 
-    def test_post_batchowner(self):
+    def test_post_batch_owner(self):
         """Test post batch owner."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/batchowners', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
-    def test_get_batchowner(self):
+    def test_get_batch_owner(self):
         """Test get batch owner."""
         # Get batch owner
-        response = requests.get(self.baseurl + '/v1/batchowners', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/batchowners', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_put_batchowner(self):
+    def test_put_batch_owner(self):
         """Test put batch owner."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/batchowners', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_updated})
 
         # Update batch owner
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/batchowners', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
-    def test_delete_batchowner(self):
+    def test_delete_batch_owner(self):
         """Test delete batch owner."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/batchowners', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
 
         # Delete batch owner
-        response = requests.delete(self.baseurl + '/v1/batchowners', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_post_datasource(self):
+    def test_post_data_source(self):
         """Test post data source."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSource', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload['dataSourceTypeId'] = 1
-        payload['connectionString'] = testcasename
-        payload['login'] = testcasename
-        payload['password'] = testcasename
+        payload['connectionString'] = test_case_name
+        payload['login'] = test_case_name
+        payload['password'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasources', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
-    def test_get_datasource(self):
+    def test_get_data_source(self):
         """Test get data source."""
         # Get data source
-        response = requests.get(self.baseurl + '/v1/datasources', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/datasources', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_put_datasource(self):
+    def test_put_data_source(self):
         """Test put data source."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSource', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload['dataSourceTypeId'] = 1
-        payload['connectionString'] = testcasename
-        payload['login'] = testcasename
-        payload['password'] = testcasename
+        payload['connectionString'] = test_case_name
+        payload['login'] = test_case_name
+        payload['password'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasources', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSource', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name_updated})
 
         # Update data source
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
         payload['dataSourceTypeId'] = 1
-        payload['connectionString'] = testcasenameupdated
-        payload['login'] = testcasenameupdated
-        payload['password'] = testcasenameupdated
+        payload['connectionString'] = test_case_name_updated
+        payload['login'] = test_case_name_updated
+        payload['password'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/datasources', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
-    def test_delete_datasource(self):
+    def test_delete_data_source(self):
         """Test delete data source."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSource', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload['dataSourceTypeId'] = 1
-        payload['connectionString'] = testcasename
-        payload['login'] = testcasename
-        payload['password'] = testcasename
+        payload['connectionString'] = test_case_name
+        payload['login'] = test_case_name
+        payload['password'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasources', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
 
         # Delete data source
-        response = requests.delete(self.baseurl + '/v1/datasources', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_post_datasourcetype(self):
+    def test_post_data_source_type(self):
         """Test post data source type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSourceType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasourcetypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
-    def test_get_datasourcetype(self):
+    def test_get_data_source_type(self):
         """Test get data source type."""
         # Get data source type
-        response = requests.get(self.baseurl + '/v1/datasourcetypes', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/datasourcetypes', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_put_datasourcetype(self):
+    def test_put_data_source_type(self):
         """Test put data source type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSourceType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasourcetypes', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSourceType', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name_updated})
 
         # Update data source type
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/datasourcetypes', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
-    def test_delete_datasourcetype(self):
+    def test_delete_data_source_type(self):
         """Test delete data source type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'DataSourceType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/datasourcetypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
 
         # Delete data source type
-        response = requests.delete(self.baseurl + '/v1/datasourcetypes', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_post_eventtype(self):
+    def test_post_event_type(self):
         """Test post event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'EventType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/eventtypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
-    def test_get_eventtype(self):
+    def test_get_event_type(self):
         """Test get event type."""
         # Get event type
-        response = requests.get(self.baseurl + '/v1/eventtypes', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/eventtypes', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_put_eventtype(self):
+    def test_put_event_type(self):
         """Test put event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'EventType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/eventtypes', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'EventType', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name_updated})
 
         # Update event type
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/eventtypes', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
-    def test_delete_eventtype(self):
+    def test_delete_event_type(self):
         """Test delete event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'EventType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/eventtypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
 
         # Delete event type
-        response = requests.delete(self.baseurl + '/v1/eventtypes', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_post_indicatortype(self):
+    def test_post_indicator_type(self):
         """Test post indicator type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'IndicatorType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
         payload = {}
-        payload['name'] = testcasename
-        payload['module'] = testcasename
-        payload['function'] = testcasename
+        payload['name'] = test_case_name
+        payload['module'] = test_case_name
+        payload['function'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/indicatortypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
     def test_get_indicatortype(self):
         """Test get indicator type."""
         # Get indicator type
-        response = requests.get(self.baseurl + '/v1/indicatortypes', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/indicatortypes', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
-    def test_put_indicatortype(self):
+    def test_put_indicator_type(self):
         """Test put indicator type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'IndicatorType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
         payload = {}
-        payload['name'] = testcasename
-        payload['module'] = testcasename
-        payload['function'] = testcasename
+        payload['name'] = test_case_name
+        payload['module'] = test_case_name
+        payload['function'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/indicatortypes', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'IndicatorType', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name_updated})
 
         # Update indicator type
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
-        payload['module'] = testcasenameupdated
-        payload['function'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
+        payload['module'] = test_case_name_updated
+        payload['function'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/indicatortypes', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
-    def test_delete_indicatortype(self):
+    def test_delete_indicator_type(self):
         """Test delete indicator type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'IndicatorType', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
         payload = {}
-        payload['name'] = testcasename
-        payload['module'] = testcasename
-        payload['function'] = testcasename
+        payload['name'] = test_case_name
+        payload['module'] = test_case_name
+        payload['function'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/indicatortypes', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
 
         # Delete indicator type
-        response = requests.delete(self.baseurl + '/v1/indicatortypes', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
     def test_post_status(self):
         """Test post event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'Status', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/status', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/status', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasename)
+        self.assertEqual(json['name'], test_case_name)
 
     def test_get_status(self):
         """Test get event type."""
         # Get event type
-        response = requests.get(self.baseurl + '/v1/status', headers=self.headers)
+        response = requests.get(self.base_url + '/v1/status', headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
 
     def test_put_status(self):
         """Test put event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'Status', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/status', headers=self.headers, data=payload)
-        recordid = response.json()['id']
+        response = requests.post(self.base_url + '/v1/status', headers=self.headers, data=payload)
+        record_id = response.json()['id']
 
-        testcasenameupdated = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'Status', 'testcase': testcasenameupdated})
+        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'Status', 'test_case': test_case_name_updated})
 
         # Update event type
         payload = {}
-        payload['id'] = int(recordid)
-        payload['name'] = testcasenameupdated
+        payload['id'] = int(record_id)
+        payload['name'] = test_case_name_updated
         payload = str(payload).replace("'", '"')
-        response = requests.put(self.baseurl + '/v1/status', headers=self.headers, data=payload)
+        response = requests.put(self.base_url + '/v1/status', headers=self.headers, data=payload)
         json = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json['name'], testcasenameupdated)
+        self.assertEqual(json['name'], test_case_name_updated)
 
     def test_delete_status(self):
         """Test delete event type."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'Status', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
         payload = {}
-        payload['name'] = testcasename
+        payload['name'] = test_case_name
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.baseurl + '/v1/status', headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/status', headers=self.headers, data=payload)
 
         # Delete event type
-        response = requests.delete(self.baseurl + '/v1/status', headers=self.headers, data=payload)
+        response = requests.delete(self.base_url + '/v1/status', headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
     @classmethod
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
-        for testcase in self.testcaselist:
-            with database.DbOperation(testcase['class']) as op:
-                op.delete(name=testcase['testcase'])
+        for test_case in self.test_case_list:
+            with database.DbOperation(test_case['class']) as op:
+                op.delete(name=test_case['test_case'])
 
 if __name__ == '__main__':
     # Test api endpoints
