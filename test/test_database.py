@@ -11,72 +11,72 @@ class TestDatabaseModule(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         """Set up function called when class is consructed."""
-        self.testcaselist = []
+        self.test_case_list = []
 
-    def test_create_batchowner(self):
+    def test_create_batch_owner(self):
         """Test create function."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         with database.DbOperation('BatchOwner') as op:
-            batchowner = op.create(name=testcasename)
+            batch_owner = op.create(name=test_case_name)
 
-        self.assertEqual(batchowner.name, testcasename)
+        self.assertEqual(batch_owner.name, test_case_name)
 
-    def test_read_batchowner(self):
+    def test_read_batch_owner(self):
         """Test read function."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         with database.DbOperation('BatchOwner') as op:
-            op.create(name=testcasename)
+            op.create(name=test_case_name)
 
         with database.DbOperation('BatchOwner') as op:
-            batchownerlist = op.read(name=testcasename)
+            batch_owner_list = op.read(name=test_case_name)
 
-        self.assertEqual(batchownerlist[0].name, testcasename)
+        self.assertEqual(batch_owner_list[0].name, test_case_name)
 
-    def test_update_batchowner(self):
+    def test_update_batch_owner(self):
         """Test update function."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         with database.DbOperation('BatchOwner') as op:
-            batchowner = op.create(name=testcasename)
+            batch_owner = op.create(name=test_case_name)
 
-        testcasenamenew = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasenamenew})
-
-        with database.DbOperation('BatchOwner') as op:
-            op.update(id=batchowner.id, name=testcasenamenew)
+        test_case_name_new = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_new})
 
         with database.DbOperation('BatchOwner') as op:
-            batchownerlist = op.read(name=testcasenamenew)
+            op.update(id=batch_owner.id, name=test_case_name_new)
 
-        self.assertEqual(batchownerlist[0].name, testcasenamenew)
+        with database.DbOperation('BatchOwner') as op:
+            batch_owner_list = op.read(name=test_case_name_new)
 
-    def test_delete_batchowner(self):
+        self.assertEqual(batch_owner_list[0].name, test_case_name_new)
+
+    def test_delete_batch_owner(self):
         """Test delete function."""
-        testcasename = test_utils.testcasename(self.testcaselist)
-        self.testcaselist.append({'class': 'BatchOwner', 'testcase': testcasename})
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         with database.DbOperation('BatchOwner') as op:
-            batchowner = op.create(name=testcasename)
+            batch_owner = op.create(name=test_case_name)
 
         with database.DbOperation('BatchOwner') as op:
-            op.delete(id=batchowner.id)
+            op.delete(id=batch_owner.id)
 
         with database.DbOperation('BatchOwner') as op:
-            batchownerlist = op.read(name=testcasename)
+            batch_owner_list = op.read(name=test_case_name)
 
-        self.assertEqual(batchownerlist, [])
+        self.assertEqual(batch_owner_list, [])
 
     @classmethod
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
-        for testcase in self.testcaselist:
-            with database.DbOperation(testcase['class']) as op:
-                op.delete(name=testcase['testcase'])
+        for test_case in self.test_case_list:
+            with database.DbOperation(test_case['class']) as op:
+                op.delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':
