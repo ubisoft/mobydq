@@ -25,7 +25,7 @@ def create(resource_name, payload=None):
     return(response)
 
 
-def read(resource_name, payload=None:
+def read(resource_name, payload=None):
     """Generic read function called by get methods in apy.py."""
     if not payload:
         payload={}

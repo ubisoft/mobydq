@@ -27,7 +27,7 @@ def set_sqlite_pragma(dbapiconnection, connectionrecord):
     cursor.close()
 
 
-def get_filename(path):
+def get_file_name(path):
     """Extract file name from absolute path."""
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
@@ -56,6 +56,3 @@ class JsonEncodedDict(TypeDecorator):
     def process_result_value(self, value, dialect):
         """Load."""
         return json.loads(value)
-
-
-mutable.MutableDict.associate_with(JsonEncodedDict)
