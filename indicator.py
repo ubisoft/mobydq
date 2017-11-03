@@ -15,13 +15,13 @@ utils.config_logger()
 log = logging.getLogger(__name__)
 
 
-def execute(indicatorid, batchid):
+def execute(indicator_id, batch_id):
     """Execute a data quality indicator."""
-    event.logevent(indicatorid, batchid, 'Session start')
+    event.log_event(indicator_id, batch_id, 'Session start')
 
     # Get indicator type
     with DbOperation('Indicator') as op:
-        indicator_list = op.read(id=indicatorid)
+        indicator_list = op.read(id=indicator_id)
 
     # Get indicator module and function
     with DbOperation('IndicatorType') as op:
@@ -29,9 +29,9 @@ def execute(indicatorid, batchid):
 
     # Import module and execute indicator function
     importlib.import_module(indicator_type_list[0].module)
-    getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicatorid, batchid)
+    getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicator_id, batch_id)
 
-    event.logevent(indicatorid, batchid, 'Session stop')
+    event.log_event(indicator_id, batch_id, 'Session stop')
 
 
 if __name__ == '__main__':
@@ -44,10 +44,10 @@ if __name__ == '__main__':
         indicator_list = op.read(id=arguments.Id)
 
     # Start batch
-    batch_record = batch.logbatch(indicator_list[0].batchOwnerId, 'Batch start')
+    batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Batch start')
 
     # Execute indicator
     execute(arguments.Id, batch_record.id)
 
     # Stop batch
-    batch.logbatch(indicator_list[0].batchOwnerId, 'Batch stop')
+    batch.log_batch(indicator_list[0].batchOwnerId, 'Batch stop')
