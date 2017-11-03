@@ -12,8 +12,11 @@ from database import DbOperation
 import utils
 
 
-def create(resource_name, payload={}):
+def create(resource_name, payload=None):
     """Generic create function called by post methods in apy.py."""
+    if not payload:
+        payload={}
+
     with DbOperation(resource_name) as op:
         record = op.create(**payload)
 
@@ -22,8 +25,11 @@ def create(resource_name, payload={}):
     return(response)
 
 
-def read(resource_name, payload={}):
+def read(resource_name, payload=None:
     """Generic read function called by get methods in apy.py."""
+    if not payload:
+        payload={}
+
     with DbOperation(resource_name) as op:
         record_list = op.read(**payload)
 
@@ -34,8 +40,11 @@ def read(resource_name, payload={}):
     return(response)
 
 
-def update(resource_name, payload={}):
+def update(resource_name, payload=None):
     """Generic update function called by put methods in apy.py."""
+    if not payload:
+        payload={}
+
     with DbOperation(resource_name) as op:
         record = op.update(**payload)
 
@@ -44,8 +53,11 @@ def update(resource_name, payload={}):
     return (response)
 
 
-def delete(resource_name, payload={}):
+def delete(resource_name, payload=None):
     """Generic update function called by put methods in apy.py."""
+    if not payload:
+        payload={}
+
     with DbOperation(resource_name) as op:
         op.delete(**payload)
     return ({})
