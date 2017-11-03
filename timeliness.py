@@ -1,11 +1,11 @@
 """Timeliness functions."""
 
 
-def evaluatefreshness(indicatorid, batchid):
+def evaluate_freshness(indicator_id, batch_id):
     """Compute freshness indicator."""
     print('Hello world')
 
 
-def evaluatelatency(indicatorid, batchid):
+def evaluate_latency(indicator_id, batch_id):
     """Compute latency indicator."""
     print('Hello world')

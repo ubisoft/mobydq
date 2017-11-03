@@ -19,10 +19,10 @@
         {
             "class": "IndicatorType",
             "records": [
-                {"name": "Completeness", "module": "completeness", "function": "evaluatecompleteness"},
-                {"name": "Freshness", "module": "timeliness", "function": "evaluatefreshness"},
-                {"name": "Latency", "module": "timeliness", "function": "evaluatelatency"},
-                {"name": "Validity", "module":"validity", "function":"evaluatevalidity"}
+                {"name": "Completeness", "module": "completeness", "function": "evaluate_completeness"},
+                {"name": "Freshness", "module": "timeliness", "function": "evaluate_freshness"},
+                {"name": "Latency", "module": "timeliness", "function": "evaluate_latency"},
+                {"name": "Validity", "module":"validity", "function":"evaluate_validity"}
             ]
         },
         {

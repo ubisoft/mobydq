@@ -1,6 +1,6 @@
 """Validity functions."""
 
 
-def evaluatevalidity(indicatorid, batchid):
+def evaluate_validity(indicator_id, batch_id):
     """Compute validity indicator."""
     print('Hello world')
