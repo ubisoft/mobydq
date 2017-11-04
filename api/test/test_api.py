@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Unit test for database module."""
 import test_api_utils
 import database
@@ -431,6 +432,7 @@ class TestApiModule(unittest.TestCase):
         for test_case in self.test_case_list:
             with database.DbOperation(test_case['class']) as op:
                 op.delete(name=test_case['test_case'])
+
 
 if __name__ == '__main__':
     # Test api endpoints
