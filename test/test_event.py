@@ -42,15 +42,15 @@ class TestEventModule(unittest.TestCase):
         batch_record = batch.log_batch(batch_owner.id, 'Batch start')
 
         # Start session
-        sessionstartevent = event.log_event(indicator.id, batch_record.id, 'Session start')
+        session_start_event = event.log_event(indicator.id, batch_record.id, 'Session start')
 
         # Get session
         with database.DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
 
         self.assertEqual(session_list[0].statusId, 1)
-        self.assertEqual(sessionstartevent.eventTypeId, 1)
-        self.assertEqual(sessionstartevent.sessionId, session_list[0].id)
+        self.assertEqual(session_start_event.eventTypeId, 1)
+        self.assertEqual(session_start_event.sessionId, session_list[0].id)
 
     def test_log_event_session_stop(self):
         """Test log event function with session stop event."""
