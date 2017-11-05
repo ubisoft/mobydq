@@ -1,4 +1,4 @@
-# Work In Progress /!\
+### Work In Progress /!\
 Looking for contributors, in particular to build a lightweight web interface on top of the API.
 The more the merrier!
 
@@ -7,15 +7,15 @@ The objective of this framework is to provide a solution for data engineering te
 
 ![Data pipeline](/doc/data_pipeline.png)
 
-## Getting Started
+# Getting Started
 Skip the bla bla and run your data quality indicators immediately by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. However, for a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
 
-## Documentation
-The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
+# Requirements
+## Python
+This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies open a terminal window, change directory to the framework folder and execute the following command:
 
-## Requirements
-This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies execute the following command in a terminal window:
 `sudo pip3 install -r requirements.txt`
+
 * [flask](http://flask.pocoo.org/) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
@@ -23,3 +23,9 @@ This framework has been developed on **Linux** with **Python 3.5** and is powere
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
 * [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)
+
+## ODBC Drivers
+This framework uses **pyodbc** to connect to databases. It requires to have the proper ODBC drivers installed on your machine.
+
+# Documentation
+The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
