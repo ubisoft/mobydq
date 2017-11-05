@@ -16,6 +16,7 @@ This framework has been developed on **Linux** with **Python 3.5** and is powere
 
 `sudo pip3 install -r requirements.txt`
 
+The following Python packages will be installed:
 * [flask](http://flask.pocoo.org/) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
