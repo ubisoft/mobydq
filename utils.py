@@ -1,9 +1,7 @@
 """Utility functions used by the data quality framework."""
-from sqlalchemy import event, String, TypeDecorator
-from sqlalchemy.engine import Engine
-import json
 import inspect
 import logging
+import pyodbc
 import re
 import sys
 import ntpath
@@ -16,14 +14,6 @@ def config_logger():
         stream=sys.stdout,
         level=logging.DEBUG,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-
-@event.listens_for(Engine, 'connect')
-def set_sqlite_pragma(dbapiconnection, connectionrecord):
-    """Activate sqlite pragma to enforce foreign keys integrity, in particular for cascade delete."""
-    cursor = dbapiconnection.cursor()
-    cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
 
 
 def get_file_name(path):
@@ -43,15 +33,17 @@ def get_object_attributes(object):
     return dictionary
 
 
-class JsonEncodedDict(TypeDecorator):
-    """Create sqlalchemy custom data type to enable json storage in event table."""
+def get_odbc_connection(data_source):
+    """Get connection string and credentials for the corresponding data source, connects to it using an ODBC connection and return a connection object."""
+    connection_string = data_source.connectionString
+    connection_string = connection_string + 'uid=' + data_source.login
+    connection_string = connection_string + ';pwd=' + data_source.password + ';'
+    connection = pyodbc.connect(connection_string)
 
-    impl = String
-
-    def process_bind_param(self, value, dialect):
-        """Dump."""
-        return json.dumps(value)
-
-    def process_result_value(self, value, dialect):
-        """Load."""
-        return json.loads(value)
+    # Teradata
+    if data_source.dataSourceTypeId == 1:
+        connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
+        connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
+        connection.setdecoding(pyodbc.SQL_WMETADATA, encoding='utf-8')
+        connection.setencoding(encoding='utf-8')
+    return connection
