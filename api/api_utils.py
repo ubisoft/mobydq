@@ -9,6 +9,7 @@ parent_directory = os.path.dirname(current_directory)
 sys.path.insert(0, parent_directory)
 
 from database import DbOperation
+import batch
 import utils
 
 
@@ -61,3 +62,13 @@ def delete(resource_name, payload=None):
     with DbOperation(resource_name) as op:
         op.delete(**payload)
     return ({})
+
+
+def log_batch(batch_owner_id, event):
+    """Manage batch status for the corresponding batch owner."""
+    batch_list = batch.log_batch(batch_owner_id, event)
+    if batch_list:
+        response = {'message': 'Batch status updated.'}
+    else:
+        response = {'message': 'Batch status was not updated due to invalid event.'}
+    return (response)

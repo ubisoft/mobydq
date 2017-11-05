@@ -82,6 +82,26 @@ class TestApiModule(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_post_batch(self):
+        """Test post batch."""
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+
+        # Create batch owner
+        payload = {}
+        payload['name'] = test_case_name
+        payload = str(payload).replace("'", '"')
+        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
+        batch_owner_id = response.json()['id']
+
+        # Start batch
+        payload = {}
+        payload['event'] = 'Batch start'
+        payload = str(payload).replace("'", '"')
+        response = requests.post(self.base_url + '/v1/batchowners/' + batch_owner_id + '/batches', headers=self.headers, data=payload)
+
+        self.assertEqual(response.status_code, 200)
+
     def test_post_data_source(self):
         """Test post data source."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
@@ -170,6 +190,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         json = response.json()
@@ -192,6 +213,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         record_id = response.json()['id']
