@@ -15,7 +15,7 @@ class TestBatchModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_log_batch_batch_start(self):
-        """Test log batch function with batch start batch."""
+        """Test log batch function with batch start event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
@@ -30,7 +30,7 @@ class TestBatchModule(unittest.TestCase):
         self.assertEqual(batch_record.statusId, 1)
 
     def test_log_batch_batch_stop(self):
-        """Test log batch function with batch stop batch."""
+        """Test log batch function with batch stop event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
@@ -44,6 +44,22 @@ class TestBatchModule(unittest.TestCase):
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
         self.assertEqual(batch_record.statusId, 2)
+
+    def test_log_batch_error(self):
+        """Test log batch function with error event."""
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+
+        # Create batch owner
+        with database.DbOperation('BatchOwner') as op:
+            batch_owner = op.create(name=test_case_name)
+
+        # Start and stop batch
+        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Error')
+
+        self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
+        self.assertEqual(batch_record.statusId, 3)
 
     @classmethod
     def tearDownClass(self):

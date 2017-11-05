@@ -33,9 +33,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
@@ -70,9 +70,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
@@ -110,9 +110,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
@@ -150,9 +150,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch

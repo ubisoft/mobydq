@@ -63,6 +63,8 @@ def log_event(indicator_id, batch_id, event, data_set=None):
 
     # Log session start, insert new running session
     if event == 'Session start':
+        log.info('Starting session for indicator Id: {}'.format(indicator_id))
+
         # Verify current indicator is not running already
         with DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
@@ -81,6 +83,8 @@ def log_event(indicator_id, batch_id, event, data_set=None):
 
     # Log session stop, update running session to succeeded
     elif event == 'Session stop':
+        log.info('Stoping session for indicator Id: {}'.format(indicator_id))
+
         # Verify current indicator is running
         with DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
@@ -99,6 +103,8 @@ def log_event(indicator_id, batch_id, event, data_set=None):
 
     # Log error, update running session to failed
     elif event == 'Error':
+        log.info('Failing session for indicator Id: {}'.format(indicator_id))
+
         # Verify current indicator is running
         with DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
@@ -117,6 +123,8 @@ def log_event(indicator_id, batch_id, event, data_set=None):
 
     # Log data set
     elif event == 'Data set':
+        log.info('Logging data set for indicator Id: {}'.format(indicator_id))
+
         # Verify current indicator is running
         with DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
