@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Unit test for database module."""
 import test_api_utils
 import database
@@ -78,6 +79,26 @@ class TestApiModule(unittest.TestCase):
 
         # Delete batch owner
         response = requests.delete(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_batch(self):
+        """Test post batch."""
+        test_case_name = test_utils.test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+
+        # Create batch owner
+        payload = {}
+        payload['name'] = test_case_name
+        payload = str(payload).replace("'", '"')
+        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
+        batch_owner_id = response.json()['id']
+
+        # Start batch
+        payload = {}
+        payload['event'] = 'Batch start'
+        payload = str(payload).replace("'", '"')
+        response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id), headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
@@ -169,6 +190,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         json = response.json()
@@ -191,6 +213,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         record_id = response.json()['id']
@@ -431,6 +454,7 @@ class TestApiModule(unittest.TestCase):
         for test_case in self.test_case_list:
             with database.DbOperation(test_case['class']) as op:
                 op.delete(name=test_case['test_case'])
+
 
 if __name__ == '__main__':
     # Test api endpoints

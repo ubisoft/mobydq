@@ -69,6 +69,28 @@ class BatchOwner(Resource):
         return api_utils.read('BatchOwner', request.json)
 
 
+# Batch
+mdBatch = api.model(
+    'Batch',
+    {'event': fields.String(required=True, description='Event to log for the batch', example='Batch start, Batch stop')})
+
+
+@nsBatchOwner.route('/batchowners/<int:batch_owner_id>/batches')
+@nsBatchOwner.param('batch_owner_id', 'Batch Owner Id')
+class Batch(Resource):
+    """Class for Batch endpoints."""
+
+    @nsBatchOwner.expect(api.models['Batch'], validate=True)
+    def post(self, batch_owner_id):
+        """
+        Log Batch Event.
+
+        Use this method to log an event for the Batch of the corresponding Batch Owner.
+        """
+        parameters = request.json
+        return api_utils.log_batch(batch_owner_id, parameters['event'])
+
+
 # DataSource
 nsDataSource = api.namespace('DataSource', path='/v1')
 mdDataSource = api.model(
@@ -227,9 +249,9 @@ mdIndicator = api.model(
         'indicatorTypeId': fields.Integer(required=False, description='Indicator type Id'),
         'batchOwnerId': fields.Integer(required=False, description='Batch owner Id'),
         'executionOrder': fields.Integer(required=False, description='Execution order'),
-        'alertOperator': fields.String(required=False, description='Alert operator'),
-        'alertThreshold': fields.String(required=False, description='Alert threshold'),
-        'distributionList': fields.String(required=False, description='Comma separated list of e-mails'),
+        # 'alertOperator': fields.String(required=False, description='Alert operator'), # This got moved to indicator parameters
+        # 'alertThreshold': fields.String(required=False, description='Alert threshold'), # This got moved to indicator parameters
+        # 'distributionList': fields.String(required=False, description='Comma separated list of e-mails'), # This got moved to indicator parameters
         'active': fields.Integer(required=False, description='Active flag: 1 or 0')})
 
 

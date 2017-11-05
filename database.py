@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 """Setup data quality framework database and perform CRUD operations."""
 from ast import literal_eval
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
-from sqlalchemy import create_engine
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, TypeDecorator
+from sqlalchemy import create_engine, event
+from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.sql import func
+import json
 import logging
 import os
 import sys
@@ -15,9 +17,30 @@ import utils
 utils.config_logger()
 log = logging.getLogger(__name__)
 
-
 # Declarative base model to create database tables and classes
 Base = declarative_base()
+
+
+@event.listens_for(Engine, 'connect')
+def set_sqlite_pragma(db_api_connection, connection_record):
+    """Activate sqlite pragma to enforce foreign keys integrity, in particular for cascade delete."""
+    cursor = db_api_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
+
+class JsonEncodedDict(TypeDecorator):
+    """Create sqlalchemy custom data type to enable json storage in event table."""
+
+    impl = String
+
+    def process_bind_param(self, value, dialect):
+        """Dump."""
+        return json.dumps(value)
+
+    def process_result_value(self, value, dialect):
+        """Load."""
+        return json.loads(value)
 
 
 class Status(Base):
@@ -41,6 +64,7 @@ class DataSourceType(Base):
 
     id = Column('data_source_type_id', Integer, primary_key=True)
     name = Column('data_source_type', String, nullable=False, unique=True)
+    type = Column('data_source_parent_type', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
@@ -116,9 +140,9 @@ class Indicator(Base):
     indicatorTypeId = Column('indicator_type_id', Integer, ForeignKey('indicator_type.indicator_type_id'), nullable=False)
     batchOwnerId = Column('batch_owner_id', Integer, ForeignKey('batch_owner.batch_owner_id'), nullable=False)
     executionOrder = Column('execution_order', Integer, nullable=False, default=0)
-    alertOperator = Column('alert_operator', String, nullable=False)
-    alertThreshold = Column('alert_threshold', Float, nullable=False)
-    distributionList = Column('distribution_list', String, nullable=False)
+    # alertOperator = Column('alert_operator', String, nullable=False) # This got moved to indicator parameters
+    # alertThreshold = Column('alert_threshold', Float, nullable=False) # This got moved to indicator parameters
+    # distributionList = Column('distribution_list', String, nullable=False) # This got moved to indicator parameters
     active = Column('flag_active', Boolean, nullable=False, default=True)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
@@ -178,7 +202,7 @@ class Event(Base):
     id = Column('event_id', Integer, primary_key=True)
     eventTypeId = Column('event_type_id', Integer, ForeignKey('event_type.event_type_id'), nullable=False)
     sessionId = Column('session_id', Integer, ForeignKey('session.session_id', ondelete='CASCADE'), nullable=False)
-    content = Column('content', utils.JsonEncodedDict)
+    content = Column('content', JsonEncodedDict)
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
@@ -195,9 +219,9 @@ class IndicatorResult(Base):
     nbRecords = Column('nb_records', Integer, nullable=False)
     nbRecordsAlert = Column('nb_records_alert', Integer, nullable=False)
     nbRecordsNoAlert = Column('nb_records_no_alert', Integer, nullable=False)
-    avgResult = Column('avg_result', Float, nullable=False)
-    avgResultAlert = Column('avg_result_alert', Float, nullable=False)
-    avgResultNoAlert = Column('avg_result_no_alert', Float, nullable=False)
+    # avgResult = Column('avg_result', Float, nullable=False) # This cannot be used for indicators with multiple measures
+    # avgResultAlert = Column('avg_result_alert', Float, nullable=False) # This cannot be used for indicators with multiple measures
+    # avgResultNoAlert = Column('avg_result_no_alert', Float, nullable=False) # This cannot be used for indicators with multiple measures
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 

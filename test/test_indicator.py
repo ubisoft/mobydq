@@ -19,11 +19,21 @@ class TestIndicatorModule(unittest.TestCase):
         """Test execute indicator function with validity indicator type."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
             batch_owner = op.create(name=test_case_name)
+
+        # Create data source
+        with database.DbOperation('DataSource') as op:
+            data_source = op.create(
+                name=test_case_name,
+                dataSourceTypeId=1,
+                connectionString='',
+                login='',
+                password='')
 
         # Create indicator
         with database.DbOperation('Indicator') as op:
@@ -33,10 +43,20 @@ class TestIndicatorModule(unittest.TestCase):
                 indicatorTypeId=4,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='1',
-                distributionList='test@test.com',
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='1', # This got moved to indicator parameters
+                # distributionList='test@test.com', # This got moved to indicator parameters
                 active=1)
+
+        # Create indicator paramters
+        with database.DbOperation('IndicatorParameter') as op:
+            op.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
+            op.create(name='Target request', value=test_case_name, indicatorId=indicator_record.id)
+            op.create(name='Dimensions', value=test_case_name, indicatorId=indicator_record.id)
+            op.create(name='Measures', value=test_case_name, indicatorId=indicator_record.id)
+            op.create(name='Alert operator', value=test_case_name, indicatorId=indicator_record.id)
+            op.create(name='Alert threshold', value=test_case_name, indicatorId=indicator_record.id)
+            op.create(name='Distribution list', value=test_case_name, indicatorId=indicator_record.id)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Batch start')
@@ -57,11 +77,15 @@ class TestIndicatorModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            # Delete indicator
+            # Delete indicator and indicator parameters thanks to cascade delete
             with database.DbOperation('Indicator') as op:
                 op.delete(name=test_case['test_case'])
 
-            # Delete batch owner, batch, session, event
+            # Delete data source
+            with database.DbOperation('DataSource') as op:
+                op.delete(name=test_case['test_case'])
+
+            # Delete batch owner, batch, session and event thanks to cascade delete
             with database.DbOperation('BatchOwner') as op:
                 op.delete(name=test_case['test_case'])
 

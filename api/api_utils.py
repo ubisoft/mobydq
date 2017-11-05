@@ -9,11 +9,12 @@ parent_directory = os.path.dirname(current_directory)
 sys.path.insert(0, parent_directory)
 
 from database import DbOperation
+import batch
 import utils
 
 
 def create(resource_name, payload=None):
-    """Generic create function called by post methods in apy.py."""
+    """Generic create function called by post methods in api.py."""
     if not payload:
         payload = {}
 
@@ -26,7 +27,7 @@ def create(resource_name, payload=None):
 
 
 def read(resource_name, payload=None):
-    """Generic read function called by get methods in apy.py."""
+    """Generic read function called by get methods in api.py."""
     if not payload:
         payload = {}
 
@@ -41,7 +42,7 @@ def read(resource_name, payload=None):
 
 
 def update(resource_name, payload=None):
-    """Generic update function called by put methods in apy.py."""
+    """Generic update function called by put methods in api.py."""
     if not payload:
         payload = {}
 
@@ -54,10 +55,20 @@ def update(resource_name, payload=None):
 
 
 def delete(resource_name, payload=None):
-    """Generic update function called by put methods in apy.py."""
+    """Generic update function called by put methods in api.py."""
     if not payload:
         payload = {}
 
     with DbOperation(resource_name) as op:
         op.delete(**payload)
     return ({})
+
+
+def log_batch(batch_owner_id, event):
+    """Manage batch status for the corresponding batch owner."""
+    batch_list = batch.log_batch(batch_owner_id, event)
+    if batch_list:
+        response = {'message': 'Batch status updated.'}
+    else:
+        response = {'message': 'Batch status was not updated due to invalid event.'}
+    return (response)

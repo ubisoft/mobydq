@@ -11,9 +11,12 @@
         {
             "class": "DataSourceType",
             "records": [
-                {"name": "Database"},
-                {"name": "Api"},
-                {"name": "File"}
+                {"name": "Teradata", "type": "Database"},
+                {"name": "Microsoft SQL Server", "type": "Database"},
+                {"name": "MySQL", "type": "Database"},
+                {"name": "RESTful API", "type": "API"},
+                {"name": "Excel File", "type": "File"},
+                {"name": "CSV File", "type": "File"}
             ]
         },
         {

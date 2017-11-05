@@ -33,24 +33,24 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Batch start')
 
         # Start session
-        sessionstartevent = event.log_event(indicator.id, batch_record.id, 'Session start')
+        session_start_event = event.log_event(indicator.id, batch_record.id, 'Session start')
 
         # Get session
         with database.DbOperation('Session') as op:
             session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
 
         self.assertEqual(session_list[0].statusId, 1)
-        self.assertEqual(sessionstartevent.eventTypeId, 1)
-        self.assertEqual(sessionstartevent.sessionId, session_list[0].id)
+        self.assertEqual(session_start_event.eventTypeId, 1)
+        self.assertEqual(session_start_event.sessionId, session_list[0].id)
 
     def test_log_event_session_stop(self):
         """Test log event function with session stop event."""
@@ -70,9 +70,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
@@ -110,9 +110,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
@@ -150,9 +150,9 @@ class TestEventModule(unittest.TestCase):
                 indicatorTypeId=1,
                 batchOwnerId=batch_owner.id,
                 executionOrder=0,
-                alertOperator='=',
-                alertThreshold='0',
-                distributionList=test_case_name,
+                # alertOperator='=', # This got moved to indicator parameters
+                # alertThreshold='0', # This got moved to indicator parameters
+                # distributionList=test_case_name, # This got moved to indicator parameters
                 active=True)
 
         # Start batch
