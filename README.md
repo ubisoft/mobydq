@@ -1,7 +1,6 @@
 **Build status:** [![CircleCI](https://circleci.com/gh/alexisrolland/data-quality/tree/master.svg?style=svg)](https://circleci.com/gh/alexisrolland/data-quality/tree/master)
 
-**Work In Progress:** Looking for contributors, in particular to build a lightweight web interface on top of the API.
-The more the merrier!
+**Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
 
 # Data Quality Framework
 The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use. It has been developed as an internal project at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. Its open source version has been reworked to remove technical dependencies with commercial softwares.
