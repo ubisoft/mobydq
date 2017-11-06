@@ -49,7 +49,7 @@ jobs:
             python3 ./test/test_database.py
             python3 ./test/test_batch.py
             python3 ./test/test_event.py
-            python3 ./api/api.py
+            python3 ./api/api.py &
             python3 ./api/test/test_api.py
 
 
