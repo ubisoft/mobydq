@@ -1,4 +1,4 @@
-**Build status:** [![CircleCI](https://circleci.com/gh/alexisrolland/data-quality/tree/master.svg?style=svg)](https://circleci.com/gh/alexisrolland/data-quality/tree/master)
+[![CircleCI branch](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser/master.svg?style=flat-square)](https://circleci.com/gh/alexisrolland/data-quality/tree/master) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
 **Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
 
