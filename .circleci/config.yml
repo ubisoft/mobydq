@@ -45,10 +45,10 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
+            python3 database.py
             python3 ./test/test_database.py
             python3 ./test/test_batch.py
             python3 ./test/test_event.py
-            python3 ./api/test/test_api.py
 
       - store_artifacts:
           path: test-reports
