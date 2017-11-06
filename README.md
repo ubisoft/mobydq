@@ -1,4 +1,6 @@
-[![CircleCI branch](https://img.shields.io/badge/build-Passing-brightgreen.svg?style=flat-square)](https://circleci.com/gh/alexisrolland/data-quality/tree/master) [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
+[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
+[![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
+
 
 **Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
 
