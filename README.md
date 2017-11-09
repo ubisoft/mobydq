@@ -1,6 +1,8 @@
-### Work In Progress /!\
-Looking for contributors, in particular to build a lightweight web interface on top of the API.
-The more the merrier!
+[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
+[![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
+
+
+**Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
 
 # Data Quality Framework
 The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use. It has been developed as an internal project at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. Its open source version has been reworked to remove technical dependencies with commercial softwares.

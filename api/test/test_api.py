@@ -240,6 +240,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
 

@@ -1,7 +1,7 @@
-Flask==0.12.2
-Flask_Cors==3.0.3
+flask==0.12.2
+flask_cors==3.0.3
 flask_restplus==0.10.1
 pandas==0.21.0
 pyodbc==4.0.21
 requests==2.9.1
-SQLAlchemy==1.1.14
+sqlalchemy==1.1.14
