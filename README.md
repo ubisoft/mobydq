@@ -19,6 +19,7 @@ The following Python packages will be installed:
 * [flask](http://flask.pocoo.org/) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
+* [nose2](http://nose2.readthedocs.io/en/latest/index.html) (0.7.0)
 * [pandas](http://pandas.pydata.org/) (0.21.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
@@ -32,3 +33,8 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
+
+# Run Test Cases
+To execute all test cases, change directory to the framework folder and execute the following command:
+
+`nose2`
