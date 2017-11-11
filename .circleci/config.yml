@@ -30,6 +30,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            echo "Print CIRCLE_TEST_REPORTS"
+            echo $CIRCLE_TEST_REPORTS
             sudo apt-get install unixodbc-dev
             python3 -m venv venv
             . venv/bin/activate
