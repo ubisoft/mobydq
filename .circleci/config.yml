@@ -40,7 +40,7 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      # run tests!
+      # run tests
       - run:
           name: run tests
           command: |
@@ -49,9 +49,9 @@ jobs:
             python3 ./api/api.py &
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
-      - store_test_results:
-          path: /tmp/test-results
+    - store_artifacts:
+        path: nose2-junit.xml
+        destination: test-results
 
-      - store_artifacts:
-          path: test-results
-          destination: test-results
+      - store_test_results:
+          path: nose2-junit.xml
