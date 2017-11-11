@@ -1,6 +1,4 @@
 """Completeness functions."""
-from ast import literal_eval
-from database import DbOperation
 import indicator
 import logging
 import pandas
