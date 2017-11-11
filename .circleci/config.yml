@@ -50,8 +50,8 @@ jobs:
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
-          path: nose2-junit.xml
+          path: test/junit/test-results.xml
           destination: test-results
 
       - store_test_results:
-          path: nose2-junit.xml
+          path: test/junit/test-results.xml

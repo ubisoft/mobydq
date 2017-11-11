@@ -13,7 +13,7 @@ The objective of this framework is to provide a solution for data engineering te
 ## Python
 This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies open a terminal window, change directory to the framework folder and execute the following command:
 
-`sudo pip3 install -r requirements.txt`
+`$ pip3 install -r requirements.txt`
 
 The following Python packages will be installed:
 * [flask](http://flask.pocoo.org/) (0.12.2)
@@ -37,4 +37,4 @@ The complete documentation is available on [Github wiki](https://github.com/alex
 # Run Test Cases
 To execute all test cases, change directory to the framework folder and execute the following command:
 
-`nose2`
+`$ nose2`

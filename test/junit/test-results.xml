@@ -1,0 +1,38 @@
+<testsuite errors="0" failures="0" name="nose2-junit" skipped="0" tests="12" time="9.346">
+  <testcase classname="test_indicator.TestIndicatorModule" name="test_execute_validity" time="0.260625">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event.TestEventModule" name="test_log_event_data_set" time="0.099046">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event.TestEventModule" name="test_log_event_error" time="1.173790">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event.TestEventModule" name="test_log_event_session_start" time="1.126230">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event.TestEventModule" name="test_log_event_session_stop" time="0.129713">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch.TestBatchModule" name="test_log_batch_batch_start" time="0.028374">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch.TestBatchModule" name="test_log_batch_batch_stop" time="1.094352">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch.TestBatchModule" name="test_log_batch_error" time="1.090538">
+    <system-out />
+  </testcase>
+  <testcase classname="test_database.TestDatabaseModule" name="test_create_batch_owner" time="0.015620">
+    <system-out />
+  </testcase>
+  <testcase classname="test_database.TestDatabaseModule" name="test_delete_batch_owner" time="1.054001">
+    <system-out />
+  </testcase>
+  <testcase classname="test_database.TestDatabaseModule" name="test_read_batch_owner" time="1.040411">
+    <system-out />
+  </testcase>
+  <testcase classname="test_database.TestDatabaseModule" name="test_update_batch_owner" time="2.050090">
+    <system-out />
+  </testcase>
+</testsuite>

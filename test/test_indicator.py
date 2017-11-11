@@ -18,7 +18,7 @@ class TestIndicatorModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_execute_validity(self):
-        """Test execute indicator function with validity indicator type."""
+        """Test execute indicator for validity module."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
