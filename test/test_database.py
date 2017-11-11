@@ -48,12 +48,9 @@ class TestDatabaseModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_new})
 
         with database.DbOperation('BatchOwner') as op:
-            op.update(id=batch_owner.id, name=test_case_name_new)
+            batch_owner = op.update(id=batch_owner.id, name=test_case_name_new)
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner_list = op.read(name=test_case_name_new)
-
-        self.assertEqual(batch_owner_list[0].name, test_case_name_new)
+        self.assertEqual(batch_owner.name, test_case_name_new)
 
     def test_delete_batch_owner(self):
         """Test delete function."""
