@@ -16,7 +16,7 @@ class TestEventModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_log_event_session_start(self):
-        """Test log event function with session start event."""
+        """Test log event function with start event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
@@ -39,10 +39,10 @@ class TestEventModule(unittest.TestCase):
                 active=True)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         # Start session
-        session_start_event = event.log_event(indicator.id, batch_record.id, 'Session start')
+        session_start_event = event.log_event(indicator.id, batch_record.id, 'Start')
 
         # Get session
         with database.DbOperation('Session') as op:
@@ -53,7 +53,7 @@ class TestEventModule(unittest.TestCase):
         self.assertEqual(session_start_event.sessionId, session_list[0].id)
 
     def test_log_event_session_stop(self):
-        """Test log event function with session stop event."""
+        """Test log event function with stop event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
@@ -76,13 +76,13 @@ class TestEventModule(unittest.TestCase):
                 active=True)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         # Start session
-        event.log_event(indicator.id, batch_record.id, 'Session start')
+        event.log_event(indicator.id, batch_record.id, 'Start')
 
         # Stop session
-        session_stop_event = event.log_event(indicator.id, batch_record.id, 'Session stop')
+        session_stop_event = event.log_event(indicator.id, batch_record.id, 'Stop')
 
         # Get session
         with database.DbOperation('Session') as op:
@@ -116,10 +116,10 @@ class TestEventModule(unittest.TestCase):
                 active=True)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         # Start session
-        event.log_event(indicator.id, batch_record.id, 'Session start')
+        event.log_event(indicator.id, batch_record.id, 'Start')
 
         # Error
         error_event = event.log_event(indicator.id, batch_record.id, 'Error')
@@ -156,10 +156,10 @@ class TestEventModule(unittest.TestCase):
                 active=True)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         # Start session
-        event.log_event(indicator.id, batch_record.id, 'Session start')
+        event.log_event(indicator.id, batch_record.id, 'Start')
 
         # Data set
         data_set = {'key': 'value'}

@@ -31,8 +31,8 @@
         {
             "class": "EventType",
             "records": [
-                {"name": "Session start"},
-                {"name": "Session stop"},
+                {"name": "Start"},
+                {"name": "Stop"},
                 {"name": "Error"},
                 {"name": "Data set"}
             ]

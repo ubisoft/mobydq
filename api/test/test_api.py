@@ -96,7 +96,7 @@ class TestApiModule(unittest.TestCase):
 
         # Start batch
         payload = {}
-        payload['event'] = 'Batch start'
+        payload['event'] = 'Start'
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id), headers=self.headers, data=payload)
 

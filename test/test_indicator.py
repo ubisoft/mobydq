@@ -59,13 +59,13 @@ class TestIndicatorModule(unittest.TestCase):
             op.create(name='Distribution list', value=test_case_name, indicatorId=indicator_record.id)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         # Execute indicator
         indicator.execute(indicator_record.id, batch_record.id)
 
         # Stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch stop')
+        batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         # Get session status
         with database.DbOperation('Session') as op:

@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 def execute(indicator_id, batch_id):
     """Execute a data quality indicator."""
-    event_session_start = event.log_event(indicator_id, batch_id, 'Session start')
+    event_session_start = event.log_event(indicator_id, batch_id, 'Start')
 
     # Get indicator type
     with DbOperation('Indicator') as op:
@@ -33,7 +33,7 @@ def execute(indicator_id, batch_id):
     importlib.import_module(indicator_type_list[0].module)
     getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicator_id, event_session_start.sessionId)
 
-    event.log_event(indicator_id, batch_id, 'Session stop')
+    event.log_event(indicator_id, batch_id, 'Stop')
 
 
 def get_data_set(data_source_name, request):
@@ -109,14 +109,14 @@ if __name__ == '__main__':
         indicator_list = op.read(id=arguments.Id)
 
     # Start batch
-    batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Batch start')
+    batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Start')
 
     try:
         # Execute indicator
         execute(arguments.Id, batch_record.id)
 
         # Stop batch
-        batch.log_batch(indicator_list[0].batchOwnerId, 'Batch stop')
+        batch.log_batch(indicator_list[0].batchOwnerId, 'Stop')
     except Exception as e:
         # Fail batch
         batch.log_batch(indicator_list[0].batchOwnerId, 'Error')

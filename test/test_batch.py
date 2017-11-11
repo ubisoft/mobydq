@@ -15,7 +15,7 @@ class TestBatchModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_log_batch_batch_start(self):
-        """Test log batch function with batch start event."""
+        """Test log batch function with start event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
@@ -24,13 +24,13 @@ class TestBatchModule(unittest.TestCase):
             batch_owner = op.create(name=test_case_name)
 
         # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
         self.assertEqual(batch_record.statusId, 1)
 
     def test_log_batch_batch_stop(self):
-        """Test log batch function with batch stop event."""
+        """Test log batch function with stop event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
@@ -39,8 +39,8 @@ class TestBatchModule(unittest.TestCase):
             batch_owner = op.create(name=test_case_name)
 
         # Start and stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
-        batch_record = batch.log_batch(batch_owner.id, 'Batch stop')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
+        batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
         self.assertEqual(batch_record.statusId, 2)
@@ -55,7 +55,7 @@ class TestBatchModule(unittest.TestCase):
             batch_owner = op.create(name=test_case_name)
 
         # Start and stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Batch start')
+        batch_record = batch.log_batch(batch_owner.id, 'Start')
         batch_record = batch.log_batch(batch_owner.id, 'Error')
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
