@@ -54,4 +54,4 @@ jobs:
           #destination: test-results
 
       - store_test_results:
-          path: /tmp/test-results
+          path: /tmp/nose2-junit.xml
