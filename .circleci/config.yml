@@ -49,9 +49,9 @@ jobs:
             python3 ./api/api.py &
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
-    - store_artifacts:
-        path: nose2-junit.xml
-        destination: test-results
+      - store_artifacts:
+          path: nose2-junit.xml
+          destination: test-results
 
       - store_test_results:
           path: nose2-junit.xml
