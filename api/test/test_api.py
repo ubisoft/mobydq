@@ -96,7 +96,7 @@ class TestApiModule(unittest.TestCase):
 
         # Start batch
         payload = {}
-        payload['event'] = 'Batch start'
+        payload['event'] = 'Start'
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id), headers=self.headers, data=payload)
 
@@ -240,6 +240,7 @@ class TestApiModule(unittest.TestCase):
         # Create data source type
         payload = {}
         payload['name'] = test_case_name
+        payload['type'] = test_case_name
         payload = str(payload).replace("'", '"')
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
 

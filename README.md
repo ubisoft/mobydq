@@ -9,25 +9,32 @@ The objective of this framework is to provide a solution for data engineering te
 
 ![Data pipeline](/doc/data_pipeline.png)
 
-# Getting Started
-Skip the bla bla and run your data quality indicators immediately by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. However, for a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
-
 # Requirements
 ## Python
 This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies open a terminal window, change directory to the framework folder and execute the following command:
 
 `sudo pip3 install -r requirements.txt`
 
+The following Python packages will be installed:
 * [flask](http://flask.pocoo.org/) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
+* [nose2](http://nose2.readthedocs.io/en/latest/index.html) (0.7.0)
 * [pandas](http://pandas.pydata.org/) (0.21.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
 * [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)
 
 ## ODBC Drivers
-This framework uses **pyodbc** to connect to databases. It requires to have the proper ODBC drivers installed on your machine.
+This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect to, it requires to have the corresponding ODBC drivers installed on your machine.
+
+# Getting Started
+Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. For a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
+
+# Run Test Cases
+To execute all test cases, change directory to the framework folder and execute the following command:
+
+`nose2`

@@ -72,7 +72,7 @@ class BatchOwner(Resource):
 # Batch
 mdBatch = api.model(
     'Batch',
-    {'event': fields.String(required=True, description='Event to log for the batch', example='Batch start, Batch stop')})
+    {'event': fields.String(required=True, description='Event to log for the batch', example='Start, Stop')})
 
 
 @nsBatchOwner.route('/batchowners/<int:batch_owner_id>/batches')

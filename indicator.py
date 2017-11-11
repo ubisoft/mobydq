@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 def execute(indicator_id, batch_id):
     """Execute a data quality indicator."""
-    event_session_start = event.log_event(indicator_id, batch_id, 'Session start')
+    event_session_start = event.log_event(indicator_id, batch_id, 'Start')
 
     # Get indicator type
     with DbOperation('Indicator') as op:
@@ -33,12 +33,12 @@ def execute(indicator_id, batch_id):
     importlib.import_module(indicator_type_list[0].module)
     getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicator_id, event_session_start.sessionId)
 
-    event.log_event(indicator_id, batch_id, 'Session stop')
+    event.log_event(indicator_id, batch_id, 'Stop')
 
 
 def get_data_set(data_source_name, request):
     """Connect to a data source, execute request and return the corresponding results as a pandas dataframe."""
-    # Identify the type of data source
+    # Get data source
     with DbOperation('DataSource') as op:
         data_source_list = op.read(name=data_source_name)
 
@@ -47,23 +47,32 @@ def get_data_set(data_source_name, request):
     else:
         data_source = data_source_list[0]
 
+    # Identify the type of data source
+    with DbOperation('DataSourceType') as op:
+        data_source_type_list = op.read(id=data_source.dataSourceTypeId)
+
+    if not data_source_type_list:
+        log.error('No {} found with values: {}'.format('DataSourceType', {'id': data_source.dataSourceTypeId}))
+    else:
+        data_source_type = data_source_type_list[0]
+
     # Database
-    if data_source.dataSourceTypeId == 1:
-        connection = utils.get_odbc_connection(data_source)
+    if data_source_type.type == 'Database':
+        connection = utils.get_database_connection(data_source)
         data_set = pandas.read_sql(request, connection)
 
-    # Api
-    elif data_source.dataSourceTypeId == 2:
+    # File
+    elif data_source_type.type == 'File':
         # Not implemented yet
         pass
 
-    # File
-    elif data_source.dataSourceTypeId == 3:
+    # API
+    elif data_source_type.type == 'API':
         # Not implemented yet
         pass
 
     else:
-        log.error('Unknown data source type Id: {}'.format(data_source_list[0].dataSourceTypeId))
+        log.error('Unknown data source type: {}'.format(data_source_type.type))
 
     return data_set
 
@@ -109,14 +118,14 @@ if __name__ == '__main__':
         indicator_list = op.read(id=arguments.Id)
 
     # Start batch
-    batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Batch start')
+    batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Start')
 
     try:
         # Execute indicator
         execute(arguments.Id, batch_record.id)
 
         # Stop batch
-        batch.log_batch(indicator_list[0].batchOwnerId, 'Batch stop')
+        batch.log_batch(indicator_list[0].batchOwnerId, 'Stop')
     except Exception as e:
         # Fail batch
         batch.log_batch(indicator_list[0].batchOwnerId, 'Error')

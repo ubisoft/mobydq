@@ -12,16 +12,16 @@ def log_event(indicator_id, batch_id, event, data_set=None):
     """
     Manage session status and event logging for the corresponding data quality indicator. Return event object.
 
-    If event is Session start:
+    If event is Start:
     * Insert a new session
     * New session status is set to Running (Id: 1)
-    * Insert a new Session start event
+    * Insert a new Start event
     * Returns the corresponding event object
 
-    If event is Session stop:
+    If event is Stop:
     * Terminate an existing running session
     * Existing session status is set to Succeeded (Id: 2)
-    * Insert a new Session stop event
+    * Insert a new Stop event
     * Returns the corresponding event object
 
     If event is Error:
@@ -37,6 +37,7 @@ def log_event(indicator_id, batch_id, event, data_set=None):
     """
     if not data_set:
         data_set = {}
+
     # Verify indicator exists
     with DbOperation('Indicator') as op:
         indicator_list = op.read(id=indicator_id)
@@ -58,11 +59,11 @@ def log_event(indicator_id, batch_id, event, data_set=None):
         event_type_list = op.read(name=event)
 
     if not event_type_list:
-        log.error('Cannot log event because event type {} does exist'.format(event))
+        log.error('Cannot log event because event type {} does not exist'.format(event))
         return False
 
-    # Log session start, insert new running session
-    if event == 'Session start':
+    # Log start event, insert new running session
+    if event == 'Start':
         log.info('Starting session for indicator Id: {}'.format(indicator_id))
 
         # Verify current indicator is not running already
@@ -77,12 +78,12 @@ def log_event(indicator_id, batch_id, event, data_set=None):
         with DbOperation('Session') as op:
             session = op.create(indicatorId=indicator_id, batchId=batch_id, statusId=1)
 
-        # Insert session start event
+        # Insert start event
         with DbOperation('Event') as op:
             event = op.create(eventTypeId=event_type_list[0].id, sessionId=session.id, content=data_set)
 
-    # Log session stop, update running session to succeeded
-    elif event == 'Session stop':
+    # Log stop event, update running session to succeeded
+    elif event == 'Stop':
         log.info('Stoping session for indicator Id: {}'.format(indicator_id))
 
         # Verify current indicator is running
@@ -93,7 +94,7 @@ def log_event(indicator_id, batch_id, event, data_set=None):
             log.error('Cannot log {} event because indicator with Id {} does not have a running session with batch Id {}'.format(event, indicator_id, batch_id))
             return False
 
-        # Insert session stop event
+        # Insert stop event
         with DbOperation('Event') as op:
             event = op.create(eventTypeId=event_type_list[0].id, sessionId=session_list[0].id, content=data_set)
 
