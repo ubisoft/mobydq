@@ -11,49 +11,25 @@ utils.config_logger()
 log = logging.getLogger(__name__)
 
 
-def evaluate_validity(indicator_id, session_id):
-    """Compute validity indicator."""
-    # Get indicator parameters
-    with DbOperation('IndicatorParameter') as op:
-        indicator_parameter_list = op.read(indicatorId=indicator_id)
+def evaluate_validity(data_sets, parameters):
+    """Compute specificities of validity indicator."""
+    # No tranformation needed for this data frame
+    result_data_frame = data_sets['Target data frame']
 
-    # Create dictionary from indicator parameters
-    parameters = {}
-    for indicator_parameter in indicator_parameter_list:
-        parameters[indicator_parameter.name] = indicator_parameter.value
-
-    # Convert list parameters to list objects
-    parameters['Dimensions'] = literal_eval(parameters['Dimensions'])
-    parameters['Measures'] = literal_eval(parameters['Measures'])
-    parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
-
-    # Get target data set
-    log.info('Getting data set from target data source: {}'.format(parameters['Target']))
-    data_set = indicator.get_data_set(parameters['Target'], parameters['Target request'])
-
-    # Format data set with dimensions and measures parameters
-    log.info('Formatting data set from target data source: {}'.format(parameters['Target']))
-    column_name_list = parameters['Dimensions'] + parameters['Measures']
-    data_set.columns = column_name_list
-    for column in parameters['Dimensions']:
-        data_set[column] = data_set[column].astype(str)
-
-    # For each record and measure in data set, test if alert must be sent
-    data_set['Alert'] = False
+    # Prepare variables
     alert_operator = parameters['Alert operator']
     alert_threshold = parameters['Alert threshold']
-    for measure in parameters['Measures']:
-        for row_num in data_set.index:
-            measure_value = data_set.loc[row_num, measure]
-            data_set.loc[row_num, 'Alert'] = indicator.is_alert(measure_value, alert_operator, alert_threshold)
+    measure_list = parameters['Measures']
 
-    # Compute aggregated indicator results
-    log.info('Computing indicator results for indicator Id: {}'.format(indicator_id))
-    indicator.compute_indicator_result(data_set, indicator_id, session_id, alert_operator, alert_threshold)
+    # Formatting data to improve readability
+    for measure in measure_list:
+        result_data_frame[measure] = round(result_data_frame[measure], 2).astype(float)
 
-    # Send e-mail alert
-    if not data_set.loc[data_set['Alert'] == True].empty:
-        log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(indicator_id, session_id))
-        # Send e-mail function to be implemented
-
-    return True
+    # For each record and measure in data frame, test if alert must be sent and update alert column
+    result_data_frame['Alert'] = False
+    for measure in measure_list:
+        for row_num in result_data_frame.index:
+            measure_value = result_data_frame.loc[row_num, measure]
+            if indicator.is_alert(measure_value, alert_operator, alert_threshold):
+                result_data_frame.loc[row_num, 'Alert'] = True
+    return result_data_frame

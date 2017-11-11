@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Indicators related functions."""
+from ast import literal_eval
 from database import DbOperation
 import argparse
 import batch
@@ -20,6 +21,42 @@ log = logging.getLogger(__name__)
 def execute(indicator_id, batch_id):
     """Execute a data quality indicator."""
     event_session_start = event.log_event(indicator_id, batch_id, 'Start')
+    session_id = event_session_start.sessionId
+
+    # Get indicator parameters
+    with DbOperation('IndicatorParameter') as op:
+        indicator_parameter_list = op.read(indicatorId=indicator_id)
+
+    # Create dictionary from indicator parameters
+    parameters = {}
+    for indicator_parameter in indicator_parameter_list:
+        parameters[indicator_parameter.name] = indicator_parameter.value
+
+    # Convert list parameters to list objects
+    parameters['Dimensions'] = literal_eval(parameters['Dimensions'])
+    parameters['Measures'] = literal_eval(parameters['Measures'])
+    parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
+
+    # Get source and target data sets
+    data_sets = {}
+    for parameter in parameters:
+        if parameter == 'Source':
+            log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+            data_sets['Source data frame'] = get_data_set(parameters[parameter], parameters['Source request'])
+
+        elif parameter == 'Target':
+            log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+            data_sets['Target data frame'] = get_data_set(parameters[parameter], parameters['Target request'])
+
+    # Format source and target data set with dimensions and measures parameters
+    for data_set in data_sets:
+        log.info('Formatting {}'.format(data_set))
+        data_frame = data_sets[data_set]
+        column_name_list = parameters['Dimensions'] + parameters['Measures']
+        data_frame.columns = column_name_list
+        for column in parameters['Dimensions']:
+            data_frame[column] = data_frame[column].astype(str)
+        data_sets[data_set] = data_frame
 
     # Get indicator type
     with DbOperation('Indicator') as op:
@@ -29,9 +66,18 @@ def execute(indicator_id, batch_id):
     with DbOperation('IndicatorType') as op:
         indicator_type_list = op.read(id=indicator_list[0].indicatorTypeId)
 
-    # Import module and execute indicator function
+    # Import module and execute specific indicator function
     importlib.import_module(indicator_type_list[0].module)
-    getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(indicator_id, event_session_start.sessionId)
+    result_data_frame = getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(data_sets, parameters)
+
+    # Compute aggregated indicator results
+    log.info('Computing aggregated results for indicator Id: {}'.format(indicator_id))
+    compute_indicator_result(indicator_id, session_id, parameters, result_data_frame)
+
+    # Send e-mail alert
+    if not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
+        log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(indicator_id, session_id))
+        # Send e-mail function to be implemented
 
     event.log_event(indicator_id, batch_id, 'Stop')
 
@@ -89,12 +135,13 @@ def is_alert(measure_value, alert_operator, alert_threshold):
         return False
 
 
-def compute_indicator_result(data_set, indicator_id, session_id, alert_operator, alert_threshold):
+def compute_indicator_result(indicator_id, session_id, parameters, result_data_frame):
     # Compute aggregates
-    log.info('Computing aggregates for indicator Id {} and session Id {}'.format(indicator_id, session_id))
-    nb_records = len(data_set)
-    nb_records_alert = len(data_set.loc[data_set['Alert'] == True])
-    nb_records_no_alert = len(data_set.loc[data_set['Alert'] == False])
+    alert_operator = parameters['Alert operator']
+    alert_threshold = parameters['Alert threshold']
+    nb_records = len(result_data_frame)
+    nb_records_alert = len(result_data_frame.loc[result_data_frame['Alert'] == True])
+    nb_records_no_alert = len(result_data_frame.loc[result_data_frame['Alert'] == False])
 
     # Insert result to database
     with DbOperation('IndicatorResult') as op:
