@@ -9,9 +9,6 @@ The objective of this framework is to provide a solution for data engineering te
 
 ![Data pipeline](/doc/data_pipeline.png)
 
-# Getting Started
-Skip the bla bla and run your data quality indicators immediately by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. However, for a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
-
 # Requirements
 ## Python
 This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies open a terminal window, change directory to the framework folder and execute the following command:
@@ -28,7 +25,10 @@ The following Python packages will be installed:
 * [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)
 
 ## ODBC Drivers
-This framework uses **pyodbc** to connect to databases. It requires to have the proper ODBC drivers installed on your machine.
+This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect to, it requires to have the corresponding ODBC drivers installed on your machine.
+
+# Getting Started
+Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. For a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
