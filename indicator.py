@@ -49,7 +49,7 @@ def get_data_set(data_source_name, request):
 
     # Database
     if data_source.dataSourceTypeId == 1:
-        connection = utils.get_odbc_connection(data_source)
+        connection = utils.get_database_connection(data_source)
         data_set = pandas.read_sql(request, connection)
 
     # Api
