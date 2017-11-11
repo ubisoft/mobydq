@@ -18,8 +18,8 @@ class TestEventModule(unittest.TestCase):
     def test_log_event_session_start(self):
         """Test log event function with start event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
@@ -55,8 +55,8 @@ class TestEventModule(unittest.TestCase):
     def test_log_event_session_stop(self):
         """Test log event function with stop event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
@@ -95,8 +95,8 @@ class TestEventModule(unittest.TestCase):
     def test_log_event_error(self):
         """Test log event function with error event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
@@ -135,8 +135,8 @@ class TestEventModule(unittest.TestCase):
     def test_log_event_data_set(self):
         """Test log event function with data_set event."""
         test_case_name = test_utils.test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         with database.DbOperation('BatchOwner') as op:
@@ -178,12 +178,7 @@ class TestEventModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            # Delete indicator
-            with database.DbOperation('Indicator') as op:
-                op.delete(name=test_case['test_case'])
-
-            # Delete batch owner, batch, session, event
-            with database.DbOperation('BatchOwner') as op:
+            with database.DbOperation(test_case['class']) as op:
                 op.delete(name=test_case['test_case'])
 
 

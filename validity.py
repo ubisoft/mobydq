@@ -46,7 +46,7 @@ def evaluate_validity(indicator_id, session_id):
         for row_num in data_set.index:
             measure_value = data_set.loc[row_num, measure]
             data_set.loc[row_num, 'Alert'] = indicator.is_alert(measure_value, alert_operator, alert_threshold)
-    print(data_set)
+
     # Compute aggregated indicator results
     log.info('Computing indicator results for indicator Id: {}'.format(indicator_id))
     indicator.compute_indicator_result(data_set, indicator_id, session_id, alert_operator, alert_threshold)

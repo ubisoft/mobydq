@@ -38,7 +38,7 @@ def execute(indicator_id, batch_id):
 
 def get_data_set(data_source_name, request):
     """Connect to a data source, execute request and return the corresponding results as a pandas dataframe."""
-    # Identify the type of data source
+    # Get data source
     with DbOperation('DataSource') as op:
         data_source_list = op.read(name=data_source_name)
 
@@ -47,23 +47,32 @@ def get_data_set(data_source_name, request):
     else:
         data_source = data_source_list[0]
 
+    # Identify the type of data source
+    with DbOperation('DataSourceType') as op:
+        data_source_type_list = op.read(id=data_source.dataSourceTypeId)
+
+    if not data_source_type_list:
+        log.error('No {} found with values: {}'.format('DataSourceType', {'id': data_source.dataSourceTypeId}))
+    else:
+        data_source_type = data_source_type_list[0]
+
     # Database
-    if data_source.dataSourceTypeId == 1:
+    if data_source_type.type == 'Database':
         connection = utils.get_database_connection(data_source)
         data_set = pandas.read_sql(request, connection)
 
-    # Api
-    elif data_source.dataSourceTypeId == 2:
+    # File
+    elif data_source_type.type == 'File':
         # Not implemented yet
         pass
 
-    # File
-    elif data_source.dataSourceTypeId == 3:
+    # API
+    elif data_source_type.type == 'API':
         # Not implemented yet
         pass
 
     else:
-        log.error('Unknown data source type Id: {}'.format(data_source_list[0].dataSourceTypeId))
+        log.error('Unknown data source type: {}'.format(data_source_type.type))
 
     return data_set
 
