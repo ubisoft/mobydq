@@ -54,4 +54,4 @@ jobs:
           destination: test-results
 
       - store_test_results:
-          path: test/junit/test-results.xml
+          path: test
