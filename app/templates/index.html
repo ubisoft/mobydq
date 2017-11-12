@@ -1,0 +1,55 @@
+<!doctype html>
+<html ng-app="DataQualityApp">
+<head>
+  <!-- Angular Material CSS using GitCDN to load directly from `bower-material/master` -->
+  <link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css">
+
+  <!-- Angular Material Dependencies -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Javascript using GitCDN to load directly from `bower-material/master` -->
+  <script src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script>
+
+  <title>Data Quality App</title>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
+
+</head>
+{% raw %}
+
+<body ng-controller="AppController">
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="BatchOwner" md-on-select="GetBatchOwner()">
+        <md-content class="md-padding">
+          <h1 class="md-display-2">Batch Owner</h1>
+          {{BatchOwner}}
+        </md-content>
+      </md-tab>
+      <md-tab label="DataSource" md-on-select="GetDataSources()">
+        <md-content class="md-padding">
+          <h1 class="md-display-2">Data Sources</h1>
+          {{DataSource}}
+        </md-content>
+      </md-tab>
+      <md-tab label="DataSourceType" md-on-select="GetDataSourceTypes()">
+        <md-content class="md-padding">
+          <h1 class="md-display-2">Datasource Types</h1>
+          {{DataSourceTypes}}
+        </md-content>
+      </md-tab>
+      <md-tab label="EventType" md-on-select="GetEventTypes()">
+        <md-content class="md-padding">
+          <h1 class="md-display-2">Event Types</h1>
+          {{EventTypes}}
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</body>
+{% endraw %}
+</html>
