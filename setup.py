@@ -35,5 +35,4 @@ if __name__ == '__main__':
         for object in data_dictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
                 for record in object['records']:
-                    with database.DbOperation(object['class']) as op:
-                        op.create(**record)
+                    database.DbOperation(object['class']).create(**record)
