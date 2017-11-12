@@ -55,7 +55,7 @@ def evaluate_completeness(data_sets, parameters):
     # For each record and measure in data frame, test if alert must be sent and update alert column
     result_data_frame['Alert'] = False
     for measure in measure_list:
-        for row_num in target_data_frame.index:
+        for row_num in result_data_frame.index:
             measure_value = result_data_frame.loc[row_num, measure + '_delta_percentage']
             measure_value = abs(measure_value)*100
             if indicator.is_alert(measure_value, alert_operator, alert_threshold):
