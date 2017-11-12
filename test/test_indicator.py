@@ -45,26 +45,20 @@ class TestIndicatorModule(unittest.TestCase):
             indicatorTypeId=1,  # Completeness
             batchOwnerId=batch_owner.id,
             executionOrder=0,
-            # alertOperator='=', # This got moved to indicator parameters
-            # alertThreshold='1', # This got moved to indicator parameters
-            # distributionList='test@test.com', # This got moved to indicator parameters
             active=1
         )
 
         # Create indicator paramters
-        db_op = DbOperation('IndicatorParameter')
-        with db_op.open_session() as session:
-            db_op._create(session, name='Source', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Source request', value="select 'status', count(*) from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Target', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Target request', value="select 'status', count(*)-1 from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert operator', value=">=", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert threshold', value="0", indicatorId=indicator_record.id)
-            db_op._create(session, name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param = DbOperation('IndicatorParameter')
+        param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Source request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
+        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Target request', value="select 'status', count(*)-1 from status", indicatorId=indicator_record.id)
+        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
+        param.create(name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
+        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
+        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
+        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -108,23 +102,18 @@ class TestIndicatorModule(unittest.TestCase):
             indicatorTypeId=2,  # Freshness
             batchOwnerId=batch_owner.id,
             executionOrder=0,
-            # alertOperator='=', # This got moved to indicator parameters
-            # alertThreshold='1', # This got moved to indicator parameters
-            # distributionList='test@test.com', # This got moved to indicator parameters
             active=1
         )
 
         # Create indicator paramters
-        db_op = DbOperation('IndicatorParameter')
-        with db_op.open_session() as session:
-            db_op._create(session, name='Target', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Target request', value="select 'status', max(updated_date) from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert operator', value=">=", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert threshold', value="0", indicatorId=indicator_record.id)
-            db_op._create(session, name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param = DbOperation('IndicatorParameter')
+        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Target request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
+        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
+        param.create(name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
+        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
+        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
+        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -168,27 +157,20 @@ class TestIndicatorModule(unittest.TestCase):
             indicatorTypeId=3,  # Latency
             batchOwnerId=batch_owner.id,
             executionOrder=0,
-            # alertOperator='=', # This got moved to indicator parameters
-            # alertThreshold='1', # This got moved to indicator parameters
-            # distributionList='test@test.com', # This got moved to indicator parameters
             active=1
         )
 
         # Create indicator paramters
-        db_op = DbOperation('IndicatorParameter')
-        with db_op.open_session() as session:
-            db_op._create(session, name='Source', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Source request', value="select 'status', max(updated_date) from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Target', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Target request',
-                          value="select 'status', datetime(max(updated_date), '-1 day', '-1 hour') from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert operator', value=">=", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert threshold', value="0", indicatorId=indicator_record.id)
-            db_op._create(session, name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param = DbOperation('IndicatorParameter')
+        param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Source request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
+        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Target request', value="select 'status', datetime(max(updated_date), '-1 day', '-1 hour') from status", indicatorId=indicator_record.id)
+        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
+        param.create(name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
+        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
+        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
+        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -232,23 +214,18 @@ class TestIndicatorModule(unittest.TestCase):
             indicatorTypeId=4,  # Validity
             batchOwnerId=batch_owner.id,
             executionOrder=0,
-            # alertOperator='=', # This got moved to indicator parameters
-            # alertThreshold='1', # This got moved to indicator parameters
-            # distributionList='test@test.com', # This got moved to indicator parameters
             active=1
         )
 
         # Create indicator paramters
-        db_op = DbOperation('IndicatorParameter')
-        with db_op.open_session() as session:
-            db_op._create(session, name='Target', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Target request', value="select 'status', count(*) from status",
-                          indicatorId=indicator_record.id)
-            db_op._create(session, name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert operator', value=">=", indicatorId=indicator_record.id)
-            db_op._create(session, name='Alert threshold', value="0", indicatorId=indicator_record.id)
-            db_op._create(session, name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param = DbOperation('IndicatorParameter')
+        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
+        param.create(name='Target request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
+        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
+        param.create(name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
+        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
+        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
+        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')

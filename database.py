@@ -31,6 +31,7 @@ class DictHelper():
             value = getattr(self, attribute)
             if isinstance(value, datetime):
                 value = value.strftime("%Y-%m-%d %H:%M:%S")
+                # value = value.isoformat()
             result[attribute] = value
         return result
 
@@ -154,9 +155,6 @@ class Indicator(Base, DictHelper):
     indicatorTypeId = Column('indicator_type_id', Integer, ForeignKey('indicator_type.indicator_type_id'), nullable=False)
     batchOwnerId = Column('batch_owner_id', Integer, ForeignKey('batch_owner.batch_owner_id'), nullable=False)
     executionOrder = Column('execution_order', Integer, nullable=False, default=0)
-    # alertOperator = Column('alert_operator', String, nullable=False) # This got moved to indicator parameters
-    # alertThreshold = Column('alert_threshold', Float, nullable=False) # This got moved to indicator parameters
-    # distributionList = Column('distribution_list', String, nullable=False) # This got moved to indicator parameters
     active = Column('flag_active', Boolean, nullable=False, default=True)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
@@ -233,12 +231,6 @@ class IndicatorResult(Base, DictHelper):
     nbRecords = Column('nb_records', Integer, nullable=False)
     nbRecordsAlert = Column('nb_records_alert', Integer, nullable=False)
     nbRecordsNoAlert = Column('nb_records_no_alert', Integer, nullable=False)
-    # This cannot be used for indicators with multiple measures
-    # avgResult = Column('avg_result', Float, nullable=False)
-    # This cannot be used for indicators with multiple measures
-    # avgResultAlert = Column('avg_result_alert', Float, nullable=False)
-    # This cannot be used for indicators with multiple measures
-    # avgResultNoAlert = Column('avg_result_no_alert', Float, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
@@ -267,16 +259,9 @@ class DbOperation:
         yield session
         session.close()
 
-    def _create(self, session, **kwargs):
-        """
-        Create record. Return list of objects.
-        A session need to be provided
-        """
-        # Verify record does not exist
-        instance = session.query(self.object).filter_by(**kwargs).first()
-        if instance:
-            log.error('{} already exists with values: {}'.format(self.object.__name__, kwargs))
-        else:
+    def create(self, **kwargs):
+        """Create record. Return list of objects."""
+        with self.open_session() as session:
             # Apply encryption on password fields
             for key in kwargs:
                 if key == 'password' and kwargs[key] != '':
@@ -287,76 +272,50 @@ class DbOperation:
             session.commit()
             log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
 
-        # Return object
-        instance = session.query(self.object).filter_by(**kwargs).first()
-        return instance
-
-    def create(self, **kwargs):
-        """Create record. Return list of objects."""
-        with self.open_session() as session:
-            return self._create(session, **kwargs)
-
-    def _read(self, session, **kwargs):
-        """
-        Get record or list of records. Return list of objects.
-        A session need to be provided
-        """
-        instance = session.query(self.object).filter_by(**kwargs).all()
-        log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
-        # Return list of objects
+            # Return object
+            instance = session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def read(self, **kwargs):
         """Get record or list of records. Return list of objects."""
         with self.open_session() as session:
-            return self._read(session, **kwargs)
+            instance = session.query(self.object).filter_by(**kwargs).all()
+            log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
 
-    def _update(self, session, **kwargs):
-        """
-        Update record. Return list of objects.
-        A session need to be provided
-        """
-        # Verify record exists
-        instance = session.query(self.object).filter_by(id=kwargs['id']).first()
-        if not instance:
-            log.error('No {} found with Id: {}'.format(self.object.__name__, kwargs['id']))
-        else:
-            instance = session.query(self.object).filter_by(id=kwargs['id']).update(kwargs)
-            session.commit()
-            log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
-
-        # Return object
-        instance = session.query(self.object).filter_by(**kwargs).first()
+        # Return list of objects
         return instance
 
     def update(self, **kwargs):
         """Update record. Return list of objects."""
         with self.open_session() as session:
-            return self._update(session, **kwargs)
+            # Verify record exists
+            instance = session.query(self.object).filter_by(id=kwargs['id']).first()
+            if not instance:
+                log.error('No {} found with Id: {}'.format(self.object.__name__, kwargs['id']))
+            else:
+                instance = session.query(self.object).filter_by(id=kwargs['id']).update(kwargs)
+                session.commit()
+                log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
-    def _delete(self, session, **kwargs):
-        """
-        Delete record. Return empty list of objects.
-        A session need to be provided
-        """
-        # Verify record exists
-        instance = session.query(self.object).filter_by(**kwargs).first()
-        if not instance:
-            # FIXME An exception raised would probably be better. Handling to be done by the caller
-            log.error('No {} found with values: {}'.format(self.object.__name__, kwargs))
-        else:
-            instance = session.query(self.object).filter_by(**kwargs).delete()
-            session.commit()
-            log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
-
-        # Return empty object
+            # Return object
+            instance = session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def delete(self, **kwargs):
         """Delete record. Return empty list of objects."""
         # Verify record exists
         with self.open_session() as session:
-            return self._delete(session, **kwargs)
+            # Verify record exists
+            instance = session.query(self.object).filter_by(**kwargs).first()
+            if not instance:
+                log.error('No {} found with values: {}'.format(self.object.__name__, kwargs))
+            else:
+                instance = session.query(self.object).filter_by(**kwargs).delete()
+                session.commit()
+                log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
+
+        # Return empty object
+        return instance
 
 
 if __name__ == '__main__':
