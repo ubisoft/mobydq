@@ -11,7 +11,7 @@ The objective of this framework is to provide a solution for data engineering te
 
 # Requirements
 ## Python
-This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies open a terminal window, change directory to the framework folder and execute the following command:
+This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
 
 `$ pip3 install -r requirements.txt`
 
@@ -26,10 +26,10 @@ The following Python packages will be installed:
 * [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)
 
 ## ODBC Drivers
-This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect to, it requires to have the corresponding ODBC drivers installed on your machine.
+This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect, it requires to have the corresponding ODBC drivers installed on your machine.
 
 # Getting Started
-Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. For a better understanding of the framework, its concepts and how it works, we recommend you refer to the documentation below.
+Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
@@ -37,4 +37,4 @@ The complete documentation is available on [Github wiki](https://github.com/alex
 # Run Test Cases
 To execute all test cases, change directory to the framework folder and execute the following command:
 
-`$ nose2`
+`$ nose2 -v`
