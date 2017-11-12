@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for database module."""
 import test_utils
-import database
+from database import DbOperation
 import unittest
 
 
@@ -18,8 +18,7 @@ class TestDatabaseModule(unittest.TestCase):
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         self.assertEqual(batch_owner.name, test_case_name)
 
@@ -28,11 +27,9 @@ class TestDatabaseModule(unittest.TestCase):
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        with database.DbOperation('BatchOwner') as op:
-            op.create(name=test_case_name)
+        DbOperation('BatchOwner').create(name=test_case_name)
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner_list = op.read(name=test_case_name)
+        batch_owner_list = DbOperation('BatchOwner').read(name=test_case_name)
 
         self.assertEqual(batch_owner_list[0].name, test_case_name)
 
@@ -41,14 +38,12 @@ class TestDatabaseModule(unittest.TestCase):
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         test_case_name_new = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_new})
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.update(id=batch_owner.id, name=test_case_name_new)
+        batch_owner = DbOperation('BatchOwner').update(id=batch_owner.id, name=test_case_name_new)
 
         self.assertEqual(batch_owner.name, test_case_name_new)
 
@@ -57,14 +52,11 @@ class TestDatabaseModule(unittest.TestCase):
         test_case_name = test_utils.test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
-        with database.DbOperation('BatchOwner') as op:
-            op.delete(id=batch_owner.id)
+        DbOperation('BatchOwner').delete(id=batch_owner.id)
 
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner_list = op.read(name=test_case_name)
+        batch_owner_list = DbOperation('BatchOwner').read(name=test_case_name)
 
         self.assertEqual(batch_owner_list, [])
 
@@ -72,8 +64,7 @@ class TestDatabaseModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            with database.DbOperation(test_case['class']) as op:
-                op.delete(name=test_case['test_case'])
+            DbOperation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

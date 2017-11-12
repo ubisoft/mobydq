@@ -26,16 +26,14 @@ def log_batch(batch_owner_id, event):
     * Returns the corresponding batch object
     """
     # Verify batch owner exists
-    with DbOperation('BatchOwner') as op:
-        batch_owner_list = op.read(id=batch_owner_id)
+    batch_owner_list = DbOperation('BatchOwner').read(id=batch_owner_id)
 
     if not batch_owner_list:
         log.error('Cannot insert or update batch because batch owner Id {} does not exist'.format(batch_owner_id))
         return False
 
     # Verify event type exists
-    with DbOperation('EventType') as op:
-        event_type_list = op.read(name=event)
+    event_type_list = DbOperation('EventType').read(name=event)
 
     if not event_type_list:
         log.error('Cannot insert or update batch because event type {} does not exist'.format(event))
@@ -45,46 +43,42 @@ def log_batch(batch_owner_id, event):
     if event == 'Start':
         log.info('Starting batch for batch owner Id: {}'.format(batch_owner_id))
         # Verify there is no running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.read(batchOwnerId=batch_owner_id, statusId=1)
+        batch_list = DbOperation('Batch').read(batchOwnerId=batch_owner_id, statusId=1)
 
         if batch_list:
-            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(batch_owner_id, batch_list[0].id))
+            log.error('Cannot start batch because batch owner {} already has a running batch with batch Id: {}'.format(
+                batch_owner_id, batch_list[0].id)
+            )
             return False
 
         # Insert new running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.create(batchOwnerId=batch_owner_id, statusId=1)
+        batch_list = DbOperation('Batch').create(batchOwnerId=batch_owner_id, statusId=1)
 
     # End running batch
     elif event == 'Stop':
         log.info('Stoping batch for batch owner Id: {}'.format(batch_owner_id))
         # Find current running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.read(batchOwnerId=batch_owner_id, statusId=1)
+        batch_list = DbOperation('Batch').read(batchOwnerId=batch_owner_id, statusId=1)
 
         if not batch_list:
             log.error('Cannot end batch because batch owner Id {} does not have a running batch'.format(batch_owner_id))
             return False
 
         # Update running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.update(id=batch_list[0].id, statusId=2)
+        batch_list = DbOperation('Batch').update(id=batch_list[0].id, statusId=2)
 
     # Fail running batch
     elif event == 'Error':
         log.info('Failing batch for batch owner Id: {}'.format(batch_owner_id))
         # Find current running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.read(batchOwnerId=batch_owner_id, statusId=1)
+        batch_list = DbOperation('Batch').read(batchOwnerId=batch_owner_id, statusId=1)
 
         if not batch_list:
             log.error('Cannot fail batch because batch owner Id {} does not have a running batch'.format(batch_owner_id))
             return False
 
         # Update running batch
-        with DbOperation('Batch') as op:
-            batch_list = op.update(id=batch_list[0].id, statusId=3)
+        batch_list = DbOperation('Batch').update(id=batch_list[0].id, statusId=3)
 
     # Invalid event
     else:
@@ -104,8 +98,7 @@ if __name__ == '__main__':
     batch_record = log_batch(arguments.Id, 'Start')
 
     # Get indicators for the batch owner
-    with DbOperation('Indicator') as op:
-        indicator_list = op.read(batchOwnerId=arguments.Id)
+    indicator_list = DbOperation('Indicator').read(batchOwnerId=arguments.Id)
 
     for indicator_record in indicator_list:
         indicator.execute(indicator_record.id, batch_record.id)

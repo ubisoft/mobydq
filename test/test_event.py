@@ -2,7 +2,7 @@
 """Unit test for database module."""
 import test_utils
 import batch
-import database
+from database import DbOperation
 import event
 import unittest
 
@@ -22,21 +22,20 @@ class TestEventModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Create data quality indicator
-        with database.DbOperation('Indicator') as op:
-            indicator = op.create(
-                name=test_case_name,
-                description=test_case_name,
-                indicatorTypeId=1,
-                batchOwnerId=batch_owner.id,
-                executionOrder=0,
-                # alertOperator='=', # This got moved to indicator parameters
-                # alertThreshold='0', # This got moved to indicator parameters
-                # distributionList=test_case_name, # This got moved to indicator parameters
-                active=True)
+        indicator = DbOperation('Indicator').create(
+            name=test_case_name,
+            description=test_case_name,
+            indicatorTypeId=1,
+            batchOwnerId=batch_owner.id,
+            executionOrder=0,
+            # alertOperator='=', # This got moved to indicator parameters
+            # alertThreshold='0', # This got moved to indicator parameters
+            # distributionList=test_case_name, # This got moved to indicator parameters
+            active=True
+        )
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -45,8 +44,9 @@ class TestEventModule(unittest.TestCase):
         session_start_event = event.log_event(indicator.id, batch_record.id, 'Start')
 
         # Get session
-        with database.DbOperation('Session') as op:
-            session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
+        session_list = DbOperation('Session').read(
+            indicatorId=indicator.id, batchId=batch_record.id
+        )
 
         self.assertEqual(session_list[0].statusId, 1)
         self.assertEqual(session_start_event.eventTypeId, 1)
@@ -59,21 +59,20 @@ class TestEventModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Create data quality indicator
-        with database.DbOperation('Indicator') as op:
-            indicator = op.create(
-                name=test_case_name,
-                description=test_case_name,
-                indicatorTypeId=1,
-                batchOwnerId=batch_owner.id,
-                executionOrder=0,
-                # alertOperator='=', # This got moved to indicator parameters
-                # alertThreshold='0', # This got moved to indicator parameters
-                # distributionList=test_case_name, # This got moved to indicator parameters
-                active=True)
+        indicator = DbOperation('Indicator').create(
+            name=test_case_name,
+            description=test_case_name,
+            indicatorTypeId=1,
+            batchOwnerId=batch_owner.id,
+            executionOrder=0,
+            # alertOperator='=', # This got moved to indicator parameters
+            # alertThreshold='0', # This got moved to indicator parameters
+            # distributionList=test_case_name, # This got moved to indicator parameters
+            active=True
+        )
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -85,8 +84,7 @@ class TestEventModule(unittest.TestCase):
         session_stop_event = event.log_event(indicator.id, batch_record.id, 'Stop')
 
         # Get session
-        with database.DbOperation('Session') as op:
-            session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
+        session_list = DbOperation('Session').read(indicatorId=indicator.id, batchId=batch_record.id)
 
         self.assertEqual(session_list[0].statusId, 2)
         self.assertEqual(session_stop_event.eventTypeId, 2)
@@ -99,21 +97,20 @@ class TestEventModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Create data quality indicator
-        with database.DbOperation('Indicator') as op:
-            indicator = op.create(
-                name=test_case_name,
-                description=test_case_name,
-                indicatorTypeId=1,
-                batchOwnerId=batch_owner.id,
-                executionOrder=0,
-                # alertOperator='=', # This got moved to indicator parameters
-                # alertThreshold='0', # This got moved to indicator parameters
-                # distributionList=test_case_name, # This got moved to indicator parameters
-                active=True)
+        indicator = DbOperation('Indicator').create(
+            name=test_case_name,
+            description=test_case_name,
+            indicatorTypeId=1,
+            batchOwnerId=batch_owner.id,
+            executionOrder=0,
+            # alertOperator='=', # This got moved to indicator parameters
+            # alertThreshold='0', # This got moved to indicator parameters
+            # distributionList=test_case_name, # This got moved to indicator parameters
+            active=True
+        )
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -125,8 +122,7 @@ class TestEventModule(unittest.TestCase):
         error_event = event.log_event(indicator.id, batch_record.id, 'Error')
 
         # Get session
-        with database.DbOperation('Session') as op:
-            session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
+        session_list = DbOperation('Session').read(indicatorId=indicator.id, batchId=batch_record.id)
 
         self.assertEqual(session_list[0].statusId, 3)
         self.assertEqual(error_event.eventTypeId, 3)
@@ -139,21 +135,20 @@ class TestEventModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Create data quality indicator
-        with database.DbOperation('Indicator') as op:
-            indicator = op.create(
-                name=test_case_name,
-                description=test_case_name,
-                indicatorTypeId=1,
-                batchOwnerId=batch_owner.id,
-                executionOrder=0,
-                # alertOperator='=', # This got moved to indicator parameters
-                # alertThreshold='0', # This got moved to indicator parameters
-                # distributionList=test_case_name, # This got moved to indicator parameters
-                active=True)
+        indicator = DbOperation('Indicator').create(
+            name=test_case_name,
+            description=test_case_name,
+            indicatorTypeId=1,
+            batchOwnerId=batch_owner.id,
+            executionOrder=0,
+            # alertOperator='=', # This got moved to indicator parameters
+            # alertThreshold='0', # This got moved to indicator parameters
+            # distributionList=test_case_name, # This got moved to indicator parameters
+            active=True
+        )
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -166,8 +161,7 @@ class TestEventModule(unittest.TestCase):
         data_set_event = event.log_event(indicator.id, batch_record.id, 'Data set', data_set)
 
         # Get session
-        with database.DbOperation('Session') as op:
-            session_list = op.read(indicatorId=indicator.id, batchId=batch_record.id)
+        session_list = DbOperation('Session').read(indicatorId=indicator.id, batchId=batch_record.id)
 
         self.assertEqual(session_list[0].statusId, 1)
         self.assertEqual(data_set_event.eventTypeId, 4)
@@ -178,8 +172,7 @@ class TestEventModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            with database.DbOperation(test_case['class']) as op:
-                op.delete(name=test_case['test_case'])
+            DbOperation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':
