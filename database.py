@@ -254,15 +254,15 @@ class DbOperation:
 
     def create(self, **kwargs):
         """Create record. Return list of objects."""
-        # Verify record does not exist
-        instance = self.session.query(self.object).filter_by(**kwargs).first()
-        if instance:
-            log.error('{} already exists with values: {}'.format(self.object.__name__, kwargs))
-        else:
-            instance = self.object(**kwargs)
-            self.session.add(instance)
-            self.session.commit()
-            log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
+        # Apply encryption on password fields
+        for key in kwargs:
+            if key == 'password' and kwargs[key] != '':
+                kwargs[key] = utils.encryption('encrypt', kwargs[key])
+
+        instance = self.object(**kwargs)
+        self.session.add(instance)
+        self.session.commit()
+        log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
 
         # Return object
         instance = self.session.query(self.object).filter_by(**kwargs).first()

@@ -16,14 +16,15 @@ This framework has been developed on **Linux** with **Python 3.5** and is powere
 `$ pip3 install -r requirements.txt`
 
 The following Python packages will be installed:
-* [flask](http://flask.pocoo.org/) (0.12.2)
+* [cryptography](https://cryptography.io) (2.1.3)
+* [flask](http://flask.pocoo.org) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
-* [nose2](http://nose2.readthedocs.io/en/latest/index.html) (0.7.0)
-* [pandas](http://pandas.pydata.org/) (0.21.0)
+* [nose2](http://nose2.readthedocs.io) (0.7.0)
+* [pandas](http://pandas.pydata.org) (0.21.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
-* [sqlalchemy](https://www.sqlalchemy.org/) (1.1.14)
+* [sqlalchemy](https://www.sqlalchemy.org) (1.1.14)
 
 ## ODBC Drivers
 This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect, it requires to have the corresponding ODBC drivers installed on your machine.
