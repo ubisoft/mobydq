@@ -23,19 +23,11 @@ def get_file_name(path):
     return tail or ntpath.basename(head)
 
 
-def get_object_attributes(object):
-    """Get attributes and their values from the instance of a class and returns them as a dictionary."""
-    attributes = inspect.getmembers(object, lambda a: not(inspect.isroutine(a)))
-    dictionary = {}
-    for attribute in attributes:
-        # Exclude object attributes belonging to sqlachemy and database classes
-        if not attribute[0].startswith('_') and not re.search("<class 'sqlalchemy*|<class 'database*", str(type(attribute[1]))):
-                dictionary[attribute[0]] = str(attribute[1])
-    return dictionary
-
-
 def get_database_connection(data_source):
-    """Get connection string and credentials for the corresponding data source, connects to it using an ODBC connection and return a connection object."""
+    """
+    Get connection string and credentials for the corresponding data source,
+    connects to it using an ODBC connection and return a connection object.
+    """
     connection_string = data_source.connectionString
 
     # Add login to connection string if it is not empty

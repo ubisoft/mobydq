@@ -21,7 +21,7 @@ def create(resource_name, payload=None):
     record = DbOperation(resource_name).create(**payload)
 
     # Convert database object into json
-    response = utils.get_object_attributes(record)
+    response = record.as_dict()
     return(response)
 
 
@@ -35,7 +35,7 @@ def read(resource_name, payload=None):
     # Convert database object into json
     response = []
     for record in record_list:
-        response.append(utils.get_object_attributes(record))
+        response.append(record.as_dict())
     return(response)
 
 
@@ -47,7 +47,7 @@ def update(resource_name, payload=None):
     record = DbOperation(resource_name).update(**payload)
 
     # Convert database object into json
-    response = utils.get_object_attributes(record)
+    response = record.as_dict()
     return (response)
 
 

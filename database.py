@@ -2,6 +2,7 @@
 """Setup data quality framework database and perform CRUD operations."""
 from ast import literal_eval
 from contextlib import contextmanager
+from datetime import datetime
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, TypeDecorator
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
@@ -20,6 +21,17 @@ log = logging.getLogger(__name__)
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
+
+
+class DictHelper():
+    def as_dict(self):
+        result = {}
+        for attr in self.__mapper__.columns.keys():
+            value = getattr(self, attr)
+            if isinstance(value, datetime):
+                value = value.timestamp()
+            result[attr] = value
+        return result
 
 
 @event.listens_for(Engine, 'connect')
@@ -44,7 +56,7 @@ class JsonEncodedDict(TypeDecorator):
         return json.loads(value)
 
 
-class Status(Base):
+class Status(Base, DictHelper):
     """Status for batches and sessions."""
 
     __tablename__ = 'status'
@@ -58,7 +70,7 @@ class Status(Base):
     session = relationship('Session', backref='Status')
 
 
-class DataSourceType(Base):
+class DataSourceType(Base, DictHelper):
     """Types of data sources."""
 
     __tablename__ = 'data_source_type'
@@ -72,7 +84,7 @@ class DataSourceType(Base):
     dataSource = relationship('DataSource', backref='DataSourceType')
 
 
-class DataSource(Base):
+class DataSource(Base, DictHelper):
     """Data sources."""
 
     __tablename__ = 'data_source'
@@ -87,7 +99,7 @@ class DataSource(Base):
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class BatchOwner(Base):
+class BatchOwner(Base, DictHelper):
     """Batch owners."""
 
     __tablename__ = 'batch_owner'
@@ -101,7 +113,7 @@ class BatchOwner(Base):
     indicator = relationship('Indicator', backref='BatchOwner')
 
 
-class Batch(Base):
+class Batch(Base, DictHelper):
     """Batches."""
 
     __tablename__ = 'batch'
@@ -115,7 +127,7 @@ class Batch(Base):
     session = relationship('Session', backref='Batch', passive_deletes=True)
 
 
-class IndicatorType(Base):
+class IndicatorType(Base, DictHelper):
     """Types of indicators."""
 
     __tablename__ = 'indicator_type'
@@ -130,7 +142,7 @@ class IndicatorType(Base):
     indicator = relationship('Indicator', backref='IndicatorType')
 
 
-class Indicator(Base):
+class Indicator(Base, DictHelper):
     """Data quality indicators."""
 
     __tablename__ = 'indicator'
@@ -153,7 +165,7 @@ class Indicator(Base):
     session = relationship('Session', backref='Indicator', passive_deletes=True)
 
 
-class IndicatorParameter(Base):
+class IndicatorParameter(Base, DictHelper):
     """Indicator parameters."""
 
     __tablename__ = 'indicator_parameter'
@@ -166,7 +178,7 @@ class IndicatorParameter(Base):
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class Session(Base):
+class Session(Base, DictHelper):
     """Sessions."""
 
     __tablename__ = 'session'
@@ -182,7 +194,7 @@ class Session(Base):
     indicatorResult = relationship('IndicatorResult', backref='Session', passive_deletes=True)
 
 
-class EventType(Base):
+class EventType(Base, DictHelper):
     """Types of events."""
 
     __tablename__ = 'event_type'
@@ -195,7 +207,7 @@ class EventType(Base):
     event = relationship('Event', backref='EventType')
 
 
-class Event(Base):
+class Event(Base, DictHelper):
     """Events."""
 
     __tablename__ = 'event'
@@ -207,7 +219,7 @@ class Event(Base):
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
-class IndicatorResult(Base):
+class IndicatorResult(Base, DictHelper):
     """Indicator results."""
 
     __tablename__ = 'indicator_result'

@@ -242,7 +242,8 @@ class TestIndicatorModule(unittest.TestCase):
         db_op = DbOperation('IndicatorParameter')
         with db_op.open_session() as session:
             db_op._create(session, name='Target', value=data_source.name, indicatorId=indicator_record.id)
-            db_op._create(session, name='Target request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
+            db_op._create(session, name='Target request', value="select 'status', count(*) from status",
+                          indicatorId=indicator_record.id)
             db_op._create(session, name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
             db_op._create(session, name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
             db_op._create(session, name='Alert operator', value=">=", indicatorId=indicator_record.id)
