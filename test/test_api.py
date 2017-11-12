@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 """Unit test for database module."""
-import test_api_utils
+import test_utils
 import database
 import requests
 import socket
 import unittest
-from test import test_utils
 
 
 class TestApiModule(unittest.TestCase):
