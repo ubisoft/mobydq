@@ -54,7 +54,10 @@ def encryption(action, value):
 
 
 def get_database_connection(data_source):
-    """Get connection string and credentials for the corresponding data source, connects to it using an ODBC connection and return a connection object."""
+    """
+    Get connection string and credentials for the corresponding data source,
+    connects to it using an ODBC connection and return a connection object.
+    """
     connection_string = data_source.connectionString
 
     # Add login to connection string if it is not empty

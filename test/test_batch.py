@@ -2,7 +2,7 @@
 """Unit test for database module."""
 import test_utils
 import batch
-import database
+from database import DbOperation
 import unittest
 
 
@@ -20,8 +20,7 @@ class TestBatchModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Start batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -35,8 +34,7 @@ class TestBatchModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Start and stop batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -51,8 +49,7 @@ class TestBatchModule(unittest.TestCase):
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        with database.DbOperation('BatchOwner') as op:
-            batch_owner = op.create(name=test_case_name)
+        batch_owner = DbOperation('BatchOwner').create(name=test_case_name)
 
         # Start and stop batch
         batch_record = batch.log_batch(batch_owner.id, 'Start')
@@ -65,8 +62,7 @@ class TestBatchModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            with database.DbOperation(test_case['class']) as op:
-                op.delete(name=test_case['test_case'])
+            DbOperation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':
