@@ -24,13 +24,14 @@ Base = declarative_base()
 
 
 class DictHelper():
+    """Convert instance of a class object into a dictionary."""
     def as_dict(self):
         result = {}
-        for attr in self.__mapper__.columns.keys():
-            value = getattr(self, attr)
+        for attribute in self.__mapper__.columns.keys():
+            value = getattr(self, attribute)
             if isinstance(value, datetime):
-                value = value.timestamp()
-            result[attr] = value
+                value = value.strftime("%Y-%m-%d %H:%M:%S")
+            result[attribute] = value
         return result
 
 
