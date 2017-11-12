@@ -11,7 +11,7 @@ The objective of this framework is to provide a solution for data engineering te
 
 # Requirements
 ## Python
-This framework has been developed on **Linux** with **Python 3.5** and is powered by the following awesome packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
+This framework has been developed on **Linux** with **Python 3.5** and is powered by the following third party packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
 
 `$ pip3 install -r requirements.txt`
 

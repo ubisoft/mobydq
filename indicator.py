@@ -37,26 +37,31 @@ def execute(indicator_id, batch_id):
     parameters['Measures'] = literal_eval(parameters['Measures'])
     parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
 
-    # Get source and target data sets
+    # Get source and target data frames
     data_sets = {}
     for parameter in parameters:
         if parameter == 'Source':
             log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
-            data_sets['Source data frame'] = get_data_set(parameters[parameter], parameters['Source request'])
+            data_sets['Source data frame'] = get_data_frame(parameters[parameter], parameters['Source request'])
 
         elif parameter == 'Target':
             log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
-            data_sets['Target data frame'] = get_data_set(parameters[parameter], parameters['Target request'])
+            data_sets['Target data frame'] = get_data_frame(parameters[parameter], parameters['Target request'])
+
+    # Verify data frames are not empty
+    for data_frame_name in data_sets:
+        if data_sets[data_frame_name].empty:
+            log.error('{} is empty'.format(data_frame_name))
 
     # Format source and target data set with dimensions and measures parameters
-    for data_set in data_sets:
-        log.info('Formatting {}'.format(data_set))
-        data_frame = data_sets[data_set]
+    for data_frame_name in data_sets:
+        log.info('Formatting {}'.format(data_frame_name))
+        data_frame = data_sets[data_frame_name]
         column_name_list = parameters['Dimensions'] + parameters['Measures']
         data_frame.columns = column_name_list
         for column in parameters['Dimensions']:
             data_frame[column] = data_frame[column].astype(str)
-        data_sets[data_set] = data_frame
+        data_sets[data_frame_name] = data_frame
 
     # Get indicator type
     with DbOperation('Indicator') as op:
@@ -82,7 +87,7 @@ def execute(indicator_id, batch_id):
     event.log_event(indicator_id, batch_id, 'Stop')
 
 
-def get_data_set(data_source_name, request):
+def get_data_frame(data_source_name, request):
     """Connect to a data source, execute request and return the corresponding results as a pandas dataframe."""
     # Get data source
     with DbOperation('DataSource') as op:
@@ -105,7 +110,7 @@ def get_data_set(data_source_name, request):
     # Database
     if data_source_type.type == 'Database':
         connection = utils.get_database_connection(data_source)
-        data_set = pandas.read_sql(request, connection)
+        data_frame = pandas.read_sql(request, connection)
 
     # File
     elif data_source_type.type == 'File':
@@ -120,7 +125,7 @@ def get_data_set(data_source_name, request):
     else:
         log.error('Unknown data source type: {}'.format(data_source_type.type))
 
-    return data_set
+    return data_frame
 
 
 def is_alert(measure_value, alert_operator, alert_threshold):
