@@ -3,7 +3,7 @@ from sqlalchemy import Column, DateTime, Integer, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-from base import Base, DictHelper
+from .base import Base, DictHelper
 
 log = logging.getLogger(__name__)
 

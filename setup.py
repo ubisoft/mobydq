@@ -10,6 +10,13 @@ from api.database.base import Base
 from api.database.operation import Operation as DbOperation
 
 
+from api.database.batch import BatchOwner, Batch
+from api.database.data_source import DataSource, DataSourceType
+from api.database.event import Event, EventType
+from api.database.indicator import Indicator, IndicatorType, IndicatorParameter
+from api.database.session import Session
+from api.database.status import Status
+
 logging.basicConfig(
     # filename='data_quality.log',
     stream=sys.stdout,
