@@ -1,13 +1,15 @@
-import configparser
+#!/usr/bin/env python
+"""Setup data quality framework database and perform CRUD operations."""
+from ast import literal_eval
+from sqlalchemy import create_engine
 import logging
 import os
 import sys
-from ast import literal_eval
-from cryptography.fernet import Fernet
-from sqlalchemy import create_engine
 
-from api.database.base import Base
-from api.database.operation import Operation as DbOperation
+from database.base import Base
+from database.operation import Operation as DbOperation
+
+log = logging.getLogger(__name__)
 
 
 logging.basicConfig(
@@ -16,25 +18,14 @@ logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-log = logging.getLogger(__name__)
-
 
 if __name__ == '__main__':
-    # Create local configuration file
-    log.info('Create configuration file data_quality.cfg')
-    configuration = configparser.ConfigParser()
-    configuration['data_quality'] = {}
-    configuration['data_quality']['secret_key'] = Fernet.generate_key().decode('utf-8')
-    with open('data_quality.cfg', 'w') as config_file:
-        configuration.write(config_file)
-
-    # Create database
     db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
     db_uri = 'sqlite:///{}'.format(db_path)
     engine = create_engine(db_uri)
 
-    # Create tables
-    log.info('Create database data_quality.db')
+    # Create all tables in the engine
+    log.info('Create database and tables')
     Base.metadata.create_all(engine)
 
     # Insert default list of values
