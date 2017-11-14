@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Indicators related functions."""
 from ast import literal_eval
-from database import DbOperation
+from api.database.operation import Operation as DbOperation
 import argparse
 import batch
 import event
