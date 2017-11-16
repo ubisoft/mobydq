@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Indicators related functions."""
 from ast import literal_eval
-from database import DbOperation
+from database import Operation
 import argparse
 import batch
 import event
@@ -24,8 +24,7 @@ def execute(indicator_id, batch_id):
     session_id = event_session_start.sessionId
 
     # Get indicator parameters
-    with DbOperation('IndicatorParameter') as op:
-        indicator_parameter_list = op.read(indicatorId=indicator_id)
+    indicator_parameter_list = Operation('IndicatorParameter').read(indicatorId=indicator_id)
 
     # Create dictionary from indicator parameters
     parameters = {}
@@ -64,16 +63,16 @@ def execute(indicator_id, batch_id):
         data_sets[data_frame_name] = data_frame
 
     # Get indicator type
-    with DbOperation('Indicator') as op:
-        indicator_list = op.read(id=indicator_id)
+    indicator_list = Operation('Indicator').read(id=indicator_id)
 
     # Get indicator module and function
-    with DbOperation('IndicatorType') as op:
-        indicator_type_list = op.read(id=indicator_list[0].indicatorTypeId)
+    indicator_type_list = Operation('IndicatorType').read(id=indicator_list[0].indicatorTypeId)
 
     # Import module and execute specific indicator function
     importlib.import_module(indicator_type_list[0].module)
-    result_data_frame = getattr(sys.modules[indicator_type_list[0].module], indicator_type_list[0].function)(data_sets, parameters)
+    result_data_frame = getattr(
+        sys.modules[indicator_type_list[0].module], indicator_type_list[0].function
+    )(data_sets, parameters)
 
     # Compute aggregated indicator results
     log.info('Computing aggregated results for indicator Id: {}'.format(indicator_id))
@@ -90,8 +89,7 @@ def execute(indicator_id, batch_id):
 def get_data_frame(data_source_name, request):
     """Connect to a data source, execute request and return the corresponding results as a pandas dataframe."""
     # Get data source
-    with DbOperation('DataSource') as op:
-        data_source_list = op.read(name=data_source_name)
+    data_source_list = Operation('DataSource').read(name=data_source_name)
 
     if not data_source_list:
         log.error('No {} found with values: {}'.format('DataSource', {'name': data_source_name}))
@@ -99,8 +97,7 @@ def get_data_frame(data_source_name, request):
         data_source = data_source_list[0]
 
     # Identify the type of data source
-    with DbOperation('DataSourceType') as op:
-        data_source_type_list = op.read(id=data_source.dataSourceTypeId)
+    data_source_type_list = Operation('DataSourceType').read(id=data_source.dataSourceTypeId)
 
     if not data_source_type_list:
         log.error('No {} found with values: {}'.format('DataSourceType', {'id': data_source.dataSourceTypeId}))
@@ -149,15 +146,15 @@ def compute_indicator_result(indicator_id, session_id, parameters, result_data_f
     nb_records_no_alert = len(result_data_frame.loc[result_data_frame['Alert'] == False])
 
     # Insert result to database
-    with DbOperation('IndicatorResult') as op:
-        op.create(
-            indicatorId=indicator_id,
-            sessionId=session_id,
-            alertOperator=alert_operator,
-            alertThreshold=alert_threshold,
-            nbRecords=nb_records,
-            nbRecordsAlert=nb_records_alert,
-            nbRecordsNoAlert=nb_records_no_alert)
+    Operation('IndicatorResult').create(
+        indicatorId=indicator_id,
+        sessionId=session_id,
+        alertOperator=alert_operator,
+        alertThreshold=alert_threshold,
+        nbRecords=nb_records,
+        nbRecordsAlert=nb_records_alert,
+        nbRecordsNoAlert=nb_records_no_alert
+    )
 
 
 if __name__ == '__main__':
@@ -166,8 +163,7 @@ if __name__ == '__main__':
     arguments = parser.parse_args()
 
     # Get batch owner of the indicator
-    with DbOperation('Indicator') as op:
-        indicator_list = op.read(id=arguments.Id)
+    indicator_list = Operation('Indicator').read(id=arguments.Id)
 
     # Start batch
     batch_record = batch.log_batch(indicator_list[0].batchOwnerId, 'Start')

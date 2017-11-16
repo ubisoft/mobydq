@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for database module."""
+from api.database import operation
 import test_utils
-import database
 import requests
 import socket
 import unittest
@@ -97,7 +97,8 @@ class TestApiModule(unittest.TestCase):
         payload = {}
         payload['event'] = 'Start'
         payload = str(payload).replace("'", '"')
-        response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id), headers=self.headers, data=payload)
+        response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id),
+                                 headers=self.headers, data=payload)
 
         self.assertEqual(response.status_code, 200)
 
@@ -452,8 +453,7 @@ class TestApiModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            with database.DbOperation(test_case['class']) as op:
-                op.delete(name=test_case['test_case'])
+            Operation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

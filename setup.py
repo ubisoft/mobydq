@@ -1,10 +1,23 @@
+#!/usr/bin/env python
+"""Setup data quality framework instance."""
 from ast import literal_eval
 from cryptography.fernet import Fernet
+from sqlalchemy import create_engine
 import configparser
 import database
 import logging
 import os
 import utils
+
+# Import database classes
+from database.base import Base
+from database.data_source import DataSourceType, DataSource
+from database.status import Status
+from database.batch import BatchOwner, Batch
+from database.indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
+from database.session import Session
+from database.event import EventType, Event
+from database.operation import Operation
 
 # Load logger
 utils.config_logger()
@@ -21,19 +34,18 @@ if __name__ == '__main__':
         configuration.write(config_file)
 
     # Create database
-    db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+    db_path = os.path.join(os.path.dirname(__file__), 'api/database/data_quality.db')
     db_uri = 'sqlite:///{}'.format(db_path)
-    engine = database.create_engine(db_uri)
+    engine = create_engine(db_uri)
 
     # Create tables
     log.info('Create database data_quality.db')
-    database.Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
 
     # Insert default list of values
-    with open('data_quality.json', 'r') as data_file:
+    with open('api/database/data.json', 'r') as data_file:
         data_dictionary = literal_eval(data_file.read())
         for object in data_dictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
                 for record in object['records']:
-                    with database.DbOperation(object['class']) as op:
-                        op.create(**record)
+                    Operation(object['class']).create(**record)

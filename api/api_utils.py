@@ -8,7 +8,7 @@ current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.curr
 parent_directory = os.path.dirname(current_directory)
 sys.path.insert(0, parent_directory)
 
-from database import DbOperation
+from database import Operation
 import batch
 import utils
 
@@ -18,11 +18,10 @@ def create(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    with DbOperation(resource_name) as op:
-        record = op.create(**payload)
+    record = Operation(resource_name).create(**payload)
 
-        # Convert database object into json
-        response = utils.get_object_attributes(record)
+    # Convert database object into json
+    response = record.as_dict()
     return(response)
 
 
@@ -31,13 +30,12 @@ def read(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    with DbOperation(resource_name) as op:
-        record_list = op.read(**payload)
+    record_list = Operation(resource_name).read(**payload)
 
-        # Convert database object into json
-        response = []
-        for record in record_list:
-            response.append(utils.get_object_attributes(record))
+    # Convert database object into json
+    response = []
+    for record in record_list:
+        response.append(record.as_dict())
     return(response)
 
 
@@ -46,11 +44,10 @@ def update(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    with DbOperation(resource_name) as op:
-        record = op.update(**payload)
+    record = Operation(resource_name).update(**payload)
 
-        # Convert database object into json
-        response = utils.get_object_attributes(record)
+    # Convert database object into json
+    response = record.as_dict()
     return (response)
 
 
@@ -59,8 +56,7 @@ def delete(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    with DbOperation(resource_name) as op:
-        op.delete(**payload)
+    Operation(resource_name).delete(**payload)
     return ({})
 
 

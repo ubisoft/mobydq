@@ -1,0 +1,45 @@
+{
+    "list_of_values": [
+        {
+            "class": "Status",
+            "records": [
+                {"id": 1, "name": "Running"},
+                {"id": 2, "name": "Succeeded"},
+                {"id": 3, "name": "Failed"}
+            ]
+        },
+        {
+            "class": "DataSourceType",
+            "records": [
+                {"id": 1, "name": "Hive", "type": "Database"},
+                {"id": 2, "name": "Impala", "type": "Database"},
+                {"id": 3, "name": "Microsoft SQL Server", "type": "Database"},
+                {"id": 4, "name": "MySQL", "type": "Database"},
+                {"id": 5, "name": "PostgreSQL", "type": "Database"},
+                {"id": 6, "name": "SQLite", "type": "Database"},
+                {"id": 7, "name": "Teradata", "type": "Database"},
+                {"id": 8, "name": "CSV File", "type": "File"},
+                {"id": 9, "name": "Excel File", "type": "File"},
+                {"id": 10, "name": "RESTful API", "type": "API"}
+            ]
+        },
+        {
+            "class": "IndicatorType",
+            "records": [
+                {"id": 1, "name": "Completeness", "module": "completeness", "function": "evaluate_completeness"},
+                {"id": 2, "name": "Freshness", "module": "timeliness", "function": "evaluate_freshness"},
+                {"id": 3, "name": "Latency", "module": "timeliness", "function": "evaluate_latency"},
+                {"id": 4, "name": "Validity", "module":"validity", "function":"evaluate_validity"}
+            ]
+        },
+        {
+            "class": "EventType",
+            "records": [
+                {"id": 1, "name": "Start"},
+                {"id": 2, "name": "Stop"},
+                {"id": 3, "name": "Error"},
+                {"id": 4, "name": "Data set"}
+            ]
+        }
+    ]
+}
