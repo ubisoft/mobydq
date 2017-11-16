@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for database module."""
-import test_utils
-from api.database.operation import Operation
+from test_utils import get_test_case_name
+import api.database.operation as db
 import requests
 import socket
 import unittest
@@ -19,7 +19,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_batch_owner(self):
         """Test post batch owner."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
@@ -41,7 +41,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_batch_owner(self):
         """Test put batch owner."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
@@ -51,7 +51,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_updated})
 
         # Update batch owner
@@ -67,7 +67,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_batch_owner(self):
         """Test delete batch owner."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
@@ -83,7 +83,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_batch(self):
         """Test post batch."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
@@ -104,7 +104,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_data_source(self):
         """Test post data source."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
@@ -130,7 +130,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_data_source(self):
         """Test put data source."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
@@ -144,7 +144,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/datasources', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name_updated})
 
         # Update data source
@@ -164,7 +164,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_data_source(self):
         """Test delete data source."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
@@ -184,7 +184,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_data_source_type(self):
         """Test post data source type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
@@ -207,7 +207,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_data_source_type(self):
         """Test put data source type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
@@ -218,7 +218,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/datasourcetypes', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name_updated})
 
         # Update data source type
@@ -234,7 +234,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_data_source_type(self):
         """Test delete data source type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSourceType', 'test_case': test_case_name})
 
         # Create data source type
@@ -251,7 +251,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_event_type(self):
         """Test post event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
@@ -273,7 +273,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_event_type(self):
         """Test put event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
@@ -283,7 +283,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/eventtypes', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name_updated})
 
         # Update event type
@@ -299,7 +299,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_event_type(self):
         """Test delete event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'EventType', 'test_case': test_case_name})
 
         # Create event type
@@ -315,7 +315,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_indicator_type(self):
         """Test post indicator type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
@@ -339,7 +339,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_indicator_type(self):
         """Test put indicator type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
@@ -351,7 +351,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/indicatortypes', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name_updated})
 
         # Update indicator type
@@ -369,7 +369,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_indicator_type(self):
         """Test delete indicator type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'IndicatorType', 'test_case': test_case_name})
 
         # Create indicator type
@@ -387,7 +387,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_post_status(self):
         """Test post event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
@@ -409,7 +409,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_put_status(self):
         """Test put event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
@@ -419,7 +419,7 @@ class TestApiModule(unittest.TestCase):
         response = requests.post(self.base_url + '/v1/status', headers=self.headers, data=payload)
         record_id = response.json()['id']
 
-        test_case_name_updated = test_utils.test_case_name(self.test_case_list)
+        test_case_name_updated = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Status', 'test_case': test_case_name_updated})
 
         # Update event type
@@ -435,7 +435,7 @@ class TestApiModule(unittest.TestCase):
 
     def test_delete_status(self):
         """Test delete event type."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Status', 'test_case': test_case_name})
 
         # Create event type
@@ -453,7 +453,7 @@ class TestApiModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            Operation(test_case['class']).delete(name=test_case['test_case'])
+            db.Operation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 """Controls indicators execution and logs events."""
-from api.database import operation
+from api.database.operation import Operation
 import logging
 import utils
 

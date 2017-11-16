@@ -1,4 +1,5 @@
 """Utility functions used by API scripts."""
+from database.operation import Operation
 import inspect
 import os
 import sys
@@ -7,8 +8,6 @@ import sys
 current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_directory = os.path.dirname(current_directory)
 sys.path.insert(0, parent_directory)
-
-from database.operation import Operation
 import batch
 
 

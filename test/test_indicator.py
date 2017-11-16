@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for indicator module."""
-import test_utils
-from api.database.operation import Operation
+from test_utils import get_test_case_name
+import api.database.operation as db
 import inspect
 import os
 import batch
@@ -19,27 +19,27 @@ class TestIndicatorModule(unittest.TestCase):
 
     def test_execute_completeness(self):
         """Test execute completeness indicator."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        data_source = Operation('DataSource').create(
+        data_source = db.Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/data_quality.db',
+            connectionString=parent_directory + '/api/database/data_quality.db',
             login='',
             password=''
         )
 
         # Create indicator
-        indicator_record = Operation('Indicator').create(
+        indicator_record = db.Operation('Indicator').create(
             name=test_case_name,
             description=test_case_name,
             indicatorTypeId=1,  # Completeness
@@ -49,7 +49,7 @@ class TestIndicatorModule(unittest.TestCase):
         )
 
         # Create indicator paramters
-        param = Operation('IndicatorParameter')
+        param = db.Operation('IndicatorParameter')
         param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
         param.create(name='Source request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
         param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
@@ -70,33 +70,33 @@ class TestIndicatorModule(unittest.TestCase):
         batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         # Get session status
-        session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
+        session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
 
     def test_execute_freshness(self):
         """Test execute freshness indicator."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        data_source = Operation('DataSource').create(
+        data_source = db.Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/data_quality.db',
+            connectionString=parent_directory + '/api/database/data_quality.db',
             login='',
             password=''
         )
 
         # Create indicator
-        indicator_record = Operation('Indicator').create(
+        indicator_record = db.Operation('Indicator').create(
             name=test_case_name,
             description=test_case_name,
             indicatorTypeId=2,  # Freshness
@@ -106,7 +106,7 @@ class TestIndicatorModule(unittest.TestCase):
         )
 
         # Create indicator paramters
-        param = Operation('IndicatorParameter')
+        param = db.Operation('IndicatorParameter')
         param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
         param.create(name='Target request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
         param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
@@ -125,33 +125,33 @@ class TestIndicatorModule(unittest.TestCase):
         batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         # Get session status
-        session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
+        session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
 
     def test_execute_latency(self):
         """Test execute latency indicator."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        data_source = Operation('DataSource').create(
+        data_source = db.Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/data_quality.db',
+            connectionString=parent_directory + '/api/database/data_quality.db',
             login='',
             password=''
         )
 
         # Create indicator
-        indicator_record = Operation('Indicator').create(
+        indicator_record = db.Operation('Indicator').create(
             name=test_case_name,
             description=test_case_name,
             indicatorTypeId=3,  # Latency
@@ -161,7 +161,7 @@ class TestIndicatorModule(unittest.TestCase):
         )
 
         # Create indicator paramters
-        param = Operation('IndicatorParameter')
+        param = db.Operation('IndicatorParameter')
         param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
         param.create(name='Source request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
         param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
@@ -182,33 +182,33 @@ class TestIndicatorModule(unittest.TestCase):
         batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         # Get session status
-        session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
+        session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
 
     def test_execute_validity(self):
         """Test execute validity indicator."""
-        test_case_name = test_utils.test_case_name(self.test_case_list)
+        test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        data_source = Operation('DataSource').create(
+        data_source = db.Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/data_quality.db',
+            connectionString=parent_directory + '/api/database/data_quality.db',
             login='',
             password=''
         )
 
         # Create indicator
-        indicator_record = Operation('Indicator').create(
+        indicator_record = db.Operation('Indicator').create(
             name=test_case_name,
             description=test_case_name,
             indicatorTypeId=4,  # Validity
@@ -218,7 +218,7 @@ class TestIndicatorModule(unittest.TestCase):
         )
 
         # Create indicator paramters
-        param = Operation('IndicatorParameter')
+        param = db.Operation('IndicatorParameter')
         param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
         param.create(name='Target request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
         param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
@@ -237,7 +237,7 @@ class TestIndicatorModule(unittest.TestCase):
         batch_record = batch.log_batch(batch_owner.id, 'Stop')
 
         # Get session status
-        session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
+        session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
 
@@ -245,7 +245,7 @@ class TestIndicatorModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            Operation(test_case['class']).delete(name=test_case['test_case'])
+            db.Operation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

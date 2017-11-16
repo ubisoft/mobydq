@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Indicators related functions."""
-from api.database import operation
+from api.database.operation import Operation
 from ast import literal_eval
 import argparse
 import batch
