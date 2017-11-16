@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """Setup data quality framework database and perform CRUD operations."""
 from ast import literal_eval
+from contextlib import contextmanager
+from datetime import datetime
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, TypeDecorator
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
@@ -19,6 +21,19 @@ log = logging.getLogger(__name__)
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
+
+
+class DictHelper():
+    """Convert instance of a class object into a dictionary."""
+    def as_dict(self):
+        result = {}
+        for attribute in self.__mapper__.columns.keys():
+            value = getattr(self, attribute)
+            if isinstance(value, datetime):
+                value = value.strftime("%Y-%m-%d %H:%M:%S")
+                # value = value.isoformat()
+            result[attribute] = value
+        return result
 
 
 @event.listens_for(Engine, 'connect')
@@ -43,7 +58,7 @@ class JsonEncodedDict(TypeDecorator):
         return json.loads(value)
 
 
-class Status(Base):
+class Status(Base, DictHelper):
     """Status for batches and sessions."""
 
     __tablename__ = 'status'
@@ -57,7 +72,7 @@ class Status(Base):
     session = relationship('Session', backref='Status')
 
 
-class DataSourceType(Base):
+class DataSourceType(Base, DictHelper):
     """Types of data sources."""
 
     __tablename__ = 'data_source_type'
@@ -71,7 +86,7 @@ class DataSourceType(Base):
     dataSource = relationship('DataSource', backref='DataSourceType')
 
 
-class DataSource(Base):
+class DataSource(Base, DictHelper):
     """Data sources."""
 
     __tablename__ = 'data_source'
@@ -86,7 +101,7 @@ class DataSource(Base):
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class BatchOwner(Base):
+class BatchOwner(Base, DictHelper):
     """Batch owners."""
 
     __tablename__ = 'batch_owner'
@@ -100,7 +115,7 @@ class BatchOwner(Base):
     indicator = relationship('Indicator', backref='BatchOwner')
 
 
-class Batch(Base):
+class Batch(Base, DictHelper):
     """Batches."""
 
     __tablename__ = 'batch'
@@ -114,7 +129,7 @@ class Batch(Base):
     session = relationship('Session', backref='Batch', passive_deletes=True)
 
 
-class IndicatorType(Base):
+class IndicatorType(Base, DictHelper):
     """Types of indicators."""
 
     __tablename__ = 'indicator_type'
@@ -129,7 +144,7 @@ class IndicatorType(Base):
     indicator = relationship('Indicator', backref='IndicatorType')
 
 
-class Indicator(Base):
+class Indicator(Base, DictHelper):
     """Data quality indicators."""
 
     __tablename__ = 'indicator'
@@ -140,9 +155,6 @@ class Indicator(Base):
     indicatorTypeId = Column('indicator_type_id', Integer, ForeignKey('indicator_type.indicator_type_id'), nullable=False)
     batchOwnerId = Column('batch_owner_id', Integer, ForeignKey('batch_owner.batch_owner_id'), nullable=False)
     executionOrder = Column('execution_order', Integer, nullable=False, default=0)
-    # alertOperator = Column('alert_operator', String, nullable=False) # This got moved to indicator parameters
-    # alertThreshold = Column('alert_threshold', Float, nullable=False) # This got moved to indicator parameters
-    # distributionList = Column('distribution_list', String, nullable=False) # This got moved to indicator parameters
     active = Column('flag_active', Boolean, nullable=False, default=True)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
@@ -152,7 +164,7 @@ class Indicator(Base):
     session = relationship('Session', backref='Indicator', passive_deletes=True)
 
 
-class IndicatorParameter(Base):
+class IndicatorParameter(Base, DictHelper):
     """Indicator parameters."""
 
     __tablename__ = 'indicator_parameter'
@@ -165,7 +177,7 @@ class IndicatorParameter(Base):
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class Session(Base):
+class Session(Base, DictHelper):
     """Sessions."""
 
     __tablename__ = 'session'
@@ -181,7 +193,7 @@ class Session(Base):
     indicatorResult = relationship('IndicatorResult', backref='Session', passive_deletes=True)
 
 
-class EventType(Base):
+class EventType(Base, DictHelper):
     """Types of events."""
 
     __tablename__ = 'event_type'
@@ -194,7 +206,7 @@ class EventType(Base):
     event = relationship('Event', backref='EventType')
 
 
-class Event(Base):
+class Event(Base, DictHelper):
     """Events."""
 
     __tablename__ = 'event'
@@ -206,7 +218,7 @@ class Event(Base):
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
-class IndicatorResult(Base):
+class IndicatorResult(Base, DictHelper):
     """Indicator results."""
 
     __tablename__ = 'indicator_result'
@@ -219,9 +231,6 @@ class IndicatorResult(Base):
     nbRecords = Column('nb_records', Integer, nullable=False)
     nbRecordsAlert = Column('nb_records_alert', Integer, nullable=False)
     nbRecordsNoAlert = Column('nb_records_no_alert', Integer, nullable=False)
-    # avgResult = Column('avg_result', Float, nullable=False) # This cannot be used for indicators with multiple measures
-    # avgResultAlert = Column('avg_result_alert', Float, nullable=False) # This cannot be used for indicators with multiple measures
-    # avgResultNoAlert = Column('avg_result_no_alert', Float, nullable=False) # This cannot be used for indicators with multiple measures
     createdDate = Column('created_date', DateTime, server_default=func.now())
 
 
@@ -243,64 +252,67 @@ class DbOperation:
         # Get class of the object on which to perform operations
         self.object = getattr(sys.modules[__name__], object)
 
-    def __enter__(self):
+    @contextmanager
+    def open_session(self):
         """Open database session."""
-        self.session = self.dbSession()
-        return self
-
-    def __exit__(self, ext_type, exc_value, traceback):
-        """Close database session."""
-        self.session.close()
+        session = self.dbSession()
+        yield session
+        session.close()
 
     def create(self, **kwargs):
         """Create record. Return list of objects."""
-        # Apply encryption on password fields
-        for key in kwargs:
-            if key == 'password' and kwargs[key] != '':
-                kwargs[key] = utils.encryption('encrypt', kwargs[key])
+        with self.open_session() as session:
+            # Apply encryption on password fields
+            for key in kwargs:
+                if key == 'password' and kwargs[key] != '':
+                    kwargs[key] = utils.encryption('encrypt', kwargs[key])
 
-        instance = self.object(**kwargs)
-        self.session.add(instance)
-        self.session.commit()
-        log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
+            instance = self.object(**kwargs)
+            session.add(instance)
+            session.commit()
+            log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
 
-        # Return object
-        instance = self.session.query(self.object).filter_by(**kwargs).first()
+            # Return object
+            instance = session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def read(self, **kwargs):
         """Get record or list of records. Return list of objects."""
-        instance = self.session.query(self.object).filter_by(**kwargs).all()
-        log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
+        with self.open_session() as session:
+            instance = session.query(self.object).filter_by(**kwargs).all()
+            log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
 
         # Return list of objects
         return instance
 
     def update(self, **kwargs):
         """Update record. Return list of objects."""
-        # Verify record exists
-        instance = self.session.query(self.object).filter_by(id=kwargs['id']).first()
-        if not instance:
-            log.error('No {} found with Id: {}'.format(self.object.__name__, kwargs['id']))
-        else:
-            instance = self.session.query(self.object).filter_by(id=kwargs['id']).update(kwargs)
-            self.session.commit()
-            log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
+        with self.open_session() as session:
+            # Verify record exists
+            instance = session.query(self.object).filter_by(id=kwargs['id']).first()
+            if not instance:
+                log.error('No {} found with Id: {}'.format(self.object.__name__, kwargs['id']))
+            else:
+                instance = session.query(self.object).filter_by(id=kwargs['id']).update(kwargs)
+                session.commit()
+                log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
-        # Return object
-        instance = self.session.query(self.object).filter_by(**kwargs).first()
+            # Return object
+            instance = session.query(self.object).filter_by(**kwargs).first()
         return instance
 
     def delete(self, **kwargs):
         """Delete record. Return empty list of objects."""
         # Verify record exists
-        instance = self.session.query(self.object).filter_by(**kwargs).first()
-        if not instance:
-            log.error('No {} found with values: {}'.format(self.object.__name__, kwargs))
-        else:
-            instance = self.session.query(self.object).filter_by(**kwargs).delete()
-            self.session.commit()
-            log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
+        with self.open_session() as session:
+            # Verify record exists
+            instance = session.query(self.object).filter_by(**kwargs).first()
+            if not instance:
+                log.error('No {} found with values: {}'.format(self.object.__name__, kwargs))
+            else:
+                instance = session.query(self.object).filter_by(**kwargs).delete()
+                session.commit()
+                log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
 
         # Return empty object
         return instance
@@ -321,5 +333,4 @@ if __name__ == '__main__':
         for object in data_dictionary['list_of_values']:
                 log.info('Insert default list of values for: {}'.format(object['class']))
                 for record in object['records']:
-                    with DbOperation(object['class']) as op:
-                        op.create(**record)
+                    DbOperation(object['class']).create(**record)

@@ -2,7 +2,7 @@
 """Unit test for database module."""
 import test_utils
 import batch
-from database import Operation
+from api.database import Operation
 import unittest
 
 
