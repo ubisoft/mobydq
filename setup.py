@@ -4,20 +4,19 @@ from ast import literal_eval
 from cryptography.fernet import Fernet
 from sqlalchemy import create_engine
 import configparser
-import database
 import logging
 import os
 import utils
 
 # Import database classes
-from database.base import Base
-from database.data_source import DataSourceType, DataSource
-from database.status import Status
-from database.batch import BatchOwner, Batch
-from database.indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
-from database.session import Session
-from database.event import EventType, Event
-from database.operation import Operation
+from api.database.base import Base
+from api.database.data_source import DataSourceType, DataSource
+from api.database.status import Status
+from api.database.batch import BatchOwner, Batch
+from api.database.indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
+from api.database.session import Session
+from api.database.event import EventType, Event
+from api.database.operation import Operation
 
 # Load logger
 utils.config_logger()

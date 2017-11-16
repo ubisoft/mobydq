@@ -8,9 +8,8 @@ current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.curr
 parent_directory = os.path.dirname(current_directory)
 sys.path.insert(0, parent_directory)
 
-from database import Operation
+from database.operation import Operation
 import batch
-import utils
 
 
 def create(resource_name, payload=None):

@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 import logging
 import os
 import sys
-import utils
+import db_utils
 
 # Import database classes
 from .base import Base
@@ -18,7 +18,7 @@ from .session import Session
 from .event import EventType, Event
 
 # Load logger
-utils.config_logger()
+db_utils.config_logger()
 log = logging.getLogger(__name__)
 
 
@@ -53,7 +53,7 @@ class Operation:
             # Apply encryption on password fields
             for key in kwargs:
                 if key == 'password' and kwargs[key] != '':
-                    kwargs[key] = utils.encryption('encrypt', kwargs[key])
+                    kwargs[key] = db_utils.encryption('encrypt', kwargs[key])
 
             instance = self.object(**kwargs)
             session.add(instance)

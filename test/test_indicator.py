@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for indicator module."""
-from api.database import Operation
 import test_utils
+from api.database.operation import Operation
 import inspect
 import os
 import batch
