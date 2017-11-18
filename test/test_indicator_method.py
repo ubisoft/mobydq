@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Unit test for indicator_method module."""
-from test_utils import get_test_case_name
+from .test_utils import get_test_case_name
 from api.batch_method import BatchMethod
 from api.indicator_method import IndicatorMethod
 import api.database.operation as db
@@ -9,7 +9,7 @@ import os
 import unittest
 
 
-class TestIndicatorModule(unittest.TestCase):
+class TestIndicatorMethodModule(unittest.TestCase):
     """Class to execute unit tests for indicator.py."""
 
     @classmethod
@@ -60,16 +60,10 @@ class TestIndicatorModule(unittest.TestCase):
         param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
         param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
-        # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Start')
-
-        # Execute indicator
-        indicator.execute(indicator_record.id, batch_record.id)
-
-        # Stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Stop')
-
-        # Get session status
+        # Start batch, execute indicator and stop batch
+        batch_record = BatchMethod(batch_owner.id).start()
+        IndicatorMethod(indicator_record.id).execute(batch_record.id)
+        BatchMethod(batch_owner.id).stop()
         session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -115,16 +109,10 @@ class TestIndicatorModule(unittest.TestCase):
         param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
         param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
-        # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Start')
-
-        # Execute indicator
-        indicator.execute(indicator_record.id, batch_record.id)
-
-        # Stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Stop')
-
-        # Get session status
+        # Start batch, execute indicator and stop batch
+        batch_record = BatchMethod(batch_owner.id).start()
+        IndicatorMethod(indicator_record.id).execute(batch_record.id)
+        BatchMethod(batch_owner.id).stop()
         session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -172,16 +160,10 @@ class TestIndicatorModule(unittest.TestCase):
         param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
         param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
-        # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Start')
-
-        # Execute indicator
-        indicator.execute(indicator_record.id, batch_record.id)
-
-        # Stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Stop')
-
-        # Get session status
+        # Start batch, execute indicator and stop batch
+        batch_record = BatchMethod(batch_owner.id).start()
+        IndicatorMethod(indicator_record.id).execute(batch_record.id)
+        BatchMethod(batch_owner.id).stop()
         session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -227,16 +209,10 @@ class TestIndicatorModule(unittest.TestCase):
         param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
         param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
 
-        # Start batch
-        batch_record = batch.log_batch(batch_owner.id, 'Start')
-
-        # Execute indicator
-        indicator.execute(indicator_record.id, batch_record.id)
-
-        # Stop batch
-        batch_record = batch.log_batch(batch_owner.id, 'Stop')
-
-        # Get session status
+        # Start batch, execute indicator and stop batch
+        batch_record = BatchMethod(batch_owner.id).start()
+        IndicatorMethod(indicator_record.id).execute(batch_record.id)
+        BatchMethod(batch_owner.id).stop()
         session = db.Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -249,6 +225,5 @@ class TestIndicatorModule(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # Test execute function in indicator module
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestIndicatorModule)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestIndicatorMethodModule)
     unittest.TextTestRunner(verbosity=2).run(suite)
