@@ -1,6 +1,9 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Tables definitions for session objects."""
 from .base import Base, Dictionary
+from .batch import BatchOwner, Batch
+from .event import EventType, Event
+from .indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
 from sqlalchemy import Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func

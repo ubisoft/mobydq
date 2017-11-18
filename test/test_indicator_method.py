@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""Unit test for indicator module."""
+"""Unit test for indicator_method module."""
 from test_utils import get_test_case_name
+from api.batch_method import BatchMethod
+from api.indicator_method import IndicatorMethod
 import api.database.operation as db
 import inspect
 import os
-import batch
-import indicator
 import unittest
 
 

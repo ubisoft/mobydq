@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Tables definitions for indicator objects."""
 from .base import Base, Dictionary
 from sqlalchemy import Column, Boolean, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship

@@ -6,21 +6,21 @@ from sqlalchemy import create_engine
 import configparser
 import logging
 import os
-import utils
+import sys
 
 # Import database classes
 from api.database.base import Base
 from api.database.data_source import DataSourceType, DataSource
-from api.database.status import Status
-from api.database.batch import BatchOwner, Batch
-from api.database.indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
 from api.database.session import Session
-from api.database.event import EventType, Event
 from api.database.operation import Operation
 
-# Load logger
-utils.config_logger()
+# Load logging configuration
 log = logging.getLogger(__name__)
+logging.basicConfig(
+    # filename='data_quality.log',
+    stream=sys.stdout,
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 if __name__ == '__main__':

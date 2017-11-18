@@ -1,19 +1,19 @@
 #!/usr/bin/env python
-"""Unit test for database module."""
+"""Unit test for database operation module."""
 from test_utils import get_test_case_name
 import api.database.operation as db
 import unittest
 
 
-class TestDatabaseModule(unittest.TestCase):
-    """Class to execute unit tests for database.py."""
+class TestOperationModule(unittest.TestCase):
+    """Class to execute unit tests for operation.py."""
 
     @classmethod
     def setUpClass(self):
         """Set up function called when class is consructed."""
         self.test_case_list = []
 
-    def test_create_batch_owner(self):
+    def test_create(self):
         """Test create function."""
         test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
@@ -22,7 +22,7 @@ class TestDatabaseModule(unittest.TestCase):
 
         self.assertEqual(batch_owner.name, test_case_name)
 
-    def test_read_batch_owner(self):
+    def test_read(self):
         """Test read function."""
         test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
@@ -33,7 +33,7 @@ class TestDatabaseModule(unittest.TestCase):
 
         self.assertEqual(batch_owner_list[0].name, test_case_name)
 
-    def test_update_batch_owner(self):
+    def test_update(self):
         """Test update function."""
         test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
@@ -47,7 +47,7 @@ class TestDatabaseModule(unittest.TestCase):
 
         self.assertEqual(batch_owner.name, test_case_name_new)
 
-    def test_delete_batch_owner(self):
+    def test_delete(self):
         """Test delete function."""
         test_case_name = get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
@@ -68,6 +68,5 @@ class TestDatabaseModule(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # Test database functions in database module
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestDatabaseModule)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestOperationModule)
     unittest.TextTestRunner(verbosity=2).run(suite)

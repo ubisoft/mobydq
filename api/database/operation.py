@@ -1,25 +1,31 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Functions to perform database operations."""
 from contextlib import contextmanager
+from cryptography.fernet import Fernet
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import configparser
 import logging
 import os
 import sys
 
 # Import database classes
-from .db_utils import config_logger, encryption
 from .base import Base
-from .data_source import DataSourceType, DataSource
-from .status import Status
 from .batch import BatchOwner, Batch
-from .indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
-from .session import Session
+from .data_source import DataSourceType, DataSource
 from .event import EventType, Event
+from .session import Session
+from .status import Status
+from .indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
 
-# Load logger
-config_logger()
+
+# Load logging configuration
 log = logging.getLogger(__name__)
+logging.basicConfig(
+    # filename='data_quality.log',
+    stream=sys.stdout,
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 class Operation:
@@ -47,18 +53,39 @@ class Operation:
         yield session
         session.close()
 
+    def get_parameter(self, section, parameter_name=None):
+        configuration = configparser.ConfigParser()
+        configuration.read(os.path.dirname(__file__) + '/data_quality.cfg')
+        if parameter_name:
+            parameters = configuration[section][parameter_name]
+        else:
+            parameters = {}
+            for key in configuration[section]:
+                parameters[key] = configuration[section][key]
+        return parameters
+
+    def encryption(self, action, value):
+        secret_key = self.get_parameter('data_quality', 'secret_key')
+        cipher = Fernet(secret_key.encode('utf-8'))
+        if action == 'encrypt':
+            value = cipher.encrypt(value.encode('utf-8'))
+        elif action == 'decrypt':
+            value = cipher.decrypt(value.encode('utf-8'))
+        value = value.decode('utf-8')
+        return value
+
     def create(self, **kwargs):
         """Create record. Return list of objects."""
         with self.open_session() as session:
             # Apply encryption on password fields
             for key in kwargs:
                 if key == 'password' and kwargs[key] != '':
-                    kwargs[key] = encryption('encrypt', kwargs[key])
+                    kwargs[key] = self.encryption('encrypt', kwargs[key])
 
             instance = self.object(**kwargs)
             session.add(instance)
             session.commit()
-            log.info('{} created with values: {}'.format(self.object.__name__, kwargs))
+            log.debug('{} created with values: {}'.format(self.object.__name__, kwargs))
 
             # Return object
             instance = session.query(self.object).filter_by(**kwargs).first()
@@ -68,7 +95,7 @@ class Operation:
         """Get record or list of records. Return list of objects."""
         with self.open_session() as session:
             instance = session.query(self.object).filter_by(**kwargs).all()
-            log.info('Select {} returned {} records'.format(self.object.__name__, len(instance)))
+            log.debug('Select {} returned {} records'.format(self.object.__name__, len(instance)))
 
         # Return list of objects
         return instance
@@ -81,9 +108,18 @@ class Operation:
             if not instance:
                 log.error('No {} found with Id: {}'.format(self.object.__name__, kwargs['id']))
             else:
+                # Apply encryption on password fields
+                for key in kwargs:
+                    if key == 'password' and kwargs[key] != '':
+                        kwargs[key] = self.encryption('encrypt', kwargs[key])
+
+                    # if password is emmpty, do not overwrite existing value
+                    elif key == 'password' and kwargs[key] != '':
+                        del kwargs[key]
+
                 instance = session.query(self.object).filter_by(id=kwargs['id']).update(kwargs)
                 session.commit()
-                log.info('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
+                log.debug('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
             # Return object
             instance = session.query(self.object).filter_by(**kwargs).first()
@@ -99,7 +135,7 @@ class Operation:
             else:
                 instance = session.query(self.object).filter_by(**kwargs).delete()
                 session.commit()
-                log.info('{} with values {} deleted'.format(self.object.__name__, kwargs))
+                log.debug('{} with values {} deleted'.format(self.object.__name__, kwargs))
 
         # Return empty object
         return instance

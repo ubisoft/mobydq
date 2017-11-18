@@ -5,8 +5,7 @@ import logging
 import pandas
 import utils
 
-# Load logger
-utils.config_logger()
+# Load logging configuration
 log = logging.getLogger(__name__)
 
 

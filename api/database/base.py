@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Database configuration."""
 from datetime import datetime
 from sqlalchemy import event
 from sqlalchemy import String, TypeDecorator
@@ -21,7 +21,6 @@ def set_sqlite_pragma(db_api_connection, connection_record):
 
 class Json(TypeDecorator):
     """Create sqlalchemy custom data type to enable json storage in event table."""
-
     impl = String
 
     def process_bind_param(self, value, dialect):

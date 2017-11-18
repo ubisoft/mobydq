@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Tables definitions for event objects."""
 from .base import Base, Json, Dictionary
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship

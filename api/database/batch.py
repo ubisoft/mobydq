@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-"""Setup data quality framework database and perform CRUD operations."""
+"""Tables definitions for batch objects."""
 from .base import Base, Dictionary
+from .status import Status
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func

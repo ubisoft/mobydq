@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-"""Unit test for database module."""
-from test_utils import get_test_case_name
+"""Unit test for api module."""
+from .test_utils import get_test_case_name
 import api.database.operation as db
 import requests
 import socket

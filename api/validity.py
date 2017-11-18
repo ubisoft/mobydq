@@ -3,8 +3,7 @@ import indicator
 import logging
 import utils
 
-# Load logger
-utils.config_logger()
+# Load logging configuration
 log = logging.getLogger(__name__)
 
 
