@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Functions related to event objects."""
 from database.operation import Operation
 import logging

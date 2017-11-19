@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Utility functions used by API scripts."""
 from database.operation import Operation
 
