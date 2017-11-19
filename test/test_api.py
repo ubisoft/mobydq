@@ -81,27 +81,6 @@ class TestApiModule(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_post_batch(self):
-        """Test post batch."""
-        test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
-
-        # Create batch owner
-        payload = {}
-        payload['name'] = test_case_name
-        payload = str(payload).replace("'", '"')
-        response = requests.post(self.base_url + '/v1/batchowners', headers=self.headers, data=payload)
-        batch_owner_id = response.json()['id']
-
-        # Start batch
-        payload = {}
-        payload['event'] = 'Start'
-        payload = str(payload).replace("'", '"')
-        response = requests.post(self.base_url + '/v1/batchowners/{}/batches'.format(batch_owner_id),
-                                 headers=self.headers, data=payload)
-
-        self.assertEqual(response.status_code, 200)
-
     def test_post_data_source(self):
         """Test post data source."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
