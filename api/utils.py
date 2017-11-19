@@ -1,16 +1,6 @@
+#!/usr/bin/env python
 """Utility functions used by API scripts."""
-import inspect
-import os
-import sys
-
-# Modify python path to allow import module from parent folder
-current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_directory = os.path.dirname(current_directory)
-sys.path.insert(0, parent_directory)
-
-from database import DbOperation
-import batch
-import utils
+from api.database.operation import Operation
 
 
 def create(resource_name, payload=None):
@@ -18,7 +8,7 @@ def create(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    record = DbOperation(resource_name).create(**payload)
+    record = Operation(resource_name).create(**payload)
 
     # Convert database object into json
     response = record.as_dict()
@@ -30,7 +20,7 @@ def read(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    record_list = DbOperation(resource_name).read(**payload)
+    record_list = Operation(resource_name).read(**payload)
 
     # Convert database object into json
     response = []
@@ -44,7 +34,7 @@ def update(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    record = DbOperation(resource_name).update(**payload)
+    record = Operation(resource_name).update(**payload)
 
     # Convert database object into json
     response = record.as_dict()
@@ -56,15 +46,5 @@ def delete(resource_name, payload=None):
     if not payload:
         payload = {}
 
-    DbOperation(resource_name).delete(**payload)
+    Operation(resource_name).delete(**payload)
     return ({})
-
-
-def log_batch(batch_owner_id, event):
-    """Manage batch status for the corresponding batch owner."""
-    batch_list = batch.log_batch(batch_owner_id, event)
-    if batch_list:
-        response = {'message': 'Batch status updated.'}
-    else:
-        response = {'message': 'Batch status was not updated due to invalid event.'}
-    return (response)
