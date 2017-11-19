@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Unit test for batch_method module."""
-from test_utils import get_test_case_name
+import test_utils
+from api.database.operation import Operation
 from api.batch_method import BatchMethod
-import api.database.operation as db
 import unittest
 
 
@@ -16,11 +16,11 @@ class TestBatchMethodModule(unittest.TestCase):
 
     def test_batch_start(self):
         """Test batch start function."""
-        test_case_name = get_test_case_name(self.test_case_list)
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('BatchOwner').create(name=test_case_name)
 
         # Start batch
         batch_record = BatchMethod(batch_owner.id).start()
@@ -30,11 +30,11 @@ class TestBatchMethodModule(unittest.TestCase):
 
     def test_batch_stop(self):
         """Test batch stop function."""
-        test_case_name = get_test_case_name(self.test_case_list)
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('BatchOwner').create(name=test_case_name)
 
         # Start and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
@@ -45,11 +45,11 @@ class TestBatchMethodModule(unittest.TestCase):
 
     def test_batch_fail(self):
         """Test log batch function with error event."""
-        test_case_name = get_test_case_name(self.test_case_list)
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
-        batch_owner = db.Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('BatchOwner').create(name=test_case_name)
 
         # Start and fail batch
         batch_record = BatchMethod(batch_owner.id).start()
@@ -62,7 +62,7 @@ class TestBatchMethodModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            db.Operation(test_case['class']).delete(name=test_case['test_case'])
+            Operation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

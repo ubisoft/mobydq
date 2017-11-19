@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Unit test for data_source_method module."""
-from test_utils import get_test_case_name
+import test_utils
+from api.database.operation import Operation
 from api.data_source_method import DataSourceMethod
-import api.database.operation as db
 import inspect
 import os
 import unittest
@@ -18,13 +18,13 @@ class TestDataSourceMethodModule(unittest.TestCase):
 
     def test_get_database_connection(self):
         """Test get database connection function."""
-        test_case_name = get_test_case_name(self.test_case_list)
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        db.Operation('DataSource').create(
+        Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
             connectionString=parent_directory + '/api/database/data_quality.db',
@@ -42,13 +42,13 @@ class TestDataSourceMethodModule(unittest.TestCase):
 
     def test_get_data_frame(self):
         """Test get database connection function."""
-        test_case_name = get_test_case_name(self.test_case_list)
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        db.Operation('DataSource').create(
+        Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
             connectionString=parent_directory + '/api/database/data_quality.db',
@@ -67,7 +67,7 @@ class TestDataSourceMethodModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
-            db.Operation(test_case['class']).delete(name=test_case['test_case'])
+            Operation(test_case['class']).delete(name=test_case['test_case'])
 
 
 if __name__ == '__main__':

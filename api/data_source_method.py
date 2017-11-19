@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Functions related to data source objects."""
-from database.operation import Operation
+from api.database.operation import Operation
 import logging
 import pandas
 import pyodbc

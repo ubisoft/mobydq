@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Utility functions used by API scripts."""
-from database.operation import Operation
+from api.database.operation import Operation
 
 
 def create(resource_name, payload=None):

@@ -3,17 +3,17 @@
 from flask import Blueprint, Flask, request
 from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
-from batch_method import BatchMethod
-from indicator_method import IndicatorMethod
-import utils
+from api.batch_method import BatchMethod
+from api.indicator_method import IndicatorMethod
+import api.utils as utils
 import socket
 
 app = Flask(__name__)
 CORS(app)
 
-# Create blue print to indicate api base url
-blueprint = Blueprint('api', __name__, url_prefix='/dataquality/api')
-api = Api(
+# Create blue print to indicate api_object base url
+blueprint = Blueprint('api_object', __name__, url_prefix='/dataquality/api')
+api_object = Api(
     blueprint,
     title='Data Quality Framework API',
     version='v1',
@@ -22,23 +22,23 @@ api = Api(
 app.register_blueprint(blueprint)
 
 # List of namespaces used by the endpoints below
-nsBatch = api.namespace('Batch', path='/v1')
-nsDataSource = api.namespace('DataSource', path='/v1')
-nsEvent = api.namespace('Event', path='/v1')
-nsIndicator = api.namespace('Indicator', path='/v1')
-nsSession = api.namespace('Session', path='/v1')
-nsStatus = api.namespace('Status', path='/v1')
+nsBatch = api_object.namespace('Batch', path='/v1')
+nsDataSource = api_object.namespace('DataSource', path='/v1')
+nsEvent = api_object.namespace('Event', path='/v1')
+nsIndicator = api_object.namespace('Indicator', path='/v1')
+nsSession = api_object.namespace('Session', path='/v1')
+nsStatus = api_object.namespace('Status', path='/v1')
 
 
 # Batch namespace
 @nsBatch.route('/batchowners')
 class BatchOwnerList(Resource):
-    mdBatchOwner = api.model(
+    mdBatchOwner = api_object.model(
         'BatchOwner',
         {'id': fields.Integer(required=False, description='Batch owner Id'),
             'name': fields.String(required=False, description='Batch owner name')})
 
-    @nsBatch.expect(api.models['BatchOwner'], validate=True)
+    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
     def post(self):
         """
         Create Batch Owner.
@@ -53,7 +53,7 @@ class BatchOwnerList(Resource):
         """
         return utils.read('BatchOwner')
 
-    @nsBatch.expect(api.models['BatchOwner'], validate=True)
+    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
     def put(self):
         """
         Update Batch Owner.
@@ -61,7 +61,7 @@ class BatchOwnerList(Resource):
         """
         return utils.update('BatchOwner', request.json)
 
-    @nsBatch.expect(api.models['BatchOwner'], validate=True)
+    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
     def delete(self):
         """
         Delete Batch Owner.
@@ -108,7 +108,7 @@ class BatchOwnerExecute(Resource):
 # Data source namespace
 @nsDataSource.route('/datasources')
 class DataSourceList(Resource):
-    mdDataSource = api.model(
+    mdDataSource = api_object.model(
         'DataSource',
         {'id': fields.Integer(required=False, description='Data source Id'),
             'name': fields.String(required=False, description='Data source name'),
@@ -117,7 +117,7 @@ class DataSourceList(Resource):
             'login': fields.String(required=False, description='Login'),
             'password': fields.String(required=False, description='Password')})
 
-    @nsDataSource.expect(api.models['DataSource'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSource'], validate=True)
     def post(self):
         """
         Create Data Source.
@@ -132,7 +132,7 @@ class DataSourceList(Resource):
         """
         return utils.read('DataSource')
 
-    @nsDataSource.expect(api.models['DataSource'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSource'], validate=True)
     def put(self):
         """
         Update Data Source.
@@ -140,7 +140,7 @@ class DataSourceList(Resource):
         """
         return utils.update('DataSource', request.json)
 
-    @nsDataSource.expect(api.models['DataSource'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSource'], validate=True)
     def delete(self):
         """
         Delete Data Source.
@@ -175,12 +175,12 @@ class DataSourceTest(Resource):
 
 @nsDataSource.route('/datasourcetypes')
 class DataSourceTypeList(Resource):
-    mdDataSourceType = api.model(
+    mdDataSourceType = api_object.model(
         'DataSourceType',
         {'id': fields.Integer(required=False, description='Data source type Id'),
             'name': fields.String(required=False, description='Data source type name')})
 
-    @nsDataSource.expect(api.models['DataSourceType'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSourceType'], validate=True)
     def post(self):
         """
         Create Data Source Type.
@@ -195,7 +195,7 @@ class DataSourceTypeList(Resource):
         """
         return utils.read('DataSourceType')
 
-    @nsDataSource.expect(api.models['DataSourceType'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSourceType'], validate=True)
     def put(self):
         """
         Update Data Source Type.
@@ -203,7 +203,7 @@ class DataSourceTypeList(Resource):
         """
         return utils.update('DataSourceType', request.json)
 
-    @nsDataSource.expect(api.models['DataSourceType'], validate=True)
+    @nsDataSource.expect(api_object.models['DataSourceType'], validate=True)
     def delete(self):
         """
         Delete Data Source Type.
@@ -215,12 +215,12 @@ class DataSourceTypeList(Resource):
 # Event namespace
 @nsEvent.route('/eventtypes')
 class EventTypeList(Resource):
-    mdEventType = api.model(
+    mdEventType = api_object.model(
         'EventType',
         {'id': fields.Integer(required=False, description='Event type Id'),
             'name': fields.String(required=False, description='Event type name')})
 
-    @nsEvent.expect(api.models['EventType'], validate=True)
+    @nsEvent.expect(api_object.models['EventType'], validate=True)
     def post(self):
         """
         Create Event Type.
@@ -235,7 +235,7 @@ class EventTypeList(Resource):
         """
         return utils.read('EventType')
 
-    @nsEvent.expect(api.models['EventType'], validate=True)
+    @nsEvent.expect(api_object.models['EventType'], validate=True)
     def put(self):
         """
         Update Event Type.
@@ -243,7 +243,7 @@ class EventTypeList(Resource):
         """
         return utils.update('EventType', request.json)
 
-    @nsEvent.expect(api.models['EventType'], validate=True)
+    @nsEvent.expect(api_object.models['EventType'], validate=True)
     def delete(self):
         """
         Delete Event Type.
@@ -255,7 +255,7 @@ class EventTypeList(Resource):
 # Indicator namespace
 @nsIndicator.route('/indicators')
 class IndicatorList(Resource):
-    mdIndicator = api.model(
+    mdIndicator = api_object.model(
         'Indicator',
         {'id': fields.Integer(required=False, description='Indicator Id'),
             'name': fields.String(required=False, description='Indicator name'),
@@ -265,7 +265,7 @@ class IndicatorList(Resource):
             'executionOrder': fields.Integer(required=False, description='Execution order'),
             'active': fields.Integer(required=False, description='Active flag: 1 or 0')})
 
-    @nsIndicator.expect(api.models['Indicator'], validate=True)
+    @nsIndicator.expect(api_object.models['Indicator'], validate=True)
     def post(self):
         """
         Create Indicator.
@@ -280,7 +280,7 @@ class IndicatorList(Resource):
         """
         return utils.read('Indicator')
 
-    @nsIndicator.expect(api.models['Indicator'], validate=True)
+    @nsIndicator.expect(api_object.models['Indicator'], validate=True)
     def put(self):
         """
         Update Indicator.
@@ -288,7 +288,7 @@ class IndicatorList(Resource):
         """
         return utils.update('Indicator', request.json)
 
-    @nsIndicator.expect(api.models['Indicator'], validate=True)
+    @nsIndicator.expect(api_object.models['Indicator'], validate=True)
     def delete(self):
         """
         Delete Indicator.
@@ -328,13 +328,13 @@ class IndicatorExecute(Resource):
 @nsIndicator.route('/indicators/<int:indicator_id>/parameters')
 @nsIndicator.param('indicator_id', 'Indicator Id')
 class IndicatorParameterList(Resource):
-    mdIndicatorParameter = api.model(
+    mdIndicatorParameter = api_object.model(
         'IndicatorParameter',
         {'id': fields.Integer(required=False, description='Indicator parameter Id'),
             'name': fields.String(required=False, description='Indicator parameter name'),
             'value': fields.String(required=False, description='Indicator parameter value')})
 
-    @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
     def post(self, indicator_id):
         """
         Create Indicator Parameter.
@@ -353,7 +353,7 @@ class IndicatorParameterList(Resource):
         parameters['indicatorId'] = indicator_id
         return utils.read('IndicatorParameter', parameters)
 
-    @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
     def put(self, indicator_id):
         """
         Update Indicator Parameter.
@@ -363,7 +363,7 @@ class IndicatorParameterList(Resource):
         parameters['indicatorId'] = indicator_id
         return utils.update('IndicatorParameter', parameters)
 
-    @nsIndicator.expect(api.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
     def delete(self, indicator_id):
         """
         Delete Indicator Parameter.
@@ -402,14 +402,14 @@ class IndicatorSession(Resource):
 
 @nsIndicator.route('/indicatortypes')
 class IndicatorTypeList(Resource):
-    mdIndicatorType = api.model(
+    mdIndicatorType = api_object.model(
         'IndicatorType',
         {'id': fields.Integer(required=False, description='Indicator type Id'),
             'name': fields.String(required=False, description='Indicator type name'),
             'module': fields.String(required=False, description='Indicator type module name'),
             'function': fields.String(required=False, description='Indicator type function name')})
 
-    @nsIndicator.expect(api.models['IndicatorType'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorType'], validate=True)
     def post(self):
         """
         Create Indicator Type.
@@ -424,7 +424,7 @@ class IndicatorTypeList(Resource):
         """
         return utils.read('IndicatorType')
 
-    @nsIndicator.expect(api.models['IndicatorType'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorType'], validate=True)
     def put(self):
         """
         Update Indicator Type.
@@ -432,7 +432,7 @@ class IndicatorTypeList(Resource):
         """
         return utils.update('IndicatorType', request.json)
 
-    @nsIndicator.expect(api.models['IndicatorType'], validate=True)
+    @nsIndicator.expect(api_object.models['IndicatorType'], validate=True)
     def delete(self):
         """
         Delete Indicator Type.
@@ -445,12 +445,12 @@ class IndicatorTypeList(Resource):
 @nsStatus.route('/status')
 class Status(Resource):
     """Class for Status API endpoints."""
-    mdStatus = api.model(
+    mdStatus = api_object.model(
         'Status',
         {'id': fields.Integer(required=False, description='Status Id'),
             'name': fields.String(required=False, description='Status name')})
 
-    @nsStatus.expect(api.models['Status'], validate=True)
+    @nsStatus.expect(api_object.models['Status'], validate=True)
     def post(self):
         """
         Create Status.
@@ -467,7 +467,7 @@ class Status(Resource):
         """
         return utils.read('Status')
 
-    @nsStatus.expect(api.models['Status'], validate=True)
+    @nsStatus.expect(api_object.models['Status'], validate=True)
     def put(self):
         """
         Update Status.
@@ -476,7 +476,7 @@ class Status(Resource):
         """
         return utils.update('Status', request.json)
 
-    @nsStatus.expect(api.models['Status'], validate=True)
+    @nsStatus.expect(api_object.models['Status'], validate=True)
     def delete(self):
         """
         Delete Status.
