@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Unit test for data_source_method module."""
-from .test_utils import get_test_case_name
+from test_utils import get_test_case_name
 from api.data_source_method import DataSourceMethod
 import api.database.operation as db
 import inspect

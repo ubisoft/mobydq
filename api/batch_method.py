@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Functions related to batch objects."""
-from .database.operation import Operation
-from .indicator_method import IndicatorMethod
+from database.operation import Operation
+from indicator_method import IndicatorMethod
 import logging
 
 # Load logging configuration
@@ -76,11 +76,11 @@ class BatchMethod:
         batch_list = Operation('Batch').update(id=batch_list[0].id, statusId=3)
         return batch_list
 
-    def execute(self, batch_owner_id):
+    def execute(self):
         batch_record = self.start()
 
         # Get indicators for the batch owner
-        indicator_list = Operation('Indicator').read(batchOwnerId=batch_owner_id)
+        indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
 
         for indicator_record in indicator_list:
             IndicatorMethod(indicator_record.id).execute(batch_record.id)

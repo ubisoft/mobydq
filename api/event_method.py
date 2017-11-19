@@ -1,5 +1,5 @@
 """Functions related to event objects."""
-from .database.operation import Operation
+from database.operation import Operation
 import logging
 
 # Load logging configuration

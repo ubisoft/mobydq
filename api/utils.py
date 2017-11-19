@@ -1,5 +1,5 @@
 """Utility functions used by API scripts."""
-from .database.operation import Operation
+from database.operation import Operation
 
 
 def create(resource_name, payload=None):
