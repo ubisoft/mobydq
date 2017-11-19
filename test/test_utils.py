@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Utility functions used by unit test scripts."""
 from datetime import datetime
 import inspect
