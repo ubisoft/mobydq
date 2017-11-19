@@ -33,8 +33,8 @@ class BatchMethod:
         * Returns the corresponding batch object
         """
         log.info('Starting batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch_list = Operation('Batch').create(batchOwnerId=self.batch_owner_id, statusId=1)
-        return batch_list
+        batch = Operation('Batch').create(batchOwnerId=self.batch_owner_id, statusId=1)
+        return batch
 
     def stop(self):
         """
@@ -53,8 +53,8 @@ class BatchMethod:
             return self.error_message
 
         # Update running batch
-        batch_list = Operation('Batch').update(id=batch_list[0].id, statusId=2)
-        return batch_list
+        batch = Operation('Batch').update(id=batch_list[0].id, statusId=2)
+        return batch
 
     def fail(self):
         """
@@ -73,8 +73,8 @@ class BatchMethod:
             return self.error_message
 
         # Update running batch
-        batch_list = Operation('Batch').update(id=batch_list[0].id, statusId=3)
-        return batch_list
+        batch = Operation('Batch').update(id=batch_list[0].id, statusId=3)
+        return batch
 
     def execute(self):
         batch_record = self.start()
