@@ -27,7 +27,7 @@ The following Python packages will be installed:
 * [sqlalchemy](https://www.sqlalchemy.org) (1.1.14)
 
 ## ODBC Drivers
-This framework uses **pyodbc** to connect to various databases. For each type of database engine you wish to connect, it requires to have the corresponding ODBC drivers installed on your machine.
+This framework uses **[pyodbc](https://github.com/mkleehammer/pyodbc)** to connect to the different databases on which to perform the data quality checks. For each type of database engine you wish to connect, it requires to have the corresponding ODBC drivers installed on your machine.
 
 # Getting Started
 Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
