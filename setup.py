@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 logging.basicConfig(
     # filename='data_quality.log',
     stream=sys.stdout,
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 

@@ -53,7 +53,8 @@ class Operation:
         yield session
         session.close()
 
-    def get_parameter(self, section, parameter_name=None):
+    @staticmethod
+    def get_parameter(section, parameter_name=None):
         configuration = configparser.ConfigParser()
         configuration.read(os.path.dirname(__file__) + '/data_quality.cfg')
         if parameter_name:
@@ -64,8 +65,9 @@ class Operation:
                 parameters[key] = configuration[section][key]
         return parameters
 
-    def encryption(self, action, value):
-        secret_key = self.get_parameter('data_quality', 'secret_key')
+    @staticmethod
+    def encryption(action, value):
+        secret_key = Operation.get_parameter('data_quality', 'secret_key')
         cipher = Fernet(secret_key.encode('utf-8'))
         if action == 'encrypt':
             value = cipher.encrypt(value.encode('utf-8'))
@@ -80,7 +82,7 @@ class Operation:
             # Apply encryption on password fields
             for key in kwargs:
                 if key == 'password' and kwargs[key] != '':
-                    kwargs[key] = self.encryption('encrypt', kwargs[key])
+                    kwargs[key] = Operation.encryption('encrypt', kwargs[key])
 
             instance = self.object(**kwargs)
             session.add(instance)
@@ -111,7 +113,7 @@ class Operation:
                 # Apply encryption on password fields
                 for key in kwargs:
                     if key == 'password' and kwargs[key] != '':
-                        kwargs[key] = self.encryption('encrypt', kwargs[key])
+                        kwargs[key] = Operation.encryption('encrypt', kwargs[key])
 
                     # if password is emmpty, do not overwrite existing value
                     elif key == 'password' and kwargs[key] != '':

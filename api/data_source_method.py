@@ -36,7 +36,8 @@ class DataSourceMethod:
 
         # Add password to connection string if it is not empty
         if self.data_source.password:
-            connection_string = connection_string + 'pwd={};'.format(self.data_source.password)
+            password = Operation.encryption('decrypt', self.data_source.password)
+            connection_string = connection_string + 'pwd={};'.format(password)
 
         # Hive
         if self.data_source.dataSourceTypeId == 1:

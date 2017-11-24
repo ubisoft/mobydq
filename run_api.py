@@ -321,8 +321,7 @@ class IndicatorExecute(Resource):
         parameters = {}
         parameters['id'] = indicator_id
         indicator = utils.read('Indicator', parameters)
-        batch = BatchMethod(indicator['batchOwnerId']).execute()
-        return IndicatorMethod(indicator_id).execute(batch['id'])
+        return BatchMethod(indicator[0]['batchOwnerId']).execute()
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>/parameters')
@@ -488,4 +487,4 @@ class Status(Resource):
 
 if __name__ == '__main__':
     host_name = socket.gethostname()
-    app.run(host=host_name, threaded=True)  # debug=True
+    app.run(host=host_name, threaded=True, debug=True)
