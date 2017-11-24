@@ -275,3 +275,6 @@ class IndicatorMethod:
             # Send e-mail function to be implemented
 
         EventMethod('Stop').log_event(self.indicator.id, batch_id)
+        self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
+        log.info(self.error_message['message'])
+        return self.error_message

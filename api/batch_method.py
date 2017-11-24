@@ -86,3 +86,6 @@ class BatchMethod:
             IndicatorMethod(indicator_record.id).execute(batch_record.id)
 
         self.stop()
+        self.error_message['message'] = 'Batch with Id {} completed successfully'.format(batch_record.id)
+        log.info(self.error_message['message'])
+        return self.error_message
