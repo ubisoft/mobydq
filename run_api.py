@@ -487,4 +487,4 @@ class Status(Resource):
 
 if __name__ == '__main__':
     host_name = socket.gethostname()
-    app.run(host=host_name, threaded=True, debug=True)
+    app.run(host=host_name, threaded=True, debug=False)
