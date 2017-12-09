@@ -51,7 +51,8 @@ class Operation:
     @staticmethod
     def get_parameter(section, parameter_name=None):
         configuration = configparser.ConfigParser()
-        configuration.read(os.path.dirname(__file__) + '/database.cfg')
+        root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        configuration.read(root_path + '/data_quality.cfg')
         if parameter_name:
             parameters = configuration[section][parameter_name]
         else:
@@ -62,7 +63,7 @@ class Operation:
 
     @staticmethod
     def encryption(action, value):
-        secret_key = Operation.get_parameter('data_quality', 'secret_key')
+        secret_key = Operation.get_parameter('database', 'secret_key')
         cipher = Fernet(secret_key.encode('utf-8'))
         if action == 'encrypt':
             value = cipher.encrypt(value.encode('utf-8'))
