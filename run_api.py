@@ -4,7 +4,6 @@ from flask import Blueprint, Flask, request
 from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
 from api.batch_method import BatchMethod
-from api.indicator_method import IndicatorMethod
 import api.utils as utils
 import socket
 
