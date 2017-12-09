@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Main module of the data quality framework web app."""
 from flask import Flask, render_template
+from api.database.operation import Operation
 import json
 import socket
 
@@ -14,8 +15,7 @@ def index():
 
 @app.route('/config', methods=['GET'])
 def config():
-    with open('app.cfg', 'r') as f:
-        config = json.load(f)
+    config = Operation.get_parameter('app')
     return json.dumps(config)
 
 
