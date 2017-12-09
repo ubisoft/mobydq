@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" ng-app="DataQualityApp">
+  <head>
+    <title>Data Quality Framework</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Angular Material CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/angular-material.min.css') }}">
+
+    <!-- Angular JS -->
+    <script src="{{ url_for('static', filename='angular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='angular-animate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='angular-aria.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='angular-messages.min.js') }}"></script>
+
+    <!-- Angular Material JS -->
+    <script src="{{ url_for('static', filename='angular-material.min.js') }}"></script>
+
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+    <!-- Main CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
+  </head>
+  {% raw %}
+
+  <body ng-controller="AppController">
+    <md-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+
+        <md-tab label="Batch Owners" md-on-select="GetBatchOwners()">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Batch Owners</h1>
+            {{BatchOwners}}
+          </md-content>
+        </md-tab>
+
+        <md-tab label="Data Sources" md-on-select="GetDataSources()">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Data Sources</h1>
+            {{DataSources}}
+          </md-content>
+        </md-tab>
+
+        <md-tab label="Indicators" md-on-select="GetIndicators()">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Indicators</h1>
+            {{Indicators}}
+          </md-content>
+        </md-tab>
+
+      </md-tabs>
+    </md-content>
+  </body>
+
+  {% endraw %}
+</html>
