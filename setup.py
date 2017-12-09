@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 import configparser
 import logging
 import os
+import socket
 import sys
 
 # Import database classes
@@ -24,12 +25,15 @@ logging.basicConfig(
 
 
 if __name__ == '__main__':
-    # Create local configuration file
+    # Create configuration file
     log.info('Create configuration file database.cfg')
     configuration = configparser.ConfigParser()
-    configuration['data_quality'] = {}
-    configuration['data_quality']['secret_key'] = Fernet.generate_key().decode('utf-8')
-    with open('api/database/database.cfg', 'w') as config_file:
+    configuration['database'] = {}
+    configuration['database']['secret_key'] = Fernet.generate_key().decode('utf-8')
+    configuration['app'] = {}
+    configuration['app']['host'] = socket.gethostname()
+    configuration['app']['port'] = '5000'  # Default port used by flask for the api
+    with open('data_quality.cfg', 'w') as config_file:
         configuration.write(config_file)
 
     # Create database

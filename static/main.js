@@ -13,7 +13,6 @@
   })
   .controller('AppController', ['$scope', '$log', '$http', '$mdToast', '$location',
     function($scope, $log, $http, $mdToast, $location) {
-      $log.log("Controller initialiation");
 
       $scope.BatchOwners = [];
       $scope.DataSources = [];
@@ -21,9 +20,8 @@
 
       $http.get('/config', {params: {}}).
         success(function(result) {
-          $log.log("Config fetched: ");
-          $scope.host = result.api.host;
-          $scope.port = result.api.port;
+          $scope.host = result.host;
+          $scope.port = result.port;
           $scope.GetBatchOwners();
         }).
         error(function(error) {

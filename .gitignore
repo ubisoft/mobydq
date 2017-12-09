@@ -1,5 +1,5 @@
 __pycache__
-database.cfg
+*.cfg
 *.db
 *.bkp
 *.pyc
