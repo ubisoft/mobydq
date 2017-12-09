@@ -25,11 +25,11 @@ logging.basicConfig(
 
 if __name__ == '__main__':
     # Create local configuration file
-    log.info('Create configuration file data_quality.cfg')
+    log.info('Create configuration file database.cfg')
     configuration = configparser.ConfigParser()
     configuration['data_quality'] = {}
     configuration['data_quality']['secret_key'] = Fernet.generate_key().decode('utf-8')
-    with open('api/database/data_quality.cfg', 'w') as config_file:
+    with open('api/database/database.cfg', 'w') as config_file:
         configuration.write(config_file)
 
     # Create database

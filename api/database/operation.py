@@ -51,7 +51,7 @@ class Operation:
     @staticmethod
     def get_parameter(section, parameter_name=None):
         configuration = configparser.ConfigParser()
-        configuration.read(os.path.dirname(__file__) + '/data_quality.cfg')
+        configuration.read(os.path.dirname(__file__) + '/database.cfg')
         if parameter_name:
             parameters = configuration[section][parameter_name]
         else:
