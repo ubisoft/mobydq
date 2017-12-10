@@ -24,29 +24,21 @@
 <body ng-controller="AppController">
   <md-content>
     <md-tabs md-dynamic-height md-border-bottom>
-      <md-tab label="BatchOwner" md-on-select="GetBatchOwner()">
+      <md-tab ng-repeat="(name, model) in models" label="{{name}}" md-on-select="GetModel(name)">
         <md-content class="md-padding">
-          <h1 class="md-display-2">Batch Owner</h1>
-          {{BatchOwner}}
+          <h1 class="md-display-2">{{name}}</h1>
+          {{data[name]}}
         </md-content>
-      </md-tab>
-      <md-tab label="DataSource" md-on-select="GetDataSources()">
-        <md-content class="md-padding">
-          <h1 class="md-display-2">Data Sources</h1>
-          {{DataSource}}
-        </md-content>
-      </md-tab>
-      <md-tab label="DataSourceType" md-on-select="GetDataSourceTypes()">
-        <md-content class="md-padding">
-          <h1 class="md-display-2">Datasource Types</h1>
-          {{DataSourceTypes}}
-        </md-content>
-      </md-tab>
-      <md-tab label="EventType" md-on-select="GetEventTypes()">
-        <md-content class="md-padding">
-          <h1 class="md-display-2">Event Types</h1>
-          {{EventTypes}}
-        </md-content>
+        <md-card>
+          <md-card-title-text>
+            <span class="md-headline">New</span>
+          </md-card-title-text>
+          <md-input-container ng-repeat="(input, type) in model">
+            <label>{{input}}</label>
+            <input ng-model="new[input]">
+          </md-input-container>
+          <md-button class="md-raised md-primary" ng-click="PostModel(name, new)">Ok</md-button>
+        </md-card>
       </md-tab>
     </md-tabs>
   </md-content>
