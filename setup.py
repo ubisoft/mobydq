@@ -46,8 +46,9 @@ if __name__ == '__main__':
 
     # Mail configuration
     configuration['mail'] = {}
-    configuration['mail']['host'] = input('SMTP host: ')
-    configuration['mail']['port'] = input('SMTP port: ')
+    configuration['mail']['host'] = 'change_me'
+    configuration['mail']['port'] = 'change_me'
+    configuration['mail']['sender'] = 'change_me'
 
     # Write configuration in flat file
     with open(file_name, 'w') as config_file:
