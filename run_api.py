@@ -105,6 +105,32 @@ class BatchOwnerExecute(Resource):
         return BatchMethod(batch_owner_id).execute()
 
 
+@nsBatch.route('/batchowners/<int:batch_owner_id>/batches/<int:batch_id>/stop')
+@nsBatch.param('batch_owner_id', 'Batch Owner Id')
+@nsBatch.param('batch_id', 'Batch Id')
+class BatchOwnerStop(Resource):
+    def post(self, batch_owner_id, batch_id):
+        """
+        Stop a Batch.
+        Use this method to force the update of a running Batch to Suceeded.
+        """
+        batch = BatchMethod(batch_owner_id).stop(batch_id)
+        return batch.as_dict()
+
+
+@nsBatch.route('/batchowners/<int:batch_owner_id>/batches/<int:batch_id>/fail')
+@nsBatch.param('batch_owner_id', 'Batch Owner Id')
+@nsBatch.param('batch_id', 'Batch Id')
+class BatchOwnerFail(Resource):
+    def post(self, batch_owner_id, batch_id):
+        """
+        Fail a Batch.
+        Use this method to force the update of a running Batch to Failed.
+        """
+        batch = BatchMethod(batch_owner_id).fail(batch_id)
+        return batch.as_dict()
+
+
 # Data source namespace
 @nsDataSource.route('/datasources')
 class DataSourceList(Resource):
