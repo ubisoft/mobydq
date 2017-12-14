@@ -38,7 +38,7 @@ class TestBatchMethodModule(unittest.TestCase):
 
         # Start and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
-        batch_record = BatchMethod(batch_owner.id).stop()
+        batch_record = BatchMethod(batch_owner.id).stop(batch_record.id)
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
         self.assertEqual(batch_record.statusId, 2)
@@ -53,7 +53,7 @@ class TestBatchMethodModule(unittest.TestCase):
 
         # Start and fail batch
         batch_record = BatchMethod(batch_owner.id).start()
-        batch_record = BatchMethod(batch_owner.id).fail()
+        batch_record = BatchMethod(batch_owner.id).fail(batch_record.id)
 
         self.assertEqual(batch_record.batchOwnerId, batch_owner.id)
         self.assertEqual(batch_record.statusId, 3)

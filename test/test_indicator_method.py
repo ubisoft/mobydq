@@ -63,7 +63,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         # Start batch, execute indicator and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
         IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop()
+        BatchMethod(batch_owner.id).stop(batch_record.id)
         session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -112,7 +112,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         # Start batch, execute indicator and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
         IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop()
+        BatchMethod(batch_owner.id).stop(batch_record.id)
         session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -163,7 +163,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         # Start batch, execute indicator and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
         IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop()
+        BatchMethod(batch_owner.id).stop(batch_record.id)
         session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -212,7 +212,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         # Start batch, execute indicator and stop batch
         batch_record = BatchMethod(batch_owner.id).start()
         IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop()
+        BatchMethod(batch_owner.id).stop(batch_record.id)
         session = Operation('Session').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
