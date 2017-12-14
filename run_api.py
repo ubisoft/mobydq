@@ -67,7 +67,7 @@ class BatchOwnerList(Resource):
         Delete Batch Owner.
         Use this method to delete a Batch Owner.
         """
-        return utils.read('BatchOwner', request.json)
+        return utils.delete('BatchOwner', request.json)
 
 
 @nsBatch.route('/batchowners/<int:batch_owner_id>')
