@@ -36,7 +36,7 @@ class BatchMethod:
         batch = Operation('Batch').create(batchOwnerId=self.batch_owner_id, statusId=1)
         return batch
 
-    def stop(self):
+    def stop(self, batch_id):
         """
         Stop a running batch. Return batch object.
         * Terminate an existing running batch
@@ -44,19 +44,18 @@ class BatchMethod:
         * Returns the corresponding batch object
         """
         log.info('Stoping batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch_list = Operation('Batch').read(batchOwnerId=self.batch_owner_id, statusId=1)
+        batch_list = Operation('Batch').read(id=batch_id, statusId=1)
 
         if not batch_list:
-            self.error_message['message'] = '''Cannot end batch because batch owner Id {}
-             does not have a running batch'''.format(self.batch_owner_id)
+            self.error_message['message'] = 'Cannot end batch because batch with Id {} is not running'.format(batch_id)
             log.error(self.error_message['message'])
             return self.error_message
 
         # Update running batch
-        batch = Operation('Batch').update(id=batch_list[0].id, statusId=2)
+        batch = Operation('Batch').update(id=batch_id, statusId=2)
         return batch
 
-    def fail(self):
+    def fail(self, batch_id):
         """
         Fail a running batch. Return batch object.
         * Terminate an existing running batch
@@ -64,28 +63,30 @@ class BatchMethod:
         * Returns the corresponding batch object
         """
         log.info('Failing batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch_list = Operation('Batch').read(batchOwnerId=self.batch_owner_id, statusId=1)
+        batch_list = Operation('Batch').read(id=batch_id, statusId=1)
 
         if not batch_list:
-            self.error_message['message'] = '''Cannot fail batch because batch owner Id {}
-             does not have a running batch'''.format(self.batch_owner_id)
+            self.error_message['message'] = 'Cannot fail batch because batch with Id {} is not running'.format(batch_id)
             log.error(self.error_message['message'])
             return self.error_message
 
         # Update running batch
-        batch = Operation('Batch').update(id=batch_list[0].id, statusId=3)
+        batch = Operation('Batch').update(id=batch_id, statusId=3)
         return batch
 
-    def execute(self):
+    def execute(self, indicator_id=None):
         batch_record = self.start()
 
         # Get indicators for the batch owner
-        indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
+        if indicator_id is not None:
+            indicator_list = Operation('Indicator').read(id=indicator_id, batchOwnerId=self.batch_owner_id)
+        else:
+            indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
 
         for indicator_record in indicator_list:
             IndicatorMethod(indicator_record.id).execute(batch_record.id)
 
-        self.stop()
+        self.stop(batch_record.id)
         self.error_message['message'] = 'Batch with Id {} completed successfully'.format(batch_record.id)
         log.info(self.error_message['message'])
         return self.error_message
