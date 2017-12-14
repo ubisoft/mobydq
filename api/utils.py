@@ -6,8 +6,12 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
+import logging
 import os
 import smtplib
+
+# Load logging configuration
+log = logging.getLogger(__name__)
 
 
 def create(resource_name, payload=None):
@@ -58,8 +62,14 @@ def delete(resource_name, payload=None):
 
 
 def send_mail(template, distribution_list, attachment=None, **kwargs):
-    # Construct e-mail header
+    # Get e-mail configuration
     config = Operation.get_parameter('mail')
+    for key, value in config.items():
+        if value in ['change_me', '', None]:
+            log.info('Cannot send e-mail notification due to invalid configuration for mail parameter {}: {}'.format(key, value))
+            return False
+
+    # Construct e-mail header
     email = MIMEMultipart()
     email['From'] = config['sender']
     email['To'] = ', '.join(distribution_list)
