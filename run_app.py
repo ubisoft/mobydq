@@ -3,7 +3,6 @@
 from flask import Flask, render_template
 from api.database.operation import Operation
 import json
-import socket
 
 app = Flask(__name__)
 
@@ -15,10 +14,10 @@ def index():
 
 @app.route('/config', methods=['GET'])
 def config():
-    config = Operation.get_parameter('app')
+    config = Operation.get_parameter('api')
     return json.dumps(config)
 
 
 if __name__ == "__main__":
-    host_name = socket.gethostname()
-    app.run(host=host_name, port=5001, threaded=True)
+    config = Operation.get_parameter('app')
+    app.run(host=config['host'], port=config['port'], threaded=True)

@@ -26,23 +26,41 @@ logging.basicConfig(
 
 if __name__ == '__main__':
     # Create configuration file
-    log.info('Create configuration file database.cfg')
+    file_name = 'data_quality.cfg'  # Default configuration file name
+    log.info('Create configuration file {}'.format(file_name))
     configuration = configparser.ConfigParser()
-    configuration['database'] = {}
-    configuration['database']['secret_key'] = Fernet.generate_key().decode('utf-8')
+
+    # Api default configuration
+    configuration['api'] = {}
+    configuration['api']['host'] = socket.gethostname()
+    configuration['api']['port'] = '5000'  # Default port used by flask for the api
+
+    # Web app default configuration
     configuration['app'] = {}
     configuration['app']['host'] = socket.gethostname()
-    configuration['app']['port'] = '5000'  # Default port used by flask for the api
-    with open('data_quality.cfg', 'w') as config_file:
+    configuration['app']['port'] = '5001'  # Port must be different from the api
+
+    # Database default configuration
+    configuration['database'] = {}
+    configuration['database']['secret_key'] = Fernet.generate_key().decode('utf-8')
+
+    # Mail configuration
+    configuration['mail'] = {}
+    configuration['mail']['host'] = input('SMTP host: ')
+    configuration['mail']['port'] = input('SMTP port: ')
+
+    # Write configuration in flat file
+    with open(file_name, 'w') as config_file:
         configuration.write(config_file)
 
     # Create database
-    db_path = os.path.join(os.path.dirname(__file__), 'api/database/data_quality.db')
+    db_name = 'data_quality.db'  # Default database name
+    db_path = os.path.join(os.path.dirname(__file__), 'api/database/{}'.format(db_name))
     db_uri = 'sqlite:///{}'.format(db_path)
     engine = create_engine(db_uri)
 
     # Create tables
-    log.info('Create database data_quality.db')
+    log.info('Create database {}'.format(db_name))
     Base.metadata.create_all(engine)
 
     # Insert default list of values

@@ -4,11 +4,12 @@ from flask import Blueprint, Flask, request
 from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
 from api.batch_method import BatchMethod
+from api.database.operation import Operation
 import api.utils as utils
-import socket
 
 app = Flask(__name__)
 CORS(app)
+config = Operation.get_parameter('api')
 
 # Create blue print to indicate api_object base url
 blueprint = Blueprint('api_object', __name__, url_prefix='/dataquality/api')
@@ -16,7 +17,7 @@ api_object = Api(
     blueprint,
     title='Data Quality Framework API',
     version='v1',
-    description='RESTful API for the Data Quality Framework. Base URL: http://{}:5000/dataquality/api'.format(socket.gethostname()),
+    description='RESTful API for the Data Quality Framework. Base URL: http://{}:5000/dataquality/api'.format(config['host']),
     doc='/doc')
 app.register_blueprint(blueprint)
 
@@ -37,7 +38,7 @@ class BatchOwnerList(Resource):
         {'id': fields.Integer(required=False, description='Batch owner Id'),
             'name': fields.String(required=False, description='Batch owner name')})
 
-    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
+    @nsBatch.expect(mdBatchOwner, validate=True)
     def post(self):
         """
         Create Batch Owner.
@@ -52,7 +53,7 @@ class BatchOwnerList(Resource):
         """
         return utils.read('BatchOwner')
 
-    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
+    @nsBatch.expect(mdBatchOwner, validate=True)
     def put(self):
         """
         Update Batch Owner.
@@ -60,7 +61,7 @@ class BatchOwnerList(Resource):
         """
         return utils.update('BatchOwner', request.json)
 
-    @nsBatch.expect(api_object.models['BatchOwner'], validate=True)
+    @nsBatch.expect(mdBatchOwner, validate=True)
     def delete(self):
         """
         Delete Batch Owner.
@@ -326,21 +327,24 @@ class IndicatorExecute(Resource):
 @nsIndicator.route('/indicators/<int:indicator_id>/parameters')
 @nsIndicator.param('indicator_id', 'Indicator Id')
 class IndicatorParameterList(Resource):
-    mdIndicatorParameter = api_object.model(
+    mdParameter = api_object.model(
         'IndicatorParameter',
         {'id': fields.Integer(required=False, description='Indicator parameter Id'),
             'name': fields.String(required=False, description='Indicator parameter name'),
             'value': fields.String(required=False, description='Indicator parameter value')})
 
-    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect([mdParameter], validate=True)
     def post(self, indicator_id):
         """
         Create Indicator Parameter.
         Use this method to create an Indicator Parameter.
         """
+        response = []
         parameters = request.json
-        parameters['indicatorId'] = indicator_id
-        return utils.create('IndicatorParameter', parameters)
+        for parameter in parameters:
+            parameter['indicatorId'] = indicator_id
+            response.append(utils.create('IndicatorParameter', parameter))
+        return response
 
     def get(self, indicator_id):
         """
@@ -351,17 +355,20 @@ class IndicatorParameterList(Resource):
         parameters['indicatorId'] = indicator_id
         return utils.read('IndicatorParameter', parameters)
 
-    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect([mdParameter], validate=True)
     def put(self, indicator_id):
         """
         Update Indicator Parameter.
         Use this method to update an Indicator Parameter.
         """
+        response = []
         parameters = request.json
-        parameters['indicatorId'] = indicator_id
-        return utils.update('IndicatorParameter', parameters)
+        for parameter in parameters:
+            parameter['indicatorId'] = indicator_id
+            response.append(utils.update('IndicatorParameter', parameter))
+        return response
 
-    @nsIndicator.expect(api_object.models['IndicatorParameter'], validate=True)
+    @nsIndicator.expect(mdParameter, validate=True)
     def delete(self, indicator_id):
         """
         Delete Indicator Parameter.
@@ -485,5 +492,5 @@ class Status(Resource):
 
 
 if __name__ == '__main__':
-    host_name = socket.gethostname()
-    app.run(host=host_name, threaded=True, debug=False)
+    config = Operation.get_parameter('api')
+    app.run(host=config['host'], port=config['port'], threaded=True, debug=False)
