@@ -20,4 +20,4 @@ def config():
 
 if __name__ == "__main__":
     config = Operation.get_parameter('app')
-    app.run(host=config['host'], port=config['port'], threaded=True)
+    app.run(host=config['host'], port=int(config['port']), threaded=True)

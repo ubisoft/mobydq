@@ -493,4 +493,4 @@ class Status(Resource):
 
 if __name__ == '__main__':
     config = Operation.get_parameter('api')
-    app.run(host=config['host'], port=config['port'], threaded=True, debug=False)
+    app.run(host=config['host'], port=int(config['port']), threaded=True, debug=False)
