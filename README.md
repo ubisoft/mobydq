@@ -20,6 +20,7 @@ The following Python packages will be installed:
 * [flask](http://flask.pocoo.org) (0.12.2)
 * [flask_cors](http://flask-cors.readthedocs.io) (3.0.3)
 * [flask_restplus](http://flask-restplus.readthedocs.io) (0.10.1)
+* [jinja2](https://pypi.python.org/pypi/Jinja2) (2.10)
 * [nose2](http://nose2.readthedocs.io) (0.7.0)
 * [pandas](http://pandas.pydata.org) (0.21.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
