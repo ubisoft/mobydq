@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Indicators related functions."""
+from api import utils
 from api.database.operation import Operation
 from api.data_source_method import DataSourceMethod
 from api.event_method import EventMethod
@@ -28,6 +29,99 @@ class IndicatorMethod:
             self.error_message['message'] = 'Indicator with Id {} does not exist'.format(indicator_id)
             log.error(self.error_message['message'])
             return self.error_message
+
+    def execute(self, batch_id):
+        """Execute a data quality indicator."""
+        start_event = EventMethod('Start').log_event(self.indicator.id, batch_id)
+        session_id = start_event.sessionId
+
+        # Get indicator parameters
+        indicator_parameter_list = Operation('IndicatorParameter').read(indicatorId=self.indicator.id)
+
+        # Create dictionary from indicator parameters
+        parameters = {}
+        for indicator_parameter in indicator_parameter_list:
+            parameters[indicator_parameter.name] = indicator_parameter.value
+
+        # Verify parameters exist and convert them to list objects
+        if 'Dimensions' in parameters:
+            parameters['Dimensions'] = ['indicator_id'] + literal_eval(parameters['Dimensions'])
+        else:
+            parameters['Dimensions'] = ['indicator_id']
+
+        if 'Measures' in parameters:
+            parameters['Measures'] = literal_eval(parameters['Measures'])
+        else:
+            self.error_message['message'] = 'Indicator with Id {} does not have any measures parameter'.format(self.indicator.id)
+            log.error(self.error_message['message'])
+            return self.error_message
+
+        if 'Distribution list' in parameters:
+            parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
+        else:
+            self.error_message['message'] = 'Indicator with Id {} does not have any distribution list'.format(self.indicator.id)
+            log.error(self.error_message['message'])
+            return self.error_message
+
+        # Get source and target data frames
+        data_sets = {}
+        for parameter in parameters:
+            if parameter == 'Source':
+                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+                data_source_name = parameters[parameter]
+                source_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Source request'])
+                source_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
+                data_sets['Source data frame'] = source_data_frame
+
+            elif parameter == 'Target':
+                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+                data_source_name = parameters[parameter]
+                target_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Target request'])
+                target_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
+                data_sets['Target data frame'] = target_data_frame
+
+        # Verify data frames are not empty
+        for data_frame_name in data_sets:
+            if data_sets[data_frame_name].empty:
+                log.error('{} is empty'.format(data_frame_name))
+
+        # Format source and target data set with dimensions and measures parameters
+        for data_frame_name in data_sets:
+            log.info('Formatting {}'.format(data_frame_name))
+            data_frame = data_sets[data_frame_name]
+            column_name_list = parameters['Dimensions'] + parameters['Measures']
+            data_frame.columns = column_name_list
+            for column in parameters['Dimensions']:
+                data_frame[column] = data_frame[column].astype(str)
+            data_sets[data_frame_name] = data_frame
+
+        # Get indicator function and execute it
+        indicator_type_list = Operation('IndicatorType').read(id=self.indicator.indicatorTypeId)
+        indicator_function = indicator_type_list[0].function
+        result_data_frame = getattr(self, indicator_function)(data_sets, parameters)
+
+        # Compute aggregated indicator results
+        log.info('Computing aggregated results for indicator Id: {}'.format(self.indicator.id))
+        nb_records_alert = self.compute_indicator_result(session_id, parameters, result_data_frame)
+
+        # Send e-mail alert
+        if not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
+            log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(self.indicator.id, session_id))
+            body = {}
+            body['indicator_name'] = self.indicator.name
+            body['alert_threshold'] = parameters['Alert operator'] + parameters['Alert threshold']
+            body['nb_records_alert'] = nb_records_alert
+            body['log_url'] = 'http://'  # To be updated
+            utils.send_mail(
+                template='indicator',
+                distribution_list=parameters['Distribution list'],
+                attachment=None,
+                **body)
+
+        EventMethod('Stop').log_event(self.indicator.id, batch_id)
+        self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
+        log.info(self.error_message['message'])
+        return self.error_message
 
     def evaluate_completeness(self, data_sets, parameters):
         """Compute specificities of completeness indicator."""
@@ -205,6 +299,7 @@ class IndicatorMethod:
             nbRecordsAlert=nb_records_alert,
             nbRecordsNoAlert=nb_records_no_alert
         )
+        return nb_records_alert
 
     def is_alert(self, measure_value, alert_operator, alert_threshold):
         """
@@ -215,66 +310,3 @@ class IndicatorMethod:
             return True
         else:
             return False
-
-    def execute(self, batch_id):
-        """Execute a data quality indicator."""
-        start_event = EventMethod('Start').log_event(self.indicator.id, batch_id)
-        session_id = start_event.sessionId
-
-        # Get indicator parameters
-        indicator_parameter_list = Operation('IndicatorParameter').read(indicatorId=self.indicator.id)
-
-        # Create dictionary from indicator parameters
-        parameters = {}
-        for indicator_parameter in indicator_parameter_list:
-            parameters[indicator_parameter.name] = indicator_parameter.value
-
-        # Convert list parameters to list objects
-        parameters['Dimensions'] = literal_eval(parameters['Dimensions'])
-        parameters['Measures'] = literal_eval(parameters['Measures'])
-        parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
-
-        # Get source and target data frames
-        data_sets = {}
-        for parameter in parameters:
-            if parameter == 'Source':
-                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
-                data_sets['Source data frame'] = DataSourceMethod(parameters[parameter]).get_data_frame(parameters['Source request'])
-
-            elif parameter == 'Target':
-                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
-                data_sets['Target data frame'] = DataSourceMethod(parameters[parameter]).get_data_frame(parameters['Target request'])
-
-        # Verify data frames are not empty
-        for data_frame_name in data_sets:
-            if data_sets[data_frame_name].empty:
-                log.error('{} is empty'.format(data_frame_name))
-
-        # Format source and target data set with dimensions and measures parameters
-        for data_frame_name in data_sets:
-            log.info('Formatting {}'.format(data_frame_name))
-            data_frame = data_sets[data_frame_name]
-            column_name_list = parameters['Dimensions'] + parameters['Measures']
-            data_frame.columns = column_name_list
-            for column in parameters['Dimensions']:
-                data_frame[column] = data_frame[column].astype(str)
-            data_sets[data_frame_name] = data_frame
-
-        # Get indicator function and execute it
-        indicator_type_list = Operation('IndicatorType').read(id=self.indicator.indicatorTypeId)
-        indicator_function = indicator_type_list[0].function
-        result_data_frame = getattr(self, indicator_function)(data_sets, parameters)
-
-        # Compute aggregated indicator results
-        log.info('Computing aggregated results for indicator Id: {}'.format(self.indicator.id))
-        self.compute_indicator_result(session_id, parameters, result_data_frame)
-
-        # Send e-mail alert
-        if not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
-            log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(self.indicator.id, session_id))
-            # Send e-mail function to be implemented
-
-        EventMethod('Stop').log_event(self.indicator.id, batch_id)
-        self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
-        log.info(self.error_message['message'])
-        return self.error_message

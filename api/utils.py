@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 """Utility functions used by API scripts."""
 from api.database.operation import Operation
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from jinja2 import Template
+import os
+import smtplib
 
 
 def create(resource_name, payload=None):
@@ -12,7 +19,7 @@ def create(resource_name, payload=None):
 
     # Convert database object into json
     response = record.as_dict()
-    return(response)
+    return response
 
 
 def read(resource_name, payload=None):
@@ -26,7 +33,7 @@ def read(resource_name, payload=None):
     response = []
     for record in record_list:
         response.append(record.as_dict())
-    return(response)
+    return response
 
 
 def update(resource_name, payload=None):
@@ -38,7 +45,7 @@ def update(resource_name, payload=None):
 
     # Convert database object into json
     response = record.as_dict()
-    return (response)
+    return response
 
 
 def delete(resource_name, payload=None):
@@ -47,4 +54,53 @@ def delete(resource_name, payload=None):
         payload = {}
 
     Operation(resource_name).delete(**payload)
-    return ({})
+    return {'message': 'Record deleted successfully'}
+
+
+def send_mail(template, distribution_list, attachment=None, **kwargs):
+    # Construct e-mail header
+    config = Operation.get_parameter('mail')
+    email = MIMEMultipart()
+    email['From'] = config['sender']
+    email['To'] = ', '.join(distribution_list)
+
+    # Construct e-mail body and update body template
+    if template == 'indicator':
+        email['Subject'] = 'Data quality alert: {}'.format(kwargs['indicator_name'])
+        html = open(os.path.dirname(__file__) + '/email/{}.html'.format(template), 'r')
+        body = html.read()
+        body = Template(body)
+        body = body.render(**kwargs)
+
+    elif template == 'error':
+        email['Subject'] = 'Data quality error: {}'.format(kwargs['indicator_name'])
+        html = open(os.path.dirname(__file__) + '/email/{}.html'.format(template), 'r')
+        body = html.read()
+        body = Template(body)
+        body = body.render(**kwargs)
+
+    else:
+        email['Subject'] = 'Data quality notification'
+        html = open(os.path.dirname(__file__) + '/email/default.html', 'r')
+        body = html.read()
+        body = Template(body)
+        body = body.render(**kwargs)
+
+    # Attache body to e-mail
+    body = MIMEText(body, 'html')
+    email.attach(body)
+
+    # Add attachment to e-mail
+    if attachment is not None:
+        attachment_path = os.path.join(os.path.dirname(__file__), attachment)
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(open(attachment_path, 'rb').read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(os.path.basename(attachment_path)))
+        email.attach(part)
+
+    # Send e-mail via smtp server
+    connexion = smtplib.SMTP(config['host'], config['port'])
+    connexion.sendmail(config['sender'], distribution_list, email.as_string())
+    connexion.quit()
+    return True
