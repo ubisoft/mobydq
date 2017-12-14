@@ -120,7 +120,7 @@ class Operation:
                 log.debug('{} with Id {} updated'.format(self.object.__name__, kwargs['id']))
 
             # Return object
-            instance = session.query(self.object).filter_by(id=instance.id).first()
+            instance = session.query(self.object).filter_by(id=kwargs['id']).first()
         return instance
 
     def delete(self, **kwargs):
