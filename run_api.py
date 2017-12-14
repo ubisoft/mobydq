@@ -6,6 +6,15 @@ from flask_restplus import Api, fields, Resource
 from api.batch_method import BatchMethod
 from api.database.operation import Operation
 import api.utils as utils
+import logging
+import sys
+
+log = logging.getLogger(__name__)
+logging.basicConfig(
+    # filename='data_quality.log',
+    stream=sys.stdout,
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 CORS(app)
