@@ -4,10 +4,18 @@
 
 **Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
 
+
 # Data Quality Framework
 The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use. It has been developed as an internal project at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. Its open source version has been reworked to remove technical dependencies with commercial softwares.
 
 ![Data pipeline](/doc/data_pipeline.png)
+
+## tldr
+```
+docker build -t data-quality-api api/.
+docker run --name data-quality-api --restart=always -p 5000:5000 -v ~/Projects/data-quality/:/app -d data-quality-api -d
+docker run --name data-quality-app --restart=always -p 1090:80 -v ~/Projects/data-quality/app:/app -d jazzdd/alpine-flask:python3
+```
 
 # Requirements
 ## Python
