@@ -321,7 +321,7 @@ class IndicatorExecute(Resource):
         parameters = {}
         parameters['id'] = indicator_id
         indicator = utils.read('Indicator', parameters)
-        return BatchMethod(indicator[0]['batchOwnerId']).execute()
+        return BatchMethod(indicator[0]['batchOwnerId']).execute(indicator_id)
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>/parameters')
