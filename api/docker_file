@@ -24,7 +24,7 @@ WORKDIR ${APP_DIR}
 EXPOSE 5000
 
 # copy config files into filesystem
-COPY docker_nginx.conf /etc/nginx/nginx.conf
+COPY docker_nginx.ini /etc/nginx/nginx.conf
 COPY docker_container.ini /app.ini
 COPY docker_container.sh /entrypoint.sh
 
