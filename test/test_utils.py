@@ -6,11 +6,12 @@ import os
 import sys
 import time
 
-
-# Modify python path to allow import module from parent folder
-current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_directory = os.path.dirname(current_directory)
-sys.path.insert(0, parent_directory)
+# Modify python path to allow module import from project folders when executing unit tests
+root_directory = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+sys.path.insert(0, root_directory)
+sys.path.insert(0, root_directory + '/api')
+sys.path.insert(0, root_directory + '/api/database')
+sys.path.insert(0, root_directory + '/app')
 
 
 def get_test_case_name(test_case_list):

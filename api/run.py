@@ -4,10 +4,9 @@ from flask import Blueprint, Flask, request
 from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
 from batch_method import BatchMethod
-from database.operation import Operation
-import utils
 import logging
 import sys
+import api_utils
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -18,7 +17,7 @@ logging.basicConfig(
 
 app = Flask(__name__)
 CORS(app)
-config = utils.get_parameter('api')
+config = api_utils.get_parameter('api')
 
 # Create blue print to indicate api_object base url
 blueprint = Blueprint('api_object', __name__, url_prefix='/dataquality/api')
@@ -53,14 +52,14 @@ class BatchOwnerList(Resource):
         Create Batch Owner.
         Use this method to create a Batch Owner.
         """
-        return utils.create('BatchOwner', request.json)
+        return api_utils.create('BatchOwner', request.json)
 
     def get(self):
         """
         Get list of Batch Owners.
         Use this method to get the list of Batch Owners.
         """
-        return utils.read('BatchOwner')
+        return api_utils.read('BatchOwner')
 
     @nsBatch.expect(mdBatchOwner, validate=True)
     def put(self):
@@ -68,7 +67,7 @@ class BatchOwnerList(Resource):
         Update Batch Owner.
         Use this method to update a Batch Owner.
         """
-        return utils.update('BatchOwner', request.json)
+        return api_utils.update('BatchOwner', request.json)
 
     @nsBatch.expect(mdBatchOwner, validate=True)
     def delete(self):
@@ -76,7 +75,7 @@ class BatchOwnerList(Resource):
         Delete Batch Owner.
         Use this method to delete a Batch Owner.
         """
-        return utils.delete('BatchOwner', request.json)
+        return api_utils.delete('BatchOwner', request.json)
 
 
 @nsBatch.route('/batchowners/<int:batch_owner_id>')
@@ -88,7 +87,7 @@ class BatchOwner(Resource):
         Use this method to get the details of a Batch Owner.
         """
         parameters = {'id': batch_owner_id}
-        return utils.read('BatchOwner', parameters)
+        return api_utils.read('BatchOwner', parameters)
 
 
 @nsBatch.route('/batchowners/<int:batch_owner_id>/batches')
@@ -100,7 +99,7 @@ class BatchOwnerBatch(Resource):
         Use this method to get a Batch Owner's list of Batches.
         """
         parameters = {'batchOwnerId': batch_owner_id}
-        return utils.read('Batch', parameters)
+        return api_utils.read('Batch', parameters)
 
 
 @nsBatch.route('/batchowners/<int:batch_owner_id>/execute')
@@ -158,14 +157,14 @@ class DataSourceList(Resource):
         Create Data Source.
         Use this method to create a Data Source.
         """
-        return utils.create('DataSource', request.json)
+        return api_utils.create('DataSource', request.json)
 
     def get(self):
         """
         Get list of Data Sources.
         Use this method to get the list of Data Sources.
         """
-        return utils.read('DataSource')
+        return api_utils.read('DataSource')
 
     @nsDataSource.expect(api_object.models['DataSource'], validate=True)
     def put(self):
@@ -173,7 +172,7 @@ class DataSourceList(Resource):
         Update Data Source.
         Use this method to update a Data Source.
         """
-        return utils.update('DataSource', request.json)
+        return api_utils.update('DataSource', request.json)
 
     @nsDataSource.expect(api_object.models['DataSource'], validate=True)
     def delete(self):
@@ -181,7 +180,7 @@ class DataSourceList(Resource):
         Delete Data Source.
         Use this method to delete a Data Source.
         """
-        return utils.delete('DataSource', request.json)
+        return api_utils.delete('DataSource', request.json)
 
 
 @nsDataSource.route('/datasources/<int:data_source_id>')
@@ -193,7 +192,7 @@ class DataSource(Resource):
         Use this method to get a Data Source.
         """
         parameters = {'id': data_source_id}
-        return utils.read('DataSource', parameters)
+        return api_utils.read('DataSource', parameters)
 
 
 @nsDataSource.route('/datasources/<int:data_source_id>/test')
@@ -221,14 +220,14 @@ class DataSourceTypeList(Resource):
         Create Data Source Type.
         Use this method to create a Data Source Type.
         """
-        return utils.create('DataSourceType', request.json)
+        return api_utils.create('DataSourceType', request.json)
 
     def get(self):
         """
         Get list of Data Source Types.
         Use this method to get the list of Data Source Types.
         """
-        return utils.read('DataSourceType')
+        return api_utils.read('DataSourceType')
 
     @nsDataSource.expect(api_object.models['DataSourceType'], validate=True)
     def put(self):
@@ -236,7 +235,7 @@ class DataSourceTypeList(Resource):
         Update Data Source Type.
         Use this method to update a Data Source Type.
         """
-        return utils.update('DataSourceType', request.json)
+        return api_utils.update('DataSourceType', request.json)
 
     @nsDataSource.expect(api_object.models['DataSourceType'], validate=True)
     def delete(self):
@@ -244,7 +243,7 @@ class DataSourceTypeList(Resource):
         Delete Data Source Type.
         Use this method to delete a Data Source Type.
         """
-        return utils.delete('DataSourceType', request.json)
+        return api_utils.delete('DataSourceType', request.json)
 
 
 # Event namespace
@@ -261,14 +260,14 @@ class EventTypeList(Resource):
         Create Event Type.
         Use this method to create an Event Type.
         """
-        return utils.create('EventType', request.json)
+        return api_utils.create('EventType', request.json)
 
     def get(self):
         """
         Get list of Event Types.
         Use this method to get the list of Event Types.
         """
-        return utils.read('EventType')
+        return api_utils.read('EventType')
 
     @nsEvent.expect(api_object.models['EventType'], validate=True)
     def put(self):
@@ -276,7 +275,7 @@ class EventTypeList(Resource):
         Update Event Type.
         Use this method to update an Event Type.
         """
-        return utils.update('EventType', request.json)
+        return api_utils.update('EventType', request.json)
 
     @nsEvent.expect(api_object.models['EventType'], validate=True)
     def delete(self):
@@ -284,7 +283,7 @@ class EventTypeList(Resource):
         Delete Event Type.
         Use this method to delete an Event Type.
         """
-        return utils.delete('EventType', request.json)
+        return api_utils.delete('EventType', request.json)
 
 
 # Indicator namespace
@@ -306,14 +305,14 @@ class IndicatorList(Resource):
         Create Indicator.
         Use this method to create an Indicator.
         """
-        return utils.create('Indicator', request.json)
+        return api_utils.create('Indicator', request.json)
 
     def get(self):
         """
         Get list of Indicators.
         Use this method to get the list of Indicators.
         """
-        return utils.read('Indicator')
+        return api_utils.read('Indicator')
 
     @nsIndicator.expect(api_object.models['Indicator'], validate=True)
     def put(self):
@@ -321,7 +320,7 @@ class IndicatorList(Resource):
         Update Indicator.
         Use this method to update an Indicator.
         """
-        return utils.update('Indicator', request.json)
+        return api_utils.update('Indicator', request.json)
 
     @nsIndicator.expect(api_object.models['Indicator'], validate=True)
     def delete(self):
@@ -329,7 +328,7 @@ class IndicatorList(Resource):
         Delete Indicator.
         Use this method to delete an Indicator.
         """
-        return utils.delete('Indicator', request.json)
+        return api_utils.delete('Indicator', request.json)
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>')
@@ -342,7 +341,7 @@ class Indicator(Resource):
         """
         parameters = {}
         parameters['id'] = indicator_id
-        return utils.read('Indicator', parameters)
+        return api_utils.read('Indicator', parameters)
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>/execute')
@@ -355,7 +354,7 @@ class IndicatorExecute(Resource):
         """
         parameters = {}
         parameters['id'] = indicator_id
-        indicator = utils.read('Indicator', parameters)
+        indicator = api_utils.read('Indicator', parameters)
         return BatchMethod(indicator[0]['batchOwnerId']).execute(indicator_id)
 
 
@@ -378,7 +377,7 @@ class IndicatorParameterList(Resource):
         parameters = request.json
         for parameter in parameters:
             parameter['indicatorId'] = indicator_id
-            response.append(utils.create('IndicatorParameter', parameter))
+            response.append(api_utils.create('IndicatorParameter', parameter))
         return response
 
     def get(self, indicator_id):
@@ -388,7 +387,7 @@ class IndicatorParameterList(Resource):
         """
         parameters = {}
         parameters['indicatorId'] = indicator_id
-        return utils.read('IndicatorParameter', parameters)
+        return api_utils.read('IndicatorParameter', parameters)
 
     @nsIndicator.expect([mdParameter], validate=True)
     def put(self, indicator_id):
@@ -400,7 +399,7 @@ class IndicatorParameterList(Resource):
         parameters = request.json
         for parameter in parameters:
             parameter['indicatorId'] = indicator_id
-            response.append(utils.update('IndicatorParameter', parameter))
+            response.append(api_utils.update('IndicatorParameter', parameter))
         return response
 
     @nsIndicator.expect(mdParameter, validate=True)
@@ -411,7 +410,7 @@ class IndicatorParameterList(Resource):
         """
         parameters = request.json
         parameters['indicatorId'] = indicator_id
-        return utils.delete('IndicatorParameter', parameters)
+        return api_utils.delete('IndicatorParameter', parameters)
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>/results')
@@ -424,7 +423,7 @@ class IndicatorResult(Resource):
         """
         parameters = {}
         parameters['indicatorId'] = indicator_id
-        return utils.read('IndicatorResult', parameters)
+        return api_utils.read('IndicatorResult', parameters)
 
 
 @nsIndicator.route('/indicators/<int:indicator_id>/sessions')
@@ -437,7 +436,7 @@ class IndicatorSession(Resource):
         """
         parameters = {}
         parameters['indicatorId'] = indicator_id
-        return utils.read('Session', parameters)
+        return api_utils.read('Session', parameters)
 
 
 @nsIndicator.route('/indicatortypes')
@@ -455,14 +454,14 @@ class IndicatorTypeList(Resource):
         Create Indicator Type.
         Use this method to create an Indicator Type.
         """
-        return utils.create('IndicatorType', request.json)
+        return api_utils.create('IndicatorType', request.json)
 
     def get(self):
         """
         Get list of Indicator Types.
         Use this method to get the list of Indicator Types.
         """
-        return utils.read('IndicatorType')
+        return api_utils.read('IndicatorType')
 
     @nsIndicator.expect(api_object.models['IndicatorType'], validate=True)
     def put(self):
@@ -470,7 +469,7 @@ class IndicatorTypeList(Resource):
         Update Indicator Type.
         Use this method to update an Indicator Type.
         """
-        return utils.update('IndicatorType', request.json)
+        return api_utils.update('IndicatorType', request.json)
 
     @nsIndicator.expect(api_object.models['IndicatorType'], validate=True)
     def delete(self):
@@ -478,7 +477,7 @@ class IndicatorTypeList(Resource):
         Delete Indicator Type.
         Use this method to delete an Indicator Type.
         """
-        return utils.delete('IndicatorType', request.json)
+        return api_utils.delete('IndicatorType', request.json)
 
 
 # Status namespace
@@ -497,7 +496,7 @@ class Status(Resource):
 
         Use this method to create a Status.
         """
-        return utils.create('Status', request.json)
+        return api_utils.create('Status', request.json)
 
     def get(self):
         """
@@ -505,7 +504,7 @@ class Status(Resource):
 
         Use this method to get the list of Status.
         """
-        return utils.read('Status')
+        return api_utils.read('Status')
 
     @nsStatus.expect(api_object.models['Status'], validate=True)
     def put(self):
@@ -514,7 +513,7 @@ class Status(Resource):
 
         Use this method to update a Status.
         """
-        return utils.update('Status', request.json)
+        return api_utils.update('Status', request.json)
 
     @nsStatus.expect(api_object.models['Status'], validate=True)
     def delete(self):
@@ -523,9 +522,10 @@ class Status(Resource):
 
         Use this method to delete a Status.
         """
-        return utils.delete('Status', request.json)
+        return api_utils.delete('Status', request.json)
 
 
 if __name__ == '__main__':
-    config = utils.get_parameter('api')
+    api_utils.init()
+    config = api_utils.get_parameter('api')
     app.run(host=config['host'], port=int(config['port']), threaded=True, debug=False)

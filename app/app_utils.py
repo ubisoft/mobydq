@@ -9,6 +9,7 @@ log = logging.getLogger(__name__)
 
 
 def get_parameter(section, parameter_name=None):
+    """Get parameters from flat file app.cfg."""
     configuration = configparser.ConfigParser()
     path = os.path.dirname(__file__)
     configuration.read(path + '/app.cfg')

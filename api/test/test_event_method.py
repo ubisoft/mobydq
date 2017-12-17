@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Unit test for event_method module."""
-from database import test_utils
-from database.operation import Operation
-from batch_method import BatchMethod
-from event_method import EventMethod
+from api.database.operation import Operation
+from api.batch_method import BatchMethod
+from api.event_method import EventMethod
+from test import test_utils
 import unittest
 
 
