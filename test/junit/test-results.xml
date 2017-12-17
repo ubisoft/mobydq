@@ -1,0 +1,149 @@
+<testsuite errors="0" failures="0" name="nose2-junit" skipped="0" tests="49" time="48.102">
+  <testcase classname="test_api.TestApiModule" name="test_delete_batch_owner" time="0.025016">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_data_source" time="1.085150">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_data_source_type" time="1.026963">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_event_type" time="1.080198">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_indicator" time="1.091480">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_indicator_type" time="1.073546">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_delete_status" time="1.075783">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_batch_owner" time="1.031304">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_batch_owner_batch" time="1.082723">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_batch_owner_list" time="1.088457">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_data_source" time="1.039089">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_data_source_list" time="1.059145">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_data_source_type_list" time="0.016206">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_event_type_list" time="0.007871">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_indicator" time="1.074801">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_indicator_list" time="0.038133">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_indicator_type_list" time="0.005776">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_get_status_list" time="0.005874">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_batch_owner" time="1.039034">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_data_source" time="1.019583">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_data_source_type" time="1.052284">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_event_type" time="1.051533">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_indicator" time="1.099256">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_indicator_type" time="1.024682">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_post_status" time="1.013389">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_batch_owner" time="2.030789">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_data_source" time="2.029943">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_data_source_type" time="2.063381">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_event_type" time="2.057772">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_indicator" time="2.118621">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_indicator_type" time="2.076242">
+    <system-out />
+  </testcase>
+  <testcase classname="test_api.TestApiModule" name="test_put_status" time="2.101755">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event_method.TestEventMethodModule" name="test_log_event_data_set" time="0.069999">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event_method.TestEventMethodModule" name="test_log_event_error" time="1.134091">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event_method.TestEventMethodModule" name="test_log_event_start" time="1.117842">
+    <system-out />
+  </testcase>
+  <testcase classname="test_event_method.TestEventMethodModule" name="test_log_event_stop" time="1.136921">
+    <system-out />
+  </testcase>
+  <testcase classname="test_indicator_method.TestIndicatorMethodModule" name="test_execute_completeness" time="0.196094">
+    <system-out />
+  </testcase>
+  <testcase classname="test_indicator_method.TestIndicatorMethodModule" name="test_execute_freshness" time="1.193752">
+    <system-out />
+  </testcase>
+  <testcase classname="test_indicator_method.TestIndicatorMethodModule" name="test_execute_latency" time="0.203055">
+    <system-out />
+  </testcase>
+  <testcase classname="test_indicator_method.TestIndicatorMethodModule" name="test_execute_validity" time="1.262022">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch_method.TestBatchMethodModule" name="test_batch_fail" time="0.041260">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch_method.TestBatchMethodModule" name="test_batch_start" time="1.060754">
+    <system-out />
+  </testcase>
+  <testcase classname="test_batch_method.TestBatchMethodModule" name="test_batch_stop" time="1.093249">
+    <system-out />
+  </testcase>
+  <testcase classname="test_data_source_method.TestDataSourceMethodModule" name="test_get_data_frame" time="0.013113">
+    <system-out />
+  </testcase>
+  <testcase classname="test_data_source_method.TestDataSourceMethodModule" name="test_get_database_connection" time="1.052195">
+    <system-out />
+  </testcase>
+  <testcase classname="test_operation.TestOperationModule" name="test_create" time="0.014338">
+    <system-out />
+  </testcase>
+  <testcase classname="test_operation.TestOperationModule" name="test_delete" time="0.025766">
+    <system-out />
+  </testcase>
+  <testcase classname="test_operation.TestOperationModule" name="test_read" time="1.048718">
+    <system-out />
+  </testcase>
+  <testcase classname="test_operation.TestOperationModule" name="test_update" time="2.101927">
+    <system-out />
+  </testcase>
+</testsuite>
