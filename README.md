@@ -10,7 +10,7 @@ The objective of this framework is to provide a solution for data engineering te
 
 ![Data pipeline](/doc/data_pipeline.png)
 
-## tldr
+## TL;DR
 ```
 docker build -t data-quality-api api/.
 docker run --name data-quality-api --restart=always -p 5000:5000 -v ~/Projects/data-quality/:/app -d data-quality-api -d
