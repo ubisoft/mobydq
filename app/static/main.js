@@ -5,7 +5,11 @@
   angular.module('DataQualityApp', ['ngMaterial'])
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .dark();
+    .primaryPalette('lime')
+    .accentPalette('purple')
+    .warnPalette('red')
+    .backgroundPalette('grey')
+    .dark();
   })
   .controller('AppController', ['$scope', '$log', '$http', '$mdToast', '$location',
     function($scope, $log, $http, $mdToast, $location) {

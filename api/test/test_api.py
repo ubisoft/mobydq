@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Unit test for api module."""
-import test_utils
+from test import test_utils
 from api.database.operation import Operation
 from api.batch_method import BatchMethod
 import requests

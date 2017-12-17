@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Unit test for indicator_method module."""
-import test_utils
 from api.database.operation import Operation
 from api.batch_method import BatchMethod
 from api.indicator_method import IndicatorMethod
+from test import test_utils
 import inspect
 import os
 import unittest
@@ -33,7 +33,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         data_source = Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )
@@ -84,7 +84,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         data_source = Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )
@@ -133,7 +133,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         data_source = Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )
@@ -184,7 +184,7 @@ class TestIndicatorMethodModule(unittest.TestCase):
         data_source = Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )

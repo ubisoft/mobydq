@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Unit test for data_source_method module."""
-import test_utils
 from api.database.operation import Operation
 from api.data_source_method import DataSourceMethod
+from test import test_utils
 import inspect
 import os
 import unittest
@@ -27,7 +27,7 @@ class TestDataSourceMethodModule(unittest.TestCase):
         Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )
@@ -51,7 +51,7 @@ class TestDataSourceMethodModule(unittest.TestCase):
         Operation('DataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
-            connectionString=parent_directory + '/api/database/data_quality.db',
+            connectionString=parent_directory + '/database/data_quality.db',
             login='',
             password=''
         )

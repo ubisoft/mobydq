@@ -50,9 +50,10 @@ class Operation:
 
     @staticmethod
     def get_parameter(section, parameter_name=None):
+        """Get parameters from flat file database.cfg."""
         configuration = configparser.ConfigParser()
-        root_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-        configuration.read(root_path + '/data_quality.cfg')
+        path = os.path.dirname(__file__)
+        configuration.read(path + '/database.cfg')
         if parameter_name:
             parameters = configuration[section][parameter_name]
         else:

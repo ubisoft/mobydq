@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit test for database operation module."""
-import test_utils
 from api.database.operation import Operation
+from test import test_utils
 import unittest
 
 

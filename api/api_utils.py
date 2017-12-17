@@ -1,18 +1,40 @@
 #!/usr/bin/env python
 """Utility functions used by API scripts."""
-from api.database.operation import Operation
+from database.operation import Operation
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
+import configparser
+import inspect
 import logging
 import os
 import smtplib
+import sys
 
 # Load logging configuration
 log = logging.getLogger(__name__)
 
+
+def init():
+    """Modify python path to allow module import from api folder."""
+    api_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    sys.path.insert(0, api_directory)
+    sys.path.insert(0, api_directory + '/database')
+
+def get_parameter(section, parameter_name=None):
+    """Get parameters from flat file api.cfg."""
+    configuration = configparser.ConfigParser()
+    path = os.path.dirname(__file__)
+    configuration.read(path + '/api.cfg')
+    if parameter_name:
+        parameters = configuration[section][parameter_name]
+    else:
+        parameters = {}
+        for key in configuration[section]:
+            parameters[key] = configuration[section][key]
+    return parameters
 
 def create(resource_name, payload=None):
     """Generic create function called by post methods in api.py."""
@@ -63,7 +85,7 @@ def delete(resource_name, payload=None):
 
 def send_mail(template, distribution_list, attachment=None, **kwargs):
     # Get e-mail configuration
-    config = Operation.get_parameter('mail')
+    config = get_parameter('mail')
     for key, value in config.items():
         if value in ['change_me', '', None]:
             log.info('Cannot send e-mail notification due to invalid configuration for mail parameter {}: {}'.format(key, value))

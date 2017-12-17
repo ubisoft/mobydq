@@ -1,23 +1,27 @@
 <!doctype html>
 <html ng-app="DataQualityApp">
 <head>
-  <!-- Angular Material CSS using GitCDN to load directly from `bower-material/master` -->
-  <link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css">
+  <title>Data Quality Framework</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Angular Material Dependencies -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  <!-- Angular Material CSS -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/angular-material.min.css') }}">
 
-  <!-- Angular Material Javascript using GitCDN to load directly from `bower-material/master` -->
-  <script src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script>
+  <!-- Angular JS -->
+  <script src="{{ url_for('static', filename='angular.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='angular-animate.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='angular-aria.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='angular-messages.min.js') }}"></script>
 
-  <title>Data Quality App</title>
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
+  <!-- Angular Material JS -->
+  <script src="{{ url_for('static', filename='angular-material.min.js') }}"></script>
 
+  <!-- Main JS -->
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+  <!-- Main CSS -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
 {% raw %}
 

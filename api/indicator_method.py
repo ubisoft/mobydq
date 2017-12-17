@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Indicators related functions."""
-from api import utils
-from api.database.operation import Operation
-from api.data_source_method import DataSourceMethod
-from api.event_method import EventMethod
+from database.operation import Operation
+from data_source_method import DataSourceMethod
+from event_method import EventMethod
 from ast import literal_eval
 from datetime import datetime
 import logging
 import pandas
+import api_utils
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -112,7 +112,7 @@ class IndicatorMethod:
             body['alert_threshold'] = parameters['Alert operator'] + parameters['Alert threshold']
             body['nb_records_alert'] = nb_records_alert
             body['log_url'] = 'http://'  # To be updated
-            utils.send_mail(
+            api_utils.send_mail(
                 template='indicator',
                 distribution_list=parameters['Distribution list'],
                 attachment=None,
