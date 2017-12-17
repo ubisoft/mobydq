@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Functions related to event objects."""
-from api.database.operation import Operation
+from database.operation import Operation
 import logging
 
 # Load logging configuration

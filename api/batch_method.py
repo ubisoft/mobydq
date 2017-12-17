@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Functions related to batch objects."""
-from api.database.operation import Operation
-from api.indicator_method import IndicatorMethod
+from database.operation import Operation
+from indicator_method import IndicatorMethod
 import logging
 
 # Load logging configuration

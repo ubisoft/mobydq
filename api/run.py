@@ -3,9 +3,9 @@
 from flask import Blueprint, Flask, request
 from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
-from api.batch_method import BatchMethod
-from api.database.operation import Operation
-import api.utils as utils
+from batch_method import BatchMethod
+from database.operation import Operation
+import utils
 import logging
 import sys
 
@@ -18,7 +18,7 @@ logging.basicConfig(
 
 app = Flask(__name__)
 CORS(app)
-config = Operation.get_parameter('api')
+config = utils.get_parameter('api')
 
 # Create blue print to indicate api_object base url
 blueprint = Blueprint('api_object', __name__, url_prefix='/dataquality/api')
@@ -527,5 +527,5 @@ class Status(Resource):
 
 
 if __name__ == '__main__':
-    config = Operation.get_parameter('api')
+    config = utils.get_parameter('api')
     app.run(host=config['host'], port=int(config['port']), threaded=True, debug=False)

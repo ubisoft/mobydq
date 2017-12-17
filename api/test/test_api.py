@@ -2,7 +2,7 @@
 """Unit test for api module."""
 import test_utils
 from api.database.operation import Operation
-from api.batch_method import BatchMethod
+from batch_method import BatchMethod
 import requests
 import socket
 import unittest

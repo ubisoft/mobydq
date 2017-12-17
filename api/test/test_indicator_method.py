@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Unit test for indicator_method module."""
-import test_utils
-from api.database.operation import Operation
-from api.batch_method import BatchMethod
-from api.indicator_method import IndicatorMethod
+from database import test_utils
+from database.operation import Operation
+from batch_method import BatchMethod
+from indicator_method import IndicatorMethod
 import inspect
 import os
 import unittest

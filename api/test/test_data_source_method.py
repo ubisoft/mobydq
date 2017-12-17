@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Unit test for data_source_method module."""
-import test_utils
-from api.database.operation import Operation
-from api.data_source_method import DataSourceMethod
+from database import test_utils
+from database.operation import Operation
+from data_source_method import DataSourceMethod
 import inspect
 import os
 import unittest
