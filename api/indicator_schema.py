@@ -9,12 +9,13 @@ log = logging.getLogger(__name__)
 
 
 class IndicatorType(SQLAlchemyObjectType):
+    """Types of indicators."""
+
     class Meta:
         model = IndicatorTypeModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
     # name_hired_on = graphene.String()
-
     # def resolve_name_hired_on(self, info):
         # return '{} - {}'.format(self.name, str(self.hired_on))
 
@@ -24,18 +25,24 @@ class IndicatorType(SQLAlchemyObjectType):
 
 
 class Indicator(SQLAlchemyObjectType):
+    """Data quality indicators."""
+
     class Meta:
         model = IndicatorModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
 class IndicatorParameter(SQLAlchemyObjectType):
+    """Indicator parameters."""
+
     class Meta:
         model = IndicatorParameterModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
 class IndicatorResult(SQLAlchemyObjectType):
+    """Indicator results."""
+
     class Meta:
         model = IndicatorResultModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

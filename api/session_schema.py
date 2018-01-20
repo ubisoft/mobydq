@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 
 
 class Session(SQLAlchemyObjectType):
+    """Sessions."""
+
     class Meta:
         model = SessionModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

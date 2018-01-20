@@ -8,6 +8,8 @@ log = logging.getLogger(__name__)
 
 
 class Status(SQLAlchemyObjectType):
+    """Status for batches and sessions."""
+
     class Meta:
         model = StatusModel
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
