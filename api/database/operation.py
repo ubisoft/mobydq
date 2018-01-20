@@ -30,7 +30,7 @@ class Operation:
         """Initialize class."""
         db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
         db_uri = 'sqlite:///{}'.format(db_path)
-        engine = create_engine(db_uri)
+        engine = create_engine(db_uri, convert_unicode=True)
 
         # Bind engine to metadata of the base class
         Base.metadata.bind = engine
