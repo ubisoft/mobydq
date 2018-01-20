@@ -18,7 +18,7 @@ class IndicatorType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicator = relationship('Indicator', backref='IndicatorType')
+    indicators = relationship('Indicator', backref='IndicatorType')
 
 
 class Indicator(Base, Dictionary):
@@ -36,9 +36,9 @@ class Indicator(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicatorParameter = relationship('IndicatorParameter', backref='Indicator', passive_deletes=True)
-    indicatorResult = relationship('IndicatorResult', backref='Indicator', passive_deletes=True)
-    session = relationship('Session', backref='Indicator', passive_deletes=True)
+    indicatorParameters = relationship('IndicatorParameter', backref='Indicator', passive_deletes=True)
+    indicatorResults = relationship('IndicatorResult', backref='Indicator', passive_deletes=True)
+    sessions = relationship('Session', backref='Indicator', passive_deletes=True)
 
 
 class IndicatorParameter(Base, Dictionary):

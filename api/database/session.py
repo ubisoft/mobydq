@@ -21,5 +21,5 @@ class Session(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    event = relationship('Event', backref='Session', passive_deletes=True)
-    indicatorResult = relationship('IndicatorResult', backref='Session', passive_deletes=True)
+    events = relationship('Event', backref='Session', passive_deletes=True)
+    indicatorResults = relationship('IndicatorResult', backref='Session', passive_deletes=True)
