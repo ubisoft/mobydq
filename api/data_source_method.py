@@ -11,6 +11,8 @@ log = logging.getLogger(__name__)
 
 
 class DataSourceMethod:
+    """Functions called by the API for data source objects."""
+
     def __init__(self, data_source_name):
         """Initialize class."""
         # Initialize dictionary for error message

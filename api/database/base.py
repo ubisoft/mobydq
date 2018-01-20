@@ -13,7 +13,7 @@ import os
 db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 engine = create_engine(db_uri, convert_unicode=True)
-dbSession = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+dbSession = scoped_session(sessionmaker(bind=engine))
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()

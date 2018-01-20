@@ -1,6 +1,6 @@
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 from session_schema import Session
-from batch_schema import BatchOwner, Batch
+from batch_schema import BatchOwner, Batch, CreateBatchOwner, UpdateBatchOwner
 from status_schema import Status
 from event_schema import EventType, Event
 from indicator_schema import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
@@ -13,8 +13,9 @@ log = logging.getLogger(__name__)
 
 
 class Query(graphene.ObjectType):
-    node = graphene.relay.Node.Field()
+    """Query endpoint for GraphQL API."""
 
+    node = graphene.relay.Node.Field()
     batch = graphene.relay.Node.Field(Batch)
     batches = SQLAlchemyConnectionField(Batch)
     batch_owner = graphene.relay.Node.Field(BatchOwner)
@@ -23,10 +24,10 @@ class Query(graphene.ObjectType):
     data_sources = SQLAlchemyConnectionField(DataSource)
     data_source_type = graphene.relay.Node.Field(DataSourceType)
     data_source_types = SQLAlchemyConnectionField(DataSourceType)
-    event_type = graphene.relay.Node.Field(EventType)
-    event_types = SQLAlchemyConnectionField(EventType)
     event = graphene.relay.Node.Field(Event)
     events = SQLAlchemyConnectionField(Event)
+    event_type = graphene.relay.Node.Field(EventType)
+    event_types = SQLAlchemyConnectionField(EventType)
     indicator = graphene.relay.Node.Field(Indicator)
     indicators = SQLAlchemyConnectionField(Indicator)
     indicator_parameter = graphene.relay.Node.Field(IndicatorParameter)
@@ -41,4 +42,11 @@ class Query(graphene.ObjectType):
     statuses = SQLAlchemyConnectionField(Status)
 
 
-schema = graphene.Schema(query=Query, auto_camelcase=False)
+class Mutation(graphene.ObjectType):
+    """Mutation endpoint for GraphQL API."""
+
+    create_batch_owner = CreateBatchOwner.Field()
+    update_batch_owner = UpdateBatchOwner.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
