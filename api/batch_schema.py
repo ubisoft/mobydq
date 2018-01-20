@@ -1,6 +1,10 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.batch import BatchOwner as BatchOwnerModel, Batch as BatchModel
 import graphene
+import logging
+
+# Load logging configuration
+log = logging.getLogger(__name__)
 
 
 class BatchOwner(SQLAlchemyObjectType):

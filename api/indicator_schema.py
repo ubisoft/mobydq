@@ -2,6 +2,10 @@ from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.indicator import IndicatorType as IndicatorTypeModel, Indicator as IndicatorModel
 from database.indicator import IndicatorParameter as IndicatorParameterModel, IndicatorResult as IndicatorResultModel
 import graphene
+import logging
+
+# Load logging configuration
+log = logging.getLogger(__name__)
 
 
 class IndicatorType(SQLAlchemyObjectType):

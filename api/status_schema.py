@@ -1,6 +1,10 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.status import Status as StatusModel
 import graphene
+import logging
+
+# Load logging configuration
+log = logging.getLogger(__name__)
 
 
 class Status(SQLAlchemyObjectType):
