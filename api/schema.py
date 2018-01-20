@@ -38,7 +38,7 @@ class Query(graphene.ObjectType):
     session = graphene.relay.Node.Field(Session)
     sessions = SQLAlchemyConnectionField(Session)
     status = graphene.relay.Node.Field(Status)
-    statuses = SQLAlchemyConnectionField(Status, name='_other_Name')
+    statuses = SQLAlchemyConnectionField(Status)
 
 
 schema = graphene.Schema(query=Query, auto_camelcase=False)

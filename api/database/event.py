@@ -16,7 +16,7 @@ class EventType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    events = relationship('Event', backref='EventType')
+    events = relationship('Event', backref='eventType')
 
 
 class Event(Base, Dictionary):

@@ -16,5 +16,5 @@ class Status(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    batches = relationship('Batch', backref='Status')
-    sessions = relationship('Session', backref='Status')
+    batches = relationship('Batch', backref='status')
+    sessions = relationship('Session', backref='status')
