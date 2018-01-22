@@ -118,24 +118,3 @@ class UpdateBatch(graphene.Mutation):
         batch = api_utils.update('Batch', record)
         batch = batch_schema.Batch(**batch)
         return UpdateBatch(batch)
-
-
-class BatchMethod:
-    """Functions called by the API for batch objects."""
-
-    def execute(self, indicator_id=None):
-        batch_record = self.start()
-
-        # Get indicators for the batch owner
-        if indicator_id is not None:
-            indicator_list = Operation('Indicator').read(id=indicator_id, batchOwnerId=self.batch_owner_id)
-        else:
-            indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
-
-        for indicator_record in indicator_list:
-            IndicatorMethod(indicator_record.id).execute(batch_record.id)
-
-        self.stop(batch_record.id)
-        self.error_message['message'] = 'Batch with Id {} completed successfully'.format(batch_record.id)
-        log.info(self.error_message['message'])
-        return self.error_message
