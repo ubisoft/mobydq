@@ -115,7 +115,6 @@ class UpdateBatch(graphene.Mutation):
             if key[-2:].lower() == 'id':
                 input[key] = from_global_id(input[key])[1]  # Convert global id to database id
             record[key] = input[key]
-        print(record)
         batch = api_utils.update('Batch', record)
         batch = batch_schema.Batch(**batch)
         return UpdateBatch(batch)
