@@ -1,10 +1,11 @@
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 from session_schema import Session
-from batch_schema import BatchOwner, Batch, CreateBatchOwner, UpdateBatchOwner
 from status_schema import Status
 from event_schema import EventType, Event
 from indicator_schema import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
 from data_source_schema import DataSourceType, DataSource
+import batch_schema
+import batch_mutation
 import graphene
 import logging
 
@@ -16,10 +17,10 @@ class Query(graphene.ObjectType):
     """Query endpoint for GraphQL API."""
 
     node = graphene.relay.Node.Field()
-    batch = graphene.relay.Node.Field(Batch)
-    batches = SQLAlchemyConnectionField(Batch)
-    batch_owner = graphene.relay.Node.Field(BatchOwner)
-    batch_owners = SQLAlchemyConnectionField(BatchOwner)
+    batch = graphene.relay.Node.Field(batch_schema.Batch)
+    batches = SQLAlchemyConnectionField(batch_schema.Batch)
+    batch_owner = graphene.relay.Node.Field(batch_schema.BatchOwner)
+    batch_owners = SQLAlchemyConnectionField(batch_schema.BatchOwner)
     data_source = graphene.relay.Node.Field(DataSource)
     data_sources = SQLAlchemyConnectionField(DataSource)
     data_source_type = graphene.relay.Node.Field(DataSourceType)
@@ -45,8 +46,10 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     """Mutation endpoint for GraphQL API."""
 
-    create_batch_owner = CreateBatchOwner.Field()
-    update_batch_owner = UpdateBatchOwner.Field()
+    create_batch = batch_mutation.CreateBatch.Field()
+    create_batch_owner = batch_mutation.CreateBatchOwner.Field()
+    update_batch = batch_mutation.UpdateBatch.Field()
+    update_batch_owner = batch_mutation.UpdateBatchOwner.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
