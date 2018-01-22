@@ -1,12 +1,41 @@
 from graphql_relay.node.node import from_global_id, to_global_id
-from database.operation import Operation
 import api_utils
 import batch_schema
 import graphene
 import logging
+import status_schema
 
 # Load logging configuration
 log = logging.getLogger(__name__)
+
+
+class CreateBatchInput(graphene.InputObjectType):
+    """Input to create batch."""
+    batchOwnerId = graphene.String(required=True)
+    statusId = graphene.String(required=True)
+
+
+class CreateBatch(graphene.Mutation):
+    """Create batch."""
+    class Arguments:
+        input = CreateBatchInput(required=True)
+
+    # Class attributes
+    batch = graphene.Field(lambda: batch_schema.Batch)
+
+    @staticmethod
+    def mutate(root, info, input=None):
+        """Method to create batch."""
+        # Convert input to dictionary
+        record = {}
+        for key in input:
+            if key[-2:].lower() == 'id':
+                input[key] = from_global_id(input[key])[1]  # Convert global id to database id
+            record[key] = input[key]
+        batch = api_utils.create('Batch', record)
+        batch['id'] = to_global_id('Batch', batch['id'])
+        batch = batch_schema.Batch(**batch)
+        return CreateBatch(batch=batch)
 
 
 class CreateBatchOwnerInput(graphene.InputObjectType):
@@ -20,7 +49,7 @@ class CreateBatchOwner(graphene.Mutation):
         input = CreateBatchOwnerInput(required=True)
 
     # Class attributes
-    batch_owner = graphene.Field(batch_schema.BatchOwner)
+    batch_owner = graphene.Field(lambda: batch_schema.BatchOwner)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -37,62 +66,6 @@ class CreateBatchOwner(graphene.Mutation):
         return CreateBatchOwner(batch_owner=batch_owner)
 
 
-class UpdateBatchOwnerInput(graphene.InputObjectType):
-    """Input to update batch owner."""
-    id = graphene.ID(required=True)
-    name = graphene.String()
-
-
-class UpdateBatchOwner(graphene.Mutation):
-    """Update batch owner."""
-    class Arguments:
-        input = UpdateBatchOwnerInput(required=True)
-
-    # Class attributes
-    batch_owner = graphene.Field(batch_schema.BatchOwner)
-
-    @staticmethod
-    def mutate(self, info, input):
-        # Convert input to dictionary
-        record = {}
-        for key in input:
-            if key[-2:].lower() == 'id':
-                input[key] = from_global_id(input[key])[1]  # Convert global id to database id
-            record[key] = input[key]
-        batch_owner = api_utils.update('BatchOwner', record)
-        batch_owner = batch_schema.BatchOwner(**batch_owner)
-        return UpdateBatchOwner(batch_owner)
-
-
-class CreateBatchInput(graphene.InputObjectType):
-    """Input to create batch."""
-    batchOwnerId = graphene.String(required=True)
-    statusId = graphene.String(required=True)
-
-
-class CreateBatch(graphene.Mutation):
-    """Create batch."""
-    class Arguments:
-        input = CreateBatchInput(required=True)
-
-    # Class attributes
-    batch = graphene.Field(batch_schema.Batch)
-
-    @staticmethod
-    def mutate(root, info, input=None):
-        """Method to create batch."""
-        # Convert input to dictionary
-        record = {}
-        for key in input:
-            if key[-2:].lower() == 'id':
-                input[key] = from_global_id(input[key])[1]  # Convert global id to database id
-            record[key] = input[key]
-        batch = api_utils.create('Batch', record)
-        batch = batch_schema.Batch(**batch)
-        batch.id = to_global_id('Batch', batch.id)
-        return CreateBatch(batch=batch)
-
-
 class UpdateBatchInput(graphene.InputObjectType):
     """Input to update batch."""
     id = graphene.ID(required=True)
@@ -106,7 +79,9 @@ class UpdateBatch(graphene.Mutation):
         input = UpdateBatchInput(required=True)
 
     # Class attributes
-    batch = graphene.Field(batch_schema.Batch)
+    batch = graphene.Field(lambda: batch_schema.Batch)
+    batch_owner = graphene.Field(lambda: batch_schema.BatchOwner)
+    status = graphene.Field(lambda: status_schema.Status)
 
     @staticmethod
     def mutate(self, info, input):
@@ -115,6 +90,45 @@ class UpdateBatch(graphene.Mutation):
             if key[-2:].lower() == 'id':
                 input[key] = from_global_id(input[key])[1]  # Convert global id to database id
             record[key] = input[key]
+
         batch = api_utils.update('Batch', record)
         batch = batch_schema.Batch(**batch)
-        return UpdateBatch(batch)
+
+        batch_owner = None
+        if 'batchOwnerId' in record:
+            batch_owner = api_utils.read('BatchOwner', {'id': record['batchOwnerId']})
+            batch_owner = batch_schema.BatchOwner(**batch_owner[0])
+
+        status = None
+        if 'statusId' in record:
+            status = api_utils.read('Status', {'id': record['statusId']})
+            status = status_schema.Status(**status[0])
+
+        return UpdateBatch(batch=batch, batch_owner=batch_owner, status=status)
+
+
+class UpdateBatchOwnerInput(graphene.InputObjectType):
+    """Input to update batch owner."""
+    id = graphene.ID(required=True)
+    name = graphene.String()
+
+
+class UpdateBatchOwner(graphene.Mutation):
+    """Update batch owner."""
+    class Arguments:
+        input = UpdateBatchOwnerInput(required=True)
+
+    # Class attributes
+    batch_owner = graphene.Field(lambda: batch_schema.BatchOwner)
+
+    @staticmethod
+    def mutate(self, info, input):
+        # Convert input to dictionary
+        record = {}
+        for key in input:
+            if key[-2:].lower() == 'id':
+                input[key] = from_global_id(input[key])[1]  # Convert global id to database id
+            record[key] = input[key]
+        batch_owner = api_utils.update('BatchOwner', record)
+        batch_owner = batch_schema.BatchOwner(**batch_owner)
+        return UpdateBatchOwner(batch_owner)
