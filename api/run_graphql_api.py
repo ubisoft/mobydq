@@ -1,4 +1,4 @@
-from database.base import dbSession
+from database.base import db_session
 from flask import Flask
 from flask_cors import CORS
 from flask_graphql import GraphQLView
@@ -21,7 +21,7 @@ app.add_url_rule('/dataquality/api/graphql', view_func=GraphQLView.as_view('grap
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    dbSession.remove()
+    db_session.remove()
 
 
 if __name__ == '__main__':

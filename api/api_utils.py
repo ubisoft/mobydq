@@ -5,6 +5,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from graphql_relay.node.node import from_global_id
 from jinja2 import Template
 import configparser
 import inspect
@@ -23,6 +24,7 @@ def init():
     sys.path.insert(0, api_directory)
     sys.path.insert(0, api_directory + '/database')
 
+
 def get_parameter(section, parameter_name=None):
     """Get parameters from flat file api.cfg."""
     configuration = configparser.ConfigParser()
@@ -36,51 +38,15 @@ def get_parameter(section, parameter_name=None):
             parameters[key] = configuration[section][key]
     return parameters
 
-def create(resource_name, payload=None):
-    """Generic create function called by post methods in api.py."""
-    if not payload:
-        payload = {}
 
-    record = Operation(resource_name).create(**payload)
-
-    # Convert database object into json
-    response = record.as_dict()
-    return response
-
-
-def read(resource_name, payload=None):
-    """Generic read function called by get methods in api.py."""
-    if not payload:
-        payload = {}
-
-    record_list = Operation(resource_name).read(**payload)
-
-    # Convert database object into json
-    response = []
-    for record in record_list:
-        response.append(record.as_dict())
-    return response
-
-
-def update(resource_name, payload=None):
-    """Generic update function called by put methods in api.py."""
-    if not payload:
-        payload = {}
-
-    record = Operation(resource_name).update(**payload)
-
-    # Convert database object into json
-    response = record.as_dict()
-    return response
-
-
-def delete(resource_name, payload=None):
-    """Generic update function called by put methods in api.py."""
-    if not payload:
-        payload = {}
-
-    Operation(resource_name).delete(**payload)
-    return {'message': 'Record deleted successfully'}
+def input_to_dictionary(input):
+    """Convert GraphQL mutation inputs into a dictionary object."""
+    data = {}
+    for key in input:
+        if key[-2:].lower() == 'id':
+            input[key] = from_global_id(input[key])[1]  # Convert GraphQL global id to database id
+        data[key] = input[key]
+    return data
 
 
 def send_mail(template, distribution_list, attachment=None, **kwargs):

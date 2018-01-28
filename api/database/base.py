@@ -13,11 +13,14 @@ import os
 db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 engine = create_engine(db_uri, convert_unicode=True)
-dbSession = scoped_session(sessionmaker(bind=engine))
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
-Base.query = dbSession.query_property()  # Used by graphql to execute queries
+Base.metadata.bind = engine  # Bind engine to metadata of the base class
+
+# Create database session object
+db_session = scoped_session(sessionmaker(bind=engine, expire_on_commit=False))
+Base.query = db_session.query_property()  # Used by graphql to execute queries
 
 
 @event.listens_for(Engine, 'connect')
