@@ -2,6 +2,7 @@ from database.operation import Operation
 import api_utils
 import batch_schema
 import graphene
+import indicator_schema
 import logging
 
 # Load logging configuration
@@ -47,6 +48,44 @@ class CreateBatchOwner(graphene.Mutation):
         data = api_utils.input_to_dictionary(input)
         batch_owner = Operation('BatchOwner').create(**data)
         return CreateBatchOwner(batch_owner=batch_owner)
+
+
+class ExecuteBatchInput(graphene.InputObjectType):
+    """Input to execute batch."""
+    batchOwnerId = graphene.ID(required=True)
+    indicatorId = graphene.ID()
+
+
+class ExecuteBatch(graphene.Mutation):
+    """Execute batch."""
+    # Declare class attributes
+    batch = graphene.Field(batch_schema.Batch)
+
+    class Arguments:
+        input = ExecuteBatchInput(required=True)
+
+    def mutate(self, info, input):
+        # Convert input to dictionary
+        data = api_utils.input_to_dictionary(input)
+
+        # Start batch
+        batch = Operation('Batch').create(batchOwnerId=data['batchOwnerId'], statusId=1)
+
+        # Get indicators
+        if 'indicatorId' in data.items():
+            indicator_list = Operation('Indicator').read(id=data['indicatorId'], batchOwnerId=data['batchOwnerId'])
+        else:
+            indicator_list = Operation('Indicator').read(batchOwnerId=data['batchOwnerId'])
+
+        # Execute indicators
+        for indicator in indicator_list:
+            # To be implemented
+            # IndicatorMethod(indicator_record.id).execute(batch_record.id)
+            print('Execute indicator: ' + indicator.name)
+
+        # Stop batch
+        batch = Operation('Batch').update(id=batch.id, batchOwnerId=data['batchOwnerId'], statusId=2)  # Succeeded
+        return ExecuteBatch(batch=batch)
 
 
 class UpdateBatchInput(graphene.InputObjectType):
