@@ -66,24 +66,7 @@ class ExecuteBatch(graphene.Mutation):
     def mutate(self, info, input):
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
-
-        # Start batch
-        batch = Operation('Batch').create(batchOwnerId=data['batchOwnerId'], statusId=1)
-
-        # Get indicators
-        if 'indicatorId' in data.items():
-            indicator_list = Operation('Indicator').read(id=data['indicatorId'], batchOwnerId=data['batchOwnerId'])
-        else:
-            indicator_list = Operation('Indicator').read(batchOwnerId=data['batchOwnerId'])
-
-        # Execute indicators
-        for indicator in indicator_list:
-            # To be implemented
-            # IndicatorMethod(indicator_record.id).execute(batch_record.id)
-            print('Execute indicator: ' + indicator.name + ' in batch ' + str(batch.id))
-
-        # Stop batch
-        batch = Operation('Batch').update(id=batch.id, batchOwnerId=data['batchOwnerId'], statusId=2)  # Succeeded
+        batch = batch_schema.Batch.execute(**data)
         return ExecuteBatch(batch=batch)
 
 
