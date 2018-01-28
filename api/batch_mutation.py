@@ -81,7 +81,7 @@ class ExecuteBatch(graphene.Mutation):
         for indicator in indicator_list:
             # To be implemented
             # IndicatorMethod(indicator_record.id).execute(batch_record.id)
-            print('Execute indicator: ' + indicator.name)
+            print('Execute indicator: ' + indicator.name + ' in batch ' + str(batch.id))
 
         # Stop batch
         batch = Operation('Batch').update(id=batch.id, batchOwnerId=data['batchOwnerId'], statusId=2)  # Succeeded
