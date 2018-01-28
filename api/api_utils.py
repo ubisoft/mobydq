@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """Utility functions used by API scripts."""
-from database.operation import Operation
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart

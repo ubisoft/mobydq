@@ -2,7 +2,6 @@ from database.operation import Operation
 import api_utils
 import batch_schema
 import graphene
-import indicator_schema
 import logging
 
 # Load logging configuration
