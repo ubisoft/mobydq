@@ -9,13 +9,13 @@ log = logging.getLogger(__name__)
 
 
 class CreateBatchInput(graphene.InputObjectType):
-    """Input to create batch."""
+    """Arguments to create a batch."""
     batchOwnerId = graphene.ID(required=True)
     statusId = graphene.ID(required=True)
 
 
 class CreateBatch(graphene.Mutation):
-    """Create batch."""
+    """Mutation to create a batch."""
     # Declare class attributes
     batch = graphene.Field(batch_schema.Batch)
 
@@ -23,6 +23,7 @@ class CreateBatch(graphene.Mutation):
         input = CreateBatchInput(required=True)
 
     def mutate(self, info, input):
+        """Mutation to create a batch."""
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
         batch = Operation('Batch').create(**data)
@@ -30,12 +31,12 @@ class CreateBatch(graphene.Mutation):
 
 
 class CreateBatchOwnerInput(graphene.InputObjectType):
-    """Input to create batch owner."""
+    """Arguments to create a batch owner."""
     name = graphene.String(required=True)
 
 
 class CreateBatchOwner(graphene.Mutation):
-    """Create batch owner."""
+    """Mutation to create a batch owner."""
     # Declare class attributes
     batch_owner = graphene.Field(batch_schema.BatchOwner)
 
@@ -43,6 +44,7 @@ class CreateBatchOwner(graphene.Mutation):
         input = CreateBatchOwnerInput(required=True)
 
     def mutate(self, info, input):
+        """Mutation to create a batch owner."""
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
         batch_owner = Operation('BatchOwner').create(**data)
@@ -50,13 +52,13 @@ class CreateBatchOwner(graphene.Mutation):
 
 
 class ExecuteBatchInput(graphene.InputObjectType):
-    """Input to execute batch."""
+    """Arguments to execute a batch."""
     batchOwnerId = graphene.ID(required=True)
     indicatorId = graphene.ID()
 
 
 class ExecuteBatch(graphene.Mutation):
-    """Execute batch."""
+    """Mutation to execute a batch."""
     # Declare class attributes
     batch = graphene.Field(batch_schema.Batch)
 
@@ -64,6 +66,7 @@ class ExecuteBatch(graphene.Mutation):
         input = ExecuteBatchInput(required=True)
 
     def mutate(self, info, input):
+        """Mutation to execute a batch."""
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
         batch = batch_schema.Batch.execute(**data)
@@ -71,14 +74,14 @@ class ExecuteBatch(graphene.Mutation):
 
 
 class UpdateBatchInput(graphene.InputObjectType):
-    """Input to update batch."""
+    """Arguments to update a batch."""
     id = graphene.ID(required=True)
     batchOwnerId = graphene.ID()
     statusId = graphene.ID()
 
 
 class UpdateBatch(graphene.Mutation):
-    """Update batch."""
+    """Mutation to update a batch."""
     # Declare class attributes
     batch = graphene.Field(batch_schema.Batch)
 
@@ -86,27 +89,21 @@ class UpdateBatch(graphene.Mutation):
         input = UpdateBatchInput(required=True)
 
     def mutate(self, info, input):
+        """Mutation to update a batch."""
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
         batch = Operation('Batch').update(**data)
         return UpdateBatch(batch=batch)
 
 
-class UpdateBatchInput(graphene.InputObjectType):
-    """Input to update batch."""
-    id = graphene.ID(required=True)
-    batchOwnerId = graphene.ID()
-    statusId = graphene.ID()
-
-
 class UpdateBatchOwnerInput(graphene.InputObjectType):
-    """Input to update batch."""
+    """Arguments to update a batch owner."""
     id = graphene.ID(required=True)
     name = graphene.String(required=True)
 
 
 class UpdateBatchOwner(graphene.Mutation):
-    """Update batch owner."""
+    """Mutation to update a batch owner."""
     # Declare class attributes
     batch_owner = graphene.Field(batch_schema.BatchOwner)
 
