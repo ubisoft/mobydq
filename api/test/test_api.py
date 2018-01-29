@@ -32,8 +32,8 @@ class TestApiModule(unittest.TestCase):
         batch = Operation('Batch').create(**batch_data)
 
         # Get batch
-        batch_global_id = '\\"{}\\"'.format(to_global_id('Batch', batch.id))
-        payload = '{"query": "{batch (id:%s) {id batchOwnerId}}"}' % batch_global_id
+        global_id = '\\"{}\\"'.format(to_global_id('Batch', batch.id))
+        payload = '{"query": "{batch (id:%s) {id batchOwnerId}}"}' % global_id
         response = requests.post(self.base_url, headers=self.headers, data=payload)
         json = response.json()
 
@@ -71,8 +71,8 @@ class TestApiModule(unittest.TestCase):
         batch_owner = Operation('BatchOwner').create(**batch_owner_data)
 
         # Get batch owner
-        batch_owner_global_id = '\\"{}\\"'.format(to_global_id('BatchOwner', batch_owner.id))
-        payload = '{"query": "{batchOwner (id:%s) {id name}}"}' % batch_owner_global_id
+        global_id = '\\"{}\\"'.format(to_global_id('BatchOwner', batch_owner.id))
+        payload = '{"query": "{batchOwner (id:%s) {id name}}"}' % global_id
         response = requests.post(self.base_url, headers=self.headers, data=payload)
         json = response.json()
 
@@ -95,6 +95,70 @@ class TestApiModule(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertGreater(len(json['data']['batchOwners']['edges']), 0)
+
+    def test_query_data_source(self):
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
+
+        # Create data source in database
+        data_source_data = {}
+        data_source_data = {}
+        data_source_data['name'] = test_case_name
+        data_source_data['dataSourceTypeId'] = 1  # Hive
+        data_source_data['connectionString'] = test_case_name
+        data_source_data['login'] = test_case_name
+        data_source_data['password'] = test_case_name
+        data_source = Operation('DataSource').create(**data_source_data)
+
+        # Get batch owner
+        global_id = '\\"{}\\"'.format(to_global_id('DataSource', data_source.id))
+        payload = '{"query": "{dataSource (id:%s) {id name}}"}' % global_id
+        response = requests.post(self.base_url, headers=self.headers, data=payload)
+        json = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json['data']['dataSource']['name'], test_case_name)
+
+    def test_query_data_sources(self):
+        test_case_name = test_utils.get_test_case_name(self.test_case_list)
+        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
+
+        # Create data source in database
+        data_source_data = {}
+        data_source_data = {}
+        data_source_data['name'] = test_case_name
+        data_source_data['dataSourceTypeId'] = 1  # Hive
+        data_source_data['connectionString'] = test_case_name
+        data_source_data['login'] = test_case_name
+        data_source_data['password'] = test_case_name
+        Operation('DataSource').create(**data_source_data)
+
+        # Get data source list
+        payload = '{"query": "{dataSources {edges {node {id}}}}"}'
+        response = requests.post(self.base_url, headers=self.headers, data=payload)
+        json = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(len(json['data']['dataSources']['edges']), 0)
+
+    def test_query_data_source_type(self):
+        # Get data source type
+        global_id = '\\"{}\\"'.format(to_global_id('DataSourceType', 1))  # Hive
+        payload = '{"query": "{dataSourceType (id:%s) {id name}}"}' % global_id
+        response = requests.post(self.base_url, headers=self.headers, data=payload)
+        json = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json['data']['dataSourceType']['name'], 'Hive')
+
+    def test_query_data_source_types(self):
+        # Get data source type list
+        payload = '{"query": "{dataSourceTypes {edges {node {id}}}}"}'
+        response = requests.post(self.base_url, headers=self.headers, data=payload)
+        json = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(len(json['data']['dataSourceTypes']['edges']), 0)
 
     @classmethod
     def tearDownClass(self):
