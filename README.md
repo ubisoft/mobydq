@@ -15,7 +15,7 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 ## ODBC Drivers
 This framework has been developed on **Linux Ubuntu**. It opens ODBC connections to query data on the different databases on which you want to perform data quality checks. For this reason it requires to install [UnixODBC](http://www.unixodbc.org/) on your machine. Open a terminal window and execute the following command:
 
-`$ apt-get install unixodbc-dev`
+`$ sudo apt-get install unixodbc-dev`
 
 Note that for each type of database engine you wish to connect, it requires to install the corresponding ODBC drivers on your machine.
 
