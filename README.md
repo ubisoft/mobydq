@@ -1,25 +1,26 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
-
 **Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
-
 
 # Data Quality Framework
 The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use. It has been developed as an internal project at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. Its open source version has been reworked to remove technical dependencies with commercial softwares.
 
 ![Data pipeline](/doc/data_pipeline.png)
 
-## TL;DR
-```
-docker build -t data-quality-api api/.
-docker run --name data-quality-api --restart=always -p 5000:5000 -v ~/Projects/data-quality/:/app -d data-quality-api -d
-docker run --name data-quality-app --restart=always -p 1090:80 -v ~/Projects/data-quality/app:/app -d jazzdd/alpine-flask:python3
-```
+# Getting Started
+Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
 
 # Requirements
+## ODBC Drivers
+This framework has been developed on **Linux Ubuntu**, it opens ODBC connections to query data on the different databases on which you want to perform data quality checks. It requires to install [UnixODBC](http://www.unixodbc.org/) on your machine:
+
+`$ apt-get install unixodbc-dev`
+
+Note that for each type of database engine you wish to connect, it requires to install the corresponding ODBC drivers on your machine.
+
 ## Python
-This framework has been developed on **Linux** with **Python 3.5** and is powered by the following third party packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
+This framework has been developed with **Python 3.5** and is powered by the following third party packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
 
 `$ pip3 install -r requirements.txt`
 
@@ -34,12 +35,6 @@ The following Python packages will be installed:
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
 * [sqlalchemy](https://www.sqlalchemy.org) (1.1.14)
-
-## ODBC Drivers
-This framework uses **[pyodbc](https://github.com/mkleehammer/pyodbc)** to connect to the different databases on which to perform the data quality checks. For each type of database engine you wish to connect, it requires to have the corresponding ODBC drivers installed on your machine.
-
-# Getting Started
-Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
