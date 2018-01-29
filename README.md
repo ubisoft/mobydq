@@ -13,14 +13,14 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 
 # Requirements
 ## ODBC Drivers
-This framework has been developed on **Linux Ubuntu**, it opens ODBC connections to query data on the different databases on which you want to perform data quality checks. It requires to install [UnixODBC](http://www.unixodbc.org/) on your machine:
+This framework has been developed on **Linux Ubuntu**, it opens ODBC connections to query data on the different databases on which you want to perform data quality checks. It requires to install [UnixODBC](http://www.unixodbc.org/), open a terminal window and execute the following command:
 
 `$ apt-get install unixodbc-dev`
 
 Note that for each type of database engine you wish to connect, it requires to install the corresponding ODBC drivers on your machine.
 
 ## Python
-This framework has been developed with **Python 3.5** and is powered by the following third party packages. To install dependencies, open a terminal window, change directory to the framework folder and execute the following command:
+This framework has been developed with **Python 3.5** and is powered by the following third party packages. To install them, open a terminal window, change directory to the framework folder and execute the following command:
 
 `$ pip3 install -r requirements.txt`
 
