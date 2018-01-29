@@ -17,8 +17,8 @@ class BatchOwner(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    batches = relationship('Batch', backref='batchOwner', passive_deletes=True)
-    indicators = relationship('Indicator', backref='batchOwner')
+    batches = relationship('Batch', backref='batchOwner', passive_deletes=True, lazy='subquery')
+    indicators = relationship('Indicator', backref='batchOwner', lazy='subquery')
 
 
 class Batch(Base, Dictionary):
@@ -32,4 +32,4 @@ class Batch(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    sessions = relationship('Session', backref='batch', passive_deletes=True)
+    sessions = relationship('Session', backref='batch', passive_deletes=True, lazy='subquery')

@@ -48,6 +48,7 @@ class Mutation(graphene.ObjectType):
 
     create_batch = batch_mutation.CreateBatch.Field()
     create_batch_owner = batch_mutation.CreateBatchOwner.Field()
+    execute_batch = batch_mutation.ExecuteBatch.Field()
     update_batch = batch_mutation.UpdateBatch.Field()
     update_batch_owner = batch_mutation.UpdateBatchOwner.Field()
 
