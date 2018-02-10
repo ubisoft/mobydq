@@ -11,12 +11,12 @@ import sys
 
 # Import database classes
 from .base import Base, db_session
-from .batch import BatchOwner, Batch
-from .data_source import DataSourceType, DataSource
-from .event import EventType, Event
-from .session import Session
-from .status import Status
-from .indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
+from .model_batch import ModelBatchOwner, ModelBatch
+from .model_data_source import ModelDataSourceType, ModelDataSource
+from .model_event import ModelEventType, ModelEvent
+from .model_session import ModelSession
+from .model_status import ModelStatus
+from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameter, ModelIndicatorResult
 
 
 # Load logging configuration

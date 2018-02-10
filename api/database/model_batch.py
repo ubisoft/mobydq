@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Tables definitions for batch objects."""
 from .base import Base, Dictionary
-from .status import Status
+from .model_status import ModelStatus
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class BatchOwner(Base, Dictionary):
+class ModelBatchOwner(Base, Dictionary):
     """Batch owners."""
 
     __tablename__ = 'batch_owner'
@@ -17,11 +17,11 @@ class BatchOwner(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    batches = relationship('Batch', backref='batchOwner', passive_deletes=True, lazy='subquery')
-    indicators = relationship('Indicator', backref='batchOwner', lazy='subquery')
+    batches = relationship('ModelBatch', backref='batchOwner', passive_deletes=True, lazy='subquery')
+    indicators = relationship('ModelIndicator', backref='batchOwner', lazy='subquery')
 
 
-class Batch(Base, Dictionary):
+class ModelBatch(Base, Dictionary):
     """Batches."""
 
     __tablename__ = 'batch'
@@ -32,4 +32,4 @@ class Batch(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    sessions = relationship('Session', backref='batch', passive_deletes=True, lazy='subquery')
+    sessions = relationship('ModelSession', backref='batch', passive_deletes=True, lazy='subquery')

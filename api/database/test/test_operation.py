@@ -18,7 +18,7 @@ class TestOperationModule(unittest.TestCase):
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
 
         self.assertEqual(batch_owner.name, test_case_name)
 
@@ -27,9 +27,9 @@ class TestOperationModule(unittest.TestCase):
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        Operation('BatchOwner').create(name=test_case_name)
+        Operation('ModelBatchOwner').create(name=test_case_name)
 
-        batch_owner_list = Operation('BatchOwner').read(name=test_case_name)
+        batch_owner_list = Operation('ModelBatchOwner').read(name=test_case_name)
 
         self.assertEqual(batch_owner_list[0].name, test_case_name)
 
@@ -38,12 +38,12 @@ class TestOperationModule(unittest.TestCase):
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
 
         test_case_name_new = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name_new})
 
-        batch_owner = Operation('BatchOwner').update(id=batch_owner.id, name=test_case_name_new)
+        batch_owner = Operation('ModelBatchOwner').update(id=batch_owner.id, name=test_case_name_new)
 
         self.assertEqual(batch_owner.name, test_case_name_new)
 
@@ -52,11 +52,11 @@ class TestOperationModule(unittest.TestCase):
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
 
-        batch_owner = Operation('BatchOwner').create(name=test_case_name)
+        batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
 
-        Operation('BatchOwner').delete(id=batch_owner.id)
+        Operation('ModelBatchOwner').delete(id=batch_owner.id)
 
-        batch_owner_list = Operation('BatchOwner').read(name=test_case_name)
+        batch_owner_list = Operation('ModelBatchOwner').read(name=test_case_name)
 
         self.assertEqual(batch_owner_list, [])
 

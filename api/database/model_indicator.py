@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class IndicatorType(Base, Dictionary):
+class ModelIndicatorType(Base, Dictionary):
     """Types of indicators."""
 
     __tablename__ = 'indicator_type'
@@ -18,10 +18,10 @@ class IndicatorType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicators = relationship('Indicator', backref='indicatorType')
+    indicators = relationship('ModelIndicator', backref='indicatorType')
 
 
-class Indicator(Base, Dictionary):
+class ModelIndicator(Base, Dictionary):
     """Data quality indicators."""
 
     __tablename__ = 'indicator'
@@ -36,12 +36,12 @@ class Indicator(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicatorParameters = relationship('IndicatorParameter', backref='indicator', passive_deletes=True)
-    indicatorResults = relationship('IndicatorResult', backref='indicator', passive_deletes=True)
-    sessions = relationship('Session', backref='indicator', passive_deletes=True)
+    indicatorParameters = relationship('ModelIndicatorParameter', backref='indicator', passive_deletes=True)
+    indicatorResults = relationship('ModelIndicatorResult', backref='indicator', passive_deletes=True)
+    sessions = relationship('ModelSession', backref='indicator', passive_deletes=True)
 
 
-class IndicatorParameter(Base, Dictionary):
+class ModelIndicatorParameter(Base, Dictionary):
     """Indicator parameters."""
 
     __tablename__ = 'indicator_parameter'
@@ -54,7 +54,7 @@ class IndicatorParameter(Base, Dictionary):
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class IndicatorResult(Base, Dictionary):
+class ModelIndicatorResult(Base, Dictionary):
     """Indicator results."""
 
     __tablename__ = 'indicator_result'

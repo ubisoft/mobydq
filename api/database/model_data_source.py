@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class DataSourceType(Base, Dictionary):
+class ModelDataSourceType(Base, Dictionary):
     """Types of data sources."""
 
     __tablename__ = 'data_source_type'
@@ -17,10 +17,10 @@ class DataSourceType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    dataSources = relationship('DataSource', backref='dataSourceType')
+    dataSources = relationship('ModelDataSource', backref='dataSourceType')
 
 
-class DataSource(Base, Dictionary):
+class ModelDataSource(Base, Dictionary):
     """Data sources."""
 
     __tablename__ = 'data_source'

@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 """Tables definitions for session objects."""
 from .base import Base, Dictionary
-from .batch import BatchOwner, Batch
-from .event import EventType, Event
-from .indicator import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
+from .model_batch import ModelBatchOwner, ModelBatch
+from .model_event import ModelEventType, ModelEvent
+from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameter, ModelIndicatorResult
 from sqlalchemy import Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class Session(Base, Dictionary):
+class ModelSession(Base, Dictionary):
     """Sessions."""
 
     __tablename__ = 'session'
@@ -21,5 +21,5 @@ class Session(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    events = relationship('Event', backref='session', passive_deletes=True)
-    indicatorResults = relationship('IndicatorResult', backref='session', passive_deletes=True)
+    events = relationship('ModelEvent', backref='session', passive_deletes=True)
+    indicatorResults = relationship('ModelIndicatorResult', backref='session', passive_deletes=True)

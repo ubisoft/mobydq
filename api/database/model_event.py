@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class EventType(Base, Dictionary):
+class ModelEventType(Base, Dictionary):
     """Types of events."""
 
     __tablename__ = 'event_type'
@@ -16,10 +16,10 @@ class EventType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    events = relationship('Event', backref='eventType')
+    events = relationship('ModelEvent', backref='eventType')
 
 
-class Event(Base, Dictionary):
+class ModelEvent(Base, Dictionary):
     """Events."""
 
     __tablename__ = 'event'

@@ -1,6 +1,5 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from database.indicator import IndicatorType as IndicatorTypeModel, Indicator as IndicatorModel
-from database.indicator import IndicatorParameter as IndicatorParameterModel, IndicatorResult as IndicatorResultModel
+from database.model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameter, ModelIndicatorResult
 import graphene
 import logging
 
@@ -12,7 +11,7 @@ class IndicatorType(SQLAlchemyObjectType):
     """Types of indicators."""
 
     class Meta:
-        model = IndicatorTypeModel
+        model = ModelIndicatorType
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
     # name_hired_on = graphene.String()
@@ -28,7 +27,7 @@ class Indicator(SQLAlchemyObjectType):
     """Data quality indicators."""
 
     class Meta:
-        model = IndicatorModel
+        model = ModelIndicator
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
@@ -36,7 +35,7 @@ class IndicatorParameter(SQLAlchemyObjectType):
     """Indicator parameters."""
 
     class Meta:
-        model = IndicatorParameterModel
+        model = ModelIndicatorParameter
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
@@ -44,5 +43,5 @@ class IndicatorResult(SQLAlchemyObjectType):
     """Indicator results."""
 
     class Meta:
-        model = IndicatorResultModel
+        model = ModelIndicatorResult
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

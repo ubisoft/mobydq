@@ -25,11 +25,11 @@ class TestApiModule(unittest.TestCase):
         # Create batch owner and batch in database
         batch_owner_data = {}
         batch_owner_data['name'] = test_case_name
-        batch_owner = Operation('BatchOwner').create(**batch_owner_data)
+        batch_owner = Operation('ModelBatchOwner').create(**batch_owner_data)
         batch_data = {}
         batch_data['batchOwnerId'] = batch_owner.id
         batch_data['statusId'] = 1  # Running
-        batch = Operation('Batch').create(**batch_data)
+        batch = Operation('ModelBatch').create(**batch_data)
 
         # Get batch
         global_id = '\\"{}\\"'.format(to_global_id('Batch', batch.id))
@@ -47,11 +47,11 @@ class TestApiModule(unittest.TestCase):
         # Create batch owner and batch in database
         batch_owner_data = {}
         batch_owner_data['name'] = test_case_name
-        batch_owner = Operation('BatchOwner').create(**batch_owner_data)
+        batch_owner = Operation('ModelBatchOwner').create(**batch_owner_data)
         batch_data = {}
         batch_data['batchOwnerId'] = batch_owner.id
         batch_data['statusId'] = 1  # Running
-        Operation('Batch').create(**batch_data)
+        Operation('ModelBatch').create(**batch_data)
 
         # Get batch list
         payload = '{"query": "{batches {edges {node {id}}}}"}'
@@ -68,7 +68,7 @@ class TestApiModule(unittest.TestCase):
         # Create batch owner in database
         batch_owner_data = {}
         batch_owner_data['name'] = test_case_name
-        batch_owner = Operation('BatchOwner').create(**batch_owner_data)
+        batch_owner = Operation('ModelBatchOwner').create(**batch_owner_data)
 
         # Get batch owner
         global_id = '\\"{}\\"'.format(to_global_id('BatchOwner', batch_owner.id))
@@ -86,7 +86,7 @@ class TestApiModule(unittest.TestCase):
         # Create batch owner in database
         batch_owner_data = {}
         batch_owner_data['name'] = test_case_name
-        Operation('BatchOwner').create(**batch_owner_data)
+        Operation('ModelBatchOwner').create(**batch_owner_data)
 
         # Get batch owner list
         payload = '{"query": "{batchOwners {edges {node {id}}}}"}'
@@ -108,7 +108,7 @@ class TestApiModule(unittest.TestCase):
         data_source_data['connectionString'] = test_case_name
         data_source_data['login'] = test_case_name
         data_source_data['password'] = test_case_name
-        data_source = Operation('DataSource').create(**data_source_data)
+        data_source = Operation('ModelDataSource').create(**data_source_data)
 
         # Get batch owner
         global_id = '\\"{}\\"'.format(to_global_id('DataSource', data_source.id))
@@ -131,7 +131,7 @@ class TestApiModule(unittest.TestCase):
         data_source_data['connectionString'] = test_case_name
         data_source_data['login'] = test_case_name
         data_source_data['password'] = test_case_name
-        Operation('DataSource').create(**data_source_data)
+        Operation('ModelDataSource').create(**data_source_data)
 
         # Get data source list
         payload = '{"query": "{dataSources {edges {node {id}}}}"}'

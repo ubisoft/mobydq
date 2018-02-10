@@ -1,5 +1,5 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from database.status import Status as StatusModel
+from database.model_session import ModelSession
 import graphene
 import logging
 
@@ -7,9 +7,9 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Status(SQLAlchemyObjectType):
-    """Status for batches and sessions."""
+class Session(SQLAlchemyObjectType):
+    """Sessions."""
 
     class Meta:
-        model = StatusModel
+        model = ModelSession
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

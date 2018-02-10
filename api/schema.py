@@ -1,13 +1,15 @@
 from graphene_sqlalchemy import SQLAlchemyConnectionField
-from session_schema import Session
-from status_schema import Status
-from event_schema import EventType, Event
-from indicator_schema import IndicatorType, Indicator, IndicatorParameter, IndicatorResult
-from data_source_schema import DataSourceType, DataSource
-import batch_schema
-import batch_mutation
 import graphene
 import logging
+import mutation_batch
+import mutation_data_source
+import schema_batch
+import schema_data_source
+import schema_event
+import schema_indicator
+import schema_session
+import schema_status
+
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -17,40 +19,59 @@ class Query(graphene.ObjectType):
     """Query endpoint for GraphQL API."""
 
     node = graphene.relay.Node.Field()
-    batch = graphene.relay.Node.Field(batch_schema.Batch)
-    batches = SQLAlchemyConnectionField(batch_schema.Batch)
-    batch_owner = graphene.relay.Node.Field(batch_schema.BatchOwner)
-    batch_owners = SQLAlchemyConnectionField(batch_schema.BatchOwner)
-    data_source = graphene.relay.Node.Field(DataSource)
-    data_sources = SQLAlchemyConnectionField(DataSource)
-    data_source_type = graphene.relay.Node.Field(DataSourceType)
-    data_source_types = SQLAlchemyConnectionField(DataSourceType)
-    event = graphene.relay.Node.Field(Event)
-    events = SQLAlchemyConnectionField(Event)
-    event_type = graphene.relay.Node.Field(EventType)
-    event_types = SQLAlchemyConnectionField(EventType)
-    indicator = graphene.relay.Node.Field(Indicator)
-    indicators = SQLAlchemyConnectionField(Indicator)
-    indicator_parameter = graphene.relay.Node.Field(IndicatorParameter)
-    indicator_parameters = SQLAlchemyConnectionField(IndicatorParameter)
-    indicator_result = graphene.relay.Node.Field(IndicatorResult)
-    indicator_results = SQLAlchemyConnectionField(IndicatorResult)
-    indicator_type = graphene.relay.Node.Field(IndicatorType)
-    indicator_types = SQLAlchemyConnectionField(IndicatorType)
-    session = graphene.relay.Node.Field(Session)
-    sessions = SQLAlchemyConnectionField(Session)
-    status = graphene.relay.Node.Field(Status)
-    statuses = SQLAlchemyConnectionField(Status)
+
+    # Batch queries
+    batch = graphene.relay.Node.Field(schema_batch.Batch)
+    batches = SQLAlchemyConnectionField(schema_batch.Batch)
+    batch_owner = graphene.relay.Node.Field(schema_batch.BatchOwner)
+    batch_owners = SQLAlchemyConnectionField(schema_batch.BatchOwner)
+
+    # Data source queries
+    data_source = graphene.relay.Node.Field(schema_data_source.DataSource)
+    data_sources = SQLAlchemyConnectionField(schema_data_source.DataSource)
+    data_source_type = graphene.relay.Node.Field(schema_data_source.DataSourceType)
+    data_source_types = SQLAlchemyConnectionField(schema_data_source.DataSourceType)
+
+    # Event queries
+    event = graphene.relay.Node.Field(schema_event.Event)
+    events = SQLAlchemyConnectionField(schema_event.Event)
+    event_type = graphene.relay.Node.Field(schema_event.EventType)
+    event_types = SQLAlchemyConnectionField(schema_event.EventType)
+
+    # Indicator queries
+    indicator = graphene.relay.Node.Field(schema_indicator.Indicator)
+    indicators = SQLAlchemyConnectionField(schema_indicator.Indicator)
+    indicator_parameter = graphene.relay.Node.Field(schema_indicator.IndicatorParameter)
+    indicator_parameters = SQLAlchemyConnectionField(schema_indicator.IndicatorParameter)
+    indicator_result = graphene.relay.Node.Field(schema_indicator.IndicatorResult)
+    indicator_results = SQLAlchemyConnectionField(schema_indicator.IndicatorResult)
+    indicator_type = graphene.relay.Node.Field(schema_indicator.IndicatorType)
+    indicator_types = SQLAlchemyConnectionField(schema_indicator.IndicatorType)
+
+    # Session queries
+    session = graphene.relay.Node.Field(schema_session.Session)
+    sessions = SQLAlchemyConnectionField(schema_session.Session)
+
+    # Status queries
+    status = graphene.relay.Node.Field(schema_status.Status)
+    statuses = SQLAlchemyConnectionField(schema_status.Status)
 
 
 class Mutation(graphene.ObjectType):
     """Mutation endpoint for GraphQL API."""
 
-    create_batch = batch_mutation.CreateBatch.Field()
-    create_batch_owner = batch_mutation.CreateBatchOwner.Field()
-    execute_batch = batch_mutation.ExecuteBatch.Field()
-    update_batch = batch_mutation.UpdateBatch.Field()
-    update_batch_owner = batch_mutation.UpdateBatchOwner.Field()
+    # Batch mutations
+    create_batch = mutation_batch.CreateBatch.Field()
+    create_batch_owner = mutation_batch.CreateBatchOwner.Field()
+    execute_batch = mutation_batch.ExecuteBatch.Field()
+    update_batch = mutation_batch.UpdateBatch.Field()
+    update_batch_owner = mutation_batch.UpdateBatchOwner.Field()
+
+    # Data source mutations
+    create_data_source = mutation_data_source.CreateDataSource.Field()
+    create_data_source_type = mutation_data_source.CreateDataSourceType.Field()
+    update_data_source = mutation_data_source.UpdateDataSource.Field()
+    update_data_source_type = mutation_data_source.UpdateDataSourceType.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

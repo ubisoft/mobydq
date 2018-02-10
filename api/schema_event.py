@@ -1,5 +1,5 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from database.data_source import DataSourceType as DataSourceTypeModel, DataSource as DataSourceModel
+from database.model_event import ModelEventType, ModelEvent
 import graphene
 import logging
 
@@ -7,17 +7,17 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class DataSourceType(SQLAlchemyObjectType):
-    """Types of data sources."""
+class EventType(SQLAlchemyObjectType):
+    """Types of events."""
 
     class Meta:
-        model = DataSourceTypeModel
+        model = ModelEventType
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
-class DataSource(SQLAlchemyObjectType):
-    """Data sources."""
+class Event(SQLAlchemyObjectType):
+    """Events."""
 
     class Meta:
-        model = DataSourceModel
+        model = ModelEvent
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
