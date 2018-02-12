@@ -14,7 +14,7 @@ class AttributeSession:
     batchId = graphene.ID(description="Batch Id of the session.")
 
 
-class Session(SQLAlchemyObjectType, AttributeSession):
+class SchemaSession(SQLAlchemyObjectType, AttributeSession):
     """Sessions."""
     class Meta:
         model = ModelSession

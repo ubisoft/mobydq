@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Indicators related functions."""
 from database.operation import Operation
-from data_source_method import DataSourceMethod
-from event_method import EventMethod
+from method_data_source import MethodDataSource
+from method_event import MethodEvent
 from ast import literal_eval
 from datetime import datetime
 import logging
@@ -13,7 +13,7 @@ import api_utils
 log = logging.getLogger(__name__)
 
 
-class IndicatorMethod:
+class MethodIndicator:
     """Functions called by the API for indicator objects."""
 
     def __init__(self, indicator_id):
@@ -32,7 +32,7 @@ class IndicatorMethod:
 
     def execute(self, batch_id):
         """Execute a data quality indicator."""
-        start_event = EventMethod('Start').log_event(self.indicator.id, batch_id)
+        start_event = MethodEvent('Start').log_event(self.indicator.id, batch_id)
         session_id = start_event.sessionId
 
         # Get indicator parameters
@@ -69,14 +69,14 @@ class IndicatorMethod:
             if parameter == 'Source':
                 log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
-                source_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Source request'])
+                source_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters['Source request'])
                 source_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
                 data_sets['Source data frame'] = source_data_frame
 
             elif parameter == 'Target':
                 log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
-                target_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Target request'])
+                target_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters['Target request'])
                 target_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
                 data_sets['Target data frame'] = target_data_frame
 
@@ -118,7 +118,7 @@ class IndicatorMethod:
                 attachment=None,
                 **body)
 
-        EventMethod('Stop').log_event(self.indicator.id, batch_id)
+        MethodEvent('Stop').log_event(self.indicator.id, batch_id)
         self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
         log.info(self.error_message['message'])
         return self.error_message

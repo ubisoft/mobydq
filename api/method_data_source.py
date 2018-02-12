@@ -10,7 +10,7 @@ import sqlite3
 log = logging.getLogger(__name__)
 
 
-class DataSourceMethod:
+class MethodDataSource:
     def __init__(self, data_source_name):
         """Initialize class."""
         # Initialize dictionary for error message

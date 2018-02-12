@@ -13,7 +13,7 @@ class AttributeEvent:
     sessionId = graphene.ID(description="Session Id of the event.")
 
 
-class Event(SQLAlchemyObjectType, AttributeEvent):
+class SchemaEvent(SQLAlchemyObjectType, AttributeEvent):
     """Events."""
     class Meta:
         model = ModelEvent
@@ -25,7 +25,7 @@ class AttributeEventType:
     name = graphene.String(description="Event type name.")
 
 
-class EventType(SQLAlchemyObjectType, AttributeEventType):
+class SchemaEventType(SQLAlchemyObjectType, AttributeEventType):
     """Types of events."""
     class Meta:
         model = ModelEventType

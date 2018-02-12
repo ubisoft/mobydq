@@ -12,7 +12,7 @@ class AttributeStatus:
     name = graphene.String(description="Status name.")
 
 
-class Status(SQLAlchemyObjectType, AttributeStatus):
+class SchemaStatus(SQLAlchemyObjectType, AttributeStatus):
     """Status for batches and sessions."""
     class Meta:
         model = ModelStatus

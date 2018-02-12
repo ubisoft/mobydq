@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Functions related to batch objects."""
 from database.operation import Operation
-from indicator_method import IndicatorMethod
+from method_indicator import MethodIndicator
 import logging
 
 # Load logging configuration
@@ -84,7 +84,7 @@ class MethodBatch:
             indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
 
         for indicator_record in indicator_list:
-            IndicatorMethod(indicator_record.id).execute(batch_record.id)
+            MethodIndicator(indicator_record.id).execute(batch_record.id)
 
         self.stop(batch_record.id)
         self.error_message['message'] = 'Batch with Id {} completed successfully'.format(batch_record.id)

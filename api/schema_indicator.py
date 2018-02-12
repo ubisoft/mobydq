@@ -17,7 +17,7 @@ class AttributeIndicator:
     active = graphene.Boolean(description="Indicates if the indicator is active or inactive. Only active indicators can be executed.")
 
 
-class Indicator(SQLAlchemyObjectType, AttributeIndicator):
+class SchemaIndicator(SQLAlchemyObjectType, AttributeIndicator):
     """Data quality indicators."""
     class Meta:
         model = ModelIndicator
@@ -31,7 +31,7 @@ class AttributeIndicatorParameter:
     value = graphene.String(description="Value of the parameter.")
 
 
-class IndicatorParameter(SQLAlchemyObjectType, AttributeIndicatorParameter):
+class SchemaIndicatorParameter(SQLAlchemyObjectType, AttributeIndicatorParameter):
     """Indicator parameters."""
     class Meta:
         model = ModelIndicatorParameter
@@ -45,7 +45,7 @@ class AttributeIndicatorParameterType:
     mandatory = graphene.Boolean(description="Indicates if the parameter type is mandatory.")
 
 
-class IndicatorParameterType(SQLAlchemyObjectType, AttributeIndicatorParameterType):
+class SchemaIndicatorParameterType(SQLAlchemyObjectType, AttributeIndicatorParameterType):
     """Indicator parameter types."""
     class Meta:
         model = ModelIndicatorParameterType
@@ -63,7 +63,7 @@ class AttributeIndicatorResult:
     nbRecordsNoAlert = graphene.Int(description="Number of records which did not trigger an alert in the result set.")
 
 
-class IndicatorResult(SQLAlchemyObjectType, AttributeIndicatorResult):
+class SchemaIndicatorResult(SQLAlchemyObjectType, AttributeIndicatorResult):
     """Indicator results."""
     class Meta:
         model = ModelIndicatorResult
@@ -77,7 +77,7 @@ class AttributeIndicatorType:
     function = graphene.String(description="Python function used to execute this type of indicator.")
 
 
-class IndicatorType(SQLAlchemyObjectType, AttributeIndicatorType):
+class SchemaIndicatorType(SQLAlchemyObjectType, AttributeIndicatorType):
     """Types of indicators."""
     class Meta:
         model = ModelIndicatorType

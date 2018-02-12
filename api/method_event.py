@@ -7,7 +7,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class EventMethod:
+class MethodEvent:
     """Functions called by the API for event objects."""
 
     def __init__(self, event_type):
