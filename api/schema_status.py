@@ -1,5 +1,5 @@
-from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.model_status import ModelStatus
+from graphene_sqlalchemy import SQLAlchemyObjectType
 import graphene
 import logging
 
@@ -7,9 +7,13 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Status(SQLAlchemyObjectType):
-    """Status for batches and sessions."""
+class AttributeStatus:
+    """Generic class to provide descriptions of status attributes"""
+    name = graphene.String(description="Status name.")
 
+
+class Status(SQLAlchemyObjectType, AttributeStatus):
+    """Status for batches and sessions."""
     class Meta:
         model = ModelStatus
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

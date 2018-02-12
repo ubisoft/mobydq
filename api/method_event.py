@@ -16,7 +16,7 @@ class EventMethod:
         self.error_message = {}
 
         # Verify event type exists
-        event_type_list = Operation('ModelEventType').read(name=event_type)
+        event_type_list = Operation('EventType').read(name=event_type)
         if event_type_list:
             self.event_type_id = event_type_list[0].id
             self.event_type = event_type_list[0].name
@@ -60,15 +60,15 @@ class EventMethod:
             log.info('Starting session for indicator Id: {}'.format(indicator_id))
 
             # Insert new running session and start event
-            session = Operation('ModelSession').create(indicatorId=indicator_id, batchId=batch_id, statusId=1)
-            event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session.id, content=data_set)
+            session = Operation('Session').create(indicatorId=indicator_id, batchId=batch_id, statusId=1)
+            event = Operation('Event').create(eventTypeId=self.event_type_id, sessionId=session.id, content=data_set)
 
         # Log stop event, update running session to succeeded
         elif self.event_type_id == 2:
             log.info('Stoping session for indicator Id: {}'.format(indicator_id))
 
             # Verify current indicator is running
-            session_list = Operation('ModelSession').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
+            session_list = Operation('Session').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
             if not session_list:
                 self.error_message['message'] = '''Cannot log {} event because indicator with Id {}
                  does not have a running session with batch Id {}'''.format(self.event_type, indicator_id, batch_id)
@@ -76,15 +76,15 @@ class EventMethod:
                 return self.error_message
 
             # Insert stop event and terminate running session
-            event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
-            Operation('ModelSession').update(id=session_list[0].id, statusId=2)
+            event = Operation('Event').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
+            Operation('Session').update(id=session_list[0].id, statusId=2)
 
         # Log error event, update running session to failed
         elif self.event_type_id == 3:
             log.info('Failing session for indicator Id: {}'.format(indicator_id))
 
             # Verify current indicator is running
-            session_list = Operation('ModelSession').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
+            session_list = Operation('Session').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
             if not session_list:
                 self.error_message['message'] = '''Cannot log {} event because indicator with Id {}
                  does not have a running session with batch Id {}'''.format(self.event_type, indicator_id, batch_id)
@@ -92,15 +92,15 @@ class EventMethod:
                 return self.error_message
 
             # Insert error event and terminate running session
-            event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
-            Operation('ModelSession').update(id=session_list[0].id, statusId=3)
+            event = Operation('Event').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
+            Operation('Session').update(id=session_list[0].id, statusId=3)
 
         # Log data set event
         elif self.event_type_id == 4:
             log.info('Logging data set for indicator Id: {}'.format(indicator_id))
 
             # Verify current indicator is running
-            session_list = Operation('ModelSession').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
+            session_list = Operation('Session').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
             if not session_list:
                 self.error_message['message'] = '''Cannot log {} event because indicator with Id {}
                  does not have a running session with batch Id {}'''.format(self.event_type, indicator_id, batch_id)
@@ -108,6 +108,6 @@ class EventMethod:
                 return self.error_message
 
             # Insert data set event
-            event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
+            event = Operation('Event').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
 
         return event

@@ -1,6 +1,7 @@
 from database.operation import Operation
+from method_batch import MethodBatch
+from schema_batch import AttributeBatch, SchemaBatch, AttributeBatchOwner, SchemaBatchOwner
 import api_utils
-import schema_batch
 import graphene
 import logging
 
@@ -8,7 +9,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class CreateBatchInput(graphene.InputObjectType, schema_batch.BatchAttribute):
+class CreateBatchInput(graphene.InputObjectType, AttributeBatch):
     """Arguments to create a batch."""
     pass
 
@@ -16,7 +17,7 @@ class CreateBatchInput(graphene.InputObjectType, schema_batch.BatchAttribute):
 class CreateBatch(graphene.Mutation):
     """Mutation to create a batch."""
     # Declare class attributes
-    batch = graphene.Field(schema_batch.Batch)
+    batch = graphene.Field(SchemaBatch)
 
     class Arguments:
         input = CreateBatchInput(required=True)
@@ -29,7 +30,7 @@ class CreateBatch(graphene.Mutation):
         return CreateBatch(batch=batch)
 
 
-class CreateBatchOwnerInput(graphene.InputObjectType, schema_batch.BatchOwnerAttribute):
+class CreateBatchOwnerInput(graphene.InputObjectType, AttributeBatchOwner):
     """Arguments to create a batch owner."""
     pass
 
@@ -37,7 +38,7 @@ class CreateBatchOwnerInput(graphene.InputObjectType, schema_batch.BatchOwnerAtt
 class CreateBatchOwner(graphene.Mutation):
     """Mutation to create a batch owner."""
     # Declare class attributes
-    batch_owner = graphene.Field(schema_batch.BatchOwner)
+    batch_owner = graphene.Field(SchemaBatchOwner)
 
     class Arguments:
         input = CreateBatchOwnerInput(required=True)
@@ -59,7 +60,7 @@ class ExecuteBatchInput(graphene.InputObjectType):
 class ExecuteBatch(graphene.Mutation):
     """Mutation to execute a batch."""
     # Declare class attributes
-    batch = graphene.Field(schema_batch.Batch)
+    batch = graphene.Field(SchemaBatch)
 
     class Arguments:
         input = ExecuteBatchInput(required=True)
@@ -68,11 +69,12 @@ class ExecuteBatch(graphene.Mutation):
         """Mutation to execute a batch."""
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
-        batch = schema_batch.Batch.execute(**data)
+        batch_owner_id = data['batchOwnerId']
+        batch = MethodBatch(batch_owner_id).execute(**data)
         return ExecuteBatch(batch=batch)
 
 
-class UpdateBatchInput(graphene.InputObjectType, schema_batch.BatchAttribute):
+class UpdateBatchInput(graphene.InputObjectType, AttributeBatch):
     """Arguments to update a batch."""
     id = graphene.ID(required=True)
 
@@ -80,7 +82,7 @@ class UpdateBatchInput(graphene.InputObjectType, schema_batch.BatchAttribute):
 class UpdateBatch(graphene.Mutation):
     """Mutation to update a batch."""
     # Declare class attributes
-    batch = graphene.Field(schema_batch.Batch)
+    batch = graphene.Field(SchemaBatch)
 
     class Arguments:
         input = UpdateBatchInput(required=True)
@@ -93,7 +95,7 @@ class UpdateBatch(graphene.Mutation):
         return UpdateBatch(batch=batch)
 
 
-class UpdateBatchOwnerInput(graphene.InputObjectType, schema_batch.BatchOwnerAttribute):
+class UpdateBatchOwnerInput(graphene.InputObjectType, AttributeBatchOwner):
     """Arguments to update a batch owner."""
     id = graphene.ID(required=True)
 
@@ -101,7 +103,7 @@ class UpdateBatchOwnerInput(graphene.InputObjectType, schema_batch.BatchOwnerAtt
 class UpdateBatchOwner(graphene.Mutation):
     """Mutation to update a batch owner."""
     # Declare class attributes
-    batch_owner = graphene.Field(schema_batch.BatchOwner)
+    batch_owner = graphene.Field(SchemaBatchOwner)
 
     class Arguments:
         input = UpdateBatchOwnerInput(required=True)

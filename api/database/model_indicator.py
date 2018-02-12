@@ -41,15 +41,30 @@ class ModelIndicator(Base, Dictionary):
     sessions = relationship('ModelSession', backref='indicator', passive_deletes=True)
 
 
+class ModelIndicatorParameterType(Base, Dictionary):
+    """Indicator parameter types."""
+
+    __tablename__ = 'indicator_parameter_type'
+
+    id = Column('indicator_parameter_type_id', Integer, primary_key=True)
+    name = Column('indicator_parameter_type', String, nullable=False, unique=True)
+    description = Column('indicator_parameter_type_description', String, nullable=False)
+    mandatory = Column('flag_mandatory', Boolean, nullable=False)
+    createdDate = Column('created_date', DateTime, server_default=func.now())
+    updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
+
+    indicatorParameters = relationship('ModelIndicatorParameter', backref='indicatorParameterType')
+
+
 class ModelIndicatorParameter(Base, Dictionary):
     """Indicator parameters."""
 
     __tablename__ = 'indicator_parameter'
 
     id = Column('indicator_parameter_id', Integer, primary_key=True)
-    name = Column('indicator_parameter', String, nullable=False)
-    value = Column('indicator_parameter_value', String, nullable=False)
     indicatorId = Column('indicator_id', Integer, ForeignKey('indicator.indicator_id', ondelete='CASCADE'), nullable=False)
+    parameterTypeId = Column('indicator_parameter_type_id', Integer, ForeignKey('indicator_parameter_type.indicator_parameter_type_id', ondelete='CASCADE'), nullable=False)
+    value = Column('indicator_parameter_value', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 

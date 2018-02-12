@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 """Functions to perform database operations."""
-from contextlib import contextmanager
 from cryptography.fernet import Fernet
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
 import configparser
 import logging
 import os
@@ -16,7 +13,7 @@ from .model_data_source import ModelDataSourceType, ModelDataSource
 from .model_event import ModelEventType, ModelEvent
 from .model_session import ModelSession
 from .model_status import ModelStatus
-from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameter, ModelIndicatorResult
+from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameterType, ModelIndicatorParameter, ModelIndicatorResult
 
 
 # Load logging configuration

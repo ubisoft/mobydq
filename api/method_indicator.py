@@ -22,7 +22,7 @@ class IndicatorMethod:
         self.error_message = {}
 
         # Verify indicator exists
-        indicator_list = Operation('ModelIndicator').read(id=indicator_id)
+        indicator_list = Operation('Indicator').read(id=indicator_id)
         if indicator_list:
             self.indicator = indicator_list[0]
         else:
@@ -36,7 +36,7 @@ class IndicatorMethod:
         session_id = start_event.sessionId
 
         # Get indicator parameters
-        indicator_parameter_list = Operation('ModelIndicatorParameter').read(indicatorId=self.indicator.id)
+        indicator_parameter_list = Operation('IndicatorParameter').read(indicatorId=self.indicator.id)
 
         # Create dictionary from indicator parameters
         parameters = {}
@@ -96,7 +96,7 @@ class IndicatorMethod:
             data_sets[data_frame_name] = data_frame
 
         # Get indicator function and execute it
-        indicator_type_list = Operation('ModelIndicatorType').read(id=self.indicator.indicatorTypeId)
+        indicator_type_list = Operation('IndicatorType').read(id=self.indicator.indicatorTypeId)
         indicator_function = indicator_type_list[0].function
         result_data_frame = getattr(self, indicator_function)(data_sets, parameters)
 
@@ -290,7 +290,7 @@ class IndicatorMethod:
         nb_records_no_alert = len(result_data_frame.loc[result_data_frame['Alert'] == False])
 
         # Insert result to database
-        Operation('ModelIndicatorResult').create(
+        Operation('IndicatorResult').create(
             indicatorId=self.indicator.id,
             sessionId=session_id,
             alertOperator=alert_operator,

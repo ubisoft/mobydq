@@ -1,5 +1,5 @@
-from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.model_event import ModelEventType, ModelEvent
+from graphene_sqlalchemy import SQLAlchemyObjectType
 import graphene
 import logging
 
@@ -7,17 +7,26 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class EventType(SQLAlchemyObjectType):
-    """Types of events."""
+class AttributeEvent:
+    """Generic class to provide descriptions of event attributes"""
+    eventTypeId = graphene.ID(description="Event type Id of the event.")
+    sessionId = graphene.ID(description="Session Id of the event.")
 
+
+class Event(SQLAlchemyObjectType, AttributeEvent):
+    """Events."""
     class Meta:
-        model = ModelEventType
+        model = ModelEvent
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure
 
 
-class Event(SQLAlchemyObjectType):
-    """Events."""
+class AttributeEventType:
+    """Generic class to provide descriptions of event type attributes"""
+    name = graphene.String(description="Event type name.")
 
+
+class EventType(SQLAlchemyObjectType, AttributeEventType):
+    """Types of events."""
     class Meta:
-        model = ModelEvent
+        model = ModelEventType
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

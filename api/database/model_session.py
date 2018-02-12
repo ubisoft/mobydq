@@ -3,7 +3,7 @@
 from .base import Base, Dictionary
 from .model_batch import ModelBatchOwner, ModelBatch
 from .model_event import ModelEventType, ModelEvent
-from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameter, ModelIndicatorResult
+from .model_indicator import ModelIndicatorType, ModelIndicator, ModelIndicatorParameterType, ModelIndicatorParameter, ModelIndicatorResult
 from sqlalchemy import Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func

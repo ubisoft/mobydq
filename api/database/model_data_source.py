@@ -13,7 +13,7 @@ class ModelDataSourceType(Base, Dictionary):
 
     id = Column('data_source_type_id', Integer, primary_key=True)
     name = Column('data_source_type', String, nullable=False, unique=True)
-    type = Column('data_source_parent_type', String, nullable=False)
+    parentType = Column('data_source_parent_type', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 

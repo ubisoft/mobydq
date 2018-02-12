@@ -1,5 +1,5 @@
-from graphene_sqlalchemy import SQLAlchemyObjectType
 from database.model_session import ModelSession
+from graphene_sqlalchemy import SQLAlchemyObjectType
 import graphene
 import logging
 
@@ -7,9 +7,15 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Session(SQLAlchemyObjectType):
-    """Sessions."""
+class AttributeSession:
+    """Generic class to provide descriptions of session attributes"""
+    statusId = graphene.ID(description="Status Id of the session.")
+    indicatorId = graphene.ID(description="Indicator Id of the session.")
+    batchId = graphene.ID(description="Batch Id of the session.")
 
+
+class Session(SQLAlchemyObjectType, AttributeSession):
+    """Sessions."""
     class Meta:
         model = ModelSession
         interfaces = (graphene.relay.Node,)  # Keep comma to avoid failure

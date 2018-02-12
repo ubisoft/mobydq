@@ -1,6 +1,6 @@
 from database.operation import Operation
+from schema_data_source import AttributeDataSource, SchemaDataSource, AttributeDataSourceType, SchemaDataSourceType
 import api_utils
-import schema_data_source
 import graphene
 import logging
 
@@ -8,7 +8,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class CreateDataSourceInput(graphene.InputObjectType, schema_data_source.DataSourceAttribute):
+class CreateDataSourceInput(graphene.InputObjectType, AttributeDataSource):
     """Arguments to create a data source."""
     pass
 
@@ -16,7 +16,7 @@ class CreateDataSourceInput(graphene.InputObjectType, schema_data_source.DataSou
 class CreateDataSource(graphene.Mutation):
     """Mutation to create a data source."""
     # Declare class attributes
-    data_source = graphene.Field(schema_data_source.DataSource)
+    data_source = graphene.Field(SchemaDataSource)
 
     class Arguments:
         input = CreateDataSourceInput(required=True)
@@ -29,7 +29,7 @@ class CreateDataSource(graphene.Mutation):
         return CreateDataSource(data_source=data_source)
 
 
-class CreateDataSourceTypeInput(graphene.InputObjectType, schema_data_source.DataSourceTypeAttribute):
+class CreateDataSourceTypeInput(graphene.InputObjectType, AttributeDataSourceType):
     """Arguments to create a data source type."""
     pass
 
@@ -37,7 +37,7 @@ class CreateDataSourceTypeInput(graphene.InputObjectType, schema_data_source.Dat
 class CreateDataSourceType(graphene.Mutation):
     """Mutation to create a data source type."""
     # Declare class attributes
-    data_source_type = graphene.Field(schema_data_source.DataSourceType)
+    data_source_type = graphene.Field(SchemaDataSourceType)
 
     class Arguments:
         input = CreateDataSourceTypeInput(required=True)
@@ -50,7 +50,7 @@ class CreateDataSourceType(graphene.Mutation):
         return CreateDataSourceType(data_source_type=data_source_type)
 
 
-class UpdateDataSourceInput(graphene.InputObjectType, schema_data_source.DataSourceAttribute):
+class UpdateDataSourceInput(graphene.InputObjectType, AttributeDataSource):
     """Arguments to update a data source."""
     id = graphene.ID(required=True)
 
@@ -58,7 +58,7 @@ class UpdateDataSourceInput(graphene.InputObjectType, schema_data_source.DataSou
 class UpdateDataSource(graphene.Mutation):
     """Mutation to update a data source."""
     # Declare class attributes
-    data_source = graphene.Field(schema_data_source.DataSource)
+    data_source = graphene.Field(SchemaDataSource)
 
     class Arguments:
         input = UpdateDataSourceInput(required=True)
@@ -71,15 +71,15 @@ class UpdateDataSource(graphene.Mutation):
         return UpdateDataSource(data_source=data_source)
 
 
-class UpdateDataSourceTypeInput(graphene.InputObjectType, schema_data_source.DataSourceTypeAttribute):
-    """Arguments to update a batch owner."""
+class UpdateDataSourceTypeInput(graphene.InputObjectType, AttributeDataSourceType):
+    """Arguments to update a data source type."""
     id = graphene.ID(required=True)
 
 
 class UpdateDataSourceType(graphene.Mutation):
     """Mutation to update a data source type."""
     # Declare class attributes
-    data_source_type = graphene.Field(schema_data_source.DataSourceType)
+    data_source_type = graphene.Field(SchemaDataSourceType)
 
     class Arguments:
         input = UpdateDataSourceTypeInput(required=True)

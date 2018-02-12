@@ -43,6 +43,8 @@ class Query(graphene.ObjectType):
     indicators = SQLAlchemyConnectionField(schema_indicator.Indicator)
     indicator_parameter = graphene.relay.Node.Field(schema_indicator.IndicatorParameter)
     indicator_parameters = SQLAlchemyConnectionField(schema_indicator.IndicatorParameter)
+    indicator_parameter_type = graphene.relay.Node.Field(schema_indicator.IndicatorParameterType)
+    indicator_parameter_types = SQLAlchemyConnectionField(schema_indicator.IndicatorParameterType)
     indicator_result = graphene.relay.Node.Field(schema_indicator.IndicatorResult)
     indicator_results = SQLAlchemyConnectionField(schema_indicator.IndicatorResult)
     indicator_type = graphene.relay.Node.Field(schema_indicator.IndicatorType)
@@ -60,16 +62,22 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     """Mutation endpoint for GraphQL API."""
 
-    # Batch mutations
+    # Create batch mutations
     create_batch = mutation_batch.CreateBatch.Field()
     create_batch_owner = mutation_batch.CreateBatchOwner.Field()
+
+    # Create data source mutations
+    create_data_source = mutation_data_source.CreateDataSource.Field()
+    create_data_source_type = mutation_data_source.CreateDataSourceType.Field()
+
+    # Execute batch mutation
     execute_batch = mutation_batch.ExecuteBatch.Field()
+
+    # Update batch mutations
     update_batch = mutation_batch.UpdateBatch.Field()
     update_batch_owner = mutation_batch.UpdateBatchOwner.Field()
 
-    # Data source mutations
-    create_data_source = mutation_data_source.CreateDataSource.Field()
-    create_data_source_type = mutation_data_source.CreateDataSourceType.Field()
+    # Update data source mutations
     update_data_source = mutation_data_source.UpdateDataSource.Field()
     update_data_source_type = mutation_data_source.UpdateDataSourceType.Field()
 
