@@ -51,13 +51,6 @@ jobs:
             . dq/bin/activate
             python3 setup.py
 
-      #- run:
-      #    name: Start API
-      #    command: |
-      #      . dq/bin/activate
-      #      python3 api/run.py
-      #      background: true
-
       - run:
           name: Run Tests
           command: |
