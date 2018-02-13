@@ -17,7 +17,7 @@ class MethodBatch:
         self.error_message = {}
 
         # Verify batch owner exists
-        batch_owner_list = Operation('BatchOwner').read(id=batch_owner_id)
+        batch_owner_list = Operation('ModelBatchOwner').read(id=batch_owner_id)
         if batch_owner_list:
             self.batch_owner_id = batch_owner_list[0].id
         else:
@@ -33,7 +33,7 @@ class MethodBatch:
         * Returns the corresponding batch object
         """
         log.info('Starting batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch = Operation('Batch').create(batchOwnerId=self.batch_owner_id, statusId=1)
+        batch = Operation('ModelBatch').create(batchOwnerId=self.batch_owner_id, statusId=1)
         return batch
 
     def stop(self, batch_id):
@@ -44,7 +44,7 @@ class MethodBatch:
         * Returns the corresponding batch object
         """
         log.info('Stoping batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch_list = Operation('Batch').read(id=batch_id, statusId=1)
+        batch_list = Operation('ModelBatch').read(id=batch_id, statusId=1)
 
         if not batch_list:
             self.error_message['message'] = 'Cannot end batch because batch with Id {} is not running'.format(batch_id)
@@ -52,7 +52,7 @@ class MethodBatch:
             return self.error_message
 
         # Update running batch
-        batch = Operation('Batch').update(id=batch_id, statusId=2)
+        batch = Operation('ModelBatch').update(id=batch_id, statusId=2)
         return batch
 
     def fail(self, batch_id):
@@ -63,7 +63,7 @@ class MethodBatch:
         * Returns the corresponding batch object
         """
         log.info('Failing batch for batch owner Id: {}'.format(self.batch_owner_id))
-        batch_list = Operation('Batch').read(id=batch_id, statusId=1)
+        batch_list = Operation('ModelBatch').read(id=batch_id, statusId=1)
 
         if not batch_list:
             self.error_message['message'] = 'Cannot fail batch because batch with Id {} is not running'.format(batch_id)
@@ -71,7 +71,7 @@ class MethodBatch:
             return self.error_message
 
         # Update running batch
-        batch = Operation('Batch').update(id=batch_id, statusId=3)
+        batch = Operation('ModelBatch').update(id=batch_id, statusId=3)
         return batch
 
     def execute(self, indicator_id=None):
@@ -79,9 +79,9 @@ class MethodBatch:
 
         # Get indicators for the batch owner
         if indicator_id is not None:
-            indicator_list = Operation('Indicator').read(id=indicator_id, batchOwnerId=self.batch_owner_id)
+            indicator_list = Operation('ModelIndicator').read(id=indicator_id, batchOwnerId=self.batch_owner_id)
         else:
-            indicator_list = Operation('Indicator').read(batchOwnerId=self.batch_owner_id)
+            indicator_list = Operation('ModelIndicator').read(batchOwnerId=self.batch_owner_id)
 
         for indicator_record in indicator_list:
             MethodIndicator(indicator_record.id).execute(batch_record.id)

@@ -14,7 +14,6 @@ class TestOperationModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_create(self):
-        """Test create function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
 
@@ -22,7 +21,6 @@ class TestOperationModule(unittest.TestCase):
         self.assertEqual(batch_owner.name, test_case_name)
 
     def test_read(self):
-        """Test read function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         Operation('ModelBatchOwner').create(name=test_case_name)
         batch_owner_list = Operation('ModelBatchOwner').read(name=test_case_name)
@@ -31,7 +29,6 @@ class TestOperationModule(unittest.TestCase):
         self.assertEqual(batch_owner_list[0].name, test_case_name)
 
     def test_update(self):
-        """Test update function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         test_case_name_new = test_utils.get_test_case_name(self.test_case_list)
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
@@ -41,7 +38,6 @@ class TestOperationModule(unittest.TestCase):
         self.assertEqual(batch_owner.name, test_case_name_new)
 
     def test_delete(self):
-        """Test delete function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
         Operation('ModelBatchOwner').delete(id=batch_owner.id)

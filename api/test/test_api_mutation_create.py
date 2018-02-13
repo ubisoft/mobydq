@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Unit test for api module."""
+"""Unit test for api module GraphQL create mutations."""
 from test import test_utils
 from api.database.operation import Operation
 from graphql_relay.node.node import from_global_id, to_global_id

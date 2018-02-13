@@ -17,7 +17,7 @@ class MethodDataSource:
         self.error_message = {}
 
         # Verify data source exists
-        data_source_list = Operation('DataSource').read(name=data_source_name)
+        data_source_list = Operation('ModelDataSource').read(name=data_source_name)
 
         if data_source_list:
             self.data_source = data_source_list[0]
@@ -81,7 +81,7 @@ class MethodDataSource:
         """Connect to a data source, execute request and return the corresponding results as a pandas data frame."""
 
         # Identify the type of data source
-        data_source_type_list = Operation('DataSourceType').read(id=self.data_source.dataSourceTypeId)
+        data_source_type_list = Operation('ModelDataSourceType').read(id=self.data_source.dataSourceTypeId)
 
         if data_source_type_list:
             data_source_type = data_source_type_list[0]
@@ -91,22 +91,22 @@ class MethodDataSource:
             return self.error_message
 
         # Database
-        if data_source_type.type == 'Database':
+        if data_source_type.parentType == 'Database':
             connection = self.get_database_connection()
             data_frame = pandas.read_sql(request, connection)
 
         # File
-        elif data_source_type.type == 'File':
+        elif data_source_type.parentType == 'File':
             # Not implemented yet
             pass
 
         # API
-        elif data_source_type.type == 'API':
+        elif data_source_type.parentType == 'API':
             # Not implemented yet
             pass
 
         else:
-            self.error_message['message'] = 'Unknown data source type: {}'.format(data_source_type.type)
+            self.error_message['message'] = 'Unknown data source type: {}'.format(data_source_type.parentType)
             log.error(self.error_message['message'])
             return self.error_message
 

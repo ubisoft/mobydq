@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""Unit test for indicator_method module."""
+"""Unit test for method_indicator module."""
 from api.database.operation import Operation
-from api.batch_method import BatchMethod
-from api.indicator_method import IndicatorMethod
+from api.method_batch import MethodBatch
+from api.method_indicator import MethodIndicator
 from test import test_utils
 import inspect
 import os
 import unittest
 
 
-class TestIndicatorMethodModule(unittest.TestCase):
+class TestMethodIndicatorModule(unittest.TestCase):
     """Class to execute unit tests for indicator.py."""
 
     @classmethod
@@ -18,11 +18,10 @@ class TestIndicatorMethodModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_execute_completeness(self):
-        """Test execute completeness indicator."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelIndicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelBatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
@@ -50,20 +49,20 @@ class TestIndicatorMethodModule(unittest.TestCase):
 
         # Create indicator paramters
         param = Operation('ModelIndicatorParameter')
-        param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Source request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
-        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Target request', value="select 'status', count(*)-1 from status", indicatorId=indicator_record.id)
-        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-        param.create(name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
-        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
-        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
-        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param.create(parameterTypeId=1, value=">=", indicatorId=indicator_record.id)  # Alert operator
+        param.create(parameterTypeId=2, value="0", indicatorId=indicator_record.id)  # Alert threshold
+        param.create(parameterTypeId=3, value="['nb_records']", indicatorId=indicator_record.id)  # Measures
+        param.create(parameterTypeId=4, value="['table_name']", indicatorId=indicator_record.id)  # Dimensions
+        param.create(parameterTypeId=5, value=data_source.name, indicatorId=indicator_record.id)  # Target
+        param.create(parameterTypeId=6, value="select 'status', count(*)-1 from status", indicatorId=indicator_record.id)  # Target request
+        param.create(parameterTypeId=7, value=data_source.name, indicatorId=indicator_record.id)  # Source
+        param.create(parameterTypeId=8, value="select 'status', count(*) from status", indicatorId=indicator_record.id)  # Source request
+        param.create(parameterTypeId=9, value="['test@test.com']", indicatorId=indicator_record.id)  # Distribution list
 
         # Start batch, execute indicator and stop batch
-        batch_record = BatchMethod(batch_owner.id).start()
-        IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop(batch_record.id)
+        batch_record = MethodBatch(batch_owner.id).start()
+        MethodIndicator(indicator_record.id).execute(batch_record.id)
+        MethodBatch(batch_owner.id).stop(batch_record.id)
         session = Operation('ModelSession').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -71,9 +70,9 @@ class TestIndicatorMethodModule(unittest.TestCase):
     def test_execute_freshness(self):
         """Test execute freshness indicator."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelIndicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelBatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
@@ -101,18 +100,18 @@ class TestIndicatorMethodModule(unittest.TestCase):
 
         # Create indicator paramters
         param = Operation('ModelIndicatorParameter')
-        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Target request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
-        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-        param.create(name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
-        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
-        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
-        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param.create(parameterTypeId=1, value=">=", indicatorId=indicator_record.id)  # Alert operator
+        param.create(parameterTypeId=2, value="0", indicatorId=indicator_record.id)  # Alert threshold
+        param.create(parameterTypeId=3, value="['last_updated_date']", indicatorId=indicator_record.id)  # Measures
+        param.create(parameterTypeId=4, value="['table_name']", indicatorId=indicator_record.id)  # Dimensions
+        param.create(parameterTypeId=5, value=data_source.name, indicatorId=indicator_record.id)  # Target
+        param.create(parameterTypeId=6, value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)  # Target request
+        param.create(parameterTypeId=9, value="['test@test.com']", indicatorId=indicator_record.id)  # Distribution list
 
         # Start batch, execute indicator and stop batch
-        batch_record = BatchMethod(batch_owner.id).start()
-        IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop(batch_record.id)
+        batch_record = MethodBatch(batch_owner.id).start()
+        MethodIndicator(indicator_record.id).execute(batch_record.id)
+        MethodBatch(batch_owner.id).stop(batch_record.id)
         session = Operation('ModelSession').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -120,9 +119,9 @@ class TestIndicatorMethodModule(unittest.TestCase):
     def test_execute_latency(self):
         """Test execute latency indicator."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelIndicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelBatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
@@ -150,20 +149,20 @@ class TestIndicatorMethodModule(unittest.TestCase):
 
         # Create indicator paramters
         param = Operation('ModelIndicatorParameter')
-        param.create(name='Source', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Source request', value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)
-        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Target request', value="select 'status', datetime(max(updated_date), '-1 day', '-1 hour') from status", indicatorId=indicator_record.id)
-        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-        param.create(name='Measures', value="['last_updated_date']", indicatorId=indicator_record.id)
-        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
-        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
-        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param.create(parameterTypeId=1, value=">=", indicatorId=indicator_record.id)  # Alert operator
+        param.create(parameterTypeId=2, value="0", indicatorId=indicator_record.id)  # Alert threshold
+        param.create(parameterTypeId=3, value="['last_updated_date']", indicatorId=indicator_record.id)  # Measures
+        param.create(parameterTypeId=4, value="['table_name']", indicatorId=indicator_record.id)  # Dimensions
+        param.create(parameterTypeId=5, value=data_source.name, indicatorId=indicator_record.id)  # Target
+        param.create(parameterTypeId=6, value="select 'status', datetime(max(updated_date), '-1 day', '-1 hour') from status", indicatorId=indicator_record.id)  # Target request
+        param.create(parameterTypeId=7, value=data_source.name, indicatorId=indicator_record.id)  # Source
+        param.create(parameterTypeId=8, value="select 'status', max(updated_date) from status", indicatorId=indicator_record.id)  # Source request
+        param.create(parameterTypeId=9, value="['test@test.com']", indicatorId=indicator_record.id)  # Distribution list
 
         # Start batch, execute indicator and stop batch
-        batch_record = BatchMethod(batch_owner.id).start()
-        IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop(batch_record.id)
+        batch_record = MethodBatch(batch_owner.id).start()
+        MethodIndicator(indicator_record.id).execute(batch_record.id)
+        MethodBatch(batch_owner.id).stop(batch_record.id)
         session = Operation('ModelSession').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -171,9 +170,9 @@ class TestIndicatorMethodModule(unittest.TestCase):
     def test_execute_validity(self):
         """Test execute validity indicator."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'Indicator', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'BatchOwner', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelIndicator', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelBatchOwner', 'test_case': test_case_name})
 
         # Create batch owner
         batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
@@ -201,18 +200,18 @@ class TestIndicatorMethodModule(unittest.TestCase):
 
         # Create indicator paramters
         param = Operation('ModelIndicatorParameter')
-        param.create(name='Target', value=data_source.name, indicatorId=indicator_record.id)
-        param.create(name='Target request', value="select 'status', count(*) from status", indicatorId=indicator_record.id)
-        param.create(name='Dimensions', value="['table_name']", indicatorId=indicator_record.id)
-        param.create(name='Measures', value="['nb_records']", indicatorId=indicator_record.id)
-        param.create(name='Alert operator', value=">=", indicatorId=indicator_record.id)
-        param.create(name='Alert threshold', value="0", indicatorId=indicator_record.id)
-        param.create(name='Distribution list', value="['test@test.com']", indicatorId=indicator_record.id)
+        param.create(parameterTypeId=1, value=">=", indicatorId=indicator_record.id)  # Alert operator
+        param.create(parameterTypeId=2, value="0", indicatorId=indicator_record.id)  # Alert threshold
+        param.create(parameterTypeId=3, value="['nb_records']", indicatorId=indicator_record.id)  # Measures
+        param.create(parameterTypeId=4, value="['table_name']", indicatorId=indicator_record.id)  # Dimensions
+        param.create(parameterTypeId=5, value=data_source.name, indicatorId=indicator_record.id)  # Target
+        param.create(parameterTypeId=6, value="select 'status', count(*) from status", indicatorId=indicator_record.id)  # Target request
+        param.create(parameterTypeId=9, value="['test@test.com']", indicatorId=indicator_record.id)  # Distribution list
 
         # Start batch, execute indicator and stop batch
-        batch_record = BatchMethod(batch_owner.id).start()
-        IndicatorMethod(indicator_record.id).execute(batch_record.id)
-        BatchMethod(batch_owner.id).stop(batch_record.id)
+        batch_record = MethodBatch(batch_owner.id).start()
+        MethodIndicator(indicator_record.id).execute(batch_record.id)
+        MethodBatch(batch_owner.id).stop(batch_record.id)
         session = Operation('ModelSession').read(indicatorId=indicator_record.id, batchId=batch_record.id)
 
         self.assertEqual(session[0].statusId, 2)
@@ -225,5 +224,5 @@ class TestIndicatorMethodModule(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestIndicatorMethodModule)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestMethodIndicatorModule)
     unittest.TextTestRunner(verbosity=2).run(suite)
