@@ -28,12 +28,12 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: Create virtual environment
+          name: Create Virtual Environment
           command: |
             python3 -m venv dq
 
       - run:
-          name: Install dependencies
+          name: Install Dependencies
           command: |
             sudo apt-get install unixodbc-dev
             . dq/bin/activate
@@ -46,17 +46,22 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
-          name: Setup instance
+          name: Setup Instance
           command: |
             . dq/bin/activate
-            pwd
             python3 setup.py
 
       - run:
-          name: Run tests
+          name: Start API
           command: |
             . dq/bin/activate
-            python3 api/run.py &
+            python3 api/run.py
+            background: true
+
+      - run:
+          name: Run Tests
+          command: |
+            . dq/bin/activate
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
