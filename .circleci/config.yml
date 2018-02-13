@@ -56,7 +56,7 @@ jobs:
           command: |
             . dq/bin/activate
             python3 api/run.py
-            background: true
+          background: true
 
       - run:
           name: Run Tests
