@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.5.2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -27,15 +27,13 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      # create virtual environment
       - run:
-          name: create virtual environment
+          name: Create virtual environment
           command: |
             python3 -m venv dq
 
-      # install dependencies
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
             sudo apt-get install unixodbc-dev
             . dq/bin/activate
@@ -47,25 +45,23 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      # setup instance
       - run:
-          name: setup instance
+          name: Setup instance
           command: |
             . dq/bin/activate
             python3 setup.py
 
-      # start api
       - run:
-          name: start api
+          name: Start api
           command: |
             . dq/bin/activate
             python3 api/run.py &
 
-      # run tests
       - run:
-          name: run tests
+          name: Run tests
           command: |
             . dq/bin/activate
+            pwd
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
