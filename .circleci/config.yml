@@ -46,11 +46,22 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
-          name: Run Tests
+          name: Setup Instance
           command: |
             . dq/bin/activate
             python3 setup.py
-            python3 api/run.py
+
+      - run:
+          name: Start API
+          command: |
+            . dq/bin/activate
+            python3 api/run.py &
+            background: true
+
+      - run:
+          name: Run Tests
+          command: |
+            . dq/bin/activate
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
