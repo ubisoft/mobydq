@@ -53,17 +53,10 @@ jobs:
             python3 setup.py
 
       - run:
-          name: Start api
-          command: |
-            . dq/bin/activate
-            pwd
-            python3 api/run.py &
-
-      - run:
           name: Run tests
           command: |
             . dq/bin/activate
-            pwd
+            python3 api/run.py &
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
