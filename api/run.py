@@ -27,4 +27,4 @@ def shutdown_session(exception=None):
 if __name__ == '__main__':
     api_utils.init()
     config = api_utils.get_parameter('api')
-    app.run(host=config['host'], port=int(config['port']), threaded=True, debug=True)
+    app.run(host=config['host'], port=int(config['port']), threaded=True)  # debug=True
