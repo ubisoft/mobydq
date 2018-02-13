@@ -11,8 +11,8 @@ import sys
 
 # Import database classes
 from api.database.base import Base
-from api.database.data_source import DataSourceType, DataSource
-from api.database.session import Session
+from api.database.model_data_source import ModelDataSourceType, ModelDataSource
+from api.database.model_session import ModelSession
 from api.database.operation import Operation
 
 # Load logging configuration

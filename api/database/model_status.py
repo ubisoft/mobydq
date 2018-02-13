@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class Status(Base, Dictionary):
+class ModelStatus(Base, Dictionary):
     """Status for batches and sessions."""
 
     __tablename__ = 'status'
@@ -16,5 +16,5 @@ class Status(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    batch = relationship('Batch', backref='Status')
-    session = relationship('Session', backref='Status')
+    batches = relationship('ModelBatch', backref='status')
+    sessions = relationship('ModelSession', backref='status')

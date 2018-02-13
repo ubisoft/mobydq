@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class IndicatorType(Base, Dictionary):
+class ModelIndicatorType(Base, Dictionary):
     """Types of indicators."""
 
     __tablename__ = 'indicator_type'
@@ -18,10 +18,10 @@ class IndicatorType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicator = relationship('Indicator', backref='IndicatorType')
+    indicators = relationship('ModelIndicator', backref='indicatorType')
 
 
-class Indicator(Base, Dictionary):
+class ModelIndicator(Base, Dictionary):
     """Data quality indicators."""
 
     __tablename__ = 'indicator'
@@ -36,25 +36,40 @@ class Indicator(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicatorParameter = relationship('IndicatorParameter', backref='Indicator', passive_deletes=True)
-    indicatorResult = relationship('IndicatorResult', backref='Indicator', passive_deletes=True)
-    session = relationship('Session', backref='Indicator', passive_deletes=True)
+    indicatorParameters = relationship('ModelIndicatorParameter', backref='indicator', passive_deletes=True)
+    indicatorResults = relationship('ModelIndicatorResult', backref='indicator', passive_deletes=True)
+    sessions = relationship('ModelSession', backref='indicator', passive_deletes=True)
 
 
-class IndicatorParameter(Base, Dictionary):
+class ModelIndicatorParameterType(Base, Dictionary):
+    """Indicator parameter types."""
+
+    __tablename__ = 'indicator_parameter_type'
+
+    id = Column('indicator_parameter_type_id', Integer, primary_key=True)
+    name = Column('indicator_parameter_type', String, nullable=False, unique=True)
+    description = Column('indicator_parameter_type_description', String, nullable=False)
+    mandatory = Column('flag_mandatory', Boolean, nullable=False)
+    createdDate = Column('created_date', DateTime, server_default=func.now())
+    updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
+
+    indicatorParameters = relationship('ModelIndicatorParameter', backref='parameterType')
+
+
+class ModelIndicatorParameter(Base, Dictionary):
     """Indicator parameters."""
 
     __tablename__ = 'indicator_parameter'
 
     id = Column('indicator_parameter_id', Integer, primary_key=True)
-    name = Column('indicator_parameter', String, nullable=False)
-    value = Column('indicator_parameter_value', String, nullable=False)
     indicatorId = Column('indicator_id', Integer, ForeignKey('indicator.indicator_id', ondelete='CASCADE'), nullable=False)
+    parameterTypeId = Column('indicator_parameter_type_id', Integer, ForeignKey('indicator_parameter_type.indicator_parameter_type_id', ondelete='CASCADE'), nullable=False)
+    value = Column('indicator_parameter_value', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
 
-class IndicatorResult(Base, Dictionary):
+class ModelIndicatorResult(Base, Dictionary):
     """Indicator results."""
 
     __tablename__ = 'indicator_result'

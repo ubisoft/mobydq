@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-"""Unit test for data_source_method module."""
+"""Unit test for method_data_source module."""
 from api.database.operation import Operation
-from api.data_source_method import DataSourceMethod
+from api.method_data_source import MethodDataSource
 from test import test_utils
 import inspect
 import os
 import unittest
 
 
-class TestDataSourceMethodModule(unittest.TestCase):
+class TestMethodDataSourceModule(unittest.TestCase):
     """Class to execute unit tests for batch.py."""
 
     @classmethod
@@ -17,14 +17,13 @@ class TestDataSourceMethodModule(unittest.TestCase):
         self.test_case_list = []
 
     def test_get_database_connection(self):
-        """Test get database connection function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        Operation('DataSource').create(
+        Operation('ModelDataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
             connectionString=parent_directory + '/database/data_quality.db',
@@ -33,7 +32,7 @@ class TestDataSourceMethodModule(unittest.TestCase):
         )
 
         # Get data source connection and execute dummy query
-        connection = DataSourceMethod(test_case_name).get_database_connection()
+        connection = MethodDataSource(test_case_name).get_database_connection()
         cursor = connection.cursor()
         cursor.execute("select 'Hello World' as text")
 
@@ -41,14 +40,13 @@ class TestDataSourceMethodModule(unittest.TestCase):
             self.assertEqual(row[0], 'Hello World')
 
     def test_get_data_frame(self):
-        """Test get database connection function."""
         test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'DataSource', 'test_case': test_case_name})
+        self.test_case_list.append({'class': 'ModelDataSource', 'test_case': test_case_name})
 
         # Create data source
         current_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         parent_directory = os.path.dirname(current_directory)
-        Operation('DataSource').create(
+        Operation('ModelDataSource').create(
             name=test_case_name,
             dataSourceTypeId=6,  # SQLite
             connectionString=parent_directory + '/database/data_quality.db',
@@ -58,7 +56,7 @@ class TestDataSourceMethodModule(unittest.TestCase):
 
         # Get data frame
         request = "select 'status', count(*) as nb_records from status"
-        data_frame = DataSourceMethod(test_case_name).get_data_frame(request)
+        data_frame = MethodDataSource(test_case_name).get_data_frame(request)
 
         for row in data_frame.index:
             self.assertGreaterEqual(data_frame.loc[row, 'nb_records'], 0)
@@ -71,5 +69,5 @@ class TestDataSourceMethodModule(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestDataSourceMethodModule)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestMethodDataSourceModule)
     unittest.TextTestRunner(verbosity=2).run(suite)

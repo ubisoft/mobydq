@@ -1,7 +1,7 @@
 {
     "list_of_values": [
         {
-            "class": "Status",
+            "class": "ModelStatus",
             "records": [
                 {"id": 1, "name": "Running"},
                 {"id": 2, "name": "Succeeded"},
@@ -9,22 +9,22 @@
             ]
         },
         {
-            "class": "DataSourceType",
+            "class": "ModelDataSourceType",
             "records": [
-                {"id": 1, "name": "Hive", "type": "Database"},
-                {"id": 2, "name": "Impala", "type": "Database"},
-                {"id": 3, "name": "Microsoft SQL Server", "type": "Database"},
-                {"id": 4, "name": "MySQL", "type": "Database"},
-                {"id": 5, "name": "PostgreSQL", "type": "Database"},
-                {"id": 6, "name": "SQLite", "type": "Database"},
-                {"id": 7, "name": "Teradata", "type": "Database"},
-                {"id": 8, "name": "CSV File", "type": "File"},
-                {"id": 9, "name": "Excel File", "type": "File"},
-                {"id": 10, "name": "RESTful API", "type": "API"}
+                {"id": 1, "name": "Hive", "parentType": "Database"},
+                {"id": 2, "name": "Impala", "parentType": "Database"},
+                {"id": 3, "name": "Microsoft SQL Server", "parentType": "Database"},
+                {"id": 4, "name": "MySQL", "parentType": "Database"},
+                {"id": 5, "name": "PostgreSQL", "parentType": "Database"},
+                {"id": 6, "name": "SQLite", "parentType": "Database"},
+                {"id": 7, "name": "Teradata", "parentType": "Database"},
+                {"id": 8, "name": "CSV File", "parentType": "File"},
+                {"id": 9, "name": "Excel File", "parentType": "File"},
+                {"id": 10, "name": "RESTful API", "parentType": "API"}
             ]
         },
         {
-            "class": "IndicatorType",
+            "class": "ModelIndicatorType",
             "records": [
                 {"id": 1, "name": "Completeness", "module": "completeness", "function": "evaluate_completeness"},
                 {"id": 2, "name": "Freshness", "module": "timeliness", "function": "evaluate_freshness"},
@@ -33,7 +33,21 @@
             ]
         },
         {
-            "class": "EventType",
+            "class": "ModelIndicatorParameterType",
+            "records": [
+                {"id": 1, "name": "Alert operator", "description": "Operator used to compare the result of the indicator with the alert threshold.", "mandatory": True},
+                {"id": 2, "name": "Alert threshold", "description": "Numeric value used to evaluate the records in the result set of the indicator and determine if an alert must be sent.", "mandatory": True},
+                {"id": 3, "name": "Measure", "description": "Python list of values to indicate measures names in the result set of the indicator.", "mandatory": True},
+                {"id": 4, "name": "Dimension", "description":"Python list of values to indicate dimensions names in the result set of the indicator.", "mandatory": False},
+                {"id": 5, "name": "Target", "description": "Name of the data source on which to evaluate the quality level of the data.", "mandatory": True},
+                {"id": 6, "name": "Target request", "description": "SQL query used to compute the result set of the indicator on the target data source.", "mandatory": True},
+                {"id": 7, "name": "Source", "description": "Name of the data source which serves as a reference to evaluate the quality level of the data.", "mandatory": False},
+                {"id": 8, "name": "Source request", "description": "SQL query used to compute the result set of the indicator on the source data source.", "mandatory": False},
+                {"id": 9, "name": "Distribution list", "description": "Python list of e-mail addresses to which alerts must be sent.", "mandatory": False}
+            ]
+        },
+        {
+            "class": "ModelEventType",
             "records": [
                 {"id": 1, "name": "Start"},
                 {"id": 2, "name": "Stop"},

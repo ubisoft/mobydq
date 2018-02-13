@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Indicators related functions."""
 from database.operation import Operation
-from data_source_method import DataSourceMethod
-from event_method import EventMethod
+from method_data_source import MethodDataSource
+from method_event import MethodEvent
 from ast import literal_eval
 from datetime import datetime
 import logging
@@ -13,7 +13,7 @@ import api_utils
 log = logging.getLogger(__name__)
 
 
-class IndicatorMethod:
+class MethodIndicator:
     """Functions called by the API for indicator objects."""
 
     def __init__(self, indicator_id):
@@ -22,7 +22,7 @@ class IndicatorMethod:
         self.error_message = {}
 
         # Verify indicator exists
-        indicator_list = Operation('Indicator').read(id=indicator_id)
+        indicator_list = Operation('ModelIndicator').read(id=indicator_id)
         if indicator_list:
             self.indicator = indicator_list[0]
         else:
@@ -32,51 +32,46 @@ class IndicatorMethod:
 
     def execute(self, batch_id):
         """Execute a data quality indicator."""
-        start_event = EventMethod('Start').log_event(self.indicator.id, batch_id)
+        start_event = MethodEvent('Start').log_event(self.indicator.id, batch_id)
         session_id = start_event.sessionId
 
         # Get indicator parameters
-        indicator_parameter_list = Operation('IndicatorParameter').read(indicatorId=self.indicator.id)
+        indicator_parameter_list = Operation('ModelIndicatorParameter').read(indicatorId=self.indicator.id)
 
         # Create dictionary from indicator parameters
         parameters = {}
         for indicator_parameter in indicator_parameter_list:
-            parameters[indicator_parameter.name] = indicator_parameter.value
+            parameters[indicator_parameter.parameterTypeId] = indicator_parameter.value
 
         # Verify parameters exist and convert them to list objects
-        if 'Dimensions' in parameters:
-            parameters['Dimensions'] = ['indicator_id'] + literal_eval(parameters['Dimensions'])
+        # Dimension parameter
+        if 4 in parameters:
+            parameters[4] = ['indicator_id'] + literal_eval(parameters[4])
         else:
-            parameters['Dimensions'] = ['indicator_id']
+            parameters[4] = ['indicator_id']
 
-        if 'Measures' in parameters:
-            parameters['Measures'] = literal_eval(parameters['Measures'])
+        # Measure parameter
+        if 3 in parameters:
+            parameters[3] = literal_eval(parameters[3])
         else:
             self.error_message['message'] = 'Indicator with Id {} does not have any measures parameter'.format(self.indicator.id)
-            log.error(self.error_message['message'])
-            return self.error_message
-
-        if 'Distribution list' in parameters:
-            parameters['Distribution list'] = literal_eval(parameters['Distribution list'])
-        else:
-            self.error_message['message'] = 'Indicator with Id {} does not have any distribution list'.format(self.indicator.id)
             log.error(self.error_message['message'])
             return self.error_message
 
         # Get source and target data frames
         data_sets = {}
         for parameter in parameters:
-            if parameter == 'Source':
+            if parameter == 7:  # Source
                 log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
-                source_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Source request'])
+                source_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters[8])  # Source request
                 source_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
                 data_sets['Source data frame'] = source_data_frame
 
-            elif parameter == 'Target':
+            elif parameter == 5:  # Target
                 log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
-                target_data_frame = DataSourceMethod(data_source_name).get_data_frame(parameters['Target request'])
+                target_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters[6])  # Target request
                 target_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
                 data_sets['Target data frame'] = target_data_frame
 
@@ -89,36 +84,37 @@ class IndicatorMethod:
         for data_frame_name in data_sets:
             log.info('Formatting {}'.format(data_frame_name))
             data_frame = data_sets[data_frame_name]
-            column_name_list = parameters['Dimensions'] + parameters['Measures']
+            column_name_list = parameters[4] + parameters[3]
             data_frame.columns = column_name_list
-            for column in parameters['Dimensions']:
+            for column in parameters[4]:
                 data_frame[column] = data_frame[column].astype(str)
             data_sets[data_frame_name] = data_frame
 
         # Get indicator function and execute it
-        indicator_type_list = Operation('IndicatorType').read(id=self.indicator.indicatorTypeId)
+        indicator_type_list = Operation('ModelIndicatorType').read(id=self.indicator.indicatorTypeId)
         indicator_function = indicator_type_list[0].function
         result_data_frame = getattr(self, indicator_function)(data_sets, parameters)
 
-        # Compute aggregated indicator results
-        log.info('Computing aggregated results for indicator Id: {}'.format(self.indicator.id))
+        # Compute indicator result summary
+        log.info('Computing result summary for indicator Id: {}'.format(self.indicator.id))
         nb_records_alert = self.compute_indicator_result(session_id, parameters, result_data_frame)
 
         # Send e-mail alert
-        if not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
+        if 9 in parameters and not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
+            parameters[9] = literal_eval(parameters[9])  # Convert distribution list parameter to python list
             log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(self.indicator.id, session_id))
             body = {}
             body['indicator_name'] = self.indicator.name
-            body['alert_threshold'] = parameters['Alert operator'] + parameters['Alert threshold']
+            body['alert_threshold'] = parameters[1] + parameters[2]  # 'Alert operator' + Alert threshold
             body['nb_records_alert'] = nb_records_alert
             body['log_url'] = 'http://'  # To be updated
             api_utils.send_mail(
                 template='indicator',
-                distribution_list=parameters['Distribution list'],
+                distribution_list=parameters[9],  # Distribution list
                 attachment=None,
                 **body)
 
-        EventMethod('Stop').log_event(self.indicator.id, batch_id)
+        MethodEvent('Stop').log_event(self.indicator.id, batch_id)
         self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
         log.info(self.error_message['message'])
         return self.error_message
@@ -132,17 +128,17 @@ class IndicatorMethod:
         result_data_frame = pandas.merge(
             left=source_data_frame,
             right=target_data_frame,
-            left_on=parameters['Dimensions'],
-            right_on=parameters['Dimensions'],
+            left_on=parameters[4],  # Dimension
+            right_on=parameters[4],  # Dimension
             how='outer',
             sort=True,
             suffixes=('_source', '_target'))
         result_data_frame = result_data_frame.fillna(value=0)  # Replace NaN values per 0
 
         # Prepare variables
-        alert_operator = parameters['Alert operator']
-        alert_threshold = parameters['Alert threshold']
-        measure_list = parameters['Measures']
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
+        measure_list = parameters[3]  # Measure
 
         # Compute delta and delta percentage between source and target measures
         for measure in measure_list:
@@ -182,9 +178,9 @@ class IndicatorMethod:
         result_data_frame['current_timestamp'] = datetime.utcnow()
 
         # Prepare variables
-        alert_operator = parameters['Alert operator']
-        alert_threshold = parameters['Alert threshold']
-        measure_list = parameters['Measures']
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
+        measure_list = parameters[3]  # Measure
 
         # Compute delta in minutes and delta description between source and target measures
         for measure in measure_list:
@@ -221,16 +217,16 @@ class IndicatorMethod:
         result_data_frame = pandas.merge(
             left=source_data_frame,
             right=target_data_frame,
-            left_on=parameters['Dimensions'],
-            right_on=parameters['Dimensions'],
+            left_on=parameters[4],  # Dimension
+            right_on=parameters[4],  # Dimension
             how='outer',
             sort=True,
             suffixes=('_source', '_target'))
 
         # Prepare variables
-        alert_operator = parameters['Alert operator']
-        alert_threshold = parameters['Alert threshold']
-        measure_list = parameters['Measures']
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
+        measure_list = parameters[3]  # Measure
 
         # Compute delta in minutes and delta description between source and target measures
         for measure in measure_list:
@@ -264,9 +260,9 @@ class IndicatorMethod:
         result_data_frame = data_sets['Target data frame']
 
         # Prepare variables
-        alert_operator = parameters['Alert operator']
-        alert_threshold = parameters['Alert threshold']
-        measure_list = parameters['Measures']
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
+        measure_list = parameters[3]  # Measure
 
         # Formatting data to improve readability
         for measure in measure_list:
@@ -283,14 +279,14 @@ class IndicatorMethod:
 
     def compute_indicator_result(self, session_id, parameters, result_data_frame):
         """Compute aggregated results for the indicator."""
-        alert_operator = parameters['Alert operator']
-        alert_threshold = parameters['Alert threshold']
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
         nb_records = len(result_data_frame)
         nb_records_alert = len(result_data_frame.loc[result_data_frame['Alert'] == True])
         nb_records_no_alert = len(result_data_frame.loc[result_data_frame['Alert'] == False])
 
         # Insert result to database
-        Operation('IndicatorResult').create(
+        Operation('ModelIndicatorResult').create(
             indicatorId=self.indicator.id,
             sessionId=session_id,
             alertOperator=alert_operator,

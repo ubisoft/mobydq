@@ -6,21 +6,21 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
-class DataSourceType(Base, Dictionary):
+class ModelDataSourceType(Base, Dictionary):
     """Types of data sources."""
 
     __tablename__ = 'data_source_type'
 
     id = Column('data_source_type_id', Integer, primary_key=True)
     name = Column('data_source_type', String, nullable=False, unique=True)
-    type = Column('data_source_parent_type', String, nullable=False)
+    parentType = Column('data_source_parent_type', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    dataSource = relationship('DataSource', backref='DataSourceType')
+    dataSources = relationship('ModelDataSource', backref='dataSourceType')
 
 
-class DataSource(Base, Dictionary):
+class ModelDataSource(Base, Dictionary):
     """Data sources."""
 
     __tablename__ = 'data_source'

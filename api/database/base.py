@@ -1,14 +1,26 @@
 #!/usr/bin/env python
 """Database configuration."""
 from datetime import datetime
-from sqlalchemy import event
+from sqlalchemy import create_engine, event
 from sqlalchemy import String, TypeDecorator
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 import json
+import os
+
+# Create database engine used by graphql
+db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+db_uri = 'sqlite:///{}'.format(db_path)
+engine = create_engine(db_uri, convert_unicode=True)
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
+Base.metadata.bind = engine  # Bind engine to metadata of the base class
+
+# Create database session object
+db_session = scoped_session(sessionmaker(bind=engine, expire_on_commit=False))
+Base.query = db_session.query_property()  # Used by graphql to execute queries
 
 
 @event.listens_for(Engine, 'connect')
