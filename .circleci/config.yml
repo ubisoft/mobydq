@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.5.2
+      - image: circleci/python:3.6.1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -49,12 +49,14 @@ jobs:
           name: Setup instance
           command: |
             . dq/bin/activate
+            pwd
             python3 setup.py
 
       - run:
           name: Start api
           command: |
             . dq/bin/activate
+            pwd
             python3 api/run.py &
 
       - run:
