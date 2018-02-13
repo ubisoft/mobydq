@@ -203,7 +203,7 @@ class TestApiModule(unittest.TestCase):
         self.test_case_list.append({"class": "ModelIndicatorParameterType", "test_case": test_case_name})
 
         # Create parameter type
-        input = '{name:\\"%s\\", description:\\"%s\\", mandatory: true}' % (test_case_name, test_case_name)
+        input = '{name:\\"%s\\", description:\\"%s\\"}' % (test_case_name, test_case_name)
         payload = '{"query": "mutation {createIndicatorParameterType (input: %s) {parameterType {name}}}"}' % input
         response = requests.post(self.base_url, headers=self.headers, data=payload)
         json = response.json()

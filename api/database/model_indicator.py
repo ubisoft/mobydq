@@ -49,7 +49,6 @@ class ModelIndicatorParameterType(Base, Dictionary):
     id = Column('indicator_parameter_type_id', Integer, primary_key=True)
     name = Column('indicator_parameter_type', String, nullable=False, unique=True)
     description = Column('indicator_parameter_type_description', String, nullable=False)
-    mandatory = Column('flag_mandatory', Boolean, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
