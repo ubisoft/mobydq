@@ -11,9 +11,9 @@ class AttributeDataSource:
     """Generic class to provide descriptions of data source attributes"""
     name = graphene.String(description="Data source name.")
     dataSourceTypeId = graphene.ID(description="Data source type Id of the data source.")
-    connectionString = graphene.ID(description="Connection string used to connect to the data source.")
-    login = graphene.ID(description="Login used to connect to the data source.")
-    password = graphene.ID(description="Password used to connect to the data source.")
+    connectionString = graphene.String(description="Connection string used to connect to the data source.")
+    login = graphene.String(description="Login used to connect to the data source.")
+    password = graphene.String(description="Password used to connect to the data source.")
 
 
 class SchemaDataSource(SQLAlchemyObjectType, AttributeDataSource):

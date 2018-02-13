@@ -19,6 +19,7 @@ class TestApiModule(unittest.TestCase):
         self.test_case_name = test_utils.get_test_case_name([])
         self.test_case_list = [self.test_case_name]
 
+        # Create test data set for subsequent query test cases
         # Create data source
         data_source_data = {}
         data_source_data['name'] = self.test_case_name
@@ -324,6 +325,7 @@ class TestApiModule(unittest.TestCase):
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""
         for test_case in self.test_case_list:
+            Operation('ModelDataSource').delete(name=test_case)
             Operation('ModelIndicator').delete(name=test_case)
             Operation('ModelBatchOwner').delete(name=test_case)
 

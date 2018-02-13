@@ -53,7 +53,7 @@ class ModelIndicatorParameterType(Base, Dictionary):
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())
 
-    indicatorParameters = relationship('ModelIndicatorParameter', backref='indicatorParameterType')
+    indicatorParameters = relationship('ModelIndicatorParameter', backref='parameterType')
 
 
 class ModelIndicatorParameter(Base, Dictionary):
