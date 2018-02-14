@@ -11,7 +11,7 @@ It has been influenced by an internal project developed at [Ubisoft Entertainmen
 ![Data pipeline](/doc/data_pipeline.png)
 
 # Getting Started
-Skip the bla bla and run your data quality indicators by following the [Getting Started](https://github.com/alexisrolland/data-quality/wiki/Getting-Started) guide. Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
+Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
 
 # Requirements
 ## ODBC Drivers
@@ -39,6 +39,29 @@ The following Python packages will be installed:
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.21)
 * [requests](http://docs.python-requests.org) (2.9.1)
 * [sqlalchemy](https://www.sqlalchemy.org) (1.1.14)
+
+# Setup Your Instance
+To setup your instance of the data quality framework, type the following command in your terminal window.
+
+```shellsession
+$ python3 setup.py
+```
+
+# Start the GraphQL API
+You can start the API with the following command:
+
+```shellsession
+$ python3 api/run.py
+```
+
+# Start the Web Application
+**Work in progress**
+
+You can start the web app with the following command:
+
+```shellsession
+$ python3 app/run.py
+```
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
