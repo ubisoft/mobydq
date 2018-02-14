@@ -13,7 +13,6 @@ class ModelIndicatorType(Base, Dictionary):
 
     id = Column('indicator_type_id', Integer, primary_key=True)
     name = Column('indicator_type', String, nullable=False, unique=True)
-    module = Column('module', String, nullable=False)
     function = Column('function', String, nullable=False)
     createdDate = Column('created_date', DateTime, server_default=func.now())
     updatedDate = Column('updated_date', DateTime, server_default=func.now(), onupdate=func.now())

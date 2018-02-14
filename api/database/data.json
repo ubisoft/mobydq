@@ -26,10 +26,10 @@
         {
             "class": "ModelIndicatorType",
             "records": [
-                {"id": 1, "name": "Completeness", "module": "completeness", "function": "evaluate_completeness"},
-                {"id": 2, "name": "Freshness", "module": "timeliness", "function": "evaluate_freshness"},
-                {"id": 3, "name": "Latency", "module": "timeliness", "function": "evaluate_latency"},
-                {"id": 4, "name": "Validity", "module":"validity", "function":"evaluate_validity"}
+                {"id": 1, "name": "Completeness", "function": "evaluate_completeness"},
+                {"id": 2, "name": "Freshness", "function": "evaluate_freshness"},
+                {"id": 3, "name": "Latency", "function": "evaluate_latency"},
+                {"id": 4, "name": "Validity", "function":"evaluate_validity"}
             ]
         },
         {
@@ -51,8 +51,7 @@
             "records": [
                 {"id": 1, "name": "Start"},
                 {"id": 2, "name": "Stop"},
-                {"id": 3, "name": "Error"},
-                {"id": 4, "name": "Data set"}
+                {"id": 3, "name": "Error"}
             ]
         }
     ]
