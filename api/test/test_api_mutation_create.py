@@ -264,7 +264,7 @@ class TestApiModule(unittest.TestCase):
         self.test_case_list.append({"class": "ModelIndicatorType", "test_case": test_case_name})
 
         # Create indicator type
-        input = '{name:\\"%s\\", module:\\"%s\\", function:\\"%s\\"}' % (test_case_name, test_case_name, test_case_name)
+        input = '{name:\\"%s\\", function:\\"%s\\"}' % (test_case_name, test_case_name)
         payload = '{"query": "mutation {createIndicatorType (input: %s) {indicatorType {name}}}"}' % input
         response = requests.post(self.base_url, headers=self.headers, data=payload)
         json = response.json()

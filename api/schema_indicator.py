@@ -72,7 +72,6 @@ class SchemaIndicatorResult(SQLAlchemyObjectType, AttributeIndicatorResult):
 class AttributeIndicatorType:
     """Generic class to provide descriptions of indicator type attributes"""
     name = graphene.String(description="Indicator type name.")
-    module = graphene.String(description="Python module containing the function to execute this type of indicator.")
     function = graphene.String(description="Python function used to execute this type of indicator.")
 
 
