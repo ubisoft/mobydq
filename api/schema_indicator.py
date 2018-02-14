@@ -42,7 +42,6 @@ class AttributeIndicatorParameterType:
     """Generic class to provide descriptions of indicator parameter type attributes"""
     name = graphene.String(description="Parameter type name.")
     description = graphene.String(description="Parameter type description.")
-    mandatory = graphene.Boolean(description="Indicates if the parameter type is mandatory.")
 
 
 class SchemaIndicatorParameterType(SQLAlchemyObjectType, AttributeIndicatorParameterType):

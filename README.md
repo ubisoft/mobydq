@@ -1,10 +1,12 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
-**Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the API.
+**Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the GraphQL API.
 
 # Data Quality Framework
-The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use. It has been developed as an internal project at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. Its open source version has been reworked to remove technical dependencies with commercial softwares.
+The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
+
+It has been influenced by an internal project developed at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been completely reworked from scratch to improve its design, simplify it and remove technical dependencies with commercial softwares.
 
 ![Data pipeline](/doc/data_pipeline.png)
 
@@ -13,7 +15,7 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 
 # Requirements
 ## ODBC Drivers
-This framework has been developed on **Linux Ubuntu**. It opens ODBC connections to query data on the different databases on which you want to perform data quality checks. For this reason it requires to install [UnixODBC](http://www.unixodbc.org/) on your machine. Open a terminal window and execute the following command:
+This framework has been developed on **Linux Ubuntu**. It uses ODBC connections to query the different databases on which you want to perform data quality checks. As a matter of fact, it requires to install [UnixODBC](http://www.unixodbc.org/) on your machine. Open a terminal window and execute the following command:
 
 `$ sudo apt-get install unixodbc-dev`
 

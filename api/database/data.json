@@ -35,15 +35,15 @@
         {
             "class": "ModelIndicatorParameterType",
             "records": [
-                {"id": 1, "name": "Alert operator", "description": "Operator used to compare the result of the indicator with the alert threshold.", "mandatory": True},
-                {"id": 2, "name": "Alert threshold", "description": "Numeric value used to evaluate the records in the result set of the indicator and determine if an alert must be sent.", "mandatory": True},
-                {"id": 3, "name": "Measure", "description": "Python list of values to indicate measures names in the result set of the indicator.", "mandatory": True},
-                {"id": 4, "name": "Dimension", "description":"Python list of values to indicate dimensions names in the result set of the indicator.", "mandatory": False},
-                {"id": 5, "name": "Target", "description": "Name of the data source on which to evaluate the quality level of the data.", "mandatory": True},
-                {"id": 6, "name": "Target request", "description": "SQL query used to compute the result set of the indicator on the target data source.", "mandatory": True},
-                {"id": 7, "name": "Source", "description": "Name of the data source which serves as a reference to evaluate the quality level of the data.", "mandatory": False},
-                {"id": 8, "name": "Source request", "description": "SQL query used to compute the result set of the indicator on the source data source.", "mandatory": False},
-                {"id": 9, "name": "Distribution list", "description": "Python list of e-mail addresses to which alerts must be sent.", "mandatory": False}
+                {"id": 1, "name": "Alert operator", "description": "Operator used to compare the result of the indicator with the alert threshold."},
+                {"id": 2, "name": "Alert threshold", "description": "Numeric value used to evaluate the records in the result set of the indicator and determine if an alert must be sent."},
+                {"id": 3, "name": "Measure", "description": "Python list of values to indicate measures names in the result set of the indicator."},
+                {"id": 4, "name": "Dimension", "description":"Python list of values to indicate dimensions names in the result set of the indicator."},
+                {"id": 5, "name": "Target", "description": "Name of the data source on which to evaluate the quality level of the data."},
+                {"id": 6, "name": "Target request", "description": "SQL query used to compute the result set of the indicator on the target data source."},
+                {"id": 7, "name": "Source", "description": "Name of the data source which serves as a reference to evaluate the quality level of the data."},
+                {"id": 8, "name": "Source request", "description": "SQL query used to compute the result set of the indicator on the source data source."},
+                {"id": 9, "name": "Distribution list", "description": "Python list of e-mail addresses to which alerts must be sent."}
             ]
         },
         {
