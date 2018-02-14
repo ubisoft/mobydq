@@ -60,7 +60,7 @@ class TestMethodEventModule(unittest.TestCase):
             active=True
         )
 
-        # Start batch, session and fail session
+        # Start batch, session and stop session
         batch_record = MethodBatch(batch_owner.id).start()
         MethodEvent('Start').log_event(indicator.id, batch_record.id)
         stop_event = MethodEvent('Stop').log_event(indicator.id, batch_record.id)
@@ -88,7 +88,7 @@ class TestMethodEventModule(unittest.TestCase):
             active=True
         )
 
-        # Start batch, session and stop session
+        # Start batch, session and fail session
         batch_record = MethodBatch(batch_owner.id).start()
         MethodEvent('Start').log_event(indicator.id, batch_record.id)
         error_event = MethodEvent('Error').log_event(indicator.id, batch_record.id)
