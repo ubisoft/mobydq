@@ -98,36 +98,6 @@ class TestMethodEventModule(unittest.TestCase):
         self.assertEqual(error_event.eventTypeId, 3)
         self.assertEqual(error_event.sessionId, session_list[0].id)
 
-    def test_log_event_data_set(self):
-        test_case_name = test_utils.get_test_case_name(self.test_case_list)
-        self.test_case_list.append({'class': 'ModelIndicator', 'test_case': test_case_name})
-        self.test_case_list.append({'class': 'ModelBatchOwner', 'test_case': test_case_name})
-
-        # Create batch owner
-        batch_owner = Operation('ModelBatchOwner').create(name=test_case_name)
-
-        # Create data quality indicator
-        indicator = Operation('ModelIndicator').create(
-            name=test_case_name,
-            description=test_case_name,
-            indicatorTypeId=1,
-            batchOwnerId=batch_owner.id,
-            executionOrder=0,
-            active=True
-        )
-
-        # Start batch, session and stop session
-        batch_record = MethodBatch(batch_owner.id).start()
-        MethodEvent('Start').log_event(indicator.id, batch_record.id)
-        data_set = {'key': 'value'}
-        data_set_event = MethodEvent('Data set').log_event(indicator.id, batch_record.id, data_set)
-        session_list = Operation('ModelSession').read(indicatorId=indicator.id, batchId=batch_record.id)
-
-        self.assertEqual(session_list[0].statusId, 1)
-        self.assertEqual(data_set_event.eventTypeId, 4)
-        self.assertEqual(data_set_event.sessionId, session_list[0].id)
-        self.assertEqual(data_set_event.content, data_set)
-
     @classmethod
     def tearDownClass(self):
         """Tear down function called when class is deconstructed."""

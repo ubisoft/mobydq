@@ -51,8 +51,7 @@
             "records": [
                 {"id": 1, "name": "Start"},
                 {"id": 2, "name": "Stop"},
-                {"id": 3, "name": "Error"},
-                {"id": 4, "name": "Data set"}
+                {"id": 3, "name": "Error"}
             ]
         }
     ]

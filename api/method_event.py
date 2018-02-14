@@ -46,11 +46,6 @@ class MethodEvent:
         * Existing session status is set to Failed (Id: 3)
         * Insert a new Error event
         * Returns the corresponding event object
-
-        If event is Data set:
-        * Existing session status remains unchanged
-        * Insert a new Data set event
-        * Returns the corresponding event object
         """
         if not data_set:
             data_set = {}
@@ -94,20 +89,5 @@ class MethodEvent:
             # Insert error event and terminate running session
             event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
             Operation('ModelSession').update(id=session_list[0].id, statusId=3)
-
-        # Log data set event
-        elif self.event_type_id == 4:
-            log.info('Logging data set for indicator Id: {}'.format(indicator_id))
-
-            # Verify current indicator is running
-            session_list = Operation('ModelSession').read(indicatorId=indicator_id, batchId=batch_id, statusId=1)
-            if not session_list:
-                self.error_message['message'] = '''Cannot log {} event because indicator with Id {}
-                 does not have a running session with batch Id {}'''.format(self.event_type, indicator_id, batch_id)
-                log.error(self.error_message['message'])
-                return self.error_message
-
-            # Insert data set event
-            event = Operation('ModelEvent').create(eventTypeId=self.event_type_id, sessionId=session_list[0].id, content=data_set)
 
         return event
