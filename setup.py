@@ -15,6 +15,10 @@ import sys
 from api.database.base import Base
 from api.database.operation import Operation
 
+# Do not remove, required #
+from api.database.model_data_source import ModelDataSourceType, ModelDataSource
+from api.database.model_session import ModelSession
+
 # Load logging configuration
 log = logging.getLogger(__name__)
 logging.basicConfig(
