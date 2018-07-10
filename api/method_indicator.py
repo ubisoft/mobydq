@@ -62,14 +62,14 @@ class MethodIndicator:
         data_sets = {}
         for parameter in parameters:
             if parameter == 7:  # Source
-                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+                log.info('Getting data set from parameter Id {}, data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
                 source_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters[8])  # Source request
                 source_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
                 data_sets['Source data frame'] = source_data_frame
 
             elif parameter == 5:  # Target
-                log.info('Getting data set from {} data source: {}'.format(parameter, parameters[parameter]))
+                log.info('Getting data set from parameter Id {}, data source: {}'.format(parameter, parameters[parameter]))
                 data_source_name = parameters[parameter]
                 target_data_frame = MethodDataSource(data_source_name).get_data_frame(parameters[6])  # Target request
                 target_data_frame.insert(loc=0, column='indicator_id', value=self.indicator.id)
