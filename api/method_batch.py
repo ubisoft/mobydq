@@ -89,4 +89,4 @@ class MethodBatch:
         self.stop(batch_record.id)
         self.error_message['message'] = 'Batch with Id {} completed successfully'.format(batch_record.id)
         log.info(self.error_message['message'])
-        return self.error_message
+        return batch_record
