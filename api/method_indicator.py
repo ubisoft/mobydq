@@ -6,6 +6,7 @@ from method_event import MethodEvent
 from ast import literal_eval
 from datetime import datetime
 import logging
+import os
 import pandas
 import api_utils
 
@@ -101,18 +102,31 @@ class MethodIndicator:
 
         # Send e-mail alert
         if 9 in parameters and not result_data_frame.loc[result_data_frame['Alert'] == True].empty:
-            parameters[9] = literal_eval(parameters[9])  # Convert distribution list parameter to python list
-            log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(self.indicator.id, session_id))
+            # Create csv file to send in attachment
+            file_name = 'indicator_{}_session_{}.csv'.format(self.indicator.id, session_id)
+            file_path = os.path.dirname(__file__) + "/" + file_name
+            result_data_frame.to_csv(file_path, header=True, index=False)
+
+            # Convert distribution list parameter to python list
+            parameters[9] = literal_eval(parameters[9])
+
+            # Prepare e-mail body
             body = {}
             body['indicator_name'] = self.indicator.name
             body['alert_threshold'] = parameters[1] + parameters[2]  # 'Alert operator' + Alert threshold
             body['nb_records_alert'] = nb_records_alert
             body['log_url'] = 'http://'  # To be updated
+
+            # Send e-mail
+            log.info('Sending e-mail alert for indicator Id {} and session Id {}'.format(self.indicator.id, session_id))
             api_utils.send_mail(
                 template='indicator',
-                distribution_list=parameters[9],  # Distribution list
-                attachment=None,
+                distribution_list=parameters[9],
+                attachment=file_path,
                 **body)
+
+            # Delete csv file
+            os.remove(file_path)
 
         MethodEvent('Stop').log_event(self.indicator.id, batch_id)
         self.error_message['message'] = 'Indicator with Id {} completed successfully'.format(self.indicator.id)
