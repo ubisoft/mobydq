@@ -70,7 +70,10 @@ class ExecuteBatch(graphene.Mutation):
         # Convert input to dictionary
         data = api_utils.input_to_dictionary(input)
         batch_owner_id = data['batchOwnerId']
-        batch = MethodBatch(batch_owner_id).execute(**data)
+        if data['indicatorId']:
+            batch = MethodBatch(batch_owner_id).execute(indicator_id=data['indicatorId'])
+        else:
+            batch = MethodBatch(batch_owner_id).execute()
         return ExecuteBatch(batch=batch)
 
 
