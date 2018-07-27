@@ -1,6 +1,8 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
+**Attention:** Project is currently being reworked to use Docker, PostgreSQL and Postgraphile instead of Flask, SQLAlchemy and Graphene. Check the [project backlog](https://github.com/alexisrolland/data-quality/projects/1) for more information or contact me directly. You're welcome to join the adventure if you wish to contribute.
+
 **Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the GraphQL API.
 
 # Data Quality Framework
