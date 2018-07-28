@@ -1,9 +1,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=flat-square)](https://github.com/alexisrolland/data-quality)
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
-**Attention:** Project is currently being reworked to use Docker, PostgreSQL and Postgraphile instead of Flask, SQLAlchemy and Graphene. Check the [project backlog](https://github.com/alexisrolland/data-quality/projects/1) for more information or contact me directly. You're welcome to join the adventure if you wish to contribute.
-
-**Work In Progress:** Looking for contributors, in particular to build a lightweight web app on top of the GraphQL API.
+**Attention:** Project is currently being reworked to use Docker, PostgreSQL and Postgraphile instead of Flask, SQLAlchemy and Graphene. Check the [project backlog](https://github.com/alexisrolland/data-quality/projects/1) for more information. You're welcome to join the adventure if you wish to contribute, in particular to build a lightweight web app on top of the GraphQL API.
 
 # Data Quality Framework
 The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
