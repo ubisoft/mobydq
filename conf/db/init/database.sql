@@ -22,7 +22,7 @@ CREATE TABLE base.data_source (
     password TEXT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(data_source_type_id)
+    data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which the data quality framework can compute indicators.';
@@ -57,8 +57,8 @@ CREATE TABLE base.indicator (
     flag_active BOOLEAN DEFAULT FALSE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(indicator_type_id),
-    indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(indicator_group_id)
+    indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id),
+    indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
 COMMENT ON TABLE base.indicator IS
 'Indicators compute data sets on one or several data sources in order to evaluate the quality of their data.';
@@ -80,8 +80,8 @@ CREATE TABLE base.parameter (
     value TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(parameter_type_id),
-    indicator_id INTEGER NOT NULL REFERENCES base.indicator(indicator_id)
+    parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id),
+    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
 );
 COMMENT ON TABLE base.parameter IS
 'Parameters used by the data quality framework to compute indicators.';
@@ -90,7 +90,7 @@ COMMENT ON TABLE base.parameter IS
 CREATE TABLE base.batch (
     id SERIAL PRIMARY KEY,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(indicator_group_id)
+    indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
 COMMENT ON TABLE base.batch IS
 'Batches record the execution of groups of indicators.';
@@ -101,8 +101,8 @@ CREATE TABLE base.session (
     status TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    batch_id INTEGER NOT NULL REFERENCES base.batch(batch_id),
-    indicator_id INTEGER NOT NULL REFERENCES base.indicator(indicator_id)
+    batch_id INTEGER NOT NULL REFERENCES base.batch(id),
+    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
 );
 COMMENT ON TABLE base.session IS
 'Sessions record the execution of indicators within a batch.';
@@ -116,8 +116,8 @@ CREATE TABLE base.indicator_result (
     nb_records_alert INTEGER NOT NULL,
     nb_records_no_alert INTEGER NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    session_id INTEGER NOT NULL REFERENCES base.session(session_id),
-    indicator_id INTEGER NOT NULL REFERENCES base.indicator(indicator_id)
+    session_id INTEGER NOT NULL REFERENCES base.session(id),
+    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
 );
 COMMENT ON TABLE base.indicator_result IS
 'Indicator results contain a summary of indicators execution.';
