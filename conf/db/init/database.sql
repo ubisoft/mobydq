@@ -20,7 +20,7 @@ $$ language 'plpgsql';
 /*Create table data source type*/
 CREATE TABLE base.data_source_type (
     id SERIAL PRIMARY KEY,
-    data_source_type TEXT NOT NULL,
+    data_source_type TEXT NOT NULL UNIQUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -44,7 +44,7 @@ INSERT INTO base.data_source_type (data_source_type) VALUES
 
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY,
-    data_source TEXT NOT NULL,
+    data_source TEXT NOT NULL UNIQUE,
     connection_string TEXT,
     login TEXT,
     password TEXT,
@@ -63,7 +63,7 @@ base.update_updated_date_column();
 
 CREATE TABLE base.indicator_type (
     id SERIAL PRIMARY KEY,
-    indicator_type TEXT NOT NULL,
+    indicator_type TEXT NOT NULL UNIQUE,
     function TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -85,7 +85,7 @@ INSERT INTO base.indicator_type (indicator_type, function) VALUES
 
 CREATE TABLE base.indicator_group (
     id SERIAL PRIMARY KEY,
-    indicator_group TEXT NOT NULL,
+    indicator_group TEXT NOT NULL UNIQUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -100,7 +100,7 @@ base.update_updated_date_column();
 
 CREATE TABLE base.indicator (
     id SERIAL PRIMARY KEY,
-    indicator TEXT NOT NULL,
+    indicator TEXT NOT NULL UNIQUE,
     description TEXT,
     execution_order INTEGER DEFAULT 0,
     flag_active BOOLEAN DEFAULT FALSE,
@@ -120,7 +120,7 @@ base.update_updated_date_column();
 
 CREATE TABLE base.parameter_type (
     id SERIAL PRIMARY KEY,
-    parameter_type TEXT NOT NULL,
+    parameter_type TEXT NOT NULL UNIQUE,
     description TEXT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
