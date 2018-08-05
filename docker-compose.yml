@@ -1,6 +1,25 @@
 version: '3'
 services:
-
+  api:
+    container_name: dq-api
+    restart: always
+#    env_file:
+#      - ./.env
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./conf/api/dockerfile
+    image: dq-api
+    stdin_open: true
+    tty: true
+    volumes:
+      - /Projects/:/var/www/
+    ports:
+      - "81:80"
+      - "5000:5000"
+    networks:
+      - dq-network
   db:
     container_name: dq-db
     restart: always
@@ -12,6 +31,8 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "password"
       POSTGRES_DATABASE: "your_database"
+#    volumes: 
+#      - /Projects/data-quality/db-data/:/var/lib/postgresql
     ports:
       - "5433:5432"
     networks:
