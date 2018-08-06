@@ -42,6 +42,7 @@ INSERT INTO base.data_source_type (data_source_type) VALUES
 ('Teradata');
 
 
+/*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY,
     data_source TEXT NOT NULL UNIQUE,
@@ -61,6 +62,7 @@ ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
+/*Create table indicator type*/
 CREATE TABLE base.indicator_type (
     id SERIAL PRIMARY KEY,
     indicator_type TEXT NOT NULL UNIQUE,
@@ -83,6 +85,7 @@ INSERT INTO base.indicator_type (indicator_type, function) VALUES
 ('Validity', 'evaluate_validity');
 
 
+/*Create table indicator group*/
 CREATE TABLE base.indicator_group (
     id SERIAL PRIMARY KEY,
     indicator_group TEXT NOT NULL UNIQUE,
@@ -98,6 +101,7 @@ ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
+/*Create table indicator*/
 CREATE TABLE base.indicator (
     id SERIAL PRIMARY KEY,
     indicator TEXT NOT NULL UNIQUE,
@@ -118,6 +122,7 @@ ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
+/*Create table parameter type*/
 CREATE TABLE base.parameter_type (
     id SERIAL PRIMARY KEY,
     parameter_type TEXT NOT NULL UNIQUE,
@@ -145,6 +150,7 @@ INSERT INTO base.parameter_type (parameter_type, description) VALUES
 ('Target request', 'SQL query used to compute the indicator on the target system.');
 
 
+/*Create table parameter*/
 CREATE TABLE base.parameter (
     id SERIAL PRIMARY KEY,
     value TEXT NOT NULL,
@@ -162,16 +168,24 @@ ON base.parameter FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
+/*Create table batch*/
 CREATE TABLE base.batch (
     id SERIAL PRIMARY KEY,
+    status TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
 
 COMMENT ON TABLE base.batch IS
 'Batches record the execution of groups of indicators.';
 
+CREATE TRIGGER batch_updated_date BEFORE UPDATE
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_date_column();
 
+
+/*Create table session*/
 CREATE TABLE base.session (
     id SERIAL PRIMARY KEY,
     status TEXT NOT NULL,
@@ -189,6 +203,7 @@ ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
+/*Create table indicator result*/
 CREATE TABLE base.indicator_result (
     id SERIAL PRIMARY KEY,
     alert_operator TEXT NOT NULL,
