@@ -229,6 +229,7 @@ RETURNS base.batch AS $$
 #variable_conflict use_variable
 DECLARE
     batch base.batch;
+    batch_id INTEGER;
 BEGIN
     -- Create pending batch
     INSERT INTO base.batch (status, indicator_group_id)
@@ -256,7 +257,7 @@ BEGIN
     END IF;
 
     -- Trigger execution of indicators
-    COPY batch.id TO PROGRAM 'echo "Hello World!"';
+    COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'echo "Hello World!"';
 
     -- Return batch record
     RETURN batch;
