@@ -256,7 +256,7 @@ BEGIN
     END IF;
 
     -- Trigger execution of indicators
-    COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'echo "Hello World!"';
+    COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'bash start_batch.sh';
 
     -- Return batch record
     RETURN batch;
