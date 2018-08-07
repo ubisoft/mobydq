@@ -7,14 +7,17 @@ CREATE DATABASE data_quality;
 CREATE SCHEMA base;
 
 
-/*Create functions*/
+/*Create function to update updated_date column*/
 CREATE OR REPLACE FUNCTION base.update_updated_date_column()
 RETURNS TRIGGER AS $$
 BEGIN
    NEW.updated_date = now();
    RETURN NEW;
 END;
-$$ language 'plpgsql';
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.update_updated_date_column IS
+'Function used to automatically update the updated_date column in tables.';
 
 
 /*Create table data source type*/
@@ -218,3 +221,47 @@ CREATE TABLE base.indicator_result (
 
 COMMENT ON TABLE base.indicator_result IS
 'Indicator results contain a summary of indicators execution.';
+
+
+/*Create function to execute indicator group*/
+CREATE OR REPLACE FUNCTION base.execute_indicator_group(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
+RETURNS base.batch AS $$
+#variable_conflict use_variable
+DECLARE
+    batch base.batch;
+BEGIN
+    -- Create pending batch
+    INSERT INTO base.batch (status, indicator_group_id)
+    VALUES ('Pending', indicator_group_id)
+    RETURNING * INTO batch;
+
+    -- Create pending session for each indicator
+    IF indicator_id IS NOT NULL THEN
+        WITH indicator AS (
+            SELECT a.id
+            FROM base.indicator a
+            WHERE a.indicator_group_id=indicator_group_id
+            AND a.id=ANY(indicator_id)
+            ORDER BY a.execution_order
+        ) INSERT INTO base.session (status, indicator_id, batch_id)
+        SELECT 'Pending', indicator.id, batch.id FROM indicator;
+    ELSE
+        WITH indicator AS (
+            SELECT a.id
+            FROM base.indicator a
+            WHERE a.indicator_group_id=indicator_group_id
+            ORDER BY a.execution_order
+        ) INSERT INTO base.session (status, indicator_id, batch_id)
+        SELECT 'Pending', indicator.id, batch.id FROM indicator;
+    END IF;
+
+    -- Trigger execution of indicators
+    COPY batch.id TO PROGRAM 'echo "Hello World!"';
+
+    -- Return batch record
+    RETURN batch;
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+
+COMMENT ON FUNCTION base.execute_indicator_group IS
+'Function used to execute a group of indicators.';
