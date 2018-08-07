@@ -229,7 +229,6 @@ RETURNS base.batch AS $$
 #variable_conflict use_variable
 DECLARE
     batch base.batch;
-    batch_id INTEGER;
 BEGIN
     -- Create pending batch
     INSERT INTO base.batch (status, indicator_group_id)
