@@ -16,8 +16,7 @@ services:
     volumes:
       - /Projects/:/var/www/
     ports:
-      - "81:80"
-      - "5000:5000"
+      - "5001:5001"
     networks:
       - dq-network
   db:
@@ -37,8 +36,25 @@ services:
       - "5433:5432"
     networks:
       - dq-network
-    
-    
+  postgraphile:     
+    container_name: postg-api
+    restart: always
+    image: graphile/postgraphile
+#    build: 
+#      context: .
+#      dockerfile: ./conf/pgf/Dockerfile
+    environment:
+      DATABASE_URL: "postgres://postgres:password@db:5432/data_quality"
+      DATABASE_SCHEMA: "base"
+      NODE_ENV: "production"
+      PROD: "true"
+    command: ["postgraphile", "-c", $DATABASE_URL, "-n", "0.0.0.0", "--schema", "base"]
+    ports:
+      - 5000:5000
+    links:
+      - db
+    networks:
+      - dq-network
 networks:
   dq-network:
     driver: bridge
