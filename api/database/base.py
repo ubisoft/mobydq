@@ -6,13 +6,17 @@ from sqlalchemy import String, TypeDecorator
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+#import psycopg2
 import json
 import os
 
 # Create database engine used by graphql
-db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
-db_uri = 'sqlite:///{}'.format(db_path)
-engine = create_engine(db_uri, convert_unicode=True)
+#conn_string = "host='db' dbname='data_quality' user='postgres' password='password'"
+#conn = psycopg2.connect(conn_string)
+#db_path = os.path.join(os.path.dirname(__file__), 'data_quality.db')
+#db_uri = 'sqlite:///{}'.format(db_path)
+engine = create_engine('postgresql://postgres:password@db:5432/data_quality', convert_unicode=True, 
+	connect_args={'options': '-csearch_path={}'.format('base')})
 
 # Declarative base model to create database tables and classes
 Base = declarative_base()
@@ -26,9 +30,9 @@ Base.query = db_session.query_property()  # Used by graphql to execute queries
 @event.listens_for(Engine, 'connect')
 def set_sqlite_pragma(db_api_connection, connection_record):
     """Activate sqlite pragma to enforce foreign keys integrity, in particular for cascade delete."""
-    cursor = db_api_connection.cursor()
-    cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
+    #cursor = db_api_connection.cursor()
+    #cursor.execute("PRAGMA foreign_keys=ON")
+    #cursor.close()
 
 
 class Json(TypeDecorator):
