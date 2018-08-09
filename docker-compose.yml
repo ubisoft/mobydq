@@ -29,8 +29,8 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL="postgres://postgres:password@db:5432/data_quality"
-    command: ["postgraphile", "--connection", $DATABASE_URL, "-n", "0.0.0.0", "--schema", "base"]
+      DATABASE_URL: "postgres://postgres:password@db:5432/data_quality"
+    command: ["postgraphile", "--connection", $DATABASE_URL, "--host", "0.0.0.0", "--schema", "base"]
     ports:
       - 5000:5000
     links:
