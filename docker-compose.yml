@@ -22,10 +22,7 @@ services:
   graphql-api:
     container_name: dq-graphql-api
     restart: always
-    image: dq-graphql-api
-    build:
-      context: .
-      dockerfile: ./conf/graphql-api/Dockerfile
+    image: graphile/postgraphile
     depends_on:
       - db
     environment:
