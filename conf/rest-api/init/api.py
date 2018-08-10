@@ -1,10 +1,8 @@
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
-from flask_cors import CORS
 from flask_restplus import Api, fields, Resource
 
 # Create flask app and enabe cross origin resource sharing
 app = Flask(__name__)
-CORS(app)
 
 
 # This is required to fix swagger UI not loading issue due to https
@@ -49,6 +47,7 @@ responses = {
 
 # Document response model for execute endpoint
 execute_response = execute.model('Execute response', {'batch_id': fields.Integer})
+
 
 @execute.route('/execute', endpoint='with-parser')
 @execute.doc(responses=responses)
