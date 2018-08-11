@@ -224,6 +224,8 @@ COMMENT ON TABLE base.indicator_result IS
 
 
 /*Create function to execute indicator group*/
+/*This is managed by the Flask API*/
+/*
 CREATE OR REPLACE FUNCTION base.execute_indicator_group(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
 RETURNS base.batch AS $$
 #variable_conflict use_variable
@@ -265,3 +267,4 @@ $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
 
 COMMENT ON FUNCTION base.execute_indicator_group IS
 'Function used to execute a group of indicators.';
+*/
