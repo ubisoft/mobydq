@@ -6,7 +6,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./conf/db-mysql/Dockerfile
+      dockerfile: ./db-mysql/Dockerfile
     image: dq-test-db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
@@ -21,7 +21,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./conf/db-postgresql/Dockerfile
+      dockerfile: ./db-postgresql/Dockerfile
     image: dq-test-db-postgresql
     environment:
       POSTGRES_USER: "postgres"
