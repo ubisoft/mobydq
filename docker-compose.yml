@@ -7,7 +7,7 @@ services:
     image: dq-db
     build:
       context: .
-      dockerfile: ./conf/db/Dockerfile
+      dockerfile: ./db/Dockerfile
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "password"
@@ -15,12 +15,12 @@ services:
     volumes:
       - ./db/data/:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - 5432:5432
     networks:
       - dq-network
 
-  graphql-api:
-    container_name: dq-graphql-api
+  graphql:
+    container_name: dq-graphql
     restart: always
     image: graphile/postgraphile
     depends_on:
@@ -35,22 +35,22 @@ services:
     networks:
       - dq-network
 
-  rest-api:
-    container_name: dq-rest-api
+  api:
+    container_name: dq-api
     restart: always
-    image: dq-rest-api
+    image: dq-api
     build:
       context: .
-      dockerfile: ./conf/api/Dockerfile
+      dockerfile: ./api/Dockerfile
     depends_on:
-      - graphql-api
+      - graphql
       - db
     stdin_open: true
     tty: true
     volumes:
-      - ./api/:/var/www/
+      - ./api/:/srv/api/
     ports:
-      - "5001:5001"
+      - 5001:5001
     networks:
       - dq-network
 
