@@ -23,7 +23,7 @@ COMMENT ON FUNCTION base.update_updated_date_column IS
 /*Create table data source type*/
 CREATE TABLE base.data_source_type (
     id SERIAL PRIMARY KEY,
-    data_source_type TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -35,7 +35,7 @@ CREATE TRIGGER data_source_type_updated_date BEFORE UPDATE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
-INSERT INTO base.data_source_type (data_source_type) VALUES
+INSERT INTO base.data_source_type (name) VALUES
 ('Hive'),
 ('Impala'),
 ('Microsoft SQL Server'),
@@ -48,7 +48,7 @@ INSERT INTO base.data_source_type (data_source_type) VALUES
 /*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY,
-    data_source TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     connection_string TEXT,
     login TEXT,
     password TEXT,
@@ -68,7 +68,7 @@ base.update_updated_date_column();
 /*Create table indicator type*/
 CREATE TABLE base.indicator_type (
     id SERIAL PRIMARY KEY,
-    indicator_type TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     function TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -81,7 +81,7 @@ CREATE TRIGGER indicator_type_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
-INSERT INTO base.indicator_type (indicator_type, function) VALUES
+INSERT INTO base.indicator_type (name, function) VALUES
 ('Completeness', 'evaluate_completeness'),
 ('Freshness', 'evaluate_freshness'),
 ('Latency', 'evaluate_latency'),
@@ -91,7 +91,7 @@ INSERT INTO base.indicator_type (indicator_type, function) VALUES
 /*Create table indicator group*/
 CREATE TABLE base.indicator_group (
     id SERIAL PRIMARY KEY,
-    indicator_group TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -107,7 +107,7 @@ base.update_updated_date_column();
 /*Create table indicator*/
 CREATE TABLE base.indicator (
     id SERIAL PRIMARY KEY,
-    indicator TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     description TEXT,
     execution_order INTEGER DEFAULT 0,
     flag_active BOOLEAN DEFAULT FALSE,
@@ -128,7 +128,7 @@ base.update_updated_date_column();
 /*Create table parameter type*/
 CREATE TABLE base.parameter_type (
     id SERIAL PRIMARY KEY,
-    parameter_type TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     description TEXT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -141,7 +141,7 @@ CREATE TRIGGER parameter_type_updated_date BEFORE UPDATE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
-INSERT INTO base.parameter_type (parameter_type, description) VALUES
+INSERT INTO base.parameter_type (name, description) VALUES
 ('Alert operator', 'Operator used to compare the results of the indicator with the alert threshold. Example: =, >, >=, <, <=, <>'),
 ('Alert threshold', 'Numeric value used to evaluate the results of the indicator and determine if an alert must be sent.'),
 ('Distribution list', 'List of e-mail addresses to which alerts must be sent. Example: [''email_1'', ''email_2'', ''email_3'']'),
@@ -160,7 +160,8 @@ CREATE TABLE base.parameter (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id),
-    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
+    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id),
+    CONSTRAINT parameter_unicity UNIQUE (indicator_id, parameter_type_id)
 );
 
 COMMENT ON TABLE base.parameter IS

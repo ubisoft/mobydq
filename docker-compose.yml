@@ -1,60 +1,59 @@
 version: '3'
 services:
-  api:
-    container_name: dq-api
-    restart: always
-#    env_file:
-#      - ./.env
-    depends_on:
-      - db
-    build:
-      context: .
-      dockerfile: ./conf/api/dockerfile
-    image: dq-api
-    stdin_open: true
-    tty: true
-    volumes:
-      - /Projects/:/var/www/
-    ports:
-      - "5001:5001"
-    networks:
-      - dq-network
+
   db:
     container_name: dq-db
     restart: always
+    image: dq-db
     build:
       context: .
-      dockerfile: ./conf/db/Dockerfile
-    image: dq-db
+      dockerfile: ./db/Dockerfile
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "password"
-      POSTGRES_DATABASE: "your_database"
-#    volumes: 
-#      - /Projects/data-quality/db-data/:/var/lib/postgresql
+      POSTGRES_DATABASE: "public"
+    volumes:
+      - ./db/data/:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - 5432:5432
     networks:
       - dq-network
-  postgraphile:     
-    container_name: postg-api
+
+  graphql:
+    container_name: dq-graphql
     restart: always
     image: graphile/postgraphile
-#    build: 
-#      context: .
-#      dockerfile: ./conf/pgf/Dockerfile
+    depends_on:
+      - db
     environment:
       DATABASE_URL: "postgres://postgres:password@db:5432/data_quality"
-      DATABASE_SCHEMA: "base"
-      NODE_ENV: "production"
-      PROD: "true"
-    command: ["postgraphile", "-c", $DATABASE_URL, "-n", "0.0.0.0", "--schema", "base"]
+    command: ["postgraphile", "--connection", $DATABASE_URL, "--host", "0.0.0.0", "--schema", "base"]
     ports:
       - 5000:5000
     links:
       - db
     networks:
       - dq-network
+
+  api:
+    container_name: dq-api
+    restart: always
+    image: dq-api
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    depends_on:
+      - graphql
+      - db
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./api/:/srv/api/
+    ports:
+      - 5001:5001
+    networks:
+      - dq-network
+
 networks:
   dq-network:
     driver: bridge
