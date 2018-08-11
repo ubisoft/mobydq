@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  dq-test-db-mysql:
+    container_name: dq-test-db-mysql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-mysql/Dockerfile
+    image: dq-test-db-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: "star_wars"
+    ports:
+      - "9000:9000"
+    networks:
+      - dq-test-network
+
+  dq-test-db-postgresql:
+    container_name: dq-test-db-postgresql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-postgresql/Dockerfile
+    image: dq-test-db-postgresql
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DATABASE: "star_wars"
+    ports:
+      - "9001:9001"
+    networks:
+      - dq-test-network
+
+networks:
+  dq-test-network:
+    driver: bridge
