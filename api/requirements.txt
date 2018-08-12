@@ -1,5 +1,4 @@
+docker==3.5.0
 flask==1.0.2
 flask_restplus==0.11.0
-pandas==0.23.3
-pyodbc==4.0.23
 requests==2.19.1

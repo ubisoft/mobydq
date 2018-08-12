@@ -35,7 +35,6 @@ RUN apk update && apk upgrade && \
 ENV LIBRARY_PATH=/lib:/usr/lib
 WORKDIR /srv/scripts
 COPY requirements.txt ./
-COPY hello.py ./
 
 #needed to compile numpy
 RUN echo "http://dl-8.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
