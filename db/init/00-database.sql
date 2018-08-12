@@ -69,23 +69,25 @@ base.update_updated_date_column();
 CREATE TABLE base.indicator_type (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
-    function TEXT NOT NULL,
+    module TEXT NOT NULL,
+    class TEXT NOT NULL,
+    method TEXT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE base.indicator_type IS
-'Indicator types determine which function of the data quality framework is used to compute indicators.';
+'Indicator types determine which class of the data quality framework is used to compute indicators.';
 
 CREATE TRIGGER indicator_type_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
-INSERT INTO base.indicator_type (name, function) VALUES
-('Completeness', 'evaluate_completeness'),
-('Freshness', 'evaluate_freshness'),
-('Latency', 'evaluate_latency'),
-('Validity', 'evaluate_validity');
+INSERT INTO base.indicator_type (name, module, class, method) VALUES
+('Completeness', 'completeness', 'Completeness', 'execute'),
+('Freshness', 'freshness', 'Freshness', 'execute'),
+('Latency', 'latency', 'Latency', 'execute'),
+('Validity', 'validity', 'Validity', 'execute');
 
 
 /*Create table indicator group*/
@@ -242,6 +244,7 @@ BEGIN
             SELECT a.id
             FROM base.indicator a
             WHERE a.indicator_group_id=indicator_group_id
+            AND a.flag_active=true
             AND a.id=ANY(indicator_id)
             ORDER BY a.execution_order
         ) INSERT INTO base.session (status, indicator_id, batch_id)
@@ -251,13 +254,15 @@ BEGIN
             SELECT a.id
             FROM base.indicator a
             WHERE a.indicator_group_id=indicator_group_id
+            AND a.flag_active=true
             ORDER BY a.execution_order
         ) INSERT INTO base.session (status, indicator_id, batch_id)
         SELECT 'Pending', indicator.id, batch.id FROM indicator;
     END IF;
 
     -- Trigger execution of indicators
-    COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'bash start_batch.sh';
+    -- This should be done from the Flask API
+    -- COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'bash start_batch.sh';
 
     -- Return batch record
     RETURN batch;
