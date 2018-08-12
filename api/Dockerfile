@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 ENTRYPOINT ["python"]
-CMD ["api.py", "0.0.0.0²"]
+CMD ["api.py", "0.0.0.0"]
