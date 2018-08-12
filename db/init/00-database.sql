@@ -77,7 +77,7 @@ CREATE TABLE base.indicator_type (
 );
 
 COMMENT ON TABLE base.indicator_type IS
-'Indicator types determine which class of the data quality framework is used to compute indicators.';
+'Indicator types determine which class and method of the data quality framework is used to compute indicators.';
 
 CREATE TRIGGER indicator_type_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
