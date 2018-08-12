@@ -1,5 +1,7 @@
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
-from flask_restplus import Api, fields, Resource
+from flask_restplus import Api, Resource
+import docker
+import utils
 
 # Create flask app and enabe cross origin resource sharing
 app = Flask(__name__)
@@ -13,7 +15,7 @@ def swagger_url(self):
 
 
 # Create blueprint to indicate api base url
-blueprint = Blueprint('api', __name__, url_prefix='/dq/api')
+blueprint = Blueprint('api', __name__, url_prefix='/data-quality/api')
 
 # Create Swagger documentation for blueprint
 api = Api(
@@ -28,13 +30,12 @@ app.register_blueprint(blueprint)
 
 # Declare resources name spaces
 api.namespaces.clear()
-execute = api.namespace('Execute', path='/v1')
+graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
 
-# Document parameters
+# Document headers and other parameters
 parser = api.parser()
-parser.add_argument('indicator_group_id', type=int, default=0, required=True, location='form', help='Id of the indicator group to be executed.')
-parser.add_argument('indicator_ids', type=int, default=[0], required=False, location='form', action='append', help='List of indicator Ids from the group to be executed. All active indicators from the group are executed if this parameter is not supllied.')
+parser.add_argument('query', type=str, required=True, location='form', help='GraphQL query or mutation.')
 
 # Document default responses
 responses = {
@@ -45,20 +46,15 @@ responses = {
     500: 'Internal Server Error: The server encountered an error.'
     }
 
-# Document response model for execute endpoint
-execute_response = execute.model('Execute response', {'batch_id': fields.Integer})
 
-
-@execute.route('/execute', endpoint='with-parser')
-@execute.doc(responses=responses)
-class Execute(Resource):
-    # @execute.response(200, 'Success: The request has succeeded.', response_model)
-    @execute.expect(parser, validate=True)  # Header parameters can be defined here
-    @execute.response(200, 'Success: The request has succeeded.', execute_response)
+@graphql.route('/graphql', endpoint='with-parser')
+@graphql.doc(responses=responses)
+class GraphQL(Resource):
+    @graphql.expect(parser, validate=True)  # Header parameters can be defined here
     def post(self):
         """
-        Execute indicators
-        Use this endpoint to trigger the execution of an indicator or a group of indicators.
+        Execute queries and mutations
+        Use this endpoint to send http request to the GraphQL API.
         """
         args = parser.parse_args(strict=True)
         # Permissions verifications
@@ -66,13 +62,27 @@ class Execute(Resource):
             # message = {'message': 'Forbidden: You do not have sufficient permissions to access this resource.'}
             # abort(403, message)
 
-        # Call execute method
-        status, message = execute.execute_batch()
+        # Execute request on GraphQL API
+        status, data = utils.execute_graphql_request(args['query'])
 
-        if status:
-            return jsonify(message)
+        # If request is executeIndicatorGroup mutation, trigger a new batch in ephemeral container
+        if status == 200 and 'executeIndicatorGroup' in args['query']:
+            batch_id = str(data['data']['executeIndicatorGroup']['batch']['id'])
+            container_name = 'data-quality-batch-{batch_id}'.format(batch_id=batch_id)
+            client = docker.from_env()
+            client.containers.run(
+                name=container_name,
+                image='data-quality-scripts',
+                environment={'batch_id': batch_id},
+                command='echo hello world',
+                remove=True,
+                detach=True
+                )
+
+        if status == 200:
+            return jsonify(data)
         else:
-            abort(500, message)
+            abort(500, data)
 
 
 @health.route('/health')
@@ -83,15 +93,10 @@ class Health(Resource):
         Get API health status
         Use this endpoint to get the health status of this API.
         """
-        # Permissions verifications
-        # if not something:
-            # message = {'message': 'Forbidden: You do not have sufficient permissions to access this resource.'}
-            # abort(403, message)
-
-        status = True
+        status = 200
         message = {'message': 'Success: The request has succeeded.'}
 
-        if status:
+        if status == 200:
             return jsonify(message)
         else:
             abort(500, message)
