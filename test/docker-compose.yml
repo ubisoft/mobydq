@@ -3,10 +3,10 @@ services:
 
   db-mysql:
     container_name: data-quality-test-db-mysql
-    restart: always
     image: data-quality-test-db-mysql
+    restart: always
     build:
-      context: ./db-mysql
+      context: ./db-mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: "star_wars"
@@ -19,11 +19,11 @@ services:
 
   db-postgresql:
     container_name: data-quality-test-db-postgresql
+    image: data-quality-test-db-postgresql
     restart: always
     build:
       context: .
       dockerfile: ./db-postgresql/Dockerfile
-    image: dq-test-db-postgresql
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
