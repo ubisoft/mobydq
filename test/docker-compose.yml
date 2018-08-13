@@ -1,23 +1,24 @@
 version: '3'
-
 services:
-  dq-test-db-mysql:
-    container_name: dq-test-db-mysql
+
+  db-mysql:
+    container_name: data-quality-test-db-mysql
     restart: always
+    image: data-quality-test-db-mysql
     build:
-      context: .
-      dockerfile: ./db-mysql/Dockerfile
-    image: dq-test-db-mysql
+      context: ./db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: "star_wars"
+    expose:
+      - 9000
     ports:
-      - "9000:9000"
+      - 9000:9000
     networks:
-      - dq-test-network
+      - data-quality-test-network
 
-  dq-test-db-postgresql:
-    container_name: dq-test-db-postgresql
+  db-postgresql:
+    container_name: data-quality-test-db-postgresql
     restart: always
     build:
       context: .
@@ -27,11 +28,12 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DATABASE: "star_wars"
+    expose:
+      - 9001
     ports:
-      - "9001:9001"
+      - 9001:9001
     networks:
-      - dq-test-network
+      - data-quality-test-network
 
 networks:
-  dq-test-network:
-    driver: bridge
+  data-quality-test-network:
