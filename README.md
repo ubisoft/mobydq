@@ -65,9 +65,9 @@ The complete documentation is available on [Github wiki](https://github.com/alex
 # Dependencies
 ## Docker Images
 The services run by `docker-compose` have dependencies with the following Docker images:
-* [postgres](https://hub.docker.com/_/postgres/) (tag:10.4-alpine)
-* [graphile/postgraphile](https://hub.docker.com/r/graphile/postgraphile/) (tag:latest)
-* [python](https://hub.docker.com/_/python/) (tag:3.6.6-alpine3.8)
+* [postgres](https://hub.docker.com/_/postgres/) (tag: 10.4-alpine)
+* [graphile/postgraphile](https://hub.docker.com/r/graphile/postgraphile/) (tag: latest)
+* [python](https://hub.docker.com/_/python/) (tag: 3.6.6-alpine3.8)
 
 ## Python Packages
 The Python scripts run by the service `data-quality-script` have dependencies with the following packages:
