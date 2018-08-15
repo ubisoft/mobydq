@@ -46,7 +46,7 @@ $ cd data-quality
 $ to be documented
 ```
 
-# Create a .evn file 
+# Create a .evn file in project root
 This file is used to define and your docker parameters - app paths, passwords, secrets. For example if your project is stored in machine root:
 ```
 DB_DATA_VOLUME_PATH=./db/data/
