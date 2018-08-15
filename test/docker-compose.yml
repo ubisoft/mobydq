@@ -35,5 +35,23 @@ services:
     networks:
       - data-quality-test-network
 
+  db-sql-server:
+    container_name: data-quality-test-db-sql-server
+    image: data-quality-test-db-sql-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-sql-server/Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1234-abcd"
+    command: ["/bin/bash", "entrypoint.sh"]
+    expose:
+      - 1433
+    ports:
+      - 1433:1433
+    networks:
+      - data-quality-test-network
+
 networks:
   data-quality-test-network:
