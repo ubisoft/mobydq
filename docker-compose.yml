@@ -82,5 +82,28 @@ services:
     networks:
       - data-quality-network
       
+  app-dev:
+    container_name: data-quality-app-dev
+    restart: always
+    image: data-quality-app-dev
+    build:
+      context: ./app
+    volumes:
+      - $APP_VOLUME_PATH:/usr/src/app
+    env_file:
+      - ./.env
+    expose:
+      - 5499
+    ports:
+      - 5499:3000
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - data-quality-network
+      
 networks:
   data-quality-network:
