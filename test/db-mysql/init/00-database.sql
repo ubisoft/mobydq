@@ -1,6 +1,6 @@
 /*Create database*/
 CREATE DATABASE star_wars;
-USE star_wars
+USE star_wars;
 
 
 /*Create tables*/

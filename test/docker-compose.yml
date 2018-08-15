@@ -6,14 +6,14 @@ services:
     image: data-quality-test-db-mysql
     restart: always
     build:
-      context: ./db-mysql/Dockerfile
+      context: .
+      dockerfile: ./db-mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
-      MYSQL_DATABASE: "star_wars"
     expose:
-      - 9000
+      - 3306
     ports:
-      - 9000:9000
+      - 3306:3306
     networks:
       - data-quality-test-network
 
@@ -29,9 +29,9 @@ services:
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DATABASE: "star_wars"
     expose:
-      - 9001
+      - 5432
     ports:
-      - 9001:9001
+      - 5432:5432
     networks:
       - data-quality-test-network
 
