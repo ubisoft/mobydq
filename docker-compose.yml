@@ -27,8 +27,6 @@ services:
       - db
     env_file:
       - ./.env 
-    environment: 
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5433/{POSTGRES_DATABASE}
     expose:
       - 5433
     ports:
