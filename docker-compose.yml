@@ -88,6 +88,7 @@ services:
     image: data-quality-app-dev
     build:
       context: ./app
+      dockerfile: Dockerfile-dev
     volumes:
       - $APP_VOLUME_PATH:/usr/src/app
     env_file:
@@ -104,6 +105,14 @@ services:
       - graphql
     networks:
       - data-quality-network
+      
+  app-prod:
+    container_name: data-quality-app-prod
+    build:
+      context: ./app
+      dockerfile: Dockerfile-prod
+    ports:
+      - '80:80'
       
 networks:
   data-quality-network:
