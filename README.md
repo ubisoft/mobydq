@@ -52,6 +52,7 @@ This file is used to define and your docker parameters - app paths, passwords, s
 DB_DATA_VOLUME_PATH=./db/data/
 SCRIPT_VOLUME_PATH=./scripts
 API_VOLUME_PATH=./api
+APP_VOLUME_PATH=./app
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 POSTGRES_DATABASE=public
