@@ -58,6 +58,13 @@ POSTGRES_PASSWORD=password
 POSTGRES_DATABASE=public
 DATABASE_URL=postgres://postgres:password@db:5433/data_quality
 ```
+
+# Create a postgresql data volume
+We are using this solution instead of mounting external volume due to postgresql image incompatibility with windows virtual machines
+```
+docker volume create data-quality-db-volume
+```
+
 # Start Your Instance
 To start all the services of the data quality framework, execute the following commands in a terminal window. It will automatically create the Docker images and run the Docker containers.
 ```shellsession
