@@ -7,9 +7,8 @@ services:
     image: data-quality-db
     build:
       context: ./db
-#    volumes:
-#      - $DB_DATA_VOLUME_PATH:/var/lib/postgresql/data
-#      - ./db/data/:/var/lib/postgresql/data
+    volumes:
+      - data-quality-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
     expose:
@@ -116,3 +115,6 @@ services:
       
 networks:
   data-quality-network:
+volumes:
+  data-quality-db-volume:
+    external: true
