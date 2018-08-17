@@ -40,6 +40,7 @@ INSERT INTO base.data_source_type (name) VALUES
 ('Impala'),
 ('Microsoft SQL Server'),
 ('MySQL'),
+('Oracle'),
 ('PostgreSQL'),
 ('SQLite'),
 ('Teradata');
