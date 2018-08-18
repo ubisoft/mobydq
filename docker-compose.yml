@@ -13,8 +13,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password  # To be moved to environment file
       POSTGRES_DATABASE: public
-    expose:
-      - 5432
     ports:
       - 5432:5432
     networks:
@@ -28,8 +26,6 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/data_quality # To be moved to environment file
-    expose:
-      - 5433
     ports:
       - 5433:5433
     command: ["postgraphile", "--connection", $DATABASE_URL, "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
@@ -46,8 +42,6 @@ services:
       context: ./scripts
     volumes:
        - ./scripts:/srv/scripts
-    expose:
-      - 5434
     ports:
       - 5434:5434
     tty: true
