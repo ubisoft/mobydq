@@ -1,1 +1,7 @@
 __pycache__
+
+#ignode intellij
+.idea
+
+#environment file
+.env

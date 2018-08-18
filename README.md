@@ -46,6 +46,25 @@ $ cd data-quality
 $ to be documented
 ```
 
+# Create a .evn file in project root
+This file is used to define and your docker parameters - app paths, passwords, secrets. For example if your project is stored in machine root:
+```
+DB_DATA_VOLUME_PATH=./db/data/
+SCRIPT_VOLUME_PATH=./scripts
+API_VOLUME_PATH=./api
+APP_VOLUME_PATH=./app
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_DATABASE=public
+DATABASE_URL=postgres://postgres:password@db:5433/data_quality
+```
+
+# Create a postgresql data volume
+We are using this solution instead of mounting external volume due to postgresql image incompatibility with windows virtual machines
+```
+docker volume create data-quality-db-volume
+```
+
 # Start Your Instance
 To start all the services of the data quality framework, execute the following commands in a terminal window. It will automatically create the Docker images and run the Docker containers.
 ```shellsession
