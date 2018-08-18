@@ -209,8 +209,8 @@ ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
 
-/*Create table indicator result*/
-CREATE TABLE base.indicator_result (
+/*Create table session result*/
+CREATE TABLE base.session_result (
     id SERIAL PRIMARY KEY,
     alert_operator TEXT NOT NULL,
     alert_threshold FLOAT NOT NULL,
@@ -218,12 +218,11 @@ CREATE TABLE base.indicator_result (
     nb_records_alert INTEGER NOT NULL,
     nb_records_no_alert INTEGER NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    session_id INTEGER NOT NULL REFERENCES base.session(id),
-    indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
+    session_id INTEGER NOT NULL REFERENCES base.session(id)
 );
 
-COMMENT ON TABLE base.indicator_result IS
-'Indicator results contain a summary of indicators execution.';
+COMMENT ON TABLE base.session_result IS
+'Session results contain a summary of indicators execution.';
 
 
 /*Create function to execute indicator group*/

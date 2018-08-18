@@ -3,35 +3,53 @@ services:
 
   db-mysql:
     container_name: data-quality-test-db-mysql
-    restart: always
     image: data-quality-test-db-mysql
+    restart: always
     build:
-      context: ./db-mysql
+      context: .
+      dockerfile: ./db-mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
-      MYSQL_DATABASE: "star_wars"
     expose:
-      - 9000
+      - 3306
     ports:
-      - 9000:9000
+      - 3306:3306
     networks:
       - data-quality-test-network
 
   db-postgresql:
     container_name: data-quality-test-db-postgresql
+    image: data-quality-test-db-postgresql
     restart: always
     build:
       context: .
       dockerfile: ./db-postgresql/Dockerfile
-    image: dq-test-db-postgresql
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DATABASE: "star_wars"
     expose:
-      - 9001
+      - 5432
     ports:
-      - 9001:9001
+      - 5432:5432
+    networks:
+      - data-quality-test-network
+
+  db-sql-server:
+    container_name: data-quality-test-db-sql-server
+    image: data-quality-test-db-sql-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-sql-server/Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1234-abcd"
+    command: ["/bin/bash", "entrypoint.sh"]
+    expose:
+      - 1433
+    ports:
+      - 1433:1433
     networks:
       - data-quality-test-network
 

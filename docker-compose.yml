@@ -8,11 +8,9 @@ services:
     build:
       context: ./db
     volumes:
-      - ./db/data/:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password  # To be moved to environment file
-      POSTGRES_DATABASE: public
+      - data-quality-db-volume:/var/lib/postgresql/data
+    env_file:
+        - ./.env
     expose:
       - 5432
     ports:
@@ -26,18 +24,18 @@ services:
     image: graphile/postgraphile
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/data_quality # To be moved to environment file
+    env_file:
+      - ./.env 
     expose:
       - 5433
     ports:
       - 5433:5433
-    command: ["postgraphile", "--connection", $DATABASE_URL, "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
     links:
       - db
     networks:
       - data-quality-network
-
+      
   scripts:
     container_name: data-quality-scripts
     restart: always
@@ -45,7 +43,7 @@ services:
     build:
       context: ./scripts
     volumes:
-       - ./scripts:/srv/scripts
+       - $SCRIPT_VOLUME_PATH:/srv/scripts
     expose:
       - 5434
     ports:
@@ -65,7 +63,7 @@ services:
     build:
       context: ./api
     volumes:
-      - ./api:/srv/api/
+      - $API_VOLUME_PATH:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       FLASK_APP: api.py
@@ -82,6 +80,41 @@ services:
       - graphql
     networks:
       - data-quality-network
-
+      
+  app-dev:
+    container_name: data-quality-app-dev
+    restart: always
+    image: data-quality-app-dev
+    build:
+      context: ./app
+      dockerfile: Dockerfile-dev
+    volumes:
+      - $APP_VOLUME_PATH:/usr/src/app
+    env_file:
+      - ./.env
+    expose:
+      - 5499
+    ports:
+      - 5499:3000
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - data-quality-network
+      
+  app-prod:
+    container_name: data-quality-app-prod
+    build:
+      context: ./app
+      dockerfile: Dockerfile-prod
+    ports:
+      - '80:80'
+      
 networks:
   data-quality-network:
+volumes:
+  data-quality-db-volume:
+    external: true

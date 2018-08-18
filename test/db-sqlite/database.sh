@@ -1,23 +1,18 @@
-/*Create database*/
-CREATE DATABASE star_wars;
-USE star_wars;
-
-
-/*Create tables*/
+echo "
 CREATE TABLE planet(
-    id INTEGER PRIMARY KEY,
-    name TEXT,
-    rotation_period INTEGER,
-    orbital_period INTEGER,
-    diameter INTEGER,
-    climate TEXT,
-    gravity TEXT,
-    terrain TEXT,
-    surface_water TEXT,
-    population BIGINT,
-    created_date TIMESTAMP,
-    updated_date TIMESTAMP,
-    url TEXT
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  rotation_period INTEGER,
+  orbital_period INTEGER,
+  diameter INTEGER,
+  climate TEXT,
+  gravity TEXT,
+  terrain TEXT,
+  surface_water TEXT,
+  population BIGINT,
+  created_date TIMESTAMP,
+  updated_date TIMESTAMP,
+  url TEXT
 );
 
 CREATE TABLE people(
@@ -37,7 +32,6 @@ CREATE TABLE people(
 );
 
 
-/*Insert data*/
 INSERT INTO planet(name,rotation_period,orbital_period,diameter,climate,gravity,terrain,surface_water,population,created_date,updated_date,url,id) VALUES
 ('Alderaan','24','364','12500','temperate','1 standard','grasslands, mountains','40','2000000000','2014-12-10 11:35:48.479000','2014-12-20 20:58:18.420000','https://swapi.co/api/planets/2/',2),
 ('Yavin IV','24','4818','10200','temperate, tropical','1 standard','jungle, rainforests','8','1000','2014-12-10 11:37:19.144000','2014-12-20 20:58:18.421000','https://swapi.co/api/planets/3/',3),
@@ -190,3 +184,4 @@ INSERT INTO people(name,height,mass,hair_color,skin_color,eye_color,birth_year,g
 ('BB8',null,null,'none','none','black',null,'none',28,'2015-04-17 06:57:38.061346','2015-04-17 06:57:38.061453','https://swapi.co/api/people/87/',87),
 ('Captain Phasma',null,null,null,null,null,null,'female',28,'2015-10-13 10:35:39.229823','2015-10-13 10:35:39.229894','https://swapi.co/api/people/88/',88),
 ('Padmé Amidala','165','45','brown','light','brown','46BBY','female',8,'2014-12-19 17:28:26.926000','2016-04-20 17:06:31.502555','https://swapi.co/api/people/35/',35);
+.exit" | sqlite3 star_wars.db
