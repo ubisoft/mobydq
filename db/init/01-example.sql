@@ -4,21 +4,21 @@
 
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id) VALUES
-('dq_example_sql_server'
-,'driver={FreeTDS};server=10.0.2.15;port=1433;database=star_wars;tds_version=8.0;'
+('dq_example_microsoft_sql_server'
+,'driver={FreeTDS};server=10.0.2.15;port=9000;database=star_wars;tds_version=8.0;'
 ,'sa'
 ,'1234-abcd'
 ,(SELECT id FROM base.data_source_type WHERE id=3)),  -- Microsoft SQL Server
 ('dq_example_mysql'
-,'driver={MySQL ODBC 3.51 Driver};server=10.0.2.15;port=3306;database=star_wars;'
+,'driver={MySQL ODBC 3.51 Driver};server=10.0.2.15;port=9001;database=star_wars;'
 ,'root'
 ,'1234'
 ,(SELECT id FROM base.data_source_type WHERE id=4)),  -- MySQL
 ('dq_example_postgresql'
-,'driver={PostgreSQL Unicode};server=10.0.2.15;port=5432;database=star_wars;'
+,'driver={PostgreSQL Unicode};server=10.0.2.15;port=9002;database=star_wars;'
 ,'postgres'
 ,'1234'
-,(SELECT id FROM base.data_source_type WHERE id=6));  -- PostgreSQL
+,(SELECT id FROM base.data_source_type WHERE id=7));  -- PostgreSQL
 
 
 /*Create indicator group*/
