@@ -38,8 +38,10 @@ base.update_updated_date_column();
 INSERT INTO base.data_source_type (name) VALUES
 ('Hive'),
 ('Impala'),
+('MariaDB'),
 ('Microsoft SQL Server'),
 ('MySQL'),
+('Oracle'),
 ('PostgreSQL'),
 ('SQLite'),
 ('Teradata');
