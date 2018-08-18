@@ -79,10 +79,10 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'SELECT gender, COUNT(id) FROM people GROUP BY gender;'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-,'dq_example_sql_server'),
+,'dq_example_microsoft_sql_server'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-,'SELECT gender, COUNT(id) FROM people GROUP BY gender;');
+,'SELECT gender, COUNT(id) FROM dbo.people GROUP BY gender;');
 
 
 /*Create freshness indicator parameters*/
@@ -135,10 +135,10 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-,'dq_example_mysql'),
+,'dq_example_microsoft_sql_server'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;');
+,'SELECT name, MAX(updated_date) FROM dbo.people WHERE name LIKE ''%Skywalker%'' GROUP BY name;');
 
 
 /*Create validity indicator parameters*/
