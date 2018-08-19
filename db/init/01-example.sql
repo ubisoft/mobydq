@@ -163,4 +163,4 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'dq_example_postgresql'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_validity_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-,'SELECT name, population FROM planet WHERE terrain=''temperate'' GROUP BY name;');
+,'SELECT name, SUM(population) FROM planet WHERE climate=''temperate'' GROUP BY name;');

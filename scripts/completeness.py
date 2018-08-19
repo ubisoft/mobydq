@@ -32,12 +32,12 @@ class Completeness(Indicator):
         measures = parameters[5]
         source = parameters[6]
         source_request = parameters[7]
-        source_data = utils.get_data_frame(source, source_request, dimensions, measures)
+        source_data = super().get_data_frame(source, source_request, dimensions, measures)
 
         # Get target data
         target = parameters[8]
         target_request = parameters[9]
-        target_data = utils.get_data_frame(target, target_request, dimensions, measures)
+        target_data = super().get_data_frame(target, target_request, dimensions, measures)
 
         # Evaluate completeness
         alert_operator = parameters[1]  # Alert operator
@@ -47,13 +47,13 @@ class Completeness(Indicator):
 
         # Compute session result
         log.info('Compute session results.')
-        nb_records_alert = utils.compute_session_result(session_id, alert_operator, alert_threshold, result_data)
+        nb_records_alert = super().compute_session_result(session_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
             indicator_name = session['indicatorByIndicatorId']['name']
             distribution_list = parameters[3]  # Distribution list
-            utils.send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
+            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
@@ -101,7 +101,7 @@ class Completeness(Indicator):
             for row_num in result_data.index:
                 measure_value = result_data.loc[row_num, measure + '_delta_percentage']
                 measure_value = abs(measure_value)*100  # Multiply by 100 to format to percentage
-                if utils.is_alert(measure_value, alert_operator, alert_threshold):
+                if super().is_alert(measure_value, alert_operator, alert_threshold):
                     result_data.loc[row_num, 'Alert'] = True
 
         return result_data
