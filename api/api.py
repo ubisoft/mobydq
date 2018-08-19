@@ -73,8 +73,9 @@ class GraphQL(Resource):
             client.containers.run(
                 name=container_name,
                 image='data-quality-scripts',
-                environment={'batch_id': batch_id},
-                command='echo hello world',
+                network='data-quality-network',
+                links={'data-quality-graphql': 'data-quality-graphql'},
+                command=['python', 'execute.py', batch_id],
                 remove=True,
                 detach=True
                 )

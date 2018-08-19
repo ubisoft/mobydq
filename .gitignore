@@ -1,7 +1,8 @@
+# python files
 __pycache__
 
-#ignode intellij
+# ignore intellij
 .idea
 
-#environment file
+# environment file
 .env

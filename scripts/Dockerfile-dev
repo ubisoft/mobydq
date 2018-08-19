@@ -8,7 +8,7 @@ RUN apt-get update \
 ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY ./ ./
+COPY requirements.txt ./
 
 # Install Python dependencies
 RUN pip install --upgrade pip \

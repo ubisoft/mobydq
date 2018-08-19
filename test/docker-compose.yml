@@ -14,8 +14,6 @@ services:
     command: ["/bin/bash", "entrypoint.sh"]
     ports:
       - 9000:1433
-    networks:
-      - data-quality-test-network
 
   db-mysql:
     container_name: data-quality-test-db-mysql
@@ -28,8 +26,6 @@ services:
       MYSQL_ROOT_PASSWORD: "1234"
     ports:
       - 9001:3306
-    networks:
-      - data-quality-test-network
 
   db-postgresql:
     container_name: data-quality-test-db-postgresql
@@ -44,8 +40,3 @@ services:
       POSTGRES_DATABASE: "star_wars"
     ports:
       - 9002:5432
-    networks:
-      - data-quality-test-network
-
-networks:
-  data-quality-test-network:
