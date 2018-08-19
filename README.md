@@ -15,7 +15,7 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 # Requirements
 ## Install Docker
 Add the Docker repository to your Linux repository. Execute the following commands in a terminal window.
-```shellsession
+```shell
 $ sudo apt-get update
 $ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -23,87 +23,92 @@ $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ub
 ```
 
 Install Docker Community Edition.
-```shellsession
+```shell
 $ sudo apt-get update
 $ sudo apt-get install docker-ce
 ```
 
 Add your user to the docker group to setup its permissions. **Make sure to restart your machine after executing this command.**
-```shellsession
+```shell
 $ sudo usermod -a -G docker <username>
 ```
 
 ## Install Docker Compose
 Execute the following command in a terminal window.
-```shellsession
+```shell
 $ sudo apt install docker-compose
 ```
 
 # Setup Your Instance
-To setup your instance of the data quality framework, type the following command in your terminal window.
-```shellsession
-$ cd data-quality
-$ to be documented
-```
-
-# Create a .evn file in project root
-This file is used to define and your docker parameters - app paths, passwords, secrets. For example if your project is stored in machine root:
-```
-DB_DATA_VOLUME_PATH=./db/data/
-SCRIPT_VOLUME_PATH=./scripts
-API_VOLUME_PATH=./api
-APP_VOLUME_PATH=./app
+## Create Configuration File
+Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password in both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
+```ini
+# DB
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
-POSTGRES_DATABASE=public
-DATABASE_URL=postgres://postgres:password@db:5433/data_quality
+
+# GRAPHQL
+DATABASE_URL=postgres://postgres:password@db:5432/data_quality
+
+# SCRIPTS
+MAIL_HOST=smtp.server.org
+MAIL_PORT=25
+MAIL_SENDER=change@me.com
 ```
 
-# Create a postgresql data volume
-We are using this solution instead of mounting external volume due to postgresql image incompatibility with windows virtual machines
-```
-docker volume create data-quality-db-volume
+## Create Docker Network
+This custom network is used to connect the different containers. It's used in particular to connect the ephemeral containers ran when executing batches of indicators.
+```shell
+$ docker network create data-quality-network
 ```
 
-# Start Your Instance
-To start all the services of the data quality framework, execute the following commands in a terminal window. It will automatically create the Docker images and run the Docker containers.
-```shellsession
+## Create PostgreSQL Data Volume
+Due to PostgreSQL Docker image compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. Execute the following command.
+```shell
+$ docker volume create data-quality-db-volume
+```
+
+## Build Docker Images
+Go to the project repository and execute the following commands in your terminal window to build the Docker images.
+```shell
 $ cd data-quality
-$ docker-compose up
+$ docker-compose build --no-cache
 ```
 
-The list of services run by `docker-compose` are:
-* `data-quality-db`
-* `data-quality-graphql`
-* `data-quality-scripts`
-* `data-quality-api`
+## Run Docker Containers
+From the project repository, start all the Docker containers as deamons. Execute the following command in a terminal window.
+```shell
+$ docker-compose up db graphql api app -d
+```
 
 # Documentation
 The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
 
 # Dependencies
 ## Docker Images
-The services run by `docker-compose` have dependencies with the following Docker images:
+The containers run by `docker-compose` have dependencies with the following Docker images:
 * [postgres](https://hub.docker.com/_/postgres/) (tag: 10.4-alpine)
 * [graphile/postgraphile](https://hub.docker.com/r/graphile/postgraphile/) (tag: latest)
 * [python](https://hub.docker.com/_/python/) (tag: 3.6.6-alpine3.8)
+* [python](https://hub.docker.com/_/python/) (tag: 3.6.6-slim-stretch)
 
 ## Python Packages
-The Python scripts run by the service `data-quality-script` have dependencies with the following packages:
+The container `data-quality-api` has dependencies with the following Python packages:
 * [docker](https://docker-py.readthedocs.io) (3.5.0)
 * [flask](http://flask.pocoo.org) (1.0.2)
 * [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
 * [requests](http://docs.python-requests.org) (2.19.1)
 
-The Python scripts run by the service `data-quality-api` have dependencies with the following packages:
+The container `data-quality-scripts` has dependencies with the following Python packages:
+* [jinja2](http://jinja.pocoo.org) (2.10.0)
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
 * [requests](http://docs.python-requests.org) (2.19.1)
 
 # Run Test Cases
-To execute all test cases, change directory to the framework folder and execute the following command:
-```shellsession
+To execute all test cases, execute following command from the project repository:
+```shell
 $ cd data-quality
 $ nose2 -v
 ```

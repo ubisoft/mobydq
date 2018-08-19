@@ -39,14 +39,12 @@ services:
     build:
       context: ./api
     volumes:
-      - ./api:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       FLASK_APP: api.py
-      FLASK_RUN_PORT: 5435
-      FLASK_DEBUG: 1
+      FLASK_RUN_PORT: 5434
     ports:
-      - 5435:5435
+      - 5434:5434
     depends_on:
       - graphql
     links:
@@ -54,27 +52,6 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-
-  scripts-dev:
-    container_name: data-quality-scripts-dev
-    restart: always
-    image: data-quality-scripts-dev
-    build:
-      context: ./scripts
-      dockerfile: Dockerfile-dev
-    volumes:
-       - ./scripts:/srv/scripts
-    env_file:
-      - ./.env
-    ports:
-      - 5498:5498
-    tty: true
-    depends_on:
-      - graphql
-    links:
-      - graphql
-    networks:
-      - default
 
   scripts:
     container_name: data-quality-scripts
@@ -84,9 +61,6 @@ services:
       context: ./scripts
     env_file:
       - ./.env
-    ports:
-      - 5434:5434
-    tty: true
     depends_on:
       - graphql
     links:
@@ -94,29 +68,7 @@ services:
     networks:
       - default
 
-  app-dev:
-    container_name: data-quality-app-dev
-    restart: always
-    image: data-quality-app-dev
-    build:
-      context: ./app
-      dockerfile: Dockerfile-dev
-    volumes:
-      - ./app:/usr/src/app
-    env_file:
-      - ./.env
-    ports:
-      - 5499:3000
-    depends_on:
-      - api
-      - graphql
-    links:
-      - api
-      - graphql
-    networks:
-      - default
-
-  app-prod:
+  app:
     container_name: data-quality-app
     restart: always
     image: data-quality-app
