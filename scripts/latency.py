@@ -1,6 +1,7 @@
 from indicator import Indicator
 import logging
 import pandas
+import utils
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -12,51 +13,87 @@ class Latency(Indicator):
     def __init__(self):
         pass
 
-    def execute(self, data):
-        print('init latency')
+    def execute(self, session):
+        """Execute indicator of type latency."""
+        # Update session status to running
+        session_id = session['id']
+        indicator_id = session['indicatorId']
+        log.info('Start execution of session Id {session_id} for indicator Id {indicator_id}.'.format(session_id=session_id, indicator_id=indicator_id))
+        log.debug('Update session status to Running.')
+        utils.update_session_status(session_id, 'Running')
 
-    def evaluate_latency(self, data_sets, parameters):
-        """Compute specificities of latency indicator."""
-        source_data_frame = data_sets['Source data frame']
-        target_data_frame = data_sets['Target data frame']
+        # Verify if the list of indicator parameters is valid
+        indicaor_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
+        parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
+        parameters = utils.verify_indicator_parameters(indicaor_type_id, parameters)
 
+        # Get source data
+        dimensions = parameters[4]
+        measures = parameters[5]
+        source = parameters[6]
+        source_request = parameters[7]
+        source_data = super().get_data_frame(source, source_request, dimensions, measures)
+
+        # Get target data
+        target = parameters[8]
+        target_request = parameters[9]
+        target_data = super().get_data_frame(target, target_request, dimensions, measures)
+
+        # Evaluate latency
+        alert_operator = parameters[1]  # Alert operator
+        alert_threshold = parameters[2]  # Alert threshold
+        log.info('Evaluate latency of target data source.')
+        result_data = self.evaluate_latency(source_data, target_data, dimensions, measures, alert_operator, alert_threshold)
+
+        # Compute session result
+        log.info('Compute session results.')
+        nb_records_alert = super().compute_session_result(session_id, alert_operator, alert_threshold, result_data)
+
+        # Send e-mail alert
+        if nb_records_alert != 0:
+            indicator_name = session['indicatorByIndicatorId']['name']
+            distribution_list = parameters[3]  # Distribution list
+            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
+
+        # Update session status to succeeded
+        log.debug('Update session status to Succeeded.')
+        utils.update_session_status(session_id, 'Succeeded')
+        log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(session_id=session_id, indicator_id=indicator_id))
+
+    def evaluate_latency(self, source_data, target_data, dimensions, measures, alert_operator, alert_threshold):
+        """Compute specificities of latency indicator and return results in a data frame."""
         # Merge data frames to compare their measures
-        result_data_frame = pandas.merge(
-            left=source_data_frame,
-            right=target_data_frame,
-            left_on=parameters[4],  # Dimension
-            right_on=parameters[4],  # Dimension
+        result_data = pandas.merge(
+            left=source_data,
+            right=target_data,
+            left_on=dimensions,
+            right_on=dimensions,
             how='outer',
             sort=True,
             suffixes=('_source', '_target'))
 
-        # Prepare variables
-        alert_operator = parameters[1]  # Alert operator
-        alert_threshold = parameters[2]  # Alert threshold
-        measure_list = parameters[3]  # Measure
-
         # Compute delta in minutes and delta description between source and target measures
-        for measure in measure_list:
+        for measure in measures:
             source_column = measure + '_source'
             target_column = measure + '_target'
             delta_column = measure + '_delta_minutes'
             delta_description_column = measure + '_delta_description'
 
             # Enforce measure to datetime data type
-            result_data_frame[source_column] = pandas.to_datetime(result_data_frame[source_column], format='%Y-%m-%d %H:%M:%S.%f', errors='ignore')
-            result_data_frame[target_column] = pandas.to_datetime(result_data_frame[target_column], format='%Y-%m-%d %H:%M:%S.%f', errors='ignore')
+            result_data[source_column] = pandas.to_datetime(result_data[source_column], format='%Y-%m-%d %H:%M:%S.%f', errors='ignore')
+            result_data[target_column] = pandas.to_datetime(result_data[target_column], format='%Y-%m-%d %H:%M:%S.%f', errors='ignore')
 
             # Compute delta and delta description
-            delta_seconds = (result_data_frame[source_column] - result_data_frame[target_column]).dt.total_seconds()
-            result_data_frame[delta_column] = round(delta_seconds/60).astype(int)
-            result_data_frame[delta_description_column] = pandas.to_timedelta(delta_seconds, unit='s')
+            delta_seconds = (result_data[source_column] - result_data[target_column]).dt.total_seconds()
+            result_data[delta_column] = round(delta_seconds/60).astype(int)
+            result_data[delta_description_column] = pandas.to_timedelta(delta_seconds, unit='s')
 
-        # For each record and measure in data frame, test if alert must be sent and update alert column
-        result_data_frame['Alert'] = False
-        for measure in measure_list:
-            for row_num in result_data_frame.index:
-                measure_value = result_data_frame.loc[row_num, measure + '_delta_minutes']
-                measure_value = abs(measure_value)*100
+        # For each record and measure in data frame test if alert must be sent and update alert column
+        result_data['Alert'] = False
+        for measure in measures:
+            for row_num in result_data.index:
+                measure_value = result_data.loc[row_num, measure + '_delta_minutes']
                 if self.is_alert(measure_value, alert_operator, alert_threshold):
-                    result_data_frame.loc[row_num, 'Alert'] = True
-        return result_data_frame
+                    result_data.loc[row_num, 'Alert'] = True
+
+        return result_data
