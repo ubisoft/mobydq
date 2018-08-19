@@ -59,6 +59,7 @@ class Validity(Indicator):
         """Compute specificities of validity indicator and return results in a data frame."""
         # No tranformation needed for this data frame
         result_data = target_data
+        result_data = result_data.fillna(value=0)  # Replace NaN values per 0
 
         # Formatting data to improve readability
         for measure in measures:
