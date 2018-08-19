@@ -11,8 +11,6 @@ services:
       - data-quality-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
-    expose:
-      - 5432
     ports:
       - 5432:5432
     networks:
@@ -25,9 +23,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./.env 
-    expose:
-      - 5433
+      - ./.env
     ports:
       - 5433:5433
     command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
@@ -35,7 +31,7 @@ services:
       - db
     networks:
       - data-quality-network
-      
+
   scripts:
     container_name: data-quality-scripts
     restart: always
@@ -44,8 +40,6 @@ services:
       context: ./scripts
     volumes:
        - $SCRIPT_VOLUME_PATH:/srv/scripts
-    expose:
-      - 5434
     ports:
       - 5434:5434
     tty: true
@@ -69,8 +63,6 @@ services:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5435
       FLASK_DEBUG: 1
-    expose:
-      - 5435
     ports:
       - 5435:5435
     command: ["flask", "run", "--host=0.0.0.0"]
@@ -80,7 +72,7 @@ services:
       - graphql
     networks:
       - data-quality-network
-      
+
   app-dev:
     container_name: data-quality-app-dev
     restart: always
@@ -92,8 +84,6 @@ services:
       - $APP_VOLUME_PATH:/usr/src/app
     env_file:
       - ./.env
-    expose:
-      - 5499
     ports:
       - 5499:3000
     depends_on:
@@ -104,7 +94,7 @@ services:
       - graphql
     networks:
       - data-quality-network
-      
+
   app-prod:
     container_name: data-quality-app-prod
     build:
@@ -112,7 +102,7 @@ services:
       dockerfile: Dockerfile-prod
     ports:
       - '80:80'
-      
+
 networks:
   data-quality-network:
 volumes:
