@@ -14,41 +14,23 @@ services:
     ports:
       - 5432:5432
     networks:
-      - data-quality-network
+      - default
 
   graphql:
     container_name: data-quality-graphql
     restart: always
     image: graphile/postgraphile
-    depends_on:
-      - db
     env_file:
       - ./.env
     ports:
       - 5433:5433
-    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+    depends_on:
+      - db
     links:
       - db
     networks:
-      - data-quality-network
-
-  scripts:
-    container_name: data-quality-scripts
-    restart: always
-    image: data-quality-scripts
-    build:
-      context: ./scripts
-    volumes:
-       - $SCRIPT_VOLUME_PATH:/srv/scripts
-    ports:
-      - 5434:5434
-    tty: true
-    depends_on:
-      - graphql
-    links:
-      - graphql
-    networks:
-      - data-quality-network
+      - default
+    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   api:
     container_name: data-quality-api
@@ -57,7 +39,7 @@ services:
     build:
       context: ./api
     volumes:
-      - $API_VOLUME_PATH:/srv/api/
+      - ./api:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       FLASK_APP: api.py
@@ -65,13 +47,52 @@ services:
       FLASK_DEBUG: 1
     ports:
       - 5435:5435
-    command: ["flask", "run", "--host=0.0.0.0"]
     depends_on:
-      - scripts
+      - graphql
     links:
       - graphql
     networks:
-      - data-quality-network
+      - default
+    command: ["flask", "run", "--host=0.0.0.0"]
+
+  scripts-dev:
+    container_name: data-quality-scripts-dev
+    restart: always
+    image: data-quality-scripts-dev
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile-dev
+    volumes:
+       - ./scripts:/srv/scripts
+    env_file:
+      - ./.env
+    ports:
+      - 5498:5498
+    tty: true
+    depends_on:
+      - graphql
+    links:
+      - graphql
+    networks:
+      - default
+
+  scripts:
+    container_name: data-quality-scripts
+    restart: always
+    image: data-quality-scripts
+    build:
+      context: ./scripts
+    env_file:
+      - ./.env
+    ports:
+      - 5434:5434
+    tty: true
+    depends_on:
+      - graphql
+    links:
+      - graphql
+    networks:
+      - default
 
   app-dev:
     container_name: data-quality-app-dev
@@ -81,7 +102,7 @@ services:
       context: ./app
       dockerfile: Dockerfile-dev
     volumes:
-      - $APP_VOLUME_PATH:/usr/src/app
+      - ./app:/usr/src/app
     env_file:
       - ./.env
     ports:
@@ -93,18 +114,34 @@ services:
       - api
       - graphql
     networks:
-      - data-quality-network
+      - default
 
   app-prod:
-    container_name: data-quality-app-prod
+    container_name: data-quality-app
+    restart: always
+    image: data-quality-app
     build:
       context: ./app
-      dockerfile: Dockerfile-prod
+    volumes:
+      - ./app:/usr/src/app
+    env_file:
+      - ./.env
     ports:
-      - '80:80'
+      - 5435:5435
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - default
 
 networks:
-  data-quality-network:
+  default:
+    external:
+      name: data-quality-network
+
 volumes:
   data-quality-db-volume:
     external: true
