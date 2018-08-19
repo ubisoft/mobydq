@@ -58,7 +58,7 @@ def update_session_status(session_id, session_status):
     return data
 
 
-def verify_indicator_parameters(self, indicator_type_id, parameters):
+def verify_indicator_parameters(indicator_type_id, parameters):
     """Verify if the list of indicator parameters is valid and return them as a dictionary."""
     # Build dictionary of parameter types referential
     query = '''query{allParameterTypes{nodes{id,name}}}'''
@@ -158,7 +158,7 @@ def send_mail(distribution_list, template=None, attachment=None, **kwargs):
     return True
 
 
-def get_connection(self, data_source_type_id, connection_string, login=None, password=None):
+def get_connection(data_source_type_id, connection_string, login=None, password=None):
     """Connect to a data source. Return a connection object."""
     # Add login to connection string if it is not empty
     if login:
