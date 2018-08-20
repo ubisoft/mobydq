@@ -1,70 +1,49 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ViewListIcon from '@material-ui/icons/ViewList';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
+import CategoryIcon from '@material-ui/icons/Category';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import DvrIcon from '@material-ui/icons/Dvr';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListSubheader inset>Data Quality Framework</ListSubheader>
+    <ListItem button component={Link} to="/">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+      <ListItem button component={Link} to="/indicators">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <CategoryIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Indicators" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/indicator-groups">
+      <ListItemIcon>
+        <ViewListIcon />
+      </ListItemIcon>
+      <ListItemText primary="Indicator Groups" />
+    </ListItem>
+    <ListItem button component={Link} to="/data-sources">
+      <ListItemIcon>
+        <DvrIcon />
+      </ListItemIcon>
+      <ListItemText primary="Data Sources" />
+    </ListItem>
+    <ListItem button component={Link} to="/admin">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItem>
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Admin" />
     </ListItem>
   </div>
 );
