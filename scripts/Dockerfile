@@ -8,7 +8,24 @@ RUN apt-get update \
 ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY ./ ./
+COPY ./init ./
+
+# Move ODBC configuration file
+RUN mv -f ./odbcinst.ini /etc
+
+# Get build arguments coming from .env file
+ARG MAIL_HOST
+ENV MAIL_HOST "$MAIL_HOST"
+ARG MAIL_PORT
+ENV MAIL_PORT "$MAIL_PORT"
+ARG MAIL_SENDER
+ENV MAIL_SENDER "$MAIL_SENDER"
+
+# Create config file to send mails using environment variables
+RUN echo "[mail]" >> ./scripts.cfg \
+    && echo "host = $MAIL_HOST" >> ./scripts.cfg \
+    && echo "port = $MAIL_PORT" >> ./scripts.cfg \
+    && echo "sender = $MAIL_SENDER" >> ./scripts.cfg
 
 # Install Python dependencies
 RUN pip install --upgrade pip \
@@ -18,11 +35,8 @@ RUN pip install --upgrade pip \
 RUN apt-get install -y tdsodbc
 
 # Add MySQL ODBC driver
-#RUN apt-get install -y yum yum-utils \
+# RUN apt-get install -y yum yum-utils \
 #    && yum install mysql-connector-odbc
 
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
-
-# Update ODBC configuration file
-COPY odbcinst.ini /etc/odbcinst.ini
