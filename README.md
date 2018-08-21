@@ -10,7 +10,7 @@ It has been influenced by an internal project developed at [Ubisoft Entertainmen
 ![Data pipeline](https://github.com/alexisrolland/data-quality/blob/development/doc/data_pipeline.png)
 
 # Getting Started
-Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). Refer to the documentation below for a better understanding of the framework, its concepts and how it works.
+Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). The complete documentation is also available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki) if you wish to better understanding the framework, its concepts and how it works.
 
 # Requirements
 ## Install Docker
@@ -80,9 +80,6 @@ From the project repository, start all the Docker containers as deamons. Execute
 ```shell
 $ docker-compose up db graphql api app -d
 ```
-
-# Documentation
-The complete documentation is available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki).
 
 # Dependencies
 ## Docker Images
