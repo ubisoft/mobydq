@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import BaseDataView from './Components/Base/BaseDataView'
+import Root from './Components/Base/Root'
+import registerServiceWorker from './registerServiceWorker';
+import configureStore from './store/configureStore'
+import combinedReducers from './reducers/index'
 
+const store = configureStore();
 
-render((
-  <BrowserRouter>
-    <BaseDataView/>
-  </BrowserRouter>
-), document.getElementById('root'));
+render( <Root store={store} />
+, document.getElementById('root'));
 

@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles'
 import { withStyles } from '@material-ui/core/styles';
+import { isOpen } from './../../actions/sidebar'
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -23,16 +26,12 @@ import SimpleTable from '../../SimpleTable';
 import Content from './Content'
 
 class BaseDataView extends React.Component {
-  state = {
-    open: true,
-  };
-
   handleDrawerOpen = () => {
-    this.setState({ open: true });
+    this.props.isOpen(true);
   };
 
   handleDrawerClose = () => {
-    this.setState({ open: false });
+    this.props.isOpen(false);
   };
 
   render() {
@@ -44,16 +43,16 @@ class BaseDataView extends React.Component {
         <div className={classes.root}>
           <AppBar
             position="absolute"
-            className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+            className={classNames(classes.appBar, this.props.open && classes.appBarShift)}
           >
-            <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
+            <Toolbar disableGutters={!this.props.open} className={classes.toolbar}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
                 onClick={this.handleDrawerOpen}
                 className={classNames(
                   classes.menuButton,
-                  this.state.open && classes.menuButtonHidden,
+                  this.props.open && classes.menuButtonHidden,
                 )}
               >
                 <MenuIcon />
@@ -71,9 +70,9 @@ class BaseDataView extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+              paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
             }}
-            open={this.state.open}
+            open={this.props.open}
           >
             <div className={classes.toolbarIcon}>
               <IconButton onClick={this.handleDrawerClose}>
@@ -92,8 +91,20 @@ class BaseDataView extends React.Component {
   }
 }
 
-BaseDataView.propTypes = {
-  content: PropTypes.object.isRequired,
+// BaseDataView.propTypes = {
+//   content: PropTypes.object.isRequired,
+// };
+
+const mapStateToProps = (state) => {
+  return {
+    open: state.sidebarIsOpen,
+  };
 };
 
-export default withStyles(styles)(BaseDataView);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    isOpen: (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
+  };
+};
+
+export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps) (BaseDataView)));

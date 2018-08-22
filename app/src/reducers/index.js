@@ -1,3 +1,6 @@
 import { combineReducers } from 'redux';
+import { sidebarIsOpen } from './sidebar';
 
-export default combineReducers({})
+export default combineReducers({
+    sidebarIsOpen
+});
