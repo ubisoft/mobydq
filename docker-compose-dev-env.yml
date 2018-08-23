@@ -11,17 +11,23 @@ services:
       - data-quality-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
+    expose:
+      - 5432
     ports:
       - 5432:5432
     networks:
-      - default
+      - data-quality-network
 
   graphql:
     container_name: data-quality-graphql
     restart: always
     image: graphile/postgraphile
+    depends_on:
+      - db
     env_file:
-      - ./.env
+      - ./.env 
+    expose:
+      - 5433
     ports:
       - 5433:5433
     command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
@@ -29,7 +35,7 @@ services:
       - db
     networks:
       - data-quality-network
-
+      
   scripts:
     container_name: data-quality-scripts
     restart: always
@@ -44,12 +50,11 @@ services:
       - 5434:5434
     tty: true
     depends_on:
-      - db
+      - graphql
     links:
-      - db
+      - graphql
     networks:
-      - default
-    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+      - data-quality-network
 
   api:
     container_name: data-quality-api
@@ -58,40 +63,49 @@ services:
     build:
       context: ./api
     volumes:
+      - $API_VOLUME_PATH:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       FLASK_APP: api.py
-      FLASK_RUN_PORT: 5434
+      FLASK_RUN_PORT: 5435
+      FLASK_DEBUG: 1
+    expose:
+      - 5435
     ports:
-      - 5434:5434
+      - 5435:5435
+    command: ["flask", "run", "--host=0.0.0.0"]
     depends_on:
-      - graphql
+      - scripts
     links:
       - graphql
     networks:
-      - default
-    command: ["flask", "run", "--host=0.0.0.0"]
-
-  scripts:
-    container_name: data-quality-scripts
+      - data-quality-network
+      
+  app-dev:
+    container_name: data-quality-app-dev
     restart: always
-    image: data-quality-scripts
+    image: data-quality-app-dev
     build:
-      context: ./scripts
-      args:
-        - MAIL_HOST=${MAIL_HOST}
-        - MAIL_PORT=${MAIL_PORT}
-        - MAIL_SENDER=${MAIL_SENDER}
+      context: ./app
+      dockerfile: Dockerfile-dev
+    volumes:
+      - $APP_VOLUME_PATH:/usr/src/app
     env_file:
       - ./.env
+    expose:
+      - 5499
+    ports:
+      - 5499:3000
     depends_on:
+      - api
       - graphql
     links:
+      - api
       - graphql
     networks:
-      - default
-
-  app:
+      - data-quality-network
+      
+  app-prod:
     container_name: data-quality-app-prod
     build:
       context: ./app
@@ -100,10 +114,7 @@ services:
       - '80:80'
       
 networks:
-  default:
-    external:
-      name: data-quality-network
-
+  data-quality-network:
 volumes:
   data-quality-db-volume:
     external: true
