@@ -1,3 +1,4 @@
+from batch import Batch
 import completeness
 import freshness
 import latency
@@ -34,7 +35,7 @@ if __name__ == '__main__':
         # Update batch status to running
         log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
         log.debug('Update batch status to Running.')
-        utils.update_batch_status(batch_id, 'Running')
+        Batch.update_batch_status(batch_id, 'Running')
 
         # For each indicator session execute corresponding method
         for session in response['data']['allSessions']['nodes']:
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 
         # Update batch status to succeeded
         log.debug('Update batch status to Succeeded.')
-        utils.update_batch_status(batch_id, 'Succeeded')
+        Batch.update_batch_status(batch_id, 'Succeeded')
         log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
 
     else:
