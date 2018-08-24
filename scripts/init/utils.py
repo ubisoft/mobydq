@@ -90,8 +90,9 @@ def verify_indicator_parameters(indicator_type_id, parameters):
 
     if missing_parameters:
         missing_parameters = ', '.join(missing_parameters)
-        log.error('Missing parameters: {missing_parameters}.'.format(missing_parameters))
-        # Raise alert, send e-mail
+        error_message = 'Missing parameters: {missing_parameters}.'.format(missing_parameters)
+        log.error(error_message)
+        raise Exception(error_message)
 
     # Convert distribution list, dimensions and measures parameters to python list
     indicator_parameters[3] = literal_eval(indicator_parameters[3])  # Distribution list
@@ -107,8 +108,9 @@ def send_mail(distribution_list, template=None, attachment=None, **kwargs):
     config = get_parameter('mail')
     for key, value in config.items():
         if value in ['change_me', '', None]:
-            log.error('Cannot send e-mail notification due to invalid configuration for mail parameter {key}.'.format(key=key))
-            # Raise alert
+            error_message = 'Cannot send e-mail notification due to invalid configuration for mail parameter {key}.'.format(key=key)
+            log.error(error_message)
+            raise Exception(error_message)
 
     # Construct e-mail header
     email = MIMEMultipart()

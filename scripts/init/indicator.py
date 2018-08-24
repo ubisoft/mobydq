@@ -29,16 +29,18 @@ class Indicator:
             log.info('Connect to data source {data_source}.'.format(data_source=data_source))
             connection = utils.get_connection(data_source_type_id, connection_string, login, password)
         else:
-            log.error('Data source {data_source} does not exist.'.format(data_source=data_source))
-            # Raise alert, send e-mail
+            error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)
+            log.error(error_message)
+            raise Exception(error_message)
 
         # Get data frame
         log.info('Execute request on data source.'.format(data_source=data_source))
         data_frame = pandas.read_sql(request, connection)
         if data_frame.empty:
-            log.error('Request on data source {data_source} returned no data.'.format(data_source=data_source))
             log.debug('Request: {request}.'.format(request=request))
-            # Raise alert, send e-mail
+            error_message = 'Request on data source {data_source} returned no data.'.format(data_source=data_source)
+            log.error(error_message)
+            raise Exception(error_message)
 
         # Format data frame
         log.debug('Format data frame.')

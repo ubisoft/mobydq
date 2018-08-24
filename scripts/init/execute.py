@@ -50,5 +50,6 @@ if __name__ == '__main__':
         log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
 
     else:
-        log.error('Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id))
-        # Raise alert, send e-mail
+        error_message = 'Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id)
+        log.error(error_message)
+        raise Exception(error_message)
