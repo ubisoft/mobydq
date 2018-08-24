@@ -1,9 +1,5 @@
 FROM python:3.6.6-slim-stretch
 
-# Add dependencies for Python package pyodbc
-RUN apt-get update \
-    && apt-get install -y g++ unixodbc-dev
-
 # Project files
 ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
@@ -27,6 +23,10 @@ RUN echo "[mail]" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
     && echo "sender = $MAIL_SENDER" >> ./scripts.cfg
 
+# Add dependencies for Python package pyodbc
+RUN apt-get update \
+    && apt-get install -y g++ unixodbc-dev
+
 # Install Python dependencies
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt
@@ -40,3 +40,8 @@ RUN apt-get install -y tdsodbc
 
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
+
+# Add Teradata ODBC driver
+RUN apt-get install -y lib32stdc++6
+RUN tar xvzf ./drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
+RUN dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
