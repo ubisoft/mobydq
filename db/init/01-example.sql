@@ -13,7 +13,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
 )
 ,(
   'dq_example_mysql'
-  ,'driver={MySQL ODBC 3.51 Driver};server=10.0.2.15;port=9001;database=star_wars;'
+  ,'driver={MySQL Unicode};server=10.0.2.15;port=9001;database=star_wars;'
   ,'root'
   ,'1234'
   ,(SELECT id FROM base.data_source_type WHERE id=4)  -- MySQL

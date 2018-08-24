@@ -35,8 +35,9 @@ RUN pip install --upgrade pip \
 RUN apt-get install -y tdsodbc
 
 # Add MySQL ODBC driver
-# RUN apt-get install -y yum yum-utils \
-#    && yum install mysql-connector-odbc
+RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
+RUN cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
+RUN rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
@@ -45,3 +46,7 @@ RUN apt-get install -y odbc-postgresql
 RUN apt-get install -y lib32stdc++6
 RUN tar xvzf ./drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
 RUN dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
+RUN rm -R ./tdodbc1620
+
+# Deleting drivers packages
+RUN rm -R ./drivers
