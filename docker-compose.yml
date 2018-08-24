@@ -24,11 +24,13 @@ services:
       - ./.env
     ports:
       - 5433:5433
-    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+    depends_on:
+      - db
     links:
       - db
     networks:
-      - data-quality-network
+      - default
+    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   api:
     container_name: data-quality-api
@@ -50,25 +52,6 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-      
-  scripts:
-    container_name: data-quality-scripts
-    restart: always
-    image: data-quality-scripts
-    build:
-      context: ./scripts
-    expose:
-      - 5434
-    ports:
-      - 5434:5434
-    tty: true
-    depends_on:
-      - db
-    links:
-      - db
-    networks:
-      - default
-    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   scripts:
     container_name: data-quality-scripts
@@ -105,7 +88,6 @@ services:
     networks:
       - default
 
-      
 networks:
   default:
     external:
