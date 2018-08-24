@@ -9,6 +9,7 @@
     "graphql": "^0.13.2",
     "react": "^16.4.2",
     "react-apollo": "^2.1.11",
+    "react-app-env": "^1.2.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
@@ -20,8 +21,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-env --env-file=.env.app start",
+    "build": "react-app-env --env-file=.env.app build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
