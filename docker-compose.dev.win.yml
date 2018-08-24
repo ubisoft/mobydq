@@ -11,51 +11,27 @@ services:
       - data-quality-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
-    expose:
-      - 5432
     ports:
       - 5432:5432
     networks:
-      - data-quality-network
-
+      - default
+      
   graphql:
     container_name: data-quality-graphql
     restart: always
     image: graphile/postgraphile
-    depends_on:
-      - db
     env_file:
       - ./.env 
-    expose:
-      - 5433
     ports:
       - 5433:5433
-    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+    depends_on:
+      - db
     links:
       - db
     networks:
-      - data-quality-network
+      - default
+    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]    
       
-  scripts:
-    container_name: data-quality-scripts
-    restart: always
-    image: data-quality-scripts
-    build:
-      context: ./scripts
-    volumes:
-       - $SCRIPT_VOLUME_PATH:/srv/scripts
-    expose:
-      - 5434
-    ports:
-      - 5434:5434
-    tty: true
-    depends_on:
-      - graphql
-    links:
-      - graphql
-    networks:
-      - data-quality-network
-
   api:
     container_name: data-quality-api
     restart: always
@@ -66,21 +42,39 @@ services:
       - $API_VOLUME_PATH:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      FLASK_APP: api.py
-      FLASK_RUN_PORT: 5435
-      FLASK_DEBUG: 1
-    expose:
-      - 5435
+      FLASK_APP: init/api.py
+      FLASK_RUN_PORT: 5434
     ports:
-      - 5435:5435
-    command: ["flask", "run", "--host=0.0.0.0"]
+      - 5434:5434
     depends_on:
-      - scripts
+      - graphql
     links:
       - graphql
     networks:
-      - data-quality-network
-      
+      - default
+    command: ["flask", "run", "--host=0.0.0.0"]
+    
+  scripts:
+    container_name: data-quality-scripts
+    restart: always
+    image: data-quality-scripts
+    build:
+      context: ./scripts
+      args:
+        - MAIL_HOST=${MAIL_HOST}
+        - MAIL_PORT=${MAIL_PORT}
+        - MAIL_SENDER=${MAIL_SENDER}
+    env_file:
+      - ./.env
+    volumes:
+       - $SCRIPT_VOLUME_PATH:/srv/scripts
+    depends_on:
+      - graphql
+    links:
+      - graphql
+    networks:
+      - default
+            
   app-dev:
     container_name: data-quality-app-dev
     restart: always
@@ -103,7 +97,7 @@ services:
       - api
       - graphql
     networks:
-      - data-quality-network
+      - default
       
   app-prod:
     container_name: data-quality-app-prod
@@ -114,7 +108,10 @@ services:
       - '80:80'
       
 networks:
-  data-quality-network:
+  default:
+    external:
+      name: data-quality-network
+
 volumes:
   data-quality-db-volume:
     external: true

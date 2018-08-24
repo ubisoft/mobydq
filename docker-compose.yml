@@ -30,27 +30,6 @@ services:
     networks:
       - data-quality-network
 
-  scripts:
-    container_name: data-quality-scripts
-    restart: always
-    image: data-quality-scripts
-    build:
-      context: ./scripts
-    volumes:
-       - $SCRIPT_VOLUME_PATH:/srv/scripts
-    expose:
-      - 5434
-    ports:
-      - 5434:5434
-    tty: true
-    depends_on:
-      - db
-    links:
-      - db
-    networks:
-      - default
-    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
-
   api:
     container_name: data-quality-api
     restart: always
@@ -71,6 +50,25 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
+      
+  scripts:
+    container_name: data-quality-scripts
+    restart: always
+    image: data-quality-scripts
+    build:
+      context: ./scripts
+    expose:
+      - 5434
+    ports:
+      - 5434:5434
+    tty: true
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - default
+    command: ["postgraphile", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   scripts:
     container_name: data-quality-scripts
@@ -97,7 +95,16 @@ services:
       context: ./app
       dockerfile: Dockerfile-prod
     ports:
-      - '80:80'
+      - 80:80
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - default
+
       
 networks:
   default:
