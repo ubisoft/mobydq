@@ -16,7 +16,7 @@ class Indicator:
     def __init__(self):
         pass
 
-    def verify_indicator_parameters(session_id, indicator_type_id, parameters):
+    def verify_indicator_parameters(self, session_id, indicator_type_id, parameters):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
         query = '''query{allParameterTypes{nodes{id,name}}}'''
