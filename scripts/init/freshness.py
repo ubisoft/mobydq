@@ -49,7 +49,7 @@ class Freshness(Indicator):
         if nb_records_alert != 0:
             indicator_name = session['indicatorByIndicatorId']['name']
             distribution_list = parameters[3]  # Distribution list
-            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
+            super().send_indicator_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')

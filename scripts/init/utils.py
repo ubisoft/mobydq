@@ -95,3 +95,20 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
     connexion.quit()
 
     return True
+
+
+def send_error(indicator_id, indicator_name, session_id, distribution_list, error_message):
+    """Build the error e-mail to be sent for the session."""
+    # Prepare e-mail body
+    body = {}
+    body['indicator_id'] = indicator_id
+    body['indicator_name'] = indicator_name
+    body['session_id'] = session_id
+    body['error_message'] = error_message
+
+    # Send e-mail
+    log.info('Send error e-mail.')
+    utils.send_mail(session_id, distribution_list, 'indicator', file_path, **body)
+    os.remove(file_path)
+
+    return True

@@ -1,4 +1,5 @@
 from batch import Batch
+from session import Session
 import completeness
 import freshness
 import latency
@@ -6,6 +7,7 @@ import validity
 import argparse
 import logging
 import sys
+import traceback
 import utils
 
 
@@ -39,11 +41,32 @@ if __name__ == '__main__':
 
         # For each indicator session execute corresponding method
         for session in response['data']['allSessions']['nodes']:
-            module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
-            class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']
-            method_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['method']
-            class_instance = getattr(sys.modules[module_name], class_name)()
-            getattr(class_instance, method_name)(session)
+            try:
+                module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
+                class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']
+                method_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['method']
+                class_instance = getattr(sys.modules[module_name], class_name)()
+                getattr(class_instance, method_name)(session)
+
+            except Exception:
+                error_message = traceback.print_exc()
+                log.error(error_message)
+
+                # Update session status
+                session_id = session['id']
+                Session.update_session_status(session_id, 'Failed')
+
+                # Get error context
+                indicator_id = session['indicatorId']
+                indicator_name = session['indicatorByIndicatorId']['name']
+                for parameter in session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']:
+                    if parameter['parameterTypeId'] == 3  # Distribution list
+                        distribution_list = parameter['value']
+
+                # Send error e-mail
+                if distribution_list:
+                    utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
+
 
         # Update batch status to succeeded
         log.debug('Update batch status to Succeeded.')
