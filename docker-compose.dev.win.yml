@@ -15,13 +15,13 @@ services:
       - 5432:5432
     networks:
       - default
-
+      
   graphql:
     container_name: data-quality-graphql
     restart: always
     image: graphile/postgraphile
     env_file:
-      - ./.env
+      - ./.env 
     ports:
       - 5433:5433
     depends_on:
@@ -30,8 +30,8 @@ services:
       - db
     networks:
       - default
-    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
-
+    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]    
+      
   api:
     container_name: data-quality-api
     restart: always
@@ -39,9 +39,10 @@ services:
     build:
       context: ./api
     volumes:
+      - $API_VOLUME_PATH:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      FLASK_APP: api.py
+      FLASK_APP: init/api.py
       FLASK_RUN_PORT: 5434
     ports:
       - 5434:5434
@@ -52,7 +53,7 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-
+    
   scripts:
     container_name: data-quality-scripts
     restart: always
@@ -65,29 +66,47 @@ services:
         - MAIL_SENDER=${MAIL_SENDER}
     env_file:
       - ./.env
+    volumes:
+       - $SCRIPT_VOLUME_PATH:/srv/scripts
     depends_on:
       - graphql
     links:
       - graphql
     networks:
       - default
-
-  app:
+            
+  app-dev:
+    container_name: data-quality-app-dev
+    restart: always
+    image: data-quality-app-dev
+    build:
+      context: ./app
+      dockerfile: Dockerfile-dev
+    volumes:
+      - $APP_VOLUME_PATH:/usr/src/app
+    env_file:
+      - ./.env
+    expose:
+      - 5499
+    ports:
+      - 5499:3000
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - default
+      
+  app-prod:
     container_name: data-quality-app-prod
     build:
       context: ./app
       dockerfile: Dockerfile-prod
     ports:
-      - 80:80
-    depends_on:
-      - api
-      - graphql
-    links:
-      - api
-      - graphql
-    networks:
-      - default
-
+      - '80:80'
+      
 networks:
   default:
     external:

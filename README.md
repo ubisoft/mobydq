@@ -56,6 +56,14 @@ MAIL_PORT=25
 MAIL_SENDER=change@me.com
 ```
 
+# Setup the react app
+## Create configuration file
+Based on the template below, crate a text fine named `.env.app` in ./app/ folder.
+```angular2html
+#Connection
+BASE_URL=http://server.base.url
+```
+
 ## Create Docker Network
 This custom network is used to connect the different containers. It's used in particular to connect the ephemeral containers ran when executing batches of indicators.
 ```shell
