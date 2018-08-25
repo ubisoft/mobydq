@@ -108,7 +108,7 @@ def send_error(indicator_id, indicator_name, session_id, distribution_list, erro
 
     # Send e-mail
     log.info('Send error e-mail.')
-    utils.send_mail(session_id, distribution_list, 'indicator', file_path, **body)
+    utils.send_mail(session_id, distribution_list, 'error', **body)
     os.remove(file_path)
 
     return True
