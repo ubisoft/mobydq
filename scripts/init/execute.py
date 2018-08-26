@@ -1,3 +1,5 @@
+from batch import Batch
+from session import Session
 import completeness
 import freshness
 import latency
@@ -5,6 +7,7 @@ import validity
 import argparse
 import logging
 import sys
+import traceback
 import utils
 
 
@@ -34,21 +37,43 @@ if __name__ == '__main__':
         # Update batch status to running
         log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
         log.debug('Update batch status to Running.')
-        utils.update_batch_status(batch_id, 'Running')
+        Batch.update_batch_status(batch_id, 'Running')
 
         # For each indicator session execute corresponding method
         for session in response['data']['allSessions']['nodes']:
-            module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
-            class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']
-            method_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['method']
-            class_instance = getattr(sys.modules[module_name], class_name)()
-            getattr(class_instance, method_name)(session)
+            try:
+                module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
+                class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']
+                method_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['method']
+                class_instance = getattr(sys.modules[module_name], class_name)()
+                getattr(class_instance, method_name)(session)
+
+            except Exception:
+                error_message = traceback.print_exc()
+                log.error(error_message)
+
+                # Update session status
+                session_id = session['id']
+                Session.update_session_status(session_id, 'Failed')
+
+                # Get error context
+                indicator_id = session['indicatorId']
+                indicator_name = session['indicatorByIndicatorId']['name']
+                for parameter in session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']:
+                    if parameter['parameterTypeId'] == 3  # Distribution list
+                        distribution_list = parameter['value']
+
+                # Send error e-mail
+                if distribution_list:
+                    utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
+
 
         # Update batch status to succeeded
         log.debug('Update batch status to Succeeded.')
-        utils.update_batch_status(batch_id, 'Succeeded')
+        Batch.update_batch_status(batch_id, 'Succeeded')
         log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
 
     else:
-        log.error('Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id))
-        # Raise alert, send e-mail
+        error_message = 'Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id)
+        log.error(error_message)
+        raise Exception(error_message)

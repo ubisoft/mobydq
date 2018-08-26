@@ -2,9 +2,9 @@
 CREATE DATABASE data_quality;
 \connect data_quality;
 
-
 /*Create schema*/
 CREATE SCHEMA base;
+
 
 
 /*Create function to update updated_date column*/
@@ -15,9 +15,29 @@ BEGIN
    RETURN NEW;
 END;
 $$ language plpgsql;
-
 COMMENT ON FUNCTION base.update_updated_date_column IS
 'Function used to automatically update the updated_date column in tables.';
+
+
+
+/*Create function to delete children record*/
+CREATE OR REPLACE FUNCTION base.delete_children()
+RETURNS TRIGGER AS $$
+DECLARE
+    children_table TEXT;
+    parent_column TEXT;
+    parent_value INTEGER;
+BEGIN
+    children_table = TG_ARGV[0];
+    parent_column = TG_ARGV[1];
+    parent_value = OLD.id;
+    EXECUTE('DELETE FROM base.' || children_table || ' WHERE ' || parent_column || '=' || parent_value || ';');
+    RETURN OLD;
+END;
+$$ language plpgsql;
+COMMENT ON FUNCTION base.delete_children IS
+'Function used to automate cascade delete on children tables.';
+
 
 
 /*Create table data source type*/
@@ -27,13 +47,16 @@ CREATE TABLE base.data_source_type (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 COMMENT ON TABLE base.data_source_type IS
 'Data source types describe the types of a data sources the data quality framework can connect to.';
 
 CREATE TRIGGER data_source_type_updated_date BEFORE UPDATE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER data_source_type_delete_data_source BEFORE DELETE
+ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('data_source', 'data_source_type_id');
 
 INSERT INTO base.data_source_type (name) VALUES
 ('Hive'),
@@ -47,6 +70,7 @@ INSERT INTO base.data_source_type (name) VALUES
 ('Teradata');
 
 
+
 /*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY,
@@ -58,13 +82,13 @@ CREATE TABLE base.data_source (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );
-
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which the data quality framework can compute indicators.';
 
 CREATE TRIGGER data_source_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
 
 
 /*Create table indicator type*/
@@ -77,7 +101,6 @@ CREATE TABLE base.indicator_type (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 COMMENT ON TABLE base.indicator_type IS
 'Indicator types determine which class and method of the data quality framework is used to compute indicators.';
 
@@ -85,11 +108,16 @@ CREATE TRIGGER indicator_type_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
+CREATE TRIGGER indicator_type_delete_indicator BEFORE DELETE
+ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('indicator', 'indicator_type_id');
+
 INSERT INTO base.indicator_type (name, module, class, method) VALUES
 ('Completeness', 'completeness', 'Completeness', 'execute'),
 ('Freshness', 'freshness', 'Freshness', 'execute'),
 ('Latency', 'latency', 'Latency', 'execute'),
 ('Validity', 'validity', 'Validity', 'execute');
+
 
 
 /*Create table indicator group*/
@@ -99,13 +127,17 @@ CREATE TABLE base.indicator_group (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 COMMENT ON TABLE base.indicator_group IS
 'Indicator groups define collections of indicators to be computed in the same batch.';
 
 CREATE TRIGGER indicator_group_updated_date BEFORE UPDATE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER indicator_group_delete_indicator BEFORE DELETE
+ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('indicator', 'indicator_group_id');
+
 
 
 /*Create table indicator*/
@@ -120,13 +152,21 @@ CREATE TABLE base.indicator (
     indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id),
     indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
-
 COMMENT ON TABLE base.indicator IS
 'Indicators compute data sets on one or several data sources in order to evaluate the quality of their data.';
 
 CREATE TRIGGER indicator_updated_date BEFORE UPDATE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER indicator_delete_parameter BEFORE DELETE
+ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('parameter', 'indicator_id');
+
+CREATE TRIGGER indicator_delete_session BEFORE DELETE
+ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('session', 'indicator_id');
+
 
 
 /*Create table parameter type*/
@@ -137,13 +177,16 @@ CREATE TABLE base.parameter_type (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 COMMENT ON TABLE base.parameter_type IS
 'Parameter types determine which types of parameters can be used to compute indicators.';
 
 CREATE TRIGGER parameter_type_updated_date BEFORE UPDATE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER parameter_type_delete_parameter BEFORE DELETE
+ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('parameter', 'parameter_type_id');
 
 INSERT INTO base.parameter_type (name, description) VALUES
 ('Alert operator', 'Operator used to compare the results of the indicator with the alert threshold. Example: =, >, >=, <, <=, <>'),
@@ -157,6 +200,7 @@ INSERT INTO base.parameter_type (name, description) VALUES
 ('Target request', 'SQL query used to compute the indicator on the target system.');
 
 
+
 /*Create table parameter*/
 CREATE TABLE base.parameter (
     id SERIAL PRIMARY KEY,
@@ -167,13 +211,13 @@ CREATE TABLE base.parameter (
     indicator_id INTEGER NOT NULL REFERENCES base.indicator(id),
     CONSTRAINT parameter_unicity UNIQUE (indicator_id, parameter_type_id)
 );
-
 COMMENT ON TABLE base.parameter IS
 'Parameters used by the data quality framework to compute indicators.';
 
 CREATE TRIGGER parameter_updated_date BEFORE UPDATE
 ON base.parameter FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
 
 
 /*Create table batch*/
@@ -184,13 +228,17 @@ CREATE TABLE base.batch (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
-
 COMMENT ON TABLE base.batch IS
 'Batches record the execution of groups of indicators.';
 
 CREATE TRIGGER batch_updated_date BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER batch_delete_session BEFORE DELETE
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('session', 'batch_id');
+
 
 
 /*Create table session*/
@@ -202,13 +250,17 @@ CREATE TABLE base.session (
     batch_id INTEGER NOT NULL REFERENCES base.batch(id),
     indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
 );
-
 COMMENT ON TABLE base.session IS
 'Sessions record the execution of indicators within a batch.';
 
 CREATE TRIGGER session_updated_date BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
+
+CREATE TRIGGER session_delete_session_result BEFORE DELETE
+ON base.session FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('session_result', 'session_id');
+
 
 
 /*Create table session result*/
@@ -222,9 +274,9 @@ CREATE TABLE base.session_result (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     session_id INTEGER NOT NULL REFERENCES base.session(id)
 );
-
 COMMENT ON TABLE base.session_result IS
 'Session results contain a summary of indicators execution.';
+
 
 
 /*Create function to execute indicator group*/
@@ -260,15 +312,10 @@ BEGIN
         ) INSERT INTO base.session (status, indicator_id, batch_id)
         SELECT 'Pending', indicator.id, batch.id FROM indicator;
     END IF;
-
-    -- Trigger execution of indicators
-    -- This should be done from the Flask API
-    -- COPY (SELECT id FROM base.batch WHERE id=batch.id) TO PROGRAM 'bash start_batch.sh';
-
+    -- Executions of indicators are triggered by the Flask API
     -- Return batch record
     RETURN batch;
 END;
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
-
 COMMENT ON FUNCTION base.execute_indicator_group IS
 'Function used to execute a group of indicators.';
