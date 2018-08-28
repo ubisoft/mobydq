@@ -8,7 +8,6 @@ import DataTable from '../Dashboard/DataTable'
 
 class IndicatorList extends React.Component {
   render() {
-      console.log(process.env);
     const { classes } = this.props;
     const IndicatorList = () => (
       <Query
@@ -24,7 +23,7 @@ class IndicatorList extends React.Component {
                 createdDate
                 updatedDate
                 indicatorTypeId
-              } 
+              }
             }
           }
         `}
