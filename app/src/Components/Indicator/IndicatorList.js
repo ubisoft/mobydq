@@ -4,38 +4,27 @@ import gql from "graphql-tag";
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
+import DataTable from '../Dashboard/DataTable'
 
 class IndicatorList extends React.Component {
-  _parseResponse(indicatorNodes) {
-    return indicatorNodes.map(({ id, name, description, executionOrder }) => (
-      <TableRow>
-        <TableCell>{id}</TableCell>
-        <TableCell>{name}</TableCell>
-        <TableCell>{description}</TableCell>
-        <TableCell>{executionOrder}</TableCell>
-      </TableRow>
-    ));
-  }
-
   render() {
+      console.log(process.env);
     const { classes } = this.props;
     const IndicatorList = () => (
       <Query
         query={gql`
           {
             allIndicators(first:2, offset: 1) {
-            nodes{
-              id
-              name
+              nodes{
+                id
+                name
                 description
-              executionOrder
-            }
-
+                executionOrder
+                flagActive
+                createdDate
+                updatedDate
+                indicatorTypeId
+              } 
             }
           }
         `}
@@ -45,19 +34,7 @@ class IndicatorList extends React.Component {
           if (error) return <p>Error :(</p>;
 
           return(
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Execution Order</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                  {this._parseResponse(data.allIndicators.nodes)}
-              </TableBody>
-            </Table>
+            <DataTable data={data.allIndicators.nodes}/>
           );
         }}
       </Query>
