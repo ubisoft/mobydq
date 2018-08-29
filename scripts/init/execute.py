@@ -60,13 +60,9 @@ if __name__ == '__main__':
                 indicator_id = session['indicatorId']
                 indicator_name = session['indicatorByIndicatorId']['name']
                 for parameter in session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']:
-                    if parameter['parameterTypeId'] == 3  # Distribution list
+                    if parameter['parameterTypeId'] == 3:  # Distribution list
                         distribution_list = parameter['value']
-
-                # Send error e-mail
-                if distribution_list:
-                    utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
-
+                        utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
 
         # Update batch status to succeeded
         log.debug('Update batch status to Succeeded.')
