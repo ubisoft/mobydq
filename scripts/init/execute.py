@@ -1,9 +1,10 @@
+from ast import literal_eval
 from batch import Batch
 from session import Session
-import completeness
-import freshness
-import latency
-import validity
+import completeness  # Called dynamically with getattr
+import freshness  # Called dynamically with getattr
+import latency  # Called dynamically with getattr
+import validity  # Called dynamically with getattr
 import argparse
 import logging
 import sys
@@ -49,7 +50,7 @@ if __name__ == '__main__':
                 getattr(class_instance, method_name)(session)
 
             except Exception:
-                error_message = traceback.print_exc()
+                error_message = traceback.format_exc()
                 log.error(error_message)
 
                 # Update session status
@@ -61,7 +62,7 @@ if __name__ == '__main__':
                 indicator_name = session['indicatorByIndicatorId']['name']
                 for parameter in session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']:
                     if parameter['parameterTypeId'] == 3:  # Distribution list
-                        distribution_list = parameter['value']
+                        distribution_list = literal_eval(parameter['value'])
                         utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
 
         # Update batch status to succeeded
