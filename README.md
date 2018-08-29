@@ -40,7 +40,7 @@ $ sudo apt install docker-compose
 ```
 
 # Setup Your Instance
-## Create Configuration File
+## Create Configuration Files
 Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password in both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 ```ini
 # DB
@@ -56,12 +56,10 @@ MAIL_PORT=25
 MAIL_SENDER=change@me.com
 ```
 
-# Setup the react app
-## Create configuration file
-Based on the template below, crate a text fine named `.env.app` in ./app/ folder.
-```angular2html
-#Connection
-BASE_URL=http://server.base.url
+Based on the template below, create a text file named `.env.app` in `./app/` folder.
+```ini
+# APP
+BASE_URL=http://api.base.url
 ```
 
 ## Create Docker Network
