@@ -1,9 +1,10 @@
+from ast import literal_eval
 from batch import Batch
 from session import Session
-import completeness
-import freshness
-import latency
-import validity
+import completeness  # Called dynamically with getattr
+import freshness  # Called dynamically with getattr
+import latency  # Called dynamically with getattr
+import validity  # Called dynamically with getattr
 import argparse
 import logging
 import sys
@@ -38,6 +39,7 @@ if __name__ == '__main__':
         log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
         log.debug('Update batch status to Running.')
         Batch.update_batch_status(batch_id, 'Running')
+        is_error = False  # Variable used to update batch status to Failed if one indicator fails
 
         # For each indicator session execute corresponding method
         for session in response['data']['allSessions']['nodes']:
@@ -49,7 +51,8 @@ if __name__ == '__main__':
                 getattr(class_instance, method_name)(session)
 
             except Exception:
-                error_message = traceback.print_exc()
+                is_error = True
+                error_message = traceback.format_exc()
                 log.error(error_message)
 
                 # Update session status
@@ -61,13 +64,18 @@ if __name__ == '__main__':
                 indicator_name = session['indicatorByIndicatorId']['name']
                 for parameter in session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']:
                     if parameter['parameterTypeId'] == 3:  # Distribution list
-                        distribution_list = parameter['value']
+                        distribution_list = literal_eval(parameter['value'])
                         utils.send_error(indicator_id, indicator_name, session_id, distribution_list, error_message)
 
-        # Update batch status to succeeded
-        log.debug('Update batch status to Succeeded.')
-        Batch.update_batch_status(batch_id, 'Succeeded')
-        log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
+        # Update batch status
+        if is_error:
+            log.debug('Update batch status to Failed.')
+            Batch.update_batch_status(batch_id, 'Failed')
+            log.warning('Batch Id {batch_id} completed with errors.'.format(batch_id=batch_id))
+        else:
+            log.debug('Update batch status to Succeeded.')
+            Batch.update_batch_status(batch_id, 'Succeeded')
+            log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
 
     else:
         error_message = 'Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id)

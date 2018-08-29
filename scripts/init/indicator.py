@@ -113,6 +113,7 @@ class Indicator:
 
     def compute_session_result(self, session_id, alert_operator, alert_threshold, result_data):
         """Compute aggregated results for the indicator session."""
+        log.info('Compute session results.')
         nb_records = len(result_data)
         nb_records_alert = len(result_data.loc[result_data['Alert'] == True])
         nb_records_no_alert = len(result_data.loc[result_data['Alert'] == False])
@@ -133,7 +134,7 @@ class Indicator:
 
         return nb_records_alert
 
-    def send_indicator_alert(self, indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data):
+    def send_alert(self, indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data):
         """Build the alert e-mail to be sent for the session."""
         # Create csv file to send in attachment
         file_name = 'indicator_{indicator_id}_session_{session_id}.csv'.format(indicator_id=indicator_id, session_id=session_id)
