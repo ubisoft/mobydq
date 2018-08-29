@@ -73,7 +73,9 @@ services:
       - default
 
   app:
-    container_name: data-quality-app-prod
+    container_name: data-quality-app
+    restart: always
+    image: data-quality-app
     build:
       context: ./app
       dockerfile: Dockerfile-prod
