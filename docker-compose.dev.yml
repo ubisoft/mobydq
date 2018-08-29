@@ -12,12 +12,3 @@ services:
     volumes:
        - ./scripts:/srv/scripts
     tty: true
-
-  app:
-    build:
-      context: ./app
-      dockerfile: Dockerfile-dev
-    volumes:
-      - ./app:/usr/src/app
-    ports:
-      - 5499:3000
