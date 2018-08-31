@@ -14,7 +14,7 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 
 # Requirements
 ## Install Docker
-Add the Docker repository to your Linux repository. Execute the following commands in a terminal window.
+This tool has been fully containerized with Docker to ensure easy deployment and portability. To add the Docker repository to your Linux machine, execute the following commands in a terminal window.
 ```shell
 $ sudo apt-get update
 $ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
