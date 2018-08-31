@@ -69,7 +69,7 @@ $ docker network create data-quality-network
 ```
 
 ## Create PostgreSQL Data Volume
-Due to PostgreSQL Docker image compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. Execute the following command.
+Due to Docker compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. This volume will be used to persist the data stored in the PostgreSQL database. Execute the following command.
 ```shell
 $ docker volume create data-quality-db-volume
 ```
