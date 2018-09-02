@@ -28,6 +28,8 @@ class Batch:
         return data
 
     def execute(self, batch_id):
+        log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
+
         # Get list of indicator sessions
         log.debug('Get list of indicator sessions.')
         query = '''query{allSessions(condition:{batchId:batch_id},orderBy:ID_ASC){

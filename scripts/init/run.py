@@ -22,13 +22,11 @@ if __name__ == '__main__':
     method = arguments.method
     if method == 'execute_batch':
         batch_id = arguments.id
-        log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
         batch = Batch()
         batch.execute(batch_id)
 
     elif method == 'test_data_source':
         data_source_id = arguments.id
-        log.info('Test connectivity to data source Id {data_source_id}.'.format(data_source_id=data_source_id))
         data_source = DataSource()
         data_source.test(data_source_id)
 

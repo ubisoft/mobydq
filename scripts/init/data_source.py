@@ -71,6 +71,8 @@ class DataSource:
         return connection
 
     def test(self, data_source_id):
+        log.info('Test connectivity to data source Id {data_source_id}.'.format(data_source_id=data_source_id))
+
         # Get data source
         log.debug('Get data source.')
         query = '''query{dataSourceById(id:data_source_id){dataSourceTypeId,connectionString,login,password}}'''
@@ -86,18 +88,22 @@ class DataSource:
 
             # Test connectivity
             try:
+                log.debug('Connect to data source.')
                 self.get_connection(data_source_type_id, connection_string, login, password)
+
+                log.info('Connection to data source succeeded.')
                 mutation = '''mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Success"}}){dataSource{connectivityStatus}}}'''
                 mutation = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
             except Exception:
+                log.error('Connection to data source failed.')
                 error_message = traceback.format_exc()
                 log.error(error_message)
 
                 # Update connectivity status
                 mutation = '''mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Failed"}}){dataSource{connectivityStatus}}}'''
-                mutation = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+                mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
         else:
