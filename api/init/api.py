@@ -1,8 +1,18 @@
+from batch import Batch
+from data_source import DataSource
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
 from flask_restplus import Api, Resource
-import batch
-import data_source
+import logging
+import sys
 import utils
+
+
+log = logging.getLogger(__name__)
+logging.basicConfig(
+    # filename='data_quality.log',
+    stream=sys.stdout,
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Create flask app and enabe cross origin resource sharing
 app = Flask(__name__)
@@ -58,10 +68,6 @@ class GraphQL(Resource):
         Use this endpoint to send http request to the GraphQL API.
         """
         args = parser.parse_args(strict=True)
-        # Permissions verifications
-        # if not something:
-            # message = {'message': 'Forbidden: You do not have sufficient permissions to access this resource.'}
-            # abort(403, message)
 
         # Execute request on GraphQL API
         status, data = utils.execute_graphql_request(args['query'])
@@ -69,12 +75,14 @@ class GraphQL(Resource):
         # Execute batch of indicators
         if status == 200 and 'executeBatch' in args['query']:
             batch_id = str(data['data']['executeBatch']['batch']['id'])
-            batch.execute_batch(batch_id)
+            batch = Batch()
+            batch.execute(batch_id)
 
         # Test connectivity to a data source
         if status == 200 and 'testDataSource' in args['query']:
             data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
-            data_source.test_data_source(data_source_id)
+            data_source = DataSource()
+            data = data_source.test(data_source_id)
 
         if status == 200:
             return jsonify(data)
