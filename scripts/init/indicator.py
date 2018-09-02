@@ -1,6 +1,6 @@
 from ast import literal_eval
 from session import Session
-from database import Database
+from data_source import DataSource
 import logging
 import os
 import pandas
@@ -73,8 +73,10 @@ class Indicator:
             connection_string = response['data']['dataSourceByName']['connectionString']
             login = response['data']['dataSourceByName']['login']
             password = response['data']['dataSourceByName']['password']
+
             log.info('Connect to data source {data_source}.'.format(data_source=data_source))
-            connection = Database.get_connection(data_source_type_id, connection_string, login, password)
+            data_source = DataSource()
+            connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
             Session.update_session_status(session_id, 'Failed')
             error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)

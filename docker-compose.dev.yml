@@ -2,13 +2,21 @@ version: '3'
 services:
 
 
+  db:
+    ports:
+      - 5432:5432
+
+  graphql:
+    ports:
+      - 5433:5433
+
   api:
     volumes:
-      - ./api:/srv/api/
+      - ./api/init:/srv/api/
     environment:
       FLASK_DEBUG: 1
 
   scripts:
     volumes:
-       - ./scripts:/srv/scripts
+       - ./scripts/init:/srv/scripts
     tty: true
