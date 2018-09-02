@@ -2,6 +2,14 @@ version: '3'
 services:
 
 
+  db:
+    ports:
+      - 5432:5432
+
+  graphql:
+    ports:
+      - 5433:5433
+
   api:
     volumes:
       - ./api/init:/srv/api/
