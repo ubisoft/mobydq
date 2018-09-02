@@ -58,17 +58,6 @@ CREATE TRIGGER data_source_type_delete_data_source BEFORE DELETE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('data_source', 'data_source_type_id');
 
-INSERT INTO base.data_source_type (name) VALUES
-('Hive'),
-('Impala'),
-('MariaDB'),
-('Microsoft SQL Server'),
-('MySQL'),
-('Oracle'),
-('PostgreSQL'),
-('SQLite'),
-('Teradata');
-
 
 
 /*Create table data source*/
@@ -78,6 +67,7 @@ CREATE TABLE base.data_source (
     connection_string TEXT,
     login TEXT,
     password TEXT,
+    connectivity_status TEXT,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
@@ -111,12 +101,6 @@ base.update_updated_date_column();
 CREATE TRIGGER indicator_type_delete_indicator BEFORE DELETE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('indicator', 'indicator_type_id');
-
-INSERT INTO base.indicator_type (name, module, class, method) VALUES
-('Completeness', 'completeness', 'Completeness', 'execute'),
-('Freshness', 'freshness', 'Freshness', 'execute'),
-('Latency', 'latency', 'Latency', 'execute'),
-('Validity', 'validity', 'Validity', 'execute');
 
 
 
@@ -187,17 +171,6 @@ base.update_updated_date_column();
 CREATE TRIGGER parameter_type_delete_parameter BEFORE DELETE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('parameter', 'parameter_type_id');
-
-INSERT INTO base.parameter_type (name, description) VALUES
-('Alert operator', 'Operator used to compare the results of the indicator with the alert threshold. Example: =, >, >=, <, <=, <>'),
-('Alert threshold', 'Numeric value used to evaluate the results of the indicator and determine if an alert must be sent.'),
-('Distribution list', 'List of e-mail addresses to which alerts must be sent. Example: [''email_1'', ''email_2'', ''email_3'']'),
-('Dimension', 'List of values to indicate dimensions in the results of the indicator. Example: [''dimension_1'', ''dimension_2'', ''dimension_3'']'),
-('Measure', 'List of values to indicate measures in the results of the indicator. Example: [''measure_1'', ''measure_2'', ''measure_3'']'),
-('Source', 'Name of the data source which serves as a reference to evaluate the quality of the data.'),
-('Source request', 'SQL query used to compute the indicator on the source system.'),
-('Target', 'Name of the data source on which to evaluate the quality of the data.'),
-('Target request', 'SQL query used to compute the indicator on the target system.');
 
 
 
@@ -280,7 +253,7 @@ COMMENT ON TABLE base.session_result IS
 
 
 /*Create function to execute indicator group*/
-CREATE OR REPLACE FUNCTION base.execute_indicator_group(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
+CREATE OR REPLACE FUNCTION base.execute_batch(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
 RETURNS base.batch AS $$
 #variable_conflict use_variable
 DECLARE
@@ -317,5 +290,25 @@ BEGIN
     RETURN batch;
 END;
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
-COMMENT ON FUNCTION base.execute_indicator_group IS
-'Function used to execute a group of indicators.';
+COMMENT ON FUNCTION base.execute_batch IS
+'Function used to execute a batch of indicators.';
+
+
+
+/*Create function to test connectivity to a data source*/
+CREATE OR REPLACE FUNCTION base.test_data_source(data_source_id INTEGER)
+RETURNS base.data_source AS $$
+#variable_conflict use_variable
+DECLARE
+    data_source base.data_source;
+BEGIN
+    -- Update data source connectivity status to Pending
+    UPDATE base.data_source
+    SET connectivity_status='Pending'
+    WHERE id=data_source_id
+    RETURNING * INTO data_source;
+    RETURN data_source;
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+COMMENT ON FUNCTION base.test_data_source IS
+'Function used to test connectivity to a data source.';
