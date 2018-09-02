@@ -1,6 +1,7 @@
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
 from flask_restplus import Api, Resource
-import docker
+import batch
+import data_source
 import utils
 
 # Create flask app and enabe cross origin resource sharing
@@ -65,20 +66,15 @@ class GraphQL(Resource):
         # Execute request on GraphQL API
         status, data = utils.execute_graphql_request(args['query'])
 
-        # If request is executeIndicatorGroup mutation, trigger a new batch in ephemeral container
-        if status == 200 and 'executeIndicatorGroup' in args['query']:
-            batch_id = str(data['data']['executeIndicatorGroup']['batch']['id'])
-            container_name = 'data-quality-batch-{batch_id}'.format(batch_id=batch_id)
-            client = docker.from_env()
-            client.containers.run(
-                name=container_name,
-                image='data-quality-scripts',
-                network='data-quality-network',
-                links={'data-quality-graphql': 'data-quality-graphql'},
-                command=['python', 'execute.py', batch_id],
-                remove=True,
-                detach=True
-                )
+        # Execute batch of indicators
+        if status == 200 and 'executeBatch' in args['query']:
+            batch_id = str(data['data']['executeBatch']['batch']['id'])
+            batch.execute_batch(batch_id)
+
+        # Test connectivity to a data source
+        if status == 200 and 'testDataSource' in args['query']:
+            data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
+            data_source.test_data_source(data_source_id)
 
         if status == 200:
             return jsonify(data)
