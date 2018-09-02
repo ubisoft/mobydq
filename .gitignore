@@ -1,5 +1,8 @@
+# python files
 __pycache__
-*.cfg
-*.db
-*.bkp
-*.pyc
+
+# ignore intellij
+.idea
+
+# environment file
+.env

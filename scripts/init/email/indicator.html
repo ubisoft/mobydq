@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<style type="text/css">
+			html, body, table {font-family: Arial; font-size: 14px;}
+			.summary {padding: 5px;}
+			.column {background-color: #efefef;}
+			.divider {height: 1px; padding: 0px; background-color: #ccc;}
+			.button {background: #2980b9; padding: 10px 30px 10px 30px;}
+			.button a {color: #ffffff; font-size: 14px; text-decoration: none;}
+		</style>
+	</head>
+	<body>
+		<p>The following indicator triggered an alert:</p>
+		<table class="summary">
+			<tbody>
+				<tr>
+					<td class="divider" colspan="2"></td>
+				</tr>
+				<tr>
+					<td class="column">Indicator</td>
+					<td><b>{{indicator_name}}</b></td>
+				</tr>
+				<tr>
+					<td class="column">Alert threshold</td>
+					<td>{{alert_threshold}}</td>
+				</tr>
+				<tr>
+					<td class="column">Number of records triggering an alert</td>
+					<td>{{nb_records_alert}}</td>
+				</tr>
+				<tr>
+					<td class="divider" colspan="2"></td>
+				</tr>
+			</tbody>
+		</table>
+		<table>
+			<tbody>
+				<tr>
+					<td class="button"><a href="{{log_url}}">See log</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

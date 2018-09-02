@@ -1,0 +1,96 @@
+version: '3'
+services:
+
+  db:
+    container_name: data-quality-db
+    restart: always
+    image: data-quality-db
+    build:
+      context: ./db
+    volumes:
+      - data-quality-db-volume:/var/lib/postgresql/data
+    env_file:
+        - ./.env
+    networks:
+      - default
+
+  graphql:
+    container_name: data-quality-graphql
+    restart: always
+    image: graphile/postgraphile
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - default
+    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+
+  api:
+    container_name: data-quality-api
+    restart: always
+    image: data-quality-api
+    build:
+      context: ./api
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      FLASK_APP: api.py
+      FLASK_RUN_PORT: 5434
+    ports:
+      - 5434:5434
+    depends_on:
+      - graphql
+    links:
+      - graphql
+    networks:
+      - default
+    command: ["flask", "run", "--host=0.0.0.0"]
+
+  scripts:
+    container_name: data-quality-scripts
+    restart: always
+    image: data-quality-scripts
+    build:
+      context: ./scripts
+      args:
+        - MAIL_HOST=${MAIL_HOST}
+        - MAIL_PORT=${MAIL_PORT}
+        - MAIL_SENDER=${MAIL_SENDER}
+    env_file:
+      - ./.env
+    depends_on:
+      - graphql
+    links:
+      - graphql
+    networks:
+      - default
+
+  app:
+    container_name: data-quality-app
+    restart: always
+    image: data-quality-app
+    build:
+      context: ./app
+      dockerfile: Dockerfile-prod
+    ports:
+      - 80:80
+    depends_on:
+      - api
+      - graphql
+    links:
+      - api
+      - graphql
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: data-quality-network
+
+volumes:
+  data-quality-db-volume:
+    external: true

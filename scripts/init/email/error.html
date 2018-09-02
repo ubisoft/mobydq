@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<style type="text/css">
+			html, body, table {font-family: Arial; font-size: 14px;}
+			.summary {padding: 5px;}
+			.column {background-color: #efefef;}
+			.divider {height: 1px; padding: 0px; background-color: #ccc;}
+			.button {background: #2980b9; padding: 10px 30px 10px 30px;}
+			.button a {color: #ffffff; font-size: 14px; text-decoration: none;}
+			pre {background-color: #efefef; border: 1px solid #ccc; padding: 2px;}
+		</style>
+	</head>
+	<body>
+		<p>The following indicator session failed:</p>
+		<table class="summary">
+			<tbody>
+				<tr>
+					<td class="divider" colspan="2"></td>
+				</tr>
+				<tr>
+					<td class="column">Indicator</td>
+					<td><b>{{indicator_name}}</b></td>
+				</tr>
+				<tr>
+					<td class="column">Indicator Id</td>
+					<td>{{indicator_id}}</td>
+				</tr>
+				<tr>
+					<td class="column">Session Id</td>
+					<td>{{session_id}}</td>
+				</tr>
+				<tr>
+					<td class="divider" colspan="2"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>Error message:</p>
+		<pre>{{error_message}}</pre>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  db-sql-server:
+    container_name: data-quality-test-db-sql-server
+    image: data-quality-test-db-sql-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-sql-server/Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1234-abcd"
+    command: ["/bin/bash", "entrypoint.sh"]
+    ports:
+      - 9000:1433
+
+  db-mysql:
+    container_name: data-quality-test-db-mysql
+    image: data-quality-test-db-mysql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    ports:
+      - 9001:3306
+
+  db-postgresql:
+    container_name: data-quality-test-db-postgresql
+    image: data-quality-test-db-postgresql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-postgresql/Dockerfile
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DATABASE: "star_wars"
+    ports:
+      - 9002:5432
