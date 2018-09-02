@@ -93,7 +93,7 @@ class DataSource:
 
                 log.info('Connection to data source succeeded.')
                 mutation = '''mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Success"}}){dataSource{connectivityStatus}}}'''
-                mutation = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+                mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
             except Exception:
