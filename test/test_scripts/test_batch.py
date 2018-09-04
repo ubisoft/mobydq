@@ -31,7 +31,7 @@ class TestBatch(unittest.TestCase):
         batch = utils.execute_graphql_request(mutation_create_batch)
         batch_id = batch['data']['createBatch']['batch']['id']
 
-        # Update test batch
+        # Update test batch status
         batch = Batch()
         data = batch.update_batch_status(batch_id, 'Running')
         batch_status = data['data']['updateBatchById']['batch']['status']
