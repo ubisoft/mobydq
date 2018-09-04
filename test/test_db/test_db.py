@@ -18,6 +18,7 @@ class TestDb(unittest.TestCase):
 
     @staticmethod
     def get_connection():
+        """Return connection to data_quality database."""
         connection_string = 'driver={PostgreSQL Unicode};server=0.0.0.0;port=5432;database=data_quality;uid=postgres;pwd=password;'
         connection = pyodbc.connect(connection_string)
         connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
