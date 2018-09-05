@@ -1,5 +1,4 @@
 from ast import literal_eval
-from session import Session
 from data_source import DataSource
 import logging
 import os
