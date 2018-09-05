@@ -51,6 +51,7 @@ POSTGRES_PASSWORD=password
 DATABASE_URL=postgres://postgres:password@db:5432/data_quality
 
 # SCRIPTS
+API_URL=http://graphql:5433/graphql
 MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
@@ -112,6 +113,6 @@ The container `data-quality-scripts` has dependencies with the following Python 
 # Run Test Cases
 To execute all test cases, execute following command from the project repository:
 ```shell
-$ cd data-quality
-$ nose2 -v
+$ cd data-quality/test
+$ to be documented
 ```
