@@ -83,6 +83,8 @@ class Indicator:
         # Get data frame
         log.info('Execute request on data source.'.format(data_source=data_source))
         data_frame = pandas.read_sql(request, connection)
+        connection.close()
+
         if data_frame.empty:
             error_message = 'Request on data source {data_source} returned no data.'.format(data_source=data_source)
             log.error(error_message)
