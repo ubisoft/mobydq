@@ -224,23 +224,19 @@ class TestIndicator(unittest.TestCase):
 
     def test_is_alert(self):
         indicator = Indicator()
-
         equal = indicator.is_alert(0, '==', 0)
-        self.assertTrue(equal)
-
         greater = indicator.is_alert(1, '>', 0)
-        self.assertTrue(greater)
-
         greater_equal = indicator.is_alert(1, '>=', 0)
-        self.assertTrue(greater_equal)
-
         smaller = indicator.is_alert(0, '<', 1)
-        self.assertTrue(smaller)
-
         smaller_equal = indicator.is_alert(0, '<=', 1)
-        self.assertTrue(smaller_equal)
-
         different = indicator.is_alert(1, '!=', 2)
+
+        # Assert expressions
+        self.assertTrue(equal)
+        self.assertTrue(greater)
+        self.assertTrue(greater_equal)
+        self.assertTrue(smaller)
+        self.assertTrue(smaller_equal)
         self.assertTrue(different)
 
     @classmethod
