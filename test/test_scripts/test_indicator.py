@@ -69,7 +69,6 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[4]), 3)
         self.assertEqual(len(verified_parameters[5]), 3)
 
-
     def test_verify_indicator_parameters_freshness(self):
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
@@ -222,23 +221,6 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[4]), 3)
         self.assertEqual(len(verified_parameters[5]), 3)
 
-    def test_is_alert(self):
-        indicator = Indicator()
-        equal = indicator.is_alert(0, '==', 0)
-        greater = indicator.is_alert(1, '>', 0)
-        greater_equal = indicator.is_alert(1, '>=', 0)
-        smaller = indicator.is_alert(0, '<', 1)
-        smaller_equal = indicator.is_alert(0, '<=', 1)
-        different = indicator.is_alert(1, '!=', 2)
-
-        # Assert expressions
-        self.assertTrue(equal)
-        self.assertTrue(greater)
-        self.assertTrue(greater_equal)
-        self.assertTrue(smaller)
-        self.assertTrue(smaller_equal)
-        self.assertTrue(different)
-
     def test_get_data_frame(self):
         # Create data source
         test_case_name = TestIndicator.get_test_case_name()
@@ -259,6 +241,26 @@ class TestIndicator(unittest.TestCase):
         nb_females = data_frame.loc[data_frame['gender'] == 'female', 'nb_people'].item()
         self.assertEqual(nb_records, 5)
         self.assertEqual(nb_females, 19)
+
+    def test_is_alert(self):
+        indicator = Indicator()
+        equal = indicator.is_alert(0, '==', 0)
+        greater = indicator.is_alert(1, '>', 0)
+        greater_equal = indicator.is_alert(1, '>=', 0)
+        smaller = indicator.is_alert(0, '<', 1)
+        smaller_equal = indicator.is_alert(0, '<=', 1)
+        different = indicator.is_alert(1, '!=', 2)
+
+        # Assert expressions
+        self.assertTrue(equal)
+        self.assertTrue(greater)
+        self.assertTrue(greater_equal)
+        self.assertTrue(smaller)
+        self.assertTrue(smaller_equal)
+        self.assertTrue(different)
+
+    def test_compute_session_result(self):
+        pass
 
     @classmethod
     def tearDownClass(self):
