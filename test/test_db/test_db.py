@@ -49,50 +49,50 @@ class TestDb(unittest.TestCase):
         self.assertTrue(created_date < updated_date)
 
     def test_trigger_delete_children(self):
-        # Insert parent test record
+        # Insert test parent record
         test_case_name = TestDb.get_test_case_name()
         insert_parent_query = "INSERT INTO base.data_source_type (name) VALUES ('{}');".format(test_case_name)
         self.connection.execute(insert_parent_query)
         self.connection.commit()
 
-        # Get parent test record Id
+        # Get test parent record Id
         select_parent_query = "SELECT id FROM base.data_source_type WHERE name = '{}';".format(test_case_name)
         cursor = self.connection.execute(select_parent_query)
         row = cursor.fetchone()
         data_source_type_id = row[0]
 
-        # Insert child test record
+        # Insert test child record
         insert_child_query = "INSERT INTO base.data_source (name, data_source_type_id) VALUES ('{}', '{}');""".format(test_case_name, data_source_type_id)
         self.connection.execute(insert_child_query)
         self.connection.commit()
 
-        # Delete parent test record
+        # Delete test parent record
         delete_parent_query = "DELETE FROM base.data_source_type WHERE id = {}".format(data_source_type_id)
         self.connection.execute(delete_parent_query)
         self.connection.commit()
 
-        # Gat child test record
+        # Gat test child record
         select_child_query = "SELECT id FROM base.data_source WHERE name = '{}';".format(test_case_name)
         cursor = self.connection.execute(select_child_query)
         row = cursor.fetchone()
 
-        # Assert child test record has been deleted
+        # Assert test child record has been deleted
         self.assertTrue(row is None)
 
     def test_function_execute_batch(self):
-        # Insert indicator group test record
+        # Insert test indicator group
         test_case_name = TestDb.get_test_case_name()
         insert_indicator_group_query = "INSERT INTO base.indicator_group (name) VALUES ('{}');".format(test_case_name)
         self.connection.execute(insert_indicator_group_query)
         self.connection.commit()
 
-        # Get indicator group test record Id
+        # Get test indicator group Id
         select_indicator_group_query = "SELECT id FROM base.indicator_group WHERE name = '{}';".format(test_case_name)
         cursor = self.connection.execute(select_indicator_group_query)
         row = cursor.fetchone()
         indicator_group_id = row[0]
 
-        # Insert indicator test record
+        # Insert test indicator
         insert_indicator_query = """INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id)
         VALUES ('{}', true, 1, {});""".format(test_case_name, indicator_group_id)
         self.connection.execute(insert_indicator_query)
@@ -117,13 +117,13 @@ class TestDb(unittest.TestCase):
         self.assertEqual(session_status, 'Pending')
 
     def test_function_test_data_source(self):
-        # Insert data source test record
+        # Insert test data source
         test_case_name = TestDb.get_test_case_name()
         insert_data_source_query = "INSERT INTO base.data_source (name, data_source_type_id) VALUES ('{}', 1);".format(test_case_name)
         self.connection.execute(insert_data_source_query)
         self.connection.commit()
 
-        # Get data source test record Id
+        # Get test data source Id
         select_data_source_query = "SELECT id FROM base.data_source WHERE name = '{}';".format(test_case_name)
         cursor = self.connection.execute(select_data_source_query)
         row = cursor.fetchone()
