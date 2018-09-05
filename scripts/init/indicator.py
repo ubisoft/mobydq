@@ -16,7 +16,7 @@ class Indicator:
     def __init__(self):
         pass
 
-    def verify_indicator_parameters(self, session_id, indicator_type_id, parameters):
+    def verify_indicator_parameters(self, indicator_type_id, parameters):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
         query = '''query{allParameterTypes{nodes{id,name}}}'''
@@ -47,7 +47,6 @@ class Indicator:
                     missing_parameters.append[parameter_type]
 
         if missing_parameters:
-            Session.update_session_status(session_id, 'Failed')
             missing_parameters = ', '.join(missing_parameters)
             error_message = 'Missing parameters: {missing_parameters}.'.format(missing_parameters)
             log.error(error_message)
@@ -60,7 +59,7 @@ class Indicator:
 
         return indicator_parameters
 
-    def get_data_frame(self, session_id, data_source, request, dimensions, measures):
+    def get_data_frame(self, data_source, request, dimensions, measures):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
         query = '''{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'''
@@ -78,7 +77,6 @@ class Indicator:
             data_source = DataSource()
             connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
-            Session.update_session_status(session_id, 'Failed')
             error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)
             log.error(error_message)
             raise Exception(error_message)
@@ -87,7 +85,6 @@ class Indicator:
         log.info('Execute request on data source.'.format(data_source=data_source))
         data_frame = pandas.read_sql(request, connection)
         if data_frame.empty:
-            Session.update_session_status(session_id, 'Failed')
             error_message = 'Request on data source {data_source} returned no data.'.format(data_source=data_source)
             log.error(error_message)
             log.debug('Request: {request}.'.format(request=request))

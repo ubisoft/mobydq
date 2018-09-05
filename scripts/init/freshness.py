@@ -26,14 +26,14 @@ class Freshness(Indicator):
         # Verify if the list of indicator parameters is valid
         indicaor_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
         parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
-        parameters = super().verify_indicator_parameters(session_id, indicaor_type_id, parameters)
+        parameters = super().verify_indicator_parameters(indicaor_type_id, parameters)
 
         # Get target data
         dimensions = parameters[4]
         measures = parameters[5]
         target = parameters[8]
         target_request = parameters[9]
-        target_data = super().get_data_frame(session_id, target, target_request, dimensions, measures)
+        target_data = super().get_data_frame(target, target_request, dimensions, measures)
 
         # Evaluate freshness
         alert_operator = parameters[1]  # Alert operator
