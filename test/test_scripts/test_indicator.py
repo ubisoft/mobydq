@@ -69,7 +69,6 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[4]), 3)
         self.assertEqual(len(verified_parameters[5]), 3)
 
-
     def test_verify_indicator_parameters_freshness(self):
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
@@ -222,26 +221,46 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[4]), 3)
         self.assertEqual(len(verified_parameters[5]), 3)
 
+    def test_get_data_frame(self):
+        # Create data source
+        test_case_name = TestIndicator.get_test_case_name()
+        mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=0.0.0.0;port=9002;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
+        mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
+        data_source = utils.execute_graphql_request(mutation_create_data_source)
+        data_source = data_source['data']['createDataSource']['dataSource']['name']
+
+        # Set parameters and call method
+        request = 'SELECT gender, COUNT(id) FROM people GROUP BY gender;'
+        dimensions = ['gender']
+        measures = ['nb_people']
+        indicator = Indicator()
+        data_frame = indicator.get_data_frame(data_source, request, dimensions, measures)
+
+        # Assert data frame is correct
+        nb_records = len(data_frame)
+        nb_females = data_frame.loc[data_frame['gender'] == 'female', 'nb_people'].item()
+        self.assertEqual(nb_records, 5)
+        self.assertEqual(nb_females, 19)
+
     def test_is_alert(self):
         indicator = Indicator()
-
         equal = indicator.is_alert(0, '==', 0)
-        self.assertTrue(equal)
-
         greater = indicator.is_alert(1, '>', 0)
-        self.assertTrue(greater)
-
         greater_equal = indicator.is_alert(1, '>=', 0)
-        self.assertTrue(greater_equal)
-
         smaller = indicator.is_alert(0, '<', 1)
-        self.assertTrue(smaller)
-
         smaller_equal = indicator.is_alert(0, '<=', 1)
-        self.assertTrue(smaller_equal)
-
         different = indicator.is_alert(1, '!=', 2)
+
+        # Assert expressions
+        self.assertTrue(equal)
+        self.assertTrue(greater)
+        self.assertTrue(greater_equal)
+        self.assertTrue(smaller)
+        self.assertTrue(smaller_equal)
         self.assertTrue(different)
+
+    def test_compute_session_result(self):
+        pass
 
     @classmethod
     def tearDownClass(self):
