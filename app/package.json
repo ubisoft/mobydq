@@ -6,6 +6,7 @@
     "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^2.0.2",
     "apollo-boost": "^0.1.14",
+    "formik": "^1.1.1",
     "graphql": "^0.13.2",
     "react": "^16.4.2",
     "react-apollo": "^2.1.11",

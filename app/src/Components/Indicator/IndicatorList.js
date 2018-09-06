@@ -5,6 +5,7 @@ import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import DataTable from '../Dashboard/DataTable'
+import SimpleForm from '../SimpleForm/SimpleForm'
 
 class IndicatorList extends React.Component {
   render() {
@@ -32,8 +33,9 @@ class IndicatorList extends React.Component {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
 
+            {/*<DataTable data={data.allIndicators.nodes}/>*/}
           return(
-            <DataTable data={data.allIndicators.nodes}/>
+            <SimpleForm/>
           );
         }}
       </Query>
