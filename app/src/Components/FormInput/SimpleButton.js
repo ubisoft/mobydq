@@ -8,13 +8,19 @@ const SimpleButton = ({
   label,
   onClick
 }) => {
-  let color = "";
+  let color = 'default';
     switch(type) {
       case 'submit':
         color = 'primary';
         break;
+      case 'create':
+        color = 'primary';
+        break;
       case 'reset':
         color = 'secondary';
+        break;
+      case 'cancel':
+        color = 'default';
         break;
     }
   return (

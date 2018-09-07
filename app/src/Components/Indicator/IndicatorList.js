@@ -1,54 +1,41 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { styles } from './../../styles/baseStyles';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import DataTable from '../Dashboard/DataTable'
-import SimpleForm from '../SimpleForm/SimpleForm'
+import RouterButton from './../../Components/FormInput/RouterButton'
 
-class IndicatorList extends React.Component {
-  render() {
-    const { classes } = this.props;
-    const IndicatorList = () => (
-      <Query
-        query={gql`
-          {
-            allIndicators(first:2, offset: 1) {
-              nodes{
-                id
-                name
-                description
-                executionOrder
-                flagActive
-                createdDate
-                updatedDate
-                indicatorTypeId
-              }
-            }
+const IndicatorList = () => (
+  <Query
+    query={gql`
+      {
+        allIndicators(first:2, offset: 1) {
+          nodes{
+            id
+            name
+            description
+            executionOrder
+            flagActive
+            createdDate
+            updatedDate
+            indicatorTypeId
           }
-        `}
-      >
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error :(</p>;
-
-            {/*<DataTable data={data.allIndicators.nodes}/>*/}
-          return(
-            <SimpleForm/>
-          );
-        }}
-      </Query>
-    );
-    return (
-      <React.Fragment>
-        <div className={classes.appBarSpacer} />
-        <Typography variant="display1" gutterBottom className={classes.chartContainer}>
+        }
+      }
+    `}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error :(</p>;
+      return(
+        <div>
           Indicator list
-            <IndicatorList/>
-        </Typography>
-      </React.Fragment>
-     )
-  }
-}
-export default withStyles(styles)(IndicatorList);
+          <RouterButton targetLocation='/indicators/new' disabled={false} label="Add new indicator"/>
+          <RouterButton targetLocation='back' disabled={false} label="Indicator List"/>
+          <DataTable data={data.allIndicators.nodes}/>
+        </div>
+      );
+    }}
+  </Query>
+);
+
+export default IndicatorList;

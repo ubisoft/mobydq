@@ -1,54 +1,51 @@
-import TextField from '@material-ui/TextField'
-import { RadioButton, RadioButtonGroup } from '@material-ui/RadioButton'
-import Checkbox from '@material-ui/Checkbox'
-import SelectField from '@material-ui/SelectField'
-import MenuItem from '@material-ui/MenuItem'
+import React from 'react';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import { styles } from './../../styles/baseStyles';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import DataTable from '../Dashboard/DataTable'
+import SimpleForm from '../SimpleForm/SimpleForm'
 
-
-const renderTextField = (
-  { input, label, touched, errors, ...custom },
-) => (
-  <TextField
-    hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
-
-const MyForm = props => {
-  const {
-    values,
-    touched,
-    errors,
-    dirty,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset,
-    isSubmitting,
-  } = props;
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        hintText="First Name"
-        floatingLabelText="First Name"
-        touched={touched.firstName}
-        errors={errors.firstName}
-      />
-      <button
-        type="button"
-        className="outline"
-        onClick={handleReset}
-        disabled={!dirty || isSubmitting}
+class IndicatorCreate extends React.Component {
+  render() {
+    const { classes } = this.props;
+    const IndicatorList = () => (
+      <Query
+        query={gql`
+          {
+            allIndicators(first:2, offset: 1) {
+              nodes{
+                id
+                name
+                description
+                executionOrder
+                flagActive
+                createdDate
+                updatedDate
+                indicatorTypeId
+              }
+            }
+          }
+        `}
       >
-        Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
-      <DisplayFormikState {...props} />
-    </form>
-  );
-};
+        {({ loading, error, data }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error :(</p>;
+          return(
+            <SimpleForm/>
+          );
+        }}
+      </Query>
+    );
+    return (
+      <React.Fragment>
+        <div className={classes.appBarSpacer} />
+        <Typography variant="indicator-create-form" gutterBottom className={classes.formContainer}>
+          <SimpleForm/>
+        </Typography>
+      </React.Fragment>
+     )
+  }
+}
+export default withStyles(styles)(IndicatorCreate);

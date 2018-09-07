@@ -69,6 +69,9 @@ export const styles = theme => ({
   chartContainer: {
     marginLeft: -22,
   },
+  formContainer: {
+
+  },
   tableContainer: {
     height: 320,
   },
