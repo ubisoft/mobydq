@@ -2,6 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
+import SimpleButton from './../FormInput/SimpleButton';
 
 
 
@@ -11,7 +12,7 @@ class SimpleForm extends React.Component {
      return(
          <React.Fragment>
         <MyEnhancedForm
-          indicator={{ name: '', description: '', checkbox: false }}
+          indicator={{ name: '', description: '', checkbox: "" }}
         />
          </React.Fragment>
      )
@@ -67,17 +68,17 @@ const MyForm = props => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <button
-        type="button"
-        className="outline"
+      <SimpleButton
+        type="reset"
+        label="Reset"
         onClick={handleReset}
         disabled={!dirty || isSubmitting}
-      >
-        Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
+      />
+      <SimpleButton
+          type="submit"
+          disabled={isSubmitting}
+          label="Submit"
+      />
       <DisplayFormikState {...props} />
     </form>
   );
