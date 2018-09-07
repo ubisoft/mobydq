@@ -7,21 +7,22 @@ import SimpleButton from './../FormInput/SimpleButton';
 
 
 class SimpleForm extends React.Component {
-
   render() {
-     return(
-         <React.Fragment>
+    return(
+      <React.Fragment>
         <MyEnhancedForm
-          indicator={{ name: '', description: '', checkbox: "" }}
+          data={this.props.data}
+          indicator={{ name: '', description: '', indicatorType: "", indicatorGroup: ""}}
         />
-         </React.Fragment>
-     )
+      </React.Fragment>
+    )
   }
 }
 
 
 const MyForm = props => {
   const {
+    data,
     values,
     touched,
     errors,
@@ -58,13 +59,25 @@ const MyForm = props => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-         <SelectInput
-        id="checkbox"
-        label="checkbox"
-        touched={touched.checkbox}
-        errors={errors.checkbox}
-        error={touched.checkbox && errors.checkbox}
-        value={values.checkbox}
+      <SelectInput
+        id="indicatorType"
+        label="Indicator Type"
+        items={data.allIndicatorTypes.nodes}
+        touched={touched.indicatorType}
+        errors={errors.indicatorType}
+        error={touched.indicatorType && errors.indicatorType}
+        value={values.indicatorType}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      <SelectInput
+        id="indicatorGroup"
+        label="Indicator Group"
+        items={data.allIndicatorGroups.nodes}
+        touched={touched.indicatorGroup}
+        errors={errors.indicatorGroup}
+        error={touched.indicatorGroup && errors.indicatorGroup}
+        value={values.indicatorGroup}
         onChange={handleChange}
         onBlur={handleBlur}
       />
