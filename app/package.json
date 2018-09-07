@@ -12,6 +12,7 @@
     "react-apollo": "^2.1.11",
     "react-app-env": "^1.2.2",
     "react-dom": "^16.4.2",
+    "react-number-format": "^3.5.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

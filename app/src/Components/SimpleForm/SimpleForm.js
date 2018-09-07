@@ -4,15 +4,13 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 
-
-
 class SimpleForm extends React.Component {
   render() {
     return(
       <React.Fragment>
         <MyEnhancedForm
           data={this.props.data}
-          indicator={{ name: '', description: '', indicatorType: "", indicatorGroup: ""}}
+          indicator={{ name: '', description: '', executionOrder: 0, indicatorType: "", indicatorGroup: ""}}
         />
       </React.Fragment>
     )
@@ -58,6 +56,18 @@ const MyForm = props => {
         value={values.description}
         onChange={handleChange}
         onBlur={handleBlur}
+      />
+      <TextInput
+          id="executionOrder"
+          label="Execution Order"
+          helperText=""
+          numeric={true}
+          touched={touched.executionOrder}
+          errors={errors.executionOrder}
+          error={touched.executionOrder && errors.executionOrder}
+          value={values.executionOrder}
+          onChange={handleChange}
+          onBlur={handleBlur}
       />
       <SelectInput
         id="indicatorType"
