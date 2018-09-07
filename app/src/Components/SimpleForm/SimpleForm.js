@@ -1,64 +1,23 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { withFormik } from 'formik'
+import { withFormik } from 'formik';
+import TextInput from './../FormInput/TextInput';
+import SelectInput from './../FormInput/SelectInput';
 
-import TextField from '@material-ui/core/TextField'
-import Checkbox from '@material-ui/core/Checkbox'
 
 
 class SimpleForm extends React.Component {
 
   render() {
      return(
+         <React.Fragment>
         <MyEnhancedForm
-          indicator={{ name: '', description: '' }}
+          indicator={{ name: '', description: '', checkbox: false }}
         />
+         </React.Fragment>
      )
   }
 }
 
-const InputFeedback = ({ error }) =>
-  error ? (
-    <div className="input-feedback">{error}</div>
-  ) : null;
-
-const Label = ({
-  error,
-  className,
-  children,
-  ...props
-}) => {
-  return (
-    <label className="label" {...props}>
-      {children}
-    </label>
-  );
-};
-
-const TextInput = ({
-  id,
-  label,
-  helperText,
-  error,
-  value,
-  onChange,
-  className,
-  ...props
-}) => {
-  return (
-    <div>
-      <TextField
-        id={id}
-        label={label}
-        helperText={helperText}
-        onChange={onChange}
-        // errorText={touched && errors}
-        {...props}
-      />
-      <InputFeedback error={error} />
-    </div>
-  );
-};
 
 const MyForm = props => {
   const {
@@ -79,6 +38,8 @@ const MyForm = props => {
         label="Indicator name"
         helperText=""
         placeholder="Enter indicator name"
+        touched={touched.name}
+        errors={errors.name}
         error={touched.name && errors.name}
         value={values.name}
         onChange={handleChange}
@@ -89,8 +50,20 @@ const MyForm = props => {
         label="Indicator Description"
         helperText=""
         placeholder="Enter decription name"
+        touched={touched.description}
+        errors={errors.description}
         error={touched.description && errors.description}
         value={values.description}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+         <SelectInput
+        id="checkbox"
+        label="checkbox"
+        touched={touched.checkbox}
+        errors={errors.checkbox}
+        error={touched.checkbox && errors.checkbox}
+        value={values.checkbox}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -105,7 +78,7 @@ const MyForm = props => {
       <button type="submit" disabled={isSubmitting}>
         Submit
       </button>
-      {/*<DisplayFormikState {...props} />*/}
+      <DisplayFormikState {...props} />
     </form>
   );
 };
@@ -132,6 +105,21 @@ const formikEnhancer = withFormik({
   },
   displayName: 'MyForm',
 });
+
+const DisplayFormikState = props =>
+  <div style={{ margin: '1rem 0' }}>
+    <h3 style={{ fontFamily: 'monospace' }} />
+    <pre
+      style={{
+        background: '#f6f8fa',
+        fontSize: '.65rem',
+        padding: '.5rem',
+      }}
+    >
+      <strong>props</strong> ={' '}
+      {JSON.stringify(props, null, 2)}
+    </pre>
+  </div>;
 
 
 const MyEnhancedForm = formikEnhancer(MyForm);

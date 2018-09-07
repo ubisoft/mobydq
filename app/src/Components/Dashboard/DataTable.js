@@ -2,7 +2,6 @@ import React from 'react';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableHead from '@material-ui/core/TableHead'
