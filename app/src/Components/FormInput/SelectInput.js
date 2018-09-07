@@ -5,11 +5,13 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 const SelectInput = ({
   id,
   label,
+  items,
   helperText,
   error,
   touched,
@@ -20,19 +22,26 @@ const SelectInput = ({
   ...props
 }) => {
   return (
-    <Select
-      id={id}
-      name={id}
-      value={value}
-      onChange={onChange}
-    >
-      <MenuItem value="">
-        <em>None</em>
-      </MenuItem>
-      <MenuItem value={10}>Ten</MenuItem>
-      <MenuItem value={20}>Twenty</MenuItem>
-      <MenuItem value={30}>Thirty</MenuItem>
-  </Select>
+    <FormControl style={{minWidth: '250px'}}>
+      <InputLabel htmlFor={id}>{label}</InputLabel>
+      <Select
+        id={id}
+        name={id}
+        value={value}
+        onChange={onChange}
+        inputProps={{
+          id: {id}
+        }}
+      >
+        <MenuItem value="">
+          <em>Select..</em>
+        </MenuItem>
+        {items.map((item) => {
+          return (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
+          })
+        }
+      </Select>
+    </FormControl>
   );
 };
 
@@ -42,4 +51,5 @@ export default SelectInput;
 SelectInput.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
 };
