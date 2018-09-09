@@ -3,6 +3,7 @@
 
 
 
+/*Order matter since Id values will be generated accordingly, do not change it*/
 INSERT INTO base.data_source_type (name) VALUES
 ('Hive'),
 ('Impala'),
@@ -16,6 +17,7 @@ INSERT INTO base.data_source_type (name) VALUES
 
 
 
+/*Order matter since Id values will be generated accordingly, do not change it*/
 INSERT INTO base.indicator_type (name, module, class, method) VALUES
 ('Completeness', 'completeness', 'Completeness', 'execute'),
 ('Freshness', 'freshness', 'Freshness', 'execute'),
@@ -24,6 +26,7 @@ INSERT INTO base.indicator_type (name, module, class, method) VALUES
 
 
 
+/*Order matter since Id values will be generated accordingly, do not change it*/
 INSERT INTO base.parameter_type (name, description) VALUES
 ('Alert operator', 'Operator used to compare the results of the indicator with the alert threshold. Example: ==, >, >=, <, <=, <>'),
 ('Alert threshold', 'Numeric value used to evaluate the results of the indicator and determine if an alert must be sent.'),
