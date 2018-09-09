@@ -85,7 +85,7 @@ $ docker-compose build --no-cache
 ## Run Docker Containers
 From the project repository, start all the Docker containers as deamons. Execute the following command in a terminal window.
 ```shell
-$ docker-compose up db graphql api app -d
+$ docker-compose up -d db graphql api app
 ```
 
 # Dependencies
