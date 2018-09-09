@@ -4,11 +4,11 @@ import gql from "graphql-tag";
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import DataTable from '../Dashboard/DataTable'
-import SimpleForm from '../SimpleForm/SimpleForm'
+import DataTable from '../Dashboard/DataTable';
+import SimpleForm from '../SimpleForm/SimpleForm';
 
 const createMutation = `mutation create {
-      createIndicator(input: {indicator: {id: 123, name: "a new name", description: "a fancy description", indicatorTypeId:1, indicatorGroupId:1}}) {
+      createIndicator(input: {indicator: {executionOrder: 123, name: "a new name", description: "a fancy description", indicatorTypeId:1, indicatorGroupId:1}}) {
         indicator {
           id
           name
@@ -17,7 +17,7 @@ const createMutation = `mutation create {
       }
     }`
 
-const IndicatorCreate = () => (
+const IndicatorForm = () => (
   <Query
     query={gql`
       {
@@ -40,10 +40,10 @@ const IndicatorCreate = () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
       return(
-        <SimpleForm data={data}/>
+       <SimpleForm data={data}/>
       );
     }}
   </Query>
 );
 
-export default IndicatorCreate;
+export default IndicatorForm;

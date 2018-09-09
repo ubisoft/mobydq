@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import RouterButton from './../../Components/FormInput/RouterButton'
 import IndicatorList from './IndicatorList'
-import IndicatorCreate from './IndicatorCreate'
+import IndicatorCreate from './IndicatorForm'
 
 class Indicator extends React.Component {
   render() {

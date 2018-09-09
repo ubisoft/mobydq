@@ -1,27 +1,15 @@
 import React from 'react';
 import { Query } from "react-apollo";
+import IndicatorRepository  from './../../repository/IndicatorRepository';
 import gql from "graphql-tag";
-import DataTable from '../Dashboard/DataTable'
-import RouterButton from './../../Components/FormInput/RouterButton'
+import DataTable from '../Dashboard/DataTable';
+import RouterButton from './../../Components/FormInput/RouterButton';
+//allIndicators(first:2, offset: 1) {
 
 const IndicatorList = () => (
+
   <Query
-    query={gql`
-      {
-        allIndicators(first:2, offset: 1) {
-          nodes{
-            id
-            name
-            description
-            executionOrder
-            flagActive
-            createdDate
-            updatedDate
-            indicatorTypeId
-          }
-        }
-      }
-    `}
+    query={IndicatorRepository.getIndicatorListByPage(100, 0)}
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;

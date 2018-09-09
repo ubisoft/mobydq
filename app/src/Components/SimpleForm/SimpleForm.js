@@ -1,26 +1,46 @@
 import React from 'react';
-import { withFormik } from 'formik';
+import { withFormik, Formik } from 'formik';
+import gql from "graphql-tag";
+import { graphql, compose, Mutation } from "react-apollo";
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 
 class SimpleForm extends React.Component {
   render() {
-    return(
-      <React.Fragment>
-        <MyEnhancedForm
-          data={this.props.data}
-          indicator={{ name: '', description: '', executionOrder: 0, indicatorType: "", indicatorGroup: ""}}
-        />
-      </React.Fragment>
+      const addIndicatorMutation = gql`
+    mutation addNewIndicator($indicator: IndicatorInput!) {
+    createIndicator(input: { indicator: $indicator })
+    {
+      indicator {
+        id
+        name
+        description
+      }
+    }
+  }
+`;
+    return (
+      <Mutation mutation={addIndicatorMutation}>
+        {(addIndicator, { loading, error }) => (
+            <React.Fragment>
+          <IndicatorForm
+              data={this.props.data}
+              mutate={addIndicator}
+          />
+                {loading && <p>Loading...</p>}
+                {error && <p>Error :( Please try again</p>}
+            </React.Fragment>
+        )}
+    </Mutation>
     )
   }
 }
 
-
-const MyForm = props => {
+const IndicatorFormFields = props => {
   const {
     data,
+    mutationCallback,
     values,
     touched,
     errors,
@@ -70,24 +90,24 @@ const MyForm = props => {
           onBlur={handleBlur}
       />
       <SelectInput
-        id="indicatorType"
+        id="indicatorTypeId"
         label="Indicator Type"
         items={data.allIndicatorTypes.nodes}
-        touched={touched.indicatorType}
-        errors={errors.indicatorType}
-        error={touched.indicatorType && errors.indicatorType}
-        value={values.indicatorType}
+        touched={touched.indicatorTypeId}
+        errors={errors.indicatorTypeId}
+        error={touched.indicatorTypeId && errors.indicatorTypeId}
+        value={values.indicatorTypeId}
         onChange={handleChange}
         onBlur={handleBlur}
       />
       <SelectInput
-        id="indicatorGroup"
+        id="indicatorGroupId"
         label="Indicator Group"
         items={data.allIndicatorGroups.nodes}
-        touched={touched.indicatorGroup}
-        errors={errors.indicatorGroup}
-        error={touched.indicatorGroup && errors.indicatorGroup}
-        value={values.indicatorGroup}
+        touched={touched.indicatorGroupId}
+        errors={errors.indicatorGroupId}
+        error={touched.indicatorGroupId && errors.indicatorGroupId}
+        value={values.indicatorGroupId}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -102,7 +122,6 @@ const MyForm = props => {
           disabled={isSubmitting}
           label="Submit"
       />
-      <DisplayFormikState {...props} />
     </form>
   );
 };
@@ -121,31 +140,16 @@ const formikEnhancer = withFormik({
   // }),
 
   mapPropsToValues: ({ indicator }) => ({
-    ...indicator,
+      name: '', description: '', executionOrder: 0, indicatorTypeId: "", indicatorGroupId: ""
   }),
-  handleSubmit: (payload, { setSubmitting }) => {
-    alert(payload.name);
+  handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
+    // alert(payload.name);
     setSubmitting(false);
+    props.mutate({ variables: { indicator: payload } });//, payload.description, payload.executionOrder, payload.indicatorTypeId, payload.indicatorGroupId);
   },
   displayName: 'MyForm',
 });
 
-const DisplayFormikState = props =>
-  <div style={{ margin: '1rem 0' }}>
-    <h3 style={{ fontFamily: 'monospace' }} />
-    <pre
-      style={{
-        background: '#f6f8fa',
-        fontSize: '.65rem',
-        padding: '.5rem',
-      }}
-    >
-      <strong>props</strong> ={' '}
-      {JSON.stringify(props, null, 2)}
-    </pre>
-  </div>;
-
-
-const MyEnhancedForm = formikEnhancer(MyForm);
+const IndicatorForm = formikEnhancer(IndicatorFormFields);
 
 export default SimpleForm;
