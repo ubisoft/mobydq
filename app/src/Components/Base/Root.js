@@ -9,7 +9,7 @@ import BaseDataView from './BaseDataView'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_BASE_URL + ":5433/graphql",
-opts: { mode: 'no-cors' }
+// options: { mode: 'no-cors' }
 });
 
 const Root = ({ store }) => (
