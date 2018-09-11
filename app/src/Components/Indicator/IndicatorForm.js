@@ -25,6 +25,7 @@ const IndicatorForm = () => (
        <Mutation mutation={IndicatorRepository.insertIndicator()}>
         {(addIndicator, { loading, error }) => (
           <React.Fragment>
+            <Typography variant='display2' style={{marginLeft: '60px'}}>Add New Indicator</Typography>
             <EnhancedIndicatorForm
               data={data}
               mutate={addIndicator}
