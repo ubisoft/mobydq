@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { graphql, compose, Mutation } from "react-apollo";
 import { withFormik, Formik } from 'formik';
+import * as Yup from 'yup';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -62,7 +63,6 @@ const IndicatorFormFields = props => {
           helperText=""
           placeholder="Enter indicator name"
           touched={touched.name}
-          errors={errors.name}
           error={touched.name && errors.name}
           value={values.name}
           onChange={handleChange}
@@ -75,7 +75,6 @@ const IndicatorFormFields = props => {
           helperText=""
           placeholder="Enter decription name"
           touched={touched.description}
-          errors={errors.description}
           error={touched.description && errors.description}
           value={values.description}
           onChange={handleChange}
@@ -88,7 +87,6 @@ const IndicatorFormFields = props => {
           label="Indicator Type"
           items={data.allIndicatorTypes.nodes}
           touched={touched.indicatorTypeId}
-          errors={errors.indicatorTypeId}
           error={touched.indicatorTypeId && errors.indicatorTypeId}
           value={values.indicatorTypeId}
           onChange={handleChange}
@@ -100,7 +98,6 @@ const IndicatorFormFields = props => {
           label="Indicator Group"
           items={data.allIndicatorGroups.nodes}
           touched={touched.indicatorGroupId}
-          errors={errors.indicatorGroupId}
           error={touched.indicatorGroupId && errors.indicatorGroupId}
           value={values.indicatorGroupId}
           onChange={handleChange}
@@ -114,7 +111,6 @@ const IndicatorFormFields = props => {
           helperText=""
           numeric={true}
           touched={touched.executionOrder}
-          errors={errors.executionOrder}
           error={touched.executionOrder && errors.executionOrder}
           value={values.executionOrder}
           onChange={handleChange}
@@ -139,27 +135,30 @@ const IndicatorFormFields = props => {
 };
 
 const formikEnhancer = withFormik({
-  // validationSchema: Yup.object().shape({
-  //   firstName: Yup.string()
-  //     .min(2, "C'mon, your name is longer than that")
-  //     .required('First name is required.'),
-  //   lastName: Yup.string()
-  //     .min(2, "C'mon, your name is longer than that")
-  //     .required('Last name is required.'),
-  //   email: Yup.string()
-  //     .email('Invalid email address')
-  //     .required('Email is required!'),
-  // }),
+  validationSchema: Yup.object().shape({
+    indicatorTypeId: Yup.number().integer()
+      .min(1, "You need to select an indicator type")
+      .required("You need to select an indicator type"),
+    indicatorGroupId: Yup.number().integer()
+      .min(1, "You need to select an indicator group")
+      .required("You need to select an indicator group"),
+    executionOrder: Yup.number().integer()
+      .min(0, "Execution order has to be a non-negative integer")
+      .required("You need to input execution order."),
+    name: Yup.string()
+      .required('Name cannot be blank'),
+    description: Yup.string()
+      .required('Description cannot be blank'),
+  }),
 
   mapPropsToValues: ({ indicator }) => ({
       name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0
   }),
   handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
-    // alert(payload.name);
     setSubmitting(false);
-    props.mutate({ variables: { indicator: payload } });//, payload.description, payload.executionOrder, payload.indicatorTypeId, payload.indicatorGroupId);
+    props.mutate({ variables: { indicator: payload } });
   },
-  displayName: 'MyForm',
+  displayName: 'IndicatorForm',
 });
 
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputFeedback from './InputFeedback';
 
 const DateInput = ({
   id,
@@ -10,34 +11,37 @@ const DateInput = ({
   helperText,
   error,
   touched,
-  errors,
   value,
   onChange,
   className,
   ...props
 }) => {
   return (
-    <FormControlLabel style={{width: '250px', margin: '15px'}}
-      control={
-        <React.Fragment>
-          <TextField
-            id={id}
-            label={label}
-            type="date"
-            value={value}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            helperText={helperText}
-            onChange={onChange}
-            errorText={touched && errors}
-            {...props}
-          />
-          <InputFeedback error={error} />
+   <FormControl style={{width: '250px', margin: '15px'}} error={error}>
+     <FormControlLabel
+       control={
+         <React.Fragment>
+           <TextField
+             id={id}
+             label={label}
+             error={error}
+             type="date"
+             value={value}
+             InputLabelProps={{
+               shrink: true,
+             }}
+             helperText={helperText}
+             onChange={onChange}
+             errorText={touched && errors}
+             {...props}
+           />
+           <InputFeedback error={error} />
         </React.Fragment>
       }
       label={""}
     />
+   <FormHelperText>{error}</FormHelperText>
+   </FormControl>
   );
 };
 

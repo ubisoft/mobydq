@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputFeedback from './InputFeedback';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const TextInput = ({
   id,
@@ -11,7 +12,6 @@ const TextInput = ({
   helperText,
   error,
   touched,
-  errors,
   value,
   onChange,
   className,
@@ -19,26 +19,28 @@ const TextInput = ({
   ...props
 }) => {
   return (
-    <FormControlLabel style={{width: '250px', margin: '15px'}}
-      control={
-        <React.Fragment>
-          <TextField
-            id={id}
-            label={label}
-            helperText={helperText}
-            onChange={onChange}
-            value={value}
-            InputProps={{
-             inputComponent: numeric ? NumberFormat : null,
-            }}
-            // errorText={touched && errors}
-            {...props}
-          />
-          <InputFeedback error={error} />
-        </React.Fragment>
-      }
-      label={""}
-    />
+    <FormControl style={{width: '250px', margin: '15px'}} error={error}>
+      <FormControlLabel
+        control={
+          <React.Fragment>
+            <TextField
+              id={id}
+              label={label}
+              error={error}
+              helperText={helperText}
+              onChange={onChange}
+              value={value}
+              InputProps={{
+               inputComponent: numeric ? NumberFormat : null,
+              }}
+              {...props}
+            />
+          </React.Fragment>
+        }
+        label={""}
+      />
+      <FormHelperText>{error}</FormHelperText>
+    </FormControl>
   );
 };
 
