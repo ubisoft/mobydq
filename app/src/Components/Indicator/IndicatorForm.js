@@ -152,7 +152,7 @@ const formikEnhancer = withFormik({
   // }),
 
   mapPropsToValues: ({ indicator }) => ({
-      name: '', description: '', executionOrder: 0, indicatorTypeId: "", indicatorGroupId: ""
+      name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0
   }),
   handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
     // alert(payload.name);
