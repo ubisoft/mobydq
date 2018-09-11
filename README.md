@@ -3,18 +3,18 @@
 **Attention:** Project is currently being reworked to use Docker, PostgreSQL, Postgraphile, Flask and React.js. Python packages SQLAlchemy and Graphene will be removed. You're welcome to join the adventure if you wish to contribute, in particular to build a lightweight web app on top of the GraphQL API.
 
 # Data Quality Framework
-The objective of this framework is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
+The objective of this tool is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 It has been influenced by an internal project developed at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been completely reworked from scratch to improve its design, simplify it and remove technical dependencies with commercial software.
 
 ![Data pipeline](https://github.com/alexisrolland/data-quality/blob/development/doc/data_pipeline.png)
 
 # Getting Started
-Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). The complete documentation is also available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki) if you wish to better understanding the framework, its concepts and how it works.
+Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). The complete documentation is also available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki) if you wish to better understanding the tool, its concepts and how it works.
 
 # Requirements
 ## Install Docker
-Add the Docker repository to your Linux repository. Execute the following commands in a terminal window.
+This tool has been fully containerized with Docker to ensure easy deployment and portability. To add the Docker repository to your Linux machine, execute the following commands in a terminal window.
 ```shell
 $ sudo apt-get update
 $ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
@@ -40,7 +40,7 @@ $ sudo apt install docker-compose
 ```
 
 # Setup Your Instance
-## Create Configuration File
+## Create Configuration Files
 Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password in both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 ```ini
 # DB
@@ -56,12 +56,10 @@ MAIL_PORT=25
 MAIL_SENDER=change@me.com
 ```
 
-# Setup the react app
-## Create configuration file
-Based on the template below, crate a text fine named `.env.app` in ./app/ folder.
-```angular2html
-#Connection
-BASE_URL=http://server.base.url
+Based on the template below, create a text file named `.env.app` in `./app/` folder.
+```ini
+# APP
+BASE_URL=http://api.base.url
 ```
 
 ## Create Docker Network
@@ -71,7 +69,7 @@ $ docker network create data-quality-network
 ```
 
 ## Create PostgreSQL Data Volume
-Due to PostgreSQL Docker image compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. Execute the following command.
+Due to Docker compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. This volume will be used to persist the data stored in the PostgreSQL database. Execute the following command.
 ```shell
 $ docker volume create data-quality-db-volume
 ```

@@ -1,6 +1,6 @@
 from ast import literal_eval
 from session import Session
-from database import Database
+from data_source import DataSource
 import logging
 import os
 import pandas
@@ -73,8 +73,10 @@ class Indicator:
             connection_string = response['data']['dataSourceByName']['connectionString']
             login = response['data']['dataSourceByName']['login']
             password = response['data']['dataSourceByName']['password']
+
             log.info('Connect to data source {data_source}.'.format(data_source=data_source))
-            connection = Database.get_connection(data_source_type_id, connection_string, login, password)
+            data_source = DataSource()
+            connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
             Session.update_session_status(session_id, 'Failed')
             error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)
@@ -113,6 +115,7 @@ class Indicator:
 
     def compute_session_result(self, session_id, alert_operator, alert_threshold, result_data):
         """Compute aggregated results for the indicator session."""
+        log.info('Compute session results.')
         nb_records = len(result_data)
         nb_records_alert = len(result_data.loc[result_data['Alert'] == True])
         nb_records_no_alert = len(result_data.loc[result_data['Alert'] == False])
@@ -133,7 +136,7 @@ class Indicator:
 
         return nb_records_alert
 
-    def send_indicator_alert(self, indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data):
+    def send_alert(self, indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data):
         """Build the alert e-mail to be sent for the session."""
         # Create csv file to send in attachment
         file_name = 'indicator_{indicator_id}_session_{session_id}.csv'.format(indicator_id=indicator_id, session_id=session_id)

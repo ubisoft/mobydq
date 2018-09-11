@@ -1,7 +1,18 @@
+from batch import Batch
+from data_source import DataSource
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
 from flask_restplus import Api, Resource
-import docker
+import logging
+import sys
 import utils
+
+
+log = logging.getLogger(__name__)
+logging.basicConfig(
+    # filename='data_quality.log',
+    stream=sys.stdout,
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Create flask app and enabe cross origin resource sharing
 app = Flask(__name__)
@@ -57,28 +68,21 @@ class GraphQL(Resource):
         Use this endpoint to send http request to the GraphQL API.
         """
         args = parser.parse_args(strict=True)
-        # Permissions verifications
-        # if not something:
-            # message = {'message': 'Forbidden: You do not have sufficient permissions to access this resource.'}
-            # abort(403, message)
 
         # Execute request on GraphQL API
         status, data = utils.execute_graphql_request(args['query'])
 
-        # If request is executeIndicatorGroup mutation, trigger a new batch in ephemeral container
-        if status == 200 and 'executeIndicatorGroup' in args['query']:
-            batch_id = str(data['data']['executeIndicatorGroup']['batch']['id'])
-            container_name = 'data-quality-batch-{batch_id}'.format(batch_id=batch_id)
-            client = docker.from_env()
-            client.containers.run(
-                name=container_name,
-                image='data-quality-scripts',
-                network='data-quality-network',
-                links={'data-quality-graphql': 'data-quality-graphql'},
-                command=['python', 'execute.py', batch_id],
-                remove=True,
-                detach=True
-                )
+        # Execute batch of indicators
+        if status == 200 and 'executeBatch' in args['query']:
+            batch_id = str(data['data']['executeBatch']['batch']['id'])
+            batch = Batch()
+            batch.execute(batch_id)
+
+        # Test connectivity to a data source
+        if status == 200 and 'testDataSource' in args['query']:
+            data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
+            data_source = DataSource()
+            data = data_source.test(data_source_id)
 
         if status == 200:
             return jsonify(data)

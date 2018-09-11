@@ -40,14 +40,13 @@ class Validity(Indicator):
         result_data = self.evaluate_validity(target_data, measures, alert_operator, alert_threshold)
 
         # Compute session result
-        log.info('Compute session results.')
         nb_records_alert = super().compute_session_result(session_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
             indicator_name = session['indicatorByIndicatorId']['name']
             distribution_list = parameters[3]  # Distribution list
-            super().send_indicator_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
+            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')

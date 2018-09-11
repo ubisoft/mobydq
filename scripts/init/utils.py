@@ -3,7 +3,6 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
-from session import Session
 import configparser
 import logging
 import os
@@ -44,7 +43,6 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
     config = get_parameter('mail')
     for key, value in config.items():
         if value in ['change_me', '', None]:
-            Session.update_session_status(session_id, 'Failed')
             error_message = 'Cannot send e-mail notification due to invalid configuration for mail parameter {key}.'.format(key=key)
             log.error(error_message)
             raise Exception(error_message)
@@ -67,6 +65,7 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
         html = open(os.path.dirname(__file__) + '/email/{}.html'.format(template), 'r')
         body = html.read()
         body = Template(body)
+        kwargs['session_id'] = session_id
         body = body.render(**kwargs)
 
     else:
@@ -91,7 +90,7 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
 
     # Send e-mail via smtp server
     connexion = smtplib.SMTP(config['host'], config['port'])
-    connexion.sendmail(config['sender'], distribution_list, email.as_string())
+    connexion.sendmail(email['From'], email['To'], email.as_string())
     connexion.quit()
 
     return True
@@ -103,12 +102,10 @@ def send_error(indicator_id, indicator_name, session_id, distribution_list, erro
     body = {}
     body['indicator_id'] = indicator_id
     body['indicator_name'] = indicator_name
-    body['session_id'] = session_id
     body['error_message'] = error_message
 
     # Send e-mail
     log.info('Send error e-mail.')
-    utils.send_mail(session_id, distribution_list, 'error', **body)
-    os.remove(file_path)
+    send_mail(session_id, distribution_list, 'error', None, **body)
 
     return True

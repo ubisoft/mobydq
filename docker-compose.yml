@@ -11,8 +11,6 @@ services:
       - data-quality-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
-    ports:
-      - 5432:5432
     networks:
       - default
 
@@ -22,8 +20,6 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
-    ports:
-      - 5433:5433
     depends_on:
       - db
     links:
@@ -73,7 +69,9 @@ services:
       - default
 
   app:
-    container_name: data-quality-app-prod
+    container_name: data-quality-app
+    restart: always
+    image: data-quality-app
     build:
       context: ./app
       dockerfile: Dockerfile-prod

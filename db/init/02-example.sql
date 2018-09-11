@@ -117,7 +117,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'[''last_updated_date'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-,'dq_example_postgresql'),
+,'dq_example_mysql'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
 ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;');
