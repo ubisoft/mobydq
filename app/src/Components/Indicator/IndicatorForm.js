@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import { withRouter } from 'react-router-dom';
 import { graphql, compose, Mutation } from "react-apollo";
 import { withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -12,9 +13,11 @@ import DataTable from '../Dashboard/DataTable';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
+import SwitchInput from './../FormInput/SwitchInput';
 import IndicatorRepository  from './../../repository/IndicatorRepository';
 
-const IndicatorForm = () => (
+
+const IndicatorForm = ({history}) => (
   <Query
     query={IndicatorRepository.getFormDropdownData()}
   >
@@ -22,16 +25,17 @@ const IndicatorForm = () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
       return(
-       <Mutation mutation={IndicatorRepository.insertIndicator()}>
+       <Mutation mutation={IndicatorRepository.insertIndicator()} onCompleted={() => {history.push('/indicators/');}}>
         {(addIndicator, { loading, error }) => (
           <React.Fragment>
-            <Typography variant='display2' style={{marginLeft: '60px'}}>Add New Indicator</Typography>
+            <div style={{marginLeft: '60px'}}>Add New Indicator</div>
             <EnhancedIndicatorForm
               data={data}
               mutate={addIndicator}
             />
             {loading && <p>Loading...</p>}
             {error && <p>Error :( Please try again</p>}
+
           </React.Fragment>
         )}
         </Mutation>
@@ -116,6 +120,16 @@ const IndicatorFormFields = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        <SwitchInput
+          id="flagActive"
+          label="Active"
+          helperText="Active"
+          touched={touched.flagActive}
+          error={touched.flagActive && errors.flagActive}
+          value={values.flagActive}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
       </div>
       <div>
         <SimpleButton
@@ -152,11 +166,13 @@ const formikEnhancer = withFormik({
   }),
 
   mapPropsToValues: ({ indicator }) => ({
-      name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0
+      name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false
   }),
   handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
     setSubmitting(false);
-    props.mutate({ variables: { indicator: payload } });
+    props.mutate({
+        variables: { indicator: payload } },
+        );
   },
   displayName: 'IndicatorForm',
 });
