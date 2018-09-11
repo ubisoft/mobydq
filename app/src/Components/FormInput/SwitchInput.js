@@ -16,7 +16,7 @@ const SwitchInput = ({
   ...props
 }) => {
   return (
-    <FormControlLabel
+    <FormControlLabel style={{width: '250px', margin: '15px'}}
       control={
         <React.Fragment>
           <Switch

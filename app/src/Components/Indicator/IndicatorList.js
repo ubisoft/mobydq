@@ -4,7 +4,6 @@ import IndicatorRepository  from './../../repository/IndicatorRepository';
 import gql from "graphql-tag";
 import DataTable from '../Dashboard/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
-//allIndicators(first:2, offset: 1) {
 
 const IndicatorList = () => (
 

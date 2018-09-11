@@ -17,6 +17,37 @@ class IndicatorRepository {
       }
     }`
   }
+
+  static getFormDropdownData() {
+    return gql`
+      {
+        allIndicatorTypes {
+          nodes {
+            id
+            name
+          }
+        }
+        allIndicatorGroups {
+          nodes {
+            id
+            name
+          }
+        }
+      }`
+  }
+
+  static insertIndicator() {
+    return gql`
+      mutation addNewIndicator($indicator: IndicatorInput!) {
+        createIndicator(input: { indicator: $indicator }) {
+          indicator {
+            id
+            name
+            description
+          }
+        }
+      }`
+  }
 }
 
 export default IndicatorRepository;

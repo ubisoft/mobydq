@@ -22,7 +22,7 @@ const SelectInput = ({
   ...props
 }) => {
   return (
-    <FormControl style={{minWidth: '250px'}}>
+    <FormControl style={{width: '240px', margin: '15px'}}>
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <Select
         id={id}

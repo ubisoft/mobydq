@@ -70,7 +70,9 @@ export const styles = theme => ({
     marginLeft: -22,
   },
   formContainer: {
-
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   tableContainer: {
     height: 320,
