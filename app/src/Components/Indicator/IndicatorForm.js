@@ -8,7 +8,6 @@ import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import DataTable from '../Dashboard/DataTable';
-import SimpleForm from '../SimpleForm/SimpleForm';
 
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
