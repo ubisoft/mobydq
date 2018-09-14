@@ -2,12 +2,13 @@ import React from 'react';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 class DataTable extends React.Component {
@@ -28,6 +29,12 @@ class DataTable extends React.Component {
   }
 
   _buildCell(cellName, cellValue) {
+    if (cellValue === true) {
+      cellValue = <DoneIcon color="primary"/>;
+    }
+    if (cellValue === false) {
+      cellValue = <ClearIcon color="error"/>
+    }
     return (
         <TableCell key={cellName}>{cellValue}</TableCell>
     )
@@ -35,7 +42,7 @@ class DataTable extends React.Component {
 
   _buildTable(fieldNames) {
     return this.props.data.map((row) => (
-      <TableRow>
+      <TableRow key={row['id']}>
         {fieldNames.map((fieldName) => (this._buildCell(fieldName, row[fieldName])))}
       </TableRow>
     ));

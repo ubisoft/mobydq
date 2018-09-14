@@ -69,6 +69,11 @@ export const styles = theme => ({
   chartContainer: {
     marginLeft: -22,
   },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   tableContainer: {
     height: 320,
   },
