@@ -4,6 +4,7 @@ __pycache__
 # ignore intellij
 .idea
 
-# environment file
+# configuration files
 .env
-/app/.env.app
+.env.app
+scripts.cfg

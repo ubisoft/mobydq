@@ -20,3 +20,14 @@ services:
     volumes:
        - ./scripts/init:/srv/scripts
     tty: true
+
+  app:
+    image: data-quality-app-dev
+    build:
+      dockerfile: Dockerfile-dev
+    volumes:
+      - ./app:/usr/src/app
+    expose:
+      - 5499
+    ports:
+      - 5499:3000

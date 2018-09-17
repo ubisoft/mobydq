@@ -9,28 +9,28 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'driver={FreeTDS};server=10.0.2.15;port=9000;database=star_wars;tds_version=8.0;'
   ,'sa'
   ,'1234-abcd'
-  ,(SELECT id FROM base.data_source_type WHERE id=3)  -- Microsoft SQL Server
+  ,4  -- Microsoft SQL Server
 )
 ,(
   'dq_example_mysql'
   ,'driver={MySQL Unicode};server=10.0.2.15;port=9001;database=star_wars;'
   ,'root'
   ,'1234'
-  ,(SELECT id FROM base.data_source_type WHERE id=4)  -- MySQL
+  ,5  -- MySQL
 )
 ,(
   'dq_example_postgresql'
   ,'driver={PostgreSQL Unicode};server=10.0.2.15;port=9002;database=star_wars;'
   ,'postgres'
   ,'1234'
-  ,(SELECT id FROM base.data_source_type WHERE id=7)  -- PostgreSQL
+  ,7  -- PostgreSQL
 )
 ,(
   'dq_example_teradata'
   ,'driver={Teradata 64};dbcname=10.0.2.15;defaultdatabase=star_wars;charset=utf8;'
   ,'dbc'
   ,'1234'
-  ,(SELECT id FROM base.data_source_type WHERE id=9)  -- Teradata
+  ,9  -- Teradata
 );
 
 
