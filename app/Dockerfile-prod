@@ -1,16 +1,28 @@
-# build environment
 FROM node:10.8.0-alpine as builder
+
+# Set working directory
 RUN mkdir /usr/src
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
+
+# Add /usr/src/app/node_modules/.bin to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# Get build arguments coming from .env file
+ARG API_URL
+ENV API_URL "$API_URL"
+
+# Create config file to set environment variables
+RUN echo "API_URL = $API_URL" >> ./app.cfg
+
+# Install and cache app dependencies
 COPY package.json /usr/src/app/package.json
-RUN npm install --silent
-RUN npm install react-scripts@1.1.1 -g --silent
+RUN npm install
+RUN npm install react-scripts@1.1.1 -g
 COPY . /usr/src/app
 RUN npm run build
 
-# production environment
+# Production environment
 FROM nginx:1.15.2-alpine
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 EXPOSE 80

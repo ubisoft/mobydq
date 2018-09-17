@@ -35,8 +35,8 @@ RUN pip install --upgrade pip \
 RUN mv -f ./odbcinst.ini /etc
 
 # Get build arguments coming from .env file
-ARG API_URL
-ENV API_URL "$API_URL"
+ARG GRAPHQL_URL
+ENV GRAPHQL_URL "$GRAPHQL_URL"
 ARG MAIL_HOST
 ENV MAIL_HOST "$MAIL_HOST"
 ARG MAIL_PORT
@@ -45,8 +45,8 @@ ARG MAIL_SENDER
 ENV MAIL_SENDER "$MAIL_SENDER"
 
 # Create config file to send mails using environment variables
-RUN echo "[api]" >> ./scripts.cfg \
-    && echo "url = $API_URL" >> ./scripts.cfg \
+RUN echo "[graphql]" >> ./scripts.cfg \
+    && echo "url = $GRAPHQL_URL" >> ./scripts.cfg \
     && echo "[mail]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
