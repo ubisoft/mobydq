@@ -56,7 +56,7 @@ services:
     build:
       context: ./scripts
       args:
-        - API_URL=${API_URL}
+        - GRAPHQL_URL=${GRAPHQL_URL}
         - MAIL_HOST=${MAIL_HOST}
         - MAIL_PORT=${MAIL_PORT}
         - MAIL_SENDER=${MAIL_SENDER}
@@ -76,6 +76,10 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile-prod
+      args:
+        - API_URL=${API_URL}
+    env_file:
+      - ./.env
     ports:
       - 80:80
     depends_on:
