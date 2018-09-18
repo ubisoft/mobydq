@@ -55,7 +55,7 @@ MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
 # APP
-API_URL=http://api:5434/data-quality/api
+API_URL=http://0.0.0.0:5434/data-quality/api/v1/graphql
 ```
 
 ## Create Docker Network
