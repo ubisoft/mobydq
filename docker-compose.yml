@@ -80,8 +80,6 @@ services:
         - API_URL=${API_URL}
     env_file:
       - ./.env
-    environment:
-      - API_URL=${API_URL}
     ports:
       - 80:80
     depends_on:

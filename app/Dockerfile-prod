@@ -12,8 +12,9 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 ARG API_URL
 ENV API_URL "$API_URL"
 
-# Create config file to set environment variables
-RUN echo "API_URL = $API_URL" >> ./app.cfg
+# Create config file to from environment variables
+RUN echo "API_URL = $API_URL" > ./app.cfg
+# ENTRYPOINT echo "API_URL = $API_URL" > ./app.cfg # Attempt to overwrite variable at run time but does not work
 
 # Install and cache app dependencies
 COPY package.json /usr/src/app/package.json
@@ -25,5 +26,4 @@ RUN npm run build
 # Production environment
 FROM nginx:1.15.2-alpine
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
