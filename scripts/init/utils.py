@@ -30,7 +30,7 @@ def get_parameter(section, parameter_name=None):
 
 def execute_graphql_request(payload):
     """Execute queries and mutations on the GraphQL API."""
-    url = get_parameter('api', 'url')
+    url = get_parameter('graphql', 'url')
     headers = {'Content-Type': 'application/graphql'}
     response = requests.post(url, headers=headers, data=payload)
     data = response.json()

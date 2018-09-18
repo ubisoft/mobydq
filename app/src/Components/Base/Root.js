@@ -8,7 +8,7 @@ import BaseDataView from './BaseDataView'
 
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_BASE_URL + ":5433/graphql",
+  uri: process.env.REACT_APP_API_URL,
 // options: { mode: 'no-cors' }
 });
 

@@ -1,7 +1,5 @@
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](https://github.com/alexisrolland/data-quality/blob/master/LICENSE)
 
-**Attention:** Project is currently being reworked to use Docker, PostgreSQL, Postgraphile, Flask and React.js. Python packages SQLAlchemy and Graphene will be removed. You're welcome to join the adventure if you wish to contribute, in particular to build a lightweight web app on top of the GraphQL API.
-
 # Data Quality Framework
 The objective of this tool is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
@@ -41,7 +39,7 @@ $ sudo apt install docker-compose
 
 # Setup Your Instance
 ## Create Configuration Files
-Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password in both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
+Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 ```ini
 # DB
 POSTGRES_USER=postgres
@@ -51,39 +49,35 @@ POSTGRES_PASSWORD=password
 DATABASE_URL=postgres://postgres:password@db:5432/data_quality
 
 # SCRIPTS
-API_URL=http://graphql:5433/graphql
+GRAPHQL_URL=http://graphql:5433/graphql
 MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
-```
 
-Based on the template below, create a text file named `.env.app` in `./app/` folder.
-```ini
 # APP
-BASE_URL=http://api.base.url
+API_URL=http://api:5434/data-quality/api
 ```
 
 ## Create Docker Network
-This custom network is used to connect the different containers. It's used in particular to connect the ephemeral containers ran when executing batches of indicators.
+This custom network is used to connect the different containers between each others. It is used in particular to connect the ephemeral containers ran when executing batches of indicators.
 ```shell
 $ docker network create data-quality-network
 ```
 
-## Create PostgreSQL Data Volume
+## Create Docker Volume
 Due to Docker compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. This volume will be used to persist the data stored in the PostgreSQL database. Execute the following command.
 ```shell
 $ docker volume create data-quality-db-volume
 ```
 
 ## Build Docker Images
-Go to the project repository and execute the following commands in your terminal window to build the Docker images.
+Go to the project root and execute the following command in your terminal window.
 ```shell
-$ cd data-quality
 $ docker-compose build --no-cache
 ```
 
 ## Run Docker Containers
-From the project repository, start all the Docker containers as deamons. Execute the following command in a terminal window.
+To start all the Docker containers as deamons, go to the project root and execute the following command in your terminal window.
 ```shell
 $ docker-compose up -d db graphql api app
 ```
