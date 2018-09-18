@@ -92,7 +92,7 @@ CREATE TABLE base.indicator_type (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 COMMENT ON TABLE base.indicator_type IS
-'Indicator types determine which class and method of the data quality framework is used to compute indicators.';
+'Indicator types determine which class and method is used to compute indicators.';
 
 CREATE TRIGGER indicator_type_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
@@ -185,7 +185,7 @@ CREATE TABLE base.parameter (
     CONSTRAINT parameter_unicity UNIQUE (indicator_id, parameter_type_id)
 );
 COMMENT ON TABLE base.parameter IS
-'Parameters used by the data quality framework to compute indicators.';
+'Parameters used to compute indicators.';
 
 CREATE TRIGGER parameter_updated_date BEFORE UPDATE
 ON base.parameter FOR EACH ROW EXECUTE PROCEDURE
