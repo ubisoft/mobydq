@@ -1,7 +1,7 @@
 from batch import Batch
 from data_source import DataSource
 from flask import abort, Blueprint, Flask, jsonify, request, url_for
-from flask_restplus import Api, Resource
+from flask_restplus import Api, Resource, fields
 import logging
 import sys
 import utils
@@ -33,7 +33,7 @@ api = Api(
     blueprint,
     title='Data Quality Framework API',
     version='v1',
-    description='''API used to trigger the execution of data quality indicators.''',
+    description='''API used to configure and trigger the execution of data quality indicators.''',
     doc='/doc',
     contact='to be configured')
 # Api.specs_url = swagger_url  # To be activated after we implement https
@@ -44,9 +44,9 @@ api.namespaces.clear()
 graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
 
-# Document headers and other parameters
-parser = api.parser()
-parser.add_argument('query', type=str, required=True, location='form', help='GraphQL query or mutation.')
+# Create expected headers and payload
+headers = api.parser()
+payload = api.model("Payload", {"query": fields.String(required=True, description='GraphQL query or mutation', example='{allIndicatorTypes{nodes{id,name}}}')})
 
 # Document default responses
 responses = {
@@ -61,28 +61,36 @@ responses = {
 @graphql.route('/graphql', endpoint='with-parser')
 @graphql.doc(responses=responses)
 class GraphQL(Resource):
-    @graphql.expect(parser, validate=True)  # Header parameters can be defined here
+    @graphql.expect(headers, payload, validate=True)
     def post(self):
         """
-        Execute queries and mutations
+        Execute GraphQL queries and mutations
         Use this endpoint to send http request to the GraphQL API.
         """
-        args = parser.parse_args(strict=True)
+        payload = request.json
 
         # Execute request on GraphQL API
-        status, data = utils.execute_graphql_request(args['query'])
+        status, data = utils.execute_graphql_request(payload['query'])
 
         # Execute batch of indicators
-        if status == 200 and 'executeBatch' in args['query']:
-            batch_id = str(data['data']['executeBatch']['batch']['id'])
-            batch = Batch()
-            batch.execute(batch_id)
+        if status == 200 and 'executeBatch' in payload['query']:
+            if 'id' in data['data']['executeBatch']['batch']:
+                batch_id = str(data['data']['executeBatch']['batch']['id'])
+                batch = Batch()
+                batch.execute(batch_id)
+            else:
+                message = "Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {'query': 'mutation{executeBatch(input:{indicatorGroupId:1}){batch{id}}}'"
+                abort(400, message)
 
         # Test connectivity to a data source
-        if status == 200 and 'testDataSource' in args['query']:
-            data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
-            data_source = DataSource()
-            data = data_source.test(data_source_id)
+        if status == 200 and 'testDataSource' in payload['query']:
+            if 'id' in data['data']['testDataSource']['dataSource']:
+                data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
+                data_source = DataSource()
+                data = data_source.test(data_source_id)
+            else:
+                message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
+                abort(400, message)
 
         if status == 200:
             return jsonify(data)
@@ -112,4 +120,4 @@ def log_request(response):
     if request.method != 'OPTIONS':
         # Do something here to log http requests
         pass
-        return response
+    return response
