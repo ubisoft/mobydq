@@ -20,6 +20,8 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
+    ports:
+      - 5433:5433
     depends_on:
       - db
     links:
@@ -30,7 +32,7 @@ services:
 
   api:
     container_name: data-quality-api
-    restart: always
+    # restart: always
     image: data-quality-api
     build:
       context: ./api
@@ -75,13 +77,14 @@ services:
     image: data-quality-app
     build:
       context: ./app
-      dockerfile: Dockerfile-prod
-      args:
-        - API_URL=${API_URL}
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './app:/usr/src/app'
+      - '/usr/src/app/node_modules'
     env_file:
       - ./.env
     ports:
-      - 80:80
+      - 80:3000
     depends_on:
       - api
       - graphql

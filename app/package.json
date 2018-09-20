@@ -24,8 +24,8 @@
     "yup": "^0.26.3"
   },
   "scripts": {
-    "start": "react-app-env --env-file=app.cfg start",
-    "build": "react-app-env --env-file=app.cfg build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
