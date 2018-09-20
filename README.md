@@ -54,8 +54,9 @@ MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
-# APP
-API_URL=http://0.0.0.0:5434/data-quality/api/v1/graphql
+# APP PARAMS
+NODE_ENV=development
+REACT_APP_GRAPHQL_API_URL=http://localhost:5433/graphql
 ```
 
 ## Create Docker Network
