@@ -1,25 +1,18 @@
+# base image
 FROM node:10.8.0-alpine
 
-# Set working directory
+# set working directory
 RUN mkdir /usr/src
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
-# Add /usr/src/app/node_modules/.bin to $PATH
+# add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-# Get build arguments coming from .env file
-ARG API_URL
-ENV API_URL "$API_URL"
-
-# Create config file to from environment variables
-RUN echo "API_URL = $API_URL" > ./app.cfg
-# ENTRYPOINT echo "API_URL = $API_URL" > ./app.cfg # Attempt to overwrite variable at run time but does not work
-
-# Install and cache app dependencies
+# install and cache app dependencies
 COPY package.json /usr/src/app/package.json
-RUN npm install
-RUN npm install react-scripts@1.1.1 -g
+RUN npm install --silent
+RUN npm install react-scripts@1.1.1 -g --silent
 
-# Start app
+# start app
 CMD ["npm", "start"]

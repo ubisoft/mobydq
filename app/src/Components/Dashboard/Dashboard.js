@@ -14,7 +14,8 @@ class Dashboard extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          Some awesome Ux lalala
+          Some awesome Ux lalalalalala
+          ENV URL PARAM: {process.env.REACT_APP_GRAPHQL_API_URL}
         </Typography>
       </React.Fragment>
      )
