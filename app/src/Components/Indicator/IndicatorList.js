@@ -5,10 +5,11 @@ import gql from "graphql-tag";
 import DataTable from '../Dashboard/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
-const IndicatorList = () => (
+const IndicatorList = (refetch) => (
 
   <Query
     query={IndicatorRepository.getIndicatorListByPage(100, 0)}
+    fetchPolicy={refetch ? 'cache-and-network': 'cache-first'}
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
@@ -16,8 +17,9 @@ const IndicatorList = () => (
       return(
         <div>
           Indicator list
-          <RouterButton targetLocation='/indicators/new' disabled={false} label="Add new indicator"/>
-          <RouterButton targetLocation='back' disabled={false} label="Indicator List"/>
+          <div style={{float: 'right'}}>
+            <RouterButton targetLocation='/indicators/new' disabled={false} label="Add new indicator"/>
+          </div>
           <DataTable data={data.allIndicators.nodes}/>
         </div>
       );
