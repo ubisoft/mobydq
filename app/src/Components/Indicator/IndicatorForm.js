@@ -86,10 +86,10 @@ const IndicatorFormFields = props => {
         <SwitchInput
           id="flagActive"
           label="Active"
-          helperText="Active"
           touched={touched.flagActive}
           error={touched.flagActive && errors.flagActive}
-          value={values.flagActive}
+          checked={values.flagActive}
+          value="flagActive"
           onChange={handleChange}
           onBlur={handleBlur}
         />
