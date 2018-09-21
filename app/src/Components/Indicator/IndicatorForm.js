@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
+import RouterButton from './../FormInput/RouterButton';
 import SwitchInput from './../FormInput/SwitchInput';
 
 const IndicatorFormFields = props => {
@@ -94,17 +95,11 @@ const IndicatorFormFields = props => {
         />
       </div>
       <div>
-        <SimpleButton
-          type="reset"
-          label="Reset"
-          onClick={handleReset}
-          disabled={!dirty || isSubmitting}
-        />
-        <SimpleButton
-          type="submit"
-          disabled={isSubmitting}
-          label="Submit"
-        />
+        <div style={{float: 'left'}}>
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
+        </div>
+        <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>
     </form>
   );
