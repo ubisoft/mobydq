@@ -1,6 +1,8 @@
 import gql from "graphql-tag";
 
-class IndicatorRepository {
+class IndicatorRepository{
+
+
   static getIndicatorListByPage(pageNumber, pageLength) {
     return gql`{
       allIndicators{
@@ -36,7 +38,7 @@ class IndicatorRepository {
       }`
   }
 
-  static insertIndicator() {
+  static insert() {
     return gql`
       mutation addNewIndicator($indicator: IndicatorInput!) {
         createIndicator(input: { indicator: $indicator }) {
