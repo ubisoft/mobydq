@@ -19,7 +19,7 @@ class Indicator extends React.Component {
            <Route
              exact
              path={match.url}
-             render={() => <IndicatorList/>}
+             render={() => <IndicatorList refetch />}
             />
         </Typography>
       </React.Fragment>

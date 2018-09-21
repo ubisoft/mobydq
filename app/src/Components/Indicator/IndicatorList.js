@@ -5,10 +5,11 @@ import gql from "graphql-tag";
 import DataTable from '../Dashboard/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
-const IndicatorList = () => (
+const IndicatorList = (refetch) => (
 
   <Query
     query={IndicatorRepository.getIndicatorListByPage(100, 0)}
+    fetchPolicy={refetch ? 'cache-and-network': 'cache-first'}
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
