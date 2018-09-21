@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NumberFormat from 'react-number-format';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -16,6 +15,7 @@ const TextInput = ({
   onChange,
   className,
   numeric,
+
   ...props
 }) => {
   return (
@@ -30,9 +30,7 @@ const TextInput = ({
               helperText={helperText}
               onChange={onChange}
               value={value}
-              InputProps={{
-               inputComponent: numeric ? NumberFormat : null,
-              }}
+              type={numeric ? 'number' : 'text'}
               {...props}
             />
           </React.Fragment>
@@ -45,7 +43,6 @@ const TextInput = ({
 };
 
 export default TextInput;
-
 
 TextInput.propTypes = {
   id: PropTypes.string.isRequired,
