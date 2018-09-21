@@ -8,7 +8,7 @@ import RouterButton from './../../Components/FormInput/RouterButton';
 const IndicatorList = (refetch) => (
 
   <Query
-    query={IndicatorRepository.getIndicatorListByPage(100, 0)}
+    query={IndicatorRepository.getByPage(1, 10)}
     fetchPolicy={refetch ? 'cache-and-network': 'cache-first'}
   >
     {({ loading, error, data }) => {
