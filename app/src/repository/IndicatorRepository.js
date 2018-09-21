@@ -1,8 +1,6 @@
 import gql from "graphql-tag";
 
-class IndicatorRepository{
-
-
+class IndicatorRepository {
   static getIndicatorListByPage(pageNumber, pageLength) {
     return gql`{
       allIndicators{
