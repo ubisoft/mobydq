@@ -1,48 +1,10 @@
 import React from 'react';
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import { withRouter } from 'react-router-dom';
-import { graphql, compose, Mutation } from "react-apollo";
 import { withFormik, Formik } from 'formik';
 import * as Yup from 'yup';
-import { styles } from './../../styles/baseStyles';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import DataTable from '../Dashboard/DataTable';
-
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 import SwitchInput from './../FormInput/SwitchInput';
-import IndicatorRepository  from './../../repository/IndicatorRepository';
-
-
-const IndicatorForm = ({history}) => (
-  <Query
-    query={IndicatorRepository.getFormDropdownData()}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
-      return(
-       <Mutation mutation={IndicatorRepository.insertIndicator()} onCompleted={() => {history.push('/indicators/');}}>
-        {(addIndicator, { loading, error }) => (
-          <React.Fragment>
-            <div style={{marginLeft: '60px'}}>Add New Indicator</div>
-            <EnhancedIndicatorForm
-              data={data}
-              mutate={addIndicator}
-            />
-            {loading && <p>Loading...</p>}
-            {error && <p>Error :( Please try again</p>}
-
-          </React.Fragment>
-        )}
-        </Mutation>
-      );
-    }}
-  </Query>
-);
 
 const IndicatorFormFields = props => {
   const {
@@ -180,4 +142,4 @@ const formikEnhancer = withFormik({
 
 const EnhancedIndicatorForm = formikEnhancer(IndicatorFormFields);
 
-export default IndicatorForm;
+export default EnhancedIndicatorForm;
