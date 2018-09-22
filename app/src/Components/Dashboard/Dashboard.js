@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from './../../styles/baseStyles'
+import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
