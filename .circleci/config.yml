@@ -75,7 +75,6 @@ jobs:
       - run:
           name: Install Python 3.6
           command: |
-            python --version
             sudo apt-get install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt-get update
@@ -84,7 +83,10 @@ jobs:
       - run:
           name: Install Python dependencies
           command: |
-            python --version
+            sudo python3 -m venv dq
+            sudo source dq/bin/activate
+            sudo python --version
+            sudo pip3 install --upgrade pip
             sudo pip3 install -r api/init/requirements.txt
             sudo pip3 install -r scripts/init/requirements.txt
             sudo pip3 install nose2
