@@ -103,9 +103,6 @@ jobs:
             sudo pip install -r api/init/requirements.txt
             sudo pip install -r scripts/init/requirements.txt
             sudo pip install nose2
-            sudo export PYTHONPATH=./test:$PYTHONPATH
-            sudo export PYTHONPATH=./api/init:$PYTHONPATH
-            sudo export PYTHONPATH=./scripts/init:$PYTHONPATH
 
       - run:
           name: Create configuration file
@@ -116,8 +113,9 @@ jobs:
       - run:
           name: Run tests
           command: |
-            pwd
-            echo $PYTHONPATH
+            echo 'export PYTHONPATH=./test:$PYTHONPATH' >> $BASH_ENV
+            echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
+            echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
