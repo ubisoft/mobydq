@@ -40,6 +40,16 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml build graphql
 
+  build_test_containers:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build test containers
+          command: |
+            cd test
+            docker-compose build
+
   run_containers:
     machine: true
     steps:
@@ -58,16 +68,10 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
 
-  build_test_containers:
+  run_test_containers:
     machine: true
     steps:
       - checkout
-      - run:
-          name: Build test containers
-          command: |
-            cd test
-            docker-compose build
-
       - run:
           name: Start test containers
           command: |
@@ -151,12 +155,15 @@ workflows:
     jobs:
       - build_db_container
       - build_graphql_container
+      - build_test_containers
       - run_containers:
           requires:
             - build_db_container
             - build_graphql_container
-      - build_test_containers
+      - run_test_containers:
+          requires:
+            - build_test_containers
       - execute_test:
           requires:
-            - build_application_containers
-            - build_test_containers
+            - run_containers
+            - run_test_containers
