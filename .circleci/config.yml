@@ -73,12 +73,12 @@ jobs:
             sudo mv -f ./scripts/init/odbcinst.ini /etc
 
       - run:
-          name: Install Python 3.6 environment
+          name: Install Python 3 environment
           command: |
             sudo apt-get install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt-get update
-            sudo apt-get install python3.6
+            sudo apt-get install python3
             sudo apt-get install python3-venv
             sudo python3 -m venv dq
 
