@@ -1,67 +1,90 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+    machine: true
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      - run:
+          name: Build application containers
+          command: |
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api scripts app
 
       - run:
-          name: Create Virtual Environment
+          name: Start application containers
           command: |
-            python3 -m venv dq
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
 
       - run:
-          name: Install Dependencies
+          name: Build test containers
           command: |
-            sudo apt-get install unixodbc-dev
-            . dq/bin/activate
-            pip3 install --upgrade pip
-            pip3 install -r requirements.txt
-
-      - save_cache:
-          paths:
-            - ./dq
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+            cd test
+            docker-compose build
 
       - run:
-          name: Setup Instance
+          name: Start test containers
           command: |
-            . dq/bin/activate
-            python3 setup.py
+            cd test
+            docker-compose up -d
+
+  test:
+    docker:
+      - image: circleci/python:3.6.6-stretch-browsers-legacy
+    steps:
+      - checkout
+      - run:
+          name: Install Unix ODBC
+          command: |
+            apt-get install -y unixodbc-dev
 
       - run:
-          name: Start API
+          name: Install FreeTDS ODBC driver
           command: |
-            . dq/bin/activate
-            python3 api/run.py
-          background: true
+            apt-get install -y tdsodbc
 
       - run:
-          name: Run Tests
+          name: Install MySQL ODBC driver
           command: |
-            . dq/bin/activate
+            tar xvzf ./scripts/init/drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
+            cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
+            rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
+
+      - run:
+          name: Install PostgreSQL ODBC driver
+          command: |
+            apt-get install -y odbc-postgresql
+
+      - run:
+          name: Install Teradata ODBC driver
+          command: |
+            tar xvzf ./scripts/init/drivers/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
+            dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
+            rm -R ./tdodbc1620
+
+      - run:
+          name: Move ODBC configuration file
+          command: |
+            mv -f ./scripts/init/odbcinst.ini /etc
+
+      - run:
+          name: Install Python dependencies
+          command: |
+            pip install --upgrade pip
+            pip install -r api/init/requirements.txt
+            pip install -r scripts/init/requirements.txt
+            pip install nose2
+            export PYTHONPATH=./test:$PYTHONPATH
+            export PYTHONPATH=./api/init:$PYTHONPATH
+            export PYTHONPATH=./scripts/init:$PYTHONPATH
+
+      - run:
+          name: Create configuration file
+          command: |
+            echo "[graphql]" >> ./scripts.cfg \
+            echo "url = http://0.0.0.0:5433/graphql" >> ./scripts.cfg
+
+      - run:
+          name: Run tests
+          command: |
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
