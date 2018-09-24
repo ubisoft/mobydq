@@ -79,7 +79,7 @@ jobs:
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt-get update
             sudo apt-get install python3.6
-            sudo apt-get install python3-ven
+            sudo apt-get install python3-venv
             sudo python3 -m venv dq
 
       - run:
