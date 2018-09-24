@@ -70,8 +70,8 @@ jobs:
       - run:
           name: Move ODBC configuration file
           command: |
-            sudo mv -f ./scripts/init/odbcinst.ini /etc
-            sudo mv -f ./scripts/init/odbcinst.ini /usr/local/etc
+            sudo cp ./scripts/init/odbcinst.ini /etc
+            sudo cp ./scripts/init/odbcinst.ini /usr/local/etc
 
       - run:
           name: Install Python 3 environment
