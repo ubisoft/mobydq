@@ -71,10 +71,9 @@ jobs:
           name: Move ODBC configuration file
           command: |
             sudo cp ./scripts/init/odbcinst.ini /etc
-            sudo cp ./scripts/init/odbcinst.ini /usr/local/etc
 
       - run:
-          name: Install Python 3 environment
+          name: Install Python environment
           command: |
             sudo apt-get install software-properties-common
             sudo add-apt-repository ppa:deadsnakes/ppa
@@ -103,8 +102,6 @@ jobs:
             echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
             echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             source $BASH_ENV
-            docker ps -a
-            cat /etc/odbcinst.ini
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
