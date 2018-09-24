@@ -184,7 +184,7 @@ class TestDb(unittest.TestCase):
         cursor = self.connection.execute(select_new_indicator_query)
         row = cursor.fetchone()
 
-        # Assert connectivity status is Pending
+        # Assert duplicated indicator name and parameter value
         name = row[0]
         value = row[0]
         self.assertEqual(name, new_test_case_name)
