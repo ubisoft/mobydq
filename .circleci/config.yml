@@ -5,7 +5,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build application containers
+          name: Create environment configuration file
           command: |
             echo "POSTGRES_USER=postgres" >> ./.env
             echo "POSTGRES_PASSWORD=password" >> ./.env
@@ -22,6 +22,12 @@ jobs:
           name: Build application containers
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api scripts app
+
+      - run:
+          name: Create Docker configuration
+          command: |
+            docker network create data-quality-network
+            docker volume create data-quality-db-volume
 
       - run:
           name: Start application containers
