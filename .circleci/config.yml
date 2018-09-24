@@ -17,7 +17,8 @@ version: 2
 jobs:
 
   build_application_containers:
-    machine: true
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
       - run:
@@ -102,9 +103,9 @@ jobs:
             sudo pip install -r api/init/requirements.txt
             sudo pip install -r scripts/init/requirements.txt
             sudo pip install nose2
-            export PYTHONPATH=./test:$PYTHONPATH
-            export PYTHONPATH=./api/init:$PYTHONPATH
-            export PYTHONPATH=./scripts/init:$PYTHONPATH
+            sudo export PYTHONPATH=./test:$PYTHONPATH
+            sudo export PYTHONPATH=./api/init:$PYTHONPATH
+            sudo export PYTHONPATH=./scripts/init:$PYTHONPATH
 
       - run:
           name: Create configuration file
