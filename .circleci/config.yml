@@ -23,7 +23,6 @@ jobs:
       - run:
           name: Build Docker images
           command: |
-            docker pull graphile/postgraphile:latest
             docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql
             docker-compose -f ./test/docker-compose.yml build
 
