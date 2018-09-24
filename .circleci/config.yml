@@ -73,7 +73,7 @@ jobs:
             sudo mv -f ./scripts/init/odbcinst.ini /etc
 
       - run:
-          name: Install Python dependencies
+          name: Install Python 3.6
           command: |
             python --version
             sudo apt-get install software-properties-common
@@ -82,12 +82,12 @@ jobs:
             sudo apt-get install python3.6
 
       - run:
-        name: Install Python dependencies
-        command: |
-          python --version
-          sudo pip3 install -r api/init/requirements.txt
-          sudo pip3 install -r scripts/init/requirements.txt
-          sudo pip3 install nose2
+          name: Install Python dependencies
+          command: |
+            python --version
+            sudo pip3 install -r api/init/requirements.txt
+            sudo pip3 install -r scripts/init/requirements.txt
+            sudo pip3 install nose2
 
       - run:
           name: Create configuration file
