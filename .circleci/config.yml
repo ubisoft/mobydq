@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Install Python dependencies
           command: |
-            #sudo pip3 install -r api/init/requirements.txt
+            #sudo pip3 install -r api/init/requirements.txt --ignore-installed urllib3
             sudo pip3 install -r scripts/init/requirements.txt
             sudo pip3 install nose2
 
