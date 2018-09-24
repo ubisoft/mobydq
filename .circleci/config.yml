@@ -1,18 +1,3 @@
-# .circleci/config.yml
-defaults: &defaults
-  name: Create environment configuration file
-  command: |
-    echo "POSTGRES_USER=postgres" >> ./.env
-    echo "POSTGRES_PASSWORD=password" >> ./.env
-    echo "DATABASE_URL=postgres://postgres:password@db:5432/data_quality" >> ./.env
-    echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
-    echo "MAIL_HOST=smtp.server.org" >> ./.env
-    echo "MAIL_PORT=25" >> ./.env
-    echo "POSTGRES_PASSWORD=123" >> ./.env
-    echo "MAIL_SENDER=change@me.com" >> ./.env
-    echo "NODE_ENV=development" >> ./.env
-    echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
-
 version: 2
 jobs:
 
@@ -21,7 +6,18 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *defaults
+          name: Create environment configuration file
+          command: |
+            echo "POSTGRES_USER=postgres" >> ./.env
+            echo "POSTGRES_PASSWORD=password" >> ./.env
+            echo "DATABASE_URL=postgres://postgres:password@db:5432/data_quality" >> ./.env
+            echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
+            echo "MAIL_HOST=smtp.server.org" >> ./.env
+            echo "MAIL_PORT=25" >> ./.env
+            echo "POSTGRES_PASSWORD=123" >> ./.env
+            echo "MAIL_SENDER=change@me.com" >> ./.env
+            echo "NODE_ENV=development" >> ./.env
+            echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
 
       - run:
           name: Build application containers
@@ -39,10 +35,6 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
 
-  build_test_containers:
-    machine: true
-    steps:
-      - checkout
       - run:
           name: Build test containers
           command: |
@@ -55,11 +47,6 @@ jobs:
             cd test
             docker-compose up -d
 
-  execute_test:
-    docker:
-      - image: circleci/python:3.6.6-stretch-browsers-legacy
-    steps:
-      - checkout
       - run:
           name: Install Unix ODBC
           command: |
@@ -124,14 +111,3 @@ jobs:
 
       - store_test_results:
           path: test
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build_application_containers
-      - build_test_containers
-      - execute_test:
-          requires:
-            - build_application_containers
-            - build_test_containers
