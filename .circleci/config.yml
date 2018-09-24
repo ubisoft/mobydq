@@ -8,6 +8,71 @@ jobs:
       - checkout
 
       - run:
+          name: Create environment configuration file
+          command: |
+            echo "POSTGRES_USER=postgres" >> ./.env
+            echo "POSTGRES_PASSWORD=password" >> ./.env
+            echo "DATABASE_URL=postgres://postgres:password@db:5432/data_quality" >> ./.env
+            echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
+            echo "MAIL_HOST=smtp.server.org" >> ./.env
+            echo "MAIL_PORT=25" >> ./.env
+            echo "POSTGRES_PASSWORD=123" >> ./.env
+            echo "MAIL_SENDER=change@me.com" >> ./.env
+            echo "NODE_ENV=development" >> ./.env
+            echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
+
+      - run:
+          name: Build Docker images
+          command: |
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql
+            docker-compose -f ./test/docker-compose.yml build
+
+      - run:
+          name: Run Docker containers
+          command: |
+            docker network create data-quality-network
+            docker volume create data-quality-db-volume
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
+            docker-compose -f ./test/docker-compose.yml up -d
+            docker ps -a
+
+      - run:
+          name: Install Unix ODBC
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y unixodbc-dev
+
+      - run:
+          name: Install FreeTDS ODBC driver
+          command: |
+            sudo apt-get install -y tdsodbc
+
+      - run:
+          name: Install MySQL ODBC driver
+          command: |
+            sudo tar xvzf ./scripts/init/drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
+            sudo cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
+            sudo rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
+
+      - run:
+          name: Install PostgreSQL ODBC driver
+          command: |
+            sudo apt-get install -y odbc-postgresql
+
+      - run:
+          name: Install Teradata ODBC driver
+          command: |
+            sudo apt-get install -y lib32stdc++6
+            sudo tar xvzf ./scripts/init/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
+            sudo dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
+            sudo rm -R ./tdodbc1620
+
+      - run:
+          name: Move ODBC configuration file
+          command: |
+            sudo mv -f ./scripts/init/odbcinst.ini /etc
+
+      - run:
           name: Install Python 3 environment
           command: |
             sudo apt-get install software-properties-common
