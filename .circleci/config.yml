@@ -17,6 +17,13 @@ jobs:
             sudo apt-get install python3-pip
 
       - run:
+          name: test
+          command: |
+            sudo apt-get remove python-urllib3
+            sudo apt-get purge python-urllib3
+            sudo pip3 install --upgrade pip
+
+      - run:
           name: Install Python dependencies
           command: |
             sudo pip3 install -r api/init/requirements.txt
