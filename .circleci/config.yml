@@ -102,7 +102,6 @@ jobs:
             echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
             echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             source $BASH_ENV
-            sudo source dq/bin/activate
             docker ps -a
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
