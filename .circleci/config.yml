@@ -56,8 +56,7 @@ jobs:
             docker-compose up -d
 
   execute_test:
-    docker:
-      - image: circleci/python:3.6.6-stretch-browsers-legacy
+    machine: true
     steps:
       - checkout
       - run:
