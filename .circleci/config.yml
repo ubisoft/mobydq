@@ -1,10 +1,10 @@
 version: 2
 jobs:
-
   build:
-    machine: true
+    docker:
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Create environment configuration file
           command: |
