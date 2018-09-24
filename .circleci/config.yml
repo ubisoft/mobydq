@@ -81,7 +81,8 @@ jobs:
       - run:
           name: Install Unix ODBC
           command: |
-            sudo apt-get install -y g++ unixodbc-dev
+            sudo apt-get update
+            sudo apt-get install -y unixodbc-dev
 
       - run:
           name: Install FreeTDS ODBC driver
