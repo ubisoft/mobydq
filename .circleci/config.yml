@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_application_containers:
     machine: true
     steps:
       - checkout
@@ -34,6 +34,10 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
 
+  build_test_containers:
+    machine: true
+    steps:
+      - checkout
       - run:
           name: Build test containers
           command: |
@@ -46,7 +50,7 @@ jobs:
             cd test
             docker-compose up -d
 
-  test:
+  execute_test:
     docker:
       - image: circleci/python:3.6.6-stretch-browsers-legacy
     steps:
@@ -54,44 +58,44 @@ jobs:
       - run:
           name: Install Unix ODBC
           command: |
-            apt-get install -y unixodbc-dev
+            sudo apt-get install -y unixodbc-dev
 
       - run:
           name: Install FreeTDS ODBC driver
           command: |
-            apt-get install -y tdsodbc
+            sudo apt-get install -y tdsodbc
 
       - run:
           name: Install MySQL ODBC driver
           command: |
-            tar xvzf ./scripts/init/drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
-            cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
-            rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
+            sudo tar xvzf ./scripts/init/drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
+            sudo cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
+            sudo rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
       - run:
           name: Install PostgreSQL ODBC driver
           command: |
-            apt-get install -y odbc-postgresql
+            sudo apt-get install -y odbc-postgresql
 
       - run:
           name: Install Teradata ODBC driver
           command: |
-            tar xvzf ./scripts/init/drivers/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
-            dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
-            rm -R ./tdodbc1620
+            sudo tar xvzf ./scripts/init/drivers/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
+            sudo dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
+            sudo rm -R ./tdodbc1620
 
       - run:
           name: Move ODBC configuration file
           command: |
-            mv -f ./scripts/init/odbcinst.ini /etc
+            sudo mv -f ./scripts/init/odbcinst.ini /etc
 
       - run:
           name: Install Python dependencies
           command: |
-            pip install --upgrade pip
-            pip install -r api/init/requirements.txt
-            pip install -r scripts/init/requirements.txt
-            pip install nose2
+            sudo pip install --upgrade pip
+            sudo pip install -r api/init/requirements.txt
+            sudo pip install -r scripts/init/requirements.txt
+            sudo pip install nose2
             export PYTHONPATH=./test:$PYTHONPATH
             export PYTHONPATH=./api/init:$PYTHONPATH
             export PYTHONPATH=./scripts/init:$PYTHONPATH
@@ -99,8 +103,8 @@ jobs:
       - run:
           name: Create configuration file
           command: |
-            echo "[graphql]" >> ./scripts.cfg \
-            echo "url = http://0.0.0.0:5433/graphql" >> ./scripts.cfg
+            echo "[graphql]" >> ./scripts/init/scripts.cfg
+            echo "url = http://0.0.0.0:5433/graphql" >> ./scripts/init/scripts.cfg
 
       - run:
           name: Run tests
@@ -118,7 +122,9 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - test:
+      - build_application_containers
+      - build_test_containers
+      - execute_test:
           requires:
-            - build
+            - build_application_containers
+            - build_test_containers
