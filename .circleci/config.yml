@@ -14,13 +14,11 @@ jobs:
             sudo add-apt-repository ppa:deadsnakes/ppa
             sudo apt-get update
             sudo apt-get install python3.6
-            sudo python3.6 --version
-            sudo python3.6 -m venv dq
+            sudo apt-get install python3.6-pip
 
       - run:
           name: Install Python dependencies
           command: |
-            sudo source dq/bin/activate
             sudo python3.6 --version
             sudo pip3 install --upgrade pip
             sudo pip3 install -r api/init/requirements.txt
