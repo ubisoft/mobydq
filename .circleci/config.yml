@@ -58,6 +58,9 @@ jobs:
           name: Install PostgreSQL ODBC driver
           command: |
             sudo apt-get install -y odbc-postgresql
+            cat /etc/odbcinst.ini
+            cd /usr/lib/x86_64-linux-gnu/odbc/
+            ls -l
 
       - run:
           name: Install Teradata ODBC driver
