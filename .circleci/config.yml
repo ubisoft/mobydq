@@ -58,9 +58,6 @@ jobs:
           name: Install PostgreSQL ODBC driver
           command: |
             sudo apt-get install -y odbc-postgresql
-            cat /etc/odbcinst.ini
-            cd /usr/lib/x86_64-linux-gnu/odbc/
-            ls -l
 
       - run:
           name: Install Teradata ODBC driver
@@ -74,8 +71,6 @@ jobs:
           name: Move ODBC configuration file
           command: |
             sudo mv -f ./scripts/init/odbcinst.ini /etc
-            odbcinst -j
-            cat /etc/odbcinst.ini
 
       - run:
           name: Install Python 3 environment
