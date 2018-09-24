@@ -19,9 +19,6 @@ jobs:
       - run:
           name: Install Python dependencies
           command: |
-            sudo apt-get remove python-urllib3
-            sudo apt-get purge python-urllib3
-            sudo pip3 install --upgrade pip
             sudo pip3 install -r api/init/requirements.txt
             sudo pip3 install -r scripts/init/requirements.txt
             sudo pip3 install nose2
