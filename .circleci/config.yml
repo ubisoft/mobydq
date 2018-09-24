@@ -103,6 +103,7 @@ jobs:
             echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             source $BASH_ENV
             docker ps -a
+            cat /etc/odbcinst.ini
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
       - store_artifacts:
