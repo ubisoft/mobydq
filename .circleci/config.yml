@@ -16,7 +16,6 @@ jobs:
             echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
             echo "MAIL_HOST=smtp.server.org" >> ./.env
             echo "MAIL_PORT=25" >> ./.env
-            echo "POSTGRES_PASSWORD=123" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
             echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
