@@ -16,7 +16,7 @@ defaults: &defaults
 version: 2
 jobs:
 
-  build_application_containers:
+  build_db_container:
     machine: true
     steps:
       - checkout
@@ -24,9 +24,28 @@ jobs:
           <<: *defaults
 
       - run:
-          name: Build application containers
+          name: Build data-quality-db container
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api scripts app
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db
+
+  build_graphql_container:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          <<: *defaults
+
+      - run:
+          name: Build data-quality-graphql container
+          command: |
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build graphql
+
+  run_containers:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          <<: *defaults
 
       - run:
           name: Create Docker configuration
@@ -37,7 +56,7 @@ jobs:
       - run:
           name: Start application containers
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
 
   build_test_containers:
     machine: true
@@ -62,7 +81,7 @@ jobs:
       - run:
           name: Install Unix ODBC
           command: |
-            sudo apt-get install -y unixodbc-dev
+            sudo apt-get install -y g++ unixodbc-dev
 
       - run:
           name: Install FreeTDS ODBC driver
@@ -129,7 +148,12 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_application_containers
+      - build_db_container
+      - build_graphql_container
+      - run_containers:
+          requires:
+            - build_db_container
+            - build_graphql_container
       - build_test_containers
       - execute_test:
           requires:
