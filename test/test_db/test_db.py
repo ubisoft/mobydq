@@ -142,6 +142,54 @@ class TestDb(unittest.TestCase):
         connectivity_status = row[0]
         self.assertEqual(connectivity_status, 'Pending')
 
+    def test_function_duplicate_indicator(self):
+        # Insert test indicator group
+        test_case_name = TestDb.get_test_case_name()
+        insert_indicator_group_query = "INSERT INTO base.indicator_group (name) VALUES ('{}');".format(test_case_name)
+        self.connection.execute(insert_indicator_group_query)
+        self.connection.commit()
+
+        # Get test indicator group Id
+        select_indicator_group_query = "SELECT id FROM base.indicator_group WHERE name = '{}';".format(test_case_name)
+        cursor = self.connection.execute(select_indicator_group_query)
+        row = cursor.fetchone()
+        indicator_group_id = row[0]
+
+        # Insert test indicator
+        insert_indicator_query = """INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id)
+        VALUES ('{}', true, 1, {});""".format(test_case_name, indicator_group_id)
+        self.connection.execute(insert_indicator_query)
+        self.connection.commit()
+
+        # Get test indicator Id
+        select_indicator_query = "SELECT id FROM base.indicator WHERE name = '{}';".format(test_case_name)
+        cursor = self.connection.execute(select_indicator_query)
+        row = cursor.fetchone()
+        indicator_id = row[0]
+
+        # Insert test parameter
+        insert_parameter_query = "INSERT INTO base.parameter (value, indicator_id, parameter_type_id) VALUES ('{}', {}, 1);".format(test_case_name, indicator_id)
+        self.connection.execute(insert_parameter_query)
+        self.connection.commit()
+
+        # Call test duplicate indicator function
+        new_test_case_name = TestDb.get_test_case_name()
+        call_test_duplicate_indicator_query = "SELECT base.duplicate_indicator({}, '{}');".format(indicator_id, new_test_case_name)
+        self.connection.execute(call_test_duplicate_indicator_query)
+
+        # Get new indicator and parameter
+        select_new_indicator_query = """SELECT a.name, b.value FROM base.indicator a
+        INNER JOIN base.parameter b ON a.id=b.indicator_id
+        WHERE name = '{}';""".format(new_test_case_name)
+        cursor = self.connection.execute(select_new_indicator_query)
+        row = cursor.fetchone()
+
+        # Assert connectivity status is Pending
+        name = row[0]
+        value = row[0]
+        self.assertEqual(name, new_test_case_name)
+        self.assertEqual(value, new_test_case_name)
+
     @classmethod
     def tearDownClass(self):
         self.connection.close()
