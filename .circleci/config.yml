@@ -113,3 +113,12 @@ jobs:
 
       - store_test_results:
           path: test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
