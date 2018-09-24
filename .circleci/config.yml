@@ -80,7 +80,7 @@ jobs:
       - run:
           name: Install Teradata ODBC driver
           command: |
-            sudo tar xvzf ./scripts/init/drivers/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
+            sudo tar xvzf ./scripts/init/drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
             sudo dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
             sudo rm -R ./tdodbc1620
 
