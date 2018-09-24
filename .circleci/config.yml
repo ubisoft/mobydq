@@ -2,7 +2,7 @@
 version: 2
 jobs:
 
-  build_db_container:
+  build:
     machine: true
     steps:
       - checkout
