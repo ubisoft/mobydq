@@ -21,15 +21,9 @@ class DataSourceRepository {
   static getFormDropdownData() {
     return gql`
       {
-        allIndicatorTypes {
-          nodes {
-            id
-            name
-          }
-        }
-        allIndicatorGroups {
-          nodes {
-            id
+        allDataSourceTypes {
+          nodes{
+            id,
             name
           }
         }

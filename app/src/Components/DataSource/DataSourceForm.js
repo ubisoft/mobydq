@@ -47,6 +47,16 @@ const DataSourceFormFields = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        <SelectInput
+          id="dataSourceTypeId"
+          label="Data Source Type"
+          items={data.allDataSourceTypes.nodes}
+          touched={touched.dataSourceTypeId}
+          error={touched.dataSourceTypeId && errors.dataSourceTypeId}
+          value={values.dataSourceTypeId}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
         </div>
         <div>
         <TextInput
