@@ -44,6 +44,8 @@ class IndicatorRepository {
             id
             name
             description
+            createdDate
+            updatedDate
           }
         }
       }`
