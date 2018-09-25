@@ -22,7 +22,7 @@ class Indicator extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => ( <BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                  afterSaveRoute='/indicators/' title='Add New Indicator' {...props} /> )
+                  afterSaveRoute='/indicator/' title='Add New Indicator' {...props} /> )
             }
           />
           <Route

@@ -10,8 +10,8 @@ const Content = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Dashboard}/>
-      <Route path='/indicators' component={ (props) => (<Indicator {...props} />)} />
-      <Route path='/indicator-groups' component={IndicatorGroup}/>
+      <Route path='/indicator' component={ (props) => (<Indicator {...props} />)} />
+      <Route path='/indicator-group' component={IndicatorGroup}/>
       <Route path='/data-sources' component={DataSourceList}/>
       <Route path='/admin' component={Admin}/>
     </Switch>

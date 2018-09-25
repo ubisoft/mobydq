@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import RouterButton from './../../Components/FormInput/RouterButton';
 import IndicatorGroupList from './IndicatorGroupList';
-//import EnhancedIndicatorForm from './IndicatorForm';
-//import IndicatorRepository from './../../repository/IndicatorRepository';
+import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
+import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
 
 import BaseForm from './../Base/Form'
 
@@ -20,10 +20,10 @@ class IndicatorGroup extends React.Component {
         <Typography variant='display1' gutterBottom className={classes.chartContainer}>
           <Route
             path={`${match.url}/new`}
-//            component={
-//              (props) => ( <BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-//                  afterSaveRoute='/indicators/' title='Add New Indicator' {...props} /> )
-//            }
+            component={
+              (props) => ( <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
+                  afterSaveRoute='/indicator-group/' title='Add New Indicator Group' {...props} /> )
+            }
           />
           <Route
             exact

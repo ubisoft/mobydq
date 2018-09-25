@@ -16,7 +16,7 @@ const IndicatorList = (refetch) => (
         <div>
           Indicator list
           <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/indicators/new' disabled={false} label="Add new indicator"/>
+            <RouterButton targetLocation='/indicator/new' disabled={false} label="Add new indicator"/>
           </div>
           <DataTable data={data.allIndicators.nodes}/>
         </div>
