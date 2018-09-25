@@ -19,12 +19,6 @@ class IndicatorGroupRepository {
   static getFormDropdownData() {
     return gql`
       {
-        allIndicatorTypes {
-          nodes {
-            id
-            name
-          }
-        }
         allIndicatorGroups {
           nodes {
             id
@@ -36,12 +30,13 @@ class IndicatorGroupRepository {
 
   static insert() {
     return gql`
-      mutation addNewIndicator($indicator: IndicatorInput!) {
-        createIndicator(input: { indicator: $indicator }) {
-          indicator {
+      mutation addNewIndicatorGroup($indicatorGroup: IndicatorGroupInput!) {
+        createIndicatorGroup(input: { indicatorGroup: $indicatorGroup }) {
+          indicatorGroup {
             id
             name
-            description
+            createdDate
+            updatedDate
           }
         }
       }`
