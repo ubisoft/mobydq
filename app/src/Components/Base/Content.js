@@ -4,7 +4,7 @@ import Dashboard from './../Dashboard/Dashboard';
 import Indicator from './../Indicator/Indicator';
 import IndicatorGroup from './../IndicatorGroup/IndicatorGroup';
 import Admin from './../Admin/Admin';
-import DataSourceList from './../DataSource/DataSourceList';
+import DataSource from './../DataSource/DataSource';
 
 const Content = () => (
   <main>
@@ -12,7 +12,7 @@ const Content = () => (
       <Route exact path='/' component={Dashboard}/>
       <Route path='/indicator' component={ (props) => (<Indicator {...props} />)} />
       <Route path='/indicator-group' component={IndicatorGroup}/>
-      <Route path='/data-sources' component={DataSourceList}/>
+      <Route path='/data-source' component={DataSource}/>
       <Route path='/admin' component={Admin}/>
     </Switch>
   </main>

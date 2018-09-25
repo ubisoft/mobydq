@@ -40,7 +40,7 @@ const IndicatorFormFields = props => {
           id="description"
           label="Indicator Description"
           helperText=""
-          placeholder="Enter description name"
+          placeholder="Enter decription name"
           touched={touched.description}
           error={touched.description && errors.description}
           value={values.description}
