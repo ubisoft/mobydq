@@ -23,18 +23,14 @@ jobs:
       - run:
           name: Build Docker images
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api app
-            docker-compose -f ./test/docker-compose.yml build
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db
 
       - run:
           name: Run Docker containers
           command: |
             docker network create data-quality-network
             docker volume create data-quality-db-volume
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api app
-            docker-compose -f ./test/docker-compose.yml up -d
-            cd test/db-sqlite
-            bash database.sh
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db
             docker ps -a
 
       - run:
@@ -74,6 +70,13 @@ jobs:
             sudo cp ./scripts/init/odbcinst.ini /etc
 
       - run:
+          name: Show ODBC configuration file
+          command: |
+            cat /etc/odbcinst.ini
+            cd /usr/lib/x86_64-linux-gnu/odbc/
+            ls -l
+
+      - run:
           name: Install Python environment
           command: |
             sudo apt-get install software-properties-common
@@ -86,29 +89,16 @@ jobs:
           name: Install Python dependencies
           command: |
             sudo pip3 install --upgrade pip
-            sudo pip3 install -r api/init/requirements.txt --ignore-installed urllib3
-            sudo pip3 install -r scripts/init/requirements.txt
-            sudo pip3 install nose2
+            sudo pip3 install pyodbc
 
       - run:
-          name: Create tests configuration file
+          name: Test Pyodbc connection to postgreSQL
           command: |
-            echo "[graphql]" >> ./scripts/init/scripts.cfg
-            echo "url = http://0.0.0.0:5433/graphql" >> ./scripts/init/scripts.cfg
-
-      - run:
-          name: Run backend tests
-          command: |
-            echo 'export PYTHONPATH=./test:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
-            source $BASH_ENV
-            nose2 --plugin nose2.plugins.junitxml --junit-xml -v
-
-      - run:
-          name: Run frontend tests
-          command: |
-            docker exec -it data-quality-app npm test -- --coverage
+            python3
+            import pyodbc
+            conn = 'driver={PostgreSQL Unicode};server=0.0.0.0;port=5432;database=data_quality;pwd=password;uid=postgres;'
+            connection = pyodbc.connect(conn)
+            exit()
 
       - store_artifacts:
           path: test/junit/test-results.xml
