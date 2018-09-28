@@ -90,14 +90,13 @@ jobs:
           command: |
             sudo pip3 install --upgrade pip
             sudo pip3 install pyodbc
+            sudo pip3 list
 
       - run:
           name: Test Pyodbc connection to postgreSQL
           command: |
             python3.6 -V
-            pip list
-            pip3 list
-            python ./test/test_pyodbc.py
+            python3.6 ./test/test_pyodbc.py
 
       - store_artifacts:
           path: test/junit/test-results.xml
