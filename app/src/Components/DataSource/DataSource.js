@@ -4,13 +4,13 @@ import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import RouterButton from './../../Components/FormInput/RouterButton';
-import IndicatorList from './IndicatorList';
-import EnhancedIndicatorForm from './IndicatorForm';
-import IndicatorRepository from './../../repository/IndicatorRepository';
+import DataSourceList from './DataSourceList';
+import EnhancedDataSourceForm from './DataSourceForm';
+import DataSourceRepository from './../../repository/DataSourceRepository';
 
-import BaseForm from './../Base/Form'
+import BaseForm from './../Base/Form';
 
-class Indicator extends React.Component {
+class DataSource extends React.Component {
   render() {
     const { classes } = this.props;
     const { match } = this.props;
@@ -21,18 +21,18 @@ class Indicator extends React.Component {
           <Route
             path={`${match.url}/new`}
             component={
-              (props) => ( <BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                  afterSaveRoute='/indicator/' title='Add New Indicator' {...props} /> )
+              (props) => ( <BaseForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
+                  afterSaveRoute='/data-source/' title='Add New Data Source' {...props} /> )
             }
           />
           <Route
             exact
             path={match.url}
-            render={() => <IndicatorList refetch />}
+            render={() => <DataSourceList refetch />}
           />
         </Typography>
       </React.Fragment>
     )
   }
 }
-export default withStyles(styles)(Indicator);
+export default withStyles(styles)(DataSource);
