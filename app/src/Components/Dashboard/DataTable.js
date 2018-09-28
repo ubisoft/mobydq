@@ -49,12 +49,13 @@ class DataTable extends React.Component {
   }
 
   render() {
-    let tableFieldNames = Object.keys(this.props.data[0]);
-    //remove redundant element
-    tableFieldNames.pop();
     if (this.props.data === null || this.props.data.length === 0) {
       return (<React.Fragment/>)
     }
+
+    let tableFieldNames = Object.keys(this.props.data[0]);
+    //remove redundant element
+    tableFieldNames.pop();
 
     return (
       <Table>

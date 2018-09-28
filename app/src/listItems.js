@@ -19,19 +19,19 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-      <ListItem button component={Link} to="/indicators">
+      <ListItem button component={Link} to="/indicator">
       <ListItemIcon>
         <CategoryIcon />
       </ListItemIcon>
       <ListItemText primary="Indicators" />
     </ListItem>
-    <ListItem button component={Link} to="/indicator-groups">
+    <ListItem button component={Link} to="/indicator-group">
       <ListItemIcon>
         <ViewListIcon />
       </ListItemIcon>
       <ListItemText primary="Indicator Groups" />
     </ListItem>
-    <ListItem button component={Link} to="/data-sources">
+    <ListItem button component={Link} to="/data-source">
       <ListItemIcon>
         <DvrIcon />
       </ListItemIcon>

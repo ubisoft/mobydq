@@ -9,3 +9,14 @@ services:
   graphql:
     ports:
       - 5433:5433
+
+  app:
+    container_name: data-quality-app
+    build:
+      context: ./app
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './app:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 80:3000

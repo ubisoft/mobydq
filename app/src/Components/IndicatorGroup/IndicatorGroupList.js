@@ -1,49 +1,28 @@
 import React from 'react';
-import { styles } from './../../styles/baseStyles'
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import DataTable from '../Dashboard/DataTable'
+import IndicatorGroupRepository  from './../../repository/IndicatorGroupRepository';
+import DataTable from '../Dashboard/DataTable';
+import RouterButton from './../../Components/FormInput/RouterButton';
 
+const IndicatorGroupList = (refetch) => (
+  <Query
+    query={IndicatorGroupRepository.getListPage(1, 10)}
+    fetchPolicy={refetch ? 'cache-and-network': 'cache-first'}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error :(</p>;
+      return (
+        <div>
+          Indicator Group list
+          <div style={{float: 'right'}}>
+            <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Add new indicator group"/>
+          </div>
+          <DataTable data={data.allIndicatorGroups.nodes}/>
+        </div>
+      );
+    }}
+  </Query>
+);
 
-class IndicatorGroupList extends React.Component {
-  render() {
-    const { classes } = this.props;
-    const IndicatorGroupList = () => (
-      <Query
-        query={gql`
-          {
-            allIndicatorGroups {
-              nodes {
-                id
-                name
-                createdDate
-                updatedDate
-              }
-            }
-          }
-        `}
-      >
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error :(</p>;
-
-          return(
-            <DataTable data={data.allIndicatorGroups.nodes}/>
-          );
-        }}
-      </Query>
-    );
-    return (
-      <React.Fragment>
-        <div className={classes.appBarSpacer} />
-        <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          Indicator group
-            <IndicatorGroupList/>
-        </Typography>
-      </React.Fragment>
-     )
-  }
-}
-export default withStyles(styles)(IndicatorGroupList);
+export default IndicatorGroupList;
