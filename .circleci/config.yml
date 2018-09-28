@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Build Docker images
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql app
             docker-compose -f ./test/docker-compose.yml build
 
       - run:
@@ -31,7 +31,7 @@ jobs:
           command: |
             docker network create data-quality-network
             docker volume create data-quality-db-volume
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql app
             docker-compose -f ./test/docker-compose.yml up -d
             cd test/db-sqlite
             bash database.sh
@@ -94,6 +94,10 @@ jobs:
           command: |
             echo "[graphql]" >> ./scripts/init/scripts.cfg
             echo "url = http://0.0.0.0:5433/graphql" >> ./scripts/init/scripts.cfg
+      - run:
+          name: Run Frontend tests
+          command: |
+            docker exec -it data-quality-app npm test -- --coverage
 
       - run:
           name: Run tests
@@ -103,11 +107,6 @@ jobs:
             echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             source $BASH_ENV
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
-
-     - run:
-          name: Run Frontend tests
-          command: |
-            docker exec -it data-quality-app npm test -- --coverage
 
       - store_artifacts:
           path: test/junit/test-results.xml
