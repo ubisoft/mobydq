@@ -94,7 +94,7 @@ jobs:
       - run:
           name: Test Pyodbc connection to postgreSQL
           command: |
-            python3
+            python3.6
             import pyodbc
             conn = 'driver={PostgreSQL Unicode};server=0.0.0.0;port=5432;database=data_quality;pwd=password;uid=postgres;'
             connection = pyodbc.connect(conn)
