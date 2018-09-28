@@ -93,7 +93,11 @@ jobs:
 
       - run:
           name: Test Pyodbc connection to postgreSQL
-          command: python ./test/test_pyodbc.py
+          command: |
+            python -V
+            pip list
+            pip3 list
+            python ./test/test_pyodbc.py
 
       - store_artifacts:
           path: test/junit/test-results.xml
