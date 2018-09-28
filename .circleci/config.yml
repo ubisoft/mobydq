@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Build Docker images
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql app
             docker-compose -f ./test/docker-compose.yml build
 
       - run:
