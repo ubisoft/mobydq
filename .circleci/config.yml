@@ -95,19 +95,20 @@ jobs:
           command: |
             echo "[graphql]" >> ./scripts/init/scripts.cfg
             echo "url = http://0.0.0.0:5433/graphql" >> ./scripts/init/scripts.cfg
-      - run:
-          name: Run Frontend tests
-          command: |
-            docker exec -it data-quality-app npm test -- --coverage
 
       - run:
-          name: Run tests
+          name: Run backend tests
           command: |
             echo 'export PYTHONPATH=./test:$PYTHONPATH' >> $BASH_ENV
             echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
             echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
             source $BASH_ENV
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
+
+      - run:
+          name: Run frontend tests
+          command: |
+            docker exec -it data-quality-app npm test -- --coverage
 
       - store_artifacts:
           path: test/junit/test-results.xml
