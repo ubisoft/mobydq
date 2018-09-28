@@ -104,7 +104,7 @@ jobs:
             source $BASH_ENV
             nose2 --plugin nose2.plugins.junitxml --junit-xml -v
 
-     - run:
+      - run:
           name: Run Frontend tests
           command: |
             docker exec -it data-quality-app npm test -- --coverage
