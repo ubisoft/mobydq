@@ -14,6 +14,8 @@ services:
     command: ["/bin/bash", "entrypoint.sh"]
     ports:
       - 9000:1433
+    networks:
+      - default
 
   db-mysql:
     container_name: data-quality-test-db-mysql
@@ -26,6 +28,8 @@ services:
       MYSQL_ROOT_PASSWORD: "1234"
     ports:
       - 9001:3306
+    networks:
+      - default
 
   db-postgresql:
     container_name: data-quality-test-db-postgresql
@@ -40,3 +44,20 @@ services:
       POSTGRES_DATABASE: "star_wars"
     ports:
       - 9002:5432
+    networks:
+      - default
+
+  test:
+    container_name: data-quality-test
+    image: data-quality-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["/bin/bash", "nose2", "-v"]
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: data-quality-network
