@@ -1,5 +1,5 @@
 from datetime import datetime
-from scripts.init.data_source import DataSource
+from scripts.data_source import DataSource
 import time
 import unittest
 
@@ -19,7 +19,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_sql_server(self):
         # Set connection parameters
         data_source_type_id = 4
-        connection_string = 'driver={FreeTDS};server=0.0.0.0;port=9000;database=star_wars;tds_version=8.0;'
+        connection_string = 'driver={FreeTDS};server=db-sql-server;port=9000;database=star_wars;tds_version=8.0;'
         login = 'sa'
         password = '1234-abcd'
 
@@ -38,7 +38,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_mysql(self):
         # Set connection parameters
         data_source_type_id = 5
-        connection_string = 'driver={MySQL Unicode};server=0.0.0.0;port=9001;database=star_wars;'
+        connection_string = 'driver={MySQL Unicode};server=db-mysql;port=9001;database=star_wars;'
         login = 'root'
         password = '1234'
 
@@ -57,7 +57,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_postgresql(self):
         # Set connection parameters
         data_source_type_id = 7
-        connection_string = 'driver={PostgreSQL Unicode};server=0.0.0.0;port=9002;database=star_wars;'
+        connection_string = 'driver={PostgreSQL Unicode};server=db-postgresql;port=9002;database=star_wars;'
         login = 'postgres'
         password = '1234'
 
@@ -76,7 +76,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_sqlite(self):
         # Set connection parameters
         data_source_type_id = 8
-        connection_string = './test/db-sqlite/star_wars.db'
+        connection_string = './star_wars.db'
 
         # Connect to test database
         data_source = DataSource()

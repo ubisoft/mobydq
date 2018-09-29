@@ -1,6 +1,6 @@
 from datetime import datetime
-from scripts.init.indicator import Indicator
-from scripts.init import utils
+from scripts.indicator import Indicator
+from scripts import utils
 import time
 import unittest
 

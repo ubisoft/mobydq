@@ -1,6 +1,6 @@
 from datetime import datetime
-from scripts.init.batch import Batch
-from scripts.init import utils
+from scripts.batch import Batch
+from scripts import utils
 import time
 import unittest
 
