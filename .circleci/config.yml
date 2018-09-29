@@ -39,22 +39,13 @@ jobs:
           name: Move ODBC configuration file
           command: |
             sudo cp ./scripts/init/odbcinst.ini /etc
-            sudo cp ./scripts/init/odbc.ini /etc
-            sudo cp ./scripts/init/odbcinst.ini /usr/local/etc/
-            sudo cp ./scripts/init/odbc.ini /usr/local/etc/
-            echo "/etc/odbcinst.ini"
             cat /etc/odbcinst.ini
-            echo "/etc/odbc.ini"
-            cat /etc/odbc.ini
-            echo "/usr/local/etc/odbcinst.ini"
-            cat /usr/local/etc/odbcinst.ini
-            echo "/usr/local/etc/odbc.ini"
-            cat /usr/local/etc/odbc.ini
 
       - run:
           name: Install Python dependencies
           command: |
             ifconfig
+
       - run:
           name: Install Python dependencies
           command: |
