@@ -51,7 +51,10 @@ jobs:
             echo "/usr/local/etc/odbc.ini"
             cat /usr/local/etc/odbc.ini
 
-
+      - run:
+          name: Install Python dependencies
+          command: |
+            ifconfig
       - run:
           name: Install Python dependencies
           command: |
