@@ -53,7 +53,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["/bin/bash", "nose2", "-v"]
+    command: ["nose2", "-v"]
     depends_on:
       - db-sql-server
       - db-mysql
