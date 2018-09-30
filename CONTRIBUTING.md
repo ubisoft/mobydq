@@ -1,6 +1,6 @@
 # Contribution Guidelines
-* Try to be consistent as much as possible with existing code.
+* Be consistent as much as possible with existing code.
 * Avoid abbreviations, except if they are widely accepted.
 * Explicit is better than implicit. Use comments to describe your code.
-* Magic numbers are forbidden but it is acceptable to use Id value. Make sure to label these Ids with comments.
+* Magic numbers are forbidden but it is acceptable to use Id value. Make sure to label Ids with comments.
 * Python code should follow [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). Use a linter.
