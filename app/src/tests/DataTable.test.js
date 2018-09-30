@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import renderer from 'react-test-renderer';
+
 import DataTable from './../Components/Dashboard/DataTable';
 
 
@@ -30,19 +32,26 @@ it('renders without crashing with normal data object', () => {
       __typename: "Indicator",
     },
   ];
-    const div = document.createElement('div');
-    ReactDOM.render(<DataTable data={data}/>, div);
-    ReactDOM.unmountComponentAtNode(div);
+
+  const component = renderer.create(
+    <DataTable data={data}/>
+  );
+
+  let tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
 });
 
 it('renders without crashing with empty data object', () => {
-  const data =
-    [
+  const data = [];
 
-    ];
-  const div = document.createElement('div');
-  ReactDOM.render(<DataTable data={data}/>, div);
-  ReactDOM.unmountComponentAtNode(div);
+  const component = renderer.create(
+    <DataTable data={data}/>
+  );
+
+  let tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
 });
 
 //it('crashes when rendered without data', () => {
