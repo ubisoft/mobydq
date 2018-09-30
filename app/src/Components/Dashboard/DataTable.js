@@ -49,7 +49,7 @@ class DataTable extends React.Component {
   }
 
   render() {
-    if (this.props.data === null || this.props.data.length === 0) {
+    if (this.props.data === null || this.props.data.length === 0 || this.props.data.constructor !== Array) {
       return (<React.Fragment/>)
     }
 
