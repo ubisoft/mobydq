@@ -54,6 +54,14 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: ["/bin/bash", "nose2", "-v"]
+    depends_on:
+      - db-sql-server
+      - db-mysql
+      - db-postgresql
+    links:
+      - db-sql-server
+      - db-mysql
+      - db-postgresql
     networks:
       - default
 
