@@ -8,8 +8,8 @@ class TestUtils(unittest.TestCase):
         pass
 
     def test_get_parameter(self):
-        api = utils.get_parameter('api')
-        url = utils.get_parameter('api', 'url')
+        api = utils.get_parameter('graphql')
+        url = utils.get_parameter('graphql', 'url')
 
         # Assert parameters are not empty
         self.assertGreater(len(api), 0)
