@@ -8,3 +8,8 @@ __pycache__
 .env
 .env.app
 scripts.cfg
+
+package-lock.json
+
+# Editor specific config files
+.vscode/
