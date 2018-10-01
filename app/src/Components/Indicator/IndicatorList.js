@@ -5,9 +5,8 @@ import DataTable from '../Dashboard/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
 const IndicatorList = (refetch) => (
-
   <Query
-    query={IndicatorRepository.getIndicatorListByPage(100, 0)}
+    query={IndicatorRepository.getListPage(1, 10)}
     fetchPolicy={refetch ? 'cache-and-network' : 'cache-first'}
   >
     {({ loading, error, data }) => {
@@ -17,7 +16,7 @@ const IndicatorList = (refetch) => (
         <div>
           Indicator list
           <div style={{ float: 'right' }}>
-            <RouterButton targetLocation='/indicators/new' disabled={false} label="Add new indicator" />
+            <RouterButton targetLocation='/indicator/new' disabled={false} label="Add new indicator" />
           </div>
           <DataTable data={data.allIndicators.nodes} />
         </div>

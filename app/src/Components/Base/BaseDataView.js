@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles'
 import { withStyles } from '@material-ui/core/styles';
-import { isOpen } from './../../actions/sidebar'
+import { isOpen } from './../../actions/sidebar';
 
 import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Typography from '@material-ui/core/Typography';
 
 import { mainListItems } from '../../listItems';
-import Content from './Content'
+import Content from './Content';
 
 class BaseDataView extends React.Component {
   handleDrawerOpen = () => {

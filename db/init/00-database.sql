@@ -48,7 +48,7 @@ CREATE TABLE base.data_source_type (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 COMMENT ON TABLE base.data_source_type IS
-'Data source types describe the types of a data sources the data quality framework can connect to.';
+'Data source types describe the types of a data sources indicators can connect to.';
 
 CREATE TRIGGER data_source_type_updated_date BEFORE UPDATE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
@@ -73,7 +73,7 @@ CREATE TABLE base.data_source (
     data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );
 COMMENT ON TABLE base.data_source IS
-'Data sources are systems containing or exposing data on which the data quality framework can compute indicators.';
+'Data sources are systems containing or exposing data on which to compute indicators.';
 
 CREATE TRIGGER data_source_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
@@ -312,3 +312,31 @@ END;
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
 COMMENT ON FUNCTION base.test_data_source IS
 'Function used to test connectivity to a data source.';
+
+
+
+/*Create function to duplicate an indicator*/
+CREATE OR REPLACE FUNCTION base.duplicate_indicator(indicator_id INTEGER, new_indicator_name TEXT)
+RETURNS base.indicator AS $$
+#variable_conflict use_variable
+DECLARE
+    indicator base.indicator;
+BEGIN
+    -- Duplicate indicator
+    INSERT INTO base.indicator (name, description, execution_order, flag_active, indicator_type_id, indicator_group_id)
+    SELECT new_indicator_name, a.description, a.execution_order, a.flag_active, a.indicator_type_id, a.indicator_group_id
+    FROM base.indicator a
+    WHERE a.id=indicator_id
+    RETURNING * INTO indicator;
+
+    -- Duplicate parameters
+    INSERT INTO base.parameter (value, parameter_type_id, indicator_id)
+    SELECT a.value, a.parameter_type_id, indicator.id
+    FROM base.parameter a
+    WHERE a.indicator_id=indicator_id;
+
+    RETURN indicator;
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+COMMENT ON FUNCTION base.duplicate_indicator IS
+'Function used to duplicate an indicator.';
