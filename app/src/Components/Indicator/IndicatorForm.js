@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFormik, Formik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
@@ -22,7 +22,7 @@ const IndicatorFormFields = props => {
     isSubmitting,
   } = props;
   return (
-    <form onSubmit={handleSubmit} style={{marginLeft: '5%', marginRight: '5%', marginTop: '5%'}}>
+    <form onSubmit={handleSubmit} style={{ marginLeft: '5%', marginRight: '5%', marginTop: '5%' }}>
       <div>
         <TextInput
           id="name"
@@ -34,7 +34,7 @@ const IndicatorFormFields = props => {
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{float: 'left'}}
+          style={{ float: 'left' }}
         />
         <TextInput
           id="description"
@@ -58,7 +58,7 @@ const IndicatorFormFields = props => {
           value={values.indicatorTypeId}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{float: 'left'}}
+          style={{ float: 'left' }}
         />
         <SelectInput
           id="indicatorGroupId"
@@ -95,11 +95,11 @@ const IndicatorFormFields = props => {
         />
       </div>
       <div>
-        <div style={{float: 'left'}}>
+        <div style={{ float: 'left' }}>
           <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
           <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
         </div>
-        <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
+        <div style={{ float: 'right' }}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>
     </form>
   );
@@ -123,13 +123,14 @@ const formikEnhancer = withFormik({
   }),
 
   mapPropsToValues: ({ indicator }) => ({
-      name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false
+    name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false
   }),
   handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
     setSubmitting(false);
     props.mutate({
-        variables: { indicator: payload } },
-        );
+      variables: { indicator: payload }
+    },
+    );
   },
   displayName: 'IndicatorForm',
 });

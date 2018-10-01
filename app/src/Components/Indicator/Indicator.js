@@ -1,9 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import RouterButton from './../../Components/FormInput/RouterButton';
 import IndicatorList from './IndicatorList';
 import EnhancedIndicatorForm from './IndicatorForm';
 import IndicatorRepository from './../../repository/IndicatorRepository';
@@ -21,8 +19,8 @@ class Indicator extends React.Component {
           <Route
             path={`${match.url}/new`}
             component={
-              (props) => ( <BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                  afterSaveRoute='/indicators/' title='Add New Indicator' {...props} /> )
+              (props) => (<BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
+                afterSaveRoute='/indicators/' title='Add New Indicator' {...props} />)
             }
           />
           <Route

@@ -5,7 +5,6 @@ import { styles } from './../../styles/baseStyles'
 import { withStyles } from '@material-ui/core/styles';
 import { isOpen } from './../../actions/sidebar'
 
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -20,9 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Typography from '@material-ui/core/Typography';
 
-import { mainListItems, secondaryListItems } from '../../listItems';
-import SimpleLineChart from '../../SimpleLineChart';
-import SimpleTable from '../../SimpleTable';
+import { mainListItems } from '../../listItems';
 import Content from './Content'
 
 class BaseDataView extends React.Component {
@@ -83,7 +80,7 @@ class BaseDataView extends React.Component {
             <List>{mainListItems}</List>
           </Drawer>
           <main className={classes.content}>
-            <Content/>
+            <Content />
           </main>
         </div>
       </React.Fragment>
@@ -107,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps) (BaseDataView)));
+export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));
