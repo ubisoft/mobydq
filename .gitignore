@@ -9,7 +9,5 @@ __pycache__
 .env.app
 scripts.cfg
 
-package-lock.json
-
 # Editor specific config files
 .vscode/
