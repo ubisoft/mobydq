@@ -10,6 +10,12 @@ It has been influenced by an internal project developed at [Ubisoft Entertainmen
 # Getting Started
 Skip the bla bla and run your data quality indicators by following the [Getting Started Guide](https://github.com/alexisrolland/data-quality/wiki/Getting-Started). The complete documentation is also available on [Github wiki](https://github.com/alexisrolland/data-quality/wiki) if you wish to better understanding the tool, its concepts and how it works.
 
+---
+layout: page
+title: Getting Started
+use-site-title: true
+---
+
 # Requirements
 ## Install Docker
 This tool has been fully containerized with Docker to ensure easy deployment and portability. To add the Docker repository to your Linux machine, execute the following commands in a terminal window.
@@ -74,25 +80,28 @@ $ docker volume create data-quality-db-volume
 ## Build Docker Images
 Go to the project root and execute the following command in your terminal window.
 ```shell
+$ cd mobydq
 $ docker-compose build --no-cache
 ```
 
 ## Run Docker Containers
 To start all the Docker containers as deamons, go to the project root and execute the following command in your terminal window.
 ```shell
+$ cd mobydq
 $ docker-compose up -d db graphql api app
 ```
 
-After starting the containers using `docker-compose`, the individual components can be accessed at the following URIs:
+Individual components can be accessed at the following addresses:
+* Web application: http://localhost
+* Flask API Swagger Documentation: http://0.0.0.0:5434/data-quality/api/doc
+* GraphiQL Documentation: http://localhost:5433/graphiql
+* PostgreSQL database host: 0.0.0.0, port: 5432
 
-- API Specification: http://0.0.0.0:5434/data-quality/api/doc
-- React GUI: http://localhost
-- GraphiQL: http://localhost:5433/graphiql
-
-To connec to the PostgreSQL database, get the IP using the following command:
-`docker-compose exec db ifconfig`
-
-Then connect to the `data-quality` database with the username and password specified in the `.env` file.
+Note access to GraphiQL and the PostgreSQL database is restricted by default to avoid intrusions. In order to access these addresses directly, you must run them with the following command to open their ports:
+```shell
+$ cd mobydq
+$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d db graphql
+```
 
 # Dependencies
 ## Docker Images
