@@ -18,7 +18,7 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
+            echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql" >> ./.env
 
       - run:
           name: Build Docker images
