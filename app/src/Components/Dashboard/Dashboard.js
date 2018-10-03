@@ -3,9 +3,6 @@ import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import SimpleLineChart from '../../SimpleLineChart';
-import SimpleTable from '../../SimpleTable';
-
 
 class Dashboard extends React.Component {
   render() {
@@ -18,7 +15,7 @@ class Dashboard extends React.Component {
           ENV URL PARAM: {process.env.REACT_APP_GRAPHQL_API_URL}
         </Typography>
       </React.Fragment>
-     )
+    )
   }
 }
 

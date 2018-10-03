@@ -8,3 +8,6 @@ __pycache__
 .env
 .env.app
 scripts.cfg
+
+# Editor specific config files
+.vscode/

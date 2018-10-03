@@ -87,6 +87,17 @@ To start all the Docker containers as deamons, go to the project root and execut
 $ docker-compose up -d db graphql api app
 ```
 
+After starting the containers using `docker-compose`, the individual components can be accessed at the following URIs:
+
+- API Specification: http://0.0.0.0:5434/data-quality/api/doc
+- React GUI: http://localhost
+- GraphiQL: http://localhost:5433/graphiql
+
+To connec to the PostgreSQL database, get the IP using the following command:
+`docker-compose exec db ifconfig`
+
+Then connect to the `data-quality` database with the username and password specified in the `.env` file.
+
 # Dependencies
 ## Docker Images
 The containers run by `docker-compose` have dependencies with the following Docker images:
