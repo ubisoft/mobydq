@@ -1,11 +1,11 @@
 [![GitHub license](https://img.shields.io/github/license/alexisrolland/data-quality.svg?style=flat-square)](/LICENSE.md)
 
-# Data Quality Framework
-The objective of this tool is to provide a solution for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
-
-It has been influenced by an internal project developed at [Ubisoft Entertainment](https://www.ubisoft.com) in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been completely reworked from scratch to improve its design, simplify it and remove technical dependencies with commercial software.
+# MobyDQ
+**MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 ![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
+
+This tool has been inspired by an internal project developed at <a href="https://www.ubisoft.com">Ubisoft Entertainment</a> in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been reworked to improve its design, simplify it and remove technical dependencies with commercial software.
 
 # Getting Started
 Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://mobydq.github.io/gettingstarted/). The complete documentation is also available on Github Pages: [https://mobydq.github.io](https://mobydq.github.io).
