@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -22,7 +20,7 @@ const SelectInput = ({
   ...props
 }) => {
   return (
-    <FormControl style={{width: '240px', margin: '15px', marginLeft: '0px'}} error={error}>
+    <FormControl style={{ width: '240px', margin: '15px', marginLeft: '0px' }} error={error}>
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <Select
         id={id}
@@ -30,7 +28,7 @@ const SelectInput = ({
         value={value}
         onChange={onChange}
         inputProps={{
-          id: {id}
+          id: { id }
         }}
       >
         <MenuItem value="">
@@ -38,7 +36,7 @@ const SelectInput = ({
         </MenuItem>
         {items.map((item) => {
           return (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
-          })
+        })
         }
       </Select>
       <FormHelperText>{error}</FormHelperText>
