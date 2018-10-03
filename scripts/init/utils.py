@@ -89,9 +89,9 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
         email.attach(part)
 
     # Send e-mail via smtp server
-    connexion = smtplib.SMTP(config['host'], config['port'])
-    connexion.sendmail(email['From'], email['To'], email.as_string())
-    connexion.quit()
+    connection = smtplib.SMTP(config['host'], config['port'])
+    connection.sendmail(email['From'], email['To'], email.as_string())
+    connection.quit()
 
     return True
 

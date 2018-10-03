@@ -23,9 +23,9 @@ class Latency(Indicator):
         Session.update_session_status(session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
-        indicaor_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
+        indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
         parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
-        parameters = super().verify_indicator_parameters(indicaor_type_id, parameters)
+        parameters = super().verify_indicator_parameters(indicator_type_id, parameters)
 
         # Get source data
         dimensions = parameters[4]
