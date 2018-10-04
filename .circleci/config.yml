@@ -40,24 +40,15 @@ jobs:
       - run:
           name: Run backend tests
           command: |
-            docker-compose -f ./test/docker-compose.yml up -d
+            docker-compose -f ./test/docker-compose.yml up test
 
       - run:
           name: Run frontend tests
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up app
 
-      - run:
-          name: Run tests
-          command: |
-            echo 'export PYTHONPATH=./test:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
-            source $BASH_ENV
-            nose2 --plugin nose2.plugins.junitxml --junit-xml -v
-
       - store_artifacts:
-          path: test/junit/test-results.xml
+          path: test/test-results.xml
           destination: test-results
 
       - store_test_results:
