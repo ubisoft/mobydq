@@ -19,7 +19,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_sql_server(self):
         # Set connection parameters
         data_source_type_id = 4
-        connection_string = 'driver={FreeTDS};server=0.0.0.0;port=9000;database=star_wars;tds_version=8.0;'
+        connection_string = 'driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;'
         login = 'sa'
         password = '1234-abcd'
 
@@ -38,7 +38,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_mysql(self):
         # Set connection parameters
         data_source_type_id = 5
-        connection_string = 'driver={MySQL Unicode};server=0.0.0.0;port=9001;database=star_wars;'
+        connection_string = 'driver={MySQL Unicode};server=db-mysql;port=3306;database=star_wars;'
         login = 'root'
         password = '1234'
 
@@ -54,10 +54,13 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
+        # Assert query result
+        self.assertEqual(result, 'Tatooine')
+
     def test_get_connection_postgresql(self):
         # Set connection parameters
         data_source_type_id = 7
-        connection_string = 'driver={PostgreSQL Unicode};server=0.0.0.0;port=9002;database=star_wars;'
+        connection_string = 'driver={PostgreSQL Unicode};server=db-postgresql;port=5432;database=star_wars;'
         login = 'postgres'
         password = '1234'
 

@@ -11,8 +11,8 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "1234-abcd"
-    ports:
-      - 9000:1433
+    expose:
+      - "1433"
     networks:
       - default
 
@@ -25,8 +25,8 @@ services:
       dockerfile: ./db-mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
-    ports:
-      - 9001:3306
+    expose:
+      - "3306"
     networks:
       - default
 
@@ -39,8 +39,10 @@ services:
       dockerfile: ./db-mariadb/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
-    ports:
-      - 9001:3306
+    expose:
+      - "3306"
+    networks:
+      - default
 
   db-postgresql:
     container_name: mobydq-test-db-postgresql
@@ -53,8 +55,8 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DATABASE: "star_wars"
-    ports:
-      - 9002:5432
+    expose:
+      - "5432"
     networks:
       - default
 
@@ -68,6 +70,7 @@ services:
     depends_on:
       - db-sql-server
       - db-mysql
+      - db-mariadb
       - db-postgresql
     networks:
       - default
