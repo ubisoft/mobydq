@@ -28,6 +28,6 @@ class ExecuteBatchInterceptor(GraphQlRequestInterceptor):
     def _get_execute_batch(self, ast: Document):
         results = [[selection for selection in definition.selection_set.selections if selection.name.value == OPERATION_NAME]
                    for definition in ast.definitions]
-        if not len(results) == 1 and not len(results[0]) == 1:
+        if not len(results) == 1 or not len(results[0]) == 1:
             return None
         return results[0][0]
