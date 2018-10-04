@@ -1,6 +1,6 @@
 import docker
 import logging
-import graphql.utils as utils
+import graphqlapi.utils as utils
 
 
 # Load logging configuration

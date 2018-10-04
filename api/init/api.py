@@ -4,7 +4,7 @@ import sys
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
 from health.routes import register_health
-from graphql.routes import register_graphql
+from graphqlapi.routes import register_graphql
 
 
 log = logging.getLogger(__name__)
