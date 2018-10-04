@@ -19,7 +19,8 @@ class TestDataSourceInterceptor(GraphQlRequestInterceptor):
         if 'id' in response['data']['testDataSource']['dataSource']:
             data_source_id = str(
                 response['data']['testDataSource']['dataSource']['id'])
-            return test_data_source(data_source_id)
+            _, response = test_data_source(data_source_id)
+            return response
         else:
             message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
             raise GraphQlRequestException(400, message)
