@@ -13,7 +13,7 @@ class GraphQlRequestInterceptor(ABC):
         return ast
 
     def after_request(self, executed_ast: Document, status: int, response: object):
-        return
+        return response
 
 
 class GraphQlRequestException(Exception):

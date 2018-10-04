@@ -2,6 +2,7 @@ import graphqlapi.utils as utils
 from graphqlapi.proxy import proxy_request
 from graphqlapi.interceptors import GraphQlRequestException, GraphQlRequestInterceptor
 from flask_restplus import Resource, fields
+from docker.errors import APIError
 from flask import request, abort, jsonify, make_response
 
 
@@ -30,3 +31,5 @@ def register_graphql(namespace, api):
                 return make_response(jsonify(result), code)
             except GraphQlRequestException as ex:
                 return ex.to_response()
+            except APIError as apiError:
+                return make_response(jsonify({'message': apiError.explanation}), apiError.status_code)

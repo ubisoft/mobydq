@@ -1,25 +1,28 @@
-from graphqlapi.interceptors.graphql_base_interceptor import GraphQlRequestInterceptor
+from graphqlapi.interceptors.graphql_base_interceptor import GraphQlRequestInterceptor, GraphQlRequestException
+from graphqlapi.interceptors.shared.utils import fetch_operation_from_ast, get_subselection
 from graphql.language.ast import Document
+from graphqlapi.data_source import test_data_source
+
+
+OPERATION_NAME = 'testDataSource'
 
 
 class TestDataSourceInterceptor(GraphQlRequestInterceptor):
 
     def can_handle(self, ast: Document):
-        pass
+        return self._get_test_data_source(ast) != None
 
     def after_request(self, executed_ast: Document, status: int, response: object):
         if status != 200:
-            return
+            return response
 
+        if 'id' in response['data']['testDataSource']['dataSource']:
+            data_source_id = str(
+                response['data']['testDataSource']['dataSource']['id'])
+            return test_data_source(data_source_id)
+        else:
+            message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
+            raise GraphQlRequestException(400, message)
 
-
-
-    # # Test connectivity to a data source
-    # if status == 200 and 'testDataSource' in payload['query']:
-    #     if 'id' in data['data']['testDataSource']['dataSource']:
-    #         data_source_id = str(
-    #             data['data']['testDataSource']['dataSource']['id'])
-    #         data = test_data_source(data_source_id)
-    #     else:
-    #         message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
-    #         return 400, message
+    def _get_test_data_source(self, ast: Document):
+        return fetch_operation_from_ast(ast, OPERATION_NAME)

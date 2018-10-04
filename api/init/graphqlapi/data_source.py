@@ -8,14 +8,13 @@ log = logging.getLogger(__name__)
 
 
 def test_data_source(data_source_id):
-    container_name = f'data-quality-test-data-source-{data_source_id}'
+    container_name = f'mobydq-test-data-source-{data_source_id}'
 
     client = docker.from_env()
     client.containers.run(
         name=container_name,
-        image='data-quality-scripts',
-        network='data-quality-network',
-        links={'data-quality-graphql': 'data-quality-graphql'},
+        image='mobydq-scripts',
+        network='mobydq-network',
         command=['python', 'run.py', 'test_data_source', data_source_id],
         stream=True,
         remove=True

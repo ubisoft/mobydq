@@ -1,6 +1,5 @@
 import graphql
 import graphqlapi.utils as utils
-from graphqlapi.data_source import test_data_source
 from graphqlapi.interceptors import ExecuteBatchInterceptor, TestDataSourceInterceptor
 
 
@@ -24,6 +23,6 @@ def proxy_request(payload):
     status, data = utils.execute_graphql_request(graphql_query)
 
     for handled_interceptor in handled_interceptors:
-        handled_interceptor.after_request(graphql_ast, status, data)
+        data = handled_interceptor.after_request(graphql_ast, status, data)
 
     return 200 if status == 200 else 500, data
