@@ -21,7 +21,6 @@ class DataSource:
             name=container_name,
             image='mobydq-scripts',
             network='mobydq-network',
-            links={'mobydq-graphql': 'mobydq-graphql'},
             command=['python', 'run.py', 'test_data_source', data_source_id],
             stream=True,
             remove=True
