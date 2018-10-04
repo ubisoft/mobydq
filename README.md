@@ -54,19 +54,27 @@ $ sudo apt install docker-compose
 Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 ```ini
 # DB
+# Parameters used by db container
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 
 # GRAPHQL
+<<<<<<< HEAD
+# Parameters used by graphql container
+DATABASE_URL=postgres://postgres:password@db:5432/data_quality
+=======
 DATABASE_URL=postgres://postgres:password@db:5432/mobydq
+>>>>>>> f04547abccf09afa6d80cc917994e1cccc4e47fc
 
 # SCRIPTS
+# Parameters used by scripts container
 GRAPHQL_URL=http://graphql:5433/graphql
 MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
 # APP PARAMS
+# Parameters used by app container
 NODE_ENV=development
 REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
 ```
@@ -75,13 +83,15 @@ REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
 ## Create Docker Network
 This custom network is used to connect the different containers between each others. It is used in particular to connect the ephemeral containers ran when executing batches of indicators.
 ```shell
-``
+$ docker network create mobydq-network
+```
 
 
 ## Create Docker Volume
 Due to Docker compatibility issues on Windows machines, we recommend to manually create a Docker volume instead of directly mounting external folders in `docker-compose.yml`. This volume will be used to persist the data stored in the PostgreSQL database. Execute the following command.
 ```shell
-``
+$ docker volume create mobydq-db-volume
+```
 
 
 ## Build Docker Images
@@ -101,7 +111,8 @@ $ docker-compose up -d db graphql api app
 
 Individual components can be accessed at the following addresses:
 * Web application: http://localhost
- GraphiQL Documentation: http://localhost:5433/graphiql
+* Flask API Swagger Documentation: http://0.0.0.0:5434/mobydq/api/doc
+* GraphiQL Documentation: http://localhost:5433/graphiql
 * PostgreSQL database host: 0.0.0.0, port: 5432
 
 Note access to GraphiQL and the PostgreSQL database is restricted by default to avoid intrusions. In order to access these addresses directly, you must run them with the following command to open their ports:
@@ -109,6 +120,7 @@ Note access to GraphiQL and the PostgreSQL database is restricted by default to 
 $ cd mobydq
 $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d db graphql
 ```
+
 
 ---
 

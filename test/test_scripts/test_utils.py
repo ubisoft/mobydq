@@ -1,4 +1,4 @@
-from scripts.init import utils
+from scripts import utils
 import unittest
 
 

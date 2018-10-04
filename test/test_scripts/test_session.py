@@ -1,6 +1,6 @@
 from datetime import datetime
-from scripts.init.session import Session
-from scripts.init import utils
+from scripts.session import Session
+from scripts import utils
 import time
 import unittest
 
