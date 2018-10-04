@@ -1,4 +1,8 @@
 # MobyDQ
+[![CircleCI](https://circleci.com/gh/mobydq/mobydq/tree/master.svg?style=shield)][CircleCI]
+
+ [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
+
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 ![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
@@ -59,12 +63,7 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 
 # GRAPHQL
-<<<<<<< HEAD
-# Parameters used by graphql container
-DATABASE_URL=postgres://postgres:password@db:5432/data_quality
-=======
 DATABASE_URL=postgres://postgres:password@db:5432/mobydq
->>>>>>> f04547abccf09afa6d80cc917994e1cccc4e47fc
 
 # SCRIPTS
 # Parameters used by scripts container
