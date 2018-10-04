@@ -19,14 +19,14 @@ const TextInput = ({
   ...props
 }) => {
   return (
-    <FormControl style={{width: '250px', margin: '15px'}} error={error}>
+    <FormControl style={{width: '250px', margin: '15px'}} error={!!error}>
       <FormControlLabel
         control={
           <React.Fragment>
             <TextField
               id={id}
               label={label}
-              error={error}
+              error={!!error}
               helperText={helperText}
               onChange={onChange}
               value={value}
