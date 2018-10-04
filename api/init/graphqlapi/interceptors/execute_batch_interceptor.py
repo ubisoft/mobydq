@@ -23,7 +23,6 @@ class ExecuteBatchInterceptor(GraphQlRequestInterceptor):
             raise GraphQlRequestException(400, message)
 
         batch_id = str(response['data']['executeBatch']['batch']['id'])
-        print(batch_id)
         execute_batch(batch_id)
 
     def _get_execute_batch(self, ast: Document):
