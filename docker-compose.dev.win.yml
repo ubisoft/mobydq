@@ -2,13 +2,13 @@ version: '3'
 services:
 
   db:
-    container_name: data-quality-db
+    container_name: mobydq-db
     restart: always
-    image: data-quality-db
+    image: mobydq-db
     build:
       context: ./db
     volumes:
-      - data-quality-db-volume:/var/lib/postgresql/data
+      - mobydq-db-volume:/var/lib/postgresql/data
     env_file:
         - ./.env
     ports:
@@ -17,7 +17,7 @@ services:
       - default
 
   graphql:
-    container_name: data-quality-graphql
+    container_name: mobydq-graphql
     restart: always
     image: graphile/postgraphile
     env_file:
@@ -33,9 +33,9 @@ services:
     command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   api:
-    container_name: data-quality-api
+    container_name: mobydq-api
     restart: always
-    image: data-quality-api
+    image: mobydq-api
     build:
       context: ./api
     volumes:
@@ -55,9 +55,9 @@ services:
     command: ["flask", "run", "--host=0.0.0.0"]
 
   scripts:
-    container_name: data-quality-scripts
+    container_name: mobydq-scripts
     restart: always
-    image: data-quality-scripts
+    image: mobydq-scripts
     build:
       context: ./scripts
       args:
@@ -77,9 +77,9 @@ services:
       - default
 
   app-dev:
-    container_name: data-quality-app-dev
+    container_name: mobydq-app-dev
     restart: always
-    image: data-quality-app-dev
+    image: mobydq-app-dev
     build:
       context: ./app
       dockerfile: Dockerfile-dev
@@ -105,7 +105,7 @@ services:
       - default
 
   app-prod:
-    container_name: data-quality-app-prod
+    container_name: mobydq-app-prod
     build:
       context: ./app
       dockerfile: Dockerfile-prod
@@ -115,8 +115,8 @@ services:
 networks:
   default:
     external:
-      name: data-quality-network
+      name: mobydq-network
 
 volumes:
-  data-quality-db-volume:
+  mobydq-db-volume:
     external: true

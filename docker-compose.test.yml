@@ -11,7 +11,7 @@ services:
       - 5433:5433
 
   app:
-    container_name: data-quality-app
+    container_name: mobydq-app
     build:
       context: ./app
       dockerfile: Dockerfile-dev

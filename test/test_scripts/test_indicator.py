@@ -1,6 +1,6 @@
 from datetime import datetime
-from scripts.init.indicator import Indicator
-from scripts.init import utils
+from scripts.indicator import Indicator
+from scripts import utils
 import time
 import unittest
 
@@ -224,7 +224,7 @@ class TestIndicator(unittest.TestCase):
     def test_get_data_frame(self):
         # Create data source
         test_case_name = TestIndicator.get_test_case_name()
-        mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=0.0.0.0;port=9002;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
+        mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=db-postgresql;port=9002;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
         mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         data_source = utils.execute_graphql_request(mutation_create_data_source)
         data_source = data_source['data']['createDataSource']['dataSource']['name']
