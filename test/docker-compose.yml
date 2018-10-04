@@ -11,7 +11,6 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "1234-abcd"
-    command: ["/bin/bash", "entrypoint.sh"]
     ports:
       - 9000:1433
     networks:
@@ -31,6 +30,18 @@ services:
     networks:
       - default
 
+  db-mariadb:
+    container_name: mobydq-test-db-mariadb
+    image: mobydq-test-db-mariadb
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-mariadb/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    ports:
+      - 9001:3306
+
   db-postgresql:
     container_name: mobydq-test-db-postgresql
     image: mobydq-test-db-postgresql
@@ -48,8 +59,8 @@ services:
       - default
 
   test:
-    container_name: data-quality-test
-    image: data-quality-test
+    container_name: mobydq-test
+    image: mobydq-test
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -68,4 +79,4 @@ services:
 networks:
   default:
     external:
-      name: data-quality-network
+      name: mobydq-network

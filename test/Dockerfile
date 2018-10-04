@@ -1,4 +1,4 @@
-FROM data-quality-scripts:latest
+FROM mobydq-scripts:latest
 
 # Test files
 WORKDIR /srv
