@@ -26,14 +26,4 @@ def proxy_request(payload):
     for handled_interceptor in handled_interceptors:
         handled_interceptor.after_request(graphql_ast, status, data)
 
-    # # Test connectivity to a data source
-    # if status == 200 and 'testDataSource' in payload['query']:
-    #     if 'id' in data['data']['testDataSource']['dataSource']:
-    #         data_source_id = str(
-    #             data['data']['testDataSource']['dataSource']['id'])
-    #         data = test_data_source(data_source_id)
-    #     else:
-    #         message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
-    #         return 400, message
-
     return 200 if status == 200 else 500, data

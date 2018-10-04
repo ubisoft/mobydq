@@ -15,14 +15,15 @@ class ExecuteBatchInterceptor(GraphQlRequestInterceptor):
         if status != 200:
             return
 
-        execute_batch = self._get_execute_batch(executed_ast)
-        batch_id_selections = [selection for selection in execute_batch.selections if any(
+        executed_batch = self._get_execute_batch(executed_ast)
+        batch_id_selections = [selection for selection in executed_batch.selection_set.selections if any(
             [sub_selection.name.value == 'id' and selection.name.value == 'batch' for sub_selection in selection.selection_set.selections])]
         if len(batch_id_selections) == 0:
             message = 'Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {"query": "mutation{executeBatch(input:{indicatorGroupId:1}){batch{id}}}"'
             raise GraphQlRequestException(400, message)
 
         batch_id = str(response['data']['executeBatch']['batch']['id'])
+        print(batch_id)
         execute_batch(batch_id)
 
     def _get_execute_batch(self, ast: Document):
