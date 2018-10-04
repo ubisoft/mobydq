@@ -1,6 +1,5 @@
 import graphql
 import graphqlapi.utils as utils
-from graphqlapi.batch import execute_batch
 from graphqlapi.data_source import test_data_source
 from graphqlapi.interceptors import ExecuteBatchInterceptor, TestDataSourceInterceptor
 
@@ -26,15 +25,6 @@ def proxy_request(payload):
 
     for handled_interceptor in handled_interceptors:
         handled_interceptor.after_request(graphql_ast, status, data)
-
-    # Execute batch of indicators
-    if status == 200 and 'executeBatch' in payload['query']:
-        if 'id' in data['data']['executeBatch']['batch']:
-            batch_id = str(data['data']['executeBatch']['batch']['id'])
-            execute_batch(batch_id)
-        else:
-            message = 'Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {"query": "mutation{executeBatch(input:{indicatorGroupId:1}){batch{id}}}"'
-            return 400, message
 
     # Test connectivity to a data source
     if status == 200 and 'testDataSource' in payload['query']:
