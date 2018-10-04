@@ -54,19 +54,27 @@ $ sudo apt install docker-compose
 Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 ```ini
 # DB
+# Parameters used by db container
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 
 # GRAPHQL
+<<<<<<< HEAD
+# Parameters used by graphql container
+DATABASE_URL=postgres://postgres:password@db:5432/data_quality
+=======
 DATABASE_URL=postgres://postgres:password@db:5432/mobydq
+>>>>>>> f04547abccf09afa6d80cc917994e1cccc4e47fc
 
 # SCRIPTS
+# Parameters used by scripts container
 GRAPHQL_URL=http://graphql:5433/graphql
 MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
 # APP PARAMS
+# Parameters used by app container
 NODE_ENV=development
 REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql
 ```

@@ -47,6 +47,7 @@ ENV MAIL_SENDER "$MAIL_SENDER"
 # Create config file to send mails using environment variables
 RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "url = $GRAPHQL_URL" >> ./scripts.cfg \
+    && echo "" >> ./scripts.cfg \
     && echo "[mail]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
