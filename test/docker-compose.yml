@@ -2,8 +2,8 @@ version: '3'
 services:
 
   db-sql-server:
-    container_name: data-quality-test-db-sql-server
-    image: data-quality-test-db-sql-server
+    container_name: mobydq-test-db-sql-server
+    image: mobydq-test-db-sql-server
     restart: always
     build:
       context: .
@@ -16,8 +16,8 @@ services:
       - 9000:1433
 
   db-mysql:
-    container_name: data-quality-test-db-mysql
-    image: data-quality-test-db-mysql
+    container_name: mobydq-test-db-mysql
+    image: mobydq-test-db-mysql
     restart: always
     build:
       context: .
@@ -28,8 +28,8 @@ services:
       - 9001:3306
 
   db-postgresql:
-    container_name: data-quality-test-db-postgresql
-    image: data-quality-test-db-postgresql
+    container_name: mobydq-test-db-postgresql
+    image: mobydq-test-db-postgresql
     restart: always
     build:
       context: .
