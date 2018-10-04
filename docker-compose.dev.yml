@@ -22,7 +22,7 @@ services:
     tty: true
 
   app:
-    image: data-quality-app-dev
+    image: mobydq-app-dev
     build:
       dockerfile: Dockerfile-dev
     volumes:

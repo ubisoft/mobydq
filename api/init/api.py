@@ -26,7 +26,7 @@ def swagger_url(self):
 
 
 # Create blueprint to indicate api base url
-blueprint = Blueprint('api', __name__, url_prefix='/data-quality/api')
+blueprint = Blueprint('api', __name__, url_prefix='/mobydq/api')
 
 # Create Swagger documentation for blueprint
 api = Api(
@@ -46,7 +46,8 @@ health = api.namespace('Health', path='/v1')
 
 # Create expected headers and payload
 headers = api.parser()
-payload = api.model("Payload", {"query": fields.String(required=True, description='GraphQL query or mutation', example='{allIndicatorTypes{nodes{id,name}}}')})
+payload = api.model("Payload", {"query": fields.String(
+    required=True, description='GraphQL query or mutation', example='{allIndicatorTypes{nodes{id,name}}}')})
 
 # Document default responses
 responses = {
@@ -55,7 +56,7 @@ responses = {
     403: 'Forbidden: You do not have sufficient permissions to access this resource.',
     404: 'Not Found: The server has not found anything matching the Requested URI.',
     500: 'Internal Server Error: The server encountered an error.'
-    }
+}
 
 
 @graphql.route('/graphql', endpoint='with-parser')
@@ -85,7 +86,8 @@ class GraphQL(Resource):
         # Test connectivity to a data source
         if status == 200 and 'testDataSource' in payload['query']:
             if 'id' in data['data']['testDataSource']['dataSource']:
-                data_source_id = str(data['data']['testDataSource']['dataSource']['id'])
+                data_source_id = str(
+                    data['data']['testDataSource']['dataSource']['id'])
                 data_source = DataSource()
                 data = data_source.test(data_source_id)
             else:
