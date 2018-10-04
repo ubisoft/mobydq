@@ -86,7 +86,7 @@ const DataSourceFormFields = props => {
       <div>
         <div style={{float: 'left'}}>
           <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
-          <SimpleButton tyloginpe="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
         </div>
         <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>

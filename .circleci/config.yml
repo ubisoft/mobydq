@@ -29,8 +29,8 @@ jobs:
       - run:
           name: Run Docker containers
           command: |
-            docker network create data-quality-network
-            docker volume create data-quality-db-volume
+            docker network create mobydq-network
+            docker volume create mobydq-db-volume
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql app
             docker-compose -f ./test/docker-compose.yml up -d
             cd test/db-sqlite
@@ -97,7 +97,7 @@ jobs:
       - run:
           name: Run Frontend tests
           command: |
-            docker exec -it data-quality-app npm test -- --coverage
+            docker exec -it mobydq-app npm test -- --coverage
 
       - run:
           name: Run tests
