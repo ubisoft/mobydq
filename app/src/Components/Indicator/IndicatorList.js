@@ -18,11 +18,23 @@ const IndicatorList = (refetch) => (
           <div style={{ float: 'right' }}>
             <RouterButton targetLocation='/indicator/new' disabled={false} label="Add new indicator" />
           </div>
-          <DataTable data={data.allIndicators.nodes} />
+          <DataTable buttons={[{"name": "edit", "function": test}, {"name": "King", "function": king}]} data={data.allIndicators.nodes} />
         </div>
       );
     }}
   </Query>
 );
+
+function test(e)
+{
+
+  window.location = "/edit/" + e.target.value;
+}
+
+
+function king(e)
+{
+alert("We are Kings!!!")
+}
 
 export default IndicatorList;

@@ -17,7 +17,7 @@ class TableBodyComponent extends React.Component {
         return (
             <React.Fragment>
                 {this.props.tableContent.map((row) => (
-                        <TableBodyRowComponent key={row['id']} rowData={Object.values(row)}/>
+                        <TableBodyRowComponent buttons={this.props.buttons} key={row['id']} rowData={Object.values(row)}/>
                 ))}
             </React.Fragment>
         )

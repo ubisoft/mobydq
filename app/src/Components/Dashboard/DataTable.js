@@ -64,7 +64,7 @@ class DataTable extends React.Component {
           <TableHeaderComponent headerNames={Object.keys(this.props.data[0])}/>
         </TableHead>
         <TableBody>
-              <TableBodyComponent tableContent={Object.values(this.props.data)} />
+              <TableBodyComponent buttons={this.props.buttons} tableContent={Object.values(this.props.data)} />
         </TableBody>
       </Table>
     )
