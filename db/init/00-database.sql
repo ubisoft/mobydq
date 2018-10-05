@@ -1,6 +1,6 @@
 /*Create database*/
-CREATE DATABASE data_quality;
-\connect data_quality;
+CREATE DATABASE mobydq;
+\connect mobydq;
 
 /*Create schema*/
 CREATE SCHEMA base;

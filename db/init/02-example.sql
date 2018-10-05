@@ -1,5 +1,5 @@
 /*Connect to database*/
-\connect data_quality
+\connect mobydq
 
 
 /*Create data source*/

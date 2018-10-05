@@ -1,6 +1,5 @@
 /*Connect to database*/
-\connect data_quality
-
+\connect mobydq
 
 
 /*Order matter since Id values will be generated accordingly, do not change it*/
