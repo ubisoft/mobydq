@@ -1,11 +1,11 @@
 import graphql
 import graphqlapi.utils as utils
-from graphqlapi.interceptors import ExecuteBatchInterceptor, TestDataSourceInterceptor
+from graphqlapi.interceptor import ExecuteBatch, TestDataSource
 
 
 interceptors = [
-    ExecuteBatchInterceptor(),
-    TestDataSourceInterceptor()
+    ExecuteBatch(),
+    TestDataSource()
 ]
 
 

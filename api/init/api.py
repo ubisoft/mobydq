@@ -1,10 +1,10 @@
 import logging
 import os
 import sys
-from flask import Blueprint, Flask, url_for
-from flask_restplus import Api
 from health.routes import register_health
 from graphqlapi.routes import register_graphql
+from flask import Blueprint, Flask, url_for
+from flask_restplus import Api
 
 
 log = logging.getLogger(__name__)
