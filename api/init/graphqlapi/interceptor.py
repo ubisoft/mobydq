@@ -42,7 +42,7 @@ class ExecuteBatch(BaseRequest):
         executed_batch = self._get_execute_batch(executed_payload)
         batch_id_selections = get_subselection(executed_batch, 'id', 'batch')
         if len(batch_id_selections) == 0:
-            message = 'Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {"query": "mutation{executeBatch(input:{indicatorGroupId:1}){batch{id}}}"'
+            message = 'Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {"query": "mutation Test{executeBatch(input:{indicatorGroupId:1}){batch{id}}}"'
             raise RequestException(400, message)
 
         batch_id = str(response['data']['executeBatch']['batch']['id'])
@@ -68,5 +68,5 @@ class TestDataSource(BaseRequest):
             _, response = test_data_source(data_source_id)
             return response
         else:
-            message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
+            message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation Test{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
             raise RequestException(400, message)
