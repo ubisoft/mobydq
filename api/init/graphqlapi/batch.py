@@ -2,6 +2,8 @@ import docker
 
 
 def execute_batch(batch_id: int):
+    """Method used to run ephemeral Docker container which executes batch of indicators."""
+
     container_name = f'mobydq-batch-{batch_id}'
     client = docker.from_env()
     client.containers.run(

@@ -3,8 +3,9 @@ import graphqlapi.utils as utils
 
 
 def test_data_source(data_source_id: int):
-    container_name = f'mobydq-test-data-source-{data_source_id}'
+    """Method used to run ephemeral Docker container which test connectivity to a data source."""
 
+    container_name = f'mobydq-test-data-source-{data_source_id}'
     client = docker.from_env()
     client.containers.run(
         name=container_name,
