@@ -1,6 +1,6 @@
 import os
-from flask_restplus import Resource, Namespace
 from flask import jsonify
+from flask_restplus import Resource, Namespace
 
 
 def register_health(namespace: Namespace):
