@@ -2,8 +2,8 @@ version: '3'
 services:
 
   db-sql-server:
-    container_name: data-quality-test-db-sql-server
-    image: data-quality-test-db-sql-server
+    container_name: mobydq-test-db-sql-server
+    image: mobydq-test-db-sql-server
     restart: always
     build:
       context: .
@@ -14,10 +14,12 @@ services:
     command: ["/bin/bash", "entrypoint.sh"]
     ports:
       - 9000:1433
+    networks:
+      - default
 
   db-mysql:
-    container_name: data-quality-test-db-mysql
-    image: data-quality-test-db-mysql
+    container_name: mobydq-test-db-mysql
+    image: mobydq-test-db-mysql
     restart: always
     build:
       context: .
@@ -26,10 +28,12 @@ services:
       MYSQL_ROOT_PASSWORD: "1234"
     ports:
       - 9001:3306
+    networks:
+      - default
 
   db-postgresql:
-    container_name: data-quality-test-db-postgresql
-    image: data-quality-test-db-postgresql
+    container_name: mobydq-test-db-postgresql
+    image: mobydq-test-db-postgresql
     restart: always
     build:
       context: .
@@ -40,3 +44,28 @@ services:
       POSTGRES_DATABASE: "star_wars"
     ports:
       - 9002:5432
+    networks:
+      - default
+
+  test:
+    container_name: data-quality-test
+    image: data-quality-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["nose2", "-v"]
+    depends_on:
+      - db-sql-server
+      - db-mysql
+      - db-postgresql
+    links:
+      - db-sql-server
+      - db-mysql
+      - db-postgresql
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: data-quality-network
