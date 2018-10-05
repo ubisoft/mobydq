@@ -1,5 +1,4 @@
 import docker
-import logging
 import graphqlapi.utils as utils
 
 
