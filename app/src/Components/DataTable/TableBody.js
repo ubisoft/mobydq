@@ -7,9 +7,11 @@ class DataTableBody extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.tableContent.map((row) => (
-          <TableRow buttons={this.props.buttons} key={row['id']} rowData={Object.values(row)}/>
-        ))}
+        {
+          this.props.content.map((row) => (
+            <TableRow buttons={this.props.buttons} key={row[0]} rowData={row}/>
+          ))
+        }
       </React.Fragment>
     )
   }

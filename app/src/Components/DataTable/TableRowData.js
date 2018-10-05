@@ -1,10 +1,11 @@
 import React from "react";
-import DoneIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
-export const TableRowData = (rowData) => {
+export const TableRowData = ({rowData}) => {
   return rowData.map((value) => (
-    <TableCell key={value}>{value} {this._isFlagActive(value)}</TableCell>
+    <TableCell key={value}>{value} {_isFlagActive(value)}</TableCell>
   ));
 }
 
