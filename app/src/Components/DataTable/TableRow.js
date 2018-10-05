@@ -9,33 +9,19 @@ import { TableRow as MTableRow } from '@material-ui/core/TableRow';
 import TableRowButtons from './TableRowButtons';
 import Button from '@material-ui/core/Button';
 import Style from '../../index.css';
+import {TableRowData} from "./TableRowData";
 
 
 
 class TableRow extends React.Component
 {
-  _isFlagActive(flag) {
-    if(typeof(flag) === "boolean") {
-      if (flag) {
-        return <DoneIcon color="primary"/>;
-      }
-      return <ClearIcon color="error"/>
-      }
-  }
-  _renderDataRow(rowData) {
-    return rowData.map((value) => (
-      <TableCell key={value}>{value} {this._isFlagActive(value)}</TableCell>
-    ));
-  }
-
-
   render() {
     if (this.props.rowData === null || this.props.buttons.rowData !== Array) {
       return (<React.Fragment/>);
     }
     return(
       <MTableRow>
-        {this._renderDataRow(this.props.rowData)}
+        <TableRowData rowData={this.props.rowData}/>
         <TableRowButtons buttons={this.props.buttons} value={this.props.rowData[0]}/>
       </MTableRow>
     );

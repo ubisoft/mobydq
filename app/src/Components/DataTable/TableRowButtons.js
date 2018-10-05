@@ -1,6 +1,6 @@
+import React from "react";
 import DoneIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import TableCell from "@material-ui/core/TableCell/TableCell";
-import React from "react";
 
 export const TableRowButtons = (buttons, value) => {
   return buttons.map((button) => (
