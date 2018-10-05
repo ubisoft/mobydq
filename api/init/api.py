@@ -3,6 +3,7 @@ import os
 import sys
 from health.routes import register_health
 from graphqlapi.routes import register_graphql
+from security.routes import register_security
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
 
@@ -43,6 +44,8 @@ app.register_blueprint(blueprint)
 api.namespaces.clear()
 graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
+security = api.namespace('Security', path='/v1')
 
 register_health(health)
 register_graphql(graphql, api)
+register_security(security)
