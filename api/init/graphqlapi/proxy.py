@@ -1,7 +1,6 @@
 import graphqlapi.utils as utils
-from graphql.ast import Document
 from graphql.parser import GraphQLParser
-from graphqlapi.interceptor import ExecuteBatch, TestDataSource, RequestException
+from graphqlapi.interceptor import ExecuteBatch, TestDataSource
 from graphqlapi.exceptions import RequestException
 
 
