@@ -1,8 +1,8 @@
-from graphqlapi.proxy import proxy_request
-from graphqlapi.interceptor import RequestException
-from flask_restplus import Resource, fields, Namespace, Api
 from docker.errors import APIError
 from flask import request, jsonify, make_response
+from flask_restplus import Resource, fields, Namespace, Api
+from graphqlapi.exceptions import RequestException
+from graphqlapi.proxy import proxy_request
 
 
 def register_graphql(namespace: Namespace, api: Api):
