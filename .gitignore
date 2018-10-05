@@ -13,4 +13,4 @@ scripts.cfg
 .vscode/
 
 # unit test results
-test/results/*
+test-results/*.xml

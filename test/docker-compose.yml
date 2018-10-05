@@ -67,7 +67,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     volumes:
-      - ./results/:/srv/results/
+      - ./../test-results/:/srv/results/
     command: ["nose2", "-v"]
     depends_on:
       - db-sql-server

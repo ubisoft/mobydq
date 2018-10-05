@@ -4,7 +4,7 @@ FROM mobydq-scripts:latest
 RUN pip install nose2
 
 # Set Python path to run tests with nose2
-ENV PYTHONPATH "/srv/scripts:/srv/test:"
+ENV PYTHONPATH /srv/scripts:/srv/test:$PYTHONPATH
 
 # Create SQLite database
 RUN apt-get install sqlite3
