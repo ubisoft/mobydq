@@ -3,7 +3,7 @@ import pyodbc
 import sqlite3
 import traceback
 import utils
-from constants import Database
+from constants import DataSourceType
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -25,43 +25,43 @@ class DataSource:
                 'pwd={password};'.format(password=password)
 
         # Hive
-        if data_source_type_id == Database.HIVE_ID:
+        if data_source_type_id == DataSourceType.HIVE_ID:
             connection = pyodbc.connect(connection_string)
             connection.setencoding(encoding='utf-8')
 
         # Impala
-        elif data_source_type_id == Database.IMPALA_ID:
+        elif data_source_type_id == DataSourceType.IMPALA_ID:
             connection = pyodbc.connect(connection_string)
             connection.setencoding(encoding='utf-8')
 
         # MariaDB
-        elif data_source_type_id == Database.MARIADB_ID:
+        elif data_source_type_id == DataSourceType.MARIADB_ID:
             connection = pyodbc.connect(connection_string)
 
         # Microsoft SQL Server
-        elif data_source_type_id == Database.MSSQL_ID:
+        elif data_source_type_id == DataSourceType.MSSQL_ID:
             connection = pyodbc.connect(connection_string)
 
         # MySQL
-        elif data_source_type_id == Database.MYSQL_ID:
+        elif data_source_type_id == DataSourceType.MYSQL_ID:
             connection = pyodbc.connect(connection_string)
 
         # Oracle
-        elif data_source_type_id == Database.ORACLE_ID:
+        elif data_source_type_id == DataSourceType.ORACLE_ID:
             connection = pyodbc.connect(connection_string)
 
         # PostgreSQL
-        elif data_source_type_id == Database.POSTGRESQL_ID:
+        elif data_source_type_id == DataSourceType.POSTGRESQL_ID:
             connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
         # SQLite
-        elif data_source_type_id == Database.SQLITE_ID:
+        elif data_source_type_id == DataSourceType.SQLITE_ID:
             connection = sqlite3.connect(connection_string)
 
         # Teradata
-        elif data_source_type_id == Database.TERADATA_ID:
+        elif data_source_type_id == DataSourceType.TERADATA_ID:
             connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
