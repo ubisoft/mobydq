@@ -4,6 +4,8 @@ from flask_restplus import Resource, Namespace
 
 
 def register_health(namespace: Namespace):
+    """Method used to register the health check namespace and endpoint."""
+
     @namespace.route('/health')
     @namespace.doc()
     class Health(Resource):
