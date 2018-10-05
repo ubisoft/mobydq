@@ -1,5 +1,6 @@
 from ast import literal_eval
 from data_source import DataSource
+from typing import List
 import logging
 import os
 import pandas
@@ -15,7 +16,7 @@ class Indicator:
     def __init__(self):
         pass
 
-    def verify_indicator_parameters(self, indicator_type_id, parameters):
+    def verify_indicator_parameters(self, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
         query = '''query{allParameterTypes{nodes{id,name}}}'''
@@ -58,7 +59,7 @@ class Indicator:
 
         return indicator_parameters
 
-    def get_data_frame(self, data_source, request, dimensions, measures):
+    def get_data_frame(self, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
         query = '''{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'''
@@ -100,7 +101,7 @@ class Indicator:
 
         return data_frame
 
-    def is_alert(self, measure_value, alert_operator, alert_threshold):
+    def is_alert(self, measure_value: str, alert_operator: str, alert_threshold: str):
         """
         Compare measure to alert threshold based on the alert operator.
         Return True if an alert must be sent, False otherwise.
@@ -111,7 +112,7 @@ class Indicator:
         else:
             return False
 
-    def compute_session_result(self, session_id, alert_operator, alert_threshold, result_data):
+    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandFas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)
@@ -134,7 +135,7 @@ class Indicator:
 
         return nb_records_alert
 
-    def send_alert(self, indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data):
+    def send_alert(self, indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], alert_operator: str, alert_threshold: str, nb_records_alert: str, result_data: pandas.DataFrame):
         """Build the alert e-mail to be sent for the session."""
         # Create csv file to send in attachment
         file_name = 'indicator_{indicator_id}_session_{session_id}.csv'.format(indicator_id=indicator_id, session_id=session_id)

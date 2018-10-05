@@ -1,9 +1,9 @@
 import os
-from flask_restplus import Resource
+from flask_restplus import Resource, Namespace
 from flask import jsonify
 
 
-def register_health(namespace):
+def register_health(namespace: Namespace):
     @namespace.route('/health')
     @namespace.doc()
     class Health(Resource):

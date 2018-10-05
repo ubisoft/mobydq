@@ -1,7 +1,7 @@
 import docker
 
 
-def execute_batch(batch_id):
+def execute_batch(batch_id: int):
     container_name = f'mobydq-batch-{batch_id}'
     client = docker.from_env()
     client.containers.run(

@@ -13,7 +13,7 @@ import smtplib
 log = logging.getLogger(__name__)
 
 
-def get_parameter(section, parameter_name=None):
+def get_parameter(section: str, parameter_name: str=None):
     """Get parameters from flat file config.cfg."""
     configuration = configparser.ConfigParser()
     path = os.path.dirname(__file__)
@@ -28,7 +28,7 @@ def get_parameter(section, parameter_name=None):
     return parameters
 
 
-def execute_graphql_request(payload):
+def execute_graphql_request(payload: object):
     """Execute queries and mutations on the GraphQL API."""
     url = get_parameter('graphql', 'url')
     headers = {'Content-Type': 'application/graphql'}
@@ -37,7 +37,7 @@ def execute_graphql_request(payload):
     return data
 
 
-def send_mail(session_id, distribution_list, template=None, attachment=None, **kwargs):
+def send_mail(session_id: int, distribution_list: List[str], template: str=None, attachment: any=None, **kwargs):
     """Send e-mail to the distribution list."""
     # Verify e-mail configuration
     config = get_parameter('mail')
@@ -96,7 +96,7 @@ def send_mail(session_id, distribution_list, template=None, attachment=None, **k
     return True
 
 
-def send_error(indicator_id, indicator_name, session_id, distribution_list, error_message):
+def send_error(indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], error_message: str):
     """Build the error e-mail to be sent for the session."""
     # Prepare e-mail body
     body = {}

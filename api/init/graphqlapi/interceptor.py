@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from flask import jsonify
-from graphql.language.ast import Document
+from graphql.ast import Document
 from graphqlapi.batch import execute_batch
 from graphqlapi.data_source import test_data_source
+from graphqlapi.exceptions import RequestException
 
 
 def fetch_operation_from_ast(ast: Document, operation_name: str):
-    results = [[selection for selection in definition.selection_set.selections if selection.name.value == operation_name]
+    results = [[selection for selection in definition.selections if selection.name == operation_name]
                for definition in ast.definitions]
     if not len(results) == 1 or not len(results[0]) == 1:
         return None
@@ -14,8 +14,8 @@ def fetch_operation_from_ast(ast: Document, operation_name: str):
 
 
 def get_subselection(base_selection, name, parent_name):
-    sub_selections = [selection for selection in base_selection.selection_set.selections if any(
-        [sub_selection.name.value == name and selection.name.value == parent_name for sub_selection in selection.selection_set.selections])]
+    sub_selections = [selection for selection in base_selection.selections if any(
+        [sub_selection.name == name and selection.name == parent_name for sub_selection in selection.selections])]
     return sub_selections
 
 
@@ -25,21 +25,9 @@ class BaseRequest(ABC):
     def can_handle(self, ast: Document):
         pass
 
-    def intercept_ast_before_request(self, ast: Document):
-        return ast
-
+    @abstractmethod
     def after_request(self, executed_ast: Document, status: int, response: object):
         return response
-
-
-class RequestException(Exception):
-
-    def __init__(self, code: int, message: object):
-        self._code = code
-        self._message = message
-
-    def to_response(self):
-        return jsonify(self._message), self._code
 
 
 class ExecuteBatch(BaseRequest):
@@ -68,7 +56,7 @@ class ExecuteBatch(BaseRequest):
 class TestDataSource(BaseRequest):
 
     def can_handle(self, ast: Document):
-        return self._get_test_data_source(ast) != None
+        return fetch_operation_from_ast(ast, 'testDataSource') != None
 
     def after_request(self, executed_ast: Document, status: int, response: object):
         if status != 200:
@@ -82,6 +70,3 @@ class TestDataSource(BaseRequest):
         else:
             message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
             raise RequestException(400, message)
-
-    def _get_test_data_source(self, ast: Document):
-        return fetch_operation_from_ast(ast, 'testDataSource')

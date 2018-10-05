@@ -3,7 +3,7 @@ import logging
 import graphqlapi.utils as utils
 
 
-def test_data_source(data_source_id):
+def test_data_source(data_source_id: int):
     container_name = f'mobydq-test-data-source-{data_source_id}'
 
     client = docker.from_env()
