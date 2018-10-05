@@ -14,7 +14,7 @@ class Freshness(Indicator):
     def __init__(self):
         pass
 
-    def execute(self, session):
+    def execute(self, session: dict):
         """Execute indicator of type freshness."""
         # Update session status to running
         session_id = session['id']
@@ -55,7 +55,7 @@ class Freshness(Indicator):
         Session.update_session_status(session_id, 'Succeeded')
         log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(session_id=session_id, indicator_id=indicator_id))
 
-    def evaluate_freshness(self, target_data, measures, alert_operator, alert_threshold):
+    def evaluate_freshness(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of freshness indicator and return results in a data frame."""
         result_data = target_data
         result_data['current_timestamp'] = datetime.utcnow()

@@ -13,12 +13,13 @@ class Completeness(Indicator):
     def __init__(self):
         pass
 
-    def execute(self, session):
+    def execute(self, session: dict):
         """Execute indicator of type completeness."""
         # Update session status to running
         session_id = session['id']
         indicator_id = session['indicatorId']
-        log.info('Start execution of session Id {session_id} for indicator Id {indicator_id}.'.format(session_id=session_id, indicator_id=indicator_id))
+        log.info('Start execution of session Id {session_id} for indicator Id {indicator_id}.'.format(
+            session_id=session_id, indicator_id=indicator_id))
         log.debug('Update session status to Running.')
         Session.update_session_status(session_id, 'Running')
 
@@ -43,23 +44,33 @@ class Completeness(Indicator):
         alert_operator = parameters[1]  # Alert operator
         alert_threshold = parameters[2]  # Alert threshold
         log.info('Evaluate completeness of target data source.')
-        result_data = self.evaluate_completeness(source_data, target_data, dimensions, measures, alert_operator, alert_threshold)
+        result_data = self.evaluate_completeness(
+            source_data, target_data, dimensions, measures, alert_operator, alert_threshold)
 
         # Compute session result
-        nb_records_alert = super().compute_session_result(session_id, alert_operator, alert_threshold, result_data)
+        nb_records_alert = super().compute_session_result(
+            session_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
             indicator_name = session['indicatorByIndicatorId']['name']
             distribution_list = parameters[3]  # Distribution list
-            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
+            super().send_alert(indicator_id, indicator_name, session_id, distribution_list,
+                               alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
         Session.update_session_status(session_id, 'Succeeded')
-        log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(session_id=session_id, indicator_id=indicator_id))
+        log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(
+            session_id=session_id, indicator_id=indicator_id))
 
-    def evaluate_completeness(self, source_data, target_data, dimensions, measures, alert_operator, alert_threshold):
+    def evaluate_completeness(self,
+                              source_data: pandas.DataFrame,
+                              target_data: pandas.DataFrame,
+                              dimensions: str,
+                              measures: str,
+                              alert_operator: str,
+                              alert_threshold: str):
         """Compute specificities of completeness indicator and return results in a data frame."""
         # Merge data frames to compare their measures
         result_data = pandas.merge(
@@ -84,22 +95,33 @@ class Completeness(Indicator):
             result_data[delta_column] = delta
 
             # Compute delta percentage
-            result_data[delta_percentage_column] = result_data[delta_column] / result_data[source_column]
-            result_data.loc[(result_data[source_column] == 0), delta_percentage_column] = 1  # Replace delta percentage by 1 since can't divide by 0
-            result_data.loc[(result_data[delta_column] == 0), delta_percentage_column] = 0  # Replace delta percentage by 0 since delta equal 0
+            result_data[delta_percentage_column] = result_data[delta_column] / \
+                result_data[source_column]
+            # Replace delta percentage by 1 since can't divide by 0
+            result_data.loc[(result_data[source_column] == 0),
+                            delta_percentage_column] = 1
+            # Replace delta percentage by 0 since delta equal 0
+            result_data.loc[(result_data[delta_column] == 0),
+                            delta_percentage_column] = 0
 
             # Formatting data to improve readability
-            result_data[source_column] = round(result_data[source_column], 2).astype(float)
-            result_data[target_column] = round(result_data[target_column], 2).astype(float)
-            result_data[delta_column] = round(result_data[delta_column], 2).astype(float)
-            result_data[delta_percentage_column] = round(result_data[delta_percentage_column], 6).astype(float)
+            result_data[source_column] = round(
+                result_data[source_column], 2).astype(float)
+            result_data[target_column] = round(
+                result_data[target_column], 2).astype(float)
+            result_data[delta_column] = round(
+                result_data[delta_column], 2).astype(float)
+            result_data[delta_percentage_column] = round(
+                result_data[delta_percentage_column], 6).astype(float)
 
         # For each record and measure in data frame test if alert must be sent and update alert column
         result_data['Alert'] = False
         for measure in measures:
             for row_num in result_data.index:
-                measure_value = result_data.loc[row_num, measure + '_delta_percentage']
-                measure_value = abs(measure_value) * 100  # Multiply by 100 to format to percentage
+                measure_value = result_data.loc[row_num,
+                                                measure + '_delta_percentage']
+                # Multiply by 100 to format to percentage
+                measure_value = abs(measure_value) * 100
                 if super().is_alert(measure_value, alert_operator, alert_threshold):
                     result_data.loc[row_num, 'Alert'] = True
 
