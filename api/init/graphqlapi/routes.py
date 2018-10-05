@@ -25,10 +25,13 @@ def register_graphql(namespace: Namespace, api: Api):
             Use this endpoint to send http request to the GraphQL API.
             """
             payload = request.json
+
             try:
                 status, response = proxy_request(payload)
                 return make_response(jsonify(response), status)
-            except RequestException as ex:
-                return ex.to_response()
+
+            except RequestException as Exception:
+                return Exception.to_response()
+
             except APIError as apiError:
                 return make_response(jsonify({'message': apiError.explanation}), apiError.status_code)
