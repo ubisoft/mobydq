@@ -27,8 +27,8 @@ def register_graphql(namespace: Namespace, api: Api):
             """
             payload = request.json
             try:
-                code, result = proxy_request(payload)
-                return make_response(jsonify(result), code)
+                status, response = proxy_request(payload)
+                return make_response(jsonify(response), status)
             except RequestException as ex:
                 return ex.to_response()
             except APIError as apiError:
