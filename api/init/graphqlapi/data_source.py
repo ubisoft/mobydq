@@ -3,10 +3,6 @@ import logging
 import graphqlapi.utils as utils
 
 
-# Load logging configuration
-log = logging.getLogger(__name__)
-
-
 def test_data_source(data_source_id):
     container_name = f'mobydq-test-data-source-{data_source_id}'
 
