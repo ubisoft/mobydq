@@ -33,7 +33,7 @@ class BaseRequest(ABC):
 class ExecuteBatch(BaseRequest):
 
     def can_handle(self, payload: Document):
-        return self._get_execute_batch(payload) != None
+        return self._get_execute_batch(payload) is not None
 
     def after_request(self, executed_payload: Document, status: int, response: object):
         if status != 200:
