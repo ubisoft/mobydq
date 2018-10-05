@@ -5,6 +5,8 @@ import Indicator from './../Indicator/Indicator';
 import IndicatorGroup from './../IndicatorGroup/IndicatorGroup';
 import Admin from './../Admin/Admin';
 import DataSource from './../DataSource/DataSource';
+import NotFoundComponent from '../Error/NotFoundComponent'
+import Login from '../Login/Login';
 
 const Content = () => (
   <main>
@@ -14,6 +16,8 @@ const Content = () => (
       <Route path='/indicator-group' component={IndicatorGroup} />
       <Route path='/data-source' component={DataSource} />
       <Route path='/admin' component={Admin} />
+      <Route path='/login' component={Login} />
+      <Route component={NotFoundComponent} />
     </Switch>
   </main>
 )

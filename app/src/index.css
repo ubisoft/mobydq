@@ -27,3 +27,50 @@ body {
     border-radius: .25rem;
     transition: color .15s
 }
+
+.loginForm
+{
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-right: 20%;
+    height: 400px;
+    background-color: #424242;
+    color: white;
+}
+
+.loginFormHeader
+{
+    margin-top: 10%;
+    height: 20px;
+    background-color: #E0DEE0;
+}
+
+.btnCloseFake
+{
+    width: 12px;
+    height: 12px;
+    margin-top: 2px;
+    border-radius: 100%;
+    background-color: #EB5D55;
+    cursor: pointer;
+}
+
+.btnMinimizeFake
+{
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    margin-top: 2px;
+    background-color: #F7BF33;
+    cursor: pointer;
+}
+
+.btnMaximizeFake
+{
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    margin-top: 2px;
+    background-color: #69CB44;
+    cursor: pointer;
+}
