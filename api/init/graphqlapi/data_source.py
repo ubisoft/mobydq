@@ -16,13 +16,7 @@ def test_data_source(data_source_id: int):
     )
 
     # Get connectivity test result
-    query = '''query {
-        dataSourceById(id:data_source_id) {
-            id,
-            connectivityStatus
-        }
-    }'''
-
+    query = '''query{dataSourceById(id:data_source_id){id,connectivityStatus}}'''
     query = query.replace('data_source_id', str(
         data_source_id))  # Use replace() instead of format() because of curly braces
     data = utils.execute_graphql_request(query)
