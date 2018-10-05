@@ -13,5 +13,7 @@ RUN npm i -g react-scripts@2.0.4
 COPY package.json package-lock.json /usr/src/app/
 RUN npm ci
 
+COPY .eslintrc.json /usr/src/app/
+
 # start app
 CMD ["npm", "start"]

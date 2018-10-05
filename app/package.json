@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js",
     "update-lock": "npm i --package-lock-only",
-    "ci-test-and-lint": "npm test -- --coverage --ci --testResultsProcessor=jest-junit || npm run lint -- --parser junit -o /reports/junit/js-lint-results.xml"
+    "ci-test-and-lint": "npm test -- --coverage --ci --reporters=jest-junit || npm run lint -- --format junit -o /reports/junit/js-lint-results.xml"
   },
   "browserslist": [
     ">0.2%",
