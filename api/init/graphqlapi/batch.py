@@ -8,7 +8,6 @@ def execute_batch(batch_id):
         name=container_name,
         image='mobydq-scripts',
         network='mobydq-network',
-        links={'mobydq-graphql': 'mobydq-graphql'},
         command=['python', 'run.py', 'execute_batch', batch_id],
         remove=True,
         detach=True
