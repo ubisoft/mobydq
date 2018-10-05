@@ -73,8 +73,7 @@ services:
       context: ./app
       dockerfile: Dockerfile-dev
     volumes:
-      - './app:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - ./app:/usr/src/app
     env_file:
       - ./.env
     ports:

@@ -9,9 +9,9 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
-RUN npm i -g --silent react-scripts@2.0.3
+RUN npm i -g react-scripts@2.0.4
 COPY package.json package-lock.json /usr/src/app/
-RUN npm ci --silent
+RUN npm ci
 
 # start app
 CMD ["npm", "start"]

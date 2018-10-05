@@ -16,9 +16,9 @@ RUN echo "API_URL = $API_URL" > ./app.cfg
 # ENTRYPOINT echo "API_URL = $API_URL" > ./app.cfg # Attempt to overwrite variable at run time but does not work
 
 # Install and cache app dependencies
-RUN npm i -g --silent react-scripts@2.0.3
+RUN npm i -g react-scripts@2.0.4
 COPY package.json package-lock.json /usr/src/app/
-RUN npm ci --silent
+RUN npm ci
 COPY . /usr/src/app
 RUN npm run build
 

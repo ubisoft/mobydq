@@ -16,8 +16,10 @@ services:
       context: ./app
       dockerfile: Dockerfile-dev
     volumes:
-      - './app:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - ./app:/usr/src/app
+      - ./test/results:/reports/junit
     ports:
       - 80:3000
-    command: "npm test -- --coverage"
+    command: "npm run ci-test-and-lint"
+    environment:
+      JEST_JUNIT_OUTPUT: "/reports/junit/js-test-results.xml"
