@@ -7,19 +7,19 @@ GO
 
 /*Create tables*/
 CREATE TABLE planet(
-  id INT PRIMARY KEY,
-  name VARCHAR(255),
-  rotation_period INT,
-  orbital_period INT,
-  diameter INTEGER,
-  climate VARCHAR(255),
-  gravity VARCHAR(255),
-  terrain VARCHAR(255),
-  surface_water VARCHAR(255),
-  population BIGINT,
-  created_date DATETIME,
-  updated_date DATETIME,
-  url VARCHAR(255)
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    rotation_period INT,
+    orbital_period INT,
+    diameter INTEGER,
+    climate VARCHAR(255),
+    gravity VARCHAR(255),
+    terrain VARCHAR(255),
+    surface_water VARCHAR(255),
+    population BIGINT,
+    created_date DATETIME,
+    updated_date DATETIME,
+    url VARCHAR(255)
 );
 GO
 
