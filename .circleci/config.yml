@@ -14,13 +14,13 @@ jobs:
           command: |
             echo "POSTGRES_USER=postgres" >> ./.env
             echo "POSTGRES_PASSWORD=password" >> ./.env
-            echo "DATABASE_URL=postgres://postgres:password@db:5432/data_quality" >> ./.env
+            echo "DATABASE_URL=postgres://postgres:password@db:5432/mobydq" >> ./.env
             echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
             echo "MAIL_HOST=smtp.server.org" >> ./.env
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "FLASK_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql" >> ./.env
+            echo "FLASK_API_URL=http://0.0.0.0:5434/graphql" >> ./.env
 
       - run:
           name: Build Docker images
@@ -36,6 +36,13 @@ jobs:
             docker volume create mobydq-db-volume
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
             docker ps -a
+
+      - run:
+          name: Run backend tests
+          command: |
+            docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
+            sleep 5 # Wait for databases to start properly
+            docker-compose -f ./test/docker-compose.yml up test
 
       - run:
           name: Run backend tests
