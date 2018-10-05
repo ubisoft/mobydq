@@ -8,15 +8,15 @@ import BaseDataView from './BaseDataView'
 
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_API_URL,
-// options: { mode: 'no-cors' }
+  uri: process.env.FLASK_API_URL,
+  // options: { mode: 'no-cors' }
 });
 
 const Root = ({ store }) => (
   <ApolloProvider client={client}>
     <Provider store={store}>
       <BrowserRouter>
-        <BaseDataView/>
+        <BaseDataView />
       </BrowserRouter>
     </Provider>
   </ApolloProvider>

@@ -23,14 +23,17 @@
     "redux-thunk": "^2.3.0",
     "yup": "^0.26.6"
   },
-  "devDependencies": {
-    "react-test-renderer": "^16.5.2"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "update-lock": "npm i --package-lock-only"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
