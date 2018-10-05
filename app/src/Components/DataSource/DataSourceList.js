@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import DataSourceRepository  from './../../repository/DataSourceRepository';
-import DataTable from '../Dashboard/DataTable';
+import DataTable from '../DataTable/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
 const DataSourceList = (refetch) => (
