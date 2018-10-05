@@ -56,7 +56,7 @@ class ExecuteBatch(BaseRequest):
 class TestDataSource(BaseRequest):
 
     def can_handle(self, payload: Document):
-        return fetch_operation_from_ast(payload, 'testDataSource') != None
+        return fetch_operation_from_ast(payload, 'testDataSource') is not None
 
     def after_request(self, executed_payload: Document, status: int, response: object):
         if status != 200:
