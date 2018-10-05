@@ -8,3 +8,9 @@ __pycache__
 .env
 .env.app
 scripts.cfg
+
+# editor specific config files
+.vscode/
+
+# unit test results
+test-results.xml

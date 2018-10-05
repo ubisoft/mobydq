@@ -1,5 +1,5 @@
 from datetime import datetime
-from scripts.init.data_source import DataSource
+from scripts.data_source import DataSource
 import time
 import unittest
 
@@ -76,7 +76,7 @@ class TestDataSource(unittest.TestCase):
     def test_get_connection_sqlite(self):
         # Set connection parameters
         data_source_type_id = 8
-        connection_string = './test/db-sqlite/star_wars.db'
+        connection_string = './star_wars.db'
 
         # Connect to test database
         data_source = DataSource()

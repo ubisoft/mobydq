@@ -44,12 +44,36 @@ class IndicatorRepository {
             id
             name
             description
-            createdDate
-            updatedDate
           }
         }
       }`
   }
+
+  static getIndicatorToUpdate(id) {
+      return gql`
+    indicatorById(id:` + id + `) {
+          id
+          name
+          description
+          executionOrder
+          flagActive
+          createdDate
+          updatedDate
+          indicatorTypeId       
+      }
+    }`
+  }
+
+    static update() {
+        return gql`
+      mutation updateIndicator($id: Int!, $indicatorPatch: IndicatorPatch!) {
+        updateIndicatorById(input: {id: $id, indicatorPatch: $indicatorPatch}) {
+          indicator {
+            id
+          }
+        } 
+      }`
+    }
 }
 
 export default IndicatorRepository;

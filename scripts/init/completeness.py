@@ -23,9 +23,9 @@ class Completeness(Indicator):
         Session.update_session_status(session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
-        indicaor_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
+        indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
         parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
-        parameters = super().verify_indicator_parameters(indicaor_type_id, parameters)
+        parameters = super().verify_indicator_parameters(indicator_type_id, parameters)
 
         # Get source data
         dimensions = parameters[4]
@@ -99,7 +99,7 @@ class Completeness(Indicator):
         for measure in measures:
             for row_num in result_data.index:
                 measure_value = result_data.loc[row_num, measure + '_delta_percentage']
-                measure_value = abs(measure_value)*100  # Multiply by 100 to format to percentage
+                measure_value = abs(measure_value) * 100  # Multiply by 100 to format to percentage
                 if super().is_alert(measure_value, alert_operator, alert_threshold):
                     result_data.loc[row_num, 'Alert'] = True
 
