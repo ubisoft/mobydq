@@ -20,4 +20,4 @@ services:
       - '/usr/src/app/node_modules'
     ports:
       - 80:3000
-    command: "npm test --coverage"
+    command: "npm test -- --coverage"
