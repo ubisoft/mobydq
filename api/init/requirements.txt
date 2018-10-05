@@ -1,5 +1,5 @@
 docker==3.5.0
 flask==1.0.2
 flask_restplus==0.11.0
-requests==2.19.1
 graphql-py==0.7.1
+requests==2.19.1
