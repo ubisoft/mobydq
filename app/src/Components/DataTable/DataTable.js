@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from './../../styles/baseStyles';
+import { styles } from '../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
 import Table from '@material-ui/core/Table'
@@ -9,26 +9,10 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-import TableHeaderComponent from '../Dashboard/TableHeaderComponent';
-import TableBodyComponent from '../Dashboard/TableBodyComponent';
+import TableHeader from './TableHeader';
+import DataTableBody from './TableBody';
 
 class DataTable extends React.Component {
-  _buildHeaderCell(fieldName) {
-    fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-    fieldName = fieldName.match(/[A-Z][a-z]+/g).join(" ");
-    return (
-      <TableCell key={fieldName}>{fieldName}</TableCell>
-    )
-  }
-
-  _buildHeader(headerFieldNames) {
-    return (
-      <TableRow>
-        {headerFieldNames.map((fieldName) => (this._buildHeaderCell(fieldName)))}
-      </TableRow>
-    )
-  }
-
   _buildCell(cellName, cellValue) {
     if (cellValue === true) {
       cellValue = <DoneIcon color="primary"/>;
@@ -37,7 +21,7 @@ class DataTable extends React.Component {
       cellValue = <ClearIcon color="error"/>
     }
     return (
-        <TableCell key={cellName}>{cellValue}</TableCell>
+      <TableCell key={cellName}>{cellValue}</TableCell>
     )
   }
 
@@ -50,6 +34,7 @@ class DataTable extends React.Component {
   }
 
   render() {
+    //check if correct data prop is passed, otherwise render empty.
     if (this.props.data === null || this.props.data.length === 0 || this.props.data.constructor !== Array) {
       return (<React.Fragment/>)
     }
@@ -61,10 +46,10 @@ class DataTable extends React.Component {
     return (
       <Table>
         <TableHead>
-          <TableHeaderComponent headerNames={Object.keys(this.props.data[0])}/>
+          <TableHeader headerNames={tableFieldNames}/>
         </TableHead>
         <TableBody>
-              <TableBodyComponent buttons={this.props.buttons} tableContent={Object.values(this.props.data)} />
+          <DataTableBody buttons={this.props.buttons} tableContent={Object.values(this.props.data)} />
         </TableBody>
       </Table>
     )
