@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 class DataSource:
     """Data source class."""
 
-    def get_connection(self, data_source_type_id, connection_string, login=None, password=None):
+    def get_connection(self, data_source_type_id: int, connection_string: str, login: str = None, password: str = None):
         """Connect to a data source. Return a connection object."""
         # Add login to connection string if it is not empty
         if login:
@@ -75,7 +75,7 @@ class DataSource:
 
         return connection
 
-    def test(self, data_source_id):
+    def test(self, data_source_id: int):
         log.info('Test connectivity to data source Id {data_source_id}.'.format(
             data_source_id=data_source_id))
 

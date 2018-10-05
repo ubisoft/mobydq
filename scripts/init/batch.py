@@ -19,7 +19,7 @@ class Batch:
     def __init__(self):
         pass
 
-    def update_batch_status(self, batch_id, batch_status):
+    def update_batch_status(self, batch_id: int, batch_status: str):
         """Update a batch status."""
         mutation = '''mutation{updateBatchById(input:{id:batch_id,batchPatch:{status:"batch_status"}}){batch{status}}}'''
         mutation = mutation.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
@@ -27,7 +27,7 @@ class Batch:
         data = utils.execute_graphql_request(mutation)
         return data
 
-    def execute(self, batch_id):
+    def execute(self, batch_id: int):
         log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
 
         # Get list of indicator sessions

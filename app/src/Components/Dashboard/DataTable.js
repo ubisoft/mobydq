@@ -9,7 +9,8 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import TableHeaderComponent from '../Dashboard/TableHeaderComponent';
+import TableBodyComponent from '../Dashboard/TableBodyComponent';
 
 class DataTable extends React.Component {
   _buildHeaderCell(fieldName) {
@@ -60,10 +61,10 @@ class DataTable extends React.Component {
     return (
       <Table>
         <TableHead>
-          {this._buildHeader(tableFieldNames)}
+          <TableHeaderComponent headerNames={Object.keys(this.props.data[0])}/>
         </TableHead>
         <TableBody>
-          {this._buildTable(tableFieldNames)}
+              <TableBodyComponent buttons={this.props.buttons} tableContent={Object.values(this.props.data)} />
         </TableBody>
       </Table>
     )

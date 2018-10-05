@@ -12,7 +12,7 @@ class Dashboard extends React.Component {
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
           Some awesome Ux lalalalalala
-          ENV URL PARAM: {process.env.REACT_APP_GRAPHQL_API_URL}
+          ENV URL PARAM: {process.env.FLASK_API_URL}
         </Typography>
       </React.Fragment>
     )
