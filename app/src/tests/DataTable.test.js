@@ -39,10 +39,11 @@ it('renders without crashing with normal data object', () => {
   let tree = component.toJSON();
 
   expect(tree).toMatchSnapshot();
+
 });
 
-it('renders without crashing with incorrect data object (to fix failing test on this)', () => {
-  const data = "meow";
+it('renders without crashing with incorrect data object (to fix Test should fail on this)', () => {
+  const data = "not an array";
 
   const component = renderer.create(
     <DataTable data={data}/>
