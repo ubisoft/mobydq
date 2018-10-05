@@ -1,72 +1,47 @@
-from abc import ABC, abstractmethod
-from graphql.ast import Document, Definition
-from graphqlapi.batch import execute_batch
-from graphqlapi.data_source import test_data_source
-from graphqlapi.exceptions import RequestException
+import sys
+import graphqlapi.batch as batch  # Called dynamically with getattr
+import graphqlapi.data_source as data_source  # Called dynamically with getattr
+from graphql.ast import Document
 
 
-def fetch_operation_from_ast(query_payload: Document, operation_name: str):
-    results = [[selection for selection in definition.selections if selection.name == operation_name]
-               for definition in query_payload.definitions]
-    if not len(results) == 1 or not len(results[0]) == 1:
+class Interceptor():
+    """Class used to intercept custom mutations and trigger the corresponding scripts."""
+
+    def __init__(self):
+        self.can_handle_mutations = {
+            'executeBatch': {'module': 'batch', 'class': 'ExecuteBatch', 'method': 'execute_batch'},
+            'testDataSource': {'module': 'data_source', 'class': 'TestDataSource', 'method': 'test_data_source'}
+        }
+
+    def get_mutation_name(self, payload: Document):
+        """Method used to verify if the interceptor can handle the mutation."""
+
+        mutation_name = payload.definitions[0].selections[0].name
+        if mutation_name in self.can_handle_mutations:
+            return mutation_name
         return None
-    return results[0][0]
 
+    def get_mutation_arguments(self, payload: Document):
+        """Method used to extract mutation arguments from the original payload."""
 
-def get_subselection(base_selection: Definition, name: str, parent_name: str):
-    sub_selections = [selection for selection in base_selection.selections if any(
-        [sub_selection.name == name and selection.name == parent_name for sub_selection in selection.selections])]
-    return sub_selections
+        mutation_arguments = payload.definitions[0].selections[0].arguments[0].value
+        return mutation_arguments
 
+    def before_request(self, mutation_name: str, mutation_arguments: dict):
+        """Method used to recreate the payload to be sent to GraphQL API."""
 
-class BaseRequest(ABC):
+        module_name = self.can_handle_mutations[mutation_name]['module']
+        class_name = self.can_handle_mutations[mutation_name]['class']
+        class_instance = getattr(sys.modules[module_name], class_name)()
+        payload = getattr(class_instance, 'build_payload')(mutation_arguments)
+        return payload
 
-    @abstractmethod
-    def can_handle(self, payload: Document):
-        pass
+    def after_request(self, mutation_name: str, response: dict):
+        """Method used to trigger scripts after the request to GraphQL API."""
 
-    @abstractmethod
-    def after_request(self, executed_payload: Document, status: int, response: object):
+        module_name = self.can_handle_mutations[mutation_name]['module']
+        class_name = self.can_handle_mutations[mutation_name]['class']
+        method_name = self.can_handle_mutations[mutation_name]['method']
+        class_instance = getattr(sys.modules[module_name], class_name)()
+        response = getattr(class_instance, method_name)(response)
         return response
-
-
-class ExecuteBatch(BaseRequest):
-
-    def can_handle(self, payload: Document):
-        return self._get_execute_batch(payload) is not None
-
-    def after_request(self, executed_payload: Document, status: int, response: object):
-        if status != 200:
-            return response
-
-        executed_batch = self._get_execute_batch(executed_payload)
-        batch_id_selections = get_subselection(executed_batch, 'id', 'batch')
-        if len(batch_id_selections) == 0:
-            message = 'Batch Id attribute is mandatory in the payload to be able to trigger the batch execution. Example: {"query": "mutation Test{executeBatch(input:{indicatorGroupId:1}){batch{id}}}"'
-            raise RequestException(400, message)
-
-        batch_id = str(response['data']['executeBatch']['batch']['id'])
-        execute_batch(batch_id)
-        return response
-
-    def _get_execute_batch(self, payload: Document):
-        return fetch_operation_from_ast(payload, 'executeBatch')
-
-
-class TestDataSource(BaseRequest):
-
-    def can_handle(self, payload: Document):
-        return fetch_operation_from_ast(payload, 'testDataSource') is not None
-
-    def after_request(self, executed_payload: Document, status: int, response: object):
-        if status != 200:
-            return response
-
-        if 'id' in response['data']['testDataSource']['dataSource']:
-            data_source_id = str(
-                response['data']['testDataSource']['dataSource']['id'])
-            _, response = test_data_source(data_source_id)
-            return response
-        else:
-            message = "Data Source Id attribute is mandatory in the payload to be able to test the connectivity. Example: {'query': 'mutation Test{testDataSource(input:{dataSourceId:1}){dataSource{id}}}'"
-            raise RequestException(400, message)

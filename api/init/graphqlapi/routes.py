@@ -1,8 +1,9 @@
+import graphqlapi.utils as utils
 from docker.errors import APIError
 from flask import request, jsonify, make_response
 from flask_restplus import Resource, fields, Namespace, Api
 from graphqlapi.exceptions import RequestException
-from graphqlapi.proxy import proxy_request
+from graphqlapi.interceptor import Interceptor
 
 
 def register_graphql(namespace: Namespace, api: Api):
@@ -27,11 +28,29 @@ def register_graphql(namespace: Namespace, api: Api):
             payload = request.json
 
             try:
-                status, response = proxy_request(payload)
-                return make_response(jsonify(response), status)
+                # Validate http request payload and convert it to GraphQL document
+                graphql_document = utils.validate_graphql_request(payload['query'])
 
-            except RequestException as Exception:
-                return Exception.to_response()
+                # Verify if GraphQL mutation can be handled
+                interceptor = Interceptor()
+                mutation_name = interceptor.get_mutation_name(graphql_document)
 
-            except APIError as apiError:
-                return make_response(jsonify({'message': apiError.explanation}), apiError.status_code)
+                # Execute custom scripts before request
+                if mutation_name:
+                    mutation_arguments = interceptor.get_mutation_arguments(graphql_document)
+                    payload['query'] = interceptor.before_request(mutation_name, mutation_arguments)
+
+                # Execute request on GraphQL API
+                status, data = utils.execute_graphql_request(payload['query'])
+
+                # Execute custom scripts after request
+                if mutation_name:
+                    data = interceptor.after_request(mutation_name, data)
+
+                return make_response(jsonify(data), status)
+
+            except RequestException:
+                return RequestException.to_response()
+
+            except APIError:
+                return make_response(jsonify({'message': APIError.explanation}), APIError.status_code)
