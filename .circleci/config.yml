@@ -4,7 +4,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.7.0
     steps:
       - checkout
       - setup_remote_docker
@@ -45,17 +45,12 @@ jobs:
             docker-compose -f ./test/docker-compose.yml up test
 
       - run:
-          name: Run backend tests
-          command: |
-            docker-compose -f ./test/docker-compose.yml up test
-
-      - run:
           name: Run frontend tests
           command: |
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up app
 
       - store_test_results:
-          path: test-results/*.xml
+          path: ./test-results
 
       - store_artifacts:
-          path: test-results/*.xml
+          path: ./test-results
