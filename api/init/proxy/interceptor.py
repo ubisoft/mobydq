@@ -9,8 +9,8 @@ class Interceptor():
 
     def __init__(self):
         self.can_handle_mutations = {
-            'executeBatch': {'module': 'batch', 'class': 'ExecuteBatch', 'method': 'execute_batch'},
-            'testDataSource': {'module': 'data_source', 'class': 'TestDataSource', 'method': 'test_data_source'}
+            'executeBatch': {'module': 'proxy.batch', 'class': 'ExecuteBatch', 'method': 'execute_batch'},
+            'testDataSource': {'module': 'proxy.data_source', 'class': 'TestDataSource', 'method': 'test_data_source'}
         }
 
     def get_mutation_name(self, payload: Document):
