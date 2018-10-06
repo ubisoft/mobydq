@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import IndicatorRepository from './../../repository/IndicatorRepository';
-import DataTable from '../Dashboard/DataTable';
+import DataTable from '../DataTable/DataTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
 const IndicatorList = (refetch) => (
