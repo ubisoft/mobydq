@@ -7,7 +7,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableHeader from './TableHeader';
 import DataTableBody from './TableBody';
-import TableRow from "@material-ui/core/TableRow/TableRow";
 
 class DataTable extends React.Component {
   _buildTableFieldNames() {
