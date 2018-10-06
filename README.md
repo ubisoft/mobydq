@@ -71,7 +71,7 @@ MAIL_SENDER=change@me.com
 # APP PARAMS
 # Parameters used by app container
 NODE_ENV=development
-FLASK_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
+REACT_APP_FLASK_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
 ```
 
 

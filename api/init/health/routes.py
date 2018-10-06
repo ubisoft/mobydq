@@ -1,9 +1,11 @@
 import os
-from flask_restplus import Resource, Namespace
 from flask import jsonify
+from flask_restplus import Resource, Namespace
 
 
 def register_health(namespace: Namespace):
+    """Method used to register the health check namespace and endpoint."""
+
     @namespace.route('/health')
     @namespace.doc()
     class Health(Resource):
@@ -14,8 +16,6 @@ def register_health(namespace: Namespace):
             """
             is_debug = os.environ.get('FLASK_DEBUG')
             mode = 'production' if not is_debug else 'debug'
-            message = {
-                'message': f'MobyDQ API running in {mode} mode'
-            }
+            message = {'message': f'MobyDQ API running in {mode} mode'}
 
             return jsonify(message)

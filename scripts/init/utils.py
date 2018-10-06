@@ -37,7 +37,7 @@ def execute_graphql_request(payload: object):
     return data
 
 
-def send_mail(session_id: int, distribution_list: List[str], template: str=None, attachment: any=None, **kwargs):
+def send_mail(session_id: int, distribution_list: list, template: str=None, attachment: any=None, **kwargs):
     """Send e-mail to the distribution list."""
     # Verify e-mail configuration
     config = get_parameter('mail')
@@ -96,7 +96,7 @@ def send_mail(session_id: int, distribution_list: List[str], template: str=None,
     return True
 
 
-def send_error(indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], error_message: str):
+def send_error(indicator_id: int, indicator_name: str, session_id: int, distribution_list: list, error_message: str):
     """Build the error e-mail to be sent for the session."""
     # Prepare e-mail body
     body = {}

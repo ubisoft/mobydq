@@ -112,7 +112,7 @@ class Indicator:
         else:
             return False
 
-    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandFas.DataFrame):
+    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)

@@ -1,4 +1,4 @@
-class Database:
+class DataSourceType:
     HIVE_ID = 1
     IMPALA_ID = 2
     MARIADB_ID = 3
