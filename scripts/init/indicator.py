@@ -36,7 +36,7 @@ class Indicator:
         for parameter_type_id in [1, 2, 3, 4, 5, 8, 9]:
             if parameter_type_id not in indicator_parameters:
                 parameter_type = parameter_types_referential[parameter_type_id]
-                missing_parameters.append[parameter_type]
+                missing_parameters.append(parameter_type)
 
         # Verify parameters specific to completeness and latency indicator types
         # Source, Source request
@@ -44,7 +44,7 @@ class Indicator:
             for parameter_type_id in [6, 7]:
                 if parameter_type_id not in indicator_parameters:
                     parameter_type = parameter_types_referential[parameter_type_id]
-                    missing_parameters.append[parameter_type]
+                    missing_parameters.append(parameter_type)
 
         if missing_parameters:
             missing_parameters = ', '.join(missing_parameters)
@@ -112,7 +112,7 @@ class Indicator:
         else:
             return False
 
-    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandFas.DataFrame):
+    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)
