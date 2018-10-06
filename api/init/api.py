@@ -2,7 +2,7 @@ import logging
 import sys
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
-from graphqlapi.routes import register_graphql
+from proxy.routes import register_graphql
 from health.routes import register_health
 
 
