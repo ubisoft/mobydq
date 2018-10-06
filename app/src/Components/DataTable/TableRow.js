@@ -13,8 +13,8 @@ class DataTableRow extends React.Component
   render() {
     return(
       <TableRow>
-        <TableRowData rowData={this.props.rowData}/>
-        <TableRowButtons buttons={this.props.buttons} value={this.props.rowData[0]}/>
+        <TableRowData rowData={this.props.rowContent}/>
+        <TableRowButtons buttons={this.props.buttons} value={this.props.rowContent[0]}/>
       </TableRow>
     );
   }
@@ -22,12 +22,12 @@ class DataTableRow extends React.Component
 
 export default withStyles(styles)(DataTableRow);
 
-TableRow.defaultProps = {
-  rowData: [],
+DataTableRow.defaultProps = {
+  rowContent: [],
   buttons: [],
 };
 
-TableRow.propTypes = {
+DataTableRow.propTypes = {
   buttons: PropTypes.array,
-  rowData: PropTypes.array.isRequired
+  rowContent: PropTypes.array.isRequired
 };

@@ -16,7 +16,7 @@ class DataTable extends React.Component {
     return tableFieldNames
   }
 
-  _buildTableRowData() {
+  _buildTableContent() {
       return this.props.data.map((row) =>  {
         var rowArray = Object.values(row);
         // delete row.__typename;
@@ -33,7 +33,7 @@ class DataTable extends React.Component {
     }
 
     let headerNames = this._buildTableFieldNames();
-    let content = this._buildTableRowData();
+    let content = this._buildTableContent();
     return (
       <Table>
         <TableHead>

@@ -9,7 +9,7 @@ class DataTableBody extends React.Component {
       <React.Fragment>
         {
           this.props.content.map((row) => (
-            <DataTableRow buttons={this.props.buttons} key={row[0]} rowData={row}/>
+            <DataTableRow buttons={this.props.buttons} key={row[0]} rowContent={row}/>
           ))
         }
       </React.Fragment>
