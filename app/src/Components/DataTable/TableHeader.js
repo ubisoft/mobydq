@@ -13,22 +13,23 @@ class TableHeader extends React.Component {
     )
   }
 
-  _addActionsColumn(headerFieldNames) {
-    headerFieldNames.push('Actions');
-    return headerFieldNames;
+  _addActionsColumn(headerFields) {
+    headerFields.push('Actions');
+    return headerFields;
   }
 
-  _buildHeader(headerFieldNames) {
-    headerFieldNames = this._addActionsColumn(headerFieldNames);
+  _buildHeader(headerFields) {
+    headerFields = this._addActionsColumn(headerFields);
     return (
       <TableRow>
-        {headerFieldNames.map((fieldName) => (this._buildHeaderCell(fieldName)))}
+        {headerFields.map((fieldName) => (this._buildHeaderCell(fieldName)))}
       </TableRow>
     );
   }
 
   render() {
-    return (this._buildHeader(this.props.headerNames));
+    let headerFields = this.props.headerNames.slice(0)
+    return (this._buildHeader(headerFields));
   }
 }
 

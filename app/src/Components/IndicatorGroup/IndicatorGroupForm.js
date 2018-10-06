@@ -1,11 +1,9 @@
 import React from 'react';
-import { withFormik, Formik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 import RouterButton from './../FormInput/RouterButton';
-import SwitchInput from './../FormInput/SwitchInput';
 
 const IndicatorGroupFormFields = props => {
   const {
