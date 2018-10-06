@@ -1,6 +1,6 @@
 import sys
-import graphqlapi.batch as batch  # Called dynamically with getattr
-import graphqlapi.data_source as data_source  # Called dynamically with getattr
+import proxy.batch as batch  # Called dynamically with getattr
+import proxy.data_source as data_source  # Called dynamically with getattr
 from graphql.ast import Document
 
 

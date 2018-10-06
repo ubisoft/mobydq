@@ -16,8 +16,6 @@ def register_health(namespace: Namespace):
             """
             is_debug = os.environ.get('FLASK_DEBUG')
             mode = 'production' if not is_debug else 'debug'
-            message = {
-                'message': f'MobyDQ API running in {mode} mode'
-            }
+            message = {'message': f'MobyDQ API running in {mode} mode'}
 
             return jsonify(message)

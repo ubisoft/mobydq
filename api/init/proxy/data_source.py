@@ -1,5 +1,5 @@
 import docker
-import graphqlapi.utils as utils
+import proxy.utils as utils
 
 
 class TestDataSource():

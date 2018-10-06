@@ -1,9 +1,9 @@
-import graphqlapi.utils as utils
+import utils
 from docker.errors import APIError
 from flask import request, jsonify, make_response
 from flask_restplus import Resource, fields, Namespace, Api
-from graphqlapi.exceptions import RequestException
-from graphqlapi.interceptor import Interceptor
+from exceptions import RequestException
+from interceptor import Interceptor
 
 
 def register_graphql(namespace: Namespace, api: Api):
@@ -31,7 +31,7 @@ def register_graphql(namespace: Namespace, api: Api):
                 # Validate http request payload and convert it to GraphQL document
                 graphql_document = utils.validate_graphql_request(payload['query'])
 
-                # Verify if GraphQL mutation can be handled
+                # Verify GraphQL mutation can be handled
                 interceptor = Interceptor()
                 mutation_name = interceptor.get_mutation_name(graphql_document)
 

@@ -1,6 +1,6 @@
 import requests
 from graphql.parser import GraphQLParser
-from graphqlapi.exceptions import RequestException
+from proxy.exceptions import RequestException
 
 
 def validate_graphql_request(payload: str):
