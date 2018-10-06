@@ -49,8 +49,8 @@ def register_graphql(namespace: Namespace, api: Api):
 
                 return make_response(jsonify(data), status)
 
-            except RequestException:
-                return RequestException.to_response()
+            except RequestException as exception:
+                return exception.to_response()
 
-            except APIError:
-                return make_response(jsonify({'message': APIError.explanation}), APIError.status_code)
+            except APIError as exception:
+                return make_response(jsonify({'message': exception.explanation}), exception.status_code)
