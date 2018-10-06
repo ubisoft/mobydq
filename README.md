@@ -6,14 +6,8 @@
 This tool has been inspired by an internal project developed at <a href="https://www.ubisoft.com">Ubisoft Entertainment</a> in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been reworked to improve its design, simplify it and remove technical dependencies with commercial software.
 
 
----
-
-
 # Getting Started
 Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://mobydq.github.io/gettingstarted/). The complete documentation is also available on Github Pages: [https://mobydq.github.io](https://mobydq.github.io).
-
-
----
 
 
 # Requirements
@@ -45,8 +39,6 @@ Execute the following command in a terminal window.
 $ sudo apt install docker-compose
 ```
 
----
-
 
 # Setup Your Instance
 
@@ -71,7 +63,7 @@ MAIL_SENDER=change@me.com
 # APP PARAMS
 # Parameters used by app container
 NODE_ENV=development
-REACT_APP_FLASK_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
+REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/graphql
 ```
 
 
@@ -105,10 +97,10 @@ $ docker-compose up -d db graphql api app
 ```
 
 Individual components can be accessed at the following addresses:
-* Web application: http://localhost
-* Flask API Swagger Documentation: http://0.0.0.0:5434/mobydq/api/doc
-* GraphiQL Documentation: http://localhost:5433/graphiql
-* PostgreSQL database host: 0.0.0.0, port: 5432
+* Web application: `http://localhost`
+* Flask API Swagger Documentation: `http://localhost:5434/mobydq/api/doc`
+* GraphiQL Documentation: `http://localhost:5433/graphiql`
+* PostgreSQL database `host: localhost, port: 5432`
 
 Note access to GraphiQL and the PostgreSQL database is restricted by default to avoid intrusions. In order to access these addresses directly, you must run them with the following command to open their ports:
 ```shell
@@ -117,13 +109,11 @@ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d db graphq
 ```
 
 
----
-
-
 # Run Test Cases
-To execute all test cases, execute following command from the project repository:
+To execute all test cases, go to the `/test` folder and execute the following command:
 ```shell
- to be documented
+ $ cd test
+ $ docker-compose up
 ```
 
 
