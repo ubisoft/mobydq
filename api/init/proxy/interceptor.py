@@ -24,8 +24,15 @@ class Interceptor():
     def get_mutation_arguments(self, payload: Document):
         """Method used to extract mutation arguments from the original payload."""
 
-        mutation_arguments = payload.definitions[0].selections[0].arguments[0].value
-        return mutation_arguments
+        # Rebuild arguments as valid GraphQL string
+        arguments_dict = payload.definitions[0].selections[0].arguments[0].value
+        arguments_string = ''
+        for key, value in arguments_dict.items():
+            argument = str(key) + ':' + str(value) + ','
+            arguments_string = arguments_string + argument
+        arguments_string = '{' + arguments_string[:-1] + '}'
+
+        return arguments_string
 
     def before_request(self, mutation_name: str, mutation_arguments: dict):
         """Method used to recreate the payload to be sent to GraphQL API."""

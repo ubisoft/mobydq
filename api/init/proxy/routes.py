@@ -35,13 +35,15 @@ def register_graphql(namespace: Namespace, api: Api):
                 interceptor = Interceptor()
                 mutation_name = interceptor.get_mutation_name(graphql_document)
 
-                # Execute custom scripts before request
+                # Surcharge payload before request
                 if mutation_name:
                     mutation_arguments = interceptor.get_mutation_arguments(graphql_document)
                     payload['query'] = interceptor.before_request(mutation_name, mutation_arguments)
 
                 # Execute request on GraphQL API
-                status, data = utils.execute_graphql_request(payload['query'])
+                status, data = utils.execute_graphql_request(payload)
+                if status != 200:
+                    raise RequestException(status, data)
 
                 # Execute custom scripts after request
                 if mutation_name:

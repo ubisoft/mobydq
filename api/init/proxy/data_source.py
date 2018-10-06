@@ -5,15 +5,14 @@ import proxy.utils as utils
 class TestDataSource():
     """Class used to manage execution of custom mutation testDataSource."""
 
-    def build_payload(self, mutation_arguments: dict):
+    def build_payload(self, mutation_arguments: str):
         """Method used to surcharge payload sent to GraphQL API."""
 
         mutation = '''mutation testDataSource{testDataSource(input:mutation_arguments){dataSource{id,connectivityStatus}}}'''
-        mutation = mutation.replace('mutation_arguments', str(mutation_arguments))  # Use replace() instead of format() because of curly braces
-        payload = {'query': mutation}
-        return payload
+        mutation = mutation.replace('mutation_arguments', mutation_arguments)  # Use replace() instead of format() because of curly braces
+        return mutation
 
-    def test_data_source(response: dict):
+    def test_data_source(self, response: dict):
         """Method used to run Docker container which tests connectivity to a data source."""
 
         data_source_id = str(response['data']['testDataSource']['dataSource']['id'])
