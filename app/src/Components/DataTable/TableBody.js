@@ -1,7 +1,7 @@
 import React from 'react';
 import {styles} from '../../styles/baseStyles';
 import {withStyles} from '@material-ui/core/styles';
-import TableRow from './TableRow'
+import DataTableRow from './TableRow'
 
 class DataTableBody extends React.Component {
   render() {
@@ -9,7 +9,7 @@ class DataTableBody extends React.Component {
       <React.Fragment>
         {
           this.props.content.map((row) => (
-            <TableRow buttons={this.props.buttons} key={row[0]} rowData={row}/>
+            <DataTableRow buttons={this.props.buttons} key={row.id} rowContent={row} rowColumns={this.props.contentNameList}/>
           ))
         }
       </React.Fragment>

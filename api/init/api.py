@@ -1,11 +1,10 @@
 import logging
-import os
 import sys
-from health.routes import register_health
-from graphqlapi.routes import register_graphql
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
-
+from proxy.routes import register_graphql
+from health.routes import register_health
+from flask_cors import CORS
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -16,7 +15,7 @@ logging.basicConfig(
 
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
-
+CORS(app)
 
 # This is required to fix swagger UI not loading issue due to https
 @property
