@@ -60,7 +60,7 @@ MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
-# APP PARAMS
+# APP
 # Parameters used by app container
 NODE_ENV=development
 REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/graphql
