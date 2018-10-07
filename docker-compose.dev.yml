@@ -26,8 +26,8 @@ services:
     build:
       dockerfile: Dockerfile-dev
     volumes:
-      - ./app/src:/usr/src/app/src
-      - ./app/public:/usr/src/app/public
+      - ./app/src:/usr/src/app/src:ro
+      - ./app/public:/usr/src/app/public:ro
     expose:
       - 5499
     ports:

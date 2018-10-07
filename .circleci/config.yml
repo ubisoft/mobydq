@@ -20,12 +20,13 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "FLASK_API_URL=http://0.0.0.0:5434/graphql" >> ./.env
+            echo "FLASK_API_URL=http://app:5434/graphql" >> ./.env
 
       - run:
           name: Build Docker images
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api app scripts
+            docker-compose -f docker-compose.yml build db graphql api scripts
+            docker-compose -f docker-compose.test.yml build app app-test
             docker-compose -f ./test/docker-compose.yml build
             docker images
 
@@ -34,20 +35,32 @@ jobs:
           command: |
             docker network create mobydq-network
             docker volume create mobydq-db-volume
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+            docker-compose -f docker-compose.yml up -d db graphql api
             docker ps -a
 
       - run:
           name: Run backend tests
           command: |
+            # Start databases and wait for them to start properly
             docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
-            sleep 5 # Wait for databases to start properly
+            sleep 30
+
+            # Run tests
             docker-compose -f ./test/docker-compose.yml up test
+
+            # Extract test results from container
+            docker cp mobydq-test:/srv/test-results.xml ./test-results/
 
       - run:
           name: Run frontend tests
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up app
+            # Run tests
+            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit
+            docker cp mobydq-app-test:/reports/junit/js-test-results.xml ./test-results/
+
+            # Run linter
+            docker run --name mobydq-app-lint mobydq-app-test npm run lint -- --format junit -o /reports/junit/js-lint-results.xml
+            docker cp mobydq-app-lint:/reports/junit/js-lint-results.xml ./test-results/
 
       - store_test_results:
           path: ./test-results
