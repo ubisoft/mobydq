@@ -8,12 +8,12 @@ from flask_cors import CORS
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
-    # filename='data_quality.log',
+    # filename='mobydq.log',
     stream=sys.stdout,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-# Create flask app and enabe cross origin resource sharing
+# Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
 CORS(app)
 

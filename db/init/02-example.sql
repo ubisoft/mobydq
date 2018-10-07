@@ -5,6 +5,13 @@
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id) VALUES
 (
+  'dq_example_mariadb'
+  ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;database=star_wars;'
+  ,'root'
+  ,'1234'
+  ,3  -- MariaDB
+)
+,(
   'dq_example_microsoft_sql_server'
   ,'driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;'
   ,'sa'

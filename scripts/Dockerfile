@@ -14,18 +14,18 @@ RUN apt-get update \
 RUN apt-get install -y tdsodbc
 
 # Add MySQL ODBC driver
-RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz
-RUN cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/
-RUN rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
+RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz \
+    && cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/ \
+    && rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
 
 # Add Teradata ODBC driver
-RUN apt-get install -y lib32stdc++6
-RUN tar xvzf ./drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz
-RUN dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb
-RUN rm -R ./tdodbc1620
+RUN apt-get install -y lib32stdc++6 \
+    && tar xvzf ./drivers/tdodbc1620__ubuntu_indep.16.20.00.36-1.tar.gz \
+    && dpkg -i ./tdodbc1620/tdodbc1620-16.20.00.36-1.noarch.deb \
+    && rm -R ./tdodbc1620
 
 # Install Python dependencies
 RUN pip install --upgrade pip \

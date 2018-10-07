@@ -4,8 +4,9 @@ FROM python:3.6.6-alpine3.8
 ARG PROJECT_DIR=/srv/api
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY ./init ./
+COPY ./init/requirements.txt ./
 
 # Install Python dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+COPY ./init ./

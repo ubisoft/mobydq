@@ -3,6 +3,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
+from typing import List
 import configparser
 import logging
 import os
