@@ -11,6 +11,7 @@ jobs:
 
       - run:
           name: Create Docker Compose configuration file
+          when: always
           command: |
             echo "POSTGRES_USER=postgres" >> ./.env
             echo "POSTGRES_PASSWORD=password" >> ./.env
@@ -24,6 +25,7 @@ jobs:
 
       - run:
           name: Build Docker images
+          when: always
           command: |
             docker-compose -f docker-compose.yml build db graphql api scripts
             docker-compose -f docker-compose.test.yml build app app-test
@@ -32,6 +34,7 @@ jobs:
 
       - run:
           name: Run Docker containers
+          when: always
           command: |
             docker network create mobydq-network
             docker volume create mobydq-db-volume
@@ -40,6 +43,7 @@ jobs:
 
       - run:
           name: Run backend tests
+          when: always
           command: |
             # Start databases and wait for them to start properly
             docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
@@ -50,22 +54,26 @@ jobs:
 
       - run:
           name: Collect backend results
+          when: always
           command: |
             docker cp mobydq-test:/srv/test-results.xml ./test-results/
             # TODO collect linting
 
       - run:
           name: Run frontend tests
+          when: always
           command: |
             docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot && exit 0
 
       - run:
           name: Run frontend linter
+          when: always
           command: |
             docker run --name mobydq-app-lint mobydq-app-test npm run lint -- --format junit -o /reports/junit/js-lint-results.xml
 
       - run:
           name: Collect frontend results
+          when: always
           command: |
             docker cp mobydq-app-test:/reports/junit/js-test-results.xml ./test-results/
             docker cp mobydq-app-lint:/reports/junit/js-lint-results.xml ./test-results/
