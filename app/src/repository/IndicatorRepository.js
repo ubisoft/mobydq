@@ -8,12 +8,8 @@ class IndicatorRepository {
           nodes {
             id
             name
-            indicatorTypeByIndicatorTypeId {
-              name
-            }
-            indicatorGroupByIndicatorGroupId {
-              name
-            }
+            indicatorTypeId
+            indicatorGroupId
             executionOrder
             flagActive
             updatedDate

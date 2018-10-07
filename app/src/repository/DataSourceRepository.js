@@ -8,9 +8,7 @@ class DataSourceRepository {
           nodes {
             id
             name
-            dataSourceTypeByDataSourceTypeId {
-              name
-            }
+            dataSourceTypeId
             connectivityStatus
             updatedDate
           }
