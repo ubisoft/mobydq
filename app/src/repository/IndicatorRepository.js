@@ -4,7 +4,7 @@ class IndicatorRepository {
   static getListPage(pageNumber, pageSize) {
     return gql`
       {
-        allIndicators{
+        allIndicators {
           nodes {
             id
             name
@@ -45,7 +45,7 @@ class IndicatorRepository {
   static insert() {
     return gql`
       mutation addNewIndicator($indicator: IndicatorInput!) {
-        createIndicator(input: { indicator: $indicator }) {
+        createIndicator(input: {indicator: $indicator}) {
           indicator {
             id
             name
@@ -80,7 +80,7 @@ class IndicatorRepository {
           indicator {
             id
           }
-        } 
+        }
       }
     `
   }

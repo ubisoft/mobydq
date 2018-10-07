@@ -31,7 +31,7 @@ class IndicatorGroupRepository {
   static insert() {
     return gql`
       mutation addNewIndicatorGroup($indicatorGroup: IndicatorGroupInput!) {
-        createIndicatorGroup(input: { indicatorGroup: $indicatorGroup }) {
+        createIndicatorGroup(input: {indicatorGroup: $indicatorGroup}) {
           indicatorGroup {
             id
             name
