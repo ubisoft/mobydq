@@ -8,7 +8,6 @@ class IndicatorGroupRepository {
           nodes {
             id
             name
-            createdDate
             updatedDate
           }
         }
@@ -25,7 +24,8 @@ class IndicatorGroupRepository {
             name
           }
         }
-      }`
+      }
+    `
   }
 
   static insert() {
@@ -39,7 +39,8 @@ class IndicatorGroupRepository {
             updatedDate
           }
         }
-      }`
+      }
+    `
   }
 }
 
