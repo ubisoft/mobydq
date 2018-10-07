@@ -48,8 +48,6 @@ jobs:
             # Run tests
             docker-compose -f ./test/docker-compose.yml up test
 
-        # TODO run linting
-
       - run:
           name: Collect backend results
           command: |
@@ -68,11 +66,9 @@ jobs:
 
       - run:
           name: Collect frontend results
-          commands: |
+          command: |
             docker cp mobydq-app-test:/reports/junit/js-test-results.xml ./test-results/
             docker cp mobydq-app-lint:/reports/junit/js-lint-results.xml ./test-results/
-
-
 
       - store_test_results:
           path: ./test-results
