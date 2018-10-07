@@ -64,7 +64,7 @@ MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
-# APP PARAMS
+# APP
 # Parameters used by app container
 NODE_ENV=development
 REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/graphql
@@ -134,12 +134,12 @@ The containers run by `docker-compose` have dependencies with the following Dock
 
 
 ## Python Packages
- [docker](https://docker-py.readthedocs.io) (3.5.0)
+* [docker](https://docker-py.readthedocs.io) (3.5.0)
 * [flask](http://flask.pocoo.org) (1.0.2)
 * [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
-* [requests](http://docs.python-requests.org) (2.19.1)
-
- [jinja2](http://jinja.pocoo.org) (2.10.0)
+* [flask_cors](https://flask-cors.readthedocs.io) (3.0.6)
+* [graphql_py](https://pypi.org/project/graphql-py) (0.7.1)
+* [jinja2](http://jinja.pocoo.org) (2.10.0)
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)

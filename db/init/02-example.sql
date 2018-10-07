@@ -77,7 +77,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''gender'']'),
@@ -108,7 +108,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),
@@ -133,7 +133,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),
@@ -164,7 +164,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'1000000'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_validity_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_validity_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),

@@ -5,41 +5,42 @@ class DataSourceRepository {
     return gql`
       {
         allDataSources {
-          nodes{
+          nodes {
             id
             name
-            createdDate
-            updatedDate
-            connectionString
-            login
             dataSourceTypeId
+            connectivityStatus
+            updatedDate
           }
         }
-      }`
+      }
+    `
   }
 
   static getFormDropdownData() {
     return gql`
       {
         allDataSourceTypes {
-          nodes{
-            id,
+          nodes {
+            id
             name
           }
         }
-      }`
+      }
+    `
   }
 
   static insert() {
     return gql`
       mutation addNewDataSource($dataSource: DataSourceInput!) {
-        createDataSource(input: { dataSource: $dataSource }) {
+        createDataSource(input: {dataSource: $dataSource}) {
           dataSource {
             id
             name
           }
         }
-      }`
+      }
+    `
   }
 }
 
