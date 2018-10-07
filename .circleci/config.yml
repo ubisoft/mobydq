@@ -48,19 +48,31 @@ jobs:
             # Run tests
             docker-compose -f ./test/docker-compose.yml up test
 
-            # Extract test results from container
+        # TODO run linting
+
+      - run:
+          name: Collect backend results
+          command: |
             docker cp mobydq-test:/srv/test-results.xml ./test-results/
+            # TODO collect linting
 
       - run:
           name: Run frontend tests
           command: |
-            # Run tests
-            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit
-            docker cp mobydq-app-test:/reports/junit/js-test-results.xml ./test-results/
+            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot && exit 0
 
-            # Run linter
+      - run:
+          name: Run frontend linter
+          command: |
             docker run --name mobydq-app-lint mobydq-app-test npm run lint -- --format junit -o /reports/junit/js-lint-results.xml
+
+      - run:
+          name: Collect frontend results
+          commands: |
+            docker cp mobydq-app-test:/reports/junit/js-test-results.xml ./test-results/
             docker cp mobydq-app-lint:/reports/junit/js-lint-results.xml ./test-results/
+
+
 
       - store_test_results:
           path: ./test-results
