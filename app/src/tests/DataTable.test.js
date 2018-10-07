@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer';
 
-import DataTable from '../Components/DataTable/DataTable';
+import DataTable from '../Components/ListTable/ListTable';
 
 
 
@@ -46,7 +46,7 @@ it('renders without crashing with normal data object', () => {
 //   const data = "not an array";
 //
 //   const component = renderer.create(
-//     <DataTable data={data}/>
+//     <ListTable data={data}/>
 //   );
 //
 //   let tree = component.toJSON();

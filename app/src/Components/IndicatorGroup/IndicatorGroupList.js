@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import IndicatorGroupRepository  from './../../repository/IndicatorGroupRepository';
-import DataTable from '../DataTable/DataTable';
+import ListTable from '../ListTable/ListTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
 const IndicatorGroupList = (refetch) => (
@@ -18,7 +18,7 @@ const IndicatorGroupList = (refetch) => (
           <div style={{float: 'right'}}>
             <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Add new indicator group"/>
           </div>
-          <DataTable data={data.allIndicatorGroups.nodes}/>
+          <ListTable data={data.allIndicatorGroups.nodes}/>
         </div>
       );
     }}
