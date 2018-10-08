@@ -17,6 +17,7 @@ class TestBatch(unittest.TestCase):
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
+
         time.sleep(1)
         test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         return test_case_name

@@ -1,3 +1,4 @@
+"""Unit tests for database components."""
 from datetime import datetime
 import pyodbc
 import time
@@ -5,13 +6,17 @@ import unittest
 
 
 class TestDb(unittest.TestCase):
+    """Unit tests for database components."""
+
     @classmethod
     def setUpClass(self):
+        """Execute this before the tests."""
         self.connection = TestDb.get_connection()
 
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
+
         time.sleep(1)
         test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         return test_case_name
@@ -19,6 +24,7 @@ class TestDb(unittest.TestCase):
     @staticmethod
     def get_connection():
         """Return connection to mobydq database."""
+
         connection_string = 'driver={PostgreSQL Unicode};server=db;port=5432;database=mobydq;uid=postgres;pwd=password;'  # Should be moved to config file
         connection = pyodbc.connect(connection_string)
         connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
@@ -26,6 +32,8 @@ class TestDb(unittest.TestCase):
         return connection
 
     def test_trigger_update_updated_date(self):
+        """Unit tests for trigger update_updated_date."""
+
         # Insert test record
         test_case_name = TestDb.get_test_case_name()
         insert_query = "INSERT INTO base.data_source_type (name) VALUES ('{}');".format(test_case_name)
@@ -49,6 +57,8 @@ class TestDb(unittest.TestCase):
         self.assertTrue(created_date < updated_date)
 
     def test_trigger_delete_children(self):
+        """Unit tests for trigger delete_children."""
+
         # Insert test parent record
         test_case_name = TestDb.get_test_case_name()
         insert_parent_query = "INSERT INTO base.data_source_type (name) VALUES ('{}');".format(test_case_name)
@@ -80,6 +90,8 @@ class TestDb(unittest.TestCase):
         self.assertTrue(row is None)
 
     def test_function_execute_batch(self):
+        """Unit tests for custom function execute_batch."""
+
         # Insert test indicator group
         test_case_name = TestDb.get_test_case_name()
         insert_indicator_group_query = "INSERT INTO base.indicator_group (name) VALUES ('{}');".format(test_case_name)
@@ -117,6 +129,8 @@ class TestDb(unittest.TestCase):
         self.assertEqual(session_status, 'Pending')
 
     def test_function_test_data_source(self):
+        """Unit tests for custom function test_data_source."""
+
         # Insert test data source
         test_case_name = TestDb.get_test_case_name()
         insert_data_source_query = "INSERT INTO base.data_source (name, data_source_type_id) VALUES ('{}', 1);".format(test_case_name)
@@ -143,6 +157,8 @@ class TestDb(unittest.TestCase):
         self.assertEqual(connectivity_status, 'Pending')
 
     def test_function_duplicate_indicator(self):
+        """Unit tests for custom function duplicate_indicator."""
+
         # Insert test indicator group
         test_case_name = TestDb.get_test_case_name()
         insert_indicator_group_query = "INSERT INTO base.indicator_group (name) VALUES ('{}');".format(test_case_name)
@@ -192,6 +208,7 @@ class TestDb(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        """Execute this at the end of the tests."""
         self.connection.close()
 
 
