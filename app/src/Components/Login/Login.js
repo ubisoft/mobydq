@@ -18,11 +18,6 @@ class Login extends React.Component {
         alert("Login :-)");
     }
 
-    close()
-    {
-        alert("A Trap")
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -31,7 +26,7 @@ class Login extends React.Component {
                         <div className="loginFormHeader">
                             <table>
                                 <td>
-                                    <div onClick={this.close} className="btnCloseFake"></div>
+                                    <div className="btnCloseFake"></div>
                                 </td>
                                 <td>
                                     <div className="btnMinimizeFake"></div>
