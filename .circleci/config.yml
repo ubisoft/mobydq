@@ -21,7 +21,7 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "FLASK_API_URL=http://app:5434/graphql" >> ./.env
+            echo "REACT_FLASK_API_URL=http://api:5434/mobydq/api/v1/graphql" >> ./.env
 
       - run:
           name: Build Docker images
@@ -63,7 +63,7 @@ jobs:
           name: Run frontend tests
           when: always
           command: |
-            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot && exit 0
+            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot
 
       - run:
           name: Run frontend linter
