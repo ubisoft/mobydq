@@ -1,0 +1,5 @@
+[TYPECHECK]
+ignored-modules = numpy
+
+[MESSAGES CONTROL]
+disable=line-too-long

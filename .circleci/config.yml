@@ -21,7 +21,7 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "FLASK_API_URL=http://app:5434/graphql" >> ./.env
+            echo "REACT_FLASK_API_URL=http://api:5434/mobydq/api/v1/graphql" >> ./.env
 
       - run:
           name: Build Docker images
@@ -53,17 +53,23 @@ jobs:
             docker-compose -f ./test/docker-compose.yml up test
 
       - run:
+          name: Run backend linter
+          when: always
+          command: |
+            docker run --name mobydq-lint mobydq-test /bin/bash -c "find . -iname \"*.py\" | xargs pylint --output-format=pylint2junit.JunitReporter > lint-results.xml"
+
+      - run:
           name: Collect backend results
           when: always
           command: |
             docker cp mobydq-test:/srv/test-results.xml ./test-results/
-            # TODO collect linting
+            docker cp mobydq-lint:/srv/lint-results.xml ./test-results/
 
       - run:
           name: Run frontend tests
           when: always
           command: |
-            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot && exit 0
+            docker run --name mobydq-app-test -e JEST_JUNIT_OUTPUT="/reports/junit/js-test-results.xml" -e CI=true mobydq-app-test npm test -- --ci --reporters=jest-junit --updateSnapshot
 
       - run:
           name: Run frontend linter
