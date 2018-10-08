@@ -60,7 +60,27 @@ services:
     networks:
       - default
 
-  test:
+  test-db:
+    container_name: mobydq-test-db
+    image: mobydq-test-scripts
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["nose2", "-v"]
+    networks:
+      - default
+
+  test-api:
+    container_name: mobydq-test-api
+    image: mobydq-test-scripts
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["nose2", "-v"]
+    networks:
+      - default
+
+  test-scripts:
     container_name: mobydq-test-scripts
     image: mobydq-test-scripts
     build:
