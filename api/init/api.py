@@ -1,7 +1,7 @@
 import logging
 import sys
 from health.routes import register_health
-from graphqlapi.routes import register_graphql
+from proxy.routes import register_graphql
 from security.routes import register_security
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
