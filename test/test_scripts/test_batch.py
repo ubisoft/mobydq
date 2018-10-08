@@ -1,3 +1,4 @@
+"""Unit tests for module /scripts/init/batch.py."""
 from datetime import datetime
 from scripts.batch import Batch
 from scripts import utils

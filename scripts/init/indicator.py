@@ -1,3 +1,4 @@
+"""Manage class and methods for all types of indicators."""
 from ast import literal_eval
 from data_source import DataSource
 from typing import List

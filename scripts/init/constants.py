@@ -1,3 +1,6 @@
+"""Contain constants Ids and labels."""
+
+
 class DataSourceType:
     HIVE_ID = 1
     IMPALA_ID = 2

@@ -1,3 +1,4 @@
+"""Unit tests for module /scripts/init/session.py."""
 from datetime import datetime
 from scripts.session import Session
 from scripts import utils

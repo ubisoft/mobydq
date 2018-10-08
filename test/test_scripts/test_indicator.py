@@ -1,3 +1,4 @@
+"""Unit tests for module /scripts/init/indicator.py."""
 from datetime import datetime
 from scripts.indicator import Indicator
 from scripts import utils

@@ -1,3 +1,4 @@
+"""Unit tests for module /scripts/init/utils.py."""
 from scripts import utils
 import unittest
 

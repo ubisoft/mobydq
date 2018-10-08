@@ -1,3 +1,4 @@
+"""Entrypoint to execute python scripts."""
 from batch import Batch
 from data_source import DataSource
 import argparse
