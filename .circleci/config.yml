@@ -56,13 +56,13 @@ jobs:
           name: Run backend linter
           when: always
           command: |
-            docker run --name mobydq-lint mobydq-test /bin/bash -c "find . -iname \"*.py\" | xargs pylint --output-format=pylint2junit.JunitReporter > lint-results.xml"
+            docker run --name mobydq-lint mobydq-test-scripts /bin/bash -c "find . -iname \"*.py\" | xargs pylint --output-format=pylint2junit.JunitReporter > lint-results.xml"
 
       - run:
           name: Collect backend results
           when: always
           command: |
-            docker cp mobydq-test:/srv/test-results.xml ./test-results/
+            docker cp mobydq-test-scripts:/srv/test-results.xml ./test-results/
             docker cp mobydq-lint:/srv/lint-results.xml ./test-results/
 
       - run:
