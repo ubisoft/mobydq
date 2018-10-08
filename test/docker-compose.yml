@@ -66,7 +66,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["nose2", "-v"]
+    command: ["nose2", "-v", "test_db"]
     networks:
       - default
 
@@ -76,7 +76,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["nose2", "-v"]
+    command: ["nose2", "-v", "test_api"]
     networks:
       - default
 
@@ -86,7 +86,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["nose2", "-v"]
+    command: ["nose2", "-v", "test_scripts"]
     depends_on:
       - db-sql-server
       - db-mysql
