@@ -7,8 +7,11 @@ import unittest
 
 
 class TestSession(unittest.TestCase):
+    """Unit tests for class Session."""
+
     @classmethod
     def setUpClass(self):
+        """Execute this before the tests."""
         pass
 
     @staticmethod
@@ -19,6 +22,8 @@ class TestSession(unittest.TestCase):
         return test_case_name
 
     def test_update_session_status(self):
+        """Unit tests for method update_session_status."""
+
         # Create test indicator group
         test_case_name = TestSession.get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
@@ -56,6 +61,7 @@ class TestSession(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        """Execute this at the end of the tests."""
         pass
 
 

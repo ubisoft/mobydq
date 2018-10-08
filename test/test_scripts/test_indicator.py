@@ -7,8 +7,11 @@ import unittest
 
 
 class TestIndicator(unittest.TestCase):
+    """Unit tests for class Indicator."""
+
     @classmethod
     def setUpClass(self):
+        """Execute this before the tests."""
         pass
 
     @staticmethod
@@ -19,6 +22,8 @@ class TestIndicator(unittest.TestCase):
         return test_case_name
 
     def test_verify_indicator_parameters_completeness(self):
+        """Unit tests for method verify_indicator_parameters for completeness indicators."""
+
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
@@ -71,6 +76,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_freshness(self):
+        """Unit tests for method verify_indicator_parameters for freshness indicators."""
+
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
@@ -121,6 +128,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_latency(self):
+        """Unit tests for method verify_indicator_parameters for latency indicators."""
+
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
@@ -173,6 +182,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_validity(self):
+        """Unit tests for method verify_indicator_parameters for validity indicators."""
+
         # Create test indicator group
         test_case_name = TestIndicator.get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
@@ -223,6 +234,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_get_data_frame(self):
+        """Unit tests for method get_data_frame."""
+
         # Create data source
         test_case_name = TestIndicator.get_test_case_name()
         mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=db-postgresql;port=5432;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
@@ -244,6 +257,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(nb_females, 19)
 
     def test_is_alert(self):
+        """Unit tests for method is_alert."""
+
         indicator = Indicator()
         equal = indicator.is_alert(0, '==', 0)
         greater = indicator.is_alert(1, '>', 0)
@@ -261,10 +276,12 @@ class TestIndicator(unittest.TestCase):
         self.assertTrue(different)
 
     def test_compute_session_result(self):
+        """Unit tests for method compute_session_result."""
         pass
 
     @classmethod
     def tearDownClass(self):
+        """Execute this at the end of the tests."""
         pass
 
 

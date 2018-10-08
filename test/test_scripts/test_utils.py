@@ -4,11 +4,16 @@ import unittest
 
 
 class TestUtils(unittest.TestCase):
+    """Unit tests for utility methods."""
+
     @classmethod
     def setUpClass(self):
+        """Execute this before the tests."""
         pass
 
     def test_get_parameter(self):
+        """Unit tests for method get_parameter."""
+
         api = utils.get_parameter('graphql')
         url = utils.get_parameter('graphql', 'url')
 
@@ -17,6 +22,8 @@ class TestUtils(unittest.TestCase):
         self.assertGreater(len(url), 0)
 
     def test_execute_graphql_request(self):
+        """Unit tests for method execute_graphql_request."""
+
         payload = 'query{allDataSourceTypes{nodes{id}}}'
         data = utils.execute_graphql_request(payload)
         nb_records = len(data['data']['allDataSourceTypes']['nodes'])
@@ -26,6 +33,7 @@ class TestUtils(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        """Execute this at the end of the tests."""
         pass
 
 
