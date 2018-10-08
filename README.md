@@ -1,4 +1,8 @@
 # MobyDQ
+[![CircleCI](https://circleci.com/gh/mobydq/mobydq/tree/master.svg?style=shield)][CircleCI]
+
+ [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
+
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 ![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
@@ -6,14 +10,8 @@
 This tool has been inspired by an internal project developed at <a href="https://www.ubisoft.com">Ubisoft Entertainment</a> in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been reworked to improve its design, simplify it and remove technical dependencies with commercial software.
 
 
----
-
-
 # Getting Started
 Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://mobydq.github.io/gettingstarted/). The complete documentation is also available on Github Pages: [https://mobydq.github.io](https://mobydq.github.io).
-
-
----
 
 
 # Requirements
@@ -45,8 +43,6 @@ Execute the following command in a terminal window.
 $ sudo apt install docker-compose
 ```
 
----
-
 
 # Setup Your Instance
 
@@ -68,10 +64,10 @@ MAIL_HOST=smtp.server.org
 MAIL_PORT=25
 MAIL_SENDER=change@me.com
 
-# APP PARAMS
+# APP
 # Parameters used by app container
 NODE_ENV=development
-FLASK_API_URL=http://0.0.0.0:5434/mobydq/api/v1/graphql
+REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/graphql
 ```
 
 
@@ -105,10 +101,10 @@ $ docker-compose up -d db graphql api app
 ```
 
 Individual components can be accessed at the following addresses:
-* Web application: http://localhost
-* Flask API Swagger Documentation: http://0.0.0.0:5434/mobydq/api/doc
-* GraphiQL Documentation: http://localhost:5433/graphiql
-* PostgreSQL database host: 0.0.0.0, port: 5432
+* Web application: `http://localhost`
+* Flask API Swagger Documentation: `http://localhost:5434/mobydq/api/doc`
+* GraphiQL Documentation: `http://localhost:5433/graphiql`
+* PostgreSQL database `host: localhost, port: 5432`
 
 Note access to GraphiQL and the PostgreSQL database is restricted by default to avoid intrusions. In order to access these addresses directly, you must run them with the following command to open their ports:
 ```shell
@@ -117,13 +113,11 @@ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d db graphq
 ```
 
 
----
-
-
 # Run Test Cases
-To execute all test cases, execute following command from the project repository:
+To execute all test cases, go to the `/test` folder and execute the following command:
 ```shell
- to be documented
+ $ cd test
+ $ docker-compose up
 ```
 
 
@@ -140,12 +134,12 @@ The containers run by `docker-compose` have dependencies with the following Dock
 
 
 ## Python Packages
- [docker](https://docker-py.readthedocs.io) (3.5.0)
+* [docker](https://docker-py.readthedocs.io) (3.5.0)
 * [flask](http://flask.pocoo.org) (1.0.2)
 * [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
-* [requests](http://docs.python-requests.org) (2.19.1)
-
- [jinja2](http://jinja.pocoo.org) (2.10.0)
+* [flask_cors](https://flask-cors.readthedocs.io) (3.0.6)
+* [graphql_py](https://pypi.org/project/graphql-py) (0.7.1)
+* [jinja2](http://jinja.pocoo.org) (2.10.0)
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)

@@ -5,6 +5,13 @@
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id) VALUES
 (
+  'dq_example_mariadb'
+  ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;database=star_wars;'
+  ,'root'
+  ,'1234'
+  ,3  -- MariaDB
+)
+,(
   'dq_example_microsoft_sql_server'
   ,'driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;'
   ,'sa'
@@ -77,7 +84,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_completeness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''gender'']'),
@@ -108,7 +115,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_freshness_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),
@@ -133,7 +140,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'0'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_latency_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),
@@ -164,7 +171,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value) VALUES
 ,'1000000'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_validity_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-,'[''change.me@example.com'']'),
+,'[''contact.mobydq@gmail.com'']'),
 ((SELECT id FROM base.indicator WHERE name='dq_example_validity_indicator')
 ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
 ,'[''name'']'),

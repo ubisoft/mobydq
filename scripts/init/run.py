@@ -7,7 +7,7 @@ import sys
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
-    # filename='data_quality.log',
+    # filename='mobydq.log',
     stream=sys.stdout,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

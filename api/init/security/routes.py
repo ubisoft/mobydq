@@ -2,7 +2,9 @@ from flask_restplus import Namespace, Resource, Api
 
 
 def register_security(namespace: Namespace, api: Api):
-    @namespace.route('/security')
+    @namespace.route('/security/oauth/google')
     @namespace.doc()
     class Security(Resource):
-        pass
+
+        def get(self):
+            pass

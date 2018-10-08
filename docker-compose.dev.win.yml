@@ -26,8 +26,6 @@ services:
       - 5433:5433
     depends_on:
       - db
-    links:
-      - db
     networks:
       - default
     command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
@@ -47,8 +45,6 @@ services:
     ports:
       - 5434:5434
     depends_on:
-      - graphql
-    links:
       - graphql
     networks:
       - default
@@ -70,8 +66,6 @@ services:
     volumes:
        - $SCRIPT_VOLUME_PATH:/srv/scripts
     depends_on:
-      - graphql
-    links:
       - graphql
     networks:
       - default
@@ -96,9 +90,6 @@ services:
     ports:
       - 5499:3000
     depends_on:
-      - api
-      - graphql
-    links:
       - api
       - graphql
     networks:

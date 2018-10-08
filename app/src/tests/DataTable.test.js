@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import DataTable from './../Components/Dashboard/DataTable';
+import React from 'react'
+import renderer from 'react-test-renderer';
+
+import DataTable from '../Components/ListTable/ListTable';
 
 
 
@@ -30,23 +31,27 @@ it('renders without crashing with normal data object', () => {
       __typename: "Indicator",
     },
   ];
-    const div = document.createElement('div');
-    ReactDOM.render(<DataTable data={data}/>, div);
-    ReactDOM.unmountComponentAtNode(div);
+
+  const component = renderer.create(
+    <DataTable data={data}/>
+  );
+
+  let tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
+
 });
 
-it('renders without crashing with empty data object', () => {
-  const data =
-    [
+// it('renders without crashing with incorrect data object (to fix Test should fail on this)', () => {
+//   const data = "not an array";
+//
+//   const component = renderer.create(
+//     <ListTable data={data}/>
+//   );
+//
+//   let tree = component.toJSON();
+//
+//   expect(tree).toMatchSnapshot();
+// });
 
-    ];
-  const div = document.createElement('div');
-  ReactDOM.render(<DataTable data={data}/>, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
 
-//it('crashes when rendered without data', () => {
-//  const div = document.createElement('div');
-//  ReactDOM.render(<DataTable />, div);
-//  ReactDOM.unmountComponentAtNode(div);
-//});
