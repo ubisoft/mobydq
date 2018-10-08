@@ -51,4 +51,4 @@ security = api.namespace('Security', path='/v1')
 
 register_health(health)
 register_graphql(graphql, api)
-register_security(security)
+register_security(security, api)

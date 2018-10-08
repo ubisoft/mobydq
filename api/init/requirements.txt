@@ -4,3 +4,4 @@ flask_cors==3.0.6
 flask_restplus==0.11.0
 graphql-py==0.7.1
 requests==2.19.1
+flask_oauth==0.12
