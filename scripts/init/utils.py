@@ -14,7 +14,7 @@ import smtplib
 log = logging.getLogger(__name__)
 
 
-def get_parameter(section: str, parameter_name: str=None):
+def get_parameter(section: str, parameter_name: str = None):
     """Get parameters from flat file config.cfg."""
     configuration = configparser.ConfigParser()
     path = os.path.dirname(__file__)

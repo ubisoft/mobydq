@@ -9,7 +9,7 @@ class TestDb(unittest.TestCase):
     """Unit tests for database components."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls, self):
         """Execute this before the tests."""
         self.connection = TestDb.get_connection()
 
@@ -207,7 +207,7 @@ class TestDb(unittest.TestCase):
         self.assertEqual(value, new_test_case_name)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls, self):
         """Execute this at the end of the tests."""
         self.connection.close()
 
