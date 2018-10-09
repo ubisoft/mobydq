@@ -1,14 +1,14 @@
 """Manage class and methods for batches."""
-from ast import literal_eval
-from session import Session
-import completeness  # Called dynamically with getattr
-import freshness  # Called dynamically with getattr
-import latency  # Called dynamically with getattr
-import validity  # Called dynamically with getattr
 import logging
 import sys
 import traceback
+from ast import literal_eval
+import completeness  # Called dynamically with getattr pylint: disable=W0611
+import freshness  # Called dynamically with getattr pylint: disable=W0611
+import latency  # Called dynamically with getattr pylint: disable=W0611
+import validity  # Called dynamically with getattr pylint: disable=W0611
 import utils
+from session import Session
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ class Batch:
         return data
 
     def execute(self, batch_id: int):
-        log.info('Start execution of batch Id {batch_id}.'.format(batch_id=batch_id))
+        log.info('Start execution of batch Id %i.', batch_id)
 
         # Get list of indicator sessions
         log.debug('Get list of indicator sessions.')
@@ -75,11 +75,11 @@ class Batch:
             if is_error:
                 log.debug('Update batch status to Failed.')
                 self.update_batch_status(batch_id, 'Failed')
-                log.warning('Batch Id {batch_id} completed with errors.'.format(batch_id=batch_id))
+                log.warning('Batch Id %i completed with errors.', batch_id)
             else:
                 log.debug('Update batch status to Succeeded.')
                 self.update_batch_status(batch_id, 'Succeeded')
-                log.info('Batch Id {batch_id} completed successfully.'.format(batch_id=batch_id))
+                log.info('Batch Id %i completed successfully.', batch_id)
 
         else:
             error_message = 'Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id)

@@ -1,16 +1,16 @@
 """Unit tests for module /scripts/init/data_source.py."""
 from datetime import datetime
-from scripts.data_source import DataSource
-from scripts.constants import DataSourceType
 import time
 import unittest
+from scripts.data_source import DataSource
+from scripts.constants import DataSourceType
 
 
 class TestDataSource(unittest.TestCase):
     """Unit tests for class DataSource."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
         pass
 
@@ -130,7 +130,7 @@ class TestDataSource(unittest.TestCase):
         pass
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

@@ -1,16 +1,16 @@
 """Unit tests for module /scripts/init/batch.py."""
 from datetime import datetime
-from scripts.batch import Batch
-from scripts import utils
 import time
 import unittest
+from scripts.batch import Batch
+from scripts import utils
 
 
 class TestBatch(unittest.TestCase):
     """Unit tests for class Batch."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
         pass
 
@@ -47,7 +47,7 @@ class TestBatch(unittest.TestCase):
         self.assertEqual(batch_status, 'Running')
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

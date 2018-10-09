@@ -3,12 +3,12 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from jinja2 import Template
 import configparser
 import logging
 import os
-import requests
 import smtplib
+from jinja2 import Template
+import requests
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -38,7 +38,7 @@ def execute_graphql_request(payload: object):
     return data
 
 
-def send_mail(session_id: int, distribution_list: list, template: str=None, attachment: any=None, **kwargs):
+def send_mail(session_id: int, distribution_list: list, template: str = None, attachment: any = None, **kwargs):
     """Send e-mail to the distribution list."""
     # Verify e-mail configuration
     config = get_parameter('mail')

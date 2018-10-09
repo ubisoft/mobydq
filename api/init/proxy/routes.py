@@ -1,9 +1,9 @@
-import proxy.utils as utils
 from docker.errors import APIError
 from flask import request, jsonify, make_response
 from flask_restplus import Resource, fields, Namespace, Api
 from proxy.exceptions import RequestException
 from proxy.interceptor import Interceptor
+import proxy.utils as utils
 
 
 def register_graphql(namespace: Namespace, api: Api):

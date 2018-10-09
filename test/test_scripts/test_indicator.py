@@ -1,16 +1,16 @@
 """Unit tests for module /scripts/init/indicator.py."""
+import time
+import unittest
 from datetime import datetime
 from scripts.indicator import Indicator
 from scripts import utils
-import time
-import unittest
 
 
 class TestIndicator(unittest.TestCase):
     """Unit tests for class Indicator."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
         pass
 
@@ -280,7 +280,7 @@ class TestIndicator(unittest.TestCase):
         pass
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

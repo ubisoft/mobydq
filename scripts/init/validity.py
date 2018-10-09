@@ -1,8 +1,8 @@
 """Manage class and methods for data validity indicators."""
-from indicator import Indicator
-from session import Session
 import logging
 import pandas
+from indicator import Indicator
+from session import Session
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -19,8 +19,7 @@ class Validity(Indicator):
         # Update session status to running
         session_id = session['id']
         indicator_id = session['indicatorId']
-        log.info('Start execution of session Id {session_id} for indicator Id {indicator_id}.'.format(
-            session_id=session_id, indicator_id=indicator_id))
+        log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
         Session.update_session_status(session_id, 'Running')
 
@@ -57,8 +56,7 @@ class Validity(Indicator):
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
         Session.update_session_status(session_id, 'Succeeded')
-        log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(
-            session_id=session_id, indicator_id=indicator_id))
+        log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_validity(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of validity indicator and return results in a data frame."""

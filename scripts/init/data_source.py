@@ -1,8 +1,8 @@
 """Manage class and methods for data sources."""
 import logging
-import pyodbc
 import sqlite3
 import traceback
+import pyodbc
 import utils
 from constants import DataSourceType
 
@@ -77,8 +77,7 @@ class DataSource:
         return connection
 
     def test(self, data_source_id: int):
-        log.info('Test connectivity to data source Id {data_source_id}.'.format(
-            data_source_id=data_source_id))
+        log.info('Test connectivity to data source Id %i.', data_source_id)
 
         # Get data source
         log.debug('Get data source.')

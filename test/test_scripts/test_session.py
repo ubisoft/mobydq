@@ -1,16 +1,16 @@
 """Unit tests for module /scripts/init/session.py."""
 from datetime import datetime
-from scripts.session import Session
-from scripts import utils
 import time
 import unittest
+from scripts.session import Session
+from scripts import utils
 
 
 class TestSession(unittest.TestCase):
     """Unit tests for class Session."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
         pass
 
@@ -60,7 +60,7 @@ class TestSession(unittest.TestCase):
         self.assertEqual(session_status, 'Running')
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

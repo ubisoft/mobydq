@@ -1,13 +1,13 @@
 """Unit tests for module /scripts/init/utils.py."""
-from scripts import utils
 import unittest
+from scripts import utils
 
 
 class TestUtils(unittest.TestCase):
     """Unit tests for utility methods."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
         pass
 
@@ -32,7 +32,7 @@ class TestUtils(unittest.TestCase):
         self.assertGreater(nb_records, 0)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

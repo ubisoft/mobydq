@@ -1,17 +1,17 @@
 """Unit tests for API components."""
 from datetime import datetime
-import requests
 import time
 import unittest
+import requests
 
 
 class TestApi(unittest.TestCase):
     """Unit tests for API components."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
-        self.base_url = 'http://api:5434/mobydq/api/v1'
+        cls.base_url = 'http://api:5434/mobydq/api/v1'
 
     @staticmethod
     def get_test_case_name():
@@ -33,7 +33,7 @@ class TestApi(unittest.TestCase):
         self.assertEqual(status, 200)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
         pass
 

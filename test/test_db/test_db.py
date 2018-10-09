@@ -1,17 +1,17 @@
 """Unit tests for database components."""
 from datetime import datetime
-import pyodbc
 import time
 import unittest
+import pyodbc
 
 
 class TestDb(unittest.TestCase):
     """Unit tests for database components."""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Execute this before the tests."""
-        self.connection = TestDb.get_connection()
+        cls.connection = TestDb.get_connection()
 
     @staticmethod
     def get_test_case_name():
@@ -207,9 +207,9 @@ class TestDb(unittest.TestCase):
         self.assertEqual(value, new_test_case_name)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         """Execute this at the end of the tests."""
-        self.connection.close()
+        cls.connection.close()
 
 
 if __name__ == '__main__':
