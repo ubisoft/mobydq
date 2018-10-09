@@ -95,6 +95,13 @@ services:
     networks:
       - default
 
+  test-lint-python:
+    container_name: mobydq-lint-python
+    image: mobydq-lint-python
+    build:
+      context: ..
+      dockerfile: ./test/Dockerfile-Api
+
 networks:
   default:
     external:
