@@ -5,7 +5,7 @@ import time
 import unittest
 
 
-class TestAPI(unittest.TestCase):
+class TestApi(unittest.TestCase):
     """Unit tests for API components."""
 
     @classmethod
