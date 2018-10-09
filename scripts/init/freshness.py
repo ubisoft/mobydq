@@ -1,3 +1,4 @@
+"""Manage class and methods for data freshness indicators."""
 from datetime import datetime
 from indicator import Indicator
 from session import Session
