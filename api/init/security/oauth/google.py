@@ -38,12 +38,13 @@ def register_google_oauth(namespace: Namespace):
     @namespace.route('/security/oauth/google/callback')
     @namespace.doc()
     class GoogleOAuthCallback(Resource):
-        
+
         def get(self):
             state = request.args.get('state')
             code = request.args.get('code')
             scope = request.args.get('scope')
             token = flow.fetch_token(code=code)
             resp = make_response(redirect(os.environ['AFTER_LOGIN_REDIRECT']))
+            # create JWT token, return token in cookie
             resp.set_cookie('token', str(token))
             return resp
