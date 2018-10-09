@@ -1,3 +1,4 @@
+"""Manage class and methods for sessions."""
 import logging
 import utils
 

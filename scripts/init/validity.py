@@ -1,3 +1,4 @@
+"""Manage class and methods for data validity indicators."""
 from indicator import Indicator
 from session import Session
 import logging
