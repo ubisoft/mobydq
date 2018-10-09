@@ -39,6 +39,8 @@ services:
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
+    env_file:
+        - ./.env
     ports:
       - 5434:5434
     depends_on:

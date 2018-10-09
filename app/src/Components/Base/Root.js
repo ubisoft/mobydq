@@ -8,9 +8,10 @@ import BaseDataView from './BaseDataView'
 
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_FLASK_API_URL,
+  uri: process.env.REACT_APP_FLASK_API_URL + 'graphql',
   // options: { mode: 'no-cors' }
 });
+window.apiUrl = process.env.REACT_APP_FLASK_API_URL;
 
 const Root = ({ store }) => (
   <ApolloProvider client={client}>

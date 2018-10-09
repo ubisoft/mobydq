@@ -1,45 +1,49 @@
 import os
 import urllib.parse as urlparse
-from flask_oauth import OAuth, OAuthRemoteApp
+from flask import redirect, request, jsonify, make_response
 from flask_restplus import Namespace, Resource
+from google_auth_oauthlib.flow import Flow
 
 
-def register_google_oauth(oauth: OAuth, namespace: Namespace):
-    google_app = get_google_app(oauth)
-    google_redirect_uri = os.environ['GOOGLE_REDIRECT_URI']
+google_redirect_url = os.environ['GOOGLE_REDIRECT_URI']
+SCOPES = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+CLIENT_CONFIG = {
+    'installed': {
+        'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
+        'token_uri': 'https://accounts.google.com/o/oauth2/token',
+        'redirect_uris': [google_redirect_url],
+        'client_id': os.environ['GOOGLE_CLIENT_ID'],
+        'client_secret': os.environ['GOOGLE_CLIENT_SECRET']
+    }
+}
+
+flow = Flow.from_client_config(CLIENT_CONFIG, SCOPES)
+flow.redirect_uri = google_redirect_url
+
+
+def register_google_oauth(namespace: Namespace):
 
     @namespace.route('/security/oauth/google')
     @namespace.doc()
     class GoogleOAuth(Resource):
 
         def get(self):
-            pass
+            url, state = flow.authorization_url()
+            return redirect(url)
 
-    @namespace.route(google_redirect_uri)
+    @namespace.route('/security/oauth/google/callback')
     @namespace.doc()
-    @google_app.authorized_handler
     class GoogleOAuthCallback(Resource):
-
-        def post(self, response):
-            pass
-
-
-def get_google_app(oauth: OAuth):
-    client_id = os.environ['GOOGLE_CLIENT_ID']
-    client_secret = os.environ['GOOGLE_CLIENT_SECRET']
-    google_remote_app = oauth.remote_app('google',
-                                         base_url='https://www.google.com/accounts/',
-                                         authorize_url='https://accounts.google.com/o/oauth2/auth',
-                                         request_token_url=None,
-                                         request_token_params={
-                                             'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-                                             'response_type': 'code'
-                                         },
-                                         access_token_url='https://accounts.google.com/o/oauth2/token',
-                                         access_token_method='POST',
-                                         access_token_params={
-                                             'grant_type': 'authorization_code'
-                                         },
-                                         consumer_key=client_id,
-                                         consumer_secret=client_secret)
-    return google_remote_app
+        
+        def get(self):
+            state = request.args.get('state')
+            code = request.args.get('code')
+            scope = request.args.get('scope')
+            token = flow.fetch_token(code=code)
+            resp = make_response(redirect(os.environ['AFTER_LOGIN_REDIRECT']))
+            resp.set_cookie('token', str(token))
+            return resp

@@ -6,6 +6,8 @@ RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 COPY ./init/requirements.txt ./
 
+RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev
+
 # Install Python dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
