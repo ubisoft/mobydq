@@ -1,51 +1,44 @@
 import React from 'react';
-import {styles} from './../../styles/baseStyles';
-import {withStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import './../../styles/baseStyles';
 import Button from '@material-ui/core/Button';
 
-class Login extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            tableContent: this.props.tableContent,
-        }
-    }
-
-    login()
-    {
-        alert("Login :-)");
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                <div className="container">
-                    <div className="loginForm">
-                        <div className="loginFormHeader">
-                            <table>
+const Login = ({
+                   ...props
+               }) => {
+    return (
+        <React.Fragment>
+            <div className="container">
+                <div className="loginForm">
+                    <div className="loginFormHeader">
+                        <table>
+                            <tbody>
+                            <tr>
                                 <td>
-                                    <div className="btnCloseFake"></div>
+                                    <div className="btnCloseFake" />
                                 </td>
                                 <td>
-                                    <div className="btnMinimizeFake"></div>
+                                    <div className="btnMinimizeFake" />
                                 </td>
                                 <td>
-                                    <div className="btnMaximizeFake"></div>
+                                    <div className="btnMaximizeFake" />
                                 </td>
-                            </table>
-                        </div>
-                        <div style={{textAlign: "center"}}>
-                        <Button style={{marginTop: "25%"}} onClick={this.login} variant="contained" color="secondary">
-                            Sign in with Google
-                        </Button>
-                        </div>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{textAlign: "center"}}>
+                        <a style={{textDecoration: "none"}} href="http://google.ch">
+                            <Button style={{marginTop: "25%"}} variant="contained" color="secondary">
+                                Sign in with Google
+                            </Button>
+                        </a>
                     </div>
                 </div>
-            </React.Fragment>
-        )
-    }
-}
+            </div>
+        </React.Fragment>
+    );
+};
 
-export default withStyles(styles)(Login);
+export default Login;
+
