@@ -14,10 +14,10 @@ RUN apt-get install -y sqlite3
 # Test files
 WORKDIR /srv
 RUN mkdir -p /srv/test
-COPY ./db-sqlite ./db-sqlite
-COPY ./test_db ./test_db
-COPY ./test_api ./test_api
-COPY ./test_scripts ./test_scripts
+COPY ./db-sqlite ./test/db-sqlite
+COPY ./test_db ./test/test_db
+COPY ./test_api ./test/test_api
+COPY ./test_scripts ./test/test_scripts
 COPY ./unittest.cfg .
 
 RUN chmod +x test/db-sqlite/database.sh \
