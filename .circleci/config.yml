@@ -42,9 +42,9 @@ jobs:
             docker ps -a
 
       - run:
-        name: Start up test databases
-        when: always
-        command: |
+          name: Start up test databases
+          when: always
+          command: |
             # Start databases
             docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
             # Wait for them to start properly
