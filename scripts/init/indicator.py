@@ -76,7 +76,7 @@ class Indicator:
             data_source = DataSource()
             connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
-            error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)
+            error_message = f'Data source {data_source} does not exist.'
             log.error(error_message)
             raise Exception(error_message)
 
@@ -86,7 +86,7 @@ class Indicator:
         connection.close()
 
         if data_frame.empty:
-            error_message = 'Request on data source {data_source} returned no data.'.format(data_source=data_source)
+            error_message = f'Request on data source {data_source} returned no data.'
             log.error(error_message)
             log.debug('Request: %s.', request)
             raise Exception(error_message)
@@ -134,7 +134,7 @@ class Indicator:
     def send_alert(self, indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], alert_operator: str, alert_threshold: str, nb_records_alert: str, result_data: pandas.DataFrame):
         """Build the alert e-mail to be sent for the session."""
         # Create csv file to send in attachment
-        file_name = 'indicator_{indicator_id}_session_{session_id}.csv'.format(indicator_id=indicator_id, session_id=session_id)
+        file_name = f'indicator_{indicator_id}_session_{session_id}.csv'
         file_path = os.path.dirname(__file__) + "/" + file_name
         result_data.to_csv(file_path, header=True, index=False)
 

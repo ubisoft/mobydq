@@ -17,13 +17,11 @@ class DataSource:
         """Connect to a data source. Return a connection object."""
         # Add login to connection string if it is not empty
         if login:
-            connection_string = connection_string + \
-                'uid={login};'.format(login=login)
+            connection_string = f'{connection_string}uid={login};'
 
         # Add password to connection string if it is not empty
         if password:
-            connection_string = connection_string + \
-                'pwd={password};'.format(password=password)
+            connection_string = connection_string = f'{connection_string}pwd={password};'
 
         # Hive
         if data_source_type_id == DataSourceType.HIVE_ID:
@@ -117,7 +115,6 @@ class DataSource:
                 utils.execute_graphql_request(mutation)
 
         else:
-            error_message = 'Data source Id {data_source_id} does not exist.'.format(
-                data_source_id=data_source_id)
+            error_message = f'Data source Id {data_source_id} does not exist.'
             log.error(error_message)
             raise Exception(error_message)

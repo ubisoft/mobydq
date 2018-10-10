@@ -19,7 +19,7 @@ class TestDataSource(unittest.TestCase):
         """Generate unique name for unit test case."""
 
         time.sleep(1)
-        test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        test_case_name = f'test {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
         return test_case_name
 
     def test_get_connection_mariadb(self):

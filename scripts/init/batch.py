@@ -82,6 +82,6 @@ class Batch:
                 log.info('Batch Id %i completed successfully.', batch_id)
 
         else:
-            error_message = 'Batch Id {batch_id} does not exist or has no indicator session.'.format(batch_id=batch_id)
+            error_message = f'Batch Id {batch_id} does not exist or has no indicator session.'
             log.error(error_message)
             raise Exception(error_message)
