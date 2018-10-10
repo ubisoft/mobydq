@@ -10,12 +10,12 @@ it('renders TextInput without crashing with good props', () => {
 
   const component = renderer.create(
     <TextInput
-          id="name"
-          label="Indicator name"
-          helperText=""
+          id="Id"
+          label="Label"
+          helperText="Helper Text"
           placeholder="Enter indicator name"
           touched={null}
-          error={true}
+          error=""
           value="value"
           onChange={null}
           onBlur={null}
