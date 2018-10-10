@@ -96,8 +96,8 @@ services:
       - default
 
   test-lint-python:
-    container_name: mobydq-lint-python
-    image: mobydq-lint-python
+    container_name: mobydq-test-lint-python
+    image: mobydq-test-lint-python
     build:
       context: ..
       dockerfile: ./test/Dockerfile-Api
