@@ -8,7 +8,7 @@ import freshness  # Called dynamically with getattr pylint: disable=W0611
 import latency  # Called dynamically with getattr pylint: disable=W0611
 import validity  # Called dynamically with getattr pylint: disable=W0611
 import utils
-from session import Session
+from session import update_session_status
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -54,14 +54,14 @@ class Batch:
                     class_instance = getattr(sys.modules[module_name], class_name)()
                     getattr(class_instance, method_name)(session)
 
-                except Exception:
+                except Exception: # pylint: disable=broad-except
                     is_error = True
                     error_message = traceback.format_exc()
                     log.error(error_message)
 
                     # Update session status
                     session_id = session['id']
-                    Session.update_session_status(session_id, 'Failed')
+                    update_session_status(session_id, 'Failed')
 
                     # Get error context and send error e-mail
                     indicator_id = session['indicatorId']

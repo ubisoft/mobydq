@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 import pandas
 from indicator import Indicator
-from session import Session
+from session import update_session_status
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ class Freshness(Indicator):
         indicator_id: int = session['indicatorId']
         log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
-        Session.update_session_status(session_id, 'Running')
+        update_session_status(session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
         indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
@@ -50,7 +50,7 @@ class Freshness(Indicator):
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
-        Session.update_session_status(session_id, 'Succeeded')
+        update_session_status(session_id, 'Succeeded')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_freshness(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):

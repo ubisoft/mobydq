@@ -55,14 +55,14 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
 
     # Construct e-mail body and update body template
     if template == 'indicator':
-        email['Subject'] = f'Data quality alert: {kwargs['indicator_name']}'
+        email['Subject'] = f"Data quality alert: {kwargs['indicator_name']}"
         html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
         body = body.render(**kwargs)
 
     elif template == 'error':
-        email['Subject'] = f'Data quality error: {kwargs['indicator_name']}'
+        email['Subject'] = f"Data quality error: {kwargs['indicator_name']}"
         html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
@@ -86,7 +86,7 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
         part = MIMEBase('application', 'octet-stream')
         part.set_payload(open(attachment_path, 'rb').read())
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path))}"'
+        part.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
         email.attach(part)
 
     # Send e-mail via smtp server

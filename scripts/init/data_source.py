@@ -103,7 +103,7 @@ class DataSource:
                     data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
-            except Exception:
+            except Exception: # pylint: disable=broad-except
                 log.error('Connection to data source failed.')
                 error_message = traceback.format_exc()
                 log.error(error_message)

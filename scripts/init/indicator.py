@@ -57,8 +57,7 @@ class Indicator:
 
         return indicator_parameters
 
-    @staticmethod
-    def get_data_frame(data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
+    def get_data_frame(self, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
         query = '''{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'''

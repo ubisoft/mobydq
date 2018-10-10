@@ -2,7 +2,7 @@
 from datetime import datetime
 import time
 import unittest
-from scripts.session import Session
+from scripts.session import update_session_status
 from scripts import utils
 
 
@@ -52,8 +52,7 @@ class TestSession(unittest.TestCase):
         session_id = session['data']['createSession']['session']['id']
 
         # Update test session status
-        session = Session()
-        data = session.update_session_status(session_id, 'Running')
+        data = update_session_status(session_id, 'Running')
         session_status = data['data']['updateSessionById']['session']['status']
 
         # Assert batch status is Running

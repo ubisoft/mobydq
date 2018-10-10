@@ -5,7 +5,7 @@ from proxy.exceptions import RequestException
 from proxy.interceptor import Interceptor
 import proxy.utils as utils
 
-
+# pylint: disable=unused-variable
 def register_graphql(namespace: Namespace, api: Api):
     """Method used to register the GraphQL namespace and endpoint."""
 
