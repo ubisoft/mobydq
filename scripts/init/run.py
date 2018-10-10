@@ -1,8 +1,9 @@
-from batch import Batch
-from data_source import DataSource
+"""Entrypoint to execute python scripts."""
 import argparse
 import logging
 import sys
+from batch import Batch
+from data_source import DataSource
 
 
 log = logging.getLogger(__name__)

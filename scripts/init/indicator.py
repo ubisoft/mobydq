@@ -1,3 +1,4 @@
+"""Manage class and methods for all types of indicators."""
 from ast import literal_eval
 from data_source import DataSource
 from typing import List
@@ -48,7 +49,7 @@ class Indicator:
 
         if missing_parameters:
             missing_parameters = ', '.join(missing_parameters)
-            error_message = 'Missing parameters: {missing_parameters}.'.format(missing_parameters)
+            error_message = 'Missing parameters: {missing_parameters}.'.format(missing_parameters=missing_parameters)
             log.error(error_message)
             raise Exception(error_message)
 

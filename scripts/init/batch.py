@@ -1,3 +1,4 @@
+"""Manage class and methods for batches."""
 from ast import literal_eval
 from session import Session
 import completeness  # Called dynamically with getattr

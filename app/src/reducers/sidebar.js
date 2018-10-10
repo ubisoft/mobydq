@@ -5,4 +5,4 @@ export function sidebarIsOpen(state=true, action) {
     default:
       return state;
   }
-};
+}

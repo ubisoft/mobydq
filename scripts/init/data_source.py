@@ -1,3 +1,4 @@
+"""Manage class and methods for data sources."""
 import logging
 import pyodbc
 import sqlite3

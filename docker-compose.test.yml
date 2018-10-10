@@ -7,11 +7,11 @@ services:
       context: ./app
 
   app-test:
-    container_name: mobydq-app-test
+    container_name: mobydq-test-app
     build:
       context: ./app
       dockerfile: Dockerfile-test
     env_file:
       - ./.env
     command: "npm run test && npm run lint"
-    image: mobydq-app-test
+    image: mobydq-test-app
