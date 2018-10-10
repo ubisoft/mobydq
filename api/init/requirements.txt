@@ -6,3 +6,5 @@ graphql-py==0.7.1
 requests==2.19.1
 Authlib==0.9
 google-auth-oauthlib==0.2.0
+jwt==0.5.4
+gdata==2.0.18

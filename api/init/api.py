@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 from health.routes import register_health
 from proxy.routes import register_graphql
 from security.routes import register_security
@@ -18,6 +19,8 @@ logging.basicConfig(
 
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
+
+app.secret_key = os.urandom(24)
 CORS(app)
 
 # This is required to fix swagger UI not loading issue due to https
