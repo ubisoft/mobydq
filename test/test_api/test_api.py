@@ -1,5 +1,4 @@
 """Unit tests for API components."""
-from datetime import datetime
 import unittest
 import requests
 
@@ -12,12 +11,6 @@ class TestApi(unittest.TestCase):
         """Execute this before the tests."""
         cls.base_url = 'http://api:5434/mobydq/api/v1'
 
-    @staticmethod
-    def get_test_case_name():
-        """Generate unique name for unit test case."""
-        test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-        return test_case_name
-
     def test_get_health(self):
         """Unit tests endpoint get /health."""
 
@@ -28,11 +21,6 @@ class TestApi(unittest.TestCase):
 
         # Assert http status code is 200
         self.assertEqual(status, 200)
-
-    @classmethod
-    def tearDownClass(cls):
-        """Execute this at the end of the tests."""
-        pass
 
 
 if __name__ == '__main__':

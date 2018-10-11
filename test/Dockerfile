@@ -22,6 +22,7 @@ COPY ./db-sqlite ./test/db-sqlite
 COPY ./test_db ./test/test_db
 COPY ./test_api ./test/test_api
 COPY ./test_scripts ./test/test_scripts
+COPY ./shared ./test/shared
 COPY ./unittest.cfg .
 COPY ./pylintrc .
 

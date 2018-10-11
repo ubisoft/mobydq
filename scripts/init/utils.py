@@ -55,14 +55,16 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
 
     # Construct e-mail body and update body template
     if template == 'indicator':
-        email['Subject'] = f"Data quality alert: {kwargs['indicator_name']}"
+        indicator_name = kwargs['indicator_name']
+        email['Subject'] = f'Data quality alert: {indicator_name}'
         html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
         body = body.render(**kwargs)
 
     elif template == 'error':
-        email['Subject'] = f"Data quality error: {kwargs['indicator_name']}"
+        indicator_name = kwargs['indicator_name']
+        email['Subject'] = f'Data quality error: {indicator_name}'
         html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
