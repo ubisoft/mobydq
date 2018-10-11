@@ -1,6 +1,5 @@
 """Unit tests for API components."""
 from datetime import datetime
-import time
 import unittest
 import requests
 
@@ -16,9 +15,7 @@ class TestApi(unittest.TestCase):
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
-
-        time.sleep(1)
-        test_case_name = f'test {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         return test_case_name
 
     def test_get_health(self):

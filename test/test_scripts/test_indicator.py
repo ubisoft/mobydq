@@ -1,5 +1,4 @@
 """Unit tests for module /scripts/init/indicator.py."""
-import time
 import unittest
 from datetime import datetime
 from scripts.indicator import Indicator
@@ -17,8 +16,7 @@ class TestIndicator(unittest.TestCase):
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
-        time.sleep(1)
-        test_case_name = f'test {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         return test_case_name
 
     def test_verify_indicator_parameters_completeness(self):

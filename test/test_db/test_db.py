@@ -1,6 +1,5 @@
 """Unit tests for database components."""
 from datetime import datetime
-import time
 import unittest
 import pyodbc
 
@@ -16,9 +15,7 @@ class TestDb(unittest.TestCase):
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
-
-        time.sleep(1)
-        test_case_name = f'test {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         return test_case_name
 
     @staticmethod
@@ -72,7 +69,7 @@ class TestDb(unittest.TestCase):
         data_source_type_id = row[0]
 
         # Insert test child record
-        insert_child_query = "INSERT INTO base.data_source (name, data_source_type_id) VALUES ('{test_case_name}', '{data_source_type_id}');"
+        insert_child_query = f"INSERT INTO base.data_source (name, data_source_type_id) VALUES ('{test_case_name}', '{data_source_type_id}');"
         self.connection.execute(insert_child_query)
         self.connection.commit()
 

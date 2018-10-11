@@ -1,8 +1,7 @@
 """Contain constants Ids and labels."""
-from enum import Enum
 
-
-class DataSourceType(Enum):
+# pylint: disable=R0903
+class DataSourceType:
     """Data source type Ids."""
     HIVE_ID = 1
     IMPALA_ID = 2

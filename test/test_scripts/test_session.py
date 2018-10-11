@@ -1,6 +1,5 @@
 """Unit tests for module /scripts/init/session.py."""
 from datetime import datetime
-import time
 import unittest
 from scripts.session import update_session_status
 from scripts import utils
@@ -17,8 +16,7 @@ class TestSession(unittest.TestCase):
     @staticmethod
     def get_test_case_name():
         """Generate unique name for unit test case."""
-        time.sleep(1)
-        test_case_name = f'test {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         return test_case_name
 
     def test_update_session_status(self):
