@@ -1,8 +1,8 @@
 """Manage class and methods for data sources."""
 import logging
-import pyodbc
 import sqlite3
 import traceback
+import pyodbc
 import utils
 from constants import DataSourceType
 
@@ -17,13 +17,11 @@ class DataSource:
         """Connect to a data source. Return a connection object."""
         # Add login to connection string if it is not empty
         if login:
-            connection_string = connection_string + \
-                'uid={login};'.format(login=login)
+            connection_string = f'{connection_string}uid={login};'
 
         # Add password to connection string if it is not empty
         if password:
-            connection_string = connection_string + \
-                'pwd={password};'.format(password=password)
+            connection_string = connection_string = f'{connection_string}pwd={password};'
 
         # Hive
         if data_source_type_id == DataSourceType.HIVE_ID:
@@ -77,8 +75,7 @@ class DataSource:
         return connection
 
     def test(self, data_source_id: int):
-        log.info('Test connectivity to data source Id {data_source_id}.'.format(
-            data_source_id=data_source_id))
+        log.info('Test connectivity to data source Id %i.', data_source_id)
 
         # Get data source
         log.debug('Get data source.')
@@ -106,7 +103,7 @@ class DataSource:
                     data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
-            except Exception:
+            except Exception: # pylint: disable=broad-except
                 log.error('Connection to data source failed.')
                 error_message = traceback.format_exc()
                 log.error(error_message)
@@ -118,7 +115,6 @@ class DataSource:
                 utils.execute_graphql_request(mutation)
 
         else:
-            error_message = 'Data source Id {data_source_id} does not exist.'.format(
-                data_source_id=data_source_id)
+            error_message = f'Data source Id {data_source_id} does not exist.'
             log.error(error_message)
             raise Exception(error_message)

@@ -1,10 +1,10 @@
 """Manage class and methods for all types of indicators."""
 from ast import literal_eval
-from data_source import DataSource
 from typing import List
 import logging
 import os
 import pandas
+from data_source import DataSource
 import utils
 
 # Load logging configuration
@@ -13,9 +13,6 @@ log = logging.getLogger(__name__)
 
 class Indicator:
     """Base class used to compute indicators, regardless of their type."""
-
-    def __init__(self):
-        pass
 
     def verify_indicator_parameters(self, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
@@ -49,7 +46,7 @@ class Indicator:
 
         if missing_parameters:
             missing_parameters = ', '.join(missing_parameters)
-            error_message = 'Missing parameters: {missing_parameters}.'.format(missing_parameters=missing_parameters)
+            error_message = f'Missing parameters: {missing_parameters}.'
             log.error(error_message)
             raise Exception(error_message)
 
@@ -74,23 +71,23 @@ class Indicator:
             login = response['data']['dataSourceByName']['login']
             password = response['data']['dataSourceByName']['password']
 
-            log.info('Connect to data source {data_source}.'.format(data_source=data_source))
+            log.info('Connect to data source %s.', data_source)
             data_source = DataSource()
             connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
-            error_message = 'Data source {data_source} does not exist.'.format(data_source=data_source)
+            error_message = f'Data source {data_source} does not exist.'
             log.error(error_message)
             raise Exception(error_message)
 
         # Get data frame
-        log.info('Execute request on data source.'.format(data_source=data_source))
+        log.info('Execute request on data source %s.', data_source)
         data_frame = pandas.read_sql(request, connection)
         connection.close()
 
         if data_frame.empty:
-            error_message = 'Request on data source {data_source} returned no data.'.format(data_source=data_source)
+            error_message = f'Request on data source {data_source} returned no data.'
             log.error(error_message)
-            log.debug('Request: {request}.'.format(request=request))
+            log.debug('Request: %s.', request)
             raise Exception(error_message)
 
         # Format data frame
@@ -108,17 +105,14 @@ class Indicator:
         Return True if an alert must be sent, False otherwise.
         Supported alert operators are: ==, >, >=, <, <=, !=
         """
-        if eval(str(measure_value) + alert_operator + str(alert_threshold)):
-            return True
-        else:
-            return False
+        return eval(str(measure_value) + alert_operator + str(alert_threshold)) # pylint: disable=W0123
 
     def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)
-        nb_records_alert = len(result_data.loc[result_data['Alert'] == True])
-        nb_records_no_alert = len(result_data.loc[result_data['Alert'] == False])
+        nb_records_alert = len(result_data.loc[result_data['Alert'] == True]) # pylint: disable=C0121
+        nb_records_no_alert = len(result_data.loc[result_data['Alert'] == False]) # pylint: disable=C0121
 
         # Post results to database
         mutation = '''mutation{createSessionResult(input:{sessionResult:{
@@ -139,7 +133,7 @@ class Indicator:
     def send_alert(self, indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], alert_operator: str, alert_threshold: str, nb_records_alert: str, result_data: pandas.DataFrame):
         """Build the alert e-mail to be sent for the session."""
         # Create csv file to send in attachment
-        file_name = 'indicator_{indicator_id}_session_{session_id}.csv'.format(indicator_id=indicator_id, session_id=session_id)
+        file_name = f'indicator_{indicator_id}_session_{session_id}.csv'
         file_path = os.path.dirname(__file__) + "/" + file_name
         result_data.to_csv(file_path, header=True, index=False)
 
