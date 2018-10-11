@@ -23,8 +23,8 @@ def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_to
         'exp': now + TOKEN_VALIDITY,
         'user_info': user_info,
         'user_token': oauth_token,
-        'role': '',
-        'user_id': ''
+        'role': 'TBD for postgraphile',
+        'user_id': 'TBD for postgraphile'
     }
     signing_key = get_private_key()
     return jwt.encode(message, signing_key, 'RS256')
