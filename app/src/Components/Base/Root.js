@@ -7,8 +7,17 @@ import { ApolloProvider } from "react-apollo";
 import BaseDataView from './BaseDataView'
 
 
+function getCookieValue(a) {
+  var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+  return b ? b.pop() : '';
+}
+
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_FLASK_API_URL + 'graphql',
+  headers: {
+    'Authorization': 'Bearer ' + getCookieValue('token')
+  }
   // options: { mode: 'no-cors' }
 });
 window.apiUrl = process.env.REACT_APP_FLASK_API_URL;
