@@ -1,7 +1,7 @@
 import os
 import urllib.parse as urlparse
-import gdata
 import json
+import requests
 from flask import redirect, request, jsonify, make_response, session
 from flask_restplus import Namespace, Resource
 from google_auth_oauthlib.flow import Flow
@@ -9,6 +9,7 @@ from security.token import get_jwt_token, TokenType
 
 
 google_redirect_url = os.environ['GOOGLE_REDIRECT_URI']
+USER_PROFILE = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'
 SCOPES = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile'
@@ -28,13 +29,10 @@ flow = Flow.from_client_config(CLIENT_CONFIG, SCOPES)
 flow.redirect_uri = google_redirect_url
 
 
-def get_user_email(oauth_token: str):
-    user_client = gdata.client.GDClient()
-    auth_token = gdata.gauth.AuthSubToken(oauth_token)
-    response = user_client.request(
-        'GET', 'https://www.googleapis.com/userinfo/v2/me', auth_token)
-    j_obj = json.loads(response.read())
-    return j_obj['email']
+def get_user_info(oauth_token: str):
+    request_url = USER_PROFILE.format(oauth_token)
+    response = requests.get(request_url)
+    return json.loads(response.text)
 
 
 def register_google_oauth(namespace: Namespace):
@@ -55,7 +53,8 @@ def register_google_oauth(namespace: Namespace):
             code = request.args.get('code')
             token = flow.fetch_token(code=code)
             resp = make_response(redirect(os.environ['AFTER_LOGIN_REDIRECT']))
-            email = get_user_email(token['access_token'])
-            jwt = get_jwt_token(TokenType.Google, email, token)
+            user_info = get_user_info(token['access_token'])
+            jwt = get_jwt_token(
+                TokenType.Google, user_info['email'], user_info, token)
             resp.set_cookie('token', str(jwt))
             return resp
