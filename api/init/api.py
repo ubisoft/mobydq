@@ -6,9 +6,9 @@ from proxy.routes import register_graphql
 from security.routes import register_security
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
+from flask_cors import CORS
 from proxy.routes import register_graphql
 from health.routes import register_health
-from flask_cors import CORS
 
 log = logging.getLogger(__name__)
 logging.basicConfig(

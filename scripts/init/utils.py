@@ -3,12 +3,12 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from jinja2 import Template
 import configparser
 import logging
 import os
-import requests
 import smtplib
+from jinja2 import Template
+import requests
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -38,13 +38,13 @@ def execute_graphql_request(payload: object):
     return data
 
 
-def send_mail(session_id: int, distribution_list: list, template: str=None, attachment: any=None, **kwargs):
+def send_mail(session_id: int, distribution_list: list, template: str = None, attachment: any = None, **kwargs):
     """Send e-mail to the distribution list."""
     # Verify e-mail configuration
     config = get_parameter('mail')
     for key, value in config.items():
         if value in ['change_me', '', None]:
-            error_message = 'Cannot send e-mail notification due to invalid configuration for mail parameter {key}.'.format(key=key)
+            error_message = f'Cannot send e-mail notification due to invalid configuration for mail parameter {key}.'
             log.error(error_message)
             raise Exception(error_message)
 
@@ -55,15 +55,17 @@ def send_mail(session_id: int, distribution_list: list, template: str=None, atta
 
     # Construct e-mail body and update body template
     if template == 'indicator':
-        email['Subject'] = 'Data quality alert: {}'.format(kwargs['indicator_name'])
-        html = open(os.path.dirname(__file__) + '/email/{}.html'.format(template), 'r')
+        indicator_name = kwargs['indicator_name']
+        email['Subject'] = f'Data quality alert: {indicator_name}'
+        html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
         body = body.render(**kwargs)
 
     elif template == 'error':
-        email['Subject'] = 'Data quality error: {}'.format(kwargs['indicator_name'])
-        html = open(os.path.dirname(__file__) + '/email/{}.html'.format(template), 'r')
+        indicator_name = kwargs['indicator_name']
+        email['Subject'] = f'Data quality error: {indicator_name}'
+        html = open(os.path.dirname(__file__) + f'/email/{template}.html', 'r')
         body = html.read()
         body = Template(body)
         kwargs['session_id'] = session_id
@@ -86,7 +88,7 @@ def send_mail(session_id: int, distribution_list: list, template: str=None, atta
         part = MIMEBase('application', 'octet-stream')
         part.set_payload(open(attachment_path, 'rb').read())
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(os.path.basename(attachment_path)))
+        part.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
         email.attach(part)
 
     # Send e-mail via smtp server

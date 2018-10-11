@@ -32,6 +32,6 @@ if __name__ == '__main__':
         data_source.test(data_source_id)
 
     else:
-        error_message = 'Invalid method {method}'.format(method=method)
+        error_message = f'Invalid method {method}'
         log.error(error_message)
         raise Exception(error_message)

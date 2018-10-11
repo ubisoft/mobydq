@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 class DataSourceRepository {
-  static getListPage(pageNumber, pageSize) {
+  static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
     return gql`
       {
         allDataSources {

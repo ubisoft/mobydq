@@ -5,8 +5,9 @@ class RequestException(Exception):
     """Method to manage errors when sending http request to GraphQL."""
 
     def __init__(self, status: int, response: object):
+        super().__init__()
         self._status = status
-        if type(response) == str:
+        if isinstance(response, str):
             response = {'message': response}
         self._response = response
 

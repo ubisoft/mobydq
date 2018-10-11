@@ -4,7 +4,9 @@ FROM python:3.6.6-slim-stretch
 ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY ./init ./
+
+# Copy drivers
+COPY ./init/drivers ./drivers
 
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
@@ -28,11 +30,11 @@ RUN apt-get install -y lib32stdc++6 \
     && rm -R ./tdodbc1620
 
 # Install Python dependencies
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+COPY ./init/requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Move ODBC configuration file
-RUN mv -f ./odbcinst.ini /etc
+COPY ./init/odbcinst.ini /etc
 
 # Get build arguments coming from .env file
 ARG GRAPHQL_URL
@@ -55,3 +57,6 @@ RUN echo "[graphql]" >> ./scripts.cfg \
 
 # Deleting drivers packages
 RUN rm -R ./drivers
+
+# Copy code as late as possible
+COPY ./init ./

@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 class IndicatorGroupRepository {
-  static getListPage(pageNumber, pageLength) {
+  static getListPage(pageNumber, pageLength) { // eslint-disable-line no-unused-vars
     return gql`
       {
         allIndicatorGroups {
