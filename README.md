@@ -85,6 +85,13 @@ $ docker volume create mobydq-db-volume
 ```
 
 
+## Create the keys
+To sign JWT tokens private & public keys are needed. Create the keys in the root of the repository:
+```shell
+$ openssl genrsa -out mobydq/private.pem 2048 && openssl rsa -in mobydq/private.pem -pubout > mobydq/public.pem
+```
+
+
 ## Build Docker Images
 Go to the project root and execute the following command in your terminal window.
 ```shell
