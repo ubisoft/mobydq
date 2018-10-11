@@ -12,8 +12,16 @@ class TokenType(Enum):
     Google = 0
 
 
+def is_token_valid(token: str):
+    verifying_key = get_public_key()
+    try:
+        decoded_token = JWT().decode(token, verifying_key)
+        return True
+    except Exception:
+        return False
+
+
 def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_token: object):
-    jwt = JWT()
     now = time.time()
     message = {
         'iss': os.environ['TOKEN_ISSUER'],
@@ -27,4 +35,4 @@ def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_to
         'user_id': 'TBD for postgraphile'
     }
     signing_key = get_private_key()
-    return jwt.encode(message, signing_key, 'RS256')
+    return JWT().encode(message, signing_key, 'RS256')
