@@ -9,6 +9,7 @@ from flask_restplus import Api
 from flask_cors import CORS
 from proxy.routes import register_graphql
 from health.routes import register_health
+from security.decorators import token_required
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -35,6 +36,7 @@ def swagger_url(self):
 # Create blueprint to indicate api base url
 blueprint = Blueprint('api', __name__, url_prefix='/mobydq/api')
 
+
 # Create Swagger documentation for blueprint
 api = Api(
     blueprint,
@@ -42,7 +44,8 @@ api = Api(
     version='v1',
     description='''API used to configure and trigger the execution of data quality indicators.''',
     doc='/doc',
-    contact='to be configured')
+    contact='to be configured',
+    decorators=[])
 # TODO: Api.specs_url = swagger_url  # To be activated after we implement https
 app.register_blueprint(blueprint)
 

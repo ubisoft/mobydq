@@ -3,9 +3,12 @@ from flask import request, jsonify, make_response
 from flask_restplus import Resource, fields, Namespace, Api
 from proxy.exceptions import RequestException
 from proxy.interceptor import Interceptor
+from security.decorators import token_required
 import proxy.utils as utils
 
 # pylint: disable=unused-variable
+
+
 def register_graphql(namespace: Namespace, api: Api):
     """Method used to register the GraphQL namespace and endpoint."""
 
@@ -19,6 +22,8 @@ def register_graphql(namespace: Namespace, api: Api):
     @namespace.route('/graphql', endpoint='with-parser')
     @namespace.doc()
     class GraphQL(Resource):
+        decorators = [token_required]
+
         @namespace.expect(headers, payload, validate=True)
         def post(self):
             """
@@ -29,7 +34,8 @@ def register_graphql(namespace: Namespace, api: Api):
 
             try:
                 # Validate http request payload and convert it to GraphQL document
-                graphql_document = utils.validate_graphql_request(payload['query'])
+                graphql_document = utils.validate_graphql_request(
+                    payload['query'])
 
                 # Verify GraphQL mutation can be handled
                 interceptor = Interceptor()
@@ -37,8 +43,10 @@ def register_graphql(namespace: Namespace, api: Api):
 
                 # Surcharge payload before request
                 if mutation_name:
-                    mutation_arguments = interceptor.get_mutation_arguments(graphql_document)
-                    payload['query'] = interceptor.before_request(mutation_name, mutation_arguments)
+                    mutation_arguments = interceptor.get_mutation_arguments(
+                        graphql_document)
+                    payload['query'] = interceptor.before_request(
+                        mutation_name, mutation_arguments)
 
                 # Execute request on GraphQL API
                 status, data = utils.execute_graphql_request(payload)
