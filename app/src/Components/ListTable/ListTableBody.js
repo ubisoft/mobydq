@@ -19,7 +19,7 @@ export const ListTableBody = ({content, contentColumnList, buttons}) => {
     <TableBody>
       {
         content.map((row) => (
-          <ListTableRow buttons={buttons} key={row.id} rowContent={row} rowColumns={contentColumnList}/>
+          <ListTableRow buttons={buttons} key={row.id} rowData={row} rowColumns={contentColumnList}/>
         ))
       }
     </TableBody>
