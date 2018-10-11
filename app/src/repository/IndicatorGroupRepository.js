@@ -1,14 +1,13 @@
 import gql from "graphql-tag";
 
 class IndicatorGroupRepository {
-  static getListPage(pageNumber, pageLength) {
+  static getListPage(pageNumber, pageLength) { // eslint-disable-line no-unused-vars
     return gql`
       {
         allIndicatorGroups {
           nodes {
             id
             name
-            createdDate
             updatedDate
           }
         }
@@ -25,13 +24,14 @@ class IndicatorGroupRepository {
             name
           }
         }
-      }`
+      }
+    `
   }
 
   static insert() {
     return gql`
       mutation addNewIndicatorGroup($indicatorGroup: IndicatorGroupInput!) {
-        createIndicatorGroup(input: { indicatorGroup: $indicatorGroup }) {
+        createIndicatorGroup(input: {indicatorGroup: $indicatorGroup}) {
           indicatorGroup {
             id
             name
@@ -39,7 +39,8 @@ class IndicatorGroupRepository {
             updatedDate
           }
         }
-      }`
+      }
+    `
   }
 }
 

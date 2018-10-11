@@ -5,19 +5,19 @@ CREATE DATABASE star_wars;
 
 /*Create tables*/
 CREATE TABLE planet(
-  id INTEGER PRIMARY KEY,
-  name TEXT,
-  rotation_period INTEGER,
-  orbital_period INTEGER,
-  diameter INTEGER,
-  climate TEXT,
-  gravity TEXT,
-  terrain TEXT,
-  surface_water TEXT,
-  population BIGINT,
-  created_date TIMESTAMP,
-  updated_date TIMESTAMP,
-  url TEXT
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    rotation_period INTEGER,
+    orbital_period INTEGER,
+    diameter INTEGER,
+    climate TEXT,
+    gravity TEXT,
+    terrain TEXT,
+    surface_water TEXT,
+    population BIGINT,
+    created_date TIMESTAMP,
+    updated_date TIMESTAMP,
+    url TEXT
 );
 
 CREATE TABLE people(

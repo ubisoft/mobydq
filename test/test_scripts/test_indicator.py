@@ -1,25 +1,18 @@
-from datetime import datetime
-from scripts.init.indicator import Indicator
-from scripts.init import utils
-import time
+"""Unit tests for module /scripts/init/indicator.py."""
 import unittest
+from shared.utils import get_test_case_name
+from scripts.indicator import Indicator
+from scripts import utils
 
 
 class TestIndicator(unittest.TestCase):
-    @classmethod
-    def setUpClass(self):
-        pass
-
-    @staticmethod
-    def get_test_case_name():
-        """Generate unique name for unit test case."""
-        time.sleep(1)
-        test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        return test_case_name
+    """Unit tests for class Indicator."""
 
     def test_verify_indicator_parameters_completeness(self):
+        """Unit tests for method verify_indicator_parameters for completeness indicators."""
+
         # Create test indicator group
-        test_case_name = TestIndicator.get_test_case_name()
+        test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
@@ -70,8 +63,10 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_freshness(self):
+        """Unit tests for method verify_indicator_parameters for freshness indicators."""
+
         # Create test indicator group
-        test_case_name = TestIndicator.get_test_case_name()
+        test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
@@ -120,8 +115,10 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_latency(self):
+        """Unit tests for method verify_indicator_parameters for latency indicators."""
+
         # Create test indicator group
-        test_case_name = TestIndicator.get_test_case_name()
+        test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
@@ -172,8 +169,10 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_verify_indicator_parameters_validity(self):
+        """Unit tests for method verify_indicator_parameters for validity indicators."""
+
         # Create test indicator group
-        test_case_name = TestIndicator.get_test_case_name()
+        test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
@@ -222,9 +221,11 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(len(verified_parameters[5]), 3)
 
     def test_get_data_frame(self):
+        """Unit tests for method get_data_frame."""
+
         # Create data source
-        test_case_name = TestIndicator.get_test_case_name()
-        mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=0.0.0.0;port=9002;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
+        test_case_name = get_test_case_name()
+        mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=db-postgresql;port=5432;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
         mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         data_source = utils.execute_graphql_request(mutation_create_data_source)
         data_source = data_source['data']['createDataSource']['dataSource']['name']
@@ -243,6 +244,8 @@ class TestIndicator(unittest.TestCase):
         self.assertEqual(nb_females, 19)
 
     def test_is_alert(self):
+        """Unit tests for method is_alert."""
+
         indicator = Indicator()
         equal = indicator.is_alert(0, '==', 0)
         greater = indicator.is_alert(1, '>', 0)
@@ -260,10 +263,7 @@ class TestIndicator(unittest.TestCase):
         self.assertTrue(different)
 
     def test_compute_session_result(self):
-        pass
-
-    @classmethod
-    def tearDownClass(self):
+        """Unit tests for method compute_session_result."""
         pass
 
 

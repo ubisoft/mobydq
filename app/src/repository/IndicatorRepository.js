@@ -1,21 +1,22 @@
 import gql from "graphql-tag";
 
 class IndicatorRepository {
-  static getListPage(pageNumber, pageSize) {
-    return gql`{
-      allIndicators{
-        nodes {
-          id
-          name
-          description
-          executionOrder
-          flagActive
-          createdDate
-          updatedDate
-          indicatorTypeId
+  static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
+    return gql`
+      {
+        allIndicators {
+          nodes {
+            id
+            name
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
+          }
         }
       }
-    }`
+    `
   }
 
   static getFormDropdownData() {
@@ -33,22 +34,51 @@ class IndicatorRepository {
             name
           }
         }
-      }`
+      }
+    `
   }
 
   static insert() {
     return gql`
       mutation addNewIndicator($indicator: IndicatorInput!) {
-        createIndicator(input: { indicator: $indicator }) {
+        createIndicator(input: {indicator: $indicator}) {
           indicator {
             id
             name
             description
-            createdDate
-            updatedDate
           }
         }
-      }`
+      }
+    `
+  }
+
+  static getIndicatorToUpdate(id) {
+    return gql`
+      {
+        indicatorById(id:` + id + `) {
+          id
+          name
+          description
+          executionOrder
+          flagActive
+          createdDate
+          updatedDate
+          indicatorTypeId
+        }
+      }
+    `
+  }
+
+  static update() {
+    return gql`
+      mutation updateIndicator($id: Int!, $indicatorPatch: IndicatorPatch!) {
+        updateIndicatorById(input: {id: $id, indicatorPatch: $indicatorPatch}) {
+          indicator {
+            id
+          }
+        }
+      }
+    `
   }
 }
 

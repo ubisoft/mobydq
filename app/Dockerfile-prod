@@ -1,8 +1,7 @@
 FROM node:10.11.0-alpine as builder
 
 # Set working directory
-RUN mkdir /usr/src
-RUN mkdir /usr/src/app
+RUN mkdir /usr/src && mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 # Add /usr/src/app/node_modules/.bin to $PATH
@@ -18,7 +17,6 @@ RUN echo "API_URL = $API_URL" > ./app.cfg
 
 # Install and cache app dependencies
 COPY package.json package-lock.json /usr/src/app/
-RUN npm i -g react-scripts@2.0.3
 RUN npm ci
 COPY . /usr/src/app
 RUN npm run build

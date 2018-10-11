@@ -3,4 +3,4 @@ export function isOpen(bool) {
     type: 'SIDEBAR_IS_OPEN',
     isOpen: bool
   };
-};
+}

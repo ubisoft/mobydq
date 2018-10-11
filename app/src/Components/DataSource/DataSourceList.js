@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import DataSourceRepository  from './../../repository/DataSourceRepository';
-import DataTable from '../Dashboard/DataTable';
+import ListTable from '../ListTable/ListTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
 
 const DataSourceList = (refetch) => (
@@ -18,7 +18,7 @@ const DataSourceList = (refetch) => (
           <div style={{float: 'right'}}>
             <RouterButton targetLocation='/data-source/new' disabled={false} label="Add new data source"/>
           </div>
-          <DataTable data={data.allDataSources.nodes}/>
+          <ListTable data={data.allDataSources.nodes}/>
         </div>
       );
     }}
