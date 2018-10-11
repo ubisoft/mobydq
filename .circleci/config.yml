@@ -75,7 +75,7 @@ jobs:
           name: Run python linter
           when: always
           command: |
-            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --exit-zero --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results.xml"
+            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --exit-zero --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results-python.xml"
 
       - run:
           name: Run app tests
