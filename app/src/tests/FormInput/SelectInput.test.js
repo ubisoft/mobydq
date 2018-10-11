@@ -3,15 +3,16 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import TextInput from '../../Components/FormInput/TextInput';
+import SelectInput from '../../Components/FormInput/SelectInput';
 
 describe('TextInput unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
-      <TextInput
+      <SelectInput
         id="Id"
         label="Label"
+        items={[{id: 1, name: 'select value 1'}, {id: 2, name: 'select value 2'}]}
         helperText="Helper Text"
         placeholder="Enter indicator name"
         touched={jest.fn()}
@@ -34,27 +35,20 @@ describe('TextInput unit test', () => {
 
 describe('TextInput functional test', () => {
   let wrapper = mount(
-      <TextInput
+      <SelectInput
         id="Id"
         label="Label"
+        items={[{id: 1, name: 'select value 1'}, {id: 2, name: 'select value 2'}]}
         helperText="Helper Text"
         placeholder="Enter indicator name"
         touched={jest.fn()}
         error=""
-        value="mock text"
+        value={1}
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
     );
   it ('renders correct contents', () => {
-    expect(wrapper.prop('value')).toEqual('mock text')
-  });
-  it ('renders correct contents', () => {
-    wrapper.setProps({value: 'new mock content'})
-    expect(wrapper.prop('value')).toEqual('new mock content')
-  });
-  it ('renders correct numeric contents', () => {
-    wrapper.setProps({numeric: true, value: '123321'});
-    expect(wrapper.prop('value')).toEqual('123321');
+    expect(wrapper.prop('value')).toEqual(1)
   });
 });

@@ -3,13 +3,13 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import TextInput from '../../Components/FormInput/TextInput';
+import DateInput from '../../Components/FormInput/DateInput';
 
-describe('TextInput unit test', () => {
+describe('DateInput unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
-      <TextInput
+      <DateInput
         id="Id"
         label="Label"
         helperText="Helper Text"
@@ -32,9 +32,9 @@ describe('TextInput unit test', () => {
   });
 });
 
-describe('TextInput functional test', () => {
+describe('DateInput functional test', () => {
   let wrapper = mount(
-      <TextInput
+      <DateInput
         id="Id"
         label="Label"
         helperText="Helper Text"
@@ -46,15 +46,7 @@ describe('TextInput functional test', () => {
         onBlur={jest.fn()}
       />
     );
-  it ('renders correct contents', () => {
-    expect(wrapper.prop('value')).toEqual('mock text')
-  });
-  it ('renders correct contents', () => {
-    wrapper.setProps({value: 'new mock content'})
-    expect(wrapper.prop('value')).toEqual('new mock content')
-  });
-  it ('renders correct numeric contents', () => {
-    wrapper.setProps({numeric: true, value: '123321'});
-    expect(wrapper.prop('value')).toEqual('123321');
+  it('renders', () => {
+    expect(wrapper.length).toEqual(1);
   });
 });
