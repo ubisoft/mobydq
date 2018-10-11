@@ -6,12 +6,16 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2018,
     "sourceType": "module",
      "ecmaFeatures": {
       "jsx": true,
-      "modules": true,
-      "experimentalObjectRestSpread": true
+      "modules": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "16.5"
     }
   }
 }

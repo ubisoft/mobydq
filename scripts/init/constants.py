@@ -1,6 +1,6 @@
 """Contain constants Ids and labels."""
 
-
+# pylint: disable=R0903
 class DataSourceType:
     """Data source type Ids."""
     HIVE_ID = 1

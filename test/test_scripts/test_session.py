@@ -1,31 +1,18 @@
 """Unit tests for module /scripts/init/session.py."""
-from datetime import datetime
-from scripts.session import Session
-from scripts import utils
-import time
 import unittest
+from shared.utils import get_test_case_name
+from scripts.session import update_session_status
+from scripts import utils
 
 
 class TestSession(unittest.TestCase):
     """Unit tests for class Session."""
 
-    @classmethod
-    def setUpClass(self):
-        """Execute this before the tests."""
-        pass
-
-    @staticmethod
-    def get_test_case_name():
-        """Generate unique name for unit test case."""
-        time.sleep(1)
-        test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        return test_case_name
-
     def test_update_session_status(self):
         """Unit tests for method update_session_status."""
 
         # Create test indicator group
-        test_case_name = TestSession.get_test_case_name()
+        test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
@@ -52,17 +39,11 @@ class TestSession(unittest.TestCase):
         session_id = session['data']['createSession']['session']['id']
 
         # Update test session status
-        session = Session()
-        data = session.update_session_status(session_id, 'Running')
+        data = update_session_status(session_id, 'Running')
         session_status = data['data']['updateSessionById']['session']['status']
 
         # Assert batch status is Running
         self.assertEqual(session_status, 'Running')
-
-    @classmethod
-    def tearDownClass(self):
-        """Execute this at the end of the tests."""
-        pass
 
 
 if __name__ == '__main__':

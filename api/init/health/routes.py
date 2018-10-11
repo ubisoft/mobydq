@@ -2,7 +2,7 @@ import os
 from flask import jsonify
 from flask_restplus import Resource, Namespace
 
-
+# pylint: disable=unused-variable
 def register_health(namespace: Namespace):
     """Method used to register the health check namespace and endpoint."""
 

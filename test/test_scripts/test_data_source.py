@@ -1,26 +1,11 @@
 """Unit tests for module /scripts/init/data_source.py."""
-from datetime import datetime
+import unittest
 from scripts.data_source import DataSource
 from scripts.constants import DataSourceType
-import time
-import unittest
 
 
 class TestDataSource(unittest.TestCase):
     """Unit tests for class DataSource."""
-
-    @classmethod
-    def setUpClass(self):
-        """Execute this before the tests."""
-        pass
-
-    @staticmethod
-    def get_test_case_name():
-        """Generate unique name for unit test case."""
-
-        time.sleep(1)
-        test_case_name = 'test {}'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        return test_case_name
 
     def test_get_connection_mariadb(self):
         """Unit tests for method get_connection for MariaDB database."""
@@ -127,11 +112,6 @@ class TestDataSource(unittest.TestCase):
 
     def test_get_connection_teradata(self):
         """Unit tests for method get_connection for Teradata database."""
-        pass
-
-    @classmethod
-    def tearDownClass(self):
-        """Execute this at the end of the tests."""
         pass
 
 

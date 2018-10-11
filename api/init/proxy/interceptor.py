@@ -1,7 +1,7 @@
 import sys
-import proxy.batch as batch  # Called dynamically with getattr
-import proxy.data_source as data_source  # Called dynamically with getattr
 from graphql.ast import Document
+import proxy.batch as batch  # Called dynamically with getattr pylint: disable=W0611
+import proxy.data_source as data_source  # Called dynamically with getattr pylint: disable=W0611
 
 
 class Interceptor():
