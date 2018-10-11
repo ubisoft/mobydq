@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
 
   db:
@@ -48,6 +48,9 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
+    secrets:
+      - public_key
+      - private_key
 
   scripts:
     container_name: mobydq-scripts
@@ -95,3 +98,9 @@ networks:
 volumes:
   mobydq-db-volume:
     external: true
+
+secrets:
+  public_key:
+    file: public.pem
+  private_key:
+    file: private.pem
