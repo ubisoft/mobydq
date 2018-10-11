@@ -14,9 +14,11 @@ const DataSourceList = (refetch) => (
       if (error) return <p>Error :(</p>;
       return (
         <div>
-          Data Source list
+          <div style={{float: 'left', marginLeft: '60px'}}>
+            Data Sources
+          </div>
           <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/data-source/new' disabled={false} label="Add new data source"/>
+            <RouterButton targetLocation='/data-source/new' disabled={false} label="Create"/>
           </div>
           <ListTable data={data.allDataSources.nodes}/>
         </div>
