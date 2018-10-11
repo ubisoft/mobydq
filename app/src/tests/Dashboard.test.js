@@ -1,9 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import * as Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
+import { shallowToJson } from 'enzyme-to-json';
+
 import Dashboard from './../Components/Dashboard/Dashboard';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Dashboard />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it('renders empty dashboard crashing', () => {
+  const wrapper = shallow(
+    <Dashboard />
+  );
+
+  expect(wrapper).toMatchSnapshot();
 });

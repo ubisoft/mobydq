@@ -1,11 +1,13 @@
 import React from 'react'
-import renderer from 'react-test-renderer';
+import * as Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
+import { shallowToJson } from 'enzyme-to-json';
 
 import ListTable from '../Components/ListTable/ListTable';
 
 
 
-it('renders without crashing with normal data object', () => {
+test('renders without crashing with normal data object', () => {
   const data =
   [
     {
@@ -33,18 +35,16 @@ it('renders without crashing with normal data object', () => {
   ];
 
   const buttons = [{"name": "edit", "function": null}, {"name": "King", "function": null}];
-  const component = renderer.create(
+  const wrapper = shallow(
     <ListTable data={data} buttons={buttons}/>
   );
 
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 
 });
 
-it('renders without crashing with normal data object and no action buttons', () => {
+test('renders without crashing with normal data object and no action buttons', () => {
   const data =
   [
     {
@@ -71,26 +71,22 @@ it('renders without crashing with normal data object and no action buttons', () 
     },
   ];
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <ListTable data={data}/>
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 
 });
 
-it('renders without crashing with empty object', () => {
+test('renders without crashing with empty object', () => {
   const data = "not an array";
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <ListTable data={[]}/>
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 // it('renders without crashing with incorrect data object (to fix Test should fail on this)', () => {

@@ -1,14 +1,17 @@
 import React from 'react'
-import renderer from 'react-test-renderer';
+import * as Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
+import { shallowToJson } from 'enzyme-to-json';
 
 import TextInput from '../../Components/FormInput/TextInput';
 
+//configure({adapter: new Adapter()});
 
-it('renders TextInput without crashing with good props', () => {
+test('renders TextInput without crashing with good props', () => {
   const data = "not an array";
 
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <TextInput
           id="Id"
           label="Label"
@@ -23,16 +26,14 @@ it('renders TextInput without crashing with good props', () => {
         />
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
-it('renders TextInput without crashing with good props and error set', () => {
+test('renders TextInput without crashing with good props and error set', () => {
   const data = "not an array";
 
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <TextInput
           id="Id"
           label="Label"
@@ -47,17 +48,15 @@ it('renders TextInput without crashing with good props and error set', () => {
         />
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 
-it('renders TextInput without crashing if id is not set or value is empty', () => {
+test('renders TextInput without crashing if id is not set or value is empty', () => {
   const data = "not an array";
 
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <TextInput
           id=""
           label="Label"
@@ -66,22 +65,20 @@ it('renders TextInput without crashing if id is not set or value is empty', () =
           touched={null}
           error="an error text"
           value=""
-          onChange={null}
+          onChange={jest.fn()}
           onBlur={null}
           style={{ float: 'left' }}
         />
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
-it('renders a numeric TextInput without crashing', () => {
+test('renders a numeric TextInput without crashing', () => {
   const data = "not an array";
 
 
-  const component = renderer.create(
+  const wrapper = shallow(
     <TextInput
           id="Id"
           label="Label"
@@ -96,8 +93,5 @@ it('renders a numeric TextInput without crashing', () => {
         />
   );
 
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
-
