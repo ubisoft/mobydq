@@ -47,7 +47,7 @@ $ sudo apt install docker-compose
 # Setup Your Instance
 
 ## Create Configuration Files
-Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
+Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the `client_secret` and `client_id` for the OAuth providers.
 ```ini
 # DB
 # Parameters used by db container
@@ -68,6 +68,14 @@ MAIL_SENDER=change@me.com
 # Parameters used by app container
 NODE_ENV=development
 REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/
+
+# OAuth
+GOOGLE_CLIENT_ID=client_id
+GOOGLE_CLIENT_SECRET=client_secret
+GOOGLE_REDIRECT_URI=http://localhost:5434/mobydq/api/v1/security/oauth/google/callback
+
+AFTER_LOGIN_REDIRECT=http://localhost
+TOKEN_ISSUER=https://localhost
 ```
 
 
