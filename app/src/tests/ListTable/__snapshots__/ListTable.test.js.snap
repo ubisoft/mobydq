@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`List Table unit test matches snapshot 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <WithStyles(ListTable)
+    buttons={
+      Array [
+        Object {
+          "function": [Function],
+          "name": "button name",
+        },
+      ]
+    }
+    data={
+      Array [
+        Object {
+          "__typename": "Mock Type",
+          "falseField": false,
+          "id": 1,
+          "name": "mock name",
+          "trueField": true,
+        },
+        Object {
+          "__typename": "Mock Type",
+          "falseField": false,
+          "id": 2,
+          "name": "mock name 2",
+          "trueField": false,
+        },
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "buttons": Array [
+        Object {
+          "function": [Function],
+          "name": "button name",
+        },
+      ],
+      "classes": Object {
+        "appBar": "ListTable-appBar-4",
+        "appBarShift": "ListTable-appBarShift-5",
+        "appBarSpacer": "ListTable-appBarSpacer-11",
+        "chartContainer": "ListTable-chartContainer-13",
+        "content": "ListTable-content-12",
+        "drawerPaper": "ListTable-drawerPaper-9",
+        "drawerPaperClose": "ListTable-drawerPaperClose-10",
+        "formContainer": "ListTable-formContainer-14",
+        "menuButton": "ListTable-menuButton-6",
+        "menuButtonHidden": "ListTable-menuButtonHidden-7",
+        "root": "ListTable-root-1",
+        "tableContainer": "ListTable-tableContainer-15",
+        "title": "ListTable-title-8",
+        "toolbar": "ListTable-toolbar-2",
+        "toolbarIcon": "ListTable-toolbarIcon-3",
+      },
+      "data": Array [
+        Object {
+          "__typename": "Mock Type",
+          "falseField": false,
+          "id": 1,
+          "name": "mock name",
+          "trueField": true,
+        },
+        Object {
+          "__typename": "Mock Type",
+          "falseField": false,
+          "id": 2,
+          "name": "mock name 2",
+          "trueField": false,
+        },
+      ],
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "function": [Function],
+            "name": "button name",
+          },
+        ],
+        "classes": Object {
+          "appBar": "ListTable-appBar-4",
+          "appBarShift": "ListTable-appBarShift-5",
+          "appBarSpacer": "ListTable-appBarSpacer-11",
+          "chartContainer": "ListTable-chartContainer-13",
+          "content": "ListTable-content-12",
+          "drawerPaper": "ListTable-drawerPaper-9",
+          "drawerPaperClose": "ListTable-drawerPaperClose-10",
+          "formContainer": "ListTable-formContainer-14",
+          "menuButton": "ListTable-menuButton-6",
+          "menuButtonHidden": "ListTable-menuButtonHidden-7",
+          "root": "ListTable-root-1",
+          "tableContainer": "ListTable-tableContainer-15",
+          "title": "ListTable-title-8",
+          "toolbar": "ListTable-toolbar-2",
+          "toolbarIcon": "ListTable-toolbarIcon-3",
+        },
+        "data": Array [
+          Object {
+            "__typename": "Mock Type",
+            "falseField": false,
+            "id": 1,
+            "name": "mock name",
+            "trueField": true,
+          },
+          Object {
+            "__typename": "Mock Type",
+            "falseField": false,
+            "id": 2,
+            "name": "mock name 2",
+            "trueField": false,
+          },
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

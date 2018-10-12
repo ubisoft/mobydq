@@ -24,7 +24,6 @@ const CheckboxInput = ({
             <Checkbox
               id={id}
               onChange={onChange}
-              errorText={touched && errors}
               value={value}
               {...props}
             />

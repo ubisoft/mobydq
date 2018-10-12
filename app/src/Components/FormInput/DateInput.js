@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const DateInput = ({
   id,
@@ -32,10 +32,9 @@ const DateInput = ({
              }}
              helperText={helperText}
              onChange={onChange}
-             errorText={touched && errors}
              {...props}
            />
-           <InputFeedback error={error} />
+           <FormHelperText>{error}</FormHelperText>
         </React.Fragment>
       }
       label={""}

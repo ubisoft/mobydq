@@ -11,8 +11,10 @@ import {ListTableCell} from './ListTableCell';
  */
 class ListTableHeader extends React.Component {
   _buildHeaderCell(fieldName) {
-    fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-    fieldName = fieldName.match(/[A-Z][a-z]+/g).join(" ");
+    if (fieldName.length > 0) {
+      fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+      fieldName = fieldName.match(/[A-Z][a-z]+/g).join(' ');
+    }
     return (
       <ListTableCell key={fieldName} contents={fieldName}/>
     )

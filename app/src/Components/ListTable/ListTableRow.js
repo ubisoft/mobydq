@@ -16,11 +16,11 @@ import { ListTableRowContent } from "./ListTableRowContent";
  *
  * Container calls for TableDataRowButtons and TableDataRowData container components
  */
-export const ListTableRow = ({rowContent, rowColumns, buttons}) => {
+export const ListTableRow = ({rowData, rowColumns, buttons}) => {
   return(
     <TableRow>
-      <ListTableRowContent rowData={rowContent} rowColumns={rowColumns}/>
-      <ListTableRowButtons buttons={buttons} value={rowContent.id}/>
+      <ListTableRowContent rowData={rowData} rowColumns={rowColumns}/>
+      <ListTableRowButtons buttons={buttons} value={rowData.id}/>
     </TableRow>
   );
 }
@@ -31,6 +31,6 @@ ListTableRow.defaultProps = {
 
 ListTableRow.propTypes = {
   buttons: PropTypes.array,
-  rowContent: PropTypes.object.isRequired,
+  rowData: PropTypes.object.isRequired,
   rowColumns: PropTypes.array.isRequired
 };

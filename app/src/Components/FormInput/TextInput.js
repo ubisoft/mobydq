@@ -15,7 +15,6 @@ const TextInput = ({
   onChange,
   className,
   numeric,
-
   ...props
 }) => {
   return (
