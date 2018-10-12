@@ -21,7 +21,7 @@ class DataSource extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => ( <BaseForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
-                  afterSaveRoute='/data-source/' title='Add New Data Source' {...props} /> )
+                  afterSaveRoute='/data-source/' title='Create Data Source' {...props} /> )
             }
           />
           <Route
