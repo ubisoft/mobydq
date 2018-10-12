@@ -34,7 +34,7 @@ def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_to
         'iat': now,
         'aud': 'postgraphile',
         'exp': now + TOKEN_VALIDITY,
-        'type': token_type,
+        'type': str(token_type),
         'user_info': user_info,
         'user_token': oauth_token,
         'role': 'TBD for postgraphile',
