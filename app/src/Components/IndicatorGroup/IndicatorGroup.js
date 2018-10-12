@@ -1,9 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import RouterButton from './../../Components/FormInput/RouterButton';
 import IndicatorGroupList from './IndicatorGroupList';
 import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
@@ -22,7 +21,7 @@ class IndicatorGroup extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => ( <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
-                  afterSaveRoute='/indicator-group/' title='Add New Indicator Group' {...props} /> )
+                  afterSaveRoute='/indicator-group/' title='Create Indicator Group' {...props} /> )
             }
           />
           <Route

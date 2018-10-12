@@ -1,11 +1,10 @@
 import React from 'react';
-import { withFormik, Formik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 import RouterButton from './../FormInput/RouterButton';
-import SwitchInput from './../FormInput/SwitchInput';
 
 const DataSourceFormFields = props => {
   const {
@@ -22,13 +21,13 @@ const DataSourceFormFields = props => {
     isSubmitting,
   } = props;
   return (
-    <form onSubmit={handleSubmit} style={{marginLeft: '5%', marginRight: '5%', marginTop: '5%'}}>
+    <form onSubmit={handleSubmit} style={{ marginLeft: '60px' }}>
       <div>
         <TextInput
           id="name"
-          label="Data source name"
+          label="Name"
           helperText=""
-          placeholder="Enter data source name"
+          placeholder=""
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
@@ -36,20 +35,11 @@ const DataSourceFormFields = props => {
           onBlur={handleBlur}
           style={{float: 'left'}}
         />
-        <TextInput
-          id="connectionString"
-          label="Data source connection string"
-          helperText=""
-          placeholder="Enter data connection string"
-          touched={touched.connectionString}
-          error={touched.name && errors.connectionString}
-          value={values.connectionString}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+      <div>
+      <div>
         <SelectInput
           id="dataSourceTypeId"
-          label="Data Source Type"
+          label="Type"
           items={data.allDataSourceTypes.nodes}
           touched={touched.dataSourceTypeId}
           error={touched.dataSourceTypeId && errors.dataSourceTypeId}
@@ -57,13 +47,26 @@ const DataSourceFormFields = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        </div>
-        <div>
+      </div>
+      </div>
+        <TextInput
+          id="connectionString"
+          label="Connection string"
+          helperText=""
+          placeholder=""
+          touched={touched.connectionString}
+          error={touched.name && errors.connectionString}
+          value={values.connectionString}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div>
         <TextInput
           id="login"
-          label="Data source login"
+          label="Login"
           helperText=""
-          placeholder="Enter data source login"
+          placeholder=""
           touched={touched.login}
           error={touched.name && errors.login}
           value={values.login}
@@ -71,11 +74,13 @@ const DataSourceFormFields = props => {
           onBlur={handleBlur}
           style={{float: 'left'}}
         />
+      <div>
+      </div>
         <TextInput
           id="password"
-          label="Data source password"
+          label="Password"
           helperText=""
-          placeholder="Enter data source password"
+          placeholder=""
           touched={touched.password}
           error={touched.password && errors.password}
           value={values.password}
@@ -84,11 +89,11 @@ const DataSourceFormFields = props => {
         />
       </div>
       <div>
-        <div style={{float: 'left'}}>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
+        <div>
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
+          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
         </div>
-        <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>
     </form>
   );

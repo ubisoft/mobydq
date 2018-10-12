@@ -11,9 +11,8 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "1234-abcd"
-    command: ["/bin/bash", "entrypoint.sh"]
-    ports:
-      - 9000:1433
+    expose:
+      - 1433
     networks:
       - default
 
@@ -26,8 +25,22 @@ services:
       dockerfile: ./db-mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
-    ports:
-      - 9001:3306
+    expose:
+      - 3306
+    networks:
+      - default
+
+  db-mariadb:
+    container_name: mobydq-test-db-mariadb
+    image: mobydq-test-db-mariadb
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-mariadb/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    expose:
+      - 3306
     networks:
       - default
 
@@ -42,30 +55,54 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DATABASE: "star_wars"
-    ports:
-      - 9002:5432
+    expose:
+      - 5432
     networks:
       - default
 
-  test:
-    container_name: data-quality-test
-    image: data-quality-test
+  test-db:
+    container_name: mobydq-test-db
+    image: mobydq-test-scripts
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["nose2", "-v"]
+    command: ["nose2", "-v", "test_db.TestDb"]
+    networks:
+      - default
+
+  test-api:
+    container_name: mobydq-test-api
+    image: mobydq-test-scripts
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["nose2", "-v", "test_api.TestApi"]
+    networks:
+      - default
+
+  test-scripts:
+    container_name: mobydq-test-scripts
+    image: mobydq-test-scripts
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["nose2", "-v", "test_scripts"]
     depends_on:
       - db-sql-server
       - db-mysql
-      - db-postgresql
-    links:
-      - db-sql-server
-      - db-mysql
+      - db-mariadb
       - db-postgresql
     networks:
       - default
+
+  test-lint-python:
+    container_name: mobydq-test-lint-python
+    image: mobydq-test-lint-python
+    build:
+      context: ..
+      dockerfile: ./test/Dockerfile-Api
 
 networks:
   default:
     external:
-      name: data-quality-network
+      name: mobydq-network

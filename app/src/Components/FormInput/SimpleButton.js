@@ -22,6 +22,9 @@ const SimpleButton = ({
       case 'cancel':
         color = 'default';
         break;
+      default:
+        color = 'default';
+        break;
     }
   return (
     <Button type={type} disabled={disabled} variant="contained" color={color} onClick={onClick}>

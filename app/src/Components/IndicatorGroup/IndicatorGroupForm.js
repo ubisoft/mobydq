@@ -1,11 +1,9 @@
 import React from 'react';
-import { withFormik, Formik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
 import RouterButton from './../FormInput/RouterButton';
-import SwitchInput from './../FormInput/SwitchInput';
 
 const IndicatorGroupFormFields = props => {
   const {
@@ -22,13 +20,13 @@ const IndicatorGroupFormFields = props => {
     isSubmitting,
   } = props;
   return (
-    <form onSubmit={handleSubmit} style={{marginLeft: '5%', marginRight: '5%', marginTop: '5%'}}>
+    <form onSubmit={handleSubmit} style={{ marginLeft: '60px' }}>
       <div>
         <TextInput
           id="name"
-          label="Indicator group name"
+          label="Name"
           helperText=""
-          placeholder="Enter indicator group name"
+          placeholder=""
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
@@ -38,11 +36,11 @@ const IndicatorGroupFormFields = props => {
         />
       </div>
       <div>
-        <div style={{float: 'left'}}>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
+        <div>
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
+          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
         </div>
-        <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>
     </form>
   );

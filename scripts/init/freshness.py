@@ -1,8 +1,9 @@
-from datetime import datetime
-from indicator import Indicator
-from session import Session
+"""Manage class and methods for data freshness indicators."""
 import logging
+from datetime import datetime
 import pandas
+from indicator import Indicator
+from session import update_session_status
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -11,17 +12,14 @@ log = logging.getLogger(__name__)
 class Freshness(Indicator):
     """Class used to compute indicators of type freshness."""
 
-    def __init__(self):
-        pass
-
-    def execute(self, session):
+    def execute(self, session: dict):
         """Execute indicator of type freshness."""
         # Update session status to running
-        session_id = session['id']
-        indicator_id = session['indicatorId']
-        log.info('Start execution of session Id {session_id} for indicator Id {indicator_id}.'.format(session_id=session_id, indicator_id=indicator_id))
+        session_id: int = session['id']
+        indicator_id: int = session['indicatorId']
+        log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
-        Session.update_session_status(session_id, 'Running')
+        update_session_status(session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
         indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
@@ -52,10 +50,10 @@ class Freshness(Indicator):
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
-        Session.update_session_status(session_id, 'Succeeded')
-        log.info('Session Id {session_id} for indicator Id {indicator_id} completed successfully.'.format(session_id=session_id, indicator_id=indicator_id))
+        update_session_status(session_id, 'Succeeded')
+        log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
-    def evaluate_freshness(self, target_data, measures, alert_operator, alert_threshold):
+    def evaluate_freshness(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of freshness indicator and return results in a data frame."""
         result_data = target_data
         result_data['current_timestamp'] = datetime.utcnow()

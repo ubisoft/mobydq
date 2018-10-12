@@ -1,22 +1,17 @@
 version: '3'
 services:
-
-
-  db:
-    ports:
-      - 5432:5432
-
-  graphql:
-    ports:
-      - 5433:5433
-
   app:
-    container_name: mobydq-app
+    image: mobydq-app-dev
+    build:
+      dockerfile: Dockerfile-dev
+      context: ./app
+
+  app-test:
+    container_name: mobydq-test-app
     build:
       context: ./app
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './app:/usr/src/app'
-      - '/usr/src/app/node_modules'
-    ports:
-      - 80:3000
+      dockerfile: Dockerfile-test
+    env_file:
+      - ./.env
+    command: "npm run test && npm run lint"
+    image: mobydq-test-app

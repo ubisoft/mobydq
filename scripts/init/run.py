@@ -1,13 +1,14 @@
-from batch import Batch
-from data_source import DataSource
+"""Entrypoint to execute python scripts."""
 import argparse
 import logging
 import sys
+from batch import Batch
+from data_source import DataSource
 
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
-    # filename='data_quality.log',
+    # filename='mobydq.log',
     stream=sys.stdout,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -31,6 +32,6 @@ if __name__ == '__main__':
         data_source.test(data_source_id)
 
     else:
-        error_message = 'Invalid method {method}'.format(method=method)
+        error_message = f'Invalid method {method}'
         log.error(error_message)
         raise Exception(error_message)

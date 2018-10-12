@@ -4,61 +4,104 @@ jobs:
 
   build:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.7.0
     steps:
       - checkout
       - setup_remote_docker
 
       - run:
           name: Create Docker Compose configuration file
+          when: always
           command: |
             echo "POSTGRES_USER=postgres" >> ./.env
             echo "POSTGRES_PASSWORD=password" >> ./.env
-            echo "DATABASE_URL=postgres://postgres:password@db:5432/data_quality" >> ./.env
+            echo "DATABASE_URL=postgres://postgres:password@db:5432/mobydq" >> ./.env
             echo "GRAPHQL_URL=http://graphql:5433/graphql" >> ./.env
             echo "MAIL_HOST=smtp.server.org" >> ./.env
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "REACT_APP_GRAPHQL_API_URL=http://0.0.0.0:5433/graphql" >> ./.env
+            echo "REACT_FLASK_API_URL=http://api:5434/mobydq/api/v1/graphql" >> ./.env
 
       - run:
           name: Build Docker images
+          when: always
           command: |
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml build db graphql api app scripts
+            docker-compose -f docker-compose.yml build db graphql api scripts
+            docker-compose -f docker-compose.test.yml build app app-test
             docker-compose -f ./test/docker-compose.yml build
             docker images
 
       - run:
           name: Run Docker containers
+          when: always
           command: |
             docker network create mobydq-network
             docker volume create mobydq-db-volume
-            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+            docker-compose -f docker-compose.yml up -d db graphql api
             docker ps -a
 
       - run:
-          name: Run backend tests
+          name: Start up test databases
+          when: always
           command: |
-            docker-compose -f ./test/docker-compose.yml up -d
+            # Start databases
+            docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
+            # Wait for them to start properly
+            sleep 30
 
       - run:
-          name: Run frontend tests
+          name: Run database tests
+          when: always
           command: |
-            docker exec -it mobydq-app npm test -- --coverage
+            # Run database tests
+            docker-compose -f ./test/docker-compose.yml up test-db
 
       - run:
-          name: Run tests
+          name: Run API tests
+          when: always
           command: |
-            echo 'export PYTHONPATH=./test:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./api/init:$PYTHONPATH' >> $BASH_ENV
-            echo 'export PYTHONPATH=./scripts/init:$PYTHONPATH' >> $BASH_ENV
-            source $BASH_ENV
-            nose2 --plugin nose2.plugins.junitxml --junit-xml -v
+            # Run API tests
+            docker-compose -f ./test/docker-compose.yml up test-api
 
-      - store_artifacts:
-          path: test/junit/test-results.xml
-          destination: test-results
+      - run:
+          name: Run scripts tests
+          when: always
+          command: |
+            # Run scripts tests
+            docker-compose -f ./test/docker-compose.yml up test-scripts
+
+      - run:
+          name: Run python linter
+          when: always
+          command: |
+            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --exit-zero --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results-python.xml"
+
+      - run:
+          name: Run app tests
+          when: always
+          command: |
+            docker run --name mobydq-test-app -e JEST_JUNIT_OUTPUT="/reports/junit/test-results-app.xml" -e CI=true mobydq-test-app npm test -- --ci --reporters=jest-junit
+
+      - run:
+          name: Run app linter
+          when: always
+          command: |
+            docker run --name mobydq-test-app-lint mobydq-test-app npm run lint -- --format junit -o /reports/junit/lint-results-js.xml
+
+      - run:
+          name: Collect tests results
+          when: always
+          command: |
+            docker cp mobydq-test-db:/srv/test-results.xml ./test-results/test-results-db.xml
+            docker cp mobydq-test-api:/srv/test-results.xml ./test-results/test-results-api.xml
+            docker cp mobydq-test-scripts:/srv/test-results.xml ./test-results/test-results-scripts.xml
+            docker cp mobydq-test-lint-python:/srv/lint-results-python.xml ./test-results/
+            docker cp mobydq-test-app:/reports/junit/test-results-app.xml ./test-results/
+            docker cp mobydq-test-app-lint:/reports/junit/lint-results-js.xml ./test-results/
 
       - store_test_results:
-          path: test
+          path: ./test-results
+
+      - store_artifacts:
+          path: ./test-results
