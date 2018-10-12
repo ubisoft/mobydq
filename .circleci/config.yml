@@ -81,7 +81,7 @@ jobs:
           name: Run app tests
           when: always
           command: |
-            docker run --name mobydq-test-app -e JEST_JUNIT_OUTPUT="/reports/junit/test-results-app.xml" -e CI=true mobydq-test-app npm test -- --ci --reporters=jest-junit --updateSnapshot
+            docker run --name mobydq-test-app -e JEST_JUNIT_OUTPUT="/reports/junit/test-results-app.xml" -e CI=true mobydq-test-app npm test -- --ci --reporters=jest-junit
 
       - run:
           name: Run app linter
