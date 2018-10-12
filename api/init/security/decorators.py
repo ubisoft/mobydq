@@ -13,7 +13,8 @@ def token_required(func):
     def wrapper(*args, **kwargs):
         auth_header = _get_token_from_header()
         token = _parse_jwt_token(auth_header)
-        unauthorized_response = make_response(jsonify({}), 401)
+        unauthorized_response = make_response(
+            jsonify({'message': 'Unauthorized'}), 401)
         if token is None:
             return unauthorized_response
 
