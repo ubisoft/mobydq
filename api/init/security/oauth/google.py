@@ -6,6 +6,8 @@ from flask_restplus import Namespace, Resource
 from google_auth_oauthlib.flow import Flow
 from security.token import get_jwt_token, TokenType
 
+# pylint: disable=unused-variable
+
 
 google_redirect_url = os.environ['GOOGLE_REDIRECT_URI']
 USER_PROFILE = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'

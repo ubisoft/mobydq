@@ -4,7 +4,7 @@ from flask_restplus import Resource, fields, Namespace, Api
 from proxy.exceptions import RequestException
 from proxy.interceptor import Interceptor
 from security.decorators import token_required
-import proxy.utils as utils
+from proxy.utils import validate_graphql_request, execute_graphql_request
 
 # pylint: disable=unused-variable
 
@@ -34,7 +34,7 @@ def register_graphql(namespace: Namespace, api: Api):
 
             try:
                 # Validate http request payload and convert it to GraphQL document
-                graphql_document = utils.validate_graphql_request(
+                graphql_document = validate_graphql_request(
                     payload['query'])
 
                 # Verify GraphQL mutation can be handled
@@ -49,7 +49,7 @@ def register_graphql(namespace: Namespace, api: Api):
                         mutation_name, mutation_arguments)
 
                 # Execute request on GraphQL API
-                status, data = utils.execute_graphql_request(payload)
+                status, data = execute_graphql_request(payload)
                 if status != 200:
                     raise RequestException(status, data)
 

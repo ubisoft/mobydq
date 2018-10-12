@@ -7,7 +7,6 @@ from flask_cors import CORS
 from health.routes import register_health
 from proxy.routes import register_graphql
 from security.routes import register_security
-from security.decorators import token_required
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -56,4 +55,4 @@ security = api.namespace('Security', path='/v1')
 # Register all API resources
 register_health(health)
 register_graphql(graphql, api)
-register_security(security, api)
+register_security(security)
