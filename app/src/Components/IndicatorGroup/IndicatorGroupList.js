@@ -20,7 +20,7 @@ const IndicatorGroupList = (refetch) => (
           <div style={{float: 'right'}}>
             <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Create"/>
           </div>
-          <ListTable data={data.allIndicatorGroups.nodes}/>
+          <ListTable data={data.allIndicatorGroups.nodes} buttons={[{'name': 'edit', 'function': edit}, {'name': 'delete', 'function': _delete}]}/>
         </div>
       );
     }}

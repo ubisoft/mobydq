@@ -1,6 +1,6 @@
 import React from 'react';
 import {ListTableCell} from './ListTableCell';
-import Button from '@material-ui/core/Button';
+import SimpleButton from '@material-ui/core/Button';
 
 /**
  * Container component for TableRow Action Buttons

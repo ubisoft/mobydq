@@ -14,7 +14,7 @@ function getCookieValue(a) {
 
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_FLASK_API_URL + 'graphql',
+  uri: process.env.REACT_APP_GRAPHQL_API_URL + 'graphql',
   headers: {
     'Authorization': 'Bearer ' + getCookieValue('token')
   }

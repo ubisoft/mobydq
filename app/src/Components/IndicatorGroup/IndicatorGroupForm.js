@@ -35,8 +35,8 @@ const IndicatorGroupFormFields = props => {
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant='contained'/> &nbsp;
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} variant='contained'/> &nbsp;
           <RouterButton targetLocation='back' disabled={false} label="Cancel" />
         </div>
       </div>

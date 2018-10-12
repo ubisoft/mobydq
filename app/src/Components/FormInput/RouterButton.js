@@ -8,6 +8,7 @@ const RouterButton = withRouter(({history, targetLocation, disabled, label}) => 
       type={targetLocation === 'back' ? 'cancel' : 'create'}
       disabled={disabled}
       label={label}
+      variant='contained'
       onClick={() => {targetLocation === 'back' ? history.goBack() : history.replace(targetLocation)}}/>
 ))
 
