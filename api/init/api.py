@@ -42,7 +42,7 @@ api = Api(
     version='v1',
     description='''API used to configure and trigger the execution of data quality indicators.''',
     doc='/doc',
-    contact='to be configured')
+    contact=os.environ['MAIL_SENDER'])
 # TODO: Api.specs_url = swagger_url  # To be activated after we implement https
 app.register_blueprint(blueprint)
 
