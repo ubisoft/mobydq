@@ -33,7 +33,6 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                touched="true"
                 value="true"
               />
             </React.Fragment>
@@ -62,7 +61,6 @@ ShallowWrapper {
               id="Id"
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
-              touched="true"
               value="true"
             />
           </React.Fragment>,
@@ -100,7 +98,6 @@ ShallowWrapper {
                   id="Id"
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
-                  touched="true"
                   value="true"
                 />
               </React.Fragment>
@@ -129,7 +126,6 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                touched="true"
                 value="true"
               />
             </React.Fragment>,

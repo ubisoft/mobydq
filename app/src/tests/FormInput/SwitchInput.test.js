@@ -42,6 +42,6 @@ describe('SwitchInput functional test', () => {
     );
 
   it('renders correct contents', () => {
-    expect(wrapper.prop('value')).toEqual("true");
+    expect(wrapper.prop('value')).toEqual('true');
   });
 });
