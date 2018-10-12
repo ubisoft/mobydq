@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import {ListTableRowButtons} from './../../Components/ListTable/ListTableRowButtons'
 
@@ -13,7 +11,7 @@ describe('ListTableRowButtons unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {

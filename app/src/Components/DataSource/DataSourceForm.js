@@ -9,7 +9,6 @@ import RouterButton from './../FormInput/RouterButton';
 const DataSourceFormFields = props => {
   const {
     data,
-    mutationCallback,
     values,
     touched,
     errors,
@@ -103,14 +102,14 @@ const formikEnhancer = withFormik({
       .required('Login cannot be blank')
   }),
 
-  mapPropsToValues: ({ dataSource }) => ({
-      name: '', connectionString: '', login: '', password: ''
+  mapPropsToValues: () => ({
+    name: '', connectionString: '', login: '', password: ''
   }),
-  handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
+  handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     props.mutate({
-        variables: { dataSource: payload } },
-        );
+      variables: { dataSource: payload }
+    });
   },
   displayName: 'DataSourceForm',
 });

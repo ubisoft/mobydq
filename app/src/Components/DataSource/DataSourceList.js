@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from "react-apollo";
+import { Query } from 'react-apollo';
 import DataSourceRepository  from './../../repository/DataSourceRepository';
 import ListTable from '../ListTable/ListTable';
 import RouterButton from './../../Components/FormInput/RouterButton';

@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import {ListTableRow} from './../../Components/ListTable/ListTableRow'
 
@@ -16,8 +14,8 @@ describe('ListTableRow unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
-    expect(wrapper.children().length).toEqual(2);
+    expect(wrapper).toHaveLength(1);
+    expect(wrapper.children()).toHaveLength(2);
   });
 
   it('matches snapshot', () => {
@@ -33,8 +31,8 @@ describe('ListTableRow functional test', () => {
     let wrapper = mount(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
     expect(wrapper.find('ListTableRowButtons').text()).toEqual('button name');
-    expect(wrapper.find('tr').length).toEqual(1);
-    expect(wrapper.find('td').length).toEqual(5);
+    expect(wrapper.find('tr')).toHaveLength(1);
+    expect(wrapper.find('td')).toHaveLength(5);
     expect(wrapper.find('td').at(0).text()).toEqual('1');
     expect(wrapper.find('td').at(1).text()).toEqual('mock name');
     expect(wrapper.find('DoneIcon').exists()).toBe(true);

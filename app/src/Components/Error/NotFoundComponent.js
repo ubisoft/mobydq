@@ -4,10 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 
 class NotFoundComponent extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <React.Fragment>

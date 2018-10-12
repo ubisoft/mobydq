@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import ListTable from '../../Components/ListTable/ListTable';
 
@@ -15,7 +13,7 @@ describe('List Table unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
@@ -31,12 +29,12 @@ describe('ListTable functional test', () => {
                 {id: 2, name: 'mock name 2', trueField: false, falseField: false, __typename: 'Mock Type'}];
     let wrapper = mount(<ListTable buttons={buttons} data={data}/>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
-    expect(wrapper.find('ListTableRowButtons').length).toEqual(2);
+    expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
     expect(wrapper.find('ListTableRowButtons').at(0).text()).toEqual('button name');
     expect(wrapper.find('ListTableRowButtons').at(1).text()).toEqual('button name');
-    expect(wrapper.find('tr').length).toEqual(3);
-    expect(wrapper.find('td').length).toEqual(10);
-    expect(wrapper.find('th').length).toEqual(5);
+    expect(wrapper.find('tr')).toHaveLength(3);
+    expect(wrapper.find('td')).toHaveLength(10);
+    expect(wrapper.find('th')).toHaveLength(5);
     expect(wrapper.find('th').at(0).text()).toEqual('Id');
     expect(wrapper.find('th').at(1).text()).toEqual('Name');
     expect(wrapper.find('th').at(2).text()).toEqual('True Field');
@@ -48,8 +46,8 @@ describe('ListTable functional test', () => {
     expect(wrapper.find('td').at(1).text()).toEqual('mock name');
     expect(wrapper.find('td').at(5).text()).toEqual('2');
     expect(wrapper.find('td').at(6).text()).toEqual('mock name 2');
-    expect(wrapper.find('DoneIcon').length).toEqual(1);
-    expect(wrapper.find('ClearIcon').length).toEqual(3);
+    expect(wrapper.find('DoneIcon')).toHaveLength(1);
+    expect(wrapper.find('ClearIcon')).toHaveLength(3);
   });
   it ('renders empty table body correctly', () => {
     let buttons = [];

@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import SwitchInput from '../../Components/FormInput/SwitchInput';
 
@@ -12,9 +10,9 @@ describe('SwitchInput unit test', () => {
       <SwitchInput
         id="Id"
         label="Label"
-        touched={jest.fn()}
-        error={false}
-        value="value"
+        touched={true}
+        error=""
+        value="true"
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
@@ -22,10 +20,28 @@ describe('SwitchInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
     expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe('SwitchInput functional test', () => {
+  let wrapper = mount(
+      <SwitchInput
+        id="Id"
+        label="Label"
+        touched="true"
+        error=""
+        value="true"
+        onChange={jest.fn()}
+        onBlur={jest.fn()}
+      />
+    );
+
+  it('renders correct contents', () => {
+    expect(wrapper.prop('value')).toEqual("true");
   });
 });

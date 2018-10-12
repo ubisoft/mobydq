@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-import ListTableCell from "./ListTableCell";
+import ListTableCell from './ListTableCell';
 
 /**
  * Container component for TableRow Data Cells
@@ -18,7 +18,7 @@ export const ListTableRowContent = ({rowData, rowColumns}) => {
 }
 
 function _buildCell(cellValue) {
-  if(typeof(cellValue) === "boolean") {
+  if(typeof(cellValue) === 'boolean') {
     if (cellValue) {
       return <DoneIcon color="primary"/>;
     }

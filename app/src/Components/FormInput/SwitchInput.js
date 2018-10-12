@@ -9,10 +9,9 @@ const SwitchInput = ({
   id,
   label,
   error,
-  touched,
   value,
+  touched,
   onChange,
-  className,
   ...props
 }) => {
   return (

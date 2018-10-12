@@ -2,7 +2,8 @@
   "extends": [ "eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended" ],
   "plugins": [ "react", "jest" ],
   "rules": {
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "quotes": ["error", "single"]
   },
   "env": {
     "browser": true,

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 class IndicatorGroupRepository {
   static getListPage(pageNumber, pageLength) { // eslint-disable-line no-unused-vars

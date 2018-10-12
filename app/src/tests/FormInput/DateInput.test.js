@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import DateInput from '../../Components/FormInput/DateInput';
 
@@ -13,10 +11,10 @@ describe('DateInput unit test', () => {
         id="Id"
         label="Label"
         helperText="Helper Text"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Enter date"
+        touched="true"
         error=""
-        value="value"
+        value="2018-10-11"
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
@@ -24,7 +22,7 @@ describe('DateInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
@@ -38,15 +36,15 @@ describe('DateInput functional test', () => {
         id="Id"
         label="Label"
         helperText="Helper Text"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Enter date"
+        touched="true"
         error=""
-        value="mock text"
+        value="2018-10-11"
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
     );
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 });

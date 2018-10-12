@@ -10,9 +10,9 @@ ShallowWrapper {
     label="Label"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
-    placeholder="Enter indicator name"
-    touched={[MockFunction]}
-    value="value"
+    placeholder="Are you an indicator?"
+    touched="true"
+    value="true"
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -36,8 +36,9 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                placeholder="Enter indicator name"
-                value="value"
+                placeholder="Are you an indicator?"
+                touched="true"
+                value="true"
               />
             </React.Fragment>
           }
@@ -47,6 +48,7 @@ ShallowWrapper {
           
         </WithStyles(FormHelperText)>,
       ],
+      "error": false,
       "style": Object {
         "margin": "15px",
         "width": "250px",
@@ -65,8 +67,9 @@ ShallowWrapper {
               id="Id"
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
-              placeholder="Enter indicator name"
-              value="value"
+              placeholder="Are you an indicator?"
+              touched="true"
+              value="true"
             />
           </React.Fragment>,
           "label": "Label",
@@ -104,8 +107,9 @@ ShallowWrapper {
                   id="Id"
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
-                  placeholder="Enter indicator name"
-                  value="value"
+                  placeholder="Are you an indicator?"
+                  touched="true"
+                  value="true"
                 />
               </React.Fragment>
             }
@@ -115,6 +119,7 @@ ShallowWrapper {
             
           </WithStyles(FormHelperText)>,
         ],
+        "error": false,
         "style": Object {
           "margin": "15px",
           "width": "250px",
@@ -133,8 +138,9 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                placeholder="Enter indicator name"
-                value="value"
+                placeholder="Are you an indicator?"
+                touched="true"
+                value="true"
               />
             </React.Fragment>,
             "label": "Label",

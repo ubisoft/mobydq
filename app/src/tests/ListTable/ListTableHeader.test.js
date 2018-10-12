@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import ListTableHeader from './../../Components/ListTable/ListTableHeader'
 
@@ -14,7 +12,7 @@ describe('ListTableHeader unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
@@ -26,8 +24,8 @@ describe('ListTableHeader functional test', () => {
   it ('renders properly capitalizes the names and renders the action column', () => {
     let headerNames = ['id', 'name', 'longName', ''];
     let wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
-    expect(wrapper.find('tr').length).toEqual(1);
-    expect(wrapper.find('th').length).toEqual(5);
+    expect(wrapper.find('tr')).toHaveLength(1);
+    expect(wrapper.find('th')).toHaveLength(5);
     expect(wrapper.find('th').at(0).text()).toEqual('Id');
     expect(wrapper.find('th').at(1).text()).toEqual('Name');
     expect(wrapper.find('th').at(2).text()).toEqual('Long Name');
@@ -37,8 +35,8 @@ describe('ListTableHeader functional test', () => {
   it ('renders correctly with no headers', () => {
     let headerNames = [];
     let wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
-    expect(wrapper.find('tr').length).toEqual(1);
-    expect(wrapper.find('th').length).toEqual(1);
+    expect(wrapper.find('tr')).toHaveLength(1);
+    expect(wrapper.find('th')).toHaveLength(1);
     expect(wrapper.find('th').at(0).text()).toEqual('Actions');
 
   });
