@@ -38,8 +38,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test-update": "npm run test -- -u",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint \"src/**/*.js\"",
     "update-lock": "npm i --package-lock-only"
   },
   "browserslist": [
