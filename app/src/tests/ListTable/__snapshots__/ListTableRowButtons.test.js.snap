@@ -28,14 +28,14 @@ ShallowWrapper {
     "nodeType": "function",
     "props": Object {
       "contents": Array [
-        <button
+        <WithStyles(Button)
           className="btn btn-primary"
           onClick={[Function]}
           value="1"
           variant="outlined"
         >
           button name
-        </button>,
+        </WithStyles(Button)>,
       ],
     },
     "ref": null,
@@ -49,14 +49,14 @@ ShallowWrapper {
       "nodeType": "function",
       "props": Object {
         "contents": Array [
-          <button
+          <WithStyles(Button)
             className="btn btn-primary"
             onClick={[Function]}
             value="1"
             variant="outlined"
           >
             button name
-          </button>,
+          </WithStyles(Button)>,
         ],
       },
       "ref": null,

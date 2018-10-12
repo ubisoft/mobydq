@@ -9,15 +9,12 @@ const CheckboxInput = ({
   id,
   label,
   error,
-  touched,
-  errors,
   value,
   onChange,
-  className,
   ...props
 }) => {
   return (
-    <FormControl style={{width: '250px', margin: '15px'}}>
+    <FormControl style={{width: '250px', margin: '15px'}} error={!!error}>
       <FormControlLabel
         control={
           <React.Fragment>

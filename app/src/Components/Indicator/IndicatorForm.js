@@ -10,7 +10,6 @@ import SwitchInput from './../FormInput/SwitchInput';
 const IndicatorFormFields = props => {
   const {
     data,
-    mutationCallback,
     values,
     touched,
     errors,
@@ -114,24 +113,24 @@ const IndicatorFormFields = props => {
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     indicatorTypeId: Yup.number().integer()
-      .min(1, "You need to select an indicator type")
-      .required("You need to select an indicator type"),
+      .min(1, 'You need to select an indicator type')
+      .required('You need to select an indicator type'),
     indicatorGroupId: Yup.number().integer()
-      .min(1, "You need to select an indicator group")
-      .required("You need to select an indicator group"),
+      .min(1, 'You need to select an indicator group')
+      .required('You need to select an indicator group'),
     executionOrder: Yup.number().integer()
-      .min(0, "Execution order has to be a non-negative integer")
-      .required("You need to input execution order."),
+      .min(0, 'Execution order has to be a non-negative integer')
+      .required('You need to input execution order.'),
     name: Yup.string()
       .required('Name cannot be blank'),
     description: Yup.string()
       .required('Description cannot be blank'),
   }),
 
-  mapPropsToValues: ({ indicator }) => ({
+  mapPropsToValues: () => ({
     name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false
   }),
-  handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
+  handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     props.mutate({
       variables: { indicator: payload }

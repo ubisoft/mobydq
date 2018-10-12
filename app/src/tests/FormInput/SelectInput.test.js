@@ -1,11 +1,9 @@
-import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import SelectInput from '../../Components/FormInput/SelectInput';
 
-describe('TextInput unit test', () => {
+describe('SelectInput unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
@@ -14,8 +12,8 @@ describe('TextInput unit test', () => {
         label="Label"
         items={[{id: 1, name: 'select value 1'}, {id: 2, name: 'select value 2'}]}
         helperText="Helper Text"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Select indicator type"
+        touched="true"
         error=""
         value="value"
         onChange={jest.fn()}
@@ -25,7 +23,7 @@ describe('TextInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
@@ -33,15 +31,14 @@ describe('TextInput unit test', () => {
   });
 });
 
-describe('TextInput functional test', () => {
+describe('SelectInput functional test', () => {
   let wrapper = mount(
       <SelectInput
         id="Id"
         label="Label"
         items={[{id: 1, name: 'select value 1'}, {id: 2, name: 'select value 2'}]}
-        helperText="Helper Text"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Select indicator type"
+        touched="true"
         error=""
         value={1}
         onChange={jest.fn()}

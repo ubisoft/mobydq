@@ -10,9 +10,9 @@ ShallowWrapper {
     label="Label"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
-    placeholder="Enter indicator name"
-    touched={[MockFunction]}
-    value="value"
+    placeholder="Enter date"
+    touched="true"
+    value="2018-10-11"
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -43,11 +43,12 @@ ShallowWrapper {
                 label="Label"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                placeholder="Enter indicator name"
+                placeholder="Enter date"
                 required={false}
                 select={false}
+                touched="true"
                 type="date"
-                value="value"
+                value="2018-10-11"
                 variant="standard"
               />
               <WithStyles(FormHelperText)>
@@ -87,11 +88,12 @@ ShallowWrapper {
               label="Label"
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
-              placeholder="Enter indicator name"
+              placeholder="Enter date"
               required={false}
               select={false}
+              touched="true"
               type="date"
-              value="value"
+              value="2018-10-11"
               variant="standard"
             />
             <WithStyles(FormHelperText)>
@@ -140,11 +142,12 @@ ShallowWrapper {
                   label="Label"
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
-                  placeholder="Enter indicator name"
+                  placeholder="Enter date"
                   required={false}
                   select={false}
+                  touched="true"
                   type="date"
-                  value="value"
+                  value="2018-10-11"
                   variant="standard"
                 />
                 <WithStyles(FormHelperText)>
@@ -184,11 +187,12 @@ ShallowWrapper {
                 label="Label"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                placeholder="Enter indicator name"
+                placeholder="Enter date"
                 required={false}
                 select={false}
+                touched="true"
                 type="date"
-                value="value"
+                value="2018-10-11"
                 variant="standard"
               />
               <WithStyles(FormHelperText)>

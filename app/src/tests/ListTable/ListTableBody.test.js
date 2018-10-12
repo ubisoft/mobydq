@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import {ListTableBody} from './../../Components/ListTable/ListTableBody'
 
@@ -17,8 +15,8 @@ describe('ListTableBody unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
-    expect(wrapper.children().length).toEqual(2);
+    expect(wrapper).toHaveLength(1);
+    expect(wrapper.children()).toHaveLength(2);
   });
 
   it('matches snapshot', () => {
@@ -34,17 +32,17 @@ describe('ListTableBody functional test', () => {
     let contentColumnList = ['id', 'name', 'trueField', 'falseField'];
     let wrapper = mount(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
-    expect(wrapper.find('ListTableRowButtons').length).toEqual(2);
+    expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
     expect(wrapper.find('ListTableRowButtons').at(0).text()).toEqual('button name');
     expect(wrapper.find('ListTableRowButtons').at(1).text()).toEqual('button name');
-    expect(wrapper.find('tr').length).toEqual(2);
-    expect(wrapper.find('td').length).toEqual(10);
+    expect(wrapper.find('tr')).toHaveLength(2);
+    expect(wrapper.find('td')).toHaveLength(10);
     expect(wrapper.find('td').at(0).text()).toEqual('1');
     expect(wrapper.find('td').at(1).text()).toEqual('mock name');
     expect(wrapper.find('td').at(5).text()).toEqual('2');
     expect(wrapper.find('td').at(6).text()).toEqual('mock name 2');
-    expect(wrapper.find('DoneIcon').length).toEqual(1);
-    expect(wrapper.find('ClearIcon').length).toEqual(3);
+    expect(wrapper.find('DoneIcon')).toHaveLength(1);
+    expect(wrapper.find('ClearIcon')).toHaveLength(3);
   });
   it ('renders empty table body correctly', () => {
     let buttons = [];

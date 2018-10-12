@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextInput unit test matches snapshot 1`] = `
+exports[`SelectInput unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <SelectInput
@@ -22,8 +22,8 @@ ShallowWrapper {
     label="Label"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
-    placeholder="Enter indicator name"
-    touched={[MockFunction]}
+    placeholder="Select indicator type"
+    touched="true"
     value="value"
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -46,6 +46,7 @@ ShallowWrapper {
           Label
         </WithStyles(InputLabel)>,
         <WithStyles(Select)
+          helperText="Helper Text"
           id="Id"
           inputProps={
             Object {
@@ -55,7 +56,10 @@ ShallowWrapper {
             }
           }
           name="Id"
+          onBlur={[MockFunction]}
           onChange={[MockFunction]}
+          placeholder="Select indicator type"
+          touched="true"
           value="value"
         >
           <WithStyles(MenuItem)
@@ -127,6 +131,7 @@ ShallowWrapper {
               </WithStyles(MenuItem)>,
             ],
           ],
+          "helperText": "Helper Text",
           "id": "Id",
           "inputProps": Object {
             "id": Object {
@@ -134,7 +139,10 @@ ShallowWrapper {
             },
           },
           "name": "Id",
+          "onBlur": [MockFunction],
           "onChange": [MockFunction],
+          "placeholder": "Select indicator type",
+          "touched": "true",
           "value": "value",
         },
         "ref": null,
@@ -217,6 +225,7 @@ ShallowWrapper {
             Label
           </WithStyles(InputLabel)>,
           <WithStyles(Select)
+            helperText="Helper Text"
             id="Id"
             inputProps={
               Object {
@@ -226,7 +235,10 @@ ShallowWrapper {
               }
             }
             name="Id"
+            onBlur={[MockFunction]}
             onChange={[MockFunction]}
+            placeholder="Select indicator type"
+            touched="true"
             value="value"
           >
             <WithStyles(MenuItem)
@@ -298,6 +310,7 @@ ShallowWrapper {
                 </WithStyles(MenuItem)>,
               ],
             ],
+            "helperText": "Helper Text",
             "id": "Id",
             "inputProps": Object {
               "id": Object {
@@ -305,7 +318,10 @@ ShallowWrapper {
               },
             },
             "name": "Id",
+            "onBlur": [MockFunction],
             "onChange": [MockFunction],
+            "placeholder": "Select indicator type",
+            "touched": "true",
             "value": "value",
           },
           "ref": null,

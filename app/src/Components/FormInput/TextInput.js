@@ -10,10 +10,8 @@ const TextInput = ({
   label,
   helperText,
   error,
-  touched,
   value,
   onChange,
-  className,
   numeric,
   ...props
 }) => {
@@ -25,7 +23,6 @@ const TextInput = ({
             <TextField
               id={id}
               label={label}
-              error={!!error}
               helperText={helperText}
               onChange={onChange}
               value={value}
@@ -34,7 +31,7 @@ const TextInput = ({
             />
           </React.Fragment>
         }
-        label={""}
+        label={''}
       />
       <FormHelperText>{error}</FormHelperText>
     </FormControl>

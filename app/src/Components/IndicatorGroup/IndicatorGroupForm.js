@@ -7,8 +7,6 @@ import RouterButton from './../FormInput/RouterButton';
 
 const IndicatorGroupFormFields = props => {
   const {
-    data,
-    mutationCallback,
     values,
     touched,
     errors,
@@ -52,14 +50,14 @@ const formikEnhancer = withFormik({
       .required('Name cannot be blank')
   }),
 
-  mapPropsToValues: ({ indicatorGroup }) => ({
-      name: ''
+  mapPropsToValues: () => ({
+    name: ''
   }),
-  handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
+  handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     props.mutate({
-        variables: { indicatorGroup: payload } },
-        );
+      variables: { indicatorGroup: payload }
+    });
   },
   displayName: 'IndicatorGroupForm',
 });

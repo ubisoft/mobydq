@@ -1,12 +1,9 @@
 import React from 'react'
-import { MemoryRouter } from 'react-router';
-import * as Adapter from 'enzyme-adapter-react-16';
-import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
+import { shallow } from 'enzyme';
 
 import RouterButton from '../../Components/FormInput/RouterButton';
 
-describe('TextInput unit test', () => {
+describe('RouterButton unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
@@ -20,7 +17,7 @@ describe('TextInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
