@@ -4,7 +4,7 @@ import requests
 from flask import redirect, request, jsonify, make_response, session
 from flask_restplus import Namespace, Resource
 from google_auth_oauthlib.flow import Flow
-from security.token import get_jwt_token, TokenType
+from security.token import get_jwt_token, TokenType, get_token_redirect_response
 
 # pylint: disable=unused-variable
 
@@ -26,36 +26,42 @@ CLIENT_CONFIG = {
     }
 }
 
+# Create an OAuth flow (Authorization Code) from client id and client secret
 flow = Flow.from_client_config(CLIENT_CONFIG, SCOPES)
+# Redirect the user back after login
 flow.redirect_uri = google_redirect_url
 
 
 def get_user_info(oauth_token: str):
+    """Gets the user profile of the user after login using the corresponding OAuth token"""
     request_url = USER_PROFILE.format(oauth_token)
     response = requests.get(request_url)
     return json.loads(response.text)
 
 
 def register_google_oauth(namespace: Namespace):
+    """Registers all endpoints used for Google OAuth authentication"""
 
     @namespace.route('/security/oauth/google')
     @namespace.doc()
     class GoogleOAuth(Resource):
+        """Defines the resource to redirect the user to the Google OAuth page"""
 
         def get(self):
+            """Redirects the user to the Google OAuth page"""
             url, _ = flow.authorization_url()
             return redirect(url)
 
     @namespace.route('/security/oauth/google/callback')
     @namespace.doc()
     class GoogleOAuthCallback(Resource):
+        """Defines the resource to handle the callback from Google OAuth"""
 
         def get(self):
+            """Handles the Google OAuth callback and returns the token in the cookie"""
             code = request.args.get('code')
             token = flow.fetch_token(code=code)
-            resp = make_response(redirect(os.environ['AFTER_LOGIN_REDIRECT']))
             user_info = get_user_info(token['access_token'])
             jwt = get_jwt_token(
                 TokenType.Google, user_info['email'], user_info, token)
-            resp.set_cookie('token', str(jwt))
-            return resp
+            return get_token_redirect_response(jwt)
