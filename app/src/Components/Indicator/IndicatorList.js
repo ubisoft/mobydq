@@ -18,21 +18,13 @@ const IndicatorList = (refetch) => (
             Indicators
           </div>
           <div style={{ float: 'right' }}>
-            <RouterButton targetLocation='/indicator/new' disabled={false} label="Create" />
+            <RouterButton targetLocation='/indicator/new' disabled={false} label="Create" variant='contained'/>
           </div>
-          <ListTable buttons={[{'name': 'edit', 'function': edit}, {'name': 'delete', 'function': _delete}]} data={data.allIndicators.nodes} />
+          <ListTable data={data.allIndicators.nodes}  buttons={[{'name': 'edit', 'function': 'edit', 'parameter': 'indicator'}, {'name': 'delete', 'function': 'delete', 'parameter': 'IndicatorRepository'}]} />
         </div>
       );
     }}
   </Query>
 );
-
-function edit(e) {
-  window.location = '/edit?id=' + e.target.value;
-}
-
-function _delete() {
-  // TODO
-}
 
 export default IndicatorList;
