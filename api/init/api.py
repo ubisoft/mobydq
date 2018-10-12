@@ -1,14 +1,12 @@
 import logging
 import sys
 import os
-from health.routes import register_health
-from proxy.routes import register_graphql
-from security.routes import register_security
 from flask import Blueprint, Flask, url_for
 from flask_restplus import Api
 from flask_cors import CORS
-from proxy.routes import register_graphql
 from health.routes import register_health
+from proxy.routes import register_graphql
+from security.routes import register_security
 from security.decorators import token_required
 
 log = logging.getLogger(__name__)
@@ -21,6 +19,7 @@ logging.basicConfig(
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
 
+# Get a cryptographically secure random sequence of bytes to be used as the app's secret_key
 app.secret_key = os.urandom(24)
 CORS(app)
 
@@ -44,8 +43,7 @@ api = Api(
     version='v1',
     description='''API used to configure and trigger the execution of data quality indicators.''',
     doc='/doc',
-    contact='to be configured',
-    decorators=[])
+    contact='to be configured')
 # TODO: Api.specs_url = swagger_url  # To be activated after we implement https
 app.register_blueprint(blueprint)
 
@@ -55,6 +53,7 @@ graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
 security = api.namespace('Security', path='/v1')
 
+# Register all API resources
 register_health(health)
 register_graphql(graphql, api)
 register_security(security, api)

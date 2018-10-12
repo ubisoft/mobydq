@@ -15,7 +15,7 @@ class TokenType(Enum):
 def is_token_valid(token: str):
     verifying_key = get_public_key()
     try:
-        decoded_token = JWT().decode(token, verifying_key)
+        _ = JWT().decode(token, verifying_key)
         return True
     except Exception:
         return False

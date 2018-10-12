@@ -1,5 +1,4 @@
 import os
-import urllib.parse as urlparse
 import json
 import requests
 from flask import redirect, request, jsonify, make_response, session

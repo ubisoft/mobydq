@@ -47,7 +47,19 @@ $ sudo apt install docker-compose
 # Setup Your Instance
 
 ## Create Configuration Files
-Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the `client_secret` and `client_id` for the OAuth providers.
+Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the values for the OAuth providers.
+
+### Google OAuth provider
+To configure the Google OAuth provider a client secret and a client id is needed.
+1. Go to https://console.cloud.google.com/apis/credentials
+2. Create a new project within the Google Cloud Console, if necessary
+3. Click `Create credentials`
+4. Select `OAuth client ID`
+5. Select `Web application`
+6. For `Authorized redirect URIs` add the URL specified in `GOOGLE_REDIRECT_URI`
+7. Click `Create`
+8. Copy the client id to `GOOGLE_CLIENT_ID` and the client secret to `GOOGLE_CLIENT_SECRET`
+
 ```ini
 # DB
 # Parameters used by db container
@@ -70,12 +82,15 @@ NODE_ENV=development
 REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/
 
 # OAuth
+
+# General OAuth Settings
+AFTER_LOGIN_REDIRECT=http://localhost
+TOKEN_ISSUER=https://localhost
+
+# Google OAuth Provider
 GOOGLE_CLIENT_ID=client_id
 GOOGLE_CLIENT_SECRET=client_secret
 GOOGLE_REDIRECT_URI=http://localhost:5434/mobydq/api/v1/security/oauth/google/callback
-
-AFTER_LOGIN_REDIRECT=http://localhost
-TOKEN_ISSUER=https://localhost
 ```
 
 
