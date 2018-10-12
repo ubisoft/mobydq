@@ -21,13 +21,13 @@ const IndicatorFormFields = props => {
     isSubmitting,
   } = props;
   return (
-    <form onSubmit={handleSubmit} style={{ marginLeft: '5%', marginRight: '5%', marginTop: '5%' }}>
+    <form onSubmit={handleSubmit} style={{ marginLeft: '60px' }}>
       <div>
         <TextInput
           id="name"
-          label="Indicator name"
+          label="Name"
           helperText=""
-          placeholder="Enter indicator name"
+          placeholder=""
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
@@ -35,11 +35,13 @@ const IndicatorFormFields = props => {
           onBlur={handleBlur}
           style={{ float: 'left' }}
         />
+      </div>
+      <div>
         <TextInput
           id="description"
-          label="Indicator Description"
+          label="Description"
           helperText=""
-          placeholder="Enter description name"
+          placeholder=""
           touched={touched.description}
           error={touched.description && errors.description}
           value={values.description}
@@ -50,7 +52,7 @@ const IndicatorFormFields = props => {
       <div>
         <SelectInput
           id="indicatorTypeId"
-          label="Indicator Type"
+          label="Type"
           items={data.allIndicatorTypes.nodes}
           touched={touched.indicatorTypeId}
           error={touched.indicatorTypeId && errors.indicatorTypeId}
@@ -59,9 +61,11 @@ const IndicatorFormFields = props => {
           onBlur={handleBlur}
           style={{ float: 'left' }}
         />
+      </div>
+      <div>
         <SelectInput
           id="indicatorGroupId"
-          label="Indicator Group"
+          label="Group"
           items={data.allIndicatorGroups.nodes}
           touched={touched.indicatorGroupId}
           error={touched.indicatorGroupId && errors.indicatorGroupId}
@@ -82,6 +86,8 @@ const IndicatorFormFields = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+      </div>
+      <div>
         <SwitchInput
           id="flagActive"
           label="Active"
@@ -94,11 +100,11 @@ const IndicatorFormFields = props => {
         />
       </div>
       <div>
-        <div style={{ float: 'left' }}>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
+        <div>
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
+          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
+          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
         </div>
-        <div style={{ float: 'right' }}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
       </div>
     </form>
   );

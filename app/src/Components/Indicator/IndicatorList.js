@@ -14,9 +14,11 @@ const IndicatorList = (refetch) => (
       if (error) return <p>Error :(</p>;
       return (
         <div>
-          Indicator list
+          <div style={{float: 'left', marginLeft: '60px'}}>
+            Indicators
+          </div>
           <div style={{ float: 'right' }}>
-            <RouterButton targetLocation='/indicator/new' disabled={false} label="Add new indicator" />
+            <RouterButton targetLocation='/indicator/new' disabled={false} label="Create" />
           </div>
           <ListTable buttons={[{'name': 'edit', 'function': edit}, {'name': 'delete', 'function': _delete}]} data={data.allIndicators.nodes} />
         </div>

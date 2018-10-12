@@ -14,9 +14,11 @@ const IndicatorGroupList = (refetch) => (
       if (error) return <p>Error :(</p>;
       return (
         <div>
-          Indicator Group list
+          <div style={{float: 'left', marginLeft: '60px'}}>
+            Indicator Groups
+          </div>
           <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Add new indicator group"/>
+            <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Create"/>
           </div>
           <ListTable data={data.allIndicatorGroups.nodes}/>
         </div>
