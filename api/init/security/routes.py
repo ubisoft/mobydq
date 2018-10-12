@@ -1,4 +1,4 @@
-from flask_restplus import Namespace, Api
+from flask_restplus import Namespace
 from security.oauth.google import register_google_oauth
 
 

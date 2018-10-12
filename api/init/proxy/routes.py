@@ -3,8 +3,8 @@ from flask import request, jsonify, make_response
 from flask_restplus import Resource, fields, Namespace, Api
 from proxy.exceptions import RequestException
 from proxy.interceptor import Interceptor
-from security.decorators import token_required
 from proxy.utils import validate_graphql_request, execute_graphql_request
+from security.decorators import token_required
 
 # pylint: disable=unused-variable
 

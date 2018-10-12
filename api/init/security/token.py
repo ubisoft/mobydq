@@ -2,6 +2,7 @@ import time
 import os
 from enum import Enum
 from jwt import JWT
+from jwt.exceptions import JWTDecodeError
 from flask import make_response, redirect
 from security.keys import get_private_key, get_public_key
 
@@ -20,7 +21,7 @@ def is_token_valid(token: str):
     try:
         _ = JWT().decode(token, verifying_key)
         return True
-    except Exception:
+    except JWTDecodeError:
         return False
 
 
@@ -33,6 +34,7 @@ def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_to
         'iat': now,
         'aud': 'postgraphile',
         'exp': now + TOKEN_VALIDITY,
+        'type': token_type,
         'user_info': user_info,
         'user_token': oauth_token,
         'role': 'TBD for postgraphile',

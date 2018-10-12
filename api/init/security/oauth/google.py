@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from flask import redirect, request, jsonify, make_response, session
+from flask import redirect, request
 from flask_restplus import Namespace, Resource
 from google_auth_oauthlib.flow import Flow
 from security.token import get_jwt_token, TokenType, get_token_redirect_response
