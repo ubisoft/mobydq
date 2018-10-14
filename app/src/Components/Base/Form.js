@@ -8,10 +8,11 @@ export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveR
       if (ComponentRepository.insert === undefined || ComponentRepository.getFormDropdownData === undefined) {
         throw new TypeError('Repository must implement insert and getFormDropdownData functions.')
       }
+      let mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
       return (
-        <Mutation mutation={ComponentRepository.insert()} onCompleted={() => { history.push(afterSaveRoute) }}>
+        <Mutation mutation={mutation} onCompleted={() => { history.push(afterSaveRoute) }}>
           {(mutate, { loading, error }) => (
             <React.Fragment>
               <div style={{ marginLeft: '60px' }}>{title}</div>

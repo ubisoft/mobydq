@@ -56,6 +56,19 @@ class DataSourceRepository {
       }
     `
   }
+
+  static update() {
+    return gql`
+      mutation updateDataSourceById($dataSourcePatch: DataSourcePatch!, $id: Int!) {
+        updateDataSourceById(input: {dataSourcePatch: $dataSourcePatch, id: $id }) {
+          dataSource {
+            id
+            name
+          }
+        }
+      }
+    `
+  }
 }
 
 export default DataSourceRepository;

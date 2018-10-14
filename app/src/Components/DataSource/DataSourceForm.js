@@ -117,8 +117,14 @@ const formikEnhancer = withFormik({
   ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (payload.id === 'undefined') {
+        variables = { dataSourcePatch: payload, id: payload.id };
+    } else {
+        variables = { dataSource: payload };
+    }
     props.mutate({
-      variables: { dataSource: payload }
+      variables: variables
     });
   },
   displayName: 'DataSourceForm',
