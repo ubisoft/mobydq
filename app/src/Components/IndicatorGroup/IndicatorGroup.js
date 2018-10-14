@@ -22,7 +22,7 @@ class IndicatorGroup extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => ( <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
-                  afterSaveRoute='/indicator-group/' title='Create Indicator Group' {...props} /> )
+                  afterSaveRoute='/indicator-group/' title='Create Indicator Group'  initialFieldValues={null} {...props} /> )
             }
           />
           <Route

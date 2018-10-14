@@ -17,6 +17,20 @@ class DataSourceRepository {
     `
   }
 
+  static display() {
+    return gql`
+        query getDataSource($id: Int!) {
+          dataSourceById(id: $id) {
+            id
+            name
+            dataSourceTypeId
+            connectivityStatus
+            updatedDate
+          }
+        }
+    `
+  }
+
   static getFormDropdownData() {
     return gql`
       {

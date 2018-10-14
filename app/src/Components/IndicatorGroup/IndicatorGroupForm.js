@@ -51,8 +51,8 @@ const formikEnhancer = withFormik({
   }),
   mapPropsToValues: (props) => (
       props.initialFieldValues === null
-    ? null
-    :{name: props.initialFieldValues.name}
+    ? {name: ''}
+    : {name: props.initialFieldValues.name}
   ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);

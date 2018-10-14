@@ -38,6 +38,22 @@ class IndicatorRepository {
     `
   }
 
+  static display() {
+    return gql`
+        query getIndicator($id: Int!) {
+          indicatorById(id: $id) {
+            id
+            name
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
+          }
+        }
+    `
+  }
+
   static insert() {
     return gql`
       mutation addNewIndicator($indicator: IndicatorInput!) {

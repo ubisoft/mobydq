@@ -8,6 +8,7 @@ import IndicatorRepository from './../../repository/IndicatorRepository';
 import { Route } from 'react-router-dom';
 
 import { BaseForm } from './../Base/Form'
+import {IndicatorUpdateForm} from "../Indicator/IndicatorUpdateForm";
 
 class Indicator extends React.Component {
   render() {
@@ -21,7 +22,13 @@ class Indicator extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => (<BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                afterSaveRoute='/indicator/' title='Create Indicator' {...props} />)
+                afterSaveRoute='/indicator/' title='Create Indicator' initialFieldValues={null} {...props} />)
+            }
+          />
+          <Route
+            path={`${match.url}/edit/:id`}
+            component={
+              (props) => ( <IndicatorUpdateForm {...props} /> )
             }
           />
           <Route

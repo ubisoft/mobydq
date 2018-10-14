@@ -108,9 +108,13 @@ const formikEnhancer = withFormik({
       .required('Login cannot be blank')
   }),
 
-  mapPropsToValues: () => ({
-    name: '', connectionString: '', login: '', password: ''
-  }),
+  mapPropsToValues: (props) => (
+    props.initialFieldValues === null
+      ? {name: '', connectionString: '', dataSourceTypeId: '', login: '', password: ''}
+      : {name: props.initialFieldValues.name, connectionString: props.initialFieldValues.connectionString,
+          dataSourceTypeId: props.initialFieldValues.dataSourceTypeId,
+          login: props.initialFieldValues.login, password: props.initialFieldValues.password}
+  ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     props.mutate({
