@@ -49,10 +49,11 @@ const formikEnhancer = withFormik({
     name: Yup.string()
       .required('Name cannot be blank')
   }),
-
-  mapPropsToValues: () => ({
-    name: ''
-  }),
+  mapPropsToValues: (props) => (
+      props.initialFieldValues === null
+    ? null
+    :{name: props.initialFieldValues.name}
+  ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     props.mutate({

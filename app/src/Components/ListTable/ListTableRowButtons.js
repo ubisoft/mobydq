@@ -32,7 +32,7 @@ function _createButton(button, value) {
   switch(button.function) {
     case 'edit':
       return (
-          <IconButton component={Link} to={button.parameter + '/edit?id=' + value} aria-label="Delete" color="primary">
+          <IconButton component={Link} to={button.parameter + '/edit/' + value} aria-label="Delete" color="primary">
             <EditIcon />
           </IconButton>
       );

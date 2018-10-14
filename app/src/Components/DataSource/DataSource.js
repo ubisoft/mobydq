@@ -7,7 +7,7 @@ import DataSourceList from './DataSourceList';
 import EnhancedDataSourceForm from './DataSourceForm';
 import DataSourceRepository from './../../repository/DataSourceRepository';
 
-import BaseForm from './../Base/Form';
+import { BaseForm } from './../Base/Form';
 
 class DataSource extends React.Component {
   render() {

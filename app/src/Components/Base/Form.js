@@ -2,11 +2,11 @@ import React from 'react';
 import { Query, Mutation } from 'react-apollo';
 
 
-const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history }) => (
+export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history, initialFieldValues}) => (
   <Query query={ComponentRepository.getFormDropdownData()}>
     {({ loading, error, data }) => {
       if (ComponentRepository.insert === undefined || ComponentRepository.getFormDropdownData === undefined) {
-        throw new TypeError('Repository must implement insert and getFormDropdownData methods.')
+        throw new TypeError('Repository must implement insert and getFormDropdownData functions.')
       }
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
@@ -18,6 +18,7 @@ const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, h
               <FormComponent
                 data={data}
                 mutate={mutate}
+                initialFieldValues={initialFieldValues}
               />
               {loading && <p>Loading...</p>}
               {error && <p>Error :( Please try again</p>}
@@ -31,4 +32,5 @@ const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, h
   </Query>
 );
 
-export default BaseForm;
+
+

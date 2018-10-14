@@ -7,7 +7,8 @@ import IndicatorGroupList from './IndicatorGroupList';
 import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
 
-import BaseForm from './../Base/Form'
+import { BaseForm } from './../Base/Form'
+import { IndicatorGroupUpdateForm } from "./IndicatorGroupUpdateForm";
 
 class IndicatorGroup extends React.Component {
   render() {
@@ -22,6 +23,12 @@ class IndicatorGroup extends React.Component {
             component={
               (props) => ( <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
                   afterSaveRoute='/indicator-group/' title='Create Indicator Group' {...props} /> )
+            }
+          />
+          <Route
+            path={`${match.url}/edit/:id`}
+            component={
+              (props) => ( <IndicatorGroupUpdateForm {...props} /> )
             }
           />
           <Route
