@@ -192,7 +192,7 @@ CREATE TABLE base.parameter (
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id)
   , indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
-  , CONSTRAINT parameter_unicity UNIQUE (indicator_id, parameter_type_id)
+  , CONSTRAINT parameter_uniqueness UNIQUE (indicator_id, parameter_type_id)
 );
 COMMENT ON TABLE base.parameter IS
 'Parameters used to compute indicators.';
