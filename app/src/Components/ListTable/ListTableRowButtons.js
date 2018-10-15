@@ -36,15 +36,15 @@ function _createButton(button, value) {
     case 'edit':
       return (
           <IconButton key={'edit_' + value} component={Link} to={button.parameter + '/edit/' + value} aria-label="Delete" color="primary">
-            <EditIcon />
+            <EditIcon/>
           </IconButton>
       );
-      default:
-        return(
-          <IconButton key={'delete_' + value} onClick={() => _delete(button.parameter, value)} aria-label="Delete" color="primary">
-            <DeleteIcon />
-          </IconButton>
-        );
+    default:
+      return(
+        <IconButton key={'delete_' + value} onClick={() => _delete(button.parameter, value)} aria-label="Delete" color="primary">
+          <DeleteIcon/>
+        </IconButton>
+      );
   }
 
 }

@@ -40,7 +40,6 @@ ShallowWrapper {
                 placeholder="Enter indicator name"
                 required={false}
                 select={false}
-                touched="true"
                 type="text"
                 value="value"
                 variant="standard"
@@ -76,7 +75,6 @@ ShallowWrapper {
               placeholder="Enter indicator name"
               required={false}
               select={false}
-              touched="true"
               type="text"
               value="value"
               variant="standard"
@@ -121,7 +119,6 @@ ShallowWrapper {
                   placeholder="Enter indicator name"
                   required={false}
                   select={false}
-                  touched="true"
                   type="text"
                   value="value"
                   variant="standard"
@@ -157,7 +154,6 @@ ShallowWrapper {
                 placeholder="Enter indicator name"
                 required={false}
                 select={false}
-                touched="true"
                 type="text"
                 value="value"
                 variant="standard"
