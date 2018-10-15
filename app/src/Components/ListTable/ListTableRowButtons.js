@@ -32,13 +32,13 @@ function _createButton(button, value) {
   switch(button.function) {
     case 'edit':
       return (
-          <IconButton component={Link} to={button.parameter + '/edit/' + value} aria-label="Delete" color="primary">
+          <IconButton key={'edit_' + value} component={Link} to={button.parameter + '/edit/' + value} aria-label="Delete" color="primary">
             <EditIcon />
           </IconButton>
       );
       default:
         return(
-          <IconButton onClick={() => _delete(button.parameter, value)} aria-label="Delete" color="primary">
+          <IconButton key={'delete_' + value} onClick={() => _delete(button.parameter, value)} aria-label="Delete" color="primary">
             <DeleteIcon />
           </IconButton>
         );
