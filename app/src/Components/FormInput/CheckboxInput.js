@@ -11,6 +11,7 @@ const CheckboxInput = ({
   error,
   value,
   onChange,
+  touched,
   ...props
 }) => {
   return (

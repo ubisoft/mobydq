@@ -13,6 +13,7 @@ const TextInput = ({
   value,
   onChange,
   numeric,
+  touched,
   ...props
 }) => {
   return (
@@ -27,7 +28,6 @@ const TextInput = ({
               onChange={onChange}
               value={value}
               type={numeric ? 'number' : 'text'}
-              touched='true'
               {...props}
             />
           </React.Fragment>

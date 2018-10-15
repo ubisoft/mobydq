@@ -7,6 +7,7 @@ const SimpleButton = ({
   variant,
   disabled,
   label,
+  touched,
   onClick
 }) => {
   let color = 'default';
