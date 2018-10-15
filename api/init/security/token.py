@@ -19,8 +19,9 @@ def is_token_valid(token: str):
     """Checks whether a given JWT is valid"""
     verifying_key = get_public_key()
     try:
-        _ = JWT().decode(token, verifying_key)
-        return True
+        token = JWT().decode(token, verifying_key)
+        validity = int(token['exp']) > time.time()
+        return validity
     except JWTDecodeError:
         return False
 
