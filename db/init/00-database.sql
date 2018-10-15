@@ -279,8 +279,8 @@ CREATE TABLE base.user (
   , flag_active BOOLEAN DEFAULT TRUE
   , oauth_type TEXT NOT NULL
   , access_token TEXT NOT NULL
-  , refresh_token INTEGER NOT NULL
-  , expiry_token INTEGER NOT NULL
+  , refresh_token INTEGER
+  , expiry_date TIMESTAMP NOT NULL
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -305,11 +305,13 @@ DECLARE
     batch base.batch;
 BEGIN
     -- Create pending batch
+    /*TOOD: replace placeholder of column user_group*/
     INSERT INTO base.batch (status, indicator_group_id, user_group)
     VALUES ('Pending', indicator_group_id, '')
     RETURNING * INTO batch;
 
     -- Create pending session for each indicator
+    /*TOOD: replace placeholder of column user_group*/
     IF indicator_id IS NOT NULL THEN
         WITH indicator AS (
             SELECT a.id

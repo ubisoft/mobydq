@@ -97,7 +97,7 @@ class TestDb(unittest.TestCase):
 
         # Insert test indicator
         insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, \'test_group\');'''
+        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
         self.connection.execute(insert_indicator_query)
         self.connection.commit()
 
@@ -164,7 +164,7 @@ class TestDb(unittest.TestCase):
 
         # Insert test indicator
         insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, \'test_group\');'''
+        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
         self.connection.execute(insert_indicator_query)
         self.connection.commit()
 
@@ -205,37 +205,37 @@ class TestDb(unittest.TestCase):
 
         # Get new created standard user group role
         select_new_standard_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = \'user_group_\' || \'{test_case_name}\';'''
+        WHERE rolname = 'user_group_' || '{test_case_name}';'''
         cursor = self.connection.execute(select_new_standard_group_role_query)
         row_user_role = cursor.fetchone()
 
         # Get new created admin user group role
         select_new_admin_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = \'user_group_\' || \'{test_case_name}\' || \'_admin\';'''
+        WHERE rolname = 'user_group_' || '{test_case_name}' || '_admin';'''
         cursor = self.connection.execute(select_new_admin_group_role_query)
         row_admin_role = cursor.fetchone()
 
         # Get number of new created user group policies
         select_all_user_group_policies_query = f'''SELECT COUNT(*) FROM pg_catalog.pg_policies
-        WHERE policyname LIKE \'user_group_\' || \'{test_case_name}\' || \'%\';'''
+        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '%';'''
         cursor = self.connection.execute(select_all_user_group_policies_query)
         row_number_policies = cursor.fetchone()
 
         # Get new created indicator_group policy
         select_indicator_group_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = \'user_group_\' || \'{test_case_name}\' || \'_indicator_group_all\';'''
+        WHERE policyname = 'user_group_' || '{test_case_name}' || '_indicator_group_all';'''
         cursor = self.connection.execute(select_indicator_group_policy_query)
         row_indicator_group_policy = cursor.fetchone()
 
         # Get new created data_source policy for standard user of user group
         select_data_source_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = \'user_group_\' || \'{test_case_name}\' || \'_data_source_select\';'''
+        WHERE policyname = 'user_group_' || '{test_case_name}' || '_data_source_select';'''
         cursor = self.connection.execute(select_data_source_policy_query)
         row_data_source_policy = cursor.fetchone()
 
         # Get new created data_source policy for admin user of user group
         select_data_source_policy_admin_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname LIKE \'user_group_\' || \'{test_case_name}\' || \'_admin_data_source_a%\';'''
+        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '_admin_data_source_a%';'''
         cursor = self.connection.execute(select_data_source_policy_admin_query)
         row_data_source_policy_admin = cursor.fetchone()
 
