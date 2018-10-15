@@ -44,6 +44,7 @@ class IndicatorRepository {
           indicatorById(id: $id) {
             id
             name
+            description
             indicatorTypeId
             indicatorGroupId
             executionOrder

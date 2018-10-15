@@ -9,7 +9,6 @@ class DataSourceRepository {
             id
             name
             dataSourceTypeId
-            connectivityStatus
             updatedDate
           }
         }
@@ -24,8 +23,9 @@ class DataSourceRepository {
             id
             name
             dataSourceTypeId
-            connectivityStatus
-            updatedDate
+            connectionString
+            login
+            password
           }
         }
     `
