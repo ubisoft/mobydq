@@ -60,7 +60,7 @@ MobyDQ delegates account creation and authentication management to major third p
 
 Notes:
 * **Authorized redirect URIs** should contain the URI indicated in the `.env` file below.
-* **Client ID** and **Client Secrret** should be provided in the `.env` file below.
+* **Client ID** and **Client Secret** should be provided in the `.env` file below.
 
 ## Create Configuration Files
 Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the values for the OAuth providers.
@@ -128,7 +128,7 @@ $ docker-compose build --no-cache
 
 
 ## Run Docker Containers
-To start all the Docker containers as deamons, go to the project root and execute the following command in your terminal window.
+To start all the Docker containers as daemons, go to the project root and execute the following command in your terminal window.
 ```shell
 $ cd mobydq
 $ docker-compose up -d db graphql api app
