@@ -13,7 +13,7 @@ const TextInput = ({
   value,
   onChange,
   numeric,
-  touched,
+  touched, // eslint-disable-line
   ...props
 }) => {
   return (

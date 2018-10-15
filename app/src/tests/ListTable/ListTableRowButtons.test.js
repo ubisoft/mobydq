@@ -2,7 +2,6 @@ import React from 'react'
 import { shallowWrap, mountWrap } from './../../setupTests'
 
 import { MemoryRouter } from 'react-router-dom';
-import { shape } from 'prop-types';
 
 import {ListTableRowButtons} from './../../Components/ListTable/ListTableRowButtons'
 

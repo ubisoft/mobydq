@@ -47,7 +47,7 @@ describe('ListTableBody functional test', () => {
     let buttons = [];
     let content = [];
     let contentColumnList = [];
-    let wrapper = mount(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
+    let wrapper = mountWrap(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
     expect(wrapper.text()).toEqual('');
   });
 });

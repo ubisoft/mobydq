@@ -1,10 +1,10 @@
-import {Query} from "react-apollo";
-import React from "react";
+import {Query} from 'react-apollo';
+import React from 'react';
 
 import IndicatorGroupRepository from '../../repository/IndicatorGroupRepository';
 import NotFoundComponent from '../Error/NotFoundComponent';
-import {BaseForm} from "../Base/Form";
-import EnhancedIndicatorGroupForm from "./IndicatorGroupForm";
+import {BaseForm} from '../Base/Form';
+import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 
 export const IndicatorGroupUpdateForm = ({...props}) => (
   <Query query={IndicatorGroupRepository.display()} variables={{id: props.match.params.id}}>

@@ -7,7 +7,7 @@ const SimpleButton = ({
   variant,
   disabled,
   label,
-  touched,
+  touched, // eslint-disable-line
   onClick
 }) => {
   let color = 'default';

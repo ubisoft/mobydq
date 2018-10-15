@@ -3,18 +3,15 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
 
 const IndicatorGroupFormFields = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
   } = props;
   return (

@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
 
 const DataSourceFormFields = props => {
   const {
@@ -12,11 +11,9 @@ const DataSourceFormFields = props => {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
   } = props;
   return (

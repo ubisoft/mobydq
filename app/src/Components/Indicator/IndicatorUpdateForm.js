@@ -1,10 +1,10 @@
-import {Query} from "react-apollo";
-import React from "react";
+import {Query} from 'react-apollo';
+import React from 'react';
 
 import IndicatorRepository from '../../repository/IndicatorRepository';
 import NotFoundComponent from '../Error/NotFoundComponent';
-import {BaseForm} from "../Base/Form";
-import EnhancedIndicatorForm from "./IndicatorForm";
+import {BaseForm} from '../Base/Form';
+import EnhancedIndicatorForm from './IndicatorForm';
 
 export const IndicatorUpdateForm = ({...props}) => (
   <Query query={IndicatorRepository.display()} variables={{id: props.match.params.id}}>

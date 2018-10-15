@@ -51,7 +51,7 @@ describe('ListTable functional test', () => {
   it ('renders empty table body correctly', () => {
     let buttons = [];
     let data = [];
-    let wrapper = mount(<ListTable buttons={buttons} data={data}/>);
+    let wrapper = mountWrap(<ListTable buttons={buttons} data={data}/>);
     expect(wrapper.text()).toEqual(null);
   });
 });

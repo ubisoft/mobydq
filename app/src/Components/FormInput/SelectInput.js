@@ -12,7 +12,7 @@ const SelectInput = ({
   items,
   error,
   value,
-  touched,
+  touched, // eslint-disable-line
   onChange,
   ...props
 }) => {

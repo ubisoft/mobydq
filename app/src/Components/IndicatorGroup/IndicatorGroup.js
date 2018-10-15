@@ -8,7 +8,7 @@ import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
 
 import { BaseForm } from './../Base/Form'
-import { IndicatorGroupUpdateForm } from "./IndicatorGroupUpdateForm";
+import { IndicatorGroupUpdateForm } from './IndicatorGroupUpdateForm';
 
 class IndicatorGroup extends React.Component {
   render() {

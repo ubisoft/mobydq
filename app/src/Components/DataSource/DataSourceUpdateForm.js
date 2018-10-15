@@ -1,10 +1,10 @@
-import {Query} from "react-apollo";
-import React from "react";
+import {Query} from 'react-apollo';
+import React from 'react';
 
 import DataSourceRepository from '../../repository/DataSourceRepository';
 import NotFoundComponent from '../Error/NotFoundComponent';
-import {BaseForm} from "../Base/Form";
-import EnhancedDataSourceForm from "./DataSourceForm";
+import {BaseForm} from '../Base/Form';
+import EnhancedDataSourceForm from './DataSourceForm';
 
 export const DataSourceUpdateForm = ({...props}) => (
   <Query query={DataSourceRepository.display()} variables={{id: props.match.params.id}}>

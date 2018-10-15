@@ -8,7 +8,7 @@ import IndicatorRepository from './../../repository/IndicatorRepository';
 import { Route } from 'react-router-dom';
 
 import { BaseForm } from './../Base/Form'
-import {IndicatorUpdateForm} from "../Indicator/IndicatorUpdateForm";
+import {IndicatorUpdateForm} from '../Indicator/IndicatorUpdateForm';
 
 class Indicator extends React.Component {
   render() {
