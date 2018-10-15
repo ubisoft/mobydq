@@ -272,11 +272,10 @@ COMMENT ON TABLE base.session_result IS
 ALTER TABLE base.session_result ENABLE ROW LEVEL SECURITY;
 
 
-/*TODO create unique index for email*/
 /*Create table user*/
 CREATE TABLE base.user (
     id SERIAL PRIMARY KEY
-  , email TEXT NOT NULL
+  , email TEXT NOT NULL UNIQUE
   , flag_active BOOLEAN DEFAULT TRUE
   , oauth_type TEXT NOT NULL
   , access_token TEXT NOT NULL
@@ -298,7 +297,6 @@ base.update_updated_date_column();
 
 
 
-/*TODO: implement user_group */
 /*Create function to execute indicator group*/
 CREATE OR REPLACE FUNCTION base.execute_batch(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
 RETURNS base.batch AS $$
