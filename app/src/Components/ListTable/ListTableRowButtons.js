@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,8 +11,10 @@ import RouterButton from './../../Components/FormInput/RouterButton';
 /**
  * Container component for TableRow Action Buttons
 
- * @param buttons a lits of buttons
+ * @param buttons a list of buttons
  * @param value an id of the row element
+ * @param button.function a predefined button function (currently edit/delete).
+ * #param button.parameter base_path for a predefined function or a custom function for a custom action
  *
  * Calls a Button component to render each button
  */
