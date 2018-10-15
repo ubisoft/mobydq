@@ -56,8 +56,14 @@ const formikEnhancer = withFormik({
   ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+        variables = { indicatorGroup: payload};
+    } else {
+        variables = { indicatorGroupPatch: payload, id: props.initialFieldValues.id };
+    }
     props.mutate({
-      variables: { indicatorGroup: payload }
+      variables: variables
     });
   },
   displayName: 'IndicatorGroupForm',

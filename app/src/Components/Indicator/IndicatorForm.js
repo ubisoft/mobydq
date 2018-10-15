@@ -136,10 +136,15 @@ const formikEnhancer = withFormik({
   ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+        variables = { indicator: payload};
+    } else {
+        variables = { indicatorPatch: payload, id: props.initialFieldValues.id };
+    }
     props.mutate({
-      variables: { indicator: payload }
-    },
-    );
+      variables: variables
+    });
   },
   displayName: 'IndicatorForm',
 });

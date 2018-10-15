@@ -56,9 +56,9 @@ class IndicatorGroupRepository {
 
   static update() {
     return gql`
-      mutation updateDataSourceById($dataSourcePatch: DataSourcePatch!, $id: Int!) {
-        updateDataSourceById(input: {dataSourcePatch: $dataSourcePatch, id: $id }) {
-          dataSource {
+      mutation updateIndicatorGroupById($indicatorGroupPatch: IndicatorGroupPatch!, $id: Int!) {
+        updateIndicatorGroupById(input: {indicatorGroupPatch: $indicatorGroupPatch, id: $id }) {
+          indicatorGroup {
             id
             name
           }

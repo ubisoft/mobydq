@@ -88,10 +88,11 @@ class IndicatorRepository {
 
   static update() {
     return gql`
-      mutation updateIndicator($id: Int!, $indicatorPatch: IndicatorPatch!) {
-        updateIndicatorById(input: {id: $id, indicatorPatch: $indicatorPatch}) {
+      mutation updateIndicatorById($indicatorPatch: IndicatorPatch!, $id: Int!) {
+        updateIndicatorById(input: {indicatorPatch: $indicatorPatch, id: $id }) {
           indicator {
             id
+            name
           }
         }
       }
