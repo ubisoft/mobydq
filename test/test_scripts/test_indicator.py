@@ -67,7 +67,7 @@ class TestIndicator(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name", user_group:"test_group"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name", userGroup:"test_group"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
