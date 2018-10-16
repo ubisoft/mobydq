@@ -1,4 +1,5 @@
 """Unit tests for API components."""
+import json
 import unittest
 import requests
 
@@ -18,9 +19,11 @@ class TestApi(unittest.TestCase):
         headers = {'Content-Type': 'application/json'}
         response = requests.get(url, headers=headers)
         status = response.status_code
+        body = json.loads(response.text)
 
         # Assert http status code is 200
         self.assertEqual(status, 200)
+        self.assertIsNotNone(body['message'])
 
 
 if __name__ == '__main__':
