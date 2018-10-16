@@ -247,6 +247,23 @@ class TestDb(unittest.TestCase):
         self.assertEqual(row_data_source_policy[0], 'SELECT')
         self.assertEqual(row_data_source_policy_admin[0], 'ALL')
 
+    def test_function_create_new_user_role(self):
+        # Insert test create new user
+        test_case_name = get_test_case_name()
+        call_test_create_new_user_role_query = f'INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values (\'{test_case_name}\', \'google\', \'1234\', CURRENT_TIMESTAMP) RETURNING id;'
+        cursor = self.connection.execute(call_test_create_new_user_role_query)
+        id_of_new_role = cursor.fetchone()[0]
+
+        # Get new created user role
+        select_new_role_query = f'''SELECT COUNT(*) FROM pg_roles
+        WHERE rolname = 'user_' || '{id_of_new_role}';'''
+        cursor = self.connection.execute(select_new_role_query)
+        row_count_user_role = cursor.fetchone()
+
+        # Assert roles creation works as expected
+        self.assertEqual(row_count_user_role[0], 1)
+
+
 
     @classmethod
     def tearDownClass(cls):
