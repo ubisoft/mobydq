@@ -20,7 +20,7 @@ const DataSourceList = (refetch) => (
           <div style={{float: 'right'}}>
             <RouterButton targetLocation='/data-source/new' disabled={false} label="Create" variant='contained'/>
           </div>
-          <ListTable data={data.allDataSources.nodes}  buttons={[{'name': 'edit', 'function': 'edit', 'parameter': '/data-source'}, {'name': 'delete', 'parameter': 'DataSourceRepository'}]}/>
+          <ListTable data={data.allDataSources.nodes}  buttons={[{'name': 'edit', 'parameter': '/data-source'}, {'name': 'delete', 'parameter': DataSourceRepository}]}/>
         </div>
       );
     }}

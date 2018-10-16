@@ -69,6 +69,19 @@ class DataSourceRepository {
       }
     `
   }
+
+  static delete() {
+    return gql`
+      mutation deleteDataSourceById($id: Int!) {
+        deleteDataSourceById(input: {id: $id }) {
+          dataSource {
+            id
+            name
+          }
+        }
+      }
+    `
+  }
 }
 
 export default DataSourceRepository;

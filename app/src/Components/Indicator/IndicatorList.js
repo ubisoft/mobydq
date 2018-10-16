@@ -20,7 +20,7 @@ const IndicatorList = (refetch) => (
           <div style={{ float: 'right' }}>
             <RouterButton targetLocation='/indicator/new' disabled={false} label="Create" variant='contained'/>
           </div>
-          <ListTable data={data.allIndicators.nodes}  buttons={[{'name': 'edit', 'function': 'edit', 'parameter': '/indicator'}, {'name': 'delete', 'function': 'delete', 'parameter': 'IndicatorRepository'}]} />
+          <ListTable data={data.allIndicators.nodes}  buttons={[{'name': 'edit', 'parameter': '/indicator'}, {'name': 'delete', 'parameter': IndicatorRepository}]} />
         </div>
       );
     }}
