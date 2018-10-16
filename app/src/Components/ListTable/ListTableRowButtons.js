@@ -18,7 +18,7 @@ import {ListTableCell} from './ListTableCell';
  *
  * Calls a Button component to render each button
  */
-export const ListTableRowButtons = ({buttons, value, history}) => {
+export const ListTableRowButtons = ({buttons, value}) => {
 
   return (
     <ListTableCell
@@ -41,8 +41,12 @@ function _createButton(button, value) {
       );
     case 'delete':
       return(
-      <div key={'delete_' + value}>
-        <Mutation mutation={button.parameter.delete()} variables={{id: 'value'}} onCompleted={() => {null} }>
+        <Mutation
+          key={'delete_' + value}
+          mutation={button.parameter.delete()}
+          variables={{id: value}}
+          refetchQueries={[{query: button.parameter.getListPage()}]}
+        >
         { (deleteFunc, { loading, error, data }) => {
          if (loading) return (<p>Loading...</p>);
          if (error) return (<p>Loading...</p>);
@@ -53,7 +57,6 @@ function _createButton(button, value) {
           )}
         }
         </Mutation>
-      </div>
       );
     default:
       return <React.Fragment/>
