@@ -8,9 +8,9 @@ import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent'
 import Login from '../Login/Login';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={(props) => (
-        isAuthentificated(rest)
+const PrivateRoute = ({ component: Component, ...parentProps }) => (
+    <Route {...parentProps} render={(props) => (
+        isAuthenticated(parentProps)
             ? <Component {...props} />
             : <Redirect to={{
             pathname: '/login',
@@ -19,24 +19,25 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     )} />
 );
 
-function isAuthentificated(props){
+function isAuthenticated(props){
     let cookieValue = getCookieValue('token');
-    if(cookieValue !== null && cookieValue.length > 5){
+    if(cookieValue !== null){
         let token = parseJwt(cookieValue);
 
-        for(let a = 0; a < props.permissions.length; a++) {
-            if(!token.role.includes(props.permissions[a])) {
+        for(let i = 0; i < props.permissions.length; i++) {
+            if(!token.role.includes(props.permissions[i])) {
                 return false;
             }
         }
+
         return true;
     }
     return false;
 }
 
-function parseJwt (token) {
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace('-', '+').replace('_', '/');
+function parseJwt(token) {
+    let base64Token = token.split('.')[1];
+    let base64 = base64Token.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
 }
 
