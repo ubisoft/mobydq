@@ -25,12 +25,12 @@ class ListTable extends React.Component {
 
   render() {
     //check if correct data prop is passed, otherwise render empty.
-    if (this.props.data === null || this.props.data.length === 0 || this.props.data.constructor !== Array) {
+    if (this.props.data === null || !Array.isArray(this.props.data) || this.props.data.length === 0) {
       return (<React.Fragment/>);
     }
 
-    let headerNames = this._buildTableFieldNames();
-    let content =  this.props.data;
+    const headerNames = this._buildTableFieldNames();
+    const content =  this.props.data;
     return (
       <Table>
         <ListTableHeader headerNames={headerNames}/>
