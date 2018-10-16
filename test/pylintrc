@@ -13,7 +13,6 @@ disable=
     line-too-long,
     invalid-name,
     too-many-locals,
-    useless-import-alias,
     no-self-use,
     too-many-arguments,
     missing-docstring,

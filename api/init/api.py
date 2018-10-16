@@ -40,7 +40,7 @@ api = Api(
     blueprint,
     title='MobyDQ API',
     version='v1',
-    description='''API used to configure and trigger the execution of data quality indicators.''',
+    description='API used to configure and trigger the execution of data quality indicators.',
     doc='/doc',
     contact=os.environ['MAIL_SENDER'])
 # TODO: Api.specs_url = swagger_url  # To be activated after we implement https

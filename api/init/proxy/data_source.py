@@ -1,5 +1,5 @@
 import docker
-import proxy.utils as utils
+from proxy import utils
 
 
 class TestDataSource():
@@ -8,8 +8,7 @@ class TestDataSource():
     def build_payload(self, mutation_arguments: str):
         """Method used to surcharge payload sent to GraphQL API."""
 
-        mutation = '''mutation testDataSource{testDataSource(input:mutation_arguments){dataSource{id,connectivityStatus}}}'''
-        mutation = mutation.replace('mutation_arguments', mutation_arguments)  # Use replace() instead of format() because of curly braces
+        mutation = f'mutation testDataSource{{testDataSource(input:{mutation_arguments}){{dataSource{{id,connectivityStatus}}}}}}'
         return mutation
 
     def test_data_source(self, response: dict):
@@ -28,7 +27,6 @@ class TestDataSource():
         )
 
         # Get connectivity test result
-        query = '''query{dataSourceById(id:data_source_id){id,connectivityStatus}}'''
-        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        query = f'query{{dataSourceById(id:{data_source_id}){{id,connectivityStatus}}}}'
         data = utils.execute_graphql_request(query)
         return data

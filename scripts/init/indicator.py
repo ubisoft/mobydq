@@ -5,6 +5,7 @@ import logging
 import os
 import pandas
 from data_source import DataSource
+from constants import IndicatorType
 import utils
 
 # Load logging configuration
@@ -17,7 +18,7 @@ class Indicator:
     def verify_indicator_parameters(self, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
-        query = '''query{allParameterTypes{nodes{id,name}}}'''
+        query = 'query{allParameterTypes{nodes{id,name}}}'
         response = utils.execute_graphql_request(query)
         parameter_types_referential = {}
         for parameter_type in response['data']['allParameterTypes']['nodes']:
@@ -38,7 +39,7 @@ class Indicator:
 
         # Verify parameters specific to completeness and latency indicator types
         # Source, Source request
-        if indicator_type_id in [1, 3]:
+        if indicator_type_id in [IndicatorType.COMPLETENESS, IndicatorType.LATENCY]:
             for parameter_type_id in [6, 7]:
                 if parameter_type_id not in indicator_parameters:
                     parameter_type = parameter_types_referential[parameter_type_id]
@@ -60,7 +61,7 @@ class Indicator:
     def get_data_frame(self, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
-        query = '''{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'''
+        query = '{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'
         query = query.replace('data_source', data_source)
         response = utils.execute_graphql_request(query)
 
