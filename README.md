@@ -45,9 +45,26 @@ $ sudo apt install docker-compose
 
 
 # Setup Your Instance
+## Create Public and Private Keys
+Public and private keys are required for your instance of MobyDQ to sign JSON Web Tokens (JWT). The JWT is used for bla bla bla. Create the keys in the root of the repository:
+
+```shell
+$ cd mobydq
+$ openssl genrsa -out private.pem 2048 && openssl rsa -in private.pem -pubout > public.pem
+```
+
+## Authentication
+MobyDQ delegates account creation and authentication management to major third parties such as Google or Github. Authentication is managed using **OAuth2** protocol so you should create an OAuth app on the website of the provider you want to use:
+* [Github](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app)
+* [Google](https://console.cloud.google.com/apis/credentials)
+
+Notes:
+* **Authorized redirect URIs** should contain the URI indicated in the `.env` file below.
+* **Client ID** and **Client Secrret** should be provided in the `.env` file below.
 
 ## Create Configuration Files
-Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
+Based on the template below, create a text file named `.env` at the root of the project. This file is used by Docker Compose to load configuration parameters into environment variables. This is typically used to manage file paths, logins, passwords, etc. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the values for the OAuth providers.
+
 ```ini
 # DB
 # Parameters used by db container
@@ -67,7 +84,24 @@ MAIL_SENDER=change@me.com
 # APP
 # Parameters used by app container
 NODE_ENV=development
-REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/graphql
+REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/
+
+# OAUTH
+# Global OAuth parameters used by web app
+TOKEN_ISSUER=https://localhost
+AFTER_LOGIN_REDIRECT=http://localhost
+
+# GITHUB
+# Github OAuth parameters
+GITHUB_CLIENT_ID=change_me
+GITHUB_CLIENT_SECRET=change_me
+GITHUB_REDIRECT_URI=http://localhost:5434/mobydq/api/v1/security/oauth/github/callback
+
+# GOOGLE
+# Google OAuth parameters
+GOOGLE_CLIENT_ID=change_me
+GOOGLE_CLIENT_SECRET=change_me
+GOOGLE_REDIRECT_URI=http://localhost:5434/mobydq/api/v1/security/oauth/google/callback
 ```
 
 

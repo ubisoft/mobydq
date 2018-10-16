@@ -54,28 +54,25 @@ jobs:
           name: Run database tests
           when: always
           command: |
-            # Run database tests
-            docker-compose -f ./test/docker-compose.yml up test-db
+            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-db test-db
 
       - run:
           name: Run API tests
           when: always
           command: |
-            # Run API tests
-            docker-compose -f ./test/docker-compose.yml up test-api
+            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-api test-api
 
       - run:
           name: Run scripts tests
           when: always
           command: |
-            # Run scripts tests
-            docker-compose -f ./test/docker-compose.yml up test-scripts
+            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-scripts test-scripts
 
       - run:
           name: Run python linter
           when: always
           command: |
-            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --exit-zero --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results-python.xml"
+            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results-python.xml"
 
       - run:
           name: Run app tests

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 class DataSourceRepository {
   static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars

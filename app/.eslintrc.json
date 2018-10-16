@@ -1,9 +1,14 @@
 {
   "extends": [ "eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended" ],
   "plugins": [ "react", "jest" ],
+  "rules": {
+    "react/prop-types": "off",
+    "quotes": ["error", "single"]
+  },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "parserOptions": {
     "ecmaVersion": 2018,

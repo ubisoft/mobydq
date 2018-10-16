@@ -1,11 +1,9 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import SimpleButton from '../../Components/FormInput/SimpleButton';
 
-describe('TextInput unit test', () => {
+describe('SimpleButton unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(
@@ -19,7 +17,7 @@ describe('TextInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {

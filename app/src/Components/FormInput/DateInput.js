@@ -10,10 +10,8 @@ const DateInput = ({
   label,
   helperText,
   error,
-  touched,
   value,
   onChange,
-  className,
   ...props
 }) => {
   return (
@@ -22,22 +20,22 @@ const DateInput = ({
        control={
          <React.Fragment>
            <TextField
-             id={id}
-             label={label}
-             error={!!error}
-             type="date"
-             value={value}
-             InputLabelProps={{
-               shrink: true,
-             }}
-             helperText={helperText}
-             onChange={onChange}
-             {...props}
+              id={id}
+              label={label}
+              error={!!error}
+              type="date"
+              value={value}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              helperText={helperText}
+              onChange={onChange}
+              {...props}
            />
            <FormHelperText>{error}</FormHelperText>
         </React.Fragment>
       }
-      label={""}
+      label={''}
     />
    <FormHelperText>{error}</FormHelperText>
    </FormControl>

@@ -117,7 +117,7 @@ class Indicator:
         # Post results to database
         mutation = '''mutation{createSessionResult(input:{sessionResult:{
         alertOperator:"alert_operator",alertThreshold:alert_threshold,nbRecords:nb_records,
-        nbRecordsAlert:nb_records_alert,nbRecordsNoAlert:nb_records_no_alert,sessionId:session_id}}){sessionResult{id}}}'''
+        nbRecordsAlert:nb_records_alert,nbRecordsNoAlert:nb_records_no_alert,userGroup:"test_group",sessionId:session_id}}){sessionResult{id}}}'''
 
         # Use replace() instead of format() because of curly braces
         mutation = mutation.replace('alert_operator', alert_operator)

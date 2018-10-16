@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styles } from '../../styles/baseStyles';
-import { withStyles } from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
 import { ListTableRowButtons } from './ListTableRowButtons';
-import Style from '../../index.css';
-import { ListTableRowContent } from "./ListTableRowContent";
+import { ListTableRowContent } from './ListTableRowContent';
 
 /**
  * Container component for a single row of the list table

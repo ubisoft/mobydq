@@ -1,12 +1,9 @@
 import React from 'react';
-import * as Adapter from 'enzyme-adapter-react-16';
-import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
+import { shallow } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils';
 
 import IndicatorRepository from './../../repository/IndicatorRepository';
 import IndicatorList from '../../Components/Indicator/IndicatorList';
-import Indicator from "../../Components/Indicator/Indicator";
 
 describe('IndicatorList unit test', () => {
   let wrapper;
@@ -23,39 +20,39 @@ describe('IndicatorList unit test', () => {
           nodes: [
             {
               id: 1,
-              name: "dq_example_completeness_indicator",
+              name: 'dq_example_completeness_indicator',
               indicatorTypeId: 1,
               indicatorGroupId: 1,
               executionOrder: 1,
               flagActive: true,
-              updatedDate: "2018-10-06T05:44:17.45341"
+              updatedDate: '2018-10-06T05:44:17.45341'
             },
             {
               id: 2,
-              name: "dq_example_freshness_indicator",
+              name: 'dq_example_freshness_indicator',
               indicatorTypeId: 2,
               indicatorGroupId: 1,
               executionOrder: 1,
               flagActive: true,
-              updatedDate: "2018-10-06T05:44:17.45341"
+              updatedDate: '2018-10-06T05:44:17.45341'
             },
             {
               id: 3,
-              name: "dq_example_latency_indicator",
+              name: 'dq_example_latency_indicator',
               indicatorTypeId: 3,
               indicatorGroupId: 1,
               executionOrder: 1,
               flagActive: true,
-              updatedDate: "2018-10-06T05:44:17.45341"
+              updatedDate: '2018-10-06T05:44:17.45341'
             },
             {
               id: 4,
-              name: "dq_example_validity_indicator",
+              name: 'dq_example_validity_indicator',
               indicatorTypeId: 4,
               indicatorGroupId: 1,
               executionOrder: 1,
               flagActive: true,
-              updatedDate: "2018-10-06T05:44:17.45341"
+              updatedDate: '2018-10-06T05:44:17.45341'
             }
           ]
         }
@@ -73,7 +70,7 @@ describe('IndicatorList unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   // it('loads the table properly', () => {

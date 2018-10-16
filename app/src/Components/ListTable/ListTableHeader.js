@@ -1,6 +1,4 @@
 import React from 'react';
-import {styles} from '../../styles/baseStyles';
-import {withStyles} from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {ListTableCell} from './ListTableCell';

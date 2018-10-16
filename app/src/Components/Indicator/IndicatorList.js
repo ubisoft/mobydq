@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from "react-apollo";
+import { Query } from 'react-apollo';
 import IndicatorRepository from './../../repository/IndicatorRepository';
 import ListTable from '../ListTable/ListTable';
 import RouterButton from './../../Components/FormInput/RouterButton';
@@ -20,23 +20,19 @@ const IndicatorList = (refetch) => (
           <div style={{ float: 'right' }}>
             <RouterButton targetLocation='/indicator/new' disabled={false} label="Create" />
           </div>
-          <ListTable buttons={[{"name": "edit", "function": test}, {"name": "King", "function": king}]} data={data.allIndicators.nodes} />
+          <ListTable buttons={[{'name': 'edit', 'function': edit}, {'name': 'delete', 'function': _delete}]} data={data.allIndicators.nodes} />
         </div>
       );
     }}
   </Query>
 );
 
-function test(e)
-{
-
-  window.location = "/edit/" + e.target.value;
+function edit(e) {
+  window.location = '/edit?id=' + e.target.value;
 }
 
-
-function king(e)
-{
-alert("We are Kings!!!")
+function _delete() {
+  // TODO
 }
 
 export default IndicatorList;

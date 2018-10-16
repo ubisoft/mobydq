@@ -10,13 +10,9 @@ const SelectInput = ({
   id,
   label,
   items,
-  helperText,
   error,
-  touched,
-  errors,
   value,
   onChange,
-  className,
   ...props
 }) => {
   return (
@@ -30,6 +26,7 @@ const SelectInput = ({
         inputProps={{
           id: { id }
         }}
+        {...props}
       >
         <MenuItem value="">
           <em>Select..</em>

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Query, Mutation } from "react-apollo";
+import { Query, Mutation } from 'react-apollo';
 
 
 const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history }) => (
   <Query query={ComponentRepository.getFormDropdownData()}>
     {({ loading, error, data }) => {
       if (ComponentRepository.insert === undefined || ComponentRepository.getFormDropdownData === undefined) {
-        throw new TypeError("Repository must implement insert and getFormDropdownData methods.")
+        throw new TypeError('Repository must implement insert and getFormDropdownData methods.')
       }
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;

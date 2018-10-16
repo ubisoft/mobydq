@@ -14,3 +14,7 @@ scripts.cfg
 
 # unit test results
 test-results/*.xml
+
+# keys
+public.pem
+private.pem

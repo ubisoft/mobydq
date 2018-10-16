@@ -4,13 +4,13 @@ exports[`SwitchInput unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <SwitchInput
-    error={false}
+    error=""
     id="Id"
     label="Label"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
-    touched={[MockFunction]}
-    value="value"
+    touched={true}
+    value="true"
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -33,13 +33,16 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                value="value"
+                touched={true}
+                value="true"
               />
             </React.Fragment>
           }
           label="Label"
         />,
-        <WithStyles(FormHelperText) />,
+        <WithStyles(FormHelperText)>
+          
+        </WithStyles(FormHelperText)>,
       ],
       "error": false,
       "style": Object {
@@ -59,7 +62,8 @@ ShallowWrapper {
               id="Id"
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
-              value="value"
+              touched={true}
+              value="true"
             />
           </React.Fragment>,
           "label": "Label",
@@ -73,10 +77,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "class",
         "props": Object {
-          "children": false,
+          "children": "",
         },
         "ref": null,
-        "rendered": false,
+        "rendered": "",
         "type": [Function],
       },
     ],
@@ -96,13 +100,16 @@ ShallowWrapper {
                   id="Id"
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
-                  value="value"
+                  touched={true}
+                  value="true"
                 />
               </React.Fragment>
             }
             label="Label"
           />,
-          <WithStyles(FormHelperText) />,
+          <WithStyles(FormHelperText)>
+            
+          </WithStyles(FormHelperText)>,
         ],
         "error": false,
         "style": Object {
@@ -122,7 +129,8 @@ ShallowWrapper {
                 id="Id"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
-                value="value"
+                touched={true}
+                value="true"
               />
             </React.Fragment>,
             "label": "Label",
@@ -136,10 +144,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
-            "children": false,
+            "children": "",
           },
           "ref": null,
-          "rendered": false,
+          "rendered": "",
           "type": [Function],
         },
       ],

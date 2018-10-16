@@ -23,13 +23,13 @@ import { mainListItems } from '../../listItems';
 import Content from './Content';
 
 class BaseDataView extends React.Component {
-  handleDrawerOpen = () => {
+  handleDrawerOpen() {
     this.props.isOpen(true);
-  };
+  }
 
-  handleDrawerClose = () => {
+  handleDrawerClose() {
     this.props.isOpen(false);
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -46,7 +46,7 @@ class BaseDataView extends React.Component {
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
+                onClick={this.handleDrawerOpen.bind(this)}
                 className={classNames(
                   classes.menuButton,
                   this.props.open && classes.menuButtonHidden,
@@ -72,7 +72,7 @@ class BaseDataView extends React.Component {
             open={this.props.open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.handleDrawerClose.bind(this)}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -96,12 +96,12 @@ const mapStateToProps = (state) => {
   return {
     open: state.sidebarIsOpen,
   };
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     isOpen: (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
   };
-};
+}
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));

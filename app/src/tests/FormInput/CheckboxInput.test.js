@@ -1,7 +1,5 @@
 import React from 'react'
-import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 
 import CheckboxInput from '../../Components/FormInput/CheckboxInput';
 
@@ -13,10 +11,10 @@ describe('CheckboxInput unit test', () => {
         id="Id"
         label="Label"
         helperText="Helper Text"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Are you an indicator?"
+        touched="true"
         error=""
-        value="value"
+        value="true"
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
@@ -24,7 +22,7 @@ describe('CheckboxInput unit test', () => {
   });
 
   it('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('matches snapshot', () => {
@@ -37,15 +35,15 @@ describe('CheckboxInput functional test', () => {
       <CheckboxInput
         id="Id"
         label="Label"
-        placeholder="Enter indicator name"
-        touched={jest.fn()}
+        placeholder="Are you an indicator?"
+        touched="true"
         error=""
-        value="mock text"
+        value="true"
         onChange={jest.fn()}
         onBlur={jest.fn()}
       />
     );
   it ('renders', () => {
-    expect(wrapper.length).toEqual(1);
+    expect(wrapper).toHaveLength(1);
   });
 });
