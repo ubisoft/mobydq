@@ -18,9 +18,9 @@ const IndicatorGroupList = (refetch) => (
             Indicator Groups
           </div>
           <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Create"/>
+            <RouterButton targetLocation='/indicator-group/new' disabled={false} label="Create" variant='contained'/>
           </div>
-          <ListTable data={data.allIndicatorGroups.nodes}/>
+          <ListTable data={data.allIndicatorGroups.nodes} buttons={[{'name': 'edit', 'function': 'edit', 'parameter': '/indicator-group'}, {'name': 'delete', 'parameter': 'IndicatorGroupRepository'}]}/>
         </div>
       );
     }}

@@ -28,6 +28,17 @@ class IndicatorGroupRepository {
     `
   }
 
+  static display() {
+    return gql`
+        query getIndicatorGroup($id: Int!) {
+          indicatorGroupById(id: $id) {
+            id
+            name
+          }
+        }
+    `
+  }
+
   static insert() {
     return gql`
       mutation addNewIndicatorGroup($indicatorGroup: IndicatorGroupInput!) {
@@ -37,6 +48,19 @@ class IndicatorGroupRepository {
             name
             createdDate
             updatedDate
+          }
+        }
+      }
+    `
+  }
+
+  static update() {
+    return gql`
+      mutation updateIndicatorGroupById($indicatorGroupPatch: IndicatorGroupPatch!, $id: Int!) {
+        updateIndicatorGroupById(input: {indicatorGroupPatch: $indicatorGroupPatch, id: $id }) {
+          indicatorGroup {
+            id
+            name
           }
         }
       }

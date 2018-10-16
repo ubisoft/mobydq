@@ -10,6 +10,7 @@ const SwitchInput = ({
   label,
   error,
   value,
+  touched, // eslint-disable-line
   onChange,
   ...props
 }) => {

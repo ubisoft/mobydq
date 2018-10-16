@@ -7,8 +7,9 @@ ShallowWrapper {
     buttons={
       Array [
         Object {
-          "function": [Function],
+          "function": "edit",
           "name": "button name",
+          "parameter": "/test-route",
         },
       ]
     }
@@ -46,8 +47,9 @@ ShallowWrapper {
     "props": Object {
       "buttons": Array [
         Object {
-          "function": [Function],
+          "function": "edit",
           "name": "button name",
+          "parameter": "/test-route",
         },
       ],
       "classes": Object {
@@ -96,8 +98,9 @@ ShallowWrapper {
       "props": Object {
         "buttons": Array [
           Object {
-            "function": [Function],
+            "function": "edit",
             "name": "button name",
+            "parameter": "/test-route",
           },
         ],
         "classes": Object {
@@ -152,6 +155,35 @@ ShallowWrapper {
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
           },
+        },
+      },
+    },
+    "childContextTypes": Object {
+      "router": [Function],
+    },
+    "context": Object {
+      "router": Object {
+        "history": Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        },
+        "route": Object {
+          "location": Object {},
+          "match": Object {},
         },
       },
     },

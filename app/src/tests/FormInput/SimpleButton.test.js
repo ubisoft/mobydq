@@ -11,6 +11,7 @@ describe('SimpleButton unit test', () => {
         type='submit'
         disabled={false}
         label='Button'
+        variant='contained'
         onClick={jest.fn()}
       />
     );
@@ -31,6 +32,7 @@ describe('SimpleButton functional test', () => {
         type='submit'
         disabled={false}
         label='Button'
+        variant='contained'
         onClick={jest.fn()}
       />
     );

@@ -1,17 +1,17 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme';
+import { shallowWrap, mountWrap } from './../../setupTests'
 
 import {ListTableBody} from './../../Components/ListTable/ListTableBody'
 
 describe('ListTableBody unit test', () => {
   let wrapper;
-  let buttons = [{name: 'button name', function: jest.fn}];
+  let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
   let content = [{id: 1, name: 'mock name', trueField: true, falseField: false},
                 {id: 2, name: 'mock name 2', trueField: true, falseField: false}];
   let contentColumnList = ['id', 'name', 'trueField', 'falseField'];
 
   beforeEach(() => {
-    wrapper = shallow(<ListTableBody buttons={buttons} content={content} contentColumnList={contentColumnList}/>)
+    wrapper = shallowWrap(<ListTableBody buttons={buttons} content={content} contentColumnList={contentColumnList}/>)
   });
 
   it('renders', () => {
@@ -26,15 +26,14 @@ describe('ListTableBody unit test', () => {
 
 describe('ListTableBody functional test', () => {
   it ('renders table body correctly, including boolean fields (True/False icons', () => {
-    let buttons = [{name: 'button name', function: jest.fn}];
+    let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
     let content = [{id: 1, name: 'mock name', trueField: true, falseField: false},
                 {id: 2, name: 'mock name 2', trueField: false, falseField: false}];
     let contentColumnList = ['id', 'name', 'trueField', 'falseField'];
-    let wrapper = mount(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
+    let wrapper = mountWrap(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
     expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
-    expect(wrapper.find('ListTableRowButtons').at(0).text()).toEqual('button name');
-    expect(wrapper.find('ListTableRowButtons').at(1).text()).toEqual('button name');
+    expect(wrapper.find('EditIcon').exists()).toBe(true);
     expect(wrapper.find('tr')).toHaveLength(2);
     expect(wrapper.find('td')).toHaveLength(10);
     expect(wrapper.find('td').at(0).text()).toEqual('1');
@@ -48,7 +47,7 @@ describe('ListTableBody functional test', () => {
     let buttons = [];
     let content = [];
     let contentColumnList = [];
-    let wrapper = mount(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
+    let wrapper = mountWrap(<table><ListTableBody content={content} contentColumnList={contentColumnList} buttons={buttons}/></table>);
     expect(wrapper.text()).toEqual('');
   });
 });

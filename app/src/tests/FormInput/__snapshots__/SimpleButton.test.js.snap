@@ -8,6 +8,7 @@ ShallowWrapper {
     label="Button"
     onClick={[MockFunction]}
     type="submit"
+    variant="contained"
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

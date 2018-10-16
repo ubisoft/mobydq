@@ -46,7 +46,6 @@ ShallowWrapper {
                 placeholder="Enter date"
                 required={false}
                 select={false}
-                touched="true"
                 type="date"
                 value="2018-10-11"
                 variant="standard"
@@ -91,7 +90,6 @@ ShallowWrapper {
               placeholder="Enter date"
               required={false}
               select={false}
-              touched="true"
               type="date"
               value="2018-10-11"
               variant="standard"
@@ -145,7 +143,6 @@ ShallowWrapper {
                   placeholder="Enter date"
                   required={false}
                   select={false}
-                  touched="true"
                   type="date"
                   value="2018-10-11"
                   variant="standard"
@@ -190,7 +187,6 @@ ShallowWrapper {
                 placeholder="Enter date"
                 required={false}
                 select={false}
-                touched="true"
                 type="date"
                 value="2018-10-11"
                 variant="standard"

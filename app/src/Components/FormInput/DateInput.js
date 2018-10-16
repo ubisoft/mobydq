@@ -11,6 +11,7 @@ const DateInput = ({
   helperText,
   error,
   value,
+  touched, // eslint-disable-line
   onChange,
   ...props
 }) => {

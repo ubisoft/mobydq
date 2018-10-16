@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
 
 const DataSourceFormFields = props => {
   const {
@@ -12,11 +11,9 @@ const DataSourceFormFields = props => {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
   } = props;
   return (
@@ -89,9 +86,7 @@ const DataSourceFormFields = props => {
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
-          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
+          <SimpleButton type="submit" disabled={isSubmitting} label='Submit' variant='contained'/> &nbsp;
         </div>
       </div>
     </form>
@@ -108,13 +103,23 @@ const formikEnhancer = withFormik({
       .required('Login cannot be blank')
   }),
 
-  mapPropsToValues: () => ({
-    name: '', connectionString: '', login: '', password: ''
-  }),
+  mapPropsToValues: (props) => (
+    props.initialFieldValues === null
+      ? {name: '', connectionString: '', dataSourceTypeId: '', login: '', password: ''}
+      : {name: props.initialFieldValues.name, connectionString: props.initialFieldValues.connectionString,
+          dataSourceTypeId: props.initialFieldValues.dataSourceTypeId,
+          login: props.initialFieldValues.login, password: props.initialFieldValues.password}
+  ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+        variables = { dataSource: payload};
+    } else {
+        variables = { dataSourcePatch: payload, id: props.initialFieldValues.id };
+    }
     props.mutate({
-      variables: { dataSource: payload }
+      variables: variables
     });
   },
   displayName: 'DataSourceForm',

@@ -3,18 +3,15 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
 
 const IndicatorGroupFormFields = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
   } = props;
   return (
@@ -35,9 +32,7 @@ const IndicatorGroupFormFields = props => {
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
-          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant='contained'/> &nbsp;
         </div>
       </div>
     </form>
@@ -49,14 +44,21 @@ const formikEnhancer = withFormik({
     name: Yup.string()
       .required('Name cannot be blank')
   }),
-
-  mapPropsToValues: () => ({
-    name: ''
-  }),
+  mapPropsToValues: (props) => (
+      props.initialFieldValues === null
+    ? {name: ''}
+    : {name: props.initialFieldValues.name}
+  ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+        variables = { indicatorGroup: payload};
+    } else {
+        variables = { indicatorGroupPatch: payload, id: props.initialFieldValues.id };
+    }
     props.mutate({
-      variables: { indicatorGroup: payload }
+      variables: variables
     });
   },
   displayName: 'IndicatorGroupForm',

@@ -1,16 +1,16 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme';
+import { shallowWrap, mountWrap } from './../../setupTests'
 
 import {ListTableRow} from './../../Components/ListTable/ListTableRow'
 
 describe('ListTableRow unit test', () => {
   let wrapper;
-  let buttons = [{name: 'button name', function: jest.fn}];
+  let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
   let rowData = {id: 1, name: 'mock name', trueField: true, falseField: false};
   let rowColumns = ['id', 'name', 'trueField', 'falseField'];
 
   beforeEach(() => {
-    wrapper = shallow(<ListTableRow buttons={buttons} rowData={rowData} rowColumns={rowColumns}/>)
+    wrapper = shallowWrap(<ListTableRow buttons={buttons} rowData={rowData} rowColumns={rowColumns}/>)
   });
 
   it('renders', () => {
@@ -25,12 +25,12 @@ describe('ListTableRow unit test', () => {
 
 describe('ListTableRow functional test', () => {
   it ('renders table row correctly, including boolean field (True/False icons', () => {
-    let buttons = [{name: 'button name', function: jest.fn}];
+    let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
     let rowData = {id: 1, name: 'mock name', trueField: true, falseField: false};
     let rowColumns = ['id', 'name', 'trueField', 'falseField'];
-    let wrapper = mount(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);
+    let wrapper = mountWrap(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
-    expect(wrapper.find('ListTableRowButtons').text()).toEqual('button name');
+    expect(wrapper.find('EditIcon').exists()).toBe(true);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('td')).toHaveLength(5);
     expect(wrapper.find('td').at(0).text()).toEqual('1');
@@ -42,7 +42,7 @@ describe('ListTableRow functional test', () => {
     let buttons = [];
     let rowData = {};
     let rowColumns = [];
-    let wrapper = mount(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);
+    let wrapper = mountWrap(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);
     expect(wrapper.text()).toEqual('');
   });
 });

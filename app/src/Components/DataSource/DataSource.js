@@ -7,7 +7,8 @@ import DataSourceList from './DataSourceList';
 import EnhancedDataSourceForm from './DataSourceForm';
 import DataSourceRepository from './../../repository/DataSourceRepository';
 
-import BaseForm from './../Base/Form';
+import { BaseForm } from './../Base/Form';
+import {DataSourceUpdateForm} from './DataSourceUpdateForm';
 
 class DataSource extends React.Component {
   render() {
@@ -21,7 +22,13 @@ class DataSource extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => ( <BaseForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
-                  afterSaveRoute='/data-source/' title='Create Data Source' {...props} /> )
+                  afterSaveRoute='/data-source/' title='Create Data Source' initialFieldValues={null} {...props} /> )
+            }
+          />
+          <Route
+            path={`${match.url}/edit/:id`}
+            component={
+              (props) => ( <DataSourceUpdateForm {...props} /> )
             }
           />
           <Route

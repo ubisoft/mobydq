@@ -11,6 +11,7 @@ const CheckboxInput = ({
   error,
   value,
   onChange,
+  touched, // eslint-disable-line
   ...props
 }) => {
   return (

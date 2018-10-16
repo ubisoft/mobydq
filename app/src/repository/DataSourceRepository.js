@@ -9,11 +9,25 @@ class DataSourceRepository {
             id
             name
             dataSourceTypeId
-            connectivityStatus
             updatedDate
           }
         }
       }
+    `
+  }
+
+  static display() {
+    return gql`
+        query getDataSource($id: Int!) {
+          dataSourceById(id: $id) {
+            id
+            name
+            dataSourceTypeId
+            connectionString
+            login
+            password
+          }
+        }
     `
   }
 
@@ -34,6 +48,19 @@ class DataSourceRepository {
     return gql`
       mutation addNewDataSource($dataSource: DataSourceInput!) {
         createDataSource(input: {dataSource: $dataSource}) {
+          dataSource {
+            id
+            name
+          }
+        }
+      }
+    `
+  }
+
+  static update() {
+    return gql`
+      mutation updateDataSourceById($dataSourcePatch: DataSourcePatch!, $id: Int!) {
+        updateDataSourceById(input: {dataSourcePatch: $dataSourcePatch, id: $id }) {
           dataSource {
             id
             name

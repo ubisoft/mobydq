@@ -1,13 +1,16 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme';
+import { shallowWrap, mountWrap } from './../../setupTests'
+
+import { MemoryRouter } from 'react-router-dom';
 
 import {ListTableRowButtons} from './../../Components/ListTable/ListTableRowButtons'
 
 describe('ListTableRowButtons unit test', () => {
   let wrapper;
-  let buttons = [{name: 'button name', function: jest.fn}];
+  let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
+
   beforeEach(() => {
-    wrapper = shallow(<ListTableRowButtons buttons={buttons} value="1"/>)
+    wrapper = shallowWrap(<ListTableRowButtons buttons={buttons} value="1"/>)
   });
 
   it('renders', () => {
@@ -21,13 +24,14 @@ describe('ListTableRowButtons unit test', () => {
 
 describe('ListTableRowButtons functional test', () => {
   it ('renders buttons correctly', () => {
-    let buttons = [{name: 'button name', function: jest.fn}];
-    let wrapper = mount(<table><tbody><tr><ListTableRowButtons buttons={buttons} value="1"/></tr></tbody></table>);
-    expect(wrapper.text()).toEqual('button name');
+    let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}, {'name': 'button name', 'function': 'delete', 'parameter': '/test-route'}];
+    let wrapper = mountWrap(<table><tbody><tr><MemoryRouter><ListTableRowButtons buttons={buttons} value="1"/></MemoryRouter></tr></tbody></table>);
+    expect(wrapper.find('EditIcon').exists()).toBe(true);
+    expect(wrapper.find('DeleteIcon').exists()).toBe(true);
   });
   it ('renders correctly with no buttons', () => {
     let buttons = [];
-    let wrapper = mount(<table><tbody><tr><ListTableRowButtons buttons={buttons} value="1"/></tr></tbody></table>);
+    let wrapper = mountWrap(<table><tbody><tr><MemoryRouter><ListTableRowButtons buttons={buttons} value="1"/></MemoryRouter></tr></tbody></table>);
     expect(wrapper.text()).toEqual('');
   });
 });

@@ -4,8 +4,10 @@ import Button from '@material-ui/core/Button';
 
 const SimpleButton = ({
   type,
+  variant,
   disabled,
   label,
+  touched, // eslint-disable-line
   onClick
 }) => {
   let color = 'default';
@@ -27,7 +29,7 @@ const SimpleButton = ({
         break;
     }
   return (
-    <Button type={type} disabled={disabled} variant="contained" color={color} onClick={onClick}>
+    <Button type={type} disabled={disabled} variant={variant} color={color} onClick={onClick}>
       {label}
     </Button>
   )
@@ -37,6 +39,7 @@ export default SimpleButton;
 
 SimpleButton.propTypes = {
   type: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
 };

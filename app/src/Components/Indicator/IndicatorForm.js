@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
 import SwitchInput from './../FormInput/SwitchInput';
 
 const IndicatorFormFields = props => {
@@ -13,11 +12,9 @@ const IndicatorFormFields = props => {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
   } = props;
   return (
@@ -101,9 +98,7 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" /> &nbsp;
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} /> &nbsp;
-          <RouterButton targetLocation='back' disabled={false} label="Cancel" />
+          <SimpleButton type="submit" disabled={isSubmitting} label="Submit"  variant='contained'/> &nbsp;
         </div>
       </div>
     </form>
@@ -127,15 +122,24 @@ const formikEnhancer = withFormik({
       .required('Description cannot be blank'),
   }),
 
-  mapPropsToValues: () => ({
-    name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false
-  }),
+  mapPropsToValues: (props) => (
+    props.initialFieldValues === null
+      ? {name: '', description: '', executionOrder: 0, indicatorTypeId: 0, indicatorGroupId: 0, flagActive: false}
+      : {name: props.initialFieldValues.name, description: props.initialFieldValues.description,
+        executionOrder: props.initialFieldValues.executionOrder, indicatorTypeId: props.initialFieldValues.indicatorTypeId,
+        indicatorGroupId: props.initialFieldValues.indicatorGroupId, flagActive: props.initialFieldValues.flagActive}
+  ),
   handleSubmit: (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+        variables = { indicator: payload};
+    } else {
+        variables = { indicatorPatch: payload, id: props.initialFieldValues.id };
+    }
     props.mutate({
-      variables: { indicator: payload }
-    },
-    );
+      variables: variables
+    });
   },
   displayName: 'IndicatorForm',
 });

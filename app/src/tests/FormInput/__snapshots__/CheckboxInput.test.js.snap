@@ -37,7 +37,6 @@ ShallowWrapper {
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
                 placeholder="Are you an indicator?"
-                touched="true"
                 value="true"
               />
             </React.Fragment>
@@ -68,7 +67,6 @@ ShallowWrapper {
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
               placeholder="Are you an indicator?"
-              touched="true"
               value="true"
             />
           </React.Fragment>,
@@ -108,7 +106,6 @@ ShallowWrapper {
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
                   placeholder="Are you an indicator?"
-                  touched="true"
                   value="true"
                 />
               </React.Fragment>
@@ -139,7 +136,6 @@ ShallowWrapper {
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
                 placeholder="Are you an indicator?"
-                touched="true"
                 value="true"
               />
             </React.Fragment>,
