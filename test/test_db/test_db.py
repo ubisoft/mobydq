@@ -63,7 +63,7 @@ class TestDb(unittest.TestCase):
         data_source_type_id = row[0]
 
         # Insert test child record
-        insert_child_query = f'INSERT INTO base.data_source (name, data_source_type_id) VALUES (\'{test_case_name}\', \'{data_source_type_id}\');'
+        insert_child_query = f'INSERT INTO base.data_source (name, data_source_type_id, user_group) VALUES (\'{test_case_name}\', \'{data_source_type_id}\', \'test_group\');'
         self.connection.execute(insert_child_query)
         self.connection.commit()
 
@@ -85,7 +85,7 @@ class TestDb(unittest.TestCase):
 
         # Insert test indicator group
         test_case_name = get_test_case_name()
-        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name) VALUES (\'{test_case_name}\');'
+        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name, user_group) VALUES (\'{test_case_name}\', \'test_group\');'
         self.connection.execute(insert_indicator_group_query)
         self.connection.commit()
 
@@ -96,8 +96,8 @@ class TestDb(unittest.TestCase):
         indicator_group_id = row[0]
 
         # Insert test indicator
-        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id});'''
+        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
+        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
         self.connection.execute(insert_indicator_query)
         self.connection.commit()
 
@@ -124,7 +124,7 @@ class TestDb(unittest.TestCase):
 
         # Insert test data source
         test_case_name = get_test_case_name()
-        insert_data_source_query = f'INSERT INTO base.data_source (name, data_source_type_id) VALUES (\'{test_case_name}\', 1);'
+        insert_data_source_query = f'INSERT INTO base.data_source (name, data_source_type_id, user_group) VALUES (\'{test_case_name}\', 1, \'test_group\');'
         self.connection.execute(insert_data_source_query)
         self.connection.commit()
 
@@ -152,7 +152,7 @@ class TestDb(unittest.TestCase):
 
         # Insert test indicator group
         test_case_name = get_test_case_name()
-        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name) VALUES (\'{test_case_name}\');'
+        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name, user_group) VALUES (\'{test_case_name}\', \'test_group\');'
         self.connection.execute(insert_indicator_group_query)
         self.connection.commit()
 
@@ -163,8 +163,8 @@ class TestDb(unittest.TestCase):
         indicator_group_id = row[0]
 
         # Insert test indicator
-        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id});'''
+        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
+        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
         self.connection.execute(insert_indicator_query)
         self.connection.commit()
 
@@ -175,7 +175,7 @@ class TestDb(unittest.TestCase):
         indicator_id = row[0]
 
         # Insert test parameter
-        insert_parameter_query = f'INSERT INTO base.parameter (value, indicator_id, parameter_type_id) VALUES (\'{test_case_name}\', {indicator_id}, 1);'
+        insert_parameter_query = f'INSERT INTO base.parameter (value, indicator_id, parameter_type_id, user_group) VALUES (\'{test_case_name}\', {indicator_id}, 1, \'test_group\');'
         self.connection.execute(insert_parameter_query)
         self.connection.commit()
 
@@ -196,6 +196,57 @@ class TestDb(unittest.TestCase):
         value = row[0]
         self.assertEqual(name, new_test_case_name)
         self.assertEqual(value, new_test_case_name)
+
+    def test_function_create_new_user_group(self):
+        # Insert test create new user group
+        test_case_name = get_test_case_name()
+        call_test_create_new_user_group_query = f'SELECT base.create_new_user_group(\'{test_case_name}\');'
+        self.connection.execute(call_test_create_new_user_group_query)
+
+        # Get new created standard user group role
+        select_new_standard_group_role_query = f'''SELECT rolsuper FROM pg_roles
+        WHERE rolname = 'user_group_' || '{test_case_name}';'''
+        cursor = self.connection.execute(select_new_standard_group_role_query)
+        row_user_role = cursor.fetchone()
+
+        # Get new created admin user group role
+        select_new_admin_group_role_query = f'''SELECT rolsuper FROM pg_roles
+        WHERE rolname = 'user_group_' || '{test_case_name}' || '_admin';'''
+        cursor = self.connection.execute(select_new_admin_group_role_query)
+        row_admin_role = cursor.fetchone()
+
+        # Get number of new created user group policies
+        select_all_user_group_policies_query = f'''SELECT COUNT(*) FROM pg_catalog.pg_policies
+        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '%';'''
+        cursor = self.connection.execute(select_all_user_group_policies_query)
+        row_number_policies = cursor.fetchone()
+
+        # Get new created indicator_group policy
+        select_indicator_group_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
+        WHERE policyname = 'user_group_' || '{test_case_name}' || '_indicator_group_all';'''
+        cursor = self.connection.execute(select_indicator_group_policy_query)
+        row_indicator_group_policy = cursor.fetchone()
+
+        # Get new created data_source policy for standard user of user group
+        select_data_source_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
+        WHERE policyname = 'user_group_' || '{test_case_name}' || '_data_source_select';'''
+        cursor = self.connection.execute(select_data_source_policy_query)
+        row_data_source_policy = cursor.fetchone()
+
+        # Get new created data_source policy for admin user of user group
+        select_data_source_policy_admin_query = f'''SELECT cmd FROM pg_catalog.pg_policies
+        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '_admin_data_source_a%';'''
+        cursor = self.connection.execute(select_data_source_policy_admin_query)
+        row_data_source_policy_admin = cursor.fetchone()
+
+        # Assert roles and policy creation works as expected
+        self.assertEqual(row_user_role[0], '0')
+        self.assertEqual(row_admin_role[0], '0')
+        self.assertEqual(row_number_policies[0], 8)
+        self.assertEqual(row_indicator_group_policy[0], 'ALL')
+        self.assertEqual(row_data_source_policy[0], 'SELECT')
+        self.assertEqual(row_data_source_policy_admin[0], 'ALL')
+
 
     @classmethod
     def tearDownClass(cls):

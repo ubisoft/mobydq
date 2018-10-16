@@ -13,13 +13,13 @@ class TestBatch(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name", userGroup:"test_group"}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test batch
-        mutation_create_batch = '''mutation{createBatch(input:{batch:{indicatorGroupId:indicator_group_id,status:"Pending"}}){batch{id}}}'''
+        mutation_create_batch = '''mutation{createBatch(input:{batch:{indicatorGroupId:indicator_group_id,userGroup:"test_group",status:"Pending"}}){batch{id}}}'''
         mutation_create_batch = mutation_create_batch.replace('indicator_group_id', str(indicator_group_id))  # Use replace() instead of format() because of curly braces
         batch = utils.execute_graphql_request(mutation_create_batch)
         batch_id = batch['data']['createBatch']['batch']['id']
