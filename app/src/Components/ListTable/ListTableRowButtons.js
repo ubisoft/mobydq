@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 
 
@@ -47,9 +47,9 @@ function _createButton(button, value) {
           variables={{id: value}}
           refetchQueries={[{query: button.parameter.getListPage()}]}
         >
-        { (deleteFunc, { loading, error, data }) => {
+        { (deleteFunc, { loading, error }) => {
          if (loading) return (<p>Loading...</p>);
-         if (error) return (<p>Loading...</p>);
+         if (error) return (<p>Error...</p>);
          return(
            <IconButton key={'delete_' + value} onClick={() => {deleteFunc()}} aria-label="Delete" color="primary">
             <DeleteIcon/>
@@ -59,7 +59,7 @@ function _createButton(button, value) {
         </Mutation>
       );
     default:
-      return <React.Fragment/>
+      return <React.Fragment key={'none_' + value}/>
   }
 
 }

@@ -5,7 +5,7 @@ import {ListTableBody} from './../../Components/ListTable/ListTableBody'
 
 describe('ListTableBody unit test', () => {
   let wrapper;
-  let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
+  let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
   let content = [{id: 1, name: 'mock name', trueField: true, falseField: false},
                 {id: 2, name: 'mock name 2', trueField: true, falseField: false}];
   let contentColumnList = ['id', 'name', 'trueField', 'falseField'];
@@ -26,7 +26,7 @@ describe('ListTableBody unit test', () => {
 
 describe('ListTableBody functional test', () => {
   it ('renders table body correctly, including boolean fields (True/False icons', () => {
-    let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
+    let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
     let content = [{id: 1, name: 'mock name', trueField: true, falseField: false},
                 {id: 2, name: 'mock name 2', trueField: false, falseField: false}];
     let contentColumnList = ['id', 'name', 'trueField', 'falseField'];

@@ -5,7 +5,7 @@ import ListTable from '../../Components/ListTable/ListTable';
 
 describe('List Table unit test', () => {
   let wrapper;
-  let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
+  let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
   let data = [{id: 1, name: 'mock name', trueField: true, falseField: false, __typename: 'Mock Type'},
               {id: 2, name: 'mock name 2', trueField: false, falseField: false, __typename: 'Mock Type'}];
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('List Table unit test', () => {
 
 describe('ListTable functional test', () => {
   it ('renders table correctly, including boolean fields (True/False icons', () => {
-    let buttons = [{'name': 'button name', 'function': 'edit', 'parameter': '/test-route'}];
+    let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
     let data = [{id: 1, name: 'mock name', trueField: true, falseField: false, __typename: 'Mock Type'},
                 {id: 2, name: 'mock name 2', trueField: false, falseField: false, __typename: 'Mock Type'}];
     let wrapper = mountWrap(<ListTable buttons={buttons} data={data}/>);
