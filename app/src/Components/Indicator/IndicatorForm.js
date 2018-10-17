@@ -21,10 +21,10 @@ const IndicatorFormFields = props => {
     <form onSubmit={handleSubmit} style={{ marginLeft: '60px' }}>
       <div>
         <TextInput
-          id="name"
-          label="Name"
-          helperText=""
-          placeholder=""
+          id='name'
+          label='Name'
+          helperText=''
+          placeholder=''
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
@@ -35,10 +35,10 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <TextInput
-          id="description"
-          label="Description"
-          helperText=""
-          placeholder=""
+          id='description'
+          label='Description'
+          helperText=''
+          placeholder=''
           touched={touched.description}
           error={touched.description && errors.description}
           value={values.description}
@@ -48,8 +48,8 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <SelectInput
-          id="indicatorTypeId"
-          label="Type"
+          id='indicatorTypeId'
+          label='Type'
           items={data.allIndicatorTypes.nodes}
           touched={touched.indicatorTypeId}
           error={touched.indicatorTypeId && errors.indicatorTypeId}
@@ -61,8 +61,8 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <SelectInput
-          id="indicatorGroupId"
-          label="Group"
+          id='indicatorGroupId'
+          label='Group'
           items={data.allIndicatorGroups.nodes}
           touched={touched.indicatorGroupId}
           error={touched.indicatorGroupId && errors.indicatorGroupId}
@@ -73,9 +73,9 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <TextInput
-          id="executionOrder"
-          label="Execution Order"
-          helperText=""
+          id='executionOrder'
+          label='Execution Order'
+          helperText=''
           numeric={true}
           touched={touched.executionOrder}
           error={touched.executionOrder && errors.executionOrder}
@@ -86,19 +86,19 @@ const IndicatorFormFields = props => {
       </div>
       <div>
         <SwitchInput
-          id="flagActive"
-          label="Active"
+          id='flagActive'
+          label='Active'
           touched={touched.flagActive}
           error={touched.flagActive && errors.flagActive}
           checked={values.flagActive}
-          value="flagActive"
+          value='flagActive'
           onChange={handleChange}
           onBlur={handleBlur}
         />
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit"  variant='contained'/> &nbsp;
+          <SimpleButton type='submit' disabled={isSubmitting} label='Submit'  variant='contained' color='primary'/>
         </div>
       </div>
     </form>

@@ -66,6 +66,19 @@ class IndicatorGroupRepository {
       }
     `
   }
+
+  static delete() {
+    return gql`
+      mutation deleteIndicatorGroupById($id: Int!) {
+        deleteIndicatorGroupById(input: {id: $id }) {
+          indicatorGroup {
+            id
+            name
+          }
+        }
+      }
+    `
+  }
 }
 
 export default IndicatorGroupRepository;

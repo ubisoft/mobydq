@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import DataSourceRepository  from './../../repository/DataSourceRepository';
 import ListTable from '../ListTable/ListTable';
-import RouterButton from './../../Components/FormInput/RouterButton';
+import {LinkButton} from './../../Components/FormInput/SimpleButton';
 
 const DataSourceList = (refetch) => (
   <Query
@@ -18,9 +18,10 @@ const DataSourceList = (refetch) => (
             Data Sources
           </div>
           <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/data-source/new' disabled={false} label="Create" variant='contained'/>
+            <LinkButton disabled={false} label="Create" type="Create" color='primary'
+              variant='contained' to={'/data-source/new'}/>
           </div>
-          <ListTable data={data.allDataSources.nodes}  buttons={[{'name': 'edit', 'function': 'edit', 'parameter': '/data-source'}, {'name': 'delete', 'parameter': 'DataSourceRepository'}]}/>
+          <ListTable data={data.allDataSources.nodes}  buttons={[{'function': 'edit', 'parameter': '/data-source'}, {'function': 'delete', 'parameter': DataSourceRepository}]}/>
         </div>
       );
     }}

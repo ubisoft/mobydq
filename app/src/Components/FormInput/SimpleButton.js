@@ -2,34 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-const SimpleButton = ({
+import { Link } from 'react-router-dom';
+
+export const SimpleButton = ({
   type,
+  color,
   variant,
   disabled,
   label,
   touched, // eslint-disable-line
   onClick
 }) => {
-  let color = 'default';
-    switch(type) {
-      case 'submit':
-        color = 'primary';
-        break;
-      case 'create':
-        color = 'primary';
-        break;
-      case 'reset':
-        color = 'secondary';
-        break;
-      case 'cancel':
-        color = 'default';
-        break;
-      default:
-        color = 'default';
-        break;
-    }
   return (
     <Button type={type} disabled={disabled} variant={variant} color={color} onClick={onClick}>
+      {label}
+    </Button>
+  )
+}
+
+export const LinkButton = ({
+  type,
+  color,
+  variant,
+  disabled,
+  label,
+  touched, // eslint-disable-line
+  to
+}) => {
+  return (
+    <Button type={type} component={Link} to={to} disabled={disabled} variant={variant} color={color}>
       {label}
     </Button>
   )

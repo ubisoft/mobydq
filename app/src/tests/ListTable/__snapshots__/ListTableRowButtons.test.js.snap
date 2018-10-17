@@ -8,7 +8,6 @@ ShallowWrapper {
       Array [
         Object {
           "function": "edit",
-          "name": "button name",
           "parameter": "/test-route",
         },
       ]
@@ -30,7 +29,6 @@ ShallowWrapper {
     "props": Object {
       "contents": Array [
         <WithStyles(IconButton)
-          aria-label="Delete"
           color="primary"
           component={[Function]}
           to="/test-route/edit/1"
@@ -51,7 +49,6 @@ ShallowWrapper {
       "props": Object {
         "contents": Array [
           <WithStyles(IconButton)
-            aria-label="Delete"
             color="primary"
             component={[Function]}
             to="/test-route/edit/1"

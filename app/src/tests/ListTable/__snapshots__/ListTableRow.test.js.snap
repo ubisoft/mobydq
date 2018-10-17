@@ -8,7 +8,6 @@ ShallowWrapper {
       Array [
         Object {
           "function": "edit",
-          "name": "button name",
           "parameter": "/test-route",
         },
       ]
@@ -67,7 +66,6 @@ ShallowWrapper {
             Array [
               Object {
                 "function": "edit",
-                "name": "button name",
                 "parameter": "/test-route",
               },
             ]
@@ -108,7 +106,6 @@ ShallowWrapper {
           "buttons": Array [
             Object {
               "function": "edit",
-              "name": "button name",
               "parameter": "/test-route",
             },
           ],
@@ -151,7 +148,6 @@ ShallowWrapper {
               Array [
                 Object {
                   "function": "edit",
-                  "name": "button name",
                   "parameter": "/test-route",
                 },
               ]
@@ -192,7 +188,6 @@ ShallowWrapper {
             "buttons": Array [
               Object {
                 "function": "edit",
-                "name": "button name",
                 "parameter": "/test-route",
               },
             ],
