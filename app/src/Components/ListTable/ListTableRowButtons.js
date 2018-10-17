@@ -32,10 +32,10 @@ export const ListTableRowButtons = ({buttons, value}) => {
 }
 
 function _createButton(button, value) {
-  switch(button.name) {
+  switch(button.function) {
     case 'edit':
       return (
-          <IconButton key={'edit_' + value} component={Link} to={button.parameter + '/edit/' + value} aria-label="Delete" color="primary">
+          <IconButton key={'edit_' + value} component={Link} to={button.parameter + '/edit/' + value} color="primary">
             <EditIcon/>
           </IconButton>
       );
@@ -51,7 +51,7 @@ function _createButton(button, value) {
          if (loading) return (<p>Loading...</p>);
          if (error) return (<p>Error...</p>);
          return(
-           <IconButton key={'delete_' + value} onClick={() => {deleteFunc()}} aria-label="Delete" color="primary">
+           <IconButton key={'delete_' + value} onClick={() => {deleteFunc()}} color="primary">
             <DeleteIcon/>
           </IconButton>
           )}

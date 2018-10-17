@@ -21,7 +21,7 @@ const IndicatorGroupList = (refetch) => (
             <LinkButton disabled={false} label="Create" type="Create" color='primary'
               variant='contained' to={'/indicator-group/new'}/>
           </div>
-          <ListTable data={data.allIndicatorGroups.nodes} buttons={[{'name': 'edit', 'parameter': '/indicator-group'}, {'name': 'delete', 'parameter': IndicatorGroupRepository}]}/>
+          <ListTable data={data.allIndicatorGroups.nodes} buttons={[{'function': 'edit', 'parameter': '/indicator-group'}, {'function': 'delete', 'parameter': IndicatorGroupRepository}]}/>
         </div>
       );
     }}

@@ -21,7 +21,7 @@ const IndicatorList = (refetch) => (
             <LinkButton disabled={false} label="Create" type="Create" color='primary'
               variant='contained' to={'/indicator/new'}/>
           </div>
-          <ListTable data={data.allIndicators.nodes}  buttons={[{'name': 'edit', 'parameter': '/indicator'}, {'name': 'delete', 'parameter': IndicatorRepository}]} />
+          <ListTable data={data.allIndicators.nodes}  buttons={[{'function': 'edit', 'parameter': '/indicator'}, {'function': 'delete', 'parameter': IndicatorRepository}]} />
         </div>
       );
     }}

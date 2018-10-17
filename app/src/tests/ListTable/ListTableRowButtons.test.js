@@ -8,7 +8,7 @@ import {ListTableRowButtons} from './../../Components/ListTable/ListTableRowButt
 
 describe('ListTableRowButtons unit test', () => {
   let wrapper;
-  let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
+  let buttons = [{'function': 'edit', 'parameter': '/test-route'}];
 
   beforeEach(() => {
     wrapper = shallowWrap(<ListTableRowButtons buttons={buttons} value="1"/>)
@@ -27,7 +27,7 @@ describe('ListTableRowButtons functional test', () => {
   it ('renders buttons correctly', () => {
 //    let buttons = [{'name': 'edit', 'parameter': '/test-route'}, {'name': 'delete', 'parameter': DataSourceRepository}];
 //todo rewrite test when apollo testing is implemented
-    let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
+    let buttons = [{'function': 'edit', 'parameter': '/test-route'}];
     let wrapper = mountWrap(<table><tbody><tr><MemoryRouter><ListTableRowButtons buttons={buttons} value="1"/></MemoryRouter></tr></tbody></table>);
     expect(wrapper.find('EditIcon').exists()).toBe(true);
 

@@ -5,7 +5,7 @@ import {ListTableRow} from './../../Components/ListTable/ListTableRow'
 
 describe('ListTableRow unit test', () => {
   let wrapper;
-  let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
+  let buttons = [{'function': 'edit', 'parameter': '/test-route'}];
   let rowData = {id: 1, name: 'mock name', trueField: true, falseField: false};
   let rowColumns = ['id', 'name', 'trueField', 'falseField'];
 
@@ -25,7 +25,7 @@ describe('ListTableRow unit test', () => {
 
 describe('ListTableRow functional test', () => {
   it ('renders table row correctly, including boolean field (True/False icons', () => {
-    let buttons = [{'name': 'edit', 'parameter': '/test-route'}];
+    let buttons = [{'function': 'edit', 'parameter': '/test-route'}];
     let rowData = {id: 1, name: 'mock name', trueField: true, falseField: false};
     let rowColumns = ['id', 'name', 'trueField', 'falseField'];
     let wrapper = mountWrap(<table><tbody><ListTableRow rowData={rowData} rowColumns={rowColumns} buttons={buttons}/></tbody></table>);

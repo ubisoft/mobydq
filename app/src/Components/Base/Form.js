@@ -26,7 +26,7 @@ export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveR
                     if (loading) return (<p>Loading...</p>);
                     if (error) return (<p>Error...</p>);
                     return(
-                      <IconButton onClick={() => {deleteFunc()}} aria-label="Delete" color="primary">
+                      <IconButton onClick={() => {deleteFunc()}} color="primary">
                         <DeleteIcon/>
                       </IconButton>
                       )

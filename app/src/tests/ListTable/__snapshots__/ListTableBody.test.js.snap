@@ -7,7 +7,7 @@ ShallowWrapper {
     buttons={
       Array [
         Object {
-          "name": "edit",
+          "function": "edit",
           "parameter": "/test-route",
         },
       ]
@@ -55,7 +55,7 @@ ShallowWrapper {
           buttons={
             Array [
               Object {
-                "name": "edit",
+                "function": "edit",
                 "parameter": "/test-route",
               },
             ]
@@ -81,7 +81,7 @@ ShallowWrapper {
           buttons={
             Array [
               Object {
-                "name": "edit",
+                "function": "edit",
                 "parameter": "/test-route",
               },
             ]
@@ -114,7 +114,7 @@ ShallowWrapper {
         "props": Object {
           "buttons": Array [
             Object {
-              "name": "edit",
+              "function": "edit",
               "parameter": "/test-route",
             },
           ],
@@ -142,7 +142,7 @@ ShallowWrapper {
         "props": Object {
           "buttons": Array [
             Object {
-              "name": "edit",
+              "function": "edit",
               "parameter": "/test-route",
             },
           ],
@@ -177,7 +177,7 @@ ShallowWrapper {
             buttons={
               Array [
                 Object {
-                  "name": "edit",
+                  "function": "edit",
                   "parameter": "/test-route",
                 },
               ]
@@ -203,7 +203,7 @@ ShallowWrapper {
             buttons={
               Array [
                 Object {
-                  "name": "edit",
+                  "function": "edit",
                   "parameter": "/test-route",
                 },
               ]
@@ -236,7 +236,7 @@ ShallowWrapper {
           "props": Object {
             "buttons": Array [
               Object {
-                "name": "edit",
+                "function": "edit",
                 "parameter": "/test-route",
               },
             ],
@@ -264,7 +264,7 @@ ShallowWrapper {
           "props": Object {
             "buttons": Array [
               Object {
-                "name": "edit",
+                "function": "edit",
                 "parameter": "/test-route",
               },
             ],
