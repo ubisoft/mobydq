@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import SimpleButton from './../FormInput/SimpleButton';
+import {SimpleButton} from './../FormInput/SimpleButton';
 
 const IndicatorGroupFormFields = props => {
   const {
@@ -18,10 +18,10 @@ const IndicatorGroupFormFields = props => {
     <form onSubmit={handleSubmit} style={{ marginLeft: '60px' }}>
       <div>
         <TextInput
-          id="name"
-          label="Name"
-          helperText=""
-          placeholder=""
+          id='name'
+          label='Name'
+          helperText=''
+          placeholder=''
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
@@ -32,7 +32,7 @@ const IndicatorGroupFormFields = props => {
       </div>
       <div>
         <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant='contained'/> &nbsp;
+          <SimpleButton type='submit' disabled={isSubmitting} label='Submit' variant='contained' color='primary'/>
         </div>
       </div>
     </form>

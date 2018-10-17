@@ -4,6 +4,7 @@ exports[`SimpleButton unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <SimpleButton
+    color="primary"
     disabled={false}
     label="Button"
     onClick={[MockFunction]}
