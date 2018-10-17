@@ -32,7 +32,7 @@ describe('LinkButton unit test', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallowWrap(
-      <SimpleButton
+      <LinkButton
         type='submit'
         disabled={false}
         label='Button'

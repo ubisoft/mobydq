@@ -3,7 +3,7 @@
 exports[`LinkButton unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <SimpleButton
+  Symbol(enzyme.__unrendered__): <LinkButton
     color="primary"
     disabled={false}
     label="Button"
@@ -26,8 +26,9 @@ ShallowWrapper {
     "props": Object {
       "children": "Button",
       "color": "primary",
+      "component": [Function],
       "disabled": false,
-      "onClick": undefined,
+      "to": "/",
       "type": "submit",
       "variant": "contained",
     },
@@ -43,8 +44,9 @@ ShallowWrapper {
       "props": Object {
         "children": "Button",
         "color": "primary",
+        "component": [Function],
         "disabled": false,
-        "onClick": undefined,
+        "to": "/",
         "type": "submit",
         "variant": "contained",
       },
