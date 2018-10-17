@@ -1,7 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme';
+import { shallowWrap } from './../../setupTests'
 
-import SimpleButton from '../../Components/FormInput/SimpleButton';
+import {SimpleButton, LinkButton} from '../../Components/FormInput/SimpleButton';
 
 describe('SimpleButton unit test', () => {
   let wrapper;
@@ -14,6 +15,30 @@ describe('SimpleButton unit test', () => {
         variant='contained'
         color='primary'
         onClick={jest.fn()}
+      />
+    );
+  });
+
+  it('renders', () => {
+    expect(wrapper).toHaveLength(1);
+  });
+
+  it('matches snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe('LinkButton unit test', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallowWrap(
+      <SimpleButton
+        type='submit'
+        disabled={false}
+        label='Button'
+        variant='contained'
+        color='primary'
+        to='/'
       />
     );
   });
