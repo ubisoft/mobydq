@@ -500,3 +500,20 @@ END;
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
 COMMENT ON FUNCTION base.create_new_user_group IS
 'Function used to create new user group role and new policies for a group and group admin role.';
+
+/*Create function to create a new user role*/
+CREATE OR REPLACE FUNCTION base.create_new_user_role()
+RETURNS TRIGGER AS $$
+DECLARE
+    new_user_role                      TEXT := 'user_' || NEW.id;
+BEGIN
+    EXECUTE 'CREATE ROLE ' || quote_ident(new_user_role);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+COMMENT ON FUNCTION base.create_new_user_group IS
+'Function used to create new user role.';
+
+CREATE TRIGGER user_created_role AFTER INSERT
+ON base.user FOR EACH ROW EXECUTE PROCEDURE
+base.create_new_user_role();
