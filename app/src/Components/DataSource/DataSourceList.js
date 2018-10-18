@@ -24,7 +24,7 @@ const DataSourceList = (refetch) => <Query
           <LinkButton disabled={false} label="Create" type="Create" color="primary"
             variant="contained" to={'/data-source/new'}/>
         </div>
-        <ListTable data={data.allDataSources.nodes} buttons={[{ 'function': 'edit', 'parameter': '/data-source' }, { 'function': 'delete', 'parameter': 'DataSourceRepository' }]}/>
+        <ListTable data={data.allDataSources.nodes} buttons={[{ 'function': 'edit', 'parameter': '/data-source' }, { 'function': 'delete', 'parameter': DataSourceRepository }]}/>
       </div>
     );
   }}
