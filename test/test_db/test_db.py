@@ -268,6 +268,7 @@ class TestDb(unittest.TestCase):
 
         # Prepare database, delete all user group roles in the pg_authid table
         delete_user_groups_roles = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_%\';'
+        self.connection.execute(delete_user_groups_roles)
 
         # Create new user groups
         create_test_user_group_standard = 'CREATE ROLE user_group_mobydq;'
