@@ -263,7 +263,52 @@ class TestDb(unittest.TestCase):
         # Assert roles creation works as expected
         self.assertEqual(row_count_user_role[0], 1)
 
+    def test_function_get_all_user_groups(self):
+        # Insert test get all user group roles
 
+        # Prepare database, delete all user group roles in the pg_authid table
+        delete_user_groups_roles = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_%\';'
+        self.connection.execute(delete_user_groups_roles)
+
+        # Create new user groups
+        create_test_user_group_standard = 'CREATE ROLE user_group_mobydq;'
+        self.connection.execute(create_test_user_group_standard)
+        create_test_user_group_admin = 'CREATE ROLE user_group_mobydq_admin;'
+        self.connection.execute(create_test_user_group_admin)
+
+        # Call tested function to get all user groups
+        call_test_get_all_user_groups = 'SELECT base.get_all_user_groups();'
+        cursor = self.connection.execute(call_test_get_all_user_groups)
+        user_group_list = list(cursor)
+
+        # Assert all created user groups are in the returned list
+        user_group_names = [item[0] for item in user_group_list]
+        self.assertTrue('user_group_mobydq' in user_group_names)
+        self.assertTrue('user_group_mobydq_admin' in user_group_names)
+
+    def test_function_get_all_user_groups_by_user(self):
+        # Insert test get all user group roles of user
+
+        # Prepare database, delete test user and test user group role
+        delete_user_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_mobydq\';'
+        self.connection.execute(delete_user_role)
+        delete_user_group_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_mobydq\';'
+        self.connection.execute(delete_user_group_role)
+
+        # Create new user and a new user group role, grant user group to user
+        create_new_user = 'CREATE ROLE user_mobydq;'
+        self.connection.execute(create_new_user)
+        create_new_user_group = 'CREATE ROLE user_group_mobydq;'
+        self.connection.execute(create_new_user_group)
+        grant_user_group_roles_to_user = 'GRANT user_group_mobydq TO user_mobydq;'
+        self.connection.execute(grant_user_group_roles_to_user)
+
+        call_test_get_all_user_groups_by_user = 'SELECT base.get_all_user_groups_by_user(\'user_mobydq\');'
+        cursor = self.connection.execute(call_test_get_all_user_groups_by_user)
+        user_group_list = list(cursor)
+
+        # Assert granted user group roles were selected and are in returned list
+        self.assertTrue('user_group_mobydq' in [item[0] for item in user_group_list])
 
     @classmethod
     def tearDownClass(cls):
