@@ -10,7 +10,7 @@ const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...
 } />;
 function isAuthenticated(props) {
   const cookieValue = getCookieValue('token');
-  if (cookieValue !== null) {
+  if (cookieValue) {
     const token = parseJwt(cookieValue);
 
     return props.permissions.every((permission) => token.role.includes(permission));
