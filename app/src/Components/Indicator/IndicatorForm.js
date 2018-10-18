@@ -107,19 +107,19 @@ const IndicatorFormFields = (props) => {
 
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
-    'indicatorTypeId': Yup.number().integer().
-      min(1, 'You need to select an indicator type').
-      required('You need to select an indicator type'),
-    'indicatorGroupId': Yup.number().integer().
-      min(1, 'You need to select an indicator group').
-      required('You need to select an indicator group'),
-    'executionOrder': Yup.number().integer().
-      min(0, 'Execution order has to be a non-negative integer').
-      required('You need to input execution order.'),
-    'name': Yup.string().
-      required('Name cannot be blank'),
-    'description': Yup.string().
-      required('Description cannot be blank')
+    'indicatorTypeId': Yup.number().integer()
+      .min(1, 'You need to select an indicator type')
+      .required('You need to select an indicator type'),
+    'indicatorGroupId': Yup.number().integer()
+      .min(1, 'You need to select an indicator group')
+      .required('You need to select an indicator group'),
+    'executionOrder': Yup.number().integer()
+      .min(0, 'Execution order has to be a non-negative integer')
+      .required('You need to input execution order.'),
+    'name': Yup.string()
+      .required('Name cannot be blank'),
+    'description': Yup.string()
+      .required('Description cannot be blank')
   }),
 
   'mapPropsToValues': (props) => props.initialFieldValues === null

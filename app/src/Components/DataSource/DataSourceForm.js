@@ -95,12 +95,12 @@ const DataSourceFormFields = (props) => {
 
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
-    'name': Yup.string().
-      required('Name cannot be blank'),
-    'connectionString': Yup.string().
-      required('Connection string cannot be blank'),
-    'login': Yup.string().
-      required('Login cannot be blank')
+    'name': Yup.string()
+      .required('Name cannot be blank'),
+    'connectionString': Yup.string()
+      .required('Connection string cannot be blank'),
+    'login': Yup.string()
+      .required('Login cannot be blank')
   }),
 
   'mapPropsToValues': (props) => props.initialFieldValues === null

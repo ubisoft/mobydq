@@ -38,28 +38,28 @@ describe('ListTable functional test', () => {
     expect(wrapper.find('tr')).toHaveLength(3);
     expect(wrapper.find('td')).toHaveLength(10);
     expect(wrapper.find('th')).toHaveLength(5);
-    expect(wrapper.find('th').at(0).
-      text()).toEqual('Id');
-    expect(wrapper.find('th').at(1).
-      text()).toEqual('Name');
-    expect(wrapper.find('th').at(2).
-      text()).toEqual('True Field');
-    expect(wrapper.find('th').at(3).
-      text()).toEqual('False Field');
-    expect(wrapper.find('th').at(4).
-      text()).toEqual('Actions');
-    expect(wrapper.find('th').at(0).
-      text()).toEqual('Id');
-    expect(wrapper.find('th').at(1).
-      text()).toEqual('Name');
-    expect(wrapper.find('td').at(0).
-      text()).toEqual('1');
-    expect(wrapper.find('td').at(1).
-      text()).toEqual('mock name');
-    expect(wrapper.find('td').at(5).
-      text()).toEqual('2');
-    expect(wrapper.find('td').at(6).
-      text()).toEqual('mock name 2');
+    expect(wrapper.find('th').at(0)
+      .text()).toEqual('Id');
+    expect(wrapper.find('th').at(1)
+      .text()).toEqual('Name');
+    expect(wrapper.find('th').at(2)
+      .text()).toEqual('True Field');
+    expect(wrapper.find('th').at(3)
+      .text()).toEqual('False Field');
+    expect(wrapper.find('th').at(4)
+      .text()).toEqual('Actions');
+    expect(wrapper.find('th').at(0)
+      .text()).toEqual('Id');
+    expect(wrapper.find('th').at(1)
+      .text()).toEqual('Name');
+    expect(wrapper.find('td').at(0)
+      .text()).toEqual('1');
+    expect(wrapper.find('td').at(1)
+      .text()).toEqual('mock name');
+    expect(wrapper.find('td').at(5)
+      .text()).toEqual('2');
+    expect(wrapper.find('td').at(6)
+      .text()).toEqual('mock name 2');
     expect(wrapper.find('DoneIcon')).toHaveLength(1);
     expect(wrapper.find('ClearIcon')).toHaveLength(3);
   });

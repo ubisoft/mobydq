@@ -33,10 +33,10 @@ describe('ListTableRow functional test', () => {
     expect(wrapper.find('EditIcon').exists()).toBe(true);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('td')).toHaveLength(5);
-    expect(wrapper.find('td').at(0).
-      text()).toEqual('1');
-    expect(wrapper.find('td').at(1).
-      text()).toEqual('mock name');
+    expect(wrapper.find('td').at(0)
+      .text()).toEqual('1');
+    expect(wrapper.find('td').at(1)
+      .text()).toEqual('mock name');
     expect(wrapper.find('DoneIcon').exists()).toBe(true);
     expect(wrapper.find('ClearIcon').exists()).toEqual(true);
   });

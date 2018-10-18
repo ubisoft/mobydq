@@ -41,8 +41,8 @@ const IndicatorGroupFormFields = (props) => {
 
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
-    'name': Yup.string().
-      required('Name cannot be blank')
+    'name': Yup.string()
+      .required('Name cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? { 'name': '' }

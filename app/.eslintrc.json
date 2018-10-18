@@ -4,6 +4,7 @@
   "rules": {
     "array-element-newline": ["error", "consistent"],
     "class-methods-use-this": "off",
+    "dot-location": ["error", "property"],
     "func-style": "off",
     "function-paren-newline": ["error", "consistent"],
     "indent": ["error", 2],

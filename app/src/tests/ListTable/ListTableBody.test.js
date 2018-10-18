@@ -40,14 +40,14 @@ describe('ListTableBody functional test', () => {
     expect(wrapper.find('EditIcon').exists()).toBe(true);
     expect(wrapper.find('tr')).toHaveLength(2);
     expect(wrapper.find('td')).toHaveLength(10);
-    expect(wrapper.find('td').at(0).
-      text()).toEqual('1');
-    expect(wrapper.find('td').at(1).
-      text()).toEqual('mock name');
-    expect(wrapper.find('td').at(5).
-      text()).toEqual('2');
-    expect(wrapper.find('td').at(6).
-      text()).toEqual('mock name 2');
+    expect(wrapper.find('td').at(0)
+      .text()).toEqual('1');
+    expect(wrapper.find('td').at(1)
+      .text()).toEqual('mock name');
+    expect(wrapper.find('td').at(5)
+      .text()).toEqual('2');
+    expect(wrapper.find('td').at(6)
+      .text()).toEqual('mock name 2');
     expect(wrapper.find('DoneIcon')).toHaveLength(1);
     expect(wrapper.find('ClearIcon')).toHaveLength(3);
   });

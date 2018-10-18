@@ -26,23 +26,23 @@ describe('ListTableHeader functional test', () => {
     const wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('th')).toHaveLength(5);
-    expect(wrapper.find('th').at(0).
-      text()).toEqual('Id');
-    expect(wrapper.find('th').at(1).
-      text()).toEqual('Name');
-    expect(wrapper.find('th').at(2).
-      text()).toEqual('Long Name');
-    expect(wrapper.find('th').at(3).
-      text()).toEqual('');
-    expect(wrapper.find('th').at(4).
-      text()).toEqual('Actions');
+    expect(wrapper.find('th').at(0)
+      .text()).toEqual('Id');
+    expect(wrapper.find('th').at(1)
+      .text()).toEqual('Name');
+    expect(wrapper.find('th').at(2)
+      .text()).toEqual('Long Name');
+    expect(wrapper.find('th').at(3)
+      .text()).toEqual('');
+    expect(wrapper.find('th').at(4)
+      .text()).toEqual('Actions');
   });
   it('renders correctly with no headers', () => {
     const headerNames = [];
     const wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('th')).toHaveLength(1);
-    expect(wrapper.find('th').at(0).
-      text()).toEqual('Actions');
+    expect(wrapper.find('th').at(0)
+      .text()).toEqual('Actions');
   });
 });

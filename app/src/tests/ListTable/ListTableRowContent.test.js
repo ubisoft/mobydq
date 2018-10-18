@@ -27,10 +27,10 @@ describe('ListTableRowContent functional test', () => {
     const wrapper = mount(<table><tbody><tr><ListTableRowContent rowData={rowData} rowColumns={rowColumns} /></tr></tbody></table>);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('td')).toHaveLength(4);
-    expect(wrapper.find('td').at(0).
-      text()).toEqual('1');
-    expect(wrapper.find('td').at(1).
-      text()).toEqual('mock name');
+    expect(wrapper.find('td').at(0)
+      .text()).toEqual('1');
+    expect(wrapper.find('td').at(1)
+      .text()).toEqual('mock name');
     expect(wrapper.find('DoneIcon').exists()).toBe(true);
     expect(wrapper.find('ClearIcon').exists()).toEqual(true);
   });
