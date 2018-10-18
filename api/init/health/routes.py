@@ -15,7 +15,7 @@ def register_health(namespace: Namespace):
             Use this endpoint to get the health status of this API.
             """
             is_debug = os.environ.get('FLASK_DEBUG')
-            mode = 'production' if not is_debug else 'debug'
+            mode = 'debug' if is_debug else 'production'
             message = {'message': f'MobyDQ API running in {mode} mode'}
 
             return jsonify(message)

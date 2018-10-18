@@ -7,9 +7,7 @@ class ExecuteBatch():
     def build_payload(self, mutation_arguments: str):
         """Method used to surcharge payload sent to GraphQL API."""
 
-        mutation = '''mutation executeBatch{executeBatch(input:mutation_arguments){batch{id,status}}}'''
-        mutation = mutation.replace('mutation_arguments', mutation_arguments)  # Use replace() instead of format() because of curly braces
-        return mutation
+        return f'mutation executeBatch{{executeBatch(input:{mutation_arguments}){{batch{{id,status}}}}}}'
 
     def execute_batch(self, response: dict):
         """Method used to run Docker container which executes batch of indicators."""

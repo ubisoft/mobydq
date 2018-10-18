@@ -1,7 +1,7 @@
 import sys
 from graphql.ast import Document
-import proxy.batch as batch  # Called dynamically with getattr pylint: disable=W0611
-import proxy.data_source as data_source  # Called dynamically with getattr pylint: disable=W0611
+import proxy.batch as batch  # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
+import proxy.data_source as data_source  # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
 
 
 class Interceptor():
