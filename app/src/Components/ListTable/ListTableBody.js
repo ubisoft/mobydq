@@ -1,6 +1,6 @@
 import React from 'react';
-import {styles} from '../../styles/baseStyles';
-import {withStyles} from '@material-ui/core/styles';
+import { styles } from '../../styles/baseStyles';
+import { withStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import { ListTableRow } from './ListTableRow';
 
@@ -14,16 +14,10 @@ import { ListTableRow } from './ListTableRow';
  * Component calls DataTableRow container component
  */
 
-export const ListTableBody = ({content, contentColumnList, buttons}) => {
-  return (
-    <TableBody>
-      {
-        content.map((row) => (
-          <ListTableRow buttons={buttons} key={row.id} rowData={row} rowColumns={contentColumnList}/>
-        ))
-      }
-    </TableBody>
-  );
-}
+export const ListTableBody = ({ content, contentColumnList, buttons }) => <TableBody>
+  {
+    content.map((row) => <ListTableRow buttons={buttons} key={row.id} rowData={row} rowColumns={contentColumnList}/>)
+  }
+</TableBody>;
 
 export default withStyles(styles)(ListTableBody);

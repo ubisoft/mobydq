@@ -15,34 +15,29 @@ const TextInput = ({
   numeric,
   touched, // eslint-disable-line
   ...props
-}) => {
-  return (
-    <FormControl style={{width: '250px', margin: '15px'}} error={!!error}>
-      <FormControlLabel
-        control={
-          <React.Fragment>
-            <TextField
-              id={id}
-              label={label}
-              helperText={helperText}
-              onChange={onChange}
-              value={value}
-              type={numeric ? 'number' : 'text'}
-              {...props}
-            />
-          </React.Fragment>
-        }
-        label={''}
-      />
-      <FormHelperText>{error}</FormHelperText>
-    </FormControl>
-  );
-};
-
+}) => <FormControl style={{ 'width': '250px', 'margin': '15px' }} error={Boolean(error)}>
+  <FormControlLabel
+    control={
+      <React.Fragment>
+        <TextField
+          id={id}
+          label={label}
+          helperText={helperText}
+          onChange={onChange}
+          value={value}
+          type={numeric ? 'number' : 'text'}
+          {...props}
+        />
+      </React.Fragment>
+    }
+    label={''}
+  />
+  <FormHelperText>{error}</FormHelperText>
+</FormControl>;
 export default TextInput;
 
 TextInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  helperText: PropTypes.string.isRequired,
+  'id': PropTypes.string.isRequired,
+  'label': PropTypes.string.isRequired,
+  'helperText': PropTypes.string.isRequired
 };

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SimpleButton unit test matches snapshot 1`] = `
+exports[`LinkButton unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <SimpleButton
+  Symbol(enzyme.__unrendered__): <LinkButton
     color="primary"
     disabled={false}
     label="Button"
-    onClick={[MockFunction]}
+    to="/"
     type="submit"
     variant="contained"
   />,
@@ -26,8 +26,9 @@ ShallowWrapper {
     "props": Object {
       "children": "Button",
       "color": "primary",
+      "component": [Function],
       "disabled": false,
-      "onClick": [MockFunction],
+      "to": "/",
       "type": "submit",
       "variant": "contained",
     },
@@ -43,8 +44,9 @@ ShallowWrapper {
       "props": Object {
         "children": "Button",
         "color": "primary",
+        "component": [Function],
         "disabled": false,
-        "onClick": [MockFunction],
+        "to": "/",
         "type": "submit",
         "variant": "contained",
       },
@@ -66,6 +68,35 @@ ShallowWrapper {
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
           },
+        },
+      },
+    },
+    "childContextTypes": Object {
+      "router": [Function],
+    },
+    "context": Object {
+      "router": Object {
+        "history": Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        },
+        "route": Object {
+          "location": Object {},
+          "match": Object {},
         },
       },
     },

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import CheckboxInput from '../../Components/FormInput/CheckboxInput';
@@ -31,19 +31,19 @@ describe('CheckboxInput unit test', () => {
 });
 
 describe('CheckboxInput functional test', () => {
-  let wrapper = mount(
-      <CheckboxInput
-        id="Id"
-        label="Label"
-        placeholder="Are you an indicator?"
-        touched="true"
-        error=""
-        value="true"
-        onChange={jest.fn()}
-        onBlur={jest.fn()}
-      />
-    );
-  it ('renders', () => {
+  const wrapper = mount(
+    <CheckboxInput
+      id="Id"
+      label="Label"
+      placeholder="Are you an indicator?"
+      touched="true"
+      error=""
+      value="true"
+      onChange={jest.fn()}
+      onBlur={jest.fn()}
+    />
+  );
+  it('renders', () => {
     expect(wrapper).toHaveLength(1);
   });
 });

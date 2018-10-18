@@ -13,7 +13,7 @@ class DataSourceRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static display() {
@@ -28,7 +28,7 @@ class DataSourceRepository {
             password
           }
         }
-    `
+    `;
   }
 
   static getFormDropdownData() {
@@ -41,7 +41,7 @@ class DataSourceRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static insert() {
@@ -54,7 +54,7 @@ class DataSourceRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static update() {
@@ -67,7 +67,7 @@ class DataSourceRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static delete() {
@@ -80,7 +80,7 @@ class DataSourceRepository {
           }
         }
       }
-    `
+    `;
   }
 }
 
