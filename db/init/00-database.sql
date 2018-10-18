@@ -501,6 +501,7 @@ $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
 COMMENT ON FUNCTION base.create_new_user_group IS
 'Function used to create new user group role and new policies for a group and group admin role.';
 
+
 /*Create function to create a new user role*/
 CREATE OR REPLACE FUNCTION base.create_new_user_role()
 RETURNS TRIGGER AS $$
@@ -517,3 +518,31 @@ COMMENT ON FUNCTION base.create_new_user_group IS
 CREATE TRIGGER user_created_role AFTER INSERT
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
 base.create_new_user_role();
+
+
+/*Create function to get all user_group roles*/
+CREATE OR REPLACE FUNCTION base.get_all_user_groups()
+RETURNS TABLE (group_name TEXT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT rolname ::TEXT FROM pg_roles
+    WHERE rolname LIKE 'user_group%';
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+COMMENT ON FUNCTION base.get_all_user_groups IS
+'Function used to get all user_group roles which exists.';
+
+
+
+/*Create function to get all user_group roles a certain user belongs to*/
+CREATE OR REPLACE FUNCTION base.get_all_user_groups_by_user(user_name TEXT)
+RETURNS TABLE (group_name TEXT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT rolname ::TEXT FROM pg_roles
+    WHERE rolname LIKE 'user_group%'
+    AND  pg_has_role(user_name, rolname ::TEXT, 'MEMBER');
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+COMMENT ON FUNCTION base.get_all_user_groups_by_user IS
+'Function used to get all user_group roles a user belongs to.';
