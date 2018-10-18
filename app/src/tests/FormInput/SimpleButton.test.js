@@ -42,20 +42,4 @@ describe('SimpleButton functional test', () => {
     expect(wrapper.prop('type')).toEqual('submit');
     expect(wrapper.find('Button').prop('color')).toEqual('primary');
   });
-  it('renders correct reset button', () => {
-    wrapper.setProps({ 'type': 'reset' });
-    expect(wrapper.find('Button').prop('color')).toEqual('secondary');
-  });
-  it('renders correct cancel button', () => {
-    wrapper.setProps({ 'type': 'cancel' });
-    expect(wrapper.find('Button').prop('color')).toEqual('default');
-  });
-  it('renders correct create button', () => {
-    wrapper.setProps({ 'type': 'create' });
-    expect(wrapper.find('Button').prop('color')).toEqual('primary');
-  });
-  it('renders correct default button', () => {
-    wrapper.setProps({ 'type': 'foo' });
-    expect(wrapper.find('Button').prop('color')).toEqual('default');
-  });
 });
