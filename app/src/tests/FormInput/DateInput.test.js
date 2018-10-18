@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import DateInput from '../../Components/FormInput/DateInput';
@@ -31,19 +31,19 @@ describe('DateInput unit test', () => {
 });
 
 describe('DateInput functional test', () => {
-  let wrapper = mount(
-      <DateInput
-        id="Id"
-        label="Label"
-        helperText="Helper Text"
-        placeholder="Enter date"
-        touched="true"
-        error=""
-        value="2018-10-11"
-        onChange={jest.fn()}
-        onBlur={jest.fn()}
-      />
-    );
+  const wrapper = mount(
+    <DateInput
+      id="Id"
+      label="Label"
+      helperText="Helper Text"
+      placeholder="Enter date"
+      touched="true"
+      error=""
+      value="2018-10-11"
+      onChange={jest.fn()}
+      onBlur={jest.fn()}
+    />
+  );
   it('renders', () => {
     expect(wrapper).toHaveLength(1);
   });

@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { shape } from 'prop-types';
 
 // Setup enzyme's react adapter
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+Enzyme.configure({ 'adapter': new EnzymeAdapter() });
 
 // Make Enzyme functions available in all test files without importing
 global.shallow = shallow;
@@ -14,18 +14,18 @@ global.mount = mount;
 
 // Instantiate router context
 const router = {
-  history: new BrowserRouter().history,
-  route: {
-    location: {},
-    match: {},
-  },
+  'history': new BrowserRouter().history,
+  'route': {
+    'location': {},
+    'match': {}
+  }
 };
 
 const createContext = () => ({
-  context: { router },
-  childContextTypes: { router: shape({}) },
+  'context': { router },
+  'childContextTypes': { 'router': shape({}) }
 });
-// export router context mounts
+// Export router context mounts
 export function mountWrap(node) {
   return mount(node, createContext());
 }

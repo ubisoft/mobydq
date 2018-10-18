@@ -7,7 +7,7 @@ import IndicatorGroupList from './IndicatorGroupList';
 import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
 
-import { BaseForm } from './../Base/Form'
+import { BaseForm } from './../Base/Form';
 import { IndicatorGroupUpdateForm } from './IndicatorGroupUpdateForm';
 
 class IndicatorGroup extends React.Component {
@@ -17,18 +17,18 @@ class IndicatorGroup extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.appBarSpacer} />
-        <Typography variant='display1' gutterBottom className={classes.chartContainer}>
+        <Typography variant="display1" gutterBottom className={classes.chartContainer}>
           <Route
             path={`${match.url}/new`}
             component={
-              (props) => ( <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
-                  afterSaveRoute='/indicator-group/' title='Create Indicator Group'  initialFieldValues={null} {...props} /> )
+              (props) => <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
+                afterSaveRoute="/indicator-group/" title="Create Indicator Group" initialFieldValues={null} {...props} />
             }
           />
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => ( <IndicatorGroupUpdateForm {...props} /> )
+              (props) => <IndicatorGroupUpdateForm {...props} />
             }
           />
           <Route
@@ -38,7 +38,7 @@ class IndicatorGroup extends React.Component {
           />
         </Typography>
       </React.Fragment>
-    )
+    );
   }
 }
 export default withStyles(styles)(IndicatorGroup);

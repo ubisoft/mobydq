@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
           ENV URL PARAM: {process.env.REACT_APP_FLASK_API_URL}
         </Typography>
       </React.Fragment>
-    )
+    );
   }
 }
 

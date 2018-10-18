@@ -1,8 +1,8 @@
-import React from 'react'
-import { StaticRouter } from 'react-router'
+import React from 'react';
+import { StaticRouter } from 'react-router';
 import { shallow } from 'enzyme';
 
-import Indicator from './../../Components/Indicator/Indicator'
+import Indicator from './../../Components/Indicator/Indicator';
 
 test('Link matches snapshot', () => {
   const context = {};

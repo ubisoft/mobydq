@@ -14,40 +14,35 @@ const DateInput = ({
   touched, // eslint-disable-line
   onChange,
   ...props
-}) => {
-  return (
-   <FormControl style={{width: '250px', margin: '15px'}} error={!!error}>
-     <FormControlLabel
-       control={
-         <React.Fragment>
-           <TextField
-              id={id}
-              label={label}
-              error={!!error}
-              type="date"
-              value={value}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              helperText={helperText}
-              onChange={onChange}
-              {...props}
-           />
-           <FormHelperText>{error}</FormHelperText>
-        </React.Fragment>
-      }
-      label={''}
-    />
-   <FormHelperText>{error}</FormHelperText>
-   </FormControl>
-  );
-};
-
+}) => <FormControl style={{ 'width': '250px', 'margin': '15px' }} error={Boolean(error)}>
+  <FormControlLabel
+    control={
+      <React.Fragment>
+        <TextField
+          id={id}
+          label={label}
+          error={Boolean(error)}
+          type="date"
+          value={value}
+          InputLabelProps={{
+            'shrink': true
+          }}
+          helperText={helperText}
+          onChange={onChange}
+          {...props}
+        />
+        <FormHelperText>{error}</FormHelperText>
+      </React.Fragment>
+    }
+    label={''}
+  />
+  <FormHelperText>{error}</FormHelperText>
+</FormControl>;
 export default DateInput;
 
 
 DateInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  helperText: PropTypes.string.isRequired,
+  'id': PropTypes.string.isRequired,
+  'label': PropTypes.string.isRequired,
+  'helperText': PropTypes.string.isRequired
 };

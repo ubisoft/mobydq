@@ -1,80 +1,81 @@
 const drawerWidth = 240;
 
-export const styles = theme => ({
-  root: {
-    display: 'flex',
+export const styles = (theme) => ({
+  'root': {
+    'display': 'flex'
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+  'toolbar': {
+    // Keep right padding when drawer closed
+    'paddingRight': 24
   },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
+  'toolbarIcon': {
+    'display': 'flex',
+    'alignItems': 'center',
+    'justifyContent': 'flex-end',
+    'padding': '0 8px',
+    ...theme.mixins.toolbar
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+  'appBar': {
+    'zIndex': theme.zIndex.drawer + 1,
+    'transition': theme.transitions.create(['width', 'margin'], {
+      'easing': theme.transitions.easing.sharp,
+      'duration': theme.transitions.duration.leavingScreen
+    })
+  },
+  'appBarShift': {
+    'marginLeft': drawerWidth,
+    'width': `calc(100% - ${drawerWidth}px)`,
+    'transition': theme.transitions.create(['width', 'margin'], {
+      'easing': theme.transitions.easing.sharp,
+      'duration': theme.transitions.duration.enteringScreen
+    })
+  },
+  'menuButton': {
+    'marginLeft': 12,
+    'marginRight': 36
+  },
+  'menuButtonHidden': {
+    'display': 'none'
+  },
+  'title': {
+    'flexGrow': 1
+  },
+  'drawerPaper': {
+    'position': 'relative',
+    'whiteSpace': 'nowrap',
+    'width': drawerWidth,
+    'transition': theme.transitions.create('width', {
+      'easing': theme.transitions.easing.sharp,
+      'duration': theme.transitions.duration.enteringScreen
+    })
+  },
+  'drawerPaperClose': {
+    'overflowX': 'hidden',
+    'transition': theme.transitions.create('width', {
+      'easing': theme.transitions.easing.sharp,
+      'duration': theme.transitions.duration.leavingScreen
     }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
+    'width': theme.spacing.unit * 7,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
+      'width': theme.spacing.unit * 9
+    }
   },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    height: '100vh',
-    overflow: 'auto',
+  'appBarSpacer': theme.mixins.toolbar,
+  'content': {
+    'flexGrow': 1,
+    'padding': theme.spacing.unit * 3,
+    'height': '100vh',
+    'overflow': 'auto'
   },
-  chartContainer: {
-    marginLeft: -22,
+  'chartContainer': {
+    'marginLeft': -22
   },
-  formContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  'formContainer': {
+    'display': 'flex',
+    'flexDirection': 'row',
+    'flexWrap': 'wrap'
   },
-  tableContainer: {
-    height: 320,
-  },
+  'tableContainer': {
+    'height': 320
+  }
 });

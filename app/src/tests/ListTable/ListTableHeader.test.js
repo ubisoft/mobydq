@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import ListTableHeader from './../../Components/ListTable/ListTableHeader'
+import ListTableHeader from './../../Components/ListTable/ListTableHeader';
 
 describe('ListTableHeader unit test', () => {
   let wrapper;
-  let headerNames = ['id', 'name', 'longName', ''];
+  const headerNames = ['id', 'name', 'longName', ''];
 
   beforeEach(() => {
-    wrapper = shallow(<ListTableHeader headerNames={headerNames}/>)
+    wrapper = shallow(<ListTableHeader headerNames={headerNames}/>);
   });
 
   it('renders', () => {
@@ -21,23 +21,28 @@ describe('ListTableHeader unit test', () => {
 });
 
 describe('ListTableHeader functional test', () => {
-  it ('renders properly capitalizes the names and renders the action column', () => {
-    let headerNames = ['id', 'name', 'longName', ''];
-    let wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
+  it('renders properly capitalizes the names and renders the action column', () => {
+    const headerNames = ['id', 'name', 'longName', ''];
+    const wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('th')).toHaveLength(5);
-    expect(wrapper.find('th').at(0).text()).toEqual('Id');
-    expect(wrapper.find('th').at(1).text()).toEqual('Name');
-    expect(wrapper.find('th').at(2).text()).toEqual('Long Name');
-    expect(wrapper.find('th').at(3).text()).toEqual('');
-    expect(wrapper.find('th').at(4).text()).toEqual('Actions');
+    expect(wrapper.find('th').at(0).
+      text()).toEqual('Id');
+    expect(wrapper.find('th').at(1).
+      text()).toEqual('Name');
+    expect(wrapper.find('th').at(2).
+      text()).toEqual('Long Name');
+    expect(wrapper.find('th').at(3).
+      text()).toEqual('');
+    expect(wrapper.find('th').at(4).
+      text()).toEqual('Actions');
   });
-  it ('renders correctly with no headers', () => {
-    let headerNames = [];
-    let wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
+  it('renders correctly with no headers', () => {
+    const headerNames = [];
+    const wrapper = mount(<table><ListTableHeader headerNames={headerNames}/></table>);
     expect(wrapper.find('tr')).toHaveLength(1);
     expect(wrapper.find('th')).toHaveLength(1);
-    expect(wrapper.find('th').at(0).text()).toEqual('Actions');
-
+    expect(wrapper.find('th').at(0).
+      text()).toEqual('Actions');
   });
 });

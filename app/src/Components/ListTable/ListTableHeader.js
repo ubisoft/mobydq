@@ -1,7 +1,7 @@
 import React from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {ListTableCell} from './ListTableCell';
+import { ListTableCell } from './ListTableCell';
 
 /**
  * Component to build the list table header.
@@ -9,38 +9,31 @@ import {ListTableCell} from './ListTableCell';
  */
 class ListTableHeader extends React.Component {
   _buildHeaderCell(fieldName) {
-    if (fieldName.length > 0) {
-      fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-      fieldName = fieldName.match(/[A-Z][a-z]+/g).join(' ');
+    let header = fieldName;
+    if (header.length > 0) {
+      header = header.charAt(0).toUpperCase() + header.slice(1);
+      header = header.match(/[A-Z][a-z]+/ug).join(' ');
     }
     return (
-      <ListTableCell key={fieldName} contents={fieldName}/>
-    )
-  }
-
-  _addActionsColumn(headerFields) {
-    //add "Actions column
-    headerFields.push('Actions');
-    return headerFields;
+      <ListTableCell key={header} contents={header} />
+    );
   }
 
   _buildHeader(headerFields) {
-    headerFields = this._addActionsColumn(headerFields);
+    // Add "Actions column
+    const allHeaderFields = headerFields.concat(['Actions']);
     return (
       <TableHead>
         <TableRow>
-          {headerFields.map((fieldName) => (this._buildHeaderCell(fieldName)))}
+          {allHeaderFields.map((fieldName) => this._buildHeaderCell(fieldName))}
         </TableRow>
       </TableHead>
     );
   }
 
   render() {
-    //make a deep copy to not modify the props data
-    let headerFields = this.props.headerNames.slice(0);
-    return (this._buildHeader(headerFields));
+    return this._buildHeader(this.props.headerNames);
   }
 }
 
 export default ListTableHeader;
-

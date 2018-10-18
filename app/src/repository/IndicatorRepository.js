@@ -16,7 +16,7 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static getFormDropdownData() {
@@ -35,7 +35,7 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static display() {
@@ -52,7 +52,7 @@ class IndicatorRepository {
             updatedDate
           }
         }
-    `
+    `;
   }
 
   static insert() {
@@ -66,13 +66,13 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static getIndicatorToUpdate(id) {
-    return gql`
+    return `${gql`
       {
-        indicatorById(id:` + id + `) {
+        indicatorById(id:` + id}) {
           id
           name
           description
@@ -83,7 +83,7 @@ class IndicatorRepository {
           indicatorTypeId
         }
       }
-    `
+    `;
   }
 
   static update() {
@@ -96,7 +96,7 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static delete() {
@@ -109,7 +109,7 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 }
 

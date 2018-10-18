@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { styles } from './../../styles/baseStyles'
+import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import { isOpen } from './../../actions/sidebar';
 
@@ -67,7 +67,7 @@ class BaseDataView extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
+              'paper': classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose)
             }}
             open={this.props.open}
           >
@@ -88,20 +88,18 @@ class BaseDataView extends React.Component {
   }
 }
 
-// BaseDataView.propTypes = {
-//   content: PropTypes.object.isRequired,
-// };
+/*
+ * BaseDataView.propTypes = {
+ *   content: PropTypes.object.isRequired,
+ * };
+ */
 
-const mapStateToProps = (state) => {
-  return {
-    open: state.sidebarIsOpen,
-  };
-}
+const mapStateToProps = (state) => ({
+  'open': state.sidebarIsOpen
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    isOpen: (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  'isOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState))
+});
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));

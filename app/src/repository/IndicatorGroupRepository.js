@@ -12,7 +12,7 @@ class IndicatorGroupRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static getFormDropdownData() {
@@ -25,7 +25,7 @@ class IndicatorGroupRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static display() {
@@ -36,7 +36,7 @@ class IndicatorGroupRepository {
             name
           }
         }
-    `
+    `;
   }
 
   static insert() {
@@ -51,7 +51,7 @@ class IndicatorGroupRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static update() {
@@ -64,7 +64,7 @@ class IndicatorGroupRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static delete() {
@@ -77,7 +77,7 @@ class IndicatorGroupRepository {
           }
         }
       }
-    `
+    `;
   }
 }
 

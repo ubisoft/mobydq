@@ -13,21 +13,17 @@ import { ListTableRowContent } from './ListTableRowContent';
  *
  * Container calls for TableDataRowButtons and TableDataRowData container components
  */
-export const ListTableRow = ({rowData, rowColumns, buttons}) => {
-  return(
-    <TableRow>
-      <ListTableRowContent rowData={rowData} rowColumns={rowColumns}/>
-      <ListTableRowButtons buttons={buttons} value={rowData.id}/>
-    </TableRow>
-  );
-}
+export const ListTableRow = ({ rowData, rowColumns, buttons }) => <TableRow>
+  <ListTableRowContent rowData={rowData} rowColumns={rowColumns}/>
+  <ListTableRowButtons buttons={buttons} value={rowData.id}/>
+</TableRow>;
 
 ListTableRow.defaultProps = {
-  buttons: [],
+  'buttons': []
 };
 
 ListTableRow.propTypes = {
-  buttons: PropTypes.array,
-  rowData: PropTypes.object.isRequired,
-  rowColumns: PropTypes.array.isRequired
+  'buttons': PropTypes.array,
+  'rowData': PropTypes.object.isRequired,
+  'rowColumns': PropTypes.array.isRequired
 };

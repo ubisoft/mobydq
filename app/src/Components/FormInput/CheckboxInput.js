@@ -13,31 +13,26 @@ const CheckboxInput = ({
   onChange,
   touched, // eslint-disable-line
   ...props
-}) => {
-  return (
-    <FormControl style={{width: '250px', margin: '15px'}} error={!!error}>
-      <FormControlLabel
-        control={
-          <React.Fragment>
-            <Checkbox
-              id={id}
-              onChange={onChange}
-              value={value}
-              {...props}
-            />
-          </React.Fragment>
-        }
-        label={label}
-      />
-      <FormHelperText>{error}</FormHelperText>
-    </FormControl>
-  );
-};
-
+}) => <FormControl style={{ 'width': '250px', 'margin': '15px' }} error={Boolean(error)}>
+  <FormControlLabel
+    control={
+      <React.Fragment>
+        <Checkbox
+          id={id}
+          onChange={onChange}
+          value={value}
+          {...props}
+        />
+      </React.Fragment>
+    }
+    label={label}
+  />
+  <FormHelperText>{error}</FormHelperText>
+</FormControl>;
 export default CheckboxInput;
 
 
 CheckboxInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  'id': PropTypes.string.isRequired,
+  'label': PropTypes.string.isRequired
 };
