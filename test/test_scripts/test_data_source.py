@@ -49,14 +49,14 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
-    def test_get_connection_mysql(self):
-        """Unit tests for method get_connection for MySQL database."""
+    def test_get_connection_oracle_12c(self):
+        """Unit tests for method get_connection for Oracle database."""
 
         # Set connection parameters
-        data_source_type_id = DataSourceType.MYSQL_ID
-        connection_string = 'driver={MySQL Unicode};server=db-mysql;port=3306;Database=star_wars;'
-        login = 'root'
-        password = '1234'
+        data_source_type_id = DataSourceType.ORACLE_ID
+        connection_string = 'driver={Oracle 12c};server=oracle;port=1521;Database=star_wars;'
+        login = 'system'
+        password = 'oracle'
 
         # Connect to test Database
         data_source = DataSource()

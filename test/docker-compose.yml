@@ -44,6 +44,18 @@ services:
     networks:
       - default
 
+  db-oracle-12c:
+    container_name: mobydq-test-db-oracle-12c
+    image: mobydq-test-db-oracle-12c
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-oracle-12c/Dockerfile
+    expose:
+    - 1521
+    networks:
+    - default
+
   db-postgresql:
     container_name: mobydq-test-db-postgresql
     image: mobydq-test-db-postgresql
