@@ -45,11 +45,8 @@ COMMENT ON FUNCTION base.delete_children IS
 /*Create function to delete role*/
 CREATE OR REPLACE FUNCTION base.delete_role()
 RETURNS TRIGGER AS $$
-DECLARE
-    role_name TEXT;
 BEGIN
-    role_name = TG_ARGV[0];
-    EXECUTE 'DROP ROLE IF EXISTS ' || role_name;
+    EXECUTE 'DROP ROLE IF EXISTS user_group_' || OLD.id;
     RETURN OLD;
 END;
 $$ language plpgsql;

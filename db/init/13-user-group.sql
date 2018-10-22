@@ -22,6 +22,10 @@ CREATE TRIGGER user_group_delete_user_group_user BEFORE DELETE
 ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('user_group_user', 'user_group_id');
 
+CREATE TRIGGER user_group_delete_role AFTER DELETE
+ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_role();
+
 
 
 /*Create function to create user group role*/
