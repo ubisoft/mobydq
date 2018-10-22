@@ -30,21 +30,21 @@ base.update_updated_date_column();
 CREATE OR REPLACE FUNCTION base.create_user_role()
 RETURNS TRIGGER AS $$
 DECLARE
-    user TEXT := 'user_' || NEW.id;
+    user_role TEXT := 'user_' || NEW.id;
 BEGIN
-    EXECUTE 'CREATE USER ' || user || ' WITH PASSWORD ''' || user || '''';
+    EXECUTE 'CREATE USER ' || user_role || ' WITH PASSWORD ''' || user_role || '''';
 
     IF NEW.flag_admin THEN
-      EXECUTE 'GRANT admin TO ' || user;
+      EXECUTE 'GRANT admin TO ' || user_role;
     ELSE
-      EXECUTE 'GRANT standard TO ' || user;
-    END;
+      EXECUTE 'GRANT standard TO ' || user_role;
+    END IF;
     RETURN NEW;
 END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.create_user_role IS
-'Function used to automatically create a role for a user.';
+'Function used to automatically assign a role to a user.';
 
 CREATE TRIGGER user_create_user_role AFTER INSERT
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
@@ -56,20 +56,24 @@ base.create_user_role();
 CREATE OR REPLACE FUNCTION base.update_user_role()
 RETURNS TRIGGER AS $$
 DECLARE
-    user TEXT := 'user_' || NEW.id;
+    user_role TEXT := 'user_' || NEW.id;
 BEGIN
     IF OLD.flag_admin <> NEW.flag_admin THEN
       IF NEW.flag_admin THEN
-        EXECUTE 'GRANT admin TO ' || user;
-        EXECUTE 'REVOKE standard FROM ' || user;
+        EXECUTE 'GRANT admin TO ' || user_role;
+        EXECUTE 'REVOKE standard FROM ' || user_role;
       ELSE
-        EXECUTE 'GRANT standard TO ' || user;
-        EXECUTE 'REVOKE admin FROM ' || user;
-      END;
-    END;
+        EXECUTE 'GRANT standard TO ' || user_role;
+        EXECUTE 'REVOKE admin FROM ' || user_role;
+      END IF;
+    END IF;
     RETURN NEW;
 END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.update_user_role IS
-'Function used to automatically create a role for a user.';
+'Function used to automatically update the role for a user.';
+
+CREATE TRIGGER user_update_user_role BEFORE UPDATE
+ON base.user FOR EACH ROW EXECUTE PROCEDURE
+base.update_user_role();
