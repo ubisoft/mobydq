@@ -21,6 +21,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_type TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter_type TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.user TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.user_group TO admin;
+GRANT SELECT, UPDATE, INSERT, DELETE ON base.user_group_user TO admin;
 
 
 
