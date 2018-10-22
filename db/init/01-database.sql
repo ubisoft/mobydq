@@ -32,10 +32,27 @@ BEGIN
     children_table = TG_ARGV[0];
     parent_column = TG_ARGV[1];
     parent_value = OLD.id;
-    EXECUTE('DELETE FROM base.' || children_table || ' WHERE ' || parent_column || '=' || parent_value || ';');
+    EXECUTE 'DELETE FROM base.' || children_table || ' WHERE ' || parent_column || '=' || parent_value;
     RETURN OLD;
 END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.delete_children IS
 'Function used to automate cascade delete on children tables.';
+
+
+
+/*Create function to delete role*/
+CREATE OR REPLACE FUNCTION base.delete_role()
+RETURNS TRIGGER AS $$
+DECLARE
+    role_name TEXT;
+BEGIN
+    role_name = TG_ARGV[0];
+    EXECUTE 'DROP ROLE IF EXISTS ' || role_name;
+    RETURN OLD;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.delete_role IS
+'Function used to automate cascade delete of a role.';
