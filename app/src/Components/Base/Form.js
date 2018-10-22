@@ -21,7 +21,7 @@ export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveR
           {(mutate, { loading, error }) => (
             <React.Fragment>
               <div style={{float: 'right', visibility: initialFieldValues !== null ? 'visible' : 'hidden'}}>
-                {_deleteMutation(ComponentRepository, recordId, history, a)}
+                {_deleteMutation(ComponentRepository, recordId, history, afterSaveRoute)}
               </div>
               <div style={{ marginLeft: '60px' }}>{title}</div>
               <FormComponent
