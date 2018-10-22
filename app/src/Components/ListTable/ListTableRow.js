@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableRow from '@material-ui/core/TableRow';
-import { ListTableRowButtons } from './ListTableRowButtons';
+import ListTableRowButtons from './ListTableRowButtons';
 import { ListTableRowContent } from './ListTableRowContent';
 
 /**

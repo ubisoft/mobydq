@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import ListTableHeader from './ListTableHeader';
+import ListTableFooter from './ListTableFooter';
 import ListTableBody from './ListTableBody';
 
 /**
@@ -35,12 +36,12 @@ class ListTable extends React.Component {
       <Table>
         <ListTableHeader headerNames={headerNames}/>
         <ListTableBody buttons={this.props.buttons} content={content} contentColumnList={headerNames}/>
+        <ListTableFooter/>
       </Table>
     );
   }
 }
 
-export default withStyles(styles)(ListTable);
 
 ListTable.propTypes = {
   'data': PropTypes.array.isRequired
@@ -49,3 +50,5 @@ ListTable.propTypes = {
 ListTable.defaultProps = {
   'buttons': []
 };
+
+export default withStyles(styles)(ListTable);

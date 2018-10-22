@@ -1,17 +1,18 @@
 import gql from 'graphql-tag';
 
 class IndicatorGroupRepository {
-  static getListPage(pageNumber, pageLength) { // eslint-disable-line no-unused-vars
+  static getListPage() { // eslint-disable-line no-unused-vars
     return gql`
-      {
-        allIndicatorGroups {
-          nodes {
-            id
-            name
-            updatedDate
+        query indicatorGroupRange($first: Int!, $offset: Int!) {
+          allIndicatorGroups(first: $first, offset: $offset) {
+            totalCount
+            nodes {
+              id
+              name
+              updatedDate
+            }
           }
         }
-      }
     `;
   }
 
