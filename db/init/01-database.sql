@@ -39,17 +39,3 @@ $$ language plpgsql;
 
 COMMENT ON FUNCTION base.delete_children IS
 'Function used to automate cascade delete on children tables.';
-
-
-
-/*Create function to delete role*/
-CREATE OR REPLACE FUNCTION base.delete_role()
-RETURNS TRIGGER AS $$
-BEGIN
-    EXECUTE 'DROP ROLE IF EXISTS user_group_' || OLD.id;
-    RETURN OLD;
-END;
-$$ language plpgsql;
-
-COMMENT ON FUNCTION base.delete_role IS
-'Function used to automate cascade delete of a role.';

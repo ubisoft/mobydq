@@ -22,10 +22,6 @@ CREATE TRIGGER user_group_delete_user_group_user BEFORE DELETE
 ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('user_group_user', 'user_group_id');
 
-CREATE TRIGGER user_group_delete_role AFTER DELETE
-ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
-base.delete_role();
-
 
 
 /*Create function to create user group role*/
@@ -45,3 +41,21 @@ COMMENT ON FUNCTION base.create_user_group_role IS
 CREATE TRIGGER user_group_create_user_group_role AFTER INSERT
 ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
 base.create_user_group_role();
+
+
+
+/*Create function to delete user group role*/
+CREATE OR REPLACE FUNCTION base.delete_user_group_role()
+RETURNS TRIGGER AS $$
+BEGIN
+    EXECUTE 'DROP ROLE IF EXISTS user_group_' || OLD.id;
+    RETURN OLD;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.delete_role IS
+'Function used to automate cascade delete of a role.';
+
+CREATE TRIGGER user_group_delete_role AFTER DELETE
+ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_user_group_role();
