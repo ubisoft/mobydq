@@ -23,7 +23,7 @@ class TestDb(unittest.TestCase):
         return connection
 
     def test_trigger_update_updated_date(self):
-        """Unit tests for trigger update_updated_date."""
+        """Unit tests for trigger function update_updated_date."""
 
         # Insert test record
         test_case_name = get_test_case_name()
@@ -48,7 +48,7 @@ class TestDb(unittest.TestCase):
         self.assertTrue(created_date < updated_date)
 
     def test_trigger_delete_children(self):
-        """Unit tests for trigger delete_children."""
+        """Unit tests for trigger function delete_children."""
 
         # Insert test parent record
         test_case_name = get_test_case_name()
@@ -79,6 +79,10 @@ class TestDb(unittest.TestCase):
 
         # Assert test child record has been deleted
         self.assertTrue(row is None)
+
+    def test_trigger_delete_role(self):
+        """Unit tests for trigger function delete_role."""
+        pass
 
     def test_function_execute_batch(self):
         """Unit tests for custom function execute_batch."""
@@ -197,118 +201,59 @@ class TestDb(unittest.TestCase):
         self.assertEqual(name, new_test_case_name)
         self.assertEqual(value, new_test_case_name)
 
-    def test_function_create_new_user_group(self):
-        # Insert test create new user group
+    def test_trigger_create_user_role(self):
+        """Unit tests for trigger function to create a user role."""
+
+        # Insert user
         test_case_name = get_test_case_name()
-        call_test_create_new_user_group_query = f'SELECT base.create_new_user_group(\'{test_case_name}\');'
-        self.connection.execute(call_test_create_new_user_group_query)
+        insert_user_query = f'INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values (\'{test_case_name}\', \'GOOGLE\', \'1234\', \'2999-12-31\') RETURNING id;'
+        cursor = self.connection.execute(insert_user_query)
+        user_id = cursor.fetchone()[0]
+        user = f'user_{user_id}'
 
-        # Get new created standard user group role
-        select_new_standard_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = 'user_group_' || '{test_case_name}';'''
-        cursor = self.connection.execute(select_new_standard_group_role_query)
-        row_user_role = cursor.fetchone()
+        # Get user and role
+        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role
+        FROM pg_catalog.pg_roles a
+        INNER JOIN pg_catalog.pg_auth_members b ON a.oid=b.member
+        INNER JOIN pg_catalog.pg_roles c ON b.roleid=c.oid
+        WHERE a.rolname='{user}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
 
-        # Get new created admin user group role
-        select_new_admin_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = 'user_group_' || '{test_case_name}' || '_admin';'''
-        cursor = self.connection.execute(select_new_admin_group_role_query)
-        row_admin_role = cursor.fetchone()
+        # Assert user was created and standard role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], 'standard')
 
-        # Get number of new created user group policies
-        select_all_user_group_policies_query = f'''SELECT COUNT(*) FROM pg_catalog.pg_policies
-        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '%';'''
-        cursor = self.connection.execute(select_all_user_group_policies_query)
-        row_number_policies = cursor.fetchone()
+    def test_trigger_update_user_role(self):
+        """Unit tests for trigger function to update a user role."""
+        pass
 
-        # Get new created indicator_group policy
-        select_indicator_group_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = 'user_group_' || '{test_case_name}' || '_indicator_group_all';'''
-        cursor = self.connection.execute(select_indicator_group_policy_query)
-        row_indicator_group_policy = cursor.fetchone()
+    def test_trigger_create_user_group_role(self):
+        """Unit tests for trigger to create a user group role."""
 
-        # Get new created data_source policy for standard user of user group
-        select_data_source_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = 'user_group_' || '{test_case_name}' || '_data_source_select';'''
-        cursor = self.connection.execute(select_data_source_policy_query)
-        row_data_source_policy = cursor.fetchone()
-
-        # Get new created data_source policy for admin user of user group
-        select_data_source_policy_admin_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '_admin_data_source_a%';'''
-        cursor = self.connection.execute(select_data_source_policy_admin_query)
-        row_data_source_policy_admin = cursor.fetchone()
-
-        # Assert roles and policy creation works as expected
-        self.assertEqual(row_user_role[0], '0')
-        self.assertEqual(row_admin_role[0], '0')
-        self.assertEqual(row_number_policies[0], 8)
-        self.assertEqual(row_indicator_group_policy[0], 'ALL')
-        self.assertEqual(row_data_source_policy[0], 'SELECT')
-        self.assertEqual(row_data_source_policy_admin[0], 'ALL')
-
-    def test_function_create_new_user_role(self):
-        # Insert test create new user
+        # Insert user group
         test_case_name = get_test_case_name()
-        call_test_create_new_user_role_query = f'INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values (\'{test_case_name}\', \'google\', \'1234\', CURRENT_TIMESTAMP) RETURNING id;'
-        cursor = self.connection.execute(call_test_create_new_user_role_query)
-        id_of_new_role = cursor.fetchone()[0]
+        insert_user_group_query = f'INSERT INTO base.user_group (name) VALUES (\'{test_case_name}\') RETURNING id;'
+        cursor = self.connection.execute(insert_user_group_query)
+        user_group_id = cursor.fetchone()[0]
+        user_group = f'user_group_{user_group_id}'
 
-        # Get new created user role
-        select_new_role_query = f'''SELECT COUNT(*) FROM pg_roles
-        WHERE rolname = 'user_' || '{id_of_new_role}';'''
-        cursor = self.connection.execute(select_new_role_query)
-        row_count_user_role = cursor.fetchone()
+        # Get user group role
+        select_user_role_query = f'''SELECT a.rolname AS user_group
+        FROM pg_catalog.pg_roles a WHERE a.rolname='{user_group}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
 
-        # Assert roles creation works as expected
-        self.assertEqual(row_count_user_role[0], 1)
+        # Assert user group role was created
+        self.assertEqual(row[0], user_group)
 
-    def test_function_get_all_user_groups(self):
-        # Insert test get all user group roles
+    def test_trigger_grant_user_group_role(self):
+        """Unit tests for trigger to grant a user group role."""
+        pass
 
-        # Prepare database, delete all user group roles in the pg_authid table
-        delete_user_groups_roles = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_%\';'
-        self.connection.execute(delete_user_groups_roles)
-
-        # Create new user groups
-        create_test_user_group_standard = 'CREATE ROLE user_group_mobydq;'
-        self.connection.execute(create_test_user_group_standard)
-        create_test_user_group_admin = 'CREATE ROLE user_group_mobydq_admin;'
-        self.connection.execute(create_test_user_group_admin)
-
-        # Call tested function to get all user groups
-        call_test_get_all_user_groups = 'SELECT base.get_all_user_groups();'
-        cursor = self.connection.execute(call_test_get_all_user_groups)
-        user_group_list = list(cursor)
-
-        # Assert all created user groups are in the returned list
-        user_group_names = [item[0] for item in user_group_list]
-        self.assertTrue('user_group_mobydq' in user_group_names)
-        self.assertTrue('user_group_mobydq_admin' in user_group_names)
-
-    def test_function_get_all_user_groups_by_user(self):
-        # Insert test get all user group roles of user
-
-        # Prepare database, delete test user and test user group role
-        delete_user_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_mobydq\';'
-        self.connection.execute(delete_user_role)
-        delete_user_group_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_mobydq\';'
-        self.connection.execute(delete_user_group_role)
-
-        # Create new user and a new user group role, grant user group to user
-        create_new_user = 'CREATE ROLE user_mobydq;'
-        self.connection.execute(create_new_user)
-        create_new_user_group = 'CREATE ROLE user_group_mobydq;'
-        self.connection.execute(create_new_user_group)
-        grant_user_group_roles_to_user = 'GRANT user_group_mobydq TO user_mobydq;'
-        self.connection.execute(grant_user_group_roles_to_user)
-
-        call_test_get_all_user_groups_by_user = 'SELECT base.get_all_user_groups_by_user(\'user_mobydq\');'
-        cursor = self.connection.execute(call_test_get_all_user_groups_by_user)
-        user_group_list = list(cursor)
-
-        # Assert granted user group roles were selected and are in returned list
-        self.assertTrue('user_group_mobydq' in [item[0] for item in user_group_list])
+    def test_trigger_revoke_user_group_role(self):
+        """Unit tests for trigger to revoke a user group role."""
+        pass
 
     @classmethod
     def tearDownClass(cls):
