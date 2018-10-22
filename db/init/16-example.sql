@@ -10,19 +10,18 @@ INSERT INTO base.user_group (name) VALUES ('user_group_example');
 INSERT INTO base.user (email, oauth_type, access_token, refresh_token, expiry_date) VALUES
 ('user@example.com', 'GOOGLE', '', 0, '2999-12-31');
 
-/*Grant role and user group to user*/
+/*Assign group to user*/
 DO $$
 DECLARE
   user_id TEXT;
   user_group_id TEXT;
 BEGIN
   SELECT id INTO user_id FROM base.user WHERE email='user@example.com';
-  EXECUTE 'GRANT standard TO user_ ||' user_id;
-
   SELECT id INTO user_group_id FROM base.user_group WHERE name='user_group_example';
   EXECUTE 'GRANT user_group_' || user_group_id || ' TO user_' || user_id;
 END;
 $$;
+
 
 
 /*Create data source*/
