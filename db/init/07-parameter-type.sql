@@ -2,26 +2,26 @@
 \connect mobydq
 
 
-/*Order matter since Id values will be generated accordingly, do not change it*/
-INSERT INTO base.data_source_type (name) VALUES
-  ('Hive')
-, ('Impala')
-, ('MariaDB')
-, ('Microsoft SQL Server')
-, ('MySQL')
-, ('Oracle')
-, ('PostgreSQL')
-, ('SQLite')
-, ('Teradata');
 
+/*Create table parameter type*/
+CREATE TABLE base.parameter_type (
+    id SERIAL PRIMARY KEY
+  , name TEXT NOT NULL UNIQUE
+  , description TEXT
+  , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
+COMMENT ON TABLE base.parameter_type IS
+'Parameter types determine which types of parameters can be used to compute indicators.';
 
-/*Order matter since Id values will be generated accordingly, do not change it*/
-INSERT INTO base.indicator_type (name, module, class, method) VALUES
-  ('Completeness', 'completeness', 'Completeness', 'execute')
-, ('Freshness', 'freshness', 'Freshness', 'execute')
-, ('Latency', 'latency', 'Latency', 'execute')
-, ('Validity', 'validity', 'Validity', 'execute');
+CREATE TRIGGER parameter_type_updated_date BEFORE UPDATE
+ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_date_column();
+
+CREATE TRIGGER parameter_type_delete_parameter BEFORE DELETE
+ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('parameter', 'parameter_type_id');
 
 
 
