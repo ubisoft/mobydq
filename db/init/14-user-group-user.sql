@@ -40,3 +40,24 @@ COMMENT ON FUNCTION base.create_user_group_role IS
 CREATE TRIGGER user_group_user_grant_user_group_role AFTER INSERT
 ON base.user_group_user FOR EACH ROW EXECUTE PROCEDURE
 base.grant_user_group_role();
+
+
+
+/*Create function to revoke user group role to user*/
+CREATE OR REPLACE FUNCTION base.revoke_user_group_role()
+RETURNS TRIGGER AS $$
+DECLARE
+    user_group TEXT := 'user_group_' || OLD.user_group_id;
+    user TEXT := 'user_group_' || OLD.user_id;
+BEGIN
+    EXECUTE 'REVOKE ' || user_group || ' FROM ' || user;
+    RETURN OLD;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.revoke_user_group_role IS
+'Function used to automatically revoke a user group role from a user.';
+
+CREATE TRIGGER user_group_user_revoke_user_group_role BEFORE DELETE
+ON base.user_group_user FOR EACH ROW EXECUTE PROCEDURE
+base.revoke_user_group_role();
