@@ -22,3 +22,7 @@ base.update_updated_date_column();
 CREATE TRIGGER indicator_group_delete_indicator BEFORE DELETE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('indicator', 'indicator_group_id');
+
+CREATE TRIGGER indicator_group_delete_batch BEFORE DELETE
+ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('batch', 'indicator_group_id');
