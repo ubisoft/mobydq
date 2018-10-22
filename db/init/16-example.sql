@@ -7,8 +7,8 @@
 INSERT INTO base.user_group (name) VALUES ('user_group_example');
 
 /*Create user*/
-INSERT INTO base.user (email, oauth_type, access_token, refresh_token, expiry_date) VALUES
-('user@example.com', 'GOOGLE', '', 0, '2999-12-31');
+INSERT INTO base.user (email, oauth_type, access_token, expiry_date) VALUES
+('user@example.com', 'GOOGLE', '1234', '2999-12-31');
 
 /*Assign group to user*/
 DO $$
