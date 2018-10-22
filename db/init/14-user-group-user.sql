@@ -20,6 +20,10 @@ CREATE TRIGGER user_group_user_updated_date BEFORE UPDATE
 ON base.user_group_user FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date_column();
 
+CREATE TRIGGER user_group_delete_user_group_user BEFORE DELETE
+ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('user_group_user', 'user_group_id');
+
 
 
 /*Create function to grant user group role to user*/
@@ -27,9 +31,9 @@ CREATE OR REPLACE FUNCTION base.grant_user_group_role()
 RETURNS TRIGGER AS $$
 DECLARE
     user_group TEXT := 'user_group_' || NEW.user_group_id;
-    user TEXT := 'user_group_' || NEW.user_id;
+    user_role TEXT := 'user_' || NEW.user_id;
 BEGIN
-    EXECUTE 'GRANT ' || user_group || ' TO ' || user;
+    EXECUTE 'GRANT ' || user_group || ' TO ' || user_role;
     RETURN NEW;
 END;
 $$ language plpgsql;
@@ -48,9 +52,9 @@ CREATE OR REPLACE FUNCTION base.revoke_user_group_role()
 RETURNS TRIGGER AS $$
 DECLARE
     user_group TEXT := 'user_group_' || OLD.user_group_id;
-    user TEXT := 'user_group_' || OLD.user_id;
+    user_role TEXT := 'user_' || OLD.user_id;
 BEGIN
-    EXECUTE 'REVOKE ' || user_group || ' FROM ' || user;
+    EXECUTE 'REVOKE ' || user_group || ' FROM ' || user_role;
     RETURN OLD;
 END;
 $$ language plpgsql;
