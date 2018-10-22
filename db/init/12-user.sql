@@ -44,7 +44,7 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.create_user_role IS
-'Function used to automatically assign a role to a user.';
+'Function used to automatically create a user role and assign him permissions.';
 
 CREATE TRIGGER user_create_user_role AFTER INSERT
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
@@ -72,7 +72,7 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.update_user_role IS
-'Function used to automatically update the role for a user.';
+'Function used to automatically update the permissions of a user.';
 
 CREATE TRIGGER user_update_user_role BEFORE UPDATE
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
