@@ -11,6 +11,7 @@ CREATE TABLE base.user (
   , access_token TEXT NOT NULL
   , refresh_token INTEGER
   , expiry_date TIMESTAMP NOT NULL
+  , flag_admin BOOLEAN DEFAULT FALSE
   , flag_active BOOLEAN DEFAULT TRUE
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -32,6 +33,12 @@ DECLARE
     user TEXT := 'user_' || NEW.id;
 BEGIN
     EXECUTE 'CREATE USER ' || user || ' WITH PASSWORD ''' || user || '''';
+
+    IF NEW.flag_admin THEN
+      EXECUTE 'GRANT admin TO ' || user;
+    ELSE
+      EXECUTE 'GRANT standard TO ' || user;
+    END;
     RETURN NEW;
 END;
 $$ language plpgsql;
@@ -42,3 +49,27 @@ COMMENT ON FUNCTION base.create_user_role IS
 CREATE TRIGGER user_create_user_role AFTER INSERT
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
 base.create_user_role();
+
+
+
+/*Create function to update user role*/
+CREATE OR REPLACE FUNCTION base.update_user_role()
+RETURNS TRIGGER AS $$
+DECLARE
+    user TEXT := 'user_' || NEW.id;
+BEGIN
+    IF OLD.flag_admin <> NEW.flag_admin THEN
+      IF NEW.flag_admin THEN
+        EXECUTE 'GRANT admin TO ' || user;
+        EXECUTE 'REVOKE standard FROM ' || user;
+      ELSE
+        EXECUTE 'GRANT standard TO ' || user;
+        EXECUTE 'REVOKE admin FROM ' || user;
+      END;
+    END;
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.update_user_role IS
+'Function used to automatically create a role for a user.';
