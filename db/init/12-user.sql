@@ -32,7 +32,7 @@ RETURNS TRIGGER AS $$
 DECLARE
     user_role TEXT := 'user_' || NEW.id;
 BEGIN
-    EXECUTE 'CREATE USER ' || user_role || ' WITH PASSWORD ''' || user_role || '''';
+    EXECUTE 'CREATE USER ' || user_role;
 
     IF NEW.flag_admin THEN
       EXECUTE 'GRANT admin TO ' || user_role;
