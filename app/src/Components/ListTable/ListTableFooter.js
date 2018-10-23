@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setPage, setRowsPerPage } from './../../actions/listTable';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -106,9 +104,9 @@ class ListTableFooter extends React.Component {
       <TableRow>
         <TablePagination
           colSpan={3}
-          count={this.props.rowTotal}
-          rowsPerPage={this.props.rowsPerPage}
-          page={this.props.page}
+          count={this.props.params.rowTotal}
+          rowsPerPage={this.props.params.rowsPerPage}
+          page={this.props.params.page}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={(event) => this.handleChangeRowsPerPage(event)}
           ActionsComponent={TablePaginationActionsWrapped}
@@ -118,26 +116,13 @@ class ListTableFooter extends React.Component {
   }
 
   handleChangePage(page) {
-    this.props.setPage(page);
+    this.props.params.setPage(page);
   };
 
   handleChangeRowsPerPage(event) {
-    this.props.setRowsPerPage(event.target.value);
+    this.props.params.setRowsPerPage(event.target.value);
   };
 
 }
 
-
-
-const mapStateToProps = (state) => ({
-  'page': state.page,
-  'rowsPerPage': state.rowsPerPage,
-  'rowTotal': state.rowTotal
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  'setPage': (page) => dispatch(setPage(page)),
-  'setRowsPerPage': (rowsPerPage) => dispatch(setRowsPerPage(rowsPerPage)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListTableFooter);
+export default ListTableFooter;

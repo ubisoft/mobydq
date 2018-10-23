@@ -36,7 +36,7 @@ class ListTable extends React.Component {
       <Table>
         <ListTableHeader headerNames={headerNames}/>
         <ListTableBody buttons={this.props.buttons} content={content} contentColumnList={headerNames}/>
-        <ListTableFooter/>
+        <ListTableFooter params={this.props.footerParams}/>
       </Table>
     );
   }

@@ -2,9 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 
-import { connect } from 'react-redux';
-import { setPage, setRowsPerPage, setRowTotal } from './../../actions/listTable';
-
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -27,6 +24,10 @@ class ListTableRowButtons extends React.Component {
     return (<ListTableCell contents={this.props.buttons.map((button) => this._createButton(button))}/>);
   }
 
+  _setProps() {
+
+  }
+
   _createButton(button, value, rowsPerPage, page) {
     const recordId = this.props.value;
     switch (button.function) {
@@ -37,21 +38,20 @@ class ListTableRowButtons extends React.Component {
           </IconButton>
         );
       case 'delete':
-        const rowsPerPage = this.props.rowsPerPage;
-
-        let offset = rowsPerPage * this.props.page;
-
-        const pageNo = this.props.page;
+        let rowsPerPage = button.parameter.rowsPerPage;
+        let offset = button.parameter.rowsPerPage * button.parameter.page;
+        let page = button.parameter.page;
+        let rowTotal = button.parameter.rowTotal;
         return (
           <Mutation
             key={`delete_${recordId}`}
-            mutation={button.parameter.delete()}
+            mutation={button.parameter.repository.delete()}
             variables={{ 'id': recordId }}
-            refetchQueries={[{ 'query': button.parameter.getListPage(), variables: { first: rowsPerPage, offset: rowsPerPage * pageNo }}]}
+            refetchQueries={[{ 'query': button.parameter.repository.getListPage(), variables: { first: rowsPerPage, offset: rowsPerPage * page }}]}
             onCompleted={() => {
               //if deleting a row would make the page empty, jump to the previous row
-              if (rowsPerPage * this.props.page === this.props.rowTotal - 1 && this.props.page > 0) {
-                this.props.setPage(this.props.page - 1);
+              if (rowsPerPage * page === rowTotal - 1 && page > 0) {
+                button.parameter.setPage(page - 1);
               }
             }}
           >
@@ -79,17 +79,4 @@ class ListTableRowButtons extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  'page': state.page,
-  'rowsPerPage': state.rowsPerPage,
-  'rowTotal': state.rowTotal
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  'setPage': (page) => dispatch(setPage(page)),
-  'setRowsPerPage': (rowsPerPage) => dispatch(setRowsPerPage(rowsPerPage)),
-  'setRowTotal': (rowTotal) => dispatch(setRowTotal(rowTotal))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListTableRowButtons);
-
+export default ListTableRowButtons;

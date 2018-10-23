@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { sidebarIsOpen } from './sidebar';
-import { page, rowsPerPage, rowTotal } from './listTable'
+import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal } from './indicatorGroupList'
 
 export default combineReducers({
   sidebarIsOpen,
-  page,
-  rowsPerPage,
-  rowTotal
+  indicatorGroupPage,
+  indicatorGroupRowsPerPage,
+  indicatorGroupRowTotal
 });
