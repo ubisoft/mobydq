@@ -82,6 +82,7 @@ class TestDb(unittest.TestCase):
 
     def test_trigger_delete_role(self):
         """Unit tests for trigger function delete_role."""
+        # TODO
         pass
 
     def test_function_execute_batch(self):
@@ -226,6 +227,7 @@ class TestDb(unittest.TestCase):
 
     def test_trigger_update_user_role(self):
         """Unit tests for trigger function to update a user role."""
+        # TODO
         pass
 
     def test_trigger_create_user_group_role(self):
@@ -249,10 +251,12 @@ class TestDb(unittest.TestCase):
 
     def test_trigger_grant_user_group_role(self):
         """Unit tests for trigger to grant a user group role."""
+        # TODO
         pass
 
     def test_trigger_revoke_user_group_role(self):
         """Unit tests for trigger to revoke a user group role."""
+        # TODO
         pass
 
     @classmethod
