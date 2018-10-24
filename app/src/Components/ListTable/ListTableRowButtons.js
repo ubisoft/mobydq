@@ -27,16 +27,15 @@ class ListTableRowButtons extends React.Component {
     const recordId = this.props.value;
 
     switch (button.function) {
-    case 'edit':
+    case 'edit': {
       return (
         <IconButton key={`edit_${recordId}`} component={Link} to={`${button.parameter}/edit/${recordId}`} color="primary">
           <EditIcon/>
         </IconButton>
       );
-    case 'delete':
-      const rowsPerPage = button.parameter.rowsPerPage;
-      const page = button.parameter.page;
-      const rowTotal = button.parameter.rowTotal;
+    }
+    case 'delete': {
+      const { rowsPerPage, page, rowTotal } = button.parameter;
       return (
         <Mutation
           key={`delete_${recordId}`}
@@ -67,6 +66,7 @@ class ListTableRowButtons extends React.Component {
           }}
         </Mutation>
       );
+    }
     default:
       return <React.Fragment key={`none_${recordId}`} />;
     }
