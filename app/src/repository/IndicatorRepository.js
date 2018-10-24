@@ -3,8 +3,9 @@ import gql from 'graphql-tag';
 class IndicatorRepository {
   static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
     return gql`
-      {
-        allIndicators {
+      query indicatorRange($first: Int!, $offset: Int!) {
+        allIndicators(first: $first, offset: $offset) {
+          totalCount
           nodes {
             id
             name
