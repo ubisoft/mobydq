@@ -4,7 +4,7 @@ import { shallowWrap, mountWrap } from './../../setupTests';
 
 import { MemoryRouter } from 'react-router-dom';
 
-import { ListTableRowButtons } from './../../Components/ListTable/ListTableRowButtons';
+import ListTableRowButtons from './../../Components/ListTable/ListTableRowButtons';
 
 describe('ListTableRowButtons unit test', () => {
   let wrapper;

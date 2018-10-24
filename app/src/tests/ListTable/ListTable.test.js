@@ -10,8 +10,15 @@ describe('List Table unit test', () => {
     { 'id': 1, 'name': 'mock name', 'trueField': true, 'falseField': false, '__typename': 'Mock Type' },
     { 'id': 2, 'name': 'mock name 2', 'trueField': false, 'falseField': false, '__typename': 'Mock Type' }
   ];
+  const footerParam = {
+      page: 1,
+      rowTotal: 2,
+      rowsPerPage: 10,
+      setPage: jest.fn(),
+      setRowsPerPage: jest.fn()
+    };
   beforeEach(() => {
-    wrapper = shallowWrap(<ListTable buttons={buttons} data={data} />);
+    wrapper = shallowWrap(<ListTable buttons={buttons} data={data} footerParams={footerParam}/>);
   });
 
   it('renders', () => {
@@ -31,12 +38,19 @@ describe('ListTable functional test', () => {
       { 'id': 1, 'name': 'mock name', 'trueField': true, 'falseField': false, '__typename': 'Mock Type' },
       { 'id': 2, 'name': 'mock name 2', 'trueField': false, 'falseField': false, '__typename': 'Mock Type' }
     ];
-    const wrapper = mountWrap(<ListTable buttons={buttons} data={data}/>);
+    const footerParam = {
+      page: 1,
+      rowTotal: 2,
+      rowsPerPage: 10,
+      setPage: jest.fn(),
+      setRowsPerPage: jest.fn()
+    };
+    const wrapper = mountWrap(<ListTable buttons={buttons} data={data} footerParams={footerParam}/>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
     expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
     expect(wrapper.find('EditIcon').exists()).toBe(true);
-    expect(wrapper.find('tr')).toHaveLength(3);
-    expect(wrapper.find('td')).toHaveLength(10);
+    expect(wrapper.find('tr')).toHaveLength(4);
+    expect(wrapper.find('td')).toHaveLength(11);
     expect(wrapper.find('th')).toHaveLength(5);
     expect(wrapper.find('th').at(0)
       .text()).toEqual('Id');

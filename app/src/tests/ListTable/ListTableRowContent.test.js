@@ -42,7 +42,7 @@ describe('ListTableRowContent functional test', () => {
     expect(wrapper.find('td')).toHaveLength(0);
     expect(wrapper.text()).toEqual('');
   });
-  it('renders empty row correctly with no data and provided headers    ', () => {
+  it('renders empty row correctly with no data and provided headers', () => {
     const rowData = {};
     const rowColumns = ['id', 'name', 'trueField', 'falseField'];
     const wrapper = mount(<table><tbody><tr><ListTableRowContent rowData={rowData} rowColumns={rowColumns} /></tr></tbody></table>);

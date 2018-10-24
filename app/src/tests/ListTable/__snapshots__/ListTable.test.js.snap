@@ -30,6 +30,15 @@ ShallowWrapper {
         },
       ]
     }
+    footerParams={
+      Object {
+        "page": 1,
+        "rowTotal": 2,
+        "rowsPerPage": 10,
+        "setPage": [MockFunction],
+        "setRowsPerPage": [MockFunction],
+      }
+    }
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -83,6 +92,13 @@ ShallowWrapper {
           "trueField": false,
         },
       ],
+      "footerParams": Object {
+        "page": 1,
+        "rowTotal": 2,
+        "rowsPerPage": 10,
+        "setPage": [MockFunction],
+        "setRowsPerPage": [MockFunction],
+      },
     },
     "ref": null,
     "rendered": null,
@@ -133,6 +149,13 @@ ShallowWrapper {
             "trueField": false,
           },
         ],
+        "footerParams": Object {
+          "page": 1,
+          "rowTotal": 2,
+          "rowsPerPage": 10,
+          "setPage": [MockFunction],
+          "setRowsPerPage": [MockFunction],
+        },
       },
       "ref": null,
       "rendered": null,
