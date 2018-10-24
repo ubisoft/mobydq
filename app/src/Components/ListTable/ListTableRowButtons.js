@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 
-
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -18,48 +17,60 @@ import { ListTableCell } from './ListTableCell';
  *
  * Calls a Button component to render each button
  */
-export const ListTableRowButtons = ({ buttons, value }) => <ListTableCell
-  contents={
-    buttons.map((button) => _createButton(button, value)
-      , value)
-  }
-/>;
 
-function _createButton(button, value) {
-  switch (button.function) {
-  case 'edit':
-    return (
-      <IconButton key={`edit_${value}`} component={Link} to={`${button.parameter}/edit/${value}`} color="primary">
-        <EditIcon/>
-      </IconButton>
-    );
-  case 'delete':
-    return (
-      <Mutation
-        key={`delete_${value}`}
-        mutation={button.parameter.delete()}
-        variables={{ 'id': value }}
-        refetchQueries={[{ 'query': button.parameter.getListPage() }]}
-      >
-        { (deleteFunc, { loading, error }) => {
-          if (loading) {
-            return <p>Loading...</p>;
-          }
-          if (error) {
-            return <p>Error...</p>;
-          }
-          return (
-            <IconButton key={`delete_${value}`} onClick={() => {
-              deleteFunc();
-            }} color="primary">
-              <DeleteIcon/>
-            </IconButton>
-          );
-        }
-        }
-      </Mutation>
-    );
-  default:
-    return <React.Fragment key={`none_${value}`} />;
+class ListTableRowButtons extends React.Component {
+  render() {
+    return <ListTableCell contents={this.props.buttons.map((button) => this._createButton(button))}/>;
+  }
+
+  _createButton(button) {
+    const recordId = this.props.value;
+
+    switch (button.function) {
+    case 'edit':
+      return (
+        <IconButton key={`edit_${recordId}`} component={Link} to={`${button.parameter}/edit/${recordId}`} color="primary">
+          <EditIcon/>
+        </IconButton>
+      );
+    case 'delete':
+      const rowsPerPage = button.parameter.rowsPerPage;
+      const page = button.parameter.page;
+      const rowTotal = button.parameter.rowTotal;
+      return (
+        <Mutation
+          key={`delete_${recordId}`}
+          mutation={button.parameter.repository.delete()}
+          variables={{ 'id': recordId }}
+          refetchQueries={[{ 'query': button.parameter.repository.getListPage(), 'variables': { 'first': rowsPerPage, 'offset': rowsPerPage * page } }]}
+          onCompleted={() => {
+            // If deleting a row would make the page empty, jump to the previous row
+            if (rowsPerPage * page === rowTotal - 1 && page > 0) {
+              button.parameter.setPage(page - 1);
+            }
+          }}
+        >
+          { (deleteFunc, { loading, error }) => {
+            if (loading) {
+              return <p>Loading...</p>;
+            }
+            if (error) {
+              return <p>Error...</p>;
+            }
+            return (
+              <IconButton key={`delete_${recordId}`} onClick={() => {
+                deleteFunc();
+              }} color="primary">
+                <DeleteIcon/>
+              </IconButton>
+            );
+          }}
+        </Mutation>
+      );
+    default:
+      return <React.Fragment key={`none_${recordId}`} />;
+    }
   }
 }
+
+export default ListTableRowButtons;
