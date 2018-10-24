@@ -19,62 +19,56 @@ import { ListTableCell } from './ListTableCell';
  */
 
 class ListTableRowButtons extends React.Component {
-
   render() {
-    return (<ListTableCell contents={this.props.buttons.map((button) => this._createButton(button))}/>);
+    return <ListTableCell contents={this.props.buttons.map((button) => this._createButton(button))}/>;
   }
 
-  _setProps() {
-
-  }
-
-  _createButton(button, value, rowsPerPage, page) {
+  _createButton(button) {
     const recordId = this.props.value;
+
     switch (button.function) {
-      case 'edit':
-        return (
-          <IconButton key={`edit_${recordId}`} component={Link} to={`${button.parameter}/edit/${recordId}`} color="primary">
-            <EditIcon/>
-          </IconButton>
-        );
-      case 'delete':
-        let rowsPerPage = button.parameter.rowsPerPage;
-        let offset = button.parameter.rowsPerPage * button.parameter.page;
-        let page = button.parameter.page;
-        let rowTotal = button.parameter.rowTotal;
-        return (
-          <Mutation
-            key={`delete_${recordId}`}
-            mutation={button.parameter.repository.delete()}
-            variables={{ 'id': recordId }}
-            refetchQueries={[{ 'query': button.parameter.repository.getListPage(), variables: { first: rowsPerPage, offset: rowsPerPage * page }}]}
-            onCompleted={() => {
-              //if deleting a row would make the page empty, jump to the previous row
-              if (rowsPerPage * page === rowTotal - 1 && page > 0) {
-                button.parameter.setPage(page - 1);
-              }
-            }}
-          >
-            { (deleteFunc, { loading, error }) => {
-              if (loading) {
-                return <p>Loading...</p>;
-              }
-              if (error) {
-                return <p>Error...</p>;
-              }
-              return (
-                <IconButton key={`delete_${recordId}`} onClick={() => {
-                  deleteFunc();
-                }} color="primary">
-                  <DeleteIcon/>
-                </IconButton>
-              );
+    case 'edit':
+      return (
+        <IconButton key={`edit_${recordId}`} component={Link} to={`${button.parameter}/edit/${recordId}`} color="primary">
+          <EditIcon/>
+        </IconButton>
+      );
+    case 'delete':
+      const rowsPerPage = button.parameter.rowsPerPage;
+      const page = button.parameter.page;
+      const rowTotal = button.parameter.rowTotal;
+      return (
+        <Mutation
+          key={`delete_${recordId}`}
+          mutation={button.parameter.repository.delete()}
+          variables={{ 'id': recordId }}
+          refetchQueries={[{ 'query': button.parameter.repository.getListPage(), 'variables': { 'first': rowsPerPage, 'offset': rowsPerPage * page } }]}
+          onCompleted={() => {
+            // If deleting a row would make the page empty, jump to the previous row
+            if (rowsPerPage * page === rowTotal - 1 && page > 0) {
+              button.parameter.setPage(page - 1);
             }
+          }}
+        >
+          { (deleteFunc, { loading, error }) => {
+            if (loading) {
+              return <p>Loading...</p>;
             }
-          </Mutation>
-        );
-      default:
-        return <React.Fragment key={`none_${recordId}`} />;
+            if (error) {
+              return <p>Error...</p>;
+            }
+            return (
+              <IconButton key={`delete_${recordId}`} onClick={() => {
+                deleteFunc();
+              }} color="primary">
+                <DeleteIcon/>
+              </IconButton>
+            );
+          }}
+        </Mutation>
+      );
+    default:
+      return <React.Fragment key={`none_${recordId}`} />;
     }
   }
 }

@@ -3,27 +3,31 @@ import { Query, Mutation } from 'react-apollo';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history, initialFieldValues}) => (
+export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history, initialFieldValues }) => (
   <Query query={ComponentRepository.getFormDropdownData()}>
     {({ loading, error, data }) => {
-      let queryLoading = loading;
-      let queryError = error;
-      let queryData = data;
+      const queryLoading = loading;
+      const queryError = error;
+      const queryData = data;
       if (ComponentRepository.insert === undefined || ComponentRepository.getFormDropdownData === undefined) {
-        throw new TypeError('Repository must implement insert and getFormDropdownData functions.')
+        throw new TypeError('Repository must implement insert and getFormDropdownData functions.');
       }
-      let mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
-      let recordId = initialFieldValues !== null ? initialFieldValues.id : null;
-      if (queryLoading) return <p>Loading...</p>;
-      if (queryError) return <p>Error :(</p>;
+      const mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
+      const recordId = initialFieldValues === null ? null : initialFieldValues.id;
+      if (queryLoading) {
+        return <p>Loading...</p>;
+      }
+      if (queryError) {
+        return <p>Error :(</p>;
+      }
       return (
-        <Mutation mutation={mutation} onCompleted={() => { history.push(afterSaveRoute) }}>
+        <Mutation mutation={mutation} onCompleted={() => { history.push(afterSaveRoute); }}>
           {(mutate, { loading, error }) => (
             <React.Fragment>
-              <div style={{float: 'right', visibility: initialFieldValues !== null ? 'visible' : 'hidden'}}>
+              <div style={{ 'float': 'right', 'visibility': initialFieldValues === null ? 'hidden' : 'visible' }}>
                 {_deleteMutation(ComponentRepository, recordId, history, afterSaveRoute)}
               </div>
-              <div style={{ marginLeft: '60px' }}>{title}</div>
+              <div style={{ 'marginLeft': '60px' }}>{title}</div>
               <FormComponent
                 data={queryData}
                 mutate={mutate}
@@ -45,21 +49,24 @@ function _deleteMutation(ComponentRepository, idToDelete, history, afterSaveRout
   return (
     <Mutation
       mutation={ComponentRepository.delete()}
-      variables={{id: idToDelete}}
-      onCompleted={() => { history.push(afterSaveRoute) }}
+      variables={{ 'id': idToDelete }}
+      onCompleted={() => { history.push(afterSaveRoute); }}
     >
       { (deleteFunc, { loading, error }) => {
-        let deleteMutationLoading = loading;
-        let deleteMutationError = error;
-        if (deleteMutationLoading) return (<p>Loading...</p>);
-        if (deleteMutationError) return (<p>Error...</p>);
-        return(
-          <IconButton onClick={() => {deleteFunc()}} color="primary">
+        const deleteMutationLoading = loading;
+        const deleteMutationError = error;
+        if (deleteMutationLoading) {
+          return <p>Loading...</p>;
+        }
+        if (deleteMutationError) {
+          return <p>Error...</p>;
+        }
+        return (
+          <IconButton onClick={() => { deleteFunc(); }} color="primary">
             <DeleteIcon/>
           </IconButton>
-          )
-        }
-      }
+        );
+      }}
     </Mutation>
-  )
+  );
 }

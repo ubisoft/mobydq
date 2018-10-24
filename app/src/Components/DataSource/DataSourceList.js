@@ -14,7 +14,7 @@ class DataSourceList extends React.Component {
     return (
       <Query
         query={DataSourceRepository.getListPage()}
-        variables={{ first: this.props.dataSourceRowsPerPage, offset: this.props.dataSourcePage * this.props.dataSourceRowsPerPage}}
+        variables={{ 'first': this.props.dataSourceRowsPerPage, 'offset': this.props.dataSourcePage * this.props.dataSourceRowsPerPage }}
         fetchPolicy={this.props.refetch ? 'cache-and-network' : 'cache-first'}
       >
         {({ loading, error, data }) => {
@@ -24,7 +24,7 @@ class DataSourceList extends React.Component {
           if (error) {
             return <p>Error ...</p>;
           }
-          this.props.setDataSourceRowTotal(data.allDataSources.totalCount)
+          this.props.setDataSourceRowTotal(data.allDataSources.totalCount);
           return (
             <div>
               <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
@@ -36,8 +36,10 @@ class DataSourceList extends React.Component {
               </div>
               <ListTable
                 data={data.allDataSources.nodes}
-                buttons={[{ 'function': 'edit', 'parameter': '/data-source' },
-                          { 'function': 'delete', 'parameter': this._buildDeleteParam() }]}
+                buttons={[
+                  { 'function': 'edit', 'parameter': '/data-source' },
+                  { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+                ]}
                 footerParams={this._buildFooterParam()}
               />
             </div>
@@ -48,25 +50,23 @@ class DataSourceList extends React.Component {
   }
 
   _buildDeleteParam() {
-    let deleteButtonParam = {
-      page: this.props.dataSourcePage,
-      rowTotal: this.props.dataSourceRowTotal,
-      rowsPerPage: this.props.dataSourceRowsPerPage,
-      setPage: this.props.setDataSourcePage,
-      repository: DataSourceRepository
+    return {
+      'page': this.props.dataSourcePage,
+      'rowTotal': this.props.dataSourceRowTotal,
+      'rowsPerPage': this.props.dataSourceRowsPerPage,
+      'setPage': this.props.setDataSourcePage,
+      'repository': DataSourceRepository
     };
-    return deleteButtonParam;
   }
 
   _buildFooterParam() {
-    let footerParam = {
-      page: this.props.dataSourcePage,
-      rowTotal: this.props.dataSourceRowTotal,
-      rowsPerPage: this.props.dataSourceRowsPerPage,
-      setPage: this.props.setDataSourcePage,
-      setRowsPerPage: this.props.setDataSourceRowsPerPage
+    return {
+      'page': this.props.dataSourcePage,
+      'rowTotal': this.props.dataSourceRowTotal,
+      'rowsPerPage': this.props.dataSourceRowsPerPage,
+      'setPage': this.props.setDataSourcePage,
+      'setRowsPerPage': this.props.setDataSourceRowsPerPage
     };
-    return footerParam;
   }
 }
 

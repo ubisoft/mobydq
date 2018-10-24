@@ -14,7 +14,7 @@ class IndicatorGroupList extends React.Component {
     return (
       <Query
         query={IndicatorGroupRepository.getListPage()}
-        variables={{ first: this.props.indicatorGroupRowsPerPage, offset: this.props.indicatorGroupPage * this.props.indicatorGroupRowsPerPage}}
+        variables={{ 'first': this.props.indicatorGroupRowsPerPage, 'offset': this.props.indicatorGroupPage * this.props.indicatorGroupRowsPerPage }}
         fetchPolicy={this.props.refetch ? 'cache-and-network' : 'cache-first'}
       >
         {({ loading, error, data }) => {
@@ -24,7 +24,7 @@ class IndicatorGroupList extends React.Component {
           if (error) {
             return <p>Error ...</p>;
           }
-          this.props.setIndicatorGroupRowTotal(data.allIndicatorGroups.totalCount)
+          this.props.setIndicatorGroupRowTotal(data.allIndicatorGroups.totalCount);
           return (
             <div>
               <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
@@ -36,8 +36,10 @@ class IndicatorGroupList extends React.Component {
               </div>
               <ListTable
                 data={data.allIndicatorGroups.nodes}
-                buttons={[{ 'function': 'edit', 'parameter': '/indicator-group' },
-                          { 'function': 'delete', 'parameter': this._buildDeleteParam() }]}
+                buttons={[
+                  { 'function': 'edit', 'parameter': '/indicator-group' },
+                  { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+                ]}
                 footerParams={this._buildFooterParam()}
               />
             </div>
@@ -48,25 +50,23 @@ class IndicatorGroupList extends React.Component {
   }
 
   _buildDeleteParam() {
-    let deleteButtonParam = {
-      page: this.props.indicatorGroupPage,
-      rowTotal: this.props.indicatorGroupRowTotal,
-      rowsPerPage: this.props.indicatorGroupRowsPerPage,
-      setPage: this.props.setIndicatorGroupPage,
-      repository: IndicatorGroupRepository
+    return {
+      'page': this.props.indicatorGroupPage,
+      'rowTotal': this.props.indicatorGroupRowTotal,
+      'rowsPerPage': this.props.indicatorGroupRowsPerPage,
+      'setPage': this.props.setIndicatorGroupPage,
+      'repository': IndicatorGroupRepository
     };
-    return deleteButtonParam;
   }
 
   _buildFooterParam() {
-    let footerParam = {
-      page: this.props.indicatorGroupPage,
-      rowTotal: this.props.indicatorGroupRowTotal,
-      rowsPerPage: this.props.indicatorGroupRowsPerPage,
-      setPage: this.props.setIndicatorGroupPage,
-      setRowsPerPage: this.props.setIndicatorGroupRowsPerPage
+    return {
+      'page': this.props.indicatorGroupPage,
+      'rowTotal': this.props.indicatorGroupRowTotal,
+      'rowsPerPage': this.props.indicatorGroupRowsPerPage,
+      'setPage': this.props.setIndicatorGroupPage,
+      'setRowsPerPage': this.props.setIndicatorGroupRowsPerPage
     };
-    return footerParam;
   }
 }
 
