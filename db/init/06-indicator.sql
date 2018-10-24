@@ -11,7 +11,9 @@ CREATE TABLE base.indicator (
   , execution_order INTEGER DEFAULT 0
   , flag_active BOOLEAN DEFAULT FALSE
   , user_group TEXT NOT NULL
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id)
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)

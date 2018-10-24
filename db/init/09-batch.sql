@@ -8,7 +8,9 @@ CREATE TABLE base.batch (
     id SERIAL PRIMARY KEY
   , status TEXT NOT NULL
   , user_group TEXT NOT NULL
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );

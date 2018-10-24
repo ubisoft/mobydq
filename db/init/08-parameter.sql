@@ -8,7 +8,9 @@ CREATE TABLE base.parameter (
     id SERIAL PRIMARY KEY
   , value TEXT NOT NULL
   , user_group TEXT NOT NULL
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id)
   , indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)

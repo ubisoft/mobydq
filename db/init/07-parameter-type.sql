@@ -8,7 +8,9 @@ CREATE TABLE base.parameter_type (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
   , description TEXT
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

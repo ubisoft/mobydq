@@ -8,6 +8,7 @@ CREATE TABLE base.user_group_user (
     id SERIAL PRIMARY KEY
   , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
   , user_id INTEGER NOT NULL REFERENCES base.user(id)
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , CONSTRAINT user_group_user_uniqueness UNIQUE (user_group_id, user_id)
 );

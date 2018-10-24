@@ -12,7 +12,9 @@ CREATE TABLE base.data_source (
   , password TEXT
   , connectivity_status TEXT
   , user_group TEXT NOT NULL
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );

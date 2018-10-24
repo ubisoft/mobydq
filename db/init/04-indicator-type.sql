@@ -10,7 +10,9 @@ CREATE TABLE base.indicator_type (
   , module TEXT NOT NULL
   , class TEXT NOT NULL
   , method TEXT NOT NULL
+  , created_by TEXT DEFAULT CURRENT_USER
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , updated_by TEXT DEFAULT CURRENT_USER
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
