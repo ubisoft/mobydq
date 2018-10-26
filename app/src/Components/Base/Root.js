@@ -14,13 +14,12 @@ function getCookieValue(key) {
 }
 
 const client = new ApolloClient({
-  'uri': `${process.env.REACT_APP_FLASK_API_URL}graphql`,
+  'uri': `${process.env.REACT_APP_FLASK_API_HOST}/mobydq/api/v1/graphql`,
   'headers': {
     'Authorization': `Bearer ${getCookieValue('token')}`
   }
   // Options: { mode: 'no-cors' }
 });
-window.apiUrl = process.env.REACT_APP_FLASK_API_URL;
 
 const Root = ({ store }) => <ApolloProvider client={client}>
   <Provider store={store}>

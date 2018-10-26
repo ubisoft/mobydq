@@ -32,12 +32,12 @@ class IndicatorList extends React.Component {
               </div>
               <div style={{ 'float': 'right' }}>
                 <LinkButton disabled={false} label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator/new'}/>
+                  variant="contained" to={'/indicator/new'} />
               </div>
               <ListTable
                 data={data.allIndicators.nodes}
                 buttons={[
-                  { 'function': 'edit', 'parameter': '/indicator-group' },
+                  { 'function': 'edit', 'parameter': '/indicator' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
                 footerParams={this._buildFooterParam()}

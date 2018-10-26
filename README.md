@@ -84,7 +84,7 @@ MAIL_SENDER=change@me.com
 # APP
 # Parameters used by app container
 NODE_ENV=development
-REACT_APP_FLASK_API_URL=http://localhost:5434/mobydq/api/v1/
+REACT_APP_FLASK_API_HOST=http://localhost:5434
 
 # OAUTH
 # Global OAuth parameters used by web app

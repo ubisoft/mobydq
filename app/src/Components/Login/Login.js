@@ -24,9 +24,9 @@ const Login = () => <React.Fragment>
         </table>
       </div>
       <div style={{ 'textAlign': 'center' }}>
-        <a style={{ 'textDecoration': 'none' }} href={`${window.apiUrl}security/oauth/google`}>
+        <a style={{ 'textDecoration': 'none' }} href={`${process.env.REACT_APP_FLASK_API_HOST}/mobydq/api/v1/security/oauth/google`}>
           <Button style={{ 'marginTop': '25%' }} variant="contained" color="secondary">
-                                Sign in with Google
+            Sign in with Google
           </Button>
         </a>
       </div>
