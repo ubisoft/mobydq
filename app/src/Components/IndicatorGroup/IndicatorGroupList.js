@@ -32,11 +32,12 @@ class IndicatorGroupList extends React.Component {
               </div>
               <div style={{ 'float': 'right' }}>
                 <LinkButton disabled={false} label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator-group/new'}/>
+                  variant="contained" to={'/indicator-group/new'} />
               </div>
               <ListTable
                 data={data.allIndicatorGroups.nodes}
                 buttons={[
+                  { 'function': 'execute', 'parameter': this._buildExecuteParam() },
                   { 'function': 'edit', 'parameter': '/indicator-group' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
@@ -47,6 +48,12 @@ class IndicatorGroupList extends React.Component {
         }}
       </Query>
     );
+  }
+
+  _buildExecuteParam() {
+    return {
+      'repository': IndicatorGroupRepository
+    };
   }
 
   _buildDeleteParam() {

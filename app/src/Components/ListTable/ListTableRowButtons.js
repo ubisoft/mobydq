@@ -2,6 +2,7 @@ import React from 'react';
 import { ListTableCell } from './ListTableCell';
 import createEditRowFunction from './ListRowButtons/EditRowButton';
 import createDeleteRowButton from './ListRowButtons/DeleteRowButton';
+import createExecuteRowButton from './ListRowButtons/ExecuteRowButton';
 
 
 /**
@@ -27,7 +28,7 @@ class ListTableRowButtons extends React.Component {
       case 'delete':
         return createDeleteRowButton(button, recordId);
       case 'execute':
-        return undefined;
+        return createExecuteRowButton(button, recordId);
       default:
         return <React.Fragment key={`none_${recordId}`} />;
     }
