@@ -7,14 +7,7 @@ class ExecuteBatch():
     def build_payload(self):
         """Method used to surcharge payload sent to GraphQL API."""
 
-        return f'''mutation executeBatch($id: Int!) {
-            executeBatch(input: { indicatorGroupId: $id }) {
-                batch {
-                    id
-                    status
-                }
-            }
-        }'''
+        return 'mutation executeBatch($id: Int!) { executeBatch(input: { indicatorGroupId: $id }) { batch {id status } } }'
 
     def execute_batch(self, response: dict):
         """Method used to run Docker container which executes batch of indicators."""

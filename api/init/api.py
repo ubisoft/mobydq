@@ -17,10 +17,10 @@ logging.basicConfig(
 
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
+CORS(app)
 
 # Get a cryptographically secure random sequence of bytes to be used as the app's secret_key
 app.secret_key = os.urandom(24)
-CORS(app)
 
 # This is required to fix swagger UI not loading issue due to https
 

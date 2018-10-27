@@ -1,7 +1,7 @@
 import sys
 from graphql.ast import Document
 # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
-import proxy.batch as batch
+from proxy import batch
 # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
 import proxy.data_source as data_source
 

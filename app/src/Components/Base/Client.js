@@ -12,5 +12,4 @@ export default new ApolloClient({
     'headers': {
         'Authorization': `Bearer ${getCookieValue('token')}`
     }
-    // Options: { mode: 'no-cors' }
 });
