@@ -6,10 +6,24 @@
 /*Create standard user role*/
 CREATE ROLE standard;
 GRANT USAGE ON SCHEMA base TO standard;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.data_source TO standard;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_group TO standard;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator TO standard;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter TO standard;
+
+/*Prevent standard user role to access data source password by enforcing grant on selected columns*/
+GRANT SELECT (
+    id
+  , name
+  , connection_string
+  , login
+  , connectivity_status
+  , user_group
+  , created_by_id
+  , created_date
+  , updated_by_id
+  , updated_date
+  , data_source_type_id
+) ON base.data_source TO standard;
 
 
 

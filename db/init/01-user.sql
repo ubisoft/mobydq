@@ -49,8 +49,8 @@ base.update_updated_date();
 
 
 /*Create default user*/
-INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date) VALUES
-(0, 'postgres', 'DATABASE', 'not_used', '2999-12-31');
+INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date, flag_admin) VALUES
+(0, 'postgres', 'DATABASE', 'not_used', '2999-12-31', true);
 
 
 
