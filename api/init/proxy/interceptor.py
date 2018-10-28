@@ -3,7 +3,7 @@ from graphql.ast import Document
 # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
 from proxy import batch
 # Called dynamically with getattr pylint: disable=W0611, useless-import-alias
-import proxy.data_source as data_source
+from proxy import data_source
 
 
 class Interceptor():
