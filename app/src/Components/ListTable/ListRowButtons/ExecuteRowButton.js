@@ -1,23 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Snackbar from '@material-ui/core/Snackbar';
+import { setIndicatorGroupCurrentBatchId, setIndicatorGroupOpen, setIndicatorGroupMessage } from '../../../actions/indicatorGroupList';
 
 
 class ExecuteRowButton extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            'open': false
-        };
-    }
-
-    handleSnackbarClose = () => this.setState({ 'open': false });
 
     execute = (func) => {
         func();
-        this.setState({ 'open': true });
+        this.props.setOpen(true);
     }
 
     render() {
@@ -36,11 +30,9 @@ class ExecuteRowButton extends React.Component {
 
                 if (called && data) {
                     const responseData = data['executeBatch']['batch'];
-                    if (responseData.id !== this.state.currentBatchId) {
-                        this.setState({
-                            'message': `Batch ${responseData.id}: ${responseData.status}`,
-                            'currentBatchId': responseData.id
-                        });
+                    if (responseData.id !== this.props.currentBatchId) {
+                        this.props.setMessage(`Batch ${responseData.id}: ${responseData.status}`);
+                        this.props.setCurrentBatchId(responseData.id);
                     }
                 }
 
@@ -49,28 +41,44 @@ class ExecuteRowButton extends React.Component {
                         <Snackbar
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'left',
+                                horizontal: 'left'
                             }}
-                            open={this.state.open}
+                            open={this.props.open}
                             autoHideDuration={5000}
-                            message={<span>{this.state.message}</span>}
-                            onClose={this.handleSnackbarClose}>
+                            message={<span>{this.props.message}</span>}
+                            onClose={() => this.props.setOpen(false)}>
                         </Snackbar>
                         <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="primary">
                             <PlayArrow />
                         </IconButton>
-                    </div>
-                );
+                    </div>);
             }}
         </Mutation>);
     }
 }
 
+const mapStateToProps = (state) => {
+    return ({
+        'message': state.indicatorGroupMessage,
+        'open': state.indicatorGroupOpen,
+        'currentBatchId': state.indicatorGroupCurrentBatchId
+    });
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        'setMessage': message => dispatch(setIndicatorGroupMessage(message)),
+        'setOpen': open => dispatch(setIndicatorGroupOpen(open)),
+        'setCurrentBatchId': currentBatchId => dispatch(setIndicatorGroupCurrentBatchId(currentBatchId))
+    });
+}
+
+const VisibleExecuteRowButton = connect(mapStateToProps, mapDispatchToProps)(ExecuteRowButton);
 
 export default function createExecuteRowButton(button, recordId) {
-    return <ExecuteRowButton
+    return <VisibleExecuteRowButton
         key={`execute_${recordId}`}
         parameter={button.parameter}
         recordId={recordId}>
-    </ExecuteRowButton>;
+    </VisibleExecuteRowButton>;
 }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { sidebarIsOpen } from './sidebar';
 import { indicatorPage, indicatorRowsPerPage, indicatorRowTotal } from './indicatorList';
-import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal } from './indicatorGroupList';
+import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupCurrentBatchId, indicatorGroupOpen, indicatorGroupMessage } from './indicatorGroupList';
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal } from './dataSourceList';
 
 export default combineReducers({
@@ -14,5 +14,8 @@ export default combineReducers({
   indicatorGroupRowTotal,
   dataSourcePage,
   dataSourceRowsPerPage,
-  dataSourceRowTotal
+  dataSourceRowTotal,
+  indicatorGroupCurrentBatchId,
+  indicatorGroupOpen,
+  indicatorGroupMessage
 });
