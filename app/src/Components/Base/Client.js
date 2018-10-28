@@ -1,4 +1,5 @@
 import ApolloClient from 'apollo-boost';
+import UrlBuilder from '../Base/UrlBuilder';
 
 
 // TODO Re-use with PrivateRoute.js
@@ -7,8 +8,10 @@ function getCookieValue(key) {
     return valueMatch ? valueMatch.pop() : '';
 }
 
+const graphqlUrl = UrlBuilder.getDefault().graphQl();
+
 export default new ApolloClient({
-    'uri': `${process.env.REACT_APP_FLASK_API_HOST}/mobydq/api/v1/graphql`,
+    'uri': graphqlUrl,
     'headers': {
         'Authorization': `Bearer ${getCookieValue('token')}`
     }
