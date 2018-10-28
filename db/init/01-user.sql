@@ -29,7 +29,7 @@ CREATE TABLE base.user (
   , email TEXT NOT NULL UNIQUE
   , oauth_type TEXT NOT NULL
   , access_token TEXT NOT NULL
-  , refresh_token INTEGER
+  , refresh_token TEXT
   , expiry_date TIMESTAMP NOT NULL
   , flag_admin BOOLEAN DEFAULT FALSE
   , flag_active BOOLEAN DEFAULT TRUE
