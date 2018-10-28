@@ -262,6 +262,44 @@ class TestDb(unittest.TestCase):
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], user_group)
 
+    def test_trigger_revoke_user_group(self):
+        """Unit tests for trigger function revoke_user_group."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31') RETURNING id;'''
+        cursor = self.connection.execute(insert_user_query)
+        self.connection.commit()
+        user_id = cursor.fetchone()[0]
+        user = f'user_{user_id}'
+
+        # Insert user group
+        new_test_case_name = get_test_case_name()
+        insert_user_group_query = f'''INSERT INTO base.user_group (name) VALUES ('{new_test_case_name}') RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_query)
+        self.connection.commit()
+        user_group_id = cursor.fetchone()[0]
+        user_group = f'user_group_{user_group_id}'
+
+        # Insert user group user
+        insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_user_query)
+        self.connection.commit()
+        user_group_user_id = cursor.fetchone()[0]
+
+        # Delete user group user
+        insert_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE id = {user_group_user_id};'''
+        self.connection.execute(insert_user_group_user_query)
+        self.connection.commit()
+
+        # Get user and user group
+        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_user_query)
+        row = cursor.fetchone()
+
+        # Assert user group role has been revoked
+        self.assertTrue(row is None)
+
     def test_trigger_update_updated_by_id(self):
         """Unit tests for trigger function update_updated_by_id."""
 
@@ -341,44 +379,6 @@ class TestDb(unittest.TestCase):
         # Assert user was created and standard role granted
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], 'admin')
-
-    def test_trigger_revoke_user_group(self):
-        """Unit tests for trigger function revoke_user_group."""
-
-        # Insert user
-        test_case_name = get_test_case_name()
-        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31') RETURNING id;'''
-        cursor = self.connection.execute(insert_user_query)
-        self.connection.commit()
-        user_id = cursor.fetchone()[0]
-        user = f'user_{user_id}'
-
-        # Insert user group
-        new_test_case_name = get_test_case_name()
-        insert_user_group_query = f'''INSERT INTO base.user_group (name) VALUES ('{new_test_case_name}') RETURNING id;'''
-        cursor = self.connection.execute(insert_user_group_query)
-        self.connection.commit()
-        user_group_id = cursor.fetchone()[0]
-        user_group = f'user_group_{user_group_id}'
-
-        # Insert user group user
-        insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
-        cursor = self.connection.execute(insert_user_group_user_query)
-        self.connection.commit()
-        user_group_user_id = cursor.fetchone()[0]
-
-        # Delete user group user
-        insert_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE id = {user_group_user_id};'''
-        self.connection.execute(insert_user_group_user_query)
-        self.connection.commit()
-
-        # Get user and user group
-        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
-        row = cursor.fetchone()
-
-        # Assert user group role has been revoked
-        self.assertTrue(row is None)
 
     @classmethod
     def tearDownClass(cls):
