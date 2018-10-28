@@ -12,9 +12,9 @@ CREATE TABLE base.data_source (
   , password TEXT
   , connectivity_status TEXT
   , user_group TEXT NOT NULL
-  , created_by TEXT DEFAULT CURRENT_USER
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by TEXT DEFAULT CURRENT_USER
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );
@@ -22,9 +22,13 @@ CREATE TABLE base.data_source (
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
-CREATE TRIGGER data_source_updated_date BEFORE UPDATE
+CREATE TRIGGER data_source_update_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
-base.update_updated_date_column();
+base.update_updated_date();
+
+CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_by_id();
 
 
 

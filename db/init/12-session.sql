@@ -8,9 +8,9 @@ CREATE TABLE base.session (
     id SERIAL PRIMARY KEY
   , status TEXT NOT NULL
   , user_group TEXT NOT NULL
-  , created_by TEXT DEFAULT CURRENT_USER
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by TEXT DEFAULT CURRENT_USER
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , batch_id INTEGER NOT NULL REFERENCES base.batch(id)
   , indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
@@ -19,9 +19,13 @@ CREATE TABLE base.session (
 COMMENT ON TABLE base.session IS
 'Sessions record the execution of indicators within a batch.';
 
-CREATE TRIGGER session_updated_date BEFORE UPDATE
+CREATE TRIGGER session_update_updated_date BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
-base.update_updated_date_column();
+base.update_updated_date();
+
+CREATE TRIGGER session_update_updated_by_id BEFORE UPDATE
+ON base.session FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_by_id();
 
 CREATE TRIGGER session_delete_session_result BEFORE DELETE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE

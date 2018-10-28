@@ -11,9 +11,9 @@ CREATE TABLE base.indicator (
   , execution_order INTEGER DEFAULT 0
   , flag_active BOOLEAN DEFAULT FALSE
   , user_group TEXT NOT NULL
-  , created_by TEXT DEFAULT CURRENT_USER
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by TEXT DEFAULT CURRENT_USER
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id)
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
@@ -22,9 +22,13 @@ CREATE TABLE base.indicator (
 COMMENT ON TABLE base.indicator IS
 'Indicators compute data sets on one or several data sources in order to evaluate the quality of their data.';
 
-CREATE TRIGGER indicator_updated_date BEFORE UPDATE
+CREATE TRIGGER indicator_update_updated_date BEFORE UPDATE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
-base.update_updated_date_column();
+base.update_updated_date();
+
+CREATE TRIGGER indicator_update_updated_by_id BEFORE UPDATE
+ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_by_id();
 
 CREATE TRIGGER indicator_delete_parameter BEFORE DELETE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE

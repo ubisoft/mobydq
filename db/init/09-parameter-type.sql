@@ -8,18 +8,22 @@ CREATE TABLE base.parameter_type (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
   , description TEXT
-  , created_by TEXT DEFAULT CURRENT_USER
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by TEXT DEFAULT CURRENT_USER
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE base.parameter_type IS
 'Parameter types determine which types of parameters can be used to compute indicators.';
 
-CREATE TRIGGER parameter_type_updated_date BEFORE UPDATE
+CREATE TRIGGER parameter_type_update_updated_date BEFORE UPDATE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
-base.update_updated_date_column();
+base.update_updated_date();
+
+CREATE TRIGGER parameter_type_update_updated_by_id BEFORE UPDATE
+ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
+base.update_updated_by_id();
 
 CREATE TRIGGER parameter_type_delete_parameter BEFORE DELETE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE

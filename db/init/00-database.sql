@@ -8,7 +8,7 @@ CREATE SCHEMA base;
 
 
 /*Create function to update updated_date column*/
-CREATE OR REPLACE FUNCTION base.update_updated_date_column()
+CREATE OR REPLACE FUNCTION base.update_updated_date()
 RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_date = now();
@@ -16,7 +16,7 @@ BEGIN
 END;
 $$ language plpgsql;
 
-COMMENT ON FUNCTION base.update_updated_date_column IS
+COMMENT ON FUNCTION base.update_updated_date IS
 'Function used to automatically update the updated_date column in tables.';
 
 
