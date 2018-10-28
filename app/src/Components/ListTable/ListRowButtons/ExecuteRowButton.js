@@ -29,9 +29,11 @@ class ExecuteRowButton extends React.Component {
                 if (loading) {
                     return <p>Loading...</p>;
                 }
+
                 if (error) {
                     return <p>Error...</p>;
                 }
+
                 if (called && data) {
                     const responseData = data['executeBatch']['batch'];
                     if (responseData.id !== this.state.currentBatchId) {
@@ -40,8 +42,6 @@ class ExecuteRowButton extends React.Component {
                             'currentBatchId': responseData.id
                         });
                     }
-                } else if (error) {
-                    return <p>Error...</p>;
                 }
 
                 return (
