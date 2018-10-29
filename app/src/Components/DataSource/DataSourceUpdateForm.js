@@ -1,7 +1,9 @@
-import { Query } from 'react-apollo';
 import React from 'react';
 
+import { Query } from 'react-apollo';
 import DataSourceRepository from '../../repository/DataSourceRepository';
+import GraphQLError from './../Error/GraphQLError';
+
 import NotFoundComponent from '../Error/NotFoundComponent';
 import { BaseForm } from '../Base/Form';
 import EnhancedDataSourceForm from './DataSourceForm';
@@ -15,7 +17,7 @@ export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRe
       return <p>Loading...</p>;
     }
     if (error) {
-      return <p>Error :(</p>;
+      return <GraphQLError error={error}/>;
     }
     return (
       data.dataSourceById === null

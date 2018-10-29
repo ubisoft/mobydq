@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { setDataSourcePage, setDataSourceRowsPerPage, setDataSourceRowTotal } from './../../actions/dataSourceList';
 
 import { Query } from 'react-apollo';
+import GraphQLError from './../Error/GraphQLError';
+
 import DataSourceRepository from './../../repository/DataSourceRepository';
 import ListTable from '../ListTable/ListTable';
 import LinkButton from './../../Components/FormInput/LinkButton';
@@ -22,7 +24,7 @@ class DataSourceList extends React.Component {
             return <p>Loading...</p>;
           }
           if (error) {
-            return <p>Error ...</p>;
+            return <GraphQLError error={error}/>;
           }
           this.props.setDataSourceRowTotal(data.allDataSources.totalCount);
           return (

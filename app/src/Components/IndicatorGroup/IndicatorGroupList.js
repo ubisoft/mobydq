@@ -5,6 +5,7 @@ import { setIndicatorGroupPage, setIndicatorGroupRowsPerPage, setIndicatorGroupR
 
 import { Query } from 'react-apollo';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
+import GraphQLError from './../Error/GraphQLError';
 
 import ListTable from '../ListTable/ListTable';
 import LinkButton from './../../Components/FormInput/LinkButton';
@@ -22,7 +23,7 @@ class IndicatorGroupList extends React.Component {
             return <p>Loading...</p>;
           }
           if (error) {
-            return <p>Error ...</p>;
+            return <GraphQLError error={error}/>;
           }
           this.props.setIndicatorGroupRowTotal(data.allIndicatorGroups.totalCount);
           return (
