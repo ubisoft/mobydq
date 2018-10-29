@@ -1,7 +1,7 @@
 import React from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { ListTableCell } from './ListTableCell';
+import TableCell from '@material-ui/core/TableCell';
 
 /**
  * Component to build the list table header.
@@ -15,7 +15,22 @@ class ListTableHeader extends React.Component {
       header = header.match(/[A-Z][a-z]+/ug).join(' ');
     }
     return (
-      <ListTableCell key={header} contents={header} />
+      <TableCell key={header}>
+        <Tooltip
+          title="Sort"
+          placement={'bottom-start'}
+//          placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+          enterDelay={300}
+        >
+          <TableSortLabel
+            active={orderBy === fieldName}
+            direction={order}
+//            onClick={this.createSortHandler(row.id)}
+          >
+            {header}
+          </TableSortLabel>
+        </Tooltip
+      </TableCell>
     );
   }
 
@@ -37,3 +52,5 @@ class ListTableHeader extends React.Component {
 }
 
 export default ListTableHeader;
+
+
