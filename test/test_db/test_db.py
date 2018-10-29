@@ -352,7 +352,6 @@ class TestDb(unittest.TestCase):
         select_user_query = f'''SELECT * FROM base.user WHERE id = {user_id};'''
         cursor = self.connection.execute(select_user_query)
         row = cursor.fetchone()
-        print(row)
 
         # Assert created_date is older than updated_date
         self.assertLess(created_date, updated_date)
