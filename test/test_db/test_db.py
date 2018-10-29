@@ -21,6 +21,12 @@ class TestDb(unittest.TestCase):
         connection.setencoding(encoding='utf-8')
         return connection
 
+    def rollback(self):
+        """Rollback uncommitted database transactions."""
+
+        self.connection.execute('ROLLBACK;')
+        return True
+
     def create_indicator(self, test_case_name, indicator_group_id, user_group_id):
         """Create an indicator in the database and return its Id."""
 
@@ -113,6 +119,9 @@ class TestDb(unittest.TestCase):
         self.assertEqual(indiator_name, new_test_case_name)
         self.assertEqual(parameter_value, test_case_name)
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_function_execute_batch(self):
         """Unit tests for custom function execute_batch."""
 
@@ -141,6 +150,9 @@ class TestDb(unittest.TestCase):
         self.assertEqual(batch_status, 'Pending')
         self.assertEqual(session_status, 'Pending')
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_function_get_current_user_id(self):
         """Unit tests for custom function get_current_user_id."""
 
@@ -164,6 +176,9 @@ class TestDb(unittest.TestCase):
         # Reverse current role to postgres
         set_role_query = f'''SET ROLE postgres;'''
         self.connection.execute(set_role_query)
+
+        # Rollback uncommitted data
+        self.rollback()
 
     def test_function_test_data_source(self):
         """Unit tests for custom function test_data_source."""
@@ -190,6 +205,9 @@ class TestDb(unittest.TestCase):
         # Assert connectivity status is Pending
         self.assertEqual(connectivity_status, 'Pending')
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_trigger_create_user(self):
         """Unit tests for trigger function create_user."""
 
@@ -207,6 +225,9 @@ class TestDb(unittest.TestCase):
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], 'standard')
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_trigger_create_user_group(self):
         """Unit tests for trigger function create_user_group."""
 
@@ -222,6 +243,9 @@ class TestDb(unittest.TestCase):
 
         # Assert user group role was created
         self.assertEqual(row[0], user_group)
+
+        # Rollback uncommitted data
+        self.rollback()
 
     def test_trigger_delete_children(self):
         """Unit tests for trigger function delete_children."""
@@ -247,6 +271,9 @@ class TestDb(unittest.TestCase):
         # Assert user group user has been deleted
         self.assertTrue(row is None)
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_trigger_delete_user_group(self):
         """Unit tests for trigger function delete_user_group."""
 
@@ -265,6 +292,9 @@ class TestDb(unittest.TestCase):
 
         # Assert user group role has been deleted
         self.assertTrue(row is None)
+
+        # Rollback uncommitted data
+        self.rollback()
 
     def test_trigger_grant_user_group(self):
         """Unit tests for trigger function grant_user_group."""
@@ -289,6 +319,9 @@ class TestDb(unittest.TestCase):
         # Assert user was created and user group role granted
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], user_group)
+
+        # Rollback uncommitted data
+        self.rollback()
 
     def test_trigger_revoke_user_group(self):
         """Unit tests for trigger function revoke_user_group."""
@@ -317,6 +350,9 @@ class TestDb(unittest.TestCase):
         # Assert user group role has been revoked
         self.assertTrue(row is None)
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_trigger_update_updated_by_id(self):
         """Unit tests for trigger function update_updated_by_id."""
 
@@ -339,6 +375,9 @@ class TestDb(unittest.TestCase):
         set_role_query = f'''SET ROLE postgres;'''
         self.connection.execute(set_role_query)
 
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_trigger_update_updated_date(self):
         """Unit tests for trigger function update_updated_date."""
 
@@ -346,11 +385,20 @@ class TestDb(unittest.TestCase):
         test_case_name = get_test_case_name()
         user_id = self.create_user(test_case_name)
 
+        # Commit is necessary here for the test case to pass
+        # It ensure updated_date will be greater than created_date
+        self.connection.commit()
+
         # Update user
         updated_by_id, updated_date, created_date = self.update_user(user_id)
 
         # Assert created_date is older than updated_date
         self.assertLess(created_date, updated_date)
+
+        # Delete committed data
+        delete_user_query = f'''DELETE FROM base.user WHERE id = {user_id};'''
+        self.connection.execute(delete_user_query)
+        self.connection.commit()
 
     def test_trigger_update_user_permission(self):
         """Unit tests for trigger function update_user_permission."""
@@ -371,6 +419,9 @@ class TestDb(unittest.TestCase):
         # Assert user was created and standard role granted
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], 'admin')
+
+        # Rollback uncommitted data
+        self.rollback()
 
     @classmethod
     def tearDownClass(cls):
