@@ -33,10 +33,10 @@ CREATE TABLE base.user (
   , expiry_date TIMESTAMP NOT NULL
   , flag_admin BOOLEAN DEFAULT FALSE
   , flag_active BOOLEAN DEFAULT TRUE
-  , created_by_id INTEGER DEFAULT base.get_current_user_id()
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id()
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id()
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id()
 );
 
 COMMENT ON TABLE base.user IS

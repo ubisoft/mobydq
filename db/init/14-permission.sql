@@ -17,7 +17,7 @@ GRANT SELECT (
   , connection_string
   , login
   , connectivity_status
-  , user_group
+  , user_group_id
   , created_by_id
   , created_date
   , updated_by_id
@@ -43,7 +43,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON base.user_group_user TO admin;
 ALTER TABLE base.data_source ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_data_source on base.data_source
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -51,7 +51,7 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.indicator_group ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_indicator_group on base.indicator_group
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -59,7 +59,7 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.indicator ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_indicator on base.indicator
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -67,7 +67,7 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.parameter ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_parameter on base.parameter
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -75,7 +75,7 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.batch ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_batch on base.batch
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -83,7 +83,7 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.session ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_session on base.session
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 
 
@@ -91,4 +91,4 @@ TO standard USING (pg_has_role(user_group, 'MEMBER'));
 ALTER TABLE base.session_result ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_session_result on base.session_result
-TO standard USING (pg_has_role(user_group, 'MEMBER'));
+TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));

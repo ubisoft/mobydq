@@ -10,13 +10,13 @@ CREATE TABLE base.indicator (
   , description TEXT
   , execution_order INTEGER DEFAULT 0
   , flag_active BOOLEAN DEFAULT FALSE
-  , user_group TEXT NOT NULL
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id)
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
+  , indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id)
 );
 
 COMMENT ON TABLE base.indicator IS
@@ -48,15 +48,15 @@ DECLARE
     indicator base.indicator;
 BEGIN
     -- Duplicate indicator
-    INSERT INTO base.indicator (name, description, execution_order, flag_active, indicator_type_id, indicator_group_id, user_group)
-    SELECT new_indicator_name, a.description, a.execution_order, a.flag_active, a.indicator_type_id, a.indicator_group_id, a.user_group
+    INSERT INTO base.indicator (name, description, execution_order, flag_active, indicator_type_id, indicator_group_id, user_group_id)
+    SELECT new_indicator_name, a.description, a.execution_order, a.flag_active, a.indicator_type_id, a.indicator_group_id, a.user_group_id
     FROM base.indicator a
     WHERE a.id=indicator_id
     RETURNING * INTO indicator;
 
     -- Duplicate parameters
-    INSERT INTO base.parameter (value, parameter_type_id, indicator_id, user_group)
-    SELECT a.value, a.parameter_type_id, indicator.id, a.user_group
+    INSERT INTO base.parameter (value, parameter_type_id, indicator_id, user_group_id)
+    SELECT a.value, a.parameter_type_id, indicator.id, a.user_group_id
     FROM base.parameter a
     WHERE a.indicator_id=indicator_id;
 
