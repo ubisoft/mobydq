@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Query } from 'react-apollo';
 import IndicatorRepository from '../../repository/IndicatorRepository';
-import GraphQLError from './../Error/GraphQLError';
+import { GraphQLError } from './../Error/GraphQLError';
 
 import NotFoundComponent from '../Error/NotFoundComponent';
 

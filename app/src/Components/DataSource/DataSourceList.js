@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setDataSourcePage, setDataSourceRowsPerPage, setDataSourceRowTotal } from './../../actions/dataSourceList';
 
 import { Query } from 'react-apollo';
-import GraphQLError from './../Error/GraphQLError';
+import { GraphQLError } from './../Error/GraphQLError';
 
 import DataSourceRepository from './../../repository/DataSourceRepository';
 import ListTable from '../ListTable/ListTable';
@@ -33,7 +33,7 @@ class DataSourceList extends React.Component {
                 Data Sources
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton disabled={false} label="Create" type="Create" color="primary"
+                <LinkButton label="Create" type="Create" color="primary"
                   variant="contained" to={'/data-source/new'}/>
               </div>
               <ListTable
