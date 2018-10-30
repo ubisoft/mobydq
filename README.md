@@ -188,4 +188,4 @@ The containers run by `docker-compose` have dependencies with the following Dock
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
-* [requests](http://docs.python-requests.org) (2.19.1)
+* [requests](http://docs.python-requests.org) (2.20.0)
