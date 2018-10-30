@@ -1,8 +1,11 @@
-import { Query } from 'react-apollo';
 import React from 'react';
 
+import { Query } from 'react-apollo';
 import IndicatorRepository from '../../repository/IndicatorRepository';
+import { GraphQLError } from './../Error/GraphQLError';
+
 import NotFoundComponent from '../Error/NotFoundComponent';
+
 import { BaseForm } from '../Base/Form';
 import EnhancedIndicatorForm from './IndicatorForm';
 
@@ -15,7 +18,7 @@ export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepo
       return <p>Loading...</p>;
     }
     if (error) {
-      return <p>Error :(</p>;
+      return <GraphQLError error={error}/>;
     }
     return (
       data.indicatorGroupById === null
