@@ -10,10 +10,10 @@ CREATE TABLE base.indicator_type (
   , module TEXT NOT NULL
   , class TEXT NOT NULL
   , method TEXT NOT NULL
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
 );
 
 COMMENT ON TABLE base.indicator_type IS

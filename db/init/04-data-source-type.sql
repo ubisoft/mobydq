@@ -7,10 +7,10 @@
 CREATE TABLE base.data_source_type (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
 );
 
 COMMENT ON TABLE base.data_source_type IS

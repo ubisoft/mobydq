@@ -33,10 +33,10 @@ CREATE TABLE base.user (
   , expiry_date TIMESTAMP NOT NULL
   , flag_admin BOOLEAN DEFAULT FALSE
   , flag_active BOOLEAN DEFAULT TRUE
-  , created_by_id INTEGER DEFAULT base.get_current_user_id()
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id()
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id()
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id()
 );
 
 COMMENT ON TABLE base.user IS
@@ -49,8 +49,9 @@ base.update_updated_date();
 
 
 /*Create default user*/
-INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date) VALUES
-(0, 'postgres', 'DATABASE', 'not_used', '2999-12-31');
+/*Must be created before other triggers to avoid conflicts in pg_roles table*/
+INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date, flag_admin) VALUES
+(0, 'postgres', 'not_used', 'not_used', '2999-12-31', true);
 
 
 
@@ -76,13 +77,18 @@ base.update_updated_by_id();
 CREATE OR REPLACE FUNCTION base.create_user()
 RETURNS TRIGGER AS $$
 BEGIN
+    -- Create database user
     EXECUTE 'CREATE USER user_' || NEW.id;
+
     -- Grant permission
     IF NEW.flag_admin THEN
       EXECUTE 'GRANT admin TO user_' || NEW.id;
     ELSE
       EXECUTE 'GRANT standard TO user_' || NEW.id;
     END IF;
+
+    -- Assign default user group
+    INSERT INTO base.user_group_user (user_id) VALUES (NEW.id);
     RETURN NEW;
 END;
 $$ language plpgsql;

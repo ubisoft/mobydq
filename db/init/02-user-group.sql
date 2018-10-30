@@ -7,10 +7,10 @@
 CREATE TABLE base.user_group (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
 );
 
 COMMENT ON TABLE base.user_group IS
@@ -63,3 +63,8 @@ COMMENT ON FUNCTION base.delete_user_group IS
 CREATE TRIGGER user_group_delete_user_group AFTER DELETE
 ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_user_group();
+
+
+
+/*Create default user group*/
+INSERT INTO base.user_group (id, name) VALUES (0, 'Public');

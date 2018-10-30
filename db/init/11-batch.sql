@@ -7,11 +7,11 @@
 CREATE TABLE base.batch (
     id SERIAL PRIMARY KEY
   , status TEXT NOT NULL
-  , user_group TEXT NOT NULL
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , user_group_id INTEGER DEFAULT 0 REFERENCES base.user_group(id)
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
 
@@ -40,13 +40,13 @@ DECLARE
     batch base.batch;
 BEGIN
     -- Create pending batch
-    /*TODO: replace placeholder of column user_group*/
-    INSERT INTO base.batch (status, indicator_group_id, user_group)
-    VALUES ('Pending', indicator_group_id, '')
+    /*TODO: replace placeholder of column user_group_id*/
+    INSERT INTO base.batch (status, indicator_group_id, user_group_id)
+    VALUES ('Pending', indicator_group_id, 0)
     RETURNING * INTO batch;
 
     -- Create pending session for each indicator
-    /*TODO: replace placeholder of column user_group*/
+    /*TODO: replace placeholder of column user_group_id*/
     IF indicator_id IS NOT NULL THEN
         WITH indicator AS (
             SELECT a.id
@@ -55,8 +55,8 @@ BEGIN
             AND a.flag_active=true
             AND a.id=ANY(indicator_id)
             ORDER BY a.execution_order
-        ) INSERT INTO base.session (status, indicator_id, batch_id, user_group)
-        SELECT 'Pending', indicator.id, batch.id, '' FROM indicator;
+        ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
+        SELECT 'Pending', indicator.id, batch.id, 0 FROM indicator;
     ELSE
         WITH indicator AS (
             SELECT a.id
@@ -64,8 +64,8 @@ BEGIN
             WHERE a.indicator_group_id=indicator_group_id
             AND a.flag_active=true
             ORDER BY a.execution_order
-        ) INSERT INTO base.session (status, indicator_id, batch_id, user_group)
-        SELECT 'Pending', indicator.id, batch.id, '' FROM indicator;
+        ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
+        SELECT 'Pending', indicator.id, batch.id, 0 FROM indicator;
     END IF;
     -- Executions of indicators are triggered by the Flask API
     -- Return batch record
