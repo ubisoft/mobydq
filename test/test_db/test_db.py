@@ -217,7 +217,7 @@ class TestDb(unittest.TestCase):
         user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
-        # Get user and role
+        # Get user and standard role
         select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'standard' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
@@ -225,6 +225,15 @@ class TestDb(unittest.TestCase):
         # Assert user was created and standard role granted
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], 'standard')
+
+        # Get user and default user group
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_0' WHERE a.rolname = '{user}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
+
+        # Assert user was created and standard role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], 'user_group_0')
 
         # Rollback uncommitted data
         self.rollback()
