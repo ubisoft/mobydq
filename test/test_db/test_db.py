@@ -425,7 +425,7 @@ class TestDb(unittest.TestCase):
         user = f'user_{user_id}'
 
         # Update user role to admin
-        updated_by_id, updated_date, created_date = self.update_user(user_id)
+        self.update_user(user_id)
 
         # Get user and role
         select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
