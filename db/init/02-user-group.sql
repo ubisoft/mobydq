@@ -67,4 +67,4 @@ base.delete_user_group();
 
 
 /*Create default user group*/
-INSERT INTO base.user_group (id, name) VALUES (0, 'Default user group');
+INSERT INTO base.user_group (id, name) VALUES (0, 'Public');

@@ -77,13 +77,18 @@ base.update_updated_by_id();
 CREATE OR REPLACE FUNCTION base.create_user()
 RETURNS TRIGGER AS $$
 BEGIN
+    -- Create database user
     EXECUTE 'CREATE USER user_' || NEW.id;
+
     -- Grant permission
     IF NEW.flag_admin THEN
       EXECUTE 'GRANT admin TO user_' || NEW.id;
     ELSE
       EXECUTE 'GRANT standard TO user_' || NEW.id;
     END IF;
+
+    -- Assign default user group
+    INSERT INTO base.user_group_user (user_id) VALUES (NEW.id);
     RETURN NEW;
 END;
 $$ language plpgsql;
