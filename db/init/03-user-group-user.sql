@@ -6,10 +6,10 @@
 /*Create table user group*/
 CREATE TABLE base.user_group_user (
     id SERIAL PRIMARY KEY
-  , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
-  , user_id INTEGER NOT NULL REFERENCES base.user(id)
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , user_group_id INTEGER DEFAULT 0 REFERENCES base.user_group(id)
+  , user_id INTEGER NOT NULL REFERENCES base.user(id)
   , CONSTRAINT user_group_user_uniqueness UNIQUE (user_group_id, user_id)
 );
 

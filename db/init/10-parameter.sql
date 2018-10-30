@@ -7,13 +7,13 @@
 CREATE TABLE base.parameter (
     id SERIAL PRIMARY KEY
   , value TEXT NOT NULL
-  , user_group TEXT NOT NULL
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id)
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , user_group_id INTEGER DEFAULT 0 REFERENCES base.user_group(id)
   , indicator_id INTEGER NOT NULL REFERENCES base.indicator(id)
+  , parameter_type_id INTEGER NOT NULL REFERENCES base.parameter_type(id)
   , CONSTRAINT parameter_uniqueness UNIQUE (indicator_id, parameter_type_id)
 );
 

@@ -8,11 +8,16 @@ function getCookieValue(key) {
   return valueMatch ? valueMatch.pop() : '';
 }
 
-const graphqlUrl = UrlBuilder.getDefault().graphQl();
-
 export default new ApolloClient({
-  'uri': graphqlUrl,
+  'uri': `${process.env.REACT_APP_FLASK_API_URL}graphql`,
   'headers': {
     'Authorization': `Bearer ${getCookieValue('token')}`
-  }
+  },
+  /* global error handler, but incapable of modifying the redux state
+  * 'onError': ({ graphQLErrors, networkError, operation, forward }) => {
+  *  if (networkError && networkError.statusCode === 401) {
+  *    //disable expired cookie to force user to login next time
+  *    document.cookie = 'token' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+  *  }
+  */
 });
