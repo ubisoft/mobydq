@@ -376,7 +376,8 @@ class TestDb(unittest.TestCase):
         self.connection.execute(set_role_query)
 
         # Update user
-        updated_by_id, updated_date, created_date = self.update_user(user_id)
+        data = self.update_user(user_id)
+        updated_by_id = data[0]
 
         # Assert user Id is equal updated by Id
         self.assertEqual(user_id, updated_by_id)
@@ -400,7 +401,9 @@ class TestDb(unittest.TestCase):
         self.connection.commit()
 
         # Update user
-        updated_by_id, updated_date, created_date = self.update_user(user_id)
+        data = self.update_user(user_id)
+        updated_date = data[1]
+        created_date = data[2]
 
         # Assert created_date is older than updated_date
         self.assertLess(created_date, updated_date)
