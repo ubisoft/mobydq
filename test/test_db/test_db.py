@@ -28,7 +28,7 @@ class TestDb(unittest.TestCase):
         self.connection.execute('ROLLBACK;')
         return True
 
-    def create_indicator(self, test_case_name, indicator_group_id, user_group_id):
+    def create_indicator(self, test_case_name: str, indicator_group_id: int, user_group_id: int):
         """Create an indicator in the database and return its Id."""
 
         insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group_id) VALUES ('{test_case_name}', true, 1, {indicator_group_id}, '{user_group_id}') RETURNING id;'''
@@ -36,7 +36,7 @@ class TestDb(unittest.TestCase):
         indicator_id = cursor.fetchone()[0]
         return indicator_id
 
-    def create_indicator_group(self, test_case_name, user_group_id):
+    def create_indicator_group(self, test_case_name: str, user_group_id: int):
         """Create an indicator group in the database and return its Id."""
 
         insert_indicator_group_query = f'''INSERT INTO base.indicator_group (name, user_group_id) VALUES ('{test_case_name}', '{user_group_id}') RETURNING id;'''
@@ -44,7 +44,7 @@ class TestDb(unittest.TestCase):
         indicator_group_id = cursor.fetchone()[0]
         return indicator_group_id
 
-    def create_user(self, test_case_name, flag_admin=False):
+    def create_user(self, test_case_name: str, flag_admin: bool =False):
         """Create a user in the database and return its Id."""
 
         insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
@@ -52,7 +52,7 @@ class TestDb(unittest.TestCase):
         user_id = cursor.fetchone()[0]
         return user_id
 
-    def create_user_group(self, test_case_name):
+    def create_user_group(self, test_case_name: str):
         """Create a user group in the database and return its id."""
 
         insert_user_group_query = f'''INSERT INTO base.user_group (name) VALUES ('{test_case_name}') RETURNING id;'''
@@ -60,7 +60,7 @@ class TestDb(unittest.TestCase):
         user_group_id = cursor.fetchone()[0]
         return user_group_id
 
-    def create_user_group_user(self, user_group_id, user_id):
+    def create_user_group_user(self, user_group_id: int, user_id: int):
         """Create a user group user in the database and return its id."""
 
         insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
@@ -68,14 +68,14 @@ class TestDb(unittest.TestCase):
         user_group_user_id = cursor.fetchone()[0]
         return user_group_user_id
 
-    def delete_user_group(self, user_group_id):
+    def delete_user_group(self, user_group_id: int):
         """Delete a user group from the database."""
 
         delete_user_group_query = f'''DELETE FROM base.user_group WHERE id = {user_group_id};'''
         self.connection.execute(delete_user_group_query)
         return True
 
-    def update_user(self, user_id):
+    def update_user(self, user_id: int):
         """Update a user in the database and return its updated_by_id and updated_date."""
 
         update_user_query = f'''UPDATE base.user SET flag_admin = true WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
