@@ -15,7 +15,7 @@ CREATE TABLE base.data_source (
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
-  , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
+  , user_group_id INTEGER NOT NULL DEFAULT 0 REFERENCES base.user_group(id)
   , data_source_type_id INTEGER NOT NULL REFERENCES base.data_source_type(id)
 );
 

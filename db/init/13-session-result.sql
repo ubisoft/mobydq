@@ -13,7 +13,7 @@ CREATE TABLE base.session_result (
   , nb_records_no_alert INTEGER NOT NULL
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
-  , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
+  , user_group_id INTEGER NOT NULL DEFAULT 0 REFERENCES base.user_group(id)
   , session_id INTEGER NOT NULL REFERENCES base.session(id)
 );
 

@@ -49,8 +49,9 @@ base.update_updated_date();
 
 
 /*Create default user*/
+/*Must be created before other triggers to avoid conflicts in pg_roles table*/
 INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date, flag_admin) VALUES
-(0, 'postgres', 'DATABASE', 'not_used', '2999-12-31', true);
+(0, 'postgres', 'not_used', 'not_used', '2999-12-31', true);
 
 
 

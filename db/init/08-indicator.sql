@@ -15,7 +15,7 @@ CREATE TABLE base.indicator (
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , user_group_id INTEGER NOT NULL REFERENCES base.user_group(id)
-  , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
+  , indicator_group_id INTEGER NOT NULL DEFAULT 0 REFERENCES base.indicator_group(id)
   , indicator_type_id INTEGER NOT NULL REFERENCES base.indicator_type(id)
 );
 
