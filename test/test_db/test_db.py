@@ -217,7 +217,7 @@ class TestDb(unittest.TestCase):
         user = f'user_{user_id}'
 
         # Get user and role
-        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'standard' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
@@ -396,6 +396,9 @@ class TestDb(unittest.TestCase):
         self.assertLess(created_date, updated_date)
 
         # Delete committed data
+        delete_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE user_id = {user_id};'''
+        self.connection.execute(delete_user_group_user_query)
+
         delete_user_query = f'''DELETE FROM base.user WHERE id = {user_id};'''
         self.connection.execute(delete_user_query)
         self.connection.commit()
@@ -412,7 +415,7 @@ class TestDb(unittest.TestCase):
         updated_by_id, updated_date, created_date = self.update_user(user_id)
 
         # Get user and role
-        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
