@@ -2,4 +2,4 @@ jinja2==2.10.0
 numpy==1.14.0
 pandas==0.22.0
 pyodbc==4.0.23
-requests==2.19.1
+requests==2.20.0
