@@ -12,7 +12,7 @@ class TestDb(unittest.TestCase):
         """Execute this before the tests."""
         cls.connection = TestDb.get_connection()
 
-    def get_connection():
+    def get_connection(self):
         """Return connection to mobydq database."""
 
         connection_string = 'driver={PostgreSQL Unicode};server=db;port=5432;database=mobydq;uid=postgres;pwd=password;'  # Should be moved to config file
