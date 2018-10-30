@@ -44,7 +44,7 @@ class TestDb(unittest.TestCase):
         indicator_group_id = cursor.fetchone()[0]
         return indicator_group_id
 
-    def create_user(self, test_case_name: str, flag_admin: bool =False):
+    def create_user(self, test_case_name: str, flag_admin: bool = False):
         """Create a user in the database and return its Id."""
 
         insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
