@@ -40,13 +40,13 @@ DECLARE
     batch base.batch;
 BEGIN
     -- Create pending batch
-    /*TODO: replace placeholder of column user_group*/
+    /*TODO: replace placeholder of column user_group_id*/
     INSERT INTO base.batch (status, indicator_group_id, user_group_id)
     VALUES ('Pending', indicator_group_id, 0)
     RETURNING * INTO batch;
 
     -- Create pending session for each indicator
-    /*TODO: replace placeholder of column user_group*/
+    /*TODO: replace placeholder of column user_group_id*/
     IF indicator_id IS NOT NULL THEN
         WITH indicator AS (
             SELECT a.id
