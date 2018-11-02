@@ -10,13 +10,14 @@
 # --disable=W"
 disable=
     duplicate-code,
-    line-too-long,
+    fixme,
     invalid-name,
-    too-many-locals,
     no-self-use,
-    too-many-arguments,
+    line-too-long,
     missing-docstring,
-    fixme
+    too-many-arguments,
+    too-many-locals,
+    too-many-public-methods
 
 [FORMAT]
 # Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
