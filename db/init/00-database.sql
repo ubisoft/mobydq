@@ -5,7 +5,8 @@ CREATE DATABASE mobydq;
 /*Create schema*/
 CREATE SCHEMA base;
 
-
+/*Install pgcrypto exstension to encrypt/decrypt data sources passwords*/
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 /*Create function to update updated_date column*/
 CREATE OR REPLACE FUNCTION base.update_updated_date()

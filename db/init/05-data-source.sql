@@ -3,6 +3,20 @@
 
 
 
+/*Create function to encrypt password column*/
+CREATE OR REPLACE FUNCTION base.encrypt_password()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.password = PGP_SYM_ENCRYPT(NEW.password,'AES_KEY');
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.encrypt_password IS
+'Function used to encrypt password column in data source table.';
+
+
+
 /*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY
@@ -22,6 +36,14 @@ CREATE TABLE base.data_source (
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
+CREATE TRIGGER data_source_insert_encrypt_password BEFORE INSERT
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.encrypt_password();
+
+CREATE TRIGGER data_source_update_encrypt_password BEFORE UPDATE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.encrypt_password();
+
 CREATE TRIGGER data_source_update_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -29,6 +51,38 @@ base.update_updated_date();
 CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+
+
+/*Create function to decrypt data source password column*/
+CREATE OR REPLACE FUNCTION base.decrypt_data_source_password(data_source_id INTEGER)
+RETURNS base.data_source AS $$
+#variable_conflict use_variable
+DECLARE
+    data_source base.data_source;
+BEGIN
+    WITH data_source_decrypted AS (
+        SELECT id
+        , name
+        , connection_string
+        , login
+        , PGP_SYM_DECRYPT(password::bytea, 'AES_KEY') AS password
+        , connectivity_status
+        , created_date
+        , updated_date
+        , created_by_id
+        , updated_by_id
+        , user_group_id
+        , data_source_type_id
+        FROM base.data_source
+        WHERE id=data_source_id
+    ) SELECT * INTO data_source FROM data_source_decrypted;
+    RETURN data_source;
+END;
+$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+
+COMMENT ON FUNCTION base.decrypt_data_source_password IS
+'Function used to decrypt the password of a data source.';
 
 
 
