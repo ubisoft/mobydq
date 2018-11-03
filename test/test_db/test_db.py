@@ -280,7 +280,7 @@ class TestDb(unittest.TestCase):
         password = data[1]
 
         # Assert password is encrypted
-        self.assertNotEqual(password, 1234)
+        self.assertNotEqual(password, '1234')
 
         # Rollback uncommitted data
         self.rollback()
