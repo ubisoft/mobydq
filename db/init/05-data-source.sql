@@ -37,12 +37,12 @@ COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
 CREATE TRIGGER data_source_insert_encrypt_password BEFORE INSERT
-ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL) EXECUTE PROCEDURE
 base.encrypt_password();
 
-CREATE TRIGGER data_source_update_encrypt_password BEFORE UPDATE
-ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
-base.encrypt_password();
+CREATE TRIGGER data_source_update_encrypt_password BEFORE UPDATE OF password
+ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL)
+EXECUTE PROCEDURE base.encrypt_password();
 
 CREATE TRIGGER data_source_update_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
@@ -54,35 +54,13 @@ base.update_updated_by_id();
 
 
 
-/*Create function to decrypt data source password column*/
-CREATE OR REPLACE FUNCTION base.decrypt_data_source_password(data_source_id INTEGER)
-RETURNS base.data_source AS $$
-#variable_conflict use_variable
-DECLARE
-    data_source base.data_source;
-BEGIN
-    WITH data_source_decrypted AS (
-        SELECT id
-        , name
-        , connection_string
-        , login
-        , PGP_SYM_DECRYPT(password::bytea, 'AES_KEY') AS password
-        , connectivity_status
-        , created_date
-        , updated_date
-        , created_by_id
-        , updated_by_id
-        , user_group_id
-        , data_source_type_id
-        FROM base.data_source
-        WHERE id=data_source_id
-    ) SELECT * INTO data_source FROM data_source_decrypted;
-    RETURN data_source;
-END;
-$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+/*Create view to decrypt data source password column*/
+CREATE OR REPLACE VIEW base.data_source_password
+AS SELECT id, PGP_SYM_DECRYPT(password::bytea, 'AES_KEY') AS password
+FROM base.data_source;
 
-COMMENT ON FUNCTION base.decrypt_data_source_password IS
-'Function used to decrypt the password of a data source.';
+COMMENT ON VIEW base.data_source_password IS
+'View used to decrypt the password of a data source.';
 
 
 
