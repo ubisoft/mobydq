@@ -36,11 +36,11 @@ CREATE TABLE base.data_source (
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
-CREATE TRIGGER data_source_insert_encrypt_password BEFORE INSERT
+CREATE TRIGGER data_source_insert_password BEFORE INSERT
 ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL) EXECUTE PROCEDURE
 base.encrypt_password();
 
-CREATE TRIGGER data_source_update_encrypt_password BEFORE UPDATE OF password
+CREATE TRIGGER data_source_update_password BEFORE UPDATE OF password
 ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL)
 EXECUTE PROCEDURE base.encrypt_password();
 
