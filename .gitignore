@@ -6,7 +6,6 @@ __pycache__
 
 # configuration files
 .env
-.env.app
 scripts.cfg
 
 # editor specific config files
