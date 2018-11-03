@@ -80,8 +80,7 @@ class DataSource:
         # Get data source
         log.debug('Get data source.')
         query = 'query{dataSourceById(id:data_source_id){dataSourceTypeId,connectionString,login,password}}'
-        query = query.replace('data_source_id', str(
-            data_source_id))  # Use replace() instead of format() because of curly braces
+        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
         response = utils.execute_graphql_request(query)
 
         if response['data']['dataSourceById']:
@@ -89,20 +88,27 @@ class DataSource:
             data_source_type_id = data_source['dataSourceTypeId']
             connection_string = data_source['connectionString']
             login = data_source['login']
+
+        # Get data source password
+        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
+        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        response = utils.execute_graphql_request(query)
+
+        if response['data']['allDataSourcePasswords']['nodes'][0]:
+            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
             password = data_source['password']
 
             # Test connectivity
             try:
                 log.debug('Connect to data source.')
-                self.get_connection(data_source_type_id,
-                                    connection_string, login, password)
+                self.get_connection(data_source_type_id, connection_string, login, password)
 
                 log.info('Connection to data source succeeded.')
                 mutation = 'mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Success"}}){dataSource{connectivityStatus}}}'
                 mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
                 utils.execute_graphql_request(mutation)
 
-            except Exception: # pylint: disable=broad-except
+            except Exception:  # Pylint: disable=broad-except
                 log.error('Connection to data source failed.')
                 error_message = traceback.format_exc()
                 log.error(error_message)
