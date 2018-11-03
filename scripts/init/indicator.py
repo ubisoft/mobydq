@@ -61,16 +61,25 @@ class Indicator:
     def get_data_frame(self, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
-        query = '{dataSourceByName(name:"data_source"){connectionString,login,password,dataSourceTypeId}}'
+        query = '{dataSourceByName(name:"data_source"){id,connectionString,login,dataSourceTypeId}}'
         query = query.replace('data_source', data_source)
         response = utils.execute_graphql_request(query)
 
         # Get connection object
         if response['data']['dataSourceByName']:
+            data_source_id = response['data']['dataSourceByName']['id']
             data_source_type_id = response['data']['dataSourceByName']['dataSourceTypeId']
             connection_string = response['data']['dataSourceByName']['connectionString']
             login = response['data']['dataSourceByName']['login']
-            password = response['data']['dataSourceByName']['password']
+
+        # Get data source password
+        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
+        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        response = utils.execute_graphql_request(query)
+
+        if response['data']['allDataSourcePasswords']['nodes'][0]:
+            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
+            password = data_source['password']
 
             log.info('Connect to data source %s.', data_source)
             data_source = DataSource()

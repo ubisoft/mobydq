@@ -9,13 +9,15 @@
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 disable=
+    broad-except,
     duplicate-code,
     fixme,
     invalid-name,
-    no-self-use,
     line-too-long,
     missing-docstring,
+    no-self-use,
     too-many-arguments,
+    too-many-function-args,
     too-many-locals,
     too-many-public-methods
 

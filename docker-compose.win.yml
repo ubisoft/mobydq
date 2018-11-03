@@ -53,7 +53,7 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-    
+
   scripts:
     container_name: mobydq-scripts
     restart: always
@@ -74,7 +74,7 @@ services:
       - graphql
     networks:
       - default
-            
+
   app:
     container_name: mobydq-app
     restart: always
@@ -97,7 +97,7 @@ services:
       - graphql
     networks:
       - default
-      
+
 networks:
   default:
     external:
