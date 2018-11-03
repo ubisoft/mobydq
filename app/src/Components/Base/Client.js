@@ -9,7 +9,7 @@ function getCookieValue(key) {
 }
 
 export default new ApolloClient({
-  'uri': `${process.env.REACT_APP_FLASK_API_URL}graphql`,
+  'uri': UrlBuilder.getDefault().graphQl(),
   'headers': {
     'Authorization': `Bearer ${getCookieValue('token')}`
   },

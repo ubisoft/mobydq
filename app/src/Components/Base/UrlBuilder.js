@@ -2,7 +2,7 @@
 
 const BASE_URL = process.env.REACT_APP_FLASK_API_HOST;
 
-export default class UrlBuilder {
+class UrlBuilder {
   constructor(version) {
     const versionUrl = UrlBuilder._combineUrl('/mobydq/api', version);
     this._baseUrl = UrlBuilder._combineUrl(BASE_URL, versionUrl);
@@ -32,3 +32,5 @@ export default class UrlBuilder {
     return left + right;
   }
 }
+
+export default UrlBuilder;
