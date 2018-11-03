@@ -1,6 +1,20 @@
-/*Create database*/
-CREATE DATABASE mobydq;
-\connect mobydq;
+/*Connect to database*/
+\connect mobydq
+
+/*Create schema*/
+CREATE SCHEMA configuration;
+
+/*Create table user group*/
+CREATE TABLE configuration.parameter (
+    id SERIAL PRIMARY KEY
+  , name TEXT NOT NULL UNIQUE
+  , value TEXT
+);
+
+COMMENT ON TABLE configuration.parameter IS
+'Configuration parameters.';
+
+
 
 /*Create schema*/
 CREATE SCHEMA base;

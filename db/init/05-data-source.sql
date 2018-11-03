@@ -3,11 +3,14 @@
 
 
 
+/*Create a secret key to encrypt data source passwords*/
+INSERT INTO configuration.parameter (name, value) VALUES ('secret_key', MD5(random()::text));
+
 /*Create function to encrypt password column*/
 CREATE OR REPLACE FUNCTION base.encrypt_password()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.password = PGP_SYM_ENCRYPT(NEW.password,'AES_KEY');
+    NEW.password = PGP_SYM_ENCRYPT(NEW.password, (SELECT value FROM configuration.parameter WHERE name = 'secret_key'));
     RETURN NEW;
 END;
 $$ language plpgsql;
@@ -56,7 +59,7 @@ base.update_updated_by_id();
 
 /*Create view to decrypt data source password column*/
 CREATE OR REPLACE VIEW base.data_source_password
-AS SELECT id, PGP_SYM_DECRYPT(password::bytea, 'AES_KEY') AS password
+AS SELECT id, PGP_SYM_DECRYPT(password::bytea, (SELECT value FROM configuration.parameter WHERE name = 'secret_key')) AS password
 FROM base.data_source;
 
 COMMENT ON VIEW base.data_source_password IS
