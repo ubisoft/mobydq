@@ -10,6 +10,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_group TO standard;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator TO standard;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter TO standard;
 
+
 /*Prevent standard user role to access data source password by enforcing grant on selected columns*/
 GRANT SELECT (
     id
@@ -24,7 +25,7 @@ GRANT SELECT (
   , updated_date
   , data_source_type_id
 ) ON base.data_source TO standard;
-
+GRANT UPDATE, INSERT, DELETE ON base.data_source TO standard;
 
 
 /*Create admin user role*/
