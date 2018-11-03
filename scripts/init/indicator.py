@@ -83,7 +83,7 @@ class Indicator:
 
             log.info('Connect to data source %s.', data_source)
             data_source = DataSource()
-            connection = data_source.get_connection(data_source_id, data_source_type_id, connection_string, login, password)
+            connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
             error_message = f'Data source {data_source} does not exist.'
             log.error(error_message)
