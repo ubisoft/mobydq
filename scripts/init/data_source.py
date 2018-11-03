@@ -13,19 +13,8 @@ log = logging.getLogger(__name__)
 class DataSource:
     """Data source class."""
 
-    def get_connection(self, data_source_id: int, data_source_type_id: int, connection_string: str, login: str = None):
+    def get_connection(self, data_source_type_id: int, connection_string: str, login: str = None, password: str = None):
         """Connect to a data source. Return a connection object."""
-
-        # Get data source password
-        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
-        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        response = utils.execute_graphql_request(query)
-
-        if response['data']['allDataSourcePasswords']['nodes'][0]:
-            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
-            password = data_source['password']
-        else:
-            password = None
 
         # Add login to connection string if it is not empty
         if login:
@@ -34,6 +23,9 @@ class DataSource:
         # Add password to connection string if it is not empty
         if password:
             connection_string = connection_string = f'{connection_string}pwd={password};'
+
+        print('connection_string')
+        print(connection_string)
 
         # Hive
         if data_source_type_id == DataSourceType.HIVE_ID:
@@ -100,6 +92,15 @@ class DataSource:
             data_source_type_id = data_source['dataSourceTypeId']
             connection_string = data_source['connectionString']
             login = data_source['login']
+
+        # Get data source password
+        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
+        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        response = utils.execute_graphql_request(query)
+
+        if response['data']['allDataSourcePasswords']['nodes'][0]:
+            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
+            password = data_source['password']
 
             # Test connectivity
             try:

@@ -72,9 +72,18 @@ class Indicator:
             connection_string = response['data']['dataSourceByName']['connectionString']
             login = response['data']['dataSourceByName']['login']
 
+        # Get data source password
+        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
+        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        response = utils.execute_graphql_request(query)
+
+        if response['data']['allDataSourcePasswords']['nodes'][0]:
+            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
+            password = data_source['password']
+
             log.info('Connect to data source %s.', data_source)
             data_source = DataSource()
-            connection = data_source.get_connection(data_source_id, data_source_type_id, connection_string, login)
+            connection = data_source.get_connection(data_source_id, data_source_type_id, connection_string, login, password)
         else:
             error_message = f'Data source {data_source} does not exist.'
             log.error(error_message)
