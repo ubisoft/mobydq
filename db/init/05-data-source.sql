@@ -6,6 +6,8 @@
 /*Create a secret key to encrypt data source passwords*/
 INSERT INTO configuration.parameter (name, value) VALUES ('secret_key', MD5(random()::text));
 
+
+
 /*Create function to encrypt password column*/
 CREATE OR REPLACE FUNCTION base.encrypt_password()
 RETURNS TRIGGER AS $$
