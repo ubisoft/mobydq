@@ -79,7 +79,7 @@ class DataSource:
         return connection
 
     def test(self, data_source_id: int):
-        """Test connectivity to data source and update its connectivity status."""
+        """Test connectivity to a data source and update its connectivity status."""
         log.info('Test connectivity to data source Id %i.', data_source_id)
 
         # Get data source
