@@ -24,9 +24,6 @@ class DataSource:
         if password:
             connection_string = connection_string = f'{connection_string}pwd={password};'
 
-        print('connection_string')
-        print(connection_string)
-
         # Hive
         if data_source_type_id == DataSourceType.HIVE_ID:
             connection = pyodbc.connect(connection_string)
