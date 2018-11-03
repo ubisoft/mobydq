@@ -31,6 +31,7 @@ GRANT UPDATE, INSERT, DELETE ON base.data_source TO standard;
 /*Create admin user role*/
 CREATE ROLE admin;
 GRANT standard TO admin;
+GRANT SELECT, UPDATE, INSERT, DELETE ON base.data_source TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.data_source_type TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_type TO admin;
 GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter_type TO admin;
