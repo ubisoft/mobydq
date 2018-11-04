@@ -30,10 +30,8 @@ const IndicatorFormFields = (props) => {
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-      </div>
-      <div>
+        <br />
         <TextInput
           id="description"
           label="Description"
@@ -45,8 +43,7 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </div>
-      <div>
+        <br />
         <SelectInput
           id="indicatorTypeId"
           label="Type"
@@ -56,10 +53,8 @@ const IndicatorFormFields = (props) => {
           value={values.indicatorTypeId}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-      </div>
-      <div>
+        <br />
         <SelectInput
           id="indicatorGroupId"
           label="Group"
@@ -70,8 +65,7 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </div>
-      <div>
+        <br />
         <TextInput
           id="executionOrder"
           label="Execution Order"
@@ -83,8 +77,7 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </div>
-      <div>
+        <br />
         <SwitchInput
           id="flagActive"
           label="Active"
@@ -97,9 +90,7 @@ const IndicatorFormFields = (props) => {
         />
       </div>
       <div>
-        <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color="primary"/>
-        </div>
+        <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color="secondary"/>
       </div>
     </form>
   );

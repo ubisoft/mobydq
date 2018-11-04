@@ -29,35 +29,31 @@ const DataSourceFormFields = (props) => {
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-        <div>
-          <div>
-            <SelectInput
-              id="dataSourceTypeId"
-              label="Type"
-              items={data.allDataSourceTypes.nodes}
-              touched={touched.dataSourceTypeId}
-              error={touched.dataSourceTypeId && errors.dataSourceTypeId}
-              value={values.dataSourceTypeId}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
-        </div>
-        <TextInput
+        <br />
+        <SelectInput
+          id="dataSourceTypeId"
+          label="Type"
+          items={data.allDataSourceTypes.nodes}
+          touched={touched.dataSourceTypeId}
+          error={touched.dataSourceTypeId && errors.dataSourceTypeId}
+          value={values.dataSourceTypeId}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <br />
+        <textarea
           id="connectionString"
           label="Connection string"
           helperText=""
-          placeholder=""
+          placeholder="Connection string"
           touched={touched.connectionString}
           error={touched.name && errors.connectionString}
           value={values.connectionString}
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </div>
-      <div>
+        <br />
         <TextInput
           id="login"
           label="Login"
@@ -68,10 +64,8 @@ const DataSourceFormFields = (props) => {
           value={values.login}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-        <div>
-        </div>
+        <br />
         <TextInput
           id="password"
           label="Password"
@@ -85,9 +79,7 @@ const DataSourceFormFields = (props) => {
         />
       </div>
       <div>
-        <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color={'primary'}/>
-        </div>
+        <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color={'secondary'}/>
       </div>
     </form>
   );

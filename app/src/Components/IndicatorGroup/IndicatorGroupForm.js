@@ -27,13 +27,10 @@ const IndicatorGroupFormFields = (props) => {
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
       </div>
       <div>
-        <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color="primary"/>
-        </div>
+        <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color="secondary"/>
       </div>
     </form>
   );
