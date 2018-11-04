@@ -28,8 +28,19 @@ class TestDb(unittest.TestCase):
         self.connection.execute('ROLLBACK;')
         return True
 
+    def create_data_source(self, test_case_name: str):
+        """Create a data source in the database and return its id and password."""
+
+        insert_data_source_query = f'''INSERT INTO base.data_source (name, data_source_type_id, password) VALUES ('{test_case_name}', 1, 1234) RETURNING id, password;'''
+        cursor = self.connection.execute(insert_data_source_query)
+        row = cursor.fetchone()
+
+        data_source_id = row[0]
+        password = row[1]
+        return data_source_id, password
+
     def create_indicator(self, test_case_name: str, indicator_group_id: int, user_group_id: int):
-        """Create an indicator in the database and return its Id."""
+        """Create an indicator in the database and return its id."""
 
         insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group_id) VALUES ('{test_case_name}', true, 1, {indicator_group_id}, '{user_group_id}') RETURNING id;'''
         cursor = self.connection.execute(insert_indicator_query)
@@ -37,7 +48,7 @@ class TestDb(unittest.TestCase):
         return indicator_id
 
     def create_indicator_group(self, test_case_name: str, user_group_id: int):
-        """Create an indicator group in the database and return its Id."""
+        """Create an indicator group in the database and return its id."""
 
         insert_indicator_group_query = f'''INSERT INTO base.indicator_group (name, user_group_id) VALUES ('{test_case_name}', '{user_group_id}') RETURNING id;'''
         cursor = self.connection.execute(insert_indicator_group_query)
@@ -45,7 +56,7 @@ class TestDb(unittest.TestCase):
         return indicator_group_id
 
     def create_user(self, test_case_name: str, flag_admin: bool = False):
-        """Create a user in the database and return its Id."""
+        """Create a user in the database and return its id."""
 
         insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
         cursor = self.connection.execute(insert_user_query)
@@ -86,6 +97,14 @@ class TestDb(unittest.TestCase):
         updated_date = row[1]
         created_date = row[2]
         return updated_by_id, updated_date, created_date
+
+    def update_data_source(self, data_source_id: int):
+        """Update a data source in the database and return its password."""
+
+        update_data_source_query = f'''UPDATE base.data_source SET password = '0000' WHERE id = {data_source_id} RETURNING password;'''
+        cursor = self.connection.execute(update_data_source_query)
+        password = cursor.fetchone()[0]
+        return password
 
     def test_function_duplicate_indicator(self):
         """Unit tests for custom function duplicate_indicator."""
@@ -184,15 +203,10 @@ class TestDb(unittest.TestCase):
     def test_function_test_data_source(self):
         """Unit tests for custom function test_data_source."""
 
-        # Insert user group
+        # Insert data source
         test_case_name = get_test_case_name()
-        user_group_id = self.create_user_group(test_case_name)
-
-        # Insert test data source
-        test_case_name = get_test_case_name()
-        insert_data_source_query = f'''INSERT INTO base.data_source (name, data_source_type_id, user_group_id) VALUES ('{test_case_name}', 1, {user_group_id}) RETURNING id;'''
-        cursor = self.connection.execute(insert_data_source_query)
-        data_source_id = cursor.fetchone()[0]
+        data = self.create_data_source(test_case_name)
+        data_source_id = data[0]
 
         # Call test data source function
         call_test_data_source_query = f'''SELECT base.test_data_source({data_source_id});'''
@@ -253,6 +267,39 @@ class TestDb(unittest.TestCase):
 
         # Assert user group role was created
         self.assertEqual(row[0], user_group)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_data_source_insert_password(self):
+        """Unit tests for trigger function data_source_insert_password."""
+
+        # Insert data source
+        test_case_name = get_test_case_name()
+        data = self.create_data_source(test_case_name)
+        password = data[1]
+
+        # Assert password is encrypted
+        self.assertNotEqual(password, '1234')
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_data_source_update_password(self):
+        """Unit tests for trigger function data_source_update_password."""
+
+        # Insert data source
+        test_case_name = get_test_case_name()
+        data = self.create_data_source(test_case_name)
+        data_source_id = data[0]
+        password = data[1]
+
+        # Update data source
+        updated_password = self.update_data_source(data_source_id)
+
+        # Assert password is encrypted
+        self.assertNotEqual(updated_password, '0000')
+        self.assertNotEqual(password, updated_password)
 
         # Rollback uncommitted data
         self.rollback()

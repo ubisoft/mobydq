@@ -3,6 +3,25 @@
 
 
 
+/*Create a secret key to encrypt data source passwords*/
+INSERT INTO configuration.parameter (name, value) VALUES ('secret_key', MD5(random()::text));
+
+
+
+/*Create function to encrypt password column*/
+CREATE OR REPLACE FUNCTION base.encrypt_password()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.password = PGP_SYM_ENCRYPT(NEW.password, (SELECT value FROM configuration.parameter WHERE name = 'secret_key'));
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.encrypt_password IS
+'Function used to encrypt password column in data source table.';
+
+
+
 /*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY
@@ -22,6 +41,14 @@ CREATE TABLE base.data_source (
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
+CREATE TRIGGER data_source_insert_password BEFORE INSERT
+ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL) EXECUTE PROCEDURE
+base.encrypt_password();
+
+CREATE TRIGGER data_source_update_password BEFORE UPDATE OF password
+ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL)
+EXECUTE PROCEDURE base.encrypt_password();
+
 CREATE TRIGGER data_source_update_updated_date BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -29,6 +56,16 @@ base.update_updated_date();
 CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+
+
+/*Create view to decrypt data source password column*/
+CREATE OR REPLACE VIEW base.data_source_password
+AS SELECT id, PGP_SYM_DECRYPT(password::bytea, (SELECT value FROM configuration.parameter WHERE name = 'secret_key')) AS password
+FROM base.data_source;
+
+COMMENT ON VIEW base.data_source_password IS
+'View used to decrypt the password of a data source.';
 
 
 
