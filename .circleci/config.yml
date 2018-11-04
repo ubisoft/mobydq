@@ -53,7 +53,7 @@ jobs:
           when: always
           command: |
             # Start databases
-            docker-compose -f ./test/docker-compose.yml up -d db-sql-server db-mysql db-mariadb db-postgresql
+            docker-compose -f ./test/docker-compose.yml up -d db-hive db-sql-server db-mysql db-mariadb db-postgresql
             # Wait for them to start properly
             sleep 30
 
