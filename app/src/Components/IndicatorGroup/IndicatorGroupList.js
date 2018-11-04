@@ -32,7 +32,7 @@ class IndicatorGroupList extends React.Component {
                 Indicator Groups
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton label="Create" type="Create" color="primary"
+                <LinkButton label="Create" type="Create" color="secondary"
                   variant="contained" to={'/indicator-group/new'} />
               </div>
               <ListTable
@@ -91,4 +91,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorGroupList);
-

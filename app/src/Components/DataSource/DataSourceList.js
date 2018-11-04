@@ -33,8 +33,7 @@ class DataSourceList extends React.Component {
                 Data Sources
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton label="Create" type="Create" color="primary"
-                  variant="contained" to={'/data-source/new'}/>
+                <LinkButton label="Create" type="Create" color="secondary" variant="contained" to={'/data-source/new'}/>
               </div>
               <ListTable
                 data={data.allDataSources.nodes}
@@ -85,4 +84,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataSourceList);
-

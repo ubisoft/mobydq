@@ -32,7 +32,7 @@ class IndicatorList extends React.Component {
                 Indicators
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton label="Create" type="Create" color="primary"
+                <LinkButton label="Create" type="Create" color="secondary"
                   variant="contained" to={'/indicator/new'} />
               </div>
               <ListTable
@@ -84,4 +84,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorList);
-

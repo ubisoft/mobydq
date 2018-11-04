@@ -26,7 +26,6 @@ class DataSourceRepository {
             dataSourceTypeId
             connectionString
             login
-            password
           }
         }
     `;
