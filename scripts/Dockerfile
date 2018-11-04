@@ -12,6 +12,9 @@ COPY ./init/drivers ./drivers
 RUN apt-get update \
     && apt-get install -y g++ unixodbc-dev
 
+# Add Cloudera Hive ODBC driver
+RUN dpkg -i ./drivers/clouderahiveodbc_2.5.25.1020-2_amd64.deb
+
 # Add FreeTDS ODBC driver for Microsoft SQL Server
 RUN apt-get install -y tdsodbc
 
@@ -56,7 +59,7 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "sender = $MAIL_SENDER" >> ./scripts.cfg
 
 # Deleting drivers packages
-RUN rm -R ./drivers
+RUN rm -R drivers
 
 # Copy code as late as possible
 COPY ./init ./
