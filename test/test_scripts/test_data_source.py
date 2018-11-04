@@ -12,7 +12,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.HIVE_ID
-        connection_string = 'Driver=Cloudera Hive;Host=db-hive;Port=10000;'
+        connection_string = 'driver=Cloudera Hive;Host=db-hive;Port=10000;'
         login = 'cloudera'
         password = 'cloudera'
 

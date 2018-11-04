@@ -55,7 +55,7 @@ jobs:
             # Start databases
             docker-compose -f ./test/docker-compose.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
             # Wait for them to start properly
-            sleep 60
+            sleep 240
 
       - run:
           name: Run database tests
