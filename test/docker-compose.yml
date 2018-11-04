@@ -1,6 +1,21 @@
 version: '3.1'
 services:
 
+  db-hive:
+    container_name: mobydq-test-db-hive
+    image: mobydq-test-db-hive
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-hive/Dockerfile
+    expose:
+      - 10000
+    networks:
+      - default
+    hostname: quickstart.cloudera
+    privileged: true
+    tty: true
+
   db-sql-server:
     container_name: mobydq-test-db-sql-server
     image: mobydq-test-db-sql-server
