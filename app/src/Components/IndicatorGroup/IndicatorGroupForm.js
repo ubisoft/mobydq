@@ -2,7 +2,8 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import SimpleButton from './../FormInput/SimpleButton';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
 const IndicatorGroupFormFields = (props) => {
   const {
@@ -30,7 +31,10 @@ const IndicatorGroupFormFields = (props) => {
         />
       </div>
       <div>
-        <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color="secondary"/>
+      <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
+        <SaveIcon />
+        Save
+      </Button>
       </div>
     </form>
   );
