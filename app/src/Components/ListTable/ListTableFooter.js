@@ -103,7 +103,7 @@ class ListTableFooter extends React.Component {
     return (<TableFooter>
       <TableRow>
         <TablePagination
-          colSpan={3}
+          colSpan={10}
           count={this.props.params.rowTotal}
           rowsPerPage={this.props.params.rowsPerPage}
           page={this.props.params.page}
