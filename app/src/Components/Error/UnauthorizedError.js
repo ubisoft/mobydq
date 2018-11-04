@@ -8,7 +8,7 @@ export const UnauthorizedError = () => <div style={{ 'display': 'flex', 'justify
       Your session has expired
     </div>
     <div style={{ 'textAlign': 'center' }}>
-      <LinkButton label="Re-login" type="Create" color="secondary" variant="contained" to={'/login'}/>
+      <LinkButton label="Re-login" color="secondary" variant="contained" to={'/login'}/>
     </div>
   </div>
 </div>;
