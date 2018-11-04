@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query, Mutation } from 'react-apollo';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history, initialFieldValues }) => <Query query={ComponentRepository.getFormDropdownData()}>
@@ -70,14 +70,9 @@ function _deleteMutation(ComponentRepository, idToDelete, afterSave) {
           return <p>Error...</p>;
         }
         return (
-          <IconButton
-            onClick={() => {
-              deleteFunc();
-            }}
-            color="primary"
-          >
-            <DeleteIcon/>
-          </IconButton>
+          <Button onClick={() => {deleteFunc();}} variant="contained">
+            <DeleteIcon/> Delete
+          </Button>
         );
       }}
     </Mutation>
