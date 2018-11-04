@@ -64,6 +64,11 @@ class IndicatorRepository {
             id
             name
             description
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
           }
         }
       }
@@ -77,11 +82,11 @@ class IndicatorRepository {
           id
           name
           description
+          indicatorTypeId
+          indicatorGroupId
           executionOrder
           flagActive
-          createdDate
           updatedDate
-          indicatorTypeId
         }
       }
     `;
@@ -94,6 +99,12 @@ class IndicatorRepository {
           indicator {
             id
             name
+            description
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
           }
         }
       }
@@ -107,6 +118,12 @@ class IndicatorRepository {
           indicator {
             id
             name
+            description
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
           }
         }
       }

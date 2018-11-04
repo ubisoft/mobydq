@@ -51,6 +51,9 @@ class DataSourceRepository {
           dataSource {
             id
             name
+            dataSourceTypeId
+            connectionString
+            login
           }
         }
       }
@@ -64,6 +67,9 @@ class DataSourceRepository {
           dataSource {
             id
             name
+            dataSourceTypeId
+            connectionString
+            login
           }
         }
       }
@@ -77,6 +83,9 @@ class DataSourceRepository {
           dataSource {
             id
             name
+            dataSourceTypeId
+            connectionString
+            login
           }
         }
       }

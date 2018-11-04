@@ -62,6 +62,8 @@ class IndicatorGroupRepository {
           indicatorGroup {
             id
             name
+            createdDate
+            updatedDate
           }
         }
       }
@@ -75,6 +77,8 @@ class IndicatorGroupRepository {
           indicatorGroup {
             id
             name
+            createdDate
+            updatedDate
           }
         }
       }
