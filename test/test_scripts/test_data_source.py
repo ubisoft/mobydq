@@ -20,7 +20,7 @@ class TestDataSource(unittest.TestCase):
         data_source = DataSource()
         connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         cursor = connection.cursor()
-        result = cursor.execute("SELECT name FROM star_wars.planet WHERE name='Tatooine';").fetchone()
+        result = cursor.execute("SELECT name FROM star_wars.planet WHERE name='Tatooine'").fetchone()
         result = result[0]
         cursor.close()
         connection.close()
@@ -42,27 +42,6 @@ class TestDataSource(unittest.TestCase):
         connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         cursor = connection.cursor()
         result = cursor.execute("SELECT name FROM star_wars.planet WHERE name='Tatooine';").fetchone()
-        result = result[0]
-        cursor.close()
-        connection.close()
-
-        # Assert query result
-        self.assertEqual(result, 'Tatooine')
-
-    def test_get_connection_sql_server(self):
-        """Unit tests for method get_connection for Microsoft SQL Server database."""
-
-        # Set connection parameters
-        data_source_type_id = DataSourceType.MSSQL_ID
-        connection_string = 'driver={FreeTDS};server=db-sql-server;port=1433;Database=star_wars;tds_version=8.0;'
-        login = 'sa'
-        password = '1234-abcd'
-
-        # Connect to test Database
-        data_source = DataSource()
-        connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
-        cursor = connection.cursor()
-        result = cursor.execute("SELECT name FROM star_wars.dbo.planet WHERE name='Tatooine';").fetchone()
         result = result[0]
         cursor.close()
         connection.close()
@@ -131,9 +110,30 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
+    def test_get_connection_sql_server(self):
+        """Unit tests for method get_connection for Microsoft SQL Server database."""
+
+        # Set connection parameters
+        data_source_type_id = DataSourceType.MSSQL_ID
+        connection_string = 'driver={FreeTDS};server=db-sql-server;port=1433;Database=star_wars;tds_version=8.0;'
+        login = 'sa'
+        password = '1234-abcd'
+
+        # Connect to test Database
+        data_source = DataSource()
+        connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
+        cursor = connection.cursor()
+        result = cursor.execute("SELECT name FROM star_wars.dbo.planet WHERE name='Tatooine';").fetchone()
+        result = result[0]
+        cursor.close()
+        connection.close()
+
+        # Assert query result
+        self.assertEqual(result, 'Tatooine')
+
     def test_get_connection_teradata(self):
         """Unit tests for method get_connection for Teradata database."""
-        # TODO: 
+        # TODO:
         pass
 
 
