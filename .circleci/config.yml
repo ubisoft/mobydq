@@ -55,7 +55,7 @@ jobs:
             # Start databases
             docker-compose -f ./test/docker-compose.yml up -d db-hive db-sql-server db-mysql db-mariadb db-postgresql
             # Wait for them to start properly
-            sleep 30
+            sleep 60
 
       - run:
           name: Run database tests
@@ -73,6 +73,7 @@ jobs:
           name: Run scripts tests
           when: always
           command: |
+            docker ps -a
             docker-compose -f ./test/docker-compose.yml up --exit-code-from test-scripts test-scripts
 
       - run:
