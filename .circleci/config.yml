@@ -73,7 +73,6 @@ jobs:
           name: Run scripts tests
           when: always
           command: |
-            docker ps -a
             docker-compose -f ./test/docker-compose.yml up --exit-code-from test-scripts test-scripts
 
       - run:
