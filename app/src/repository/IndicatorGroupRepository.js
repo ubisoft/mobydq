@@ -71,10 +71,23 @@ class IndicatorGroupRepository {
   static delete() {
     return gql`
       mutation deleteIndicatorGroupById($id: Int!) {
-        deleteIndicatorGroupById(input: {id: $id }) {
+        deleteIndicatorGroupById(input: { id: $id }) {
           indicatorGroup {
             id
             name
+          }
+        }
+      }
+    `;
+  }
+
+  static execute() {
+    return gql`
+      mutation executeBatch($id: Int!) {
+        executeBatch(input: { indicatorGroupId: $id }) {
+          batch {
+            id
+            status
           }
         }
       }

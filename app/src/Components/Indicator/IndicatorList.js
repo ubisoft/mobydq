@@ -23,7 +23,7 @@ class IndicatorList extends React.Component {
             return <p>Loading...</p>;
           }
           if (error) {
-            return <GraphQLError error={error}/>;
+            return <GraphQLError error={error} />;
           }
           this.props.setIndicatorRowTotal(data.allIndicators.totalCount);
           return (
@@ -33,12 +33,12 @@ class IndicatorList extends React.Component {
               </div>
               <div style={{ 'float': 'right' }}>
                 <LinkButton label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator/new'}/>
+                  variant="contained" to={'/indicator/new'} />
               </div>
               <ListTable
                 data={data.allIndicators.nodes}
                 buttons={[
-                  { 'function': 'edit', 'parameter': '/indicator-group' },
+                  { 'function': 'edit', 'parameter': '/indicator' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
                 footerParams={this._buildFooterParam()}
