@@ -2,45 +2,65 @@ import React from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 
 /**
  * Component to build the list table header.
  * @param headerNames array of column names
  */
 class ListTableHeader extends React.Component {
-  _buildHeaderCell(fieldName) {
+  _handleSortClick = (fieldName, isActive, direction)  => {
+    console.log("handle sort: " + fieldName);
+    const newDirection = (isActive && direction === SORT_ORDER.DESCENDING) ? 'ASC' : 'DESC';
+    this.props.params.setSortField(fieldName + '_' + newDirection);
+  };
+
+  _buildHeaderCell(fieldName, sortField, sortDirection) {
     let header = fieldName;
-    if (header.length > 0) {
+    let sortHeader = '';
+   if (header.length > 0) {
       header = header.charAt(0).toUpperCase() + header.slice(1);
+      sortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
       header = header.match(/[A-Z][a-z]+/ug).join(' ');
     }
+    sortDirection = (sortField && sortHeader === sortField) ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
+    const sortActive = sortField && sortHeader === sortField;
+    console.log(sortHeader);
+    console.log(sortField);
     return (
-      <TableCell key={header}>
+      <TableCell
+        key={header}
+      >
         <Tooltip
-          title="Sort"
+          title='Sort'
           placement={'bottom-start'}
 //          placement={row.numeric ? 'bottom-end' : 'bottom-start'}
           enterDelay={300}
         >
           <TableSortLabel
-            active={orderBy === fieldName}
-            direction={order}
-//            onClick={this.createSortHandler(row.id)}
+            active={sortActive}
+            direction={sortDirection}
+            onClick={() => this._handleSortClick(sortHeader, sortActive, sortDirection)}
           >
             {header}
           </TableSortLabel>
-        </Tooltip
+        </Tooltip>
       </TableCell>
     );
   }
 
   _buildHeader(headerFields) {
     // Add "Actions column
+    const sortField = this.props.params.sortField;
     const allHeaderFields = headerFields.concat(['Actions']);
+    //sort field is either null or FIELD_NAME_ASC/DESC
+    const sortFieldName = sortField === null ? null : sortField.substring(0, sortField.lastIndexOf("_"));
+    const sortDirection = sortField === null ? null : sortField.substring(sortField.lastIndexOf("_") + 1);
     return (
       <TableHead>
         <TableRow>
-          {allHeaderFields.map((fieldName) => this._buildHeaderCell(fieldName))}
+          {allHeaderFields.map((fieldName) => this._buildHeaderCell(fieldName, sortFieldName, sortDirection))}
         </TableRow>
       </TableHead>
     );
@@ -49,6 +69,11 @@ class ListTableHeader extends React.Component {
   render() {
     return this._buildHeader(this.props.headerNames);
   }
+}
+
+const SORT_ORDER = {
+    'DESCENDING': 'desc',
+    'ASCENDING': 'asc'
 }
 
 export default ListTableHeader;

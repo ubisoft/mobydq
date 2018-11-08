@@ -24,3 +24,12 @@ export function dataSourceRowTotal(state = 0, action) {
     return state;
   }
 }
+
+export function dataSourceSortColumn(state = null, action) {
+  switch (action.type) {
+  case 'DATA_SOURCE_LIST_SORT_COLUMN':
+    return action.sortColumn;
+  default:
+    return state;
+  }
+}

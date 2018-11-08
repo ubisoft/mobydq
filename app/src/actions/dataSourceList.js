@@ -18,3 +18,10 @@ export function setDataSourceRowTotal(int) {
     'rowTotal': int
   };
 }
+
+export function setDataSourceSortColumn(string) {
+  return {
+    'type': 'DATA_SOURCE_LIST_SORT_COLUMN',
+    'sortColumn': string
+  };
+}
