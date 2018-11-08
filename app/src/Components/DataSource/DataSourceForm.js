@@ -31,7 +31,8 @@ const DataSourceFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <SelectInput
           id="dataSourceTypeId"
           label="Type"
@@ -42,7 +43,8 @@ const DataSourceFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <textarea
           id="connectionString"
           label="Connection string"
@@ -54,7 +56,8 @@ const DataSourceFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <TextInput
           id="login"
           label="Login"
@@ -66,7 +69,8 @@ const DataSourceFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <TextInput
           id="password"
           label="Password"

@@ -32,7 +32,8 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <TextInput
           id="description"
           label="Description"
@@ -44,7 +45,8 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <SelectInput
           id="indicatorTypeId"
           label="Type"
@@ -55,7 +57,8 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <SelectInput
           id="indicatorGroupId"
           label="Group"
@@ -66,7 +69,8 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <TextInput
           id="executionOrder"
           label="Execution Order"
@@ -78,7 +82,8 @@ const IndicatorFormFields = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />
+      </div>
+      <div>
         <SwitchInput
           id="flagActive"
           label="Active"
