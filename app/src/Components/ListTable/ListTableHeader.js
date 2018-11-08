@@ -11,28 +11,14 @@ import Tooltip from '@material-ui/core/Tooltip';
  */
 class ListTableHeader extends React.Component {
   _handleSortClick = (fieldName, isActive, direction)  => {
-    console.log("handle sort: " + fieldName);
     const newDirection = (isActive && direction === SORT_ORDER.DESCENDING) ? 'ASC' : 'DESC';
     this.props.params.setSortField(fieldName + '_' + newDirection);
   };
 
-  _buildHeaderCell(fieldName, sortField, sortDirection) {
-    let header = fieldName;
-    let sortHeader = '';
-   if (header.length > 0) {
-      header = header.charAt(0).toUpperCase() + header.slice(1);
-      sortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
-      header = header.match(/[A-Z][a-z]+/ug).join(' ');
-    }
-    sortDirection = (sortField && sortHeader === sortField) ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
-    const sortActive = sortField && sortHeader === sortField;
-    console.log(sortHeader);
-    console.log(sortField);
-    return (
-      <TableCell
-        key={header}
-      >
-        <Tooltip
+  _buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection) {
+    return header === 'Actions'
+      ? <React.Fragment>{header}</React.Fragment>
+      : <Tooltip
           title='Sort'
           placement={'bottom-start'}
 //          placement={row.numeric ? 'bottom-end' : 'bottom-start'}
@@ -45,7 +31,24 @@ class ListTableHeader extends React.Component {
           >
             {header}
           </TableSortLabel>
-        </Tooltip>
+        </Tooltip>;
+  }
+
+  _buildHeaderCell(fieldName, sortField, sortDirection) {
+    let header = fieldName;
+    let sortHeader = '';
+   if (header.length > 0) {
+      header = header.charAt(0).toUpperCase() + header.slice(1);
+      sortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
+      header = header.match(/[A-Z][a-z]+/ug).join(' ');
+    }
+    sortDirection = (sortField && sortHeader === sortField) ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
+    const sortActive = sortField && sortHeader === sortField && fieldName !== 'Actions';
+    return (
+      <TableCell
+        key={header}
+      >
+        {this._buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection)}
       </TableCell>
     );
   }
