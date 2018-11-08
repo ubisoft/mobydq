@@ -62,13 +62,6 @@ class IndicatorRepository {
         createIndicator(input: {indicator: $indicator}) {
           indicator {
             id
-            name
-            description
-            indicatorTypeId
-            indicatorGroupId
-            executionOrder
-            flagActive
-            updatedDate
           }
         }
       }
@@ -98,13 +91,6 @@ class IndicatorRepository {
         updateIndicatorById(input: {indicatorPatch: $indicatorPatch, id: $id }) {
           indicator {
             id
-            name
-            description
-            indicatorTypeId
-            indicatorGroupId
-            executionOrder
-            flagActive
-            updatedDate
           }
         }
       }
@@ -117,13 +103,6 @@ class IndicatorRepository {
         deleteIndicatorById(input: {id: $id }) {
           indicator {
             id
-            name
-            description
-            indicatorTypeId
-            indicatorGroupId
-            executionOrder
-            flagActive
-            updatedDate
           }
         }
       }
