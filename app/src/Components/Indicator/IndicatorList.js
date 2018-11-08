@@ -74,7 +74,7 @@ class IndicatorList extends React.Component {
     return {
       'setSortField': this.props.setIndicatorSortColumn,
       'sortField': this.props.indicatorSortColumn
-    }
+    };
   }
 }
 

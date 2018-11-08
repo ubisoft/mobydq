@@ -74,7 +74,7 @@ class DataSourceList extends React.Component {
     return {
       'setSortField': this.props.setDataSourceSortColumn,
       'sortField': this.props.dataSourceSortColumn
-    }
+    };
   }
 }
 
