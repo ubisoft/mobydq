@@ -46,9 +46,6 @@ class IndicatorGroupRepository {
         createIndicatorGroup(input: {indicatorGroup: $indicatorGroup}) {
           indicatorGroup {
             id
-            name
-            createdDate
-            updatedDate
           }
         }
       }
@@ -61,7 +58,6 @@ class IndicatorGroupRepository {
         updateIndicatorGroupById(input: {indicatorGroupPatch: $indicatorGroupPatch, id: $id }) {
           indicatorGroup {
             id
-            name
           }
         }
       }
@@ -74,7 +70,6 @@ class IndicatorGroupRepository {
         deleteIndicatorGroupById(input: { id: $id }) {
           indicatorGroup {
             id
-            name
           }
         }
       }

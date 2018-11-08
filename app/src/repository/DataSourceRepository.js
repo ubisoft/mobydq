@@ -26,7 +26,6 @@ class DataSourceRepository {
             dataSourceTypeId
             connectionString
             login
-            password
           }
         }
     `;
@@ -51,7 +50,6 @@ class DataSourceRepository {
         createDataSource(input: {dataSource: $dataSource}) {
           dataSource {
             id
-            name
           }
         }
       }
@@ -64,7 +62,6 @@ class DataSourceRepository {
         updateDataSourceById(input: {dataSourcePatch: $dataSourcePatch, id: $id }) {
           dataSource {
             id
-            name
           }
         }
       }
@@ -77,7 +74,6 @@ class DataSourceRepository {
         deleteDataSourceById(input: {id: $id }) {
           dataSource {
             id
-            name
           }
         }
       }

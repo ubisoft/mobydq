@@ -9,6 +9,7 @@ import { GraphQLError } from './../Error/GraphQLError';
 
 import ListTable from '../ListTable/ListTable';
 import LinkButton from './../../Components/FormInput/LinkButton';
+import AddIcon from '@material-ui/icons/Add';
 
 class IndicatorGroupList extends React.Component {
   render() {
@@ -32,8 +33,7 @@ class IndicatorGroupList extends React.Component {
                 Indicator Groups
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator-group/new'} />
+                <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={'/indicator-group/new'}/>
               </div>
               <ListTable
                 data={data.allIndicatorGroups.nodes}
@@ -91,4 +91,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorGroupList);
-

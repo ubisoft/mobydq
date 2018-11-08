@@ -37,7 +37,10 @@ class ExecuteRowButton extends React.Component {
         }
 
         return (
-          <div>
+          <span>
+            <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="secondary">
+              <PlayArrow />
+            </IconButton>
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
@@ -48,10 +51,8 @@ class ExecuteRowButton extends React.Component {
               message={<span>{this.props.message}</span>}
               onClose={() => this.props.setOpen(false)}>
             </Snackbar>
-            <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="primary">
-              <PlayArrow />
-            </IconButton>
-          </div>);
+          </span>
+        );
       }}
     </Mutation>);
   }
