@@ -40,8 +40,8 @@ class DataSourceList extends React.Component {
                   { 'function': 'edit', 'parameter': '/data-source' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
-                footerParams={this._buildFooterParam()}
                 headerParams={this._buildHeaderParam()}
+                footerParams={this._buildFooterParam()}
               />
             </div>
           );

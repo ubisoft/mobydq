@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { setIndicatorPage, setIndicatorRowsPerPage, setIndicatorRowTotal } from './../../actions/indicatorList';
+import { setIndicatorPage, setIndicatorRowsPerPage, setIndicatorRowTotal, setIndicatorSortColumn } from './../../actions/indicatorList';
 
 import { Query } from 'react-apollo';
 import IndicatorRepository from './../../repository/IndicatorRepository';
@@ -14,7 +14,7 @@ class IndicatorList extends React.Component {
     return (
       <Query
         query={IndicatorRepository.getListPage()}
-        variables={{ 'first': this.props.indicatorRowsPerPage, 'offset': this.props.indicatorPage * this.props.indicatorRowsPerPage }}
+        variables={{ 'first': this.props.indicatorRowsPerPage, 'offset': this.props.indicatorPage * this.props.indicatorRowsPerPage, 'orderBy': this.props.indicatorSortColumn }}
         fetchPolicy={this.props.refetch ? 'cache-and-network' : 'cache-first'}
       >
         {({ loading, error, data }) => {
@@ -40,6 +40,7 @@ class IndicatorList extends React.Component {
                   { 'function': 'edit', 'parameter': '/indicator-group' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
+                headerParams={this._buildHeaderParam()}
                 footerParams={this._buildFooterParam()}
               />
             </div>
@@ -68,18 +69,27 @@ class IndicatorList extends React.Component {
       'setRowsPerPage': this.props.setIndicatorRowsPerPage
     };
   }
+
+  _buildHeaderParam() {
+    return {
+      'setSortField': this.props.setIndicatorSortColumn,
+      'sortField': this.props.indicatorSortColumn
+    }
+  }
 }
 
 const mapStateToProps = (state) => ({
   'indicatorPage': state.indicatorPage,
   'indicatorRowsPerPage': state.indicatorRowsPerPage,
-  'indicatorRowTotal': state.indicatorRowTotal
+  'indicatorRowTotal': state.indicatorRowTotal,
+  'indicatorSortColumn': state.indicatorSortColumn
 });
 
 const mapDispatchToProps = (dispatch) => ({
   'setIndicatorPage': (page) => dispatch(setIndicatorPage(page)),
   'setIndicatorRowsPerPage': (rowsPerPage) => dispatch(setIndicatorRowsPerPage(rowsPerPage)),
-  'setIndicatorRowTotal': (rowTotal) => dispatch(setIndicatorRowTotal(rowTotal))
+  'setIndicatorRowTotal': (rowTotal) => dispatch(setIndicatorRowTotal(rowTotal)),
+  'setIndicatorSortColumn': (sortColumn) => dispatch(setIndicatorSortColumn(sortColumn))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorList);

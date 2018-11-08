@@ -18,3 +18,10 @@ export function setIndicatorGroupRowTotal(int) {
     'rowTotal': int
   };
 }
+
+export function setIndicatorGroupSortColumn(string) {
+  return {
+    'type': 'INDICATOR_GROUP_LIST_SORT_COLUMN',
+    'sortColumn': string
+  };
+}
