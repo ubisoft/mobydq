@@ -21,3 +21,4 @@ class IndicatorType:
     FRESHNESS = 2
     LATENCY = 3
     VALIDITY = 4
+    ANOMALY_DETECTION = 5

@@ -7,6 +7,7 @@ import completeness  # Called dynamically with getattr pylint: disable=W0611
 import freshness  # Called dynamically with getattr pylint: disable=W0611
 import latency  # Called dynamically with getattr pylint: disable=W0611
 import validity  # Called dynamically with getattr pylint: disable=W0611
+import anomaly_detection  # Called dynamically with getattr pylint: disable=W0611
 import utils
 from session import update_session_status
 

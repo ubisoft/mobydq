@@ -38,4 +38,5 @@ INSERT INTO base.indicator_type (name, module, class, method) VALUES
   ('Completeness', 'completeness', 'Completeness', 'execute')
 , ('Freshness', 'freshness', 'Freshness', 'execute')
 , ('Latency', 'latency', 'Latency', 'execute')
-, ('Validity', 'validity', 'Validity', 'execute');
+, ('Validity', 'validity', 'Validity', 'execute')
+, ('Anomaly Detection', 'anomaly_detection', 'AnomalyDetection', 'execute');
