@@ -82,6 +82,9 @@ services:
       context: .
       dockerfile: ./test/Dockerfile
     command: ["nose2", "-v", "test_db.TestDb"]
+    depends_on:
+      - db
+      - scripts
     networks:
       - default
 
@@ -92,6 +95,9 @@ services:
       context: .
       dockerfile: ./test/Dockerfile
     command: ["nose2", "-v", "test_api.TestApi"]
+    depends_on:
+      - api
+      - scripts
     networks:
       - default
 
@@ -103,6 +109,7 @@ services:
       dockerfile: ./test/Dockerfile
     command: ["nose2", "-v", "test_scripts"]
     depends_on:
+      - scripts
       - db-hive
       - db-sql-server
       - db-mysql
@@ -118,15 +125,9 @@ services:
       context: .
       dockerfile: ./test/Dockerfile
     depends_on:
-      - test-scripts
+      - scripts
 
-  app:
-    image: mobydq-app-dev
-    build:
-      dockerfile: Dockerfile-dev
-      context: ./app
-
-  app-test:
+  test-app:
     container_name: mobydq-test-app
     build:
       context: ./app
