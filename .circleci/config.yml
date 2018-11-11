@@ -35,8 +35,7 @@ jobs:
           when: always
           command: |
             docker-compose -f docker-compose.yml build db graphql api scripts
-            docker-compose -f docker-compose.test.yml build app app-test
-            docker-compose -f ./test/docker-compose.yml build
+            docker-compose -f docker-compose.test.yml build
             docker images
 
       - run:
@@ -53,7 +52,7 @@ jobs:
           when: always
           command: |
             # Start databases
-            docker-compose -f ./test/docker-compose.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
+            docker-compose -f ./docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
             # Wait for them to start properly
             sleep 240
 
@@ -61,19 +60,19 @@ jobs:
           name: Run database tests
           when: always
           command: |
-            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-db test-db
+            docker-compose -f ./docker-compose.test.yml up --exit-code-from test-db test-db
 
       - run:
           name: Run API tests
           when: always
           command: |
-            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-api test-api
+            docker-compose -f ./docker-compose.test.yml up --exit-code-from test-api test-api
 
       - run:
           name: Run scripts tests
           when: always
           command: |
-            docker-compose -f ./test/docker-compose.yml up --exit-code-from test-scripts test-scripts
+            docker-compose -f ./docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
       - run:
           name: Run python linter

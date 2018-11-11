@@ -1,5 +1,125 @@
 version: '3.1'
 services:
+
+  db-hive:
+    container_name: mobydq-test-db-hive
+    image: mobydq-test-db-hive
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-hive/Dockerfile
+    expose:
+      - 10000
+    networks:
+      - default
+    hostname: quickstart.cloudera
+    privileged: true
+    tty: true
+
+  db-sql-server:
+    container_name: mobydq-test-db-sql-server
+    image: mobydq-test-db-sql-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-sql-server/Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1234-abcd"
+    expose:
+      - 1433
+    networks:
+      - default
+
+  db-mysql:
+    container_name: mobydq-test-db-mysql
+    image: mobydq-test-db-mysql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    expose:
+      - 3306
+    networks:
+      - default
+
+  db-mariadb:
+    container_name: mobydq-test-db-mariadb
+    image: mobydq-test-db-mariadb
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-mariadb/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    expose:
+      - 3306
+    networks:
+      - default
+
+  db-postgresql:
+    container_name: mobydq-test-db-postgresql
+    image: mobydq-test-db-postgresql
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-postgresql/Dockerfile
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DATABASE: "star_wars"
+    expose:
+      - 5432
+    networks:
+      - default
+
+  test-db:
+    container_name: mobydq-test-db
+    image: mobydq-test-db
+    build:
+      context: .
+      dockerfile: ./test/Dockerfile
+    command: ["nose2", "-v", "test_db.TestDb"]
+    networks:
+      - default
+
+  test-api:
+    container_name: mobydq-test-api
+    image: mobydq-test-api
+    build:
+      context: .
+      dockerfile: ./test/Dockerfile
+    command: ["nose2", "-v", "test_api.TestApi"]
+    networks:
+      - default
+
+  test-scripts:
+    container_name: mobydq-test-scripts
+    image: mobydq-test-scripts
+    build:
+      context: .
+      dockerfile: ./test/Dockerfile
+    command: ["nose2", "-v", "test_scripts"]
+    depends_on:
+      - db-hive
+      - db-sql-server
+      - db-mysql
+      - db-mariadb
+      - db-postgresql
+    networks:
+      - default
+
+  test-lint-python:
+    container_name: mobydq-test-lint-python
+    image: mobydq-test-lint-python
+    build:
+      context: .
+      dockerfile: ./test/Dockerfile
+    depends_on:
+      - test-scripts
+
   app:
     image: mobydq-app-dev
     build:
@@ -15,3 +135,8 @@ services:
       - ./.env
     command: "npm run test && npm run lint"
     image: mobydq-test-app
+
+networks:
+  default:
+    external:
+      name: mobydq-network
