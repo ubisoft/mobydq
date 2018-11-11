@@ -5,7 +5,7 @@ ARG PROJECT_DIR=/srv/api
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
-RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev
+RUN apk add gcc musl-dev libffi-dev openssl-dev
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
