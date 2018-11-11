@@ -16,21 +16,6 @@ services:
     privileged: true
     tty: true
 
-  db-sql-server:
-    container_name: mobydq-test-db-sql-server
-    image: mobydq-test-db-sql-server
-    restart: always
-    build:
-      context: .
-      dockerfile: ./test/db-sql-server/Dockerfile
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "1234-abcd"
-    expose:
-      - 1433
-    networks:
-      - default
-
   db-mysql:
     container_name: mobydq-test-db-mysql
     image: mobydq-test-db-mysql
@@ -72,6 +57,21 @@ services:
       POSTGRES_DATABASE: "star_wars"
     expose:
       - 5432
+    networks:
+      - default
+
+  db-sql-server:
+    container_name: mobydq-test-db-sql-server
+    image: mobydq-test-db-sql-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./test/db-sql-server/Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1234-abcd"
+    expose:
+      - 1433
     networks:
       - default
 
