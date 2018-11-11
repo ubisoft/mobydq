@@ -21,15 +21,15 @@ class UrlBuilder {
   }
 
   static _combineUrl(left, right) {
-    if (!left.endsWith('/')) {
+    if (left && !left.endsWith('/')) {
       left += '/';
     }
 
-    if (right.startsWith('/')) {
+    if (right && right.startsWith('/')) {
       right = right.substr(1);
     }
 
-    return left + right;
+    return (left || '') + (right || '');
   }
 }
 
