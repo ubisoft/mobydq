@@ -1,9 +1,15 @@
 FROM mobydq-scripts:latest
 
-# Install Python dependencies
-COPY ./test/requirements.txt ./
+WORKDIR /srv
+RUN mkdir -p /srv/test
+RUN mkdir -p /srv/api
 
-RUN pip install -r requirements.txt
+# Install Python dependencies
+COPY ./api/init/requirements.txt ./api
+COPY ./test/requirements.txt ./test
+
+RUN pip install -r ./api/requirements.txt
+RUN pip install -r ./test/requirements.txt
 
 # Set Python path to run tests with nose2
 ENV PYTHONPATH /srv/scripts:$PYTHONPATH
@@ -16,8 +22,6 @@ ENV PYTHONPATH /srv/test/test_scripts:$PYTHONPATH
 RUN apt-get install -y sqlite3
 
 # Test files
-WORKDIR /srv
-RUN mkdir -p /srv/test
 COPY ./api/init ./api
 COPY ./test/db-sqlite ./test/db-sqlite
 COPY ./test/test_db ./test/test_db
