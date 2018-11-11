@@ -34,6 +34,8 @@ jobs:
           name: Build Docker images
           when: always
           command: |
+            # Build dev image of web app which is needed for its test image
+            docker-compose -f docker-compose.yml -f docker-compose.dev.yml build app
             docker-compose -f docker-compose.yml -f docker-compose.test.yml build
             docker images
 
