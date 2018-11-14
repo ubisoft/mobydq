@@ -55,7 +55,7 @@ class BaseDataView extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                MobyDQ
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">

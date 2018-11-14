@@ -5,9 +5,11 @@ import { setIndicatorPage, setIndicatorRowsPerPage, setIndicatorRowTotal, setInd
 
 import { Query } from 'react-apollo';
 import IndicatorRepository from './../../repository/IndicatorRepository';
+import { GraphQLError } from './../Error/GraphQLError';
 
 import ListTable from '../ListTable/ListTable';
 import LinkButton from './../../Components/FormInput/LinkButton';
+import AddIcon from '@material-ui/icons/Add';
 
 class IndicatorList extends React.Component {
   render() {
@@ -22,7 +24,7 @@ class IndicatorList extends React.Component {
             return <p>Loading...</p>;
           }
           if (error) {
-            return <p>Error ...</p>;
+            return <GraphQLError error={error} />;
           }
           this.props.setIndicatorRowTotal(data.allIndicators.totalCount);
           return (
@@ -31,13 +33,12 @@ class IndicatorList extends React.Component {
                 Indicators
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton disabled={false} label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator/new'}/>
+                <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={'/indicator/new'}/>
               </div>
               <ListTable
                 data={data.allIndicators.nodes}
                 buttons={[
-                  { 'function': 'edit', 'parameter': '/indicator-group' },
+                  { 'function': 'edit', 'parameter': '/indicator' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
                 headerParams={this._buildHeaderParam()}
@@ -93,4 +94,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorList);
-

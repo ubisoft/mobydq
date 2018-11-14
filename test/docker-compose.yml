@@ -1,5 +1,20 @@
-version: '3'
+version: '3.1'
 services:
+
+  db-hive:
+    container_name: mobydq-test-db-hive
+    image: mobydq-test-db-hive
+    restart: always
+    build:
+      context: .
+      dockerfile: ./db-hive/Dockerfile
+    expose:
+      - 10000
+    networks:
+      - default
+    hostname: quickstart.cloudera
+    privileged: true
+    tty: true
 
   db-sql-server:
     container_name: mobydq-test-db-sql-server
@@ -62,7 +77,7 @@ services:
 
   test-db:
     container_name: mobydq-test-db
-    image: mobydq-test-scripts
+    image: mobydq-test-db
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -72,7 +87,7 @@ services:
 
   test-api:
     container_name: mobydq-test-api
-    image: mobydq-test-scripts
+    image: mobydq-test-api
     build:
       context: .
       dockerfile: ./Dockerfile

@@ -25,3 +25,24 @@ export function setIndicatorGroupSortColumn(string) {
     'sortColumn': string
   };
 }
+
+export function setIndicatorGroupMessage(str) {
+  return {
+    'type': 'INDICATOR_GROUP_LIST_MESSAGE',
+    'message': str
+  };
+}
+
+export function setIndicatorGroupOpen(bool) {
+  return {
+    'type': 'INDICATOR_GROUP_LIST_OPEN',
+    'open': bool
+  };
+}
+
+export function setIndicatorGroupCurrentBatchId(int) {
+  return {
+    'type': 'INDICATOR_GROUP_LIST_CURRENT_BATCH_ID',
+    'currentBatchId': int
+  };
+}

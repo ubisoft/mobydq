@@ -5,9 +5,11 @@ import { setIndicatorGroupPage, setIndicatorGroupRowsPerPage, setIndicatorGroupR
 
 import { Query } from 'react-apollo';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
+import { GraphQLError } from './../Error/GraphQLError';
 
 import ListTable from '../ListTable/ListTable';
 import LinkButton from './../../Components/FormInput/LinkButton';
+import AddIcon from '@material-ui/icons/Add';
 
 class IndicatorGroupList extends React.Component {
   render() {
@@ -22,7 +24,7 @@ class IndicatorGroupList extends React.Component {
             return <p>Loading...</p>;
           }
           if (error) {
-            return <p>Error ...</p>;
+            return <GraphQLError error={error} />;
           }
           this.props.setIndicatorGroupRowTotal(data.allIndicatorGroups.totalCount);
           return (
@@ -31,12 +33,12 @@ class IndicatorGroupList extends React.Component {
                 Indicator Groups
               </div>
               <div style={{ 'float': 'right' }}>
-                <LinkButton disabled={false} label="Create" type="Create" color="primary"
-                  variant="contained" to={'/indicator-group/new'}/>
+                <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={'/indicator-group/new'}/>
               </div>
               <ListTable
                 data={data.allIndicatorGroups.nodes}
                 buttons={[
+                  { 'function': 'execute', 'parameter': this._buildExecuteParam() },
                   { 'function': 'edit', 'parameter': '/indicator-group' },
                   { 'function': 'delete', 'parameter': this._buildDeleteParam() }
                 ]}
@@ -48,6 +50,12 @@ class IndicatorGroupList extends React.Component {
         }}
       </Query>
     );
+  }
+
+  _buildExecuteParam() {
+    return {
+      'repository': IndicatorGroupRepository
+    };
   }
 
   _buildDeleteParam() {
@@ -93,4 +101,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorGroupList);
-

@@ -46,9 +46,6 @@ class IndicatorGroupRepository {
         createIndicatorGroup(input: {indicatorGroup: $indicatorGroup}) {
           indicatorGroup {
             id
-            name
-            createdDate
-            updatedDate
           }
         }
       }
@@ -61,7 +58,6 @@ class IndicatorGroupRepository {
         updateIndicatorGroupById(input: {indicatorGroupPatch: $indicatorGroupPatch, id: $id }) {
           indicatorGroup {
             id
-            name
           }
         }
       }
@@ -71,10 +67,22 @@ class IndicatorGroupRepository {
   static delete() {
     return gql`
       mutation deleteIndicatorGroupById($id: Int!) {
-        deleteIndicatorGroupById(input: {id: $id }) {
+        deleteIndicatorGroupById(input: { id: $id }) {
           indicatorGroup {
             id
-            name
+          }
+        }
+      }
+    `;
+  }
+
+  static execute() {
+    return gql`
+      mutation executeBatch($id: Int!) {
+        executeBatch(input: { indicatorGroupId: $id }) {
+          batch {
+            id
+            status
           }
         }
       }

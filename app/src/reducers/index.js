@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { sidebarIsOpen } from './sidebar';
 import { indicatorPage, indicatorRowsPerPage, indicatorRowTotal, indicatorSortColumn } from './indicatorList';
-import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupSortColumn } from './indicatorGroupList';
+import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupSortColumn, indicatorGroupCurrentBatchId, indicatorGroupOpen, indicatorGroupMessage } from './indicatorGroupList';
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal, dataSourceSortColumn } from './dataSourceList';
 
 export default combineReducers({
@@ -13,7 +13,10 @@ export default combineReducers({
   indicatorGroupPage,
   indicatorGroupRowsPerPage,
   indicatorGroupRowTotal,
-  indicatorGroupSortColumn,
+  indicatorGroupSortColumn,  
+  indicatorGroupCurrentBatchId,
+  indicatorGroupOpen,
+  indicatorGroupMessage,
   dataSourcePage,
   dataSourceRowsPerPage,
   dataSourceRowTotal,

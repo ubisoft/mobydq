@@ -12,7 +12,9 @@ function isAuthenticated(props) {
   const cookieValue = getCookieValue('token');
   if (cookieValue) {
     const token = parseJwt(cookieValue);
-
+    if (token === '') {
+      return false;
+    }
     return props.permissions.every((permission) => token.role.includes(permission));
   }
   return false;
@@ -21,7 +23,13 @@ function isAuthenticated(props) {
 function parseJwt(token) {
   const [, base64Token] = token.split('.');
   const base64 = base64Token.replace('-', '+').replace('_', '/');
-  return JSON.parse(window.atob(base64));
+  let decodedToken;
+  try {
+    decodedToken = JSON.parse(window.atob(base64));
+  } catch (InvalidCharacterError) {
+    decodedToken = '';
+  }
+  return decodedToken;
 }
 
 // TODO Re-use with Root.js

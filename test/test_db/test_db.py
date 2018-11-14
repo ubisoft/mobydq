@@ -22,94 +22,145 @@ class TestDb(unittest.TestCase):
         connection.setencoding(encoding='utf-8')
         return connection
 
-    def test_trigger_update_updated_date(self):
-        """Unit tests for trigger update_updated_date."""
+    def rollback(self):
+        """Rollback uncommitted database transactions."""
 
-        # Insert test record
-        test_case_name = get_test_case_name()
-        insert_query = f'INSERT INTO base.data_source_type (name) VALUES (\'{test_case_name}\');'
-        self.connection.execute(insert_query)
-        self.connection.commit()
+        self.connection.execute('ROLLBACK;')
+        return True
 
-        # Update test record
-        test_case_name_updated = get_test_case_name()
-        update_query = f'UPDATE base.data_source_type SET name = \'{test_case_name_updated}\' WHERE name = \'{test_case_name}\';'
-        self.connection.execute(update_query)
-        self.connection.commit()
+    def create_data_source(self, test_case_name: str):
+        """Create a data source in the database and return its id and password."""
 
-        # Get updated record
-        select_query = f'SELECT created_date, updated_date FROM base.data_source_type WHERE name = \'{test_case_name_updated}\';'
-        cursor = self.connection.execute(select_query)
+        insert_data_source_query = f'''INSERT INTO base.data_source (name, data_source_type_id, password) VALUES ('{test_case_name}', 1, 1234) RETURNING id, password;'''
+        cursor = self.connection.execute(insert_data_source_query)
         row = cursor.fetchone()
 
-        # Assert created_date < updated_date
-        created_date = row[0]
+        data_source_id = row[0]
+        password = row[1]
+        return data_source_id, password
+
+    def create_indicator(self, test_case_name: str, indicator_group_id: int, user_group_id: int):
+        """Create an indicator in the database and return its id."""
+
+        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group_id) VALUES ('{test_case_name}', true, 1, {indicator_group_id}, '{user_group_id}') RETURNING id;'''
+        cursor = self.connection.execute(insert_indicator_query)
+        indicator_id = cursor.fetchone()[0]
+        return indicator_id
+
+    def create_indicator_group(self, test_case_name: str, user_group_id: int):
+        """Create an indicator group in the database and return its id."""
+
+        insert_indicator_group_query = f'''INSERT INTO base.indicator_group (name, user_group_id) VALUES ('{test_case_name}', '{user_group_id}') RETURNING id;'''
+        cursor = self.connection.execute(insert_indicator_group_query)
+        indicator_group_id = cursor.fetchone()[0]
+        return indicator_group_id
+
+    def create_user(self, test_case_name: str, flag_admin: bool = False):
+        """Create a user in the database and return its id."""
+
+        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
+        cursor = self.connection.execute(insert_user_query)
+        user_id = cursor.fetchone()[0]
+        return user_id
+
+    def create_user_group(self, test_case_name: str):
+        """Create a user group in the database and return its id."""
+
+        insert_user_group_query = f'''INSERT INTO base.user_group (name) VALUES ('{test_case_name}') RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_query)
+        user_group_id = cursor.fetchone()[0]
+        return user_group_id
+
+    def create_user_group_user(self, user_group_id: int, user_id: int):
+        """Create a user group user in the database and return its id."""
+
+        insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_user_query)
+        user_group_user_id = cursor.fetchone()[0]
+        return user_group_user_id
+
+    def delete_user_group(self, user_group_id: int):
+        """Delete a user group from the database."""
+
+        delete_user_group_query = f'''DELETE FROM base.user_group WHERE id = {user_group_id};'''
+        self.connection.execute(delete_user_group_query)
+        return True
+
+    def update_user(self, user_id: int):
+        """Update a user in the database and return its updated_by_id and updated_date."""
+
+        update_user_query = f'''UPDATE base.user SET flag_admin = true WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
+        cursor = self.connection.execute(update_user_query)
+        row = cursor.fetchone()
+
+        updated_by_id = row[0]
         updated_date = row[1]
-        self.assertTrue(created_date < updated_date)
+        created_date = row[2]
+        return updated_by_id, updated_date, created_date
 
-    def test_trigger_delete_children(self):
-        """Unit tests for trigger delete_children."""
+    def update_data_source(self, data_source_id: int):
+        """Update a data source in the database and return its password."""
 
-        # Insert test parent record
+        update_data_source_query = f'''UPDATE base.data_source SET password = '0000' WHERE id = {data_source_id} RETURNING password;'''
+        cursor = self.connection.execute(update_data_source_query)
+        password = cursor.fetchone()[0]
+        return password
+
+    def test_function_duplicate_indicator(self):
+        """Unit tests for custom function duplicate_indicator."""
+
+        # Insert user group
         test_case_name = get_test_case_name()
-        insert_parent_query = f'INSERT INTO base.data_source_type (name) VALUES (\'{test_case_name}\');'
-        self.connection.execute(insert_parent_query)
-        self.connection.commit()
+        user_group_id = self.create_user_group(test_case_name)
 
-        # Get test parent record Id
-        select_parent_query = f'SELECT id FROM base.data_source_type WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_parent_query)
-        row = cursor.fetchone()
-        data_source_type_id = row[0]
+        # Insert indicator group
+        indicator_group_id = self.create_indicator_group(test_case_name, user_group_id)
 
-        # Insert test child record
-        insert_child_query = f'INSERT INTO base.data_source (name, data_source_type_id, user_group) VALUES (\'{test_case_name}\', \'{data_source_type_id}\', \'test_group\');'
-        self.connection.execute(insert_child_query)
-        self.connection.commit()
+        # Insert indicator
+        indicator_id = self.create_indicator(test_case_name, indicator_group_id, user_group_id)
 
-        # Delete test parent record
-        delete_parent_query = f'DELETE FROM base.data_source_type WHERE id = {data_source_type_id}'
-        self.connection.execute(delete_parent_query)
-        self.connection.commit()
+        # Insert test parameter
+        insert_parameter_query = f'''INSERT INTO base.parameter (value, indicator_id, parameter_type_id, user_group_id) VALUES ('{test_case_name}', {indicator_id}, 1, {user_group_id});'''
+        self.connection.execute(insert_parameter_query)
 
-        # Gat test child record
-        select_child_query = f'SELECT id FROM base.data_source WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_child_query)
+        # Call test duplicate indicator function
+        new_test_case_name = get_test_case_name()
+        call_test_duplicate_indicator_query = f'''SELECT base.duplicate_indicator({indicator_id}, '{new_test_case_name}');'''
+        self.connection.execute(call_test_duplicate_indicator_query)
+
+        # Get new indicator and parameter
+        select_new_indicator_query = f'''SELECT a.name, b.value FROM base.indicator a INNER JOIN base.parameter b ON a.id = b.indicator_id WHERE a.name = '{new_test_case_name}';'''
+        cursor = self.connection.execute(select_new_indicator_query)
         row = cursor.fetchone()
 
-        # Assert test child record has been deleted
-        self.assertTrue(row is None)
+        # Assert duplicated indicator name and parameter value
+        indiator_name = row[0]
+        parameter_value = row[1]
+        self.assertEqual(indiator_name, new_test_case_name)
+        self.assertEqual(parameter_value, test_case_name)
+
+        # Rollback uncommitted data
+        self.rollback()
 
     def test_function_execute_batch(self):
         """Unit tests for custom function execute_batch."""
 
-        # Insert test indicator group
+        # Insert user group
         test_case_name = get_test_case_name()
-        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name, user_group) VALUES (\'{test_case_name}\', \'test_group\');'
-        self.connection.execute(insert_indicator_group_query)
-        self.connection.commit()
+        user_group_id = self.create_user_group(test_case_name)
 
-        # Get test indicator group Id
-        select_indicator_group_query = f'SELECT id FROM base.indicator_group WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_indicator_group_query)
-        row = cursor.fetchone()
-        indicator_group_id = row[0]
+        # Insert indicator group
+        indicator_group_id = self.create_indicator_group(test_case_name, user_group_id)
 
-        # Insert test indicator
-        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
-        self.connection.execute(insert_indicator_query)
-        self.connection.commit()
+        # Insert indicator
+        self.create_indicator(test_case_name, indicator_group_id, user_group_id)
 
         # Call execute batch function
-        call_execute_batch_query = f'SELECT base.execute_batch({indicator_group_id});'
+        call_execute_batch_query = f'''SELECT base.execute_batch({indicator_group_id});'''
         self.connection.execute(call_execute_batch_query)
 
         # Get batch and indicator session
-        select_batch_query = f'''SELECT B.status, C.status FROM base.indicator_group A
-        INNER JOIN base.batch B ON A.id = B.indicator_group_id
-        INNER JOIN base.session C ON B.id = C.batch_id
-        WHERE A.name = '{test_case_name}';'''
+        select_batch_query = f'''SELECT B.status, C.status FROM base.indicator_group A INNER JOIN base.batch B ON A.id = B.indicator_group_id INNER JOIN base.session C ON B.id = C.batch_id WHERE A.id = '{indicator_group_id}';'''
         cursor = self.connection.execute(select_batch_query)
         row = cursor.fetchone()
 
@@ -119,196 +170,321 @@ class TestDb(unittest.TestCase):
         self.assertEqual(batch_status, 'Pending')
         self.assertEqual(session_status, 'Pending')
 
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_function_get_current_user_id(self):
+        """Unit tests for custom function get_current_user_id."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
+        user = f'user_{user_id}'
+
+        # Change role
+        set_role_query = f'''SET ROLE {user};'''
+        self.connection.execute(set_role_query)
+
+        # Get current user Id based on current role
+        select_query = f'''SELECT base.get_current_user_id();'''
+        cursor = self.connection.execute(select_query)
+        current_user_id = cursor.fetchone()[0]
+
+        # Assert user Id is equal to Id extracted from role
+        self.assertEqual(user_id, current_user_id)
+
+        # Reverse current role to postgres
+        set_role_query = f'''SET ROLE postgres;'''
+        self.connection.execute(set_role_query)
+
+        # Rollback uncommitted data
+        self.rollback()
+
     def test_function_test_data_source(self):
         """Unit tests for custom function test_data_source."""
 
-        # Insert test data source
+        # Insert data source
         test_case_name = get_test_case_name()
-        insert_data_source_query = f'INSERT INTO base.data_source (name, data_source_type_id, user_group) VALUES (\'{test_case_name}\', 1, \'test_group\');'
-        self.connection.execute(insert_data_source_query)
-        self.connection.commit()
-
-        # Get test data source Id
-        select_data_source_query = f'SELECT id FROM base.data_source WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_data_source_query)
-        row = cursor.fetchone()
-        data_source_id = row[0]
+        data = self.create_data_source(test_case_name)
+        data_source_id = data[0]
 
         # Call test data source function
-        call_test_data_source_query = f'SELECT base.test_data_source({data_source_id});'
+        call_test_data_source_query = f'''SELECT base.test_data_source({data_source_id});'''
         self.connection.execute(call_test_data_source_query)
 
         # Get data source connectivity status
-        select_data_source_query = f'SELECT connectivity_status FROM base.data_source WHERE name = \'{test_case_name}\';'
+        select_data_source_query = f'''SELECT connectivity_status FROM base.data_source WHERE id = '{data_source_id}';'''
         cursor = self.connection.execute(select_data_source_query)
-        row = cursor.fetchone()
+        connectivity_status = cursor.fetchone()[0]
 
         # Assert connectivity status is Pending
-        connectivity_status = row[0]
         self.assertEqual(connectivity_status, 'Pending')
 
-    def test_function_duplicate_indicator(self):
-        """Unit tests for custom function duplicate_indicator."""
+        # Rollback uncommitted data
+        self.rollback()
 
-        # Insert test indicator group
+    def test_trigger_create_user(self):
+        """Unit tests for trigger function create_user."""
+
+        # Insert user
         test_case_name = get_test_case_name()
-        insert_indicator_group_query = f'INSERT INTO base.indicator_group (name, user_group) VALUES (\'{test_case_name}\', \'test_group\');'
-        self.connection.execute(insert_indicator_group_query)
-        self.connection.commit()
+        user_id = self.create_user(test_case_name)
+        user = f'user_{user_id}'
 
-        # Get test indicator group Id
-        select_indicator_group_query = f'SELECT id FROM base.indicator_group WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_indicator_group_query)
-        row = cursor.fetchone()
-        indicator_group_id = row[0]
-
-        # Insert test indicator
-        insert_indicator_query = f'''INSERT INTO base.indicator (name, flag_active, indicator_type_id, indicator_group_id, user_group)
-        VALUES ('{test_case_name}', true, 1, {indicator_group_id}, 'test_group');'''
-        self.connection.execute(insert_indicator_query)
-        self.connection.commit()
-
-        # Get test indicator Id
-        select_indicator_query = f'SELECT id FROM base.indicator WHERE name = \'{test_case_name}\';'
-        cursor = self.connection.execute(select_indicator_query)
-        row = cursor.fetchone()
-        indicator_id = row[0]
-
-        # Insert test parameter
-        insert_parameter_query = f'INSERT INTO base.parameter (value, indicator_id, parameter_type_id, user_group) VALUES (\'{test_case_name}\', {indicator_id}, 1, \'test_group\');'
-        self.connection.execute(insert_parameter_query)
-        self.connection.commit()
-
-        # Call test duplicate indicator function
-        new_test_case_name = get_test_case_name()
-        call_test_duplicate_indicator_query = f'SELECT base.duplicate_indicator({indicator_id}, \'{new_test_case_name}\');'
-        self.connection.execute(call_test_duplicate_indicator_query)
-
-        # Get new indicator and parameter
-        select_new_indicator_query = f'''SELECT a.name, b.value FROM base.indicator a
-        INNER JOIN base.parameter b ON a.id=b.indicator_id
-        WHERE name = '{new_test_case_name}';'''
-        cursor = self.connection.execute(select_new_indicator_query)
+        # Get user and standard role
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'standard' WHERE a.rolname = '{user}';'''
+        cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert duplicated indicator name and parameter value
-        name = row[0]
-        value = row[0]
-        self.assertEqual(name, new_test_case_name)
-        self.assertEqual(value, new_test_case_name)
+        # Assert user was created and standard role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], 'standard')
 
-    def test_function_create_new_user_group(self):
-        # Insert test create new user group
+        # Get user and default user group
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_0' WHERE a.rolname = '{user}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
+
+        # Assert user was created and standard role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], 'user_group_0')
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_create_user_group(self):
+        """Unit tests for trigger function create_user_group."""
+
+        # Insert user group
         test_case_name = get_test_case_name()
-        call_test_create_new_user_group_query = f'SELECT base.create_new_user_group(\'{test_case_name}\');'
-        self.connection.execute(call_test_create_new_user_group_query)
+        user_group_id = self.create_user_group(test_case_name)
+        user_group = f'user_group_{user_group_id}'
 
-        # Get new created standard user group role
-        select_new_standard_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = 'user_group_' || '{test_case_name}';'''
-        cursor = self.connection.execute(select_new_standard_group_role_query)
-        row_user_role = cursor.fetchone()
+        # Get user group role
+        select_user_role_query = f'''SELECT a.rolname AS user_group FROM pg_catalog.pg_roles a WHERE a.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
 
-        # Get new created admin user group role
-        select_new_admin_group_role_query = f'''SELECT rolsuper FROM pg_roles
-        WHERE rolname = 'user_group_' || '{test_case_name}' || '_admin';'''
-        cursor = self.connection.execute(select_new_admin_group_role_query)
-        row_admin_role = cursor.fetchone()
+        # Assert user group role was created
+        self.assertEqual(row[0], user_group)
 
-        # Get number of new created user group policies
-        select_all_user_group_policies_query = f'''SELECT COUNT(*) FROM pg_catalog.pg_policies
-        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '%';'''
-        cursor = self.connection.execute(select_all_user_group_policies_query)
-        row_number_policies = cursor.fetchone()
+        # Rollback uncommitted data
+        self.rollback()
 
-        # Get new created indicator_group policy
-        select_indicator_group_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = 'user_group_' || '{test_case_name}' || '_indicator_group_all';'''
-        cursor = self.connection.execute(select_indicator_group_policy_query)
-        row_indicator_group_policy = cursor.fetchone()
+    def test_trigger_data_source_insert_password(self):
+        """Unit tests for trigger function data_source_insert_password."""
 
-        # Get new created data_source policy for standard user of user group
-        select_data_source_policy_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname = 'user_group_' || '{test_case_name}' || '_data_source_select';'''
-        cursor = self.connection.execute(select_data_source_policy_query)
-        row_data_source_policy = cursor.fetchone()
-
-        # Get new created data_source policy for admin user of user group
-        select_data_source_policy_admin_query = f'''SELECT cmd FROM pg_catalog.pg_policies
-        WHERE policyname LIKE 'user_group_' || '{test_case_name}' || '_admin_data_source_a%';'''
-        cursor = self.connection.execute(select_data_source_policy_admin_query)
-        row_data_source_policy_admin = cursor.fetchone()
-
-        # Assert roles and policy creation works as expected
-        self.assertEqual(row_user_role[0], '0')
-        self.assertEqual(row_admin_role[0], '0')
-        self.assertEqual(row_number_policies[0], 8)
-        self.assertEqual(row_indicator_group_policy[0], 'ALL')
-        self.assertEqual(row_data_source_policy[0], 'SELECT')
-        self.assertEqual(row_data_source_policy_admin[0], 'ALL')
-
-    def test_function_create_new_user_role(self):
-        # Insert test create new user
+        # Insert data source
         test_case_name = get_test_case_name()
-        call_test_create_new_user_role_query = f'INSERT INTO base.user (email, oauth_type, access_token, expiry_date) values (\'{test_case_name}\', \'google\', \'1234\', CURRENT_TIMESTAMP) RETURNING id;'
-        cursor = self.connection.execute(call_test_create_new_user_role_query)
-        id_of_new_role = cursor.fetchone()[0]
+        data = self.create_data_source(test_case_name)
+        password = data[1]
 
-        # Get new created user role
-        select_new_role_query = f'''SELECT COUNT(*) FROM pg_roles
-        WHERE rolname = 'user_' || '{id_of_new_role}';'''
-        cursor = self.connection.execute(select_new_role_query)
-        row_count_user_role = cursor.fetchone()
+        # Assert password is encrypted
+        self.assertNotEqual(password, '1234')
 
-        # Assert roles creation works as expected
-        self.assertEqual(row_count_user_role[0], 1)
+        # Rollback uncommitted data
+        self.rollback()
 
-    def test_function_get_all_user_groups(self):
-        # Insert test get all user group roles
+    def test_trigger_data_source_update_password(self):
+        """Unit tests for trigger function data_source_update_password."""
 
-        # Prepare database, delete all user group roles in the pg_authid table
-        delete_user_groups_roles = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_%\';'
-        self.connection.execute(delete_user_groups_roles)
+        # Insert data source
+        test_case_name = get_test_case_name()
+        data = self.create_data_source(test_case_name)
+        data_source_id = data[0]
+        password = data[1]
 
-        # Create new user groups
-        create_test_user_group_standard = 'CREATE ROLE user_group_mobydq;'
-        self.connection.execute(create_test_user_group_standard)
-        create_test_user_group_admin = 'CREATE ROLE user_group_mobydq_admin;'
-        self.connection.execute(create_test_user_group_admin)
+        # Update data source
+        updated_password = self.update_data_source(data_source_id)
 
-        # Call tested function to get all user groups
-        call_test_get_all_user_groups = 'SELECT base.get_all_user_groups();'
-        cursor = self.connection.execute(call_test_get_all_user_groups)
-        user_group_list = list(cursor)
+        # Assert password is encrypted
+        self.assertNotEqual(updated_password, '0000')
+        self.assertNotEqual(password, updated_password)
 
-        # Assert all created user groups are in the returned list
-        user_group_names = [item[0] for item in user_group_list]
-        self.assertTrue('user_group_mobydq' in user_group_names)
-        self.assertTrue('user_group_mobydq_admin' in user_group_names)
+        # Rollback uncommitted data
+        self.rollback()
 
-    def test_function_get_all_user_groups_by_user(self):
-        # Insert test get all user group roles of user
+    def test_trigger_delete_children(self):
+        """Unit tests for trigger function delete_children."""
 
-        # Prepare database, delete test user and test user group role
-        delete_user_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_mobydq\';'
-        self.connection.execute(delete_user_role)
-        delete_user_group_role = 'DELETE FROM pg_authid WHERE rolname LIKE \'user_group_mobydq\';'
-        self.connection.execute(delete_user_group_role)
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
 
-        # Create new user and a new user group role, grant user group to user
-        create_new_user = 'CREATE ROLE user_mobydq;'
-        self.connection.execute(create_new_user)
-        create_new_user_group = 'CREATE ROLE user_group_mobydq;'
-        self.connection.execute(create_new_user_group)
-        grant_user_group_roles_to_user = 'GRANT user_group_mobydq TO user_mobydq;'
-        self.connection.execute(grant_user_group_roles_to_user)
+        # Insert user group
+        user_group_id = self.create_user_group(test_case_name)
 
-        call_test_get_all_user_groups_by_user = 'SELECT base.get_all_user_groups_by_user(\'user_mobydq\');'
-        cursor = self.connection.execute(call_test_get_all_user_groups_by_user)
-        user_group_list = list(cursor)
+        # Insert user group user
+        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
 
-        # Assert granted user group roles were selected and are in returned list
-        self.assertTrue('user_group_mobydq' in [item[0] for item in user_group_list])
+        # Delete user group
+        self.delete_user_group(user_group_id)
+
+        # Get user group user
+        select_user_group_user_query = f'''SELECT id FROM base.user_group_user WHERE id = '{user_group_user_id}';'''
+        cursor = self.connection.execute(select_user_group_user_query)
+        row = cursor.fetchone()
+
+        # Assert user group user has been deleted
+        self.assertTrue(row is None)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_delete_user_group(self):
+        """Unit tests for trigger function delete_user_group."""
+
+        # Insert user group
+        test_case_name = get_test_case_name()
+        user_group_id = self.create_user_group(test_case_name)
+        user_group = f'user_group_{user_group_id}'
+
+        # Delete user group
+        self.delete_user_group(user_group_id)
+
+        # Get user group role
+        select_user_role_query = f'''SELECT a.rolname AS user_group FROM pg_catalog.pg_roles a WHERE a.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
+
+        # Assert user group role has been deleted
+        self.assertTrue(row is None)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_grant_user_group(self):
+        """Unit tests for trigger function grant_user_group."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
+        user = f'user_{user_id}'
+
+        # Insert user group
+        user_group_id = self.create_user_group(test_case_name)
+        user_group = f'user_group_{user_group_id}'
+
+        # Insert user group user
+        self.create_user_group_user(user_group_id, user_id)
+
+        # Get user and user group roles
+        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_user_query)
+        row = cursor.fetchone()
+
+        # Assert user was created and user group role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], user_group)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_revoke_user_group(self):
+        """Unit tests for trigger function revoke_user_group."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
+        user = f'user_{user_id}'
+
+        # Insert user group
+        user_group_id = self.create_user_group(test_case_name)
+        user_group = f'user_group_{user_group_id}'
+
+        # Insert user group user
+        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
+
+        # Delete user group user
+        insert_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE id = {user_group_user_id};'''
+        self.connection.execute(insert_user_group_user_query)
+
+        # Get user and user group
+        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_user_query)
+        row = cursor.fetchone()
+
+        # Assert user group role has been revoked
+        self.assertTrue(row is None)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_update_updated_by_id(self):
+        """Unit tests for trigger function update_updated_by_id."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name, True)
+        user = f'user_{user_id}'
+
+        # Change current role to new user
+        set_role_query = f'''SET ROLE {user};'''
+        self.connection.execute(set_role_query)
+
+        # Update user
+        data = self.update_user(user_id)
+        updated_by_id = data[0]
+
+        # Assert user Id is equal updated by Id
+        self.assertEqual(user_id, updated_by_id)
+
+        # Reverse current role to postgres
+        set_role_query = f'''SET ROLE postgres;'''
+        self.connection.execute(set_role_query)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_trigger_update_updated_date(self):
+        """Unit tests for trigger function update_updated_date."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
+
+        # Commit is necessary here for the test case to pass
+        # It ensure updated_date will be greater than created_date
+        self.connection.commit()
+
+        # Update user
+        data = self.update_user(user_id)
+        updated_date = data[1]
+        created_date = data[2]
+
+        # Assert created_date is older than updated_date
+        self.assertLess(created_date, updated_date)
+
+        # Delete committed data
+        delete_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE user_id = {user_id};'''
+        self.connection.execute(delete_user_group_user_query)
+
+        delete_user_query = f'''DELETE FROM base.user WHERE id = {user_id};'''
+        self.connection.execute(delete_user_query)
+        self.connection.commit()
+
+    def test_trigger_update_user_permission(self):
+        """Unit tests for trigger function update_user_permission."""
+
+        # Insert user
+        test_case_name = get_test_case_name()
+        user_id = self.create_user(test_case_name)
+        user = f'user_{user_id}'
+
+        # Update user role to admin
+        self.update_user(user_id)
+
+        # Get user and role
+        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
+        cursor = self.connection.execute(select_user_role_query)
+        row = cursor.fetchone()
+
+        # Assert user was created and standard role granted
+        self.assertEqual(row[0], user)
+        self.assertEqual(row[1], 'admin')
+
+        # Rollback uncommitted data
+        self.rollback()
 
     @classmethod
     def tearDownClass(cls):

@@ -43,10 +43,8 @@ def register_graphql(namespace: Namespace, api: Api):
 
                 # Surcharge payload before request
                 if mutation_name:
-                    mutation_arguments = interceptor.get_mutation_arguments(
-                        graphql_document)
                     payload['query'] = interceptor.before_request(
-                        mutation_name, mutation_arguments)
+                        mutation_name)
 
                 # Execute request on GraphQL API
                 status, data = execute_graphql_request(payload)
