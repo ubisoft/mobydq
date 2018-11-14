@@ -15,13 +15,16 @@ class ListTableHeader extends React.Component {
     this.props.params.setSortField(fieldName + '_' + newDirection);
   };
 
+  /**
+  * GraphQL uses FIELD_NAME format for defining the sort directives as opposed to camelCase in the field names.
+  * This function is responsible for the necessary field name conversion
+  **/
   _buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection) {
     return header === 'Actions'
       ? <React.Fragment>{header}</React.Fragment>
       : <Tooltip
           title='Sort'
           placement={'bottom-start'}
-//          placement={row.numeric ? 'bottom-end' : 'bottom-start'}
           enterDelay={300}
         >
           <TableSortLabel
