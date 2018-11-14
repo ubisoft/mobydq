@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 class DataSourceRepository {
   static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
     return gql`
-      query dataSourceRange($first: Int!, $offset: Int!) {
-        allDataSources(first: $first, offset: $offset) {
+      query dataSourceRange($first: Int!, $offset: Int!, $orderBy: [DataSourcesOrderBy!]) {
+        allDataSources(first: $first, offset: $offset, orderBy: $orderBy) {
           totalCount
           nodes {
             id

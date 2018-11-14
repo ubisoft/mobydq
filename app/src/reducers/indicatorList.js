@@ -24,3 +24,12 @@ export function indicatorRowTotal(state = 0, action) {
     return state;
   }
 }
+
+export function indicatorSortColumn(state = null, action) {
+  switch (action.type) {
+  case 'INDICATOR_LIST_SORT_COLUMN':
+    return action.sortColumn;
+  default:
+    return state;
+  }
+}
