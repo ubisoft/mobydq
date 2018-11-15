@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 class ListTableHeader extends React.Component {
   _handleSortClick = (fieldName, isActive, direction) => {
     const newDirection = (isActive && direction === SORT_ORDER.DESCENDING) ? 'ASC' : 'DESC';
-    this.props.params.setSortField(fieldName + '_' + newDirection);
+    this.props.params.setSortColumn(fieldName + '_' + newDirection);
   };
 
   /**
@@ -58,7 +58,7 @@ class ListTableHeader extends React.Component {
 
   _buildHeader(headerFields) {
     // Add "Actions column
-    const sortField = this.props.params.sortField;
+    const sortField = this.props.params.sortColumn;
     const allHeaderFields = headerFields.concat(['Actions']);
     //sort field is either null or FIELD_NAME_ASC/DESC
     const sortFieldName = sortField === null ? null : sortField.substring(0, sortField.lastIndexOf("_"));
