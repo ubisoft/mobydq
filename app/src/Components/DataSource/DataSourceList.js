@@ -24,10 +24,10 @@ class DataSourceList extends React.Component {
 
   _buildDeleteParam() {
     return {
-      'page': this.props.dataSourcePage,
-      'rowTotal': this.props.dataSourceRowTotal,
-      'rowsPerPage': this.props.dataSourceRowsPerPage,
-      'setPage': this.props.setDataSourcePage,
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
       'repository': DataSourceRepository
     };
   }

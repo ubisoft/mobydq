@@ -24,10 +24,10 @@ class IndicatorList extends React.Component {
 
   _buildDeleteParam() {
     return {
-      'page': this.props.indicatorPage,
-      'rowTotal': this.props.indicatorRowTotal,
-      'rowsPerPage': this.props.indicatorRowsPerPage,
-      'setPage': this.props.setIndicatorPage,
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
       'repository': IndicatorRepository
     };
   }
