@@ -8,14 +8,13 @@ import { setIndicatorGroupCurrentBatchId, setIndicatorGroupOpen, setIndicatorGro
 
 
 class ExecuteRowButton extends React.Component {
-
   execute = (func) => {
     func();
     this.props.setOpen(true);
   }
 
   render() {
-    return (<Mutation
+    return <Mutation
       mutation={this.props.parameter.repository.execute()}
       variables={{ 'id': this.props.recordId }}>
       {(executeFunc, params) => {
@@ -29,7 +28,7 @@ class ExecuteRowButton extends React.Component {
         }
 
         if (called && data) {
-          const responseData = data['executeBatch']['batch'];
+          const responseData = data.executeBatch.batch;
           if (responseData.id !== this.props.currentBatchId) {
             this.props.setMessage(`Batch ${responseData.id}: ${responseData.status}`);
             this.props.setCurrentBatchId(responseData.id);
@@ -43,8 +42,8 @@ class ExecuteRowButton extends React.Component {
             </IconButton>
             <Snackbar
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
+                'vertical': 'bottom',
+                'horizontal': 'left'
               }}
               open={this.props.open}
               autoHideDuration={5000}
@@ -54,25 +53,25 @@ class ExecuteRowButton extends React.Component {
           </span>
         );
       }}
-    </Mutation>);
+    </Mutation>;
   }
 }
 
 const mapStateToProps = (state) => {
-  return ({
+  return {
     'message': state.indicatorGroupMessage,
     'open': state.indicatorGroupOpen,
     'currentBatchId': state.indicatorGroupCurrentBatchId
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
-  return ({
-    'setMessage': message => dispatch(setIndicatorGroupMessage(message)),
-    'setOpen': open => dispatch(setIndicatorGroupOpen(open)),
-    'setCurrentBatchId': currentBatchId => dispatch(setIndicatorGroupCurrentBatchId(currentBatchId))
-  });
-}
+  return {
+    'setMessage': (message) => dispatch(setIndicatorGroupMessage(message)),
+    'setOpen': (open) => dispatch(setIndicatorGroupOpen(open)),
+    'setCurrentBatchId': (currentBatchId) => dispatch(setIndicatorGroupCurrentBatchId(currentBatchId))
+  };
+};
 
 const VisibleExecuteRowButton = connect(mapStateToProps, mapDispatchToProps)(ExecuteRowButton);
 

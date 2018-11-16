@@ -15,10 +15,10 @@ class IndicatorGroupList extends React.Component {
     ];
     return <ListContainer
       buttons={buttonConfig}
-      newLink='/indicator-group/new'
+      newLink={'/indicator-group/new'}
       repository={IndicatorGroupRepository}
-      dataObjectName='allIndicatorGroups'
-      tableHeader='Indicator Groups'
+      dataObjectName={'allIndicatorGroups'}
+      tableHeader={'Indicator Groups'}
       {...this.props}
     />;
   }

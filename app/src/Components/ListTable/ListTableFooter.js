@@ -14,16 +14,15 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5,
-  },
+const actionsStyles = (theme) => ({
+  'root': {
+    'flexShrink': 0,
+    'color': theme.palette.text.secondary,
+    'marginLeft': theme.spacing.unit * 2.5
+  }
 });
 
 class TablePaginationActions extends React.Component {
-
   handleFirstPageButtonClick = () => {
     this.props.onChangePage(0);
   };
@@ -43,10 +42,7 @@ class TablePaginationActions extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
-    let count = this.props.count;
-    let page = this.props.page;
-    let rowsPerPage = this.props.rowsPerPage;
+    const { classes, theme, count, page, rowsPerPage } = this.props;
     return (
       <div className={classes.root}>
         <IconButton
@@ -83,12 +79,12 @@ class TablePaginationActions extends React.Component {
 }
 
 TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired,
+  'classes': PropTypes.object.isRequired,
+  'onChangePage': PropTypes.func.isRequired,
+  'theme': PropTypes.object.isRequired
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
+const TablePaginationActionsWrapped = withStyles(actionsStyles, { 'withTheme': true })(
   TablePaginationActions,
 );
 
@@ -100,7 +96,7 @@ class ListTableFooter extends React.Component {
   }
 
   render() {
-    return (<TableFooter>
+    return <TableFooter>
       <TableRow>
         <TablePagination
           colSpan={10}
@@ -112,17 +108,16 @@ class ListTableFooter extends React.Component {
           ActionsComponent={TablePaginationActionsWrapped}
         />
       </TableRow>
-    </TableFooter>);
+    </TableFooter>;
   }
 
   handleChangePage(page) {
     this.props.params.setPage(page);
-  };
+  }
 
   handleChangeRowsPerPage(event) {
     this.props.params.setRowsPerPage(event.target.value);
-  };
-
+  }
 }
 
 export default ListTableFooter;

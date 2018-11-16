@@ -34,7 +34,7 @@ class ListContainer extends React.Component {
       >
         {({ loading, error, data }) => {
           if (loading) {
-            //check if we already have data object so we would not remove the old data before we get the new one.
+            // Check if we already have data object so we would not remove the old data before we get the new one.
             if (Object.keys(data).length) {
               return this.renderForm(data);
             }

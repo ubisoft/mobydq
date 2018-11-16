@@ -1,5 +1,6 @@
-{
+  {
   "extends": [ "eslint:all", "plugin:react/recommended", "plugin:jest/recommended" ],
+  "parser": "babel-eslint",
   "plugins": [ "react", "jest" ],
   "rules": {
     "array-element-newline": ["error", "consistent"],
@@ -7,12 +8,13 @@
     "dot-location": ["error", "property"],
     "func-style": "off",
     "function-paren-newline": ["error", "consistent"],
-    "indent": ["error", 2],
+    "indent": ["error", 2, {"SwitchCase": 1, "ignoredNodes": [ "JSXAttribute", "JSXSpreadAttribute"]}],
     "init-declarations": "off",
     "max-len": "off",
     "max-lines-per-function": "off",
     "max-statements": "off",
     "multiline-ternary": "off",
+    "newline-per-chained-call": "off",
     "no-alert": "off",
     "no-confusing-arrow": "off",
     "no-inline-comments": "off",

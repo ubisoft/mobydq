@@ -14,10 +14,10 @@ class DataSourceList extends React.Component {
     ];
     return <ListContainer
       buttons={buttonConfig}
-      newLink='/data-source/new'
+      newLink={'/data-source/new'}
       repository={DataSourceRepository}
-      dataObjectName='allDataSources'
-      tableHeader='Data Sources'
+      dataObjectName={'allDataSources'}
+      tableHeader={'Data Sources'}
       {...this.props}
     />;
   }

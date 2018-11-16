@@ -70,7 +70,11 @@ function _deleteMutation(ComponentRepository, idToDelete, afterSave) {
           return <p>Error...</p>;
         }
         return (
-          <Button onClick={() => {deleteFunc();}} variant="contained">
+          <Button
+            onClick={() => {
+              deleteFunc();
+            }}
+            variant="contained">
             <DeleteIcon/> Delete
           </Button>
         );

@@ -18,91 +18,89 @@ const IndicatorFormFields = (props) => {
     handleSubmit,
     isSubmitting
   } = props;
-  return (
-    <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
-      <div>
-        <TextInput
-          id="name"
-          label="Name"
-          helperText=""
-          placeholder=""
-          touched={touched.name}
-          error={touched.name && errors.name}
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
-        <TextInput
-          id="description"
-          label="Description"
-          helperText=""
-          placeholder=""
-          touched={touched.description}
-          error={touched.description && errors.description}
-          value={values.description}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
-        <SelectInput
-          id="indicatorTypeId"
-          label="Type"
-          items={data.allIndicatorTypes.nodes}
-          touched={touched.indicatorTypeId}
-          error={touched.indicatorTypeId && errors.indicatorTypeId}
-          value={values.indicatorTypeId}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
-        <SelectInput
-          id="indicatorGroupId"
-          label="Group"
-          items={data.allIndicatorGroups.nodes}
-          touched={touched.indicatorGroupId}
-          error={touched.indicatorGroupId && errors.indicatorGroupId}
-          value={values.indicatorGroupId}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
-        <TextInput
-          id="executionOrder"
-          label="Execution Order"
-          helperText=""
-          numeric={true}
-          touched={touched.executionOrder}
-          error={touched.executionOrder && errors.executionOrder}
-          value={values.executionOrder}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
-        <SwitchInput
-          id="flagActive"
-          label="Active"
-          touched={touched.flagActive}
-          error={touched.flagActive && errors.flagActive}
-          checked={values.flagActive}
-          value="flagActive"
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
+  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
+    <div>
+      <TextInput
+        id="name"
+        label="Name"
+        helperText=""
+        placeholder=""
+        touched={touched.name}
+        error={touched.name && errors.name}
+        value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="description"
+        label="Description"
+        helperText=""
+        placeholder=""
+        touched={touched.description}
+        error={touched.description && errors.description}
+        value={values.description}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SelectInput
+        id="indicatorTypeId"
+        label="Type"
+        items={data.allIndicatorTypes.nodes}
+        touched={touched.indicatorTypeId}
+        error={touched.indicatorTypeId && errors.indicatorTypeId}
+        value={values.indicatorTypeId}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SelectInput
+        id="indicatorGroupId"
+        label="Group"
+        items={data.allIndicatorGroups.nodes}
+        touched={touched.indicatorGroupId}
+        error={touched.indicatorGroupId && errors.indicatorGroupId}
+        value={values.indicatorGroupId}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="executionOrder"
+        label="Execution Order"
+        helperText=""
+        numeric={true}
+        touched={touched.executionOrder}
+        error={touched.executionOrder && errors.executionOrder}
+        value={values.executionOrder}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SwitchInput
+        id="flagActive"
+        label="Active"
+        touched={touched.flagActive}
+        error={touched.flagActive && errors.flagActive}
+        checked={values.flagActive}
+        value="flagActive"
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
       <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
         <SaveIcon />
         Save
       </Button>
-      </div>
-    </form>
-  );
+    </div>
+  </form>;
 };
 
 const formikEnhancer = withFormik({

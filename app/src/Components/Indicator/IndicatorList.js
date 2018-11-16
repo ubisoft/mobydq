@@ -14,10 +14,10 @@ class IndicatorList extends React.Component {
     ];
     return <ListContainer
       buttons={buttonConfig}
-      newLink='/indicator/new'
+      newLink={'/indicator/new'}
       repository={IndicatorRepository}
-      dataObjectName='allIndicators'
-      tableHeader='Indicators'
+      dataObjectName={'allIndicators'}
+      tableHeader={'Indicators'}
       {...this.props}
     />;
   }

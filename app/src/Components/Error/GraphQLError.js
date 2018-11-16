@@ -11,9 +11,9 @@ export const GraphQLError = ({ error }) => {
         return <UnauthorizedError />;
       default:
         return <div>
-          {error.networkError.statusCode + ': ' + error.networkError.message}
+          {': '.join(error.networkError.statusCode, error.networkError.message)}
         </div>;
     }
   }
   return <div>No error. Something wrong happened...</div>;
-}
+};
