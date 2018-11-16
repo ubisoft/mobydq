@@ -4,6 +4,7 @@
   "plugins": [ "react", "jest" ],
   "rules": {
     "array-element-newline": ["error", "consistent"],
+    "babel/no-invalid-this": "on",
     "class-methods-use-this": "off",
     "dot-location": ["error", "property"],
     "func-style": "off",
@@ -24,6 +25,7 @@
     "no-underscore-dangle": "off",
     "no-use-before-define": "off",
     "no-warning-comments": "off",
+    "no-invalid-this": "off",
     "object-curly-spacing": ["error", "always"],
     "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": true }],
     "one-var": ["error", "never"],

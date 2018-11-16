@@ -57,21 +57,21 @@ class ExecuteRowButton extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => (
+  {
     'message': state.indicatorGroupMessage,
     'open': state.indicatorGroupOpen,
     'currentBatchId': state.indicatorGroupCurrentBatchId
-  };
-};
+  }
+);
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => (
+  {
     'setMessage': (message) => dispatch(setIndicatorGroupMessage(message)),
     'setOpen': (open) => dispatch(setIndicatorGroupOpen(open)),
     'setCurrentBatchId': (currentBatchId) => dispatch(setIndicatorGroupCurrentBatchId(currentBatchId))
-  };
-};
+  }
+);
 
 const VisibleExecuteRowButton = connect(mapStateToProps, mapDispatchToProps)(ExecuteRowButton);
 
