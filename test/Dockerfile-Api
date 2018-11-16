@@ -1,9 +1,0 @@
-FROM mobydq-test-scripts:latest
-
-# Install Python dependencies
-COPY ./api/init/requirements.txt ./
-
-RUN pip install -r requirements.txt
-
-# Test files
-COPY ./api/init ./api
