@@ -30,15 +30,15 @@ ShallowWrapper {
         },
       ]
     }
-    footerParams={
-      Object {
-        "page": 1,
-        "rowTotal": 2,
-        "rowsPerPage": 10,
-        "setPage": [MockFunction],
-        "setRowsPerPage": [MockFunction],
-      }
-    }
+    dataObjectName="allDataSources"
+    page={1}
+    repository={[Function]}
+    rowTotal={2}
+    rowsPerPage={10}
+    setPage={[MockFunction]}
+    setRowsPerPage={[MockFunction]}
+    sortColumn={null}
+    tableHeader="Data Sources"
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -92,13 +92,15 @@ ShallowWrapper {
           "trueField": false,
         },
       ],
-      "footerParams": Object {
-        "page": 1,
-        "rowTotal": 2,
-        "rowsPerPage": 10,
-        "setPage": [MockFunction],
-        "setRowsPerPage": [MockFunction],
-      },
+      "dataObjectName": "allDataSources",
+      "page": 1,
+      "repository": [Function],
+      "rowTotal": 2,
+      "rowsPerPage": 10,
+      "setPage": [MockFunction],
+      "setRowsPerPage": [MockFunction],
+      "sortColumn": null,
+      "tableHeader": "Data Sources",
     },
     "ref": null,
     "rendered": null,
@@ -149,13 +151,15 @@ ShallowWrapper {
             "trueField": false,
           },
         ],
-        "footerParams": Object {
-          "page": 1,
-          "rowTotal": 2,
-          "rowsPerPage": 10,
-          "setPage": [MockFunction],
-          "setRowsPerPage": [MockFunction],
-        },
+        "dataObjectName": "allDataSources",
+        "page": 1,
+        "repository": [Function],
+        "rowTotal": 2,
+        "rowsPerPage": 10,
+        "setPage": [MockFunction],
+        "setRowsPerPage": [MockFunction],
+        "sortColumn": null,
+        "tableHeader": "Data Sources",
       },
       "ref": null,
       "rendered": null,

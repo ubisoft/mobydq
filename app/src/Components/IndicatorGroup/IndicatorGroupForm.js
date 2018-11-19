@@ -15,29 +15,27 @@ const IndicatorGroupFormFields = (props) => {
     handleSubmit,
     isSubmitting
   } = props;
-  return (
-    <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
-      <div>
-        <TextInput
-          id="name"
-          label="Name"
-          helperText=""
-          placeholder=""
-          touched={touched.name}
-          error={touched.name && errors.name}
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div>
+  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
+    <div>
+      <TextInput
+        id="name"
+        label="Name"
+        helperText=""
+        placeholder=""
+        touched={touched.name}
+        error={touched.name && errors.name}
+        value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
       <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
         <SaveIcon />
         Save
       </Button>
-      </div>
-    </form>
-  );
+    </div>
+  </form>;
 };
 
 const formikEnhancer = withFormik({

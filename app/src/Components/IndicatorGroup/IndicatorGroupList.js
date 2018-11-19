@@ -3,53 +3,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setIndicatorGroupPage, setIndicatorGroupRowsPerPage, setIndicatorGroupRowTotal, setIndicatorGroupSortColumn } from './../../actions/indicatorGroupList';
 
-import { Query } from 'react-apollo';
 import IndicatorGroupRepository from './../../repository/IndicatorGroupRepository';
-import { GraphQLError } from './../Error/GraphQLError';
-
-import ListTable from '../ListTable/ListTable';
-import LinkButton from './../../Components/FormInput/LinkButton';
-import AddIcon from '@material-ui/icons/Add';
+import ListContainer from '../ListTable/ListContainer';
 
 class IndicatorGroupList extends React.Component {
   render() {
-    return (
-      <Query
-        query={IndicatorGroupRepository.getListPage()}
-        variables={{ 'first': this.props.indicatorGroupRowsPerPage, 'offset': this.props.indicatorGroupPage * this.props.indicatorGroupRowsPerPage, 'orderBy': this.props.indicatorGroupSortColumn }}
-        fetchPolicy={this.props.refetch ? 'cache-and-network' : 'cache-first'}
-      >
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <p>Loading...</p>;
-          }
-          if (error) {
-            return <GraphQLError error={error} />;
-          }
-          this.props.setIndicatorGroupRowTotal(data.allIndicatorGroups.totalCount);
-          return (
-            <div>
-              <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
-                Indicator Groups
-              </div>
-              <div style={{ 'float': 'right' }}>
-                <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={'/indicator-group/new'}/>
-              </div>
-              <ListTable
-                data={data.allIndicatorGroups.nodes}
-                buttons={[
-                  { 'function': 'execute', 'parameter': this._buildExecuteParam() },
-                  { 'function': 'edit', 'parameter': '/indicator-group' },
-                  { 'function': 'delete', 'parameter': this._buildDeleteParam() }
-                ]}
-                headerParams={this._buildHeaderParam()}
-                footerParams={this._buildFooterParam()}
-              />
-            </div>
-          );
-        }}
-      </Query>
-    );
+    const buttonConfig = [
+      { 'function': 'execute', 'parameter': this._buildExecuteParam() },
+      { 'function': 'edit', 'parameter': '/indicator-group' },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+    ];
+    return <ListContainer
+      buttons={buttonConfig}
+      newLink={'/indicator-group/new'}
+      repository={IndicatorGroupRepository}
+      dataObjectName={'allIndicatorGroups'}
+      tableHeader={'Indicator Groups'}
+      {...this.props}
+    />;
   }
 
   _buildExecuteParam() {
@@ -60,44 +31,27 @@ class IndicatorGroupList extends React.Component {
 
   _buildDeleteParam() {
     return {
-      'page': this.props.indicatorGroupPage,
-      'rowTotal': this.props.indicatorGroupRowTotal,
-      'rowsPerPage': this.props.indicatorGroupRowsPerPage,
-      'setPage': this.props.setIndicatorGroupPage,
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
       'repository': IndicatorGroupRepository
-    };
-  }
-
-  _buildFooterParam() {
-    return {
-      'page': this.props.indicatorGroupPage,
-      'rowTotal': this.props.indicatorGroupRowTotal,
-      'rowsPerPage': this.props.indicatorGroupRowsPerPage,
-      'setPage': this.props.setIndicatorGroupPage,
-      'setRowsPerPage': this.props.setIndicatorGroupRowsPerPage
-    };
-  }
-
-  _buildHeaderParam() {
-    return {
-      'setSortField': this.props.setIndicatorGroupSortColumn,
-      'sortField': this.props.indicatorGroupSortColumn
     };
   }
 }
 
 const mapStateToProps = (state) => ({
-  'indicatorGroupPage': state.indicatorGroupPage,
-  'indicatorGroupRowsPerPage': state.indicatorGroupRowsPerPage,
-  'indicatorGroupRowTotal': state.indicatorGroupRowTotal,
-  'indicatorGroupSortColumn': state.indicatorGroupSortColumn
+  'page': state.indicatorGroupPage,
+  'rowsPerPage': state.indicatorGroupRowsPerPage,
+  'rowTotal': state.indicatorGroupRowTotal,
+  'sortColumn': state.indicatorGroupSortColumn
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'setIndicatorGroupPage': (page) => dispatch(setIndicatorGroupPage(page)),
-  'setIndicatorGroupRowsPerPage': (rowsPerPage) => dispatch(setIndicatorGroupRowsPerPage(rowsPerPage)),
-  'setIndicatorGroupRowTotal': (rowTotal) => dispatch(setIndicatorGroupRowTotal(rowTotal)),
-  'setIndicatorGroupSortColumn': (sortColumn) => dispatch(setIndicatorGroupSortColumn(sortColumn))
+  'setPage': (page) => dispatch(setIndicatorGroupPage(page)),
+  'setRowsPerPage': (rowsPerPage) => dispatch(setIndicatorGroupRowsPerPage(rowsPerPage)),
+  'setRowTotal': (rowTotal) => dispatch(setIndicatorGroupRowTotal(rowTotal)),
+  'setSortColumn': (sortColumn) => dispatch(setIndicatorGroupSortColumn(sortColumn))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndicatorGroupList);

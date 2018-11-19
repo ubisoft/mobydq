@@ -5,7 +5,7 @@ import DataSourceRepository from '../../repository/DataSourceRepository';
 import { GraphQLError } from './../Error/GraphQLError';
 
 import NotFoundComponent from '../Error/NotFoundComponent';
-import { BaseForm } from '../Base/Form';
+import { EnhancedForm } from '../Form/Form';
 import EnhancedDataSourceForm from './DataSourceForm';
 
 export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRepository.display()} variables={{ 'id': props.match.params.id }}>
@@ -22,7 +22,7 @@ export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRe
     return (
       data.dataSourceById === null
         ? <NotFoundComponent/>
-        : <BaseForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
+        : <EnhancedForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
           afterSaveRoute="/data-source/" title="Edit Data Source" initialFieldValues={data.dataSourceById} {...props}/>
     );
   }}

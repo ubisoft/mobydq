@@ -20,7 +20,9 @@ class UrlBuilder {
     return UrlBuilder._combineUrl(this._baseUrl, 'security/oauth/google');
   }
 
-  static _combineUrl(left, right) {
+  static _combineUrl(oldLeft, oldRight) {
+    let left = oldLeft;
+    let right = oldRight;
     if (left && !left.endsWith('/')) {
       left += '/';
     }

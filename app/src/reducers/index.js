@@ -13,7 +13,7 @@ export default combineReducers({
   indicatorGroupPage,
   indicatorGroupRowsPerPage,
   indicatorGroupRowTotal,
-  indicatorGroupSortColumn,  
+  indicatorGroupSortColumn,
   indicatorGroupCurrentBatchId,
   indicatorGroupOpen,
   indicatorGroupMessage,

@@ -11,58 +11,54 @@ import Tooltip from '@material-ui/core/Tooltip';
  */
 class ListTableHeader extends React.Component {
   _handleSortClick = (fieldName, isActive, direction) => {
-    const newDirection = (isActive && direction === SORT_ORDER.DESCENDING) ? 'ASC' : 'DESC';
-    this.props.params.setSortField(fieldName + '_' + newDirection);
+    const newDirection = isActive && direction === SORT_ORDER.DESCENDING ? 'ASC' : 'DESC';
+    this.props.params.setSortColumn(`${fieldName}_${newDirection}`);
   };
 
   /**
-  * GraphQL uses FIELD_NAME format for defining the sort directives as opposed to camelCase in the field names.
-  * This function is responsible for the necessary field name conversion
-  **/
-  _buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection) {
-    return header === 'Actions'
-      ? <React.Fragment>{header}</React.Fragment>
-      : <Tooltip
-          title='Sort'
-          placement={'bottom-start'}
-          enterDelay={300}
-        >
-          <TableSortLabel
-            active={sortActive}
-            direction={sortDirection}
-            onClick={() => this._handleSortClick(sortHeader, sortActive, sortDirection)}
-          >
-            {header}
-          </TableSortLabel>
-        </Tooltip>;
-  }
-
+   * GraphQL uses FIELD_NAME format for defining the sort directives as opposed to camelCase in the field names.
+   * This function is responsible for the necessary field name conversion
+   */
   _buildHeaderCell(fieldName, sortField, sortDirection) {
     let header = fieldName;
-    let sortHeader = '';
-   if (header.length > 0) {
+    let nextSortHeader = null;
+    if (header.length > 0) {
       header = header.charAt(0).toUpperCase() + header.slice(1);
-      sortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
+      nextSortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
       header = header.match(/[A-Z][a-z]+/ug).join(' ');
     }
-    sortDirection = (sortField && sortHeader === sortField) ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
-    const sortActive = sortField && sortHeader === sortField && fieldName !== 'Actions';
+    const nextSortDirection = sortField && nextSortHeader === sortField ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
+    const nextSortActive = sortField && nextSortHeader === sortField && sortField !== null && fieldName !== 'Actions';
     return (
       <TableCell
         key={header}
       >
-        {this._buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection)}
+        {header === 'Actions'
+          ? <React.Fragment>{header}</React.Fragment>
+          : <Tooltip
+            title={'Sort'}
+            placement={'bottom-start'}
+            enterDelay={300}
+          >
+            <TableSortLabel
+              active={nextSortActive}
+              direction={nextSortDirection}
+              onClick={() => this._handleSortClick(nextSortHeader, nextSortActive, nextSortDirection)}
+            >
+              {header}
+            </TableSortLabel>
+          </Tooltip>}
       </TableCell>
     );
   }
 
   _buildHeader(headerFields) {
     // Add "Actions column
-    const sortField = this.props.params.sortField;
+    const sortField = this.props.params.sortColumn;
     const allHeaderFields = headerFields.concat(['Actions']);
-    //sort field is either null or FIELD_NAME_ASC/DESC
-    const sortFieldName = sortField === null ? null : sortField.substring(0, sortField.lastIndexOf("_"));
-    const sortDirection = sortField === null ? null : sortField.substring(sortField.lastIndexOf("_") + 1);
+    // Sort field is either null or FIELD_NAME_ASC/DESC
+    const sortFieldName = sortField === null ? null : sortField.substring(0, sortField.lastIndexOf('_'));
+    const sortDirection = sortField === null ? null : sortField.substring(sortField.lastIndexOf('_') + 1);
     return (
       <TableHead>
         <TableRow>
@@ -78,9 +74,9 @@ class ListTableHeader extends React.Component {
 }
 
 const SORT_ORDER = {
-    'DESCENDING': 'desc',
-    'ASCENDING': 'asc'
-}
+  'DESCENDING': 'desc',
+  'ASCENDING': 'asc'
+};
 
 export default ListTableHeader;
 

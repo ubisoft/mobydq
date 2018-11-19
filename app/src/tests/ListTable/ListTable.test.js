@@ -2,6 +2,7 @@ import React from 'react';
 import { shallowWrap, mountWrap } from './../../setupTests';
 
 import ListTable from '../../Components/ListTable/ListTable';
+import DataSourceRepository from '../../repository/DataSourceRepository';
 
 describe('List Table unit test', () => {
   let wrapper;
@@ -10,7 +11,11 @@ describe('List Table unit test', () => {
     { 'id': 1, 'name': 'mock name', 'trueField': true, 'falseField': false, '__typename': 'Mock Type' },
     { 'id': 2, 'name': 'mock name 2', 'trueField': false, 'falseField': false, '__typename': 'Mock Type' }
   ];
-  const footerParam = {
+  const props = {
+    'repository': DataSourceRepository,
+    'dataObjectName': 'allDataSources',
+    'tableHeader': 'Data Sources',
+    'sortColumn': null,
     'page': 1,
     'rowTotal': 2,
     'rowsPerPage': 10,
@@ -18,7 +23,7 @@ describe('List Table unit test', () => {
     'setRowsPerPage': jest.fn()
   };
   beforeEach(() => {
-    wrapper = shallowWrap(<ListTable buttons={buttons} data={data} footerParams={footerParam}/>);
+    wrapper = shallowWrap(<ListTable buttons={buttons} data={data} {...props}/>);
   });
 
   it('renders', () => {
@@ -38,14 +43,18 @@ describe('ListTable functional test', () => {
       { 'id': 1, 'name': 'mock name', 'trueField': true, 'falseField': false, '__typename': 'Mock Type' },
       { 'id': 2, 'name': 'mock name 2', 'trueField': false, 'falseField': false, '__typename': 'Mock Type' }
     ];
-    const footerParam = {
+    const props = {
+      'repository': DataSourceRepository,
+      'dataObjectName': 'allDataSources',
+      'tableHeader': 'Data Sources',
+      'sortColumn': null,
       'page': 1,
       'rowTotal': 2,
       'rowsPerPage': 10,
       'setPage': jest.fn(),
       'setRowsPerPage': jest.fn()
     };
-    const wrapper = mountWrap(<ListTable buttons={buttons} data={data} footerParams={footerParam}/>);
+    const wrapper = mountWrap(<ListTable buttons={buttons} data={data} {...props}/>);
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
     expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
     expect(wrapper.find('EditIcon').exists()).toBe(true);
