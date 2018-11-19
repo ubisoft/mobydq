@@ -12,31 +12,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 class ListTableHeader extends React.Component {
   _handleSortClick = (fieldName, isActive, direction) => {
     const newDirection = isActive && direction === SORT_ORDER.DESCENDING ? 'ASC' : 'DESC';
-    this.props.params.setSortColumn('_'.join(fieldName, newDirection));
+    this.props.params.setSortColumn(`${fieldName}_${newDirection}`);
   };
 
   /**
    * GraphQL uses FIELD_NAME format for defining the sort directives as opposed to camelCase in the field names.
    * This function is responsible for the necessary field name conversion
    */
-  _buildSortableHeaderCell(header, sortHeader, sortActive, sortDirection) {
-    return header === 'Actions'
-      ? <React.Fragment>{header}</React.Fragment>
-      : <Tooltip
-        title={'Sort'}
-        placement={'bottom-start'}
-        enterDelay={300}
-      >
-        <TableSortLabel
-          active={sortActive}
-          direction={sortDirection}
-          onClick={() => this._handleSortClick(sortHeader, sortActive, sortDirection)}
-        >
-          {header}
-        </TableSortLabel>
-      </Tooltip>;
-  }
-
   _buildHeaderCell(fieldName, sortField, sortDirection) {
     let header = fieldName;
     let nextSortHeader = '';
@@ -51,7 +33,21 @@ class ListTableHeader extends React.Component {
       <TableCell
         key={header}
       >
-        {this._buildSortableHeaderCell(header, nextSortHeader, nextSortActive, nextSortDirection)}
+        {header === 'Actions'
+          ? <React.Fragment>{header}</React.Fragment>
+          : <Tooltip
+            title={'Sort'}
+            placement={'bottom-start'}
+            enterDelay={300}
+          >
+            <TableSortLabel
+              active={nextSortActive}
+              direction={nextSortDirection}
+              onClick={() => this._handleSortClick(nextSortHeader, nextSortActive, nextSortDirection)}
+            >
+              {header}
+            </TableSortLabel>
+          </Tooltip>}
       </TableCell>
     );
   }
