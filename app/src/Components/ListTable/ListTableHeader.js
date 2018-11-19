@@ -21,14 +21,14 @@ class ListTableHeader extends React.Component {
    */
   _buildHeaderCell(fieldName, sortField, sortDirection) {
     let header = fieldName;
-    let nextSortHeader = '';
+    let nextSortHeader = null;
     if (header.length > 0) {
       header = header.charAt(0).toUpperCase() + header.slice(1);
       nextSortHeader = header.match(/[A-Z][a-z]+/ug).join('_').toUpperCase();
       header = header.match(/[A-Z][a-z]+/ug).join(' ');
     }
     const nextSortDirection = sortField && nextSortHeader === sortField ? sortDirection.toLowerCase() : SORT_ORDER.DESCENDING;
-    const nextSortActive = sortField && nextSortHeader === sortField && fieldName !== 'Actions';
+    const nextSortActive = sortField && nextSortHeader === sortField && sortField !== null && fieldName !== 'Actions';
     return (
       <TableCell
         key={header}
