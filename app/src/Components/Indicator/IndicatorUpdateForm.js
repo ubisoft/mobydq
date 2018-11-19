@@ -6,7 +6,7 @@ import { GraphQLError } from './../Error/GraphQLError';
 
 import NotFoundComponent from '../Error/NotFoundComponent';
 
-import { BaseForm } from '../Base/Form';
+import { EnhancedForm } from '../Form/Form';
 import EnhancedIndicatorForm from './IndicatorForm';
 
 export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepository.display()} variables={{ 'id': props.match.params.id }}>
@@ -23,7 +23,7 @@ export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepo
     return (
       data.indicatorGroupById === null
         ? <NotFoundComponent/>
-        : <BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
+        : <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
           afterSaveRoute="/indicator/" title="Edit Indicator" initialFieldValues={data.indicatorById} {...props}/>
     );
   }}
