@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
 
   db:
@@ -39,6 +39,8 @@ services:
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
+    env_file:
+        - ./.env
     ports:
       - 5434:5434
     depends_on:
@@ -46,6 +48,9 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
+    secrets:
+      - public_key
+      - private_key
 
   scripts:
     container_name: mobydq-scripts
@@ -93,3 +98,9 @@ networks:
 volumes:
   mobydq-db-volume:
     external: true
+
+secrets:
+  public_key:
+    file: public.pem
+  private_key:
+    file: private.pem

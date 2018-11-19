@@ -7,7 +7,8 @@ import EnhancedIndicatorForm from './IndicatorForm';
 import IndicatorRepository from './../../repository/IndicatorRepository';
 import { Route } from 'react-router-dom';
 
-import BaseForm from './../Base/Form'
+import { EnhancedForm } from './../Form/Form';
+import { IndicatorUpdateForm } from '../Indicator/IndicatorUpdateForm';
 
 class Indicator extends React.Component {
   render() {
@@ -16,12 +17,18 @@ class Indicator extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.appBarSpacer} />
-        <Typography variant='display1' gutterBottom className={classes.chartContainer}>
+        <Typography variant="display1" gutterBottom className={classes.chartContainer}>
           <Route
             path={`${match.url}/new`}
             component={
-              (props) => (<BaseForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                afterSaveRoute='/indicator/' title='Add New Indicator' {...props} />)
+              (props) => <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
+                afterSaveRoute="/indicator/" title="Create Indicator" initialFieldValues={null} {...props} />
+            }
+          />
+          <Route
+            path={`${match.url}/edit/:id`}
+            component={
+              (props) => <IndicatorUpdateForm {...props} />
             }
           />
           <Route
@@ -31,7 +38,7 @@ class Indicator extends React.Component {
           />
         </Typography>
       </React.Fragment>
-    )
+    );
   }
 }
 export default withStyles(styles)(Indicator);

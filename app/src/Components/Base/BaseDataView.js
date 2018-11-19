@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { styles } from './../../styles/baseStyles'
+import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import { isOpen } from './../../actions/sidebar';
 
@@ -23,13 +23,13 @@ import { mainListItems } from '../../listItems';
 import Content from './Content';
 
 class BaseDataView extends React.Component {
-  handleDrawerOpen = () => {
+  handleDrawerOpen() {
     this.props.isOpen(true);
-  };
+  }
 
-  handleDrawerClose = () => {
+  handleDrawerClose() {
     this.props.isOpen(false);
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -46,7 +46,7 @@ class BaseDataView extends React.Component {
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
+                onClick={this.handleDrawerOpen.bind(this)}
                 className={classNames(
                   classes.menuButton,
                   this.props.open && classes.menuButtonHidden,
@@ -55,7 +55,7 @@ class BaseDataView extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                MobyDQ
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -67,12 +67,12 @@ class BaseDataView extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
+              'paper': classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose)
             }}
             open={this.props.open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.handleDrawerClose.bind(this)}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -88,20 +88,18 @@ class BaseDataView extends React.Component {
   }
 }
 
-// BaseDataView.propTypes = {
-//   content: PropTypes.object.isRequired,
-// };
+/*
+ * BaseDataView.propTypes = {
+ *   content: PropTypes.object.isRequired,
+ * };
+ */
 
-const mapStateToProps = (state) => {
-  return {
-    open: state.sidebarIsOpen,
-  };
-};
+const mapStateToProps = (state) => ({
+  'open': state.sidebarIsOpen
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    isOpen: (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  'isOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState))
+});
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));

@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styles } from '../../styles/baseStyles';
-import { withStyles } from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
-import { ListTableRowButtons } from './ListTableRowButtons';
-import Style from '../../index.css';
-import { ListTableRowContent } from "./ListTableRowContent";
+import ListTableRowButtons from './ListTableRowButtons';
+import { ListTableRowContent } from './ListTableRowContent';
 
 /**
  * Container component for a single row of the list table
@@ -16,21 +13,17 @@ import { ListTableRowContent } from "./ListTableRowContent";
  *
  * Container calls for TableDataRowButtons and TableDataRowData container components
  */
-export const ListTableRow = ({rowContent, rowColumns, buttons}) => {
-  return(
-    <TableRow>
-      <ListTableRowContent rowData={rowContent} rowColumns={rowColumns}/>
-      <ListTableRowButtons buttons={buttons} value={rowContent.id}/>
-    </TableRow>
-  );
-}
+export const ListTableRow = ({ rowData, rowColumns, buttons }) => <TableRow>
+  <ListTableRowContent rowData={rowData} rowColumns={rowColumns}/>
+  <ListTableRowButtons buttons={buttons} value={rowData.id}/>
+</TableRow>;
 
 ListTableRow.defaultProps = {
-  buttons: [],
+  'buttons': []
 };
 
 ListTableRow.propTypes = {
-  buttons: PropTypes.array,
-  rowContent: PropTypes.object.isRequired,
-  rowColumns: PropTypes.array.isRequired
+  'buttons': PropTypes.array,
+  'rowData': PropTypes.object.isRequired,
+  'rowColumns': PropTypes.array.isRequired
 };

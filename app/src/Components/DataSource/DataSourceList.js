@@ -1,28 +1,50 @@
 import React from 'react';
-import { Query } from "react-apollo";
-import DataSourceRepository  from './../../repository/DataSourceRepository';
-import ListTable from '../ListTable/ListTable';
-import RouterButton from './../../Components/FormInput/RouterButton';
 
-const DataSourceList = (refetch) => (
-  <Query
-    query={DataSourceRepository.getListPage(1, 10)}
-    fetchPolicy={refetch ? 'cache-and-network': 'cache-first'}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
-      return (
-        <div>
-          Data Source list
-          <div style={{float: 'right'}}>
-            <RouterButton targetLocation='/data-source/new' disabled={false} label="Add new data source"/>
-          </div>
-          <ListTable data={data.allDataSources.nodes}/>
-        </div>
-      );
-    }}
-  </Query>
-);
+import { connect } from 'react-redux';
+import { setDataSourcePage, setDataSourceRowsPerPage, setDataSourceRowTotal, setDataSourceSortColumn } from './../../actions/dataSourceList';
 
-export default DataSourceList;
+import DataSourceRepository from './../../repository/DataSourceRepository';
+import ListContainer from '../ListTable/ListContainer';
+
+class DataSourceList extends React.Component {
+  render() {
+    const buttonConfig = [
+      { 'function': 'edit', 'parameter': '/data-source' },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+    ];
+    return <ListContainer
+      buttons={buttonConfig}
+      newLink={'/data-source/new'}
+      repository={DataSourceRepository}
+      dataObjectName={'allDataSources'}
+      tableHeader={'Data Sources'}
+      {...this.props}
+    />;
+  }
+
+  _buildDeleteParam() {
+    return {
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
+      'repository': DataSourceRepository
+    };
+  }
+}
+
+const mapStateToProps = (state) => ({
+  'page': state.dataSourcePage,
+  'rowsPerPage': state.dataSourceRowsPerPage,
+  'rowTotal': state.dataSourceRowTotal,
+  'sortColumn': state.dataSourceSortColumn
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  'setPage': (page) => dispatch(setDataSourcePage(page)),
+  'setRowsPerPage': (rowsPerPage) => dispatch(setDataSourceRowsPerPage(rowsPerPage)),
+  'setRowTotal': (rowTotal) => dispatch(setDataSourceRowTotal(rowTotal)),
+  'setSortColumn': (sortColumn) => dispatch(setDataSourceSortColumn(sortColumn))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataSourceList);

@@ -3,52 +3,39 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
-import SimpleButton from './../FormInput/SimpleButton';
-import RouterButton from './../FormInput/RouterButton';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
-const DataSourceFormFields = props => {
+const DataSourceFormFields = (props) => {
   const {
     data,
-    mutationCallback,
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
-    isSubmitting,
+    isSubmitting
   } = props;
   return (
-    <form onSubmit={handleSubmit} style={{marginLeft: '5%', marginRight: '5%', marginTop: '5%'}}>
+    <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
       <div>
         <TextInput
           id="name"
-          label="Data source name"
+          label="Name"
           helperText=""
-          placeholder="Enter data source name"
+          placeholder=""
           touched={touched.name}
           error={touched.name && errors.name}
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{float: 'left'}}
         />
-        <TextInput
-          id="connectionString"
-          label="Data source connection string"
-          helperText=""
-          placeholder="Enter data connection string"
-          touched={touched.connectionString}
-          error={touched.name && errors.connectionString}
-          value={values.connectionString}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+      </div>
+      <div>
         <SelectInput
           id="dataSourceTypeId"
-          label="Data Source Type"
+          label="Type"
           items={data.allDataSourceTypes.nodes}
           touched={touched.dataSourceTypeId}
           error={touched.dataSourceTypeId && errors.dataSourceTypeId}
@@ -56,25 +43,39 @@ const DataSourceFormFields = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        </div>
-        <div>
+      </div>
+      <div>
+        <textarea
+          id="connectionString"
+          label="Connection string"
+          helperText=""
+          placeholder="Connection string"
+          touched={touched.connectionString}
+          error={touched.name && errors.connectionString}
+          value={values.connectionString}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div>
         <TextInput
           id="login"
-          label="Data source login"
+          label="Login"
           helperText=""
-          placeholder="Enter data source login"
+          placeholder=""
           touched={touched.login}
           error={touched.name && errors.login}
           value={values.login}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{float: 'left'}}
         />
+      </div>
+      <div>
         <TextInput
           id="password"
-          label="Data source password"
+          label="Password"
           helperText=""
-          placeholder="Enter data source password"
+          placeholder=""
           touched={touched.password}
           error={touched.password && errors.password}
           value={values.password}
@@ -83,36 +84,45 @@ const DataSourceFormFields = props => {
         />
       </div>
       <div>
-        <div style={{float: 'left'}}>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" />
-          <SimpleButton type="reset" label="Reset" onClick={handleReset} disabled={!dirty || isSubmitting} />
-        </div>
-        <div style={{float: 'right'}}><RouterButton targetLocation='back' disabled={false} label="Cancel" /></div>
+        <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
+          <SaveIcon />
+          Save
+        </Button>
       </div>
     </form>
   );
 };
 
 const formikEnhancer = withFormik({
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
+  'validationSchema': Yup.object().shape({
+    'name': Yup.string()
       .required('Name cannot be blank'),
-    connectionString: Yup.string()
+    'connectionString': Yup.string()
       .required('Connection string cannot be blank'),
-    login: Yup.string()
+    'login': Yup.string()
       .required('Login cannot be blank')
   }),
 
-  mapPropsToValues: ({ dataSource }) => ({
-      name: '', connectionString: '', login: '', password: ''
-  }),
-  handleSubmit: (payload, { props, setSubmitting, setErrors }) => {
+  'mapPropsToValues': (props) => props.initialFieldValues === null
+    ? { 'name': '', 'connectionString': '', 'dataSourceTypeId': '', 'login': '', 'password': '' }
+    : { 'name': props.initialFieldValues.name,
+      'connectionString': props.initialFieldValues.connectionString,
+      'dataSourceTypeId': props.initialFieldValues.dataSourceTypeId,
+      'login': props.initialFieldValues.login,
+      'password': props.initialFieldValues.password },
+  'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    let variables;
+    if (props.initialFieldValues === null) {
+      variables = { 'dataSource': payload };
+    } else {
+      variables = { 'dataSourcePatch': payload, 'id': props.initialFieldValues.id };
+    }
     props.mutate({
-        variables: { dataSource: payload } },
-        );
+      variables
+    });
   },
-  displayName: 'DataSourceForm',
+  'displayName': 'DataSourceForm'
 });
 
 

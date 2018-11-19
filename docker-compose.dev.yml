@@ -1,8 +1,12 @@
-version: '3'
+version: '3.1'
 services:
 
 
   db:
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d/
+    expose:
+      - 5432
     ports:
       - 5432:5432
 

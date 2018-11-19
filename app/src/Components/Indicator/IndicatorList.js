@@ -1,40 +1,50 @@
 import React from 'react';
-import { Query } from "react-apollo";
+
+import { connect } from 'react-redux';
+import { setIndicatorPage, setIndicatorRowsPerPage, setIndicatorRowTotal, setIndicatorSortColumn } from './../../actions/indicatorList';
+
 import IndicatorRepository from './../../repository/IndicatorRepository';
-import ListTable from '../ListTable/ListTable';
-import RouterButton from './../../Components/FormInput/RouterButton';
+import ListContainer from '../ListTable/ListContainer';
 
-const IndicatorList = (refetch) => (
-  <Query
-    query={IndicatorRepository.getListPage(1, 10)}
-    fetchPolicy={refetch ? 'cache-and-network' : 'cache-first'}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
-      return (
-        <div>
-          Indicator list
-          <div style={{ float: 'right' }}>
-            <RouterButton targetLocation='/indicator/new' disabled={false} label="Add new indicator" />
-          </div>
-          <ListTable buttons={[{"name": "edit", "function": test}, {"name": "King", "function": king}]} data={data.allIndicators.nodes} />
-        </div>
-      );
-    }}
-  </Query>
-);
+class IndicatorList extends React.Component {
+  render() {
+    const buttonConfig = [
+      { 'function': 'edit', 'parameter': '/indicator' },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+    ];
+    return <ListContainer
+      buttons={buttonConfig}
+      newLink={'/indicator/new'}
+      repository={IndicatorRepository}
+      dataObjectName={'allIndicators'}
+      tableHeader={'Indicators'}
+      {...this.props}
+    />;
+  }
 
-function test(e)
-{
-
-  window.location = "/edit/" + e.target.value;
+  _buildDeleteParam() {
+    return {
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
+      'repository': IndicatorRepository
+    };
+  }
 }
 
+const mapStateToProps = (state) => ({
+  'page': state.indicatorPage,
+  'rowsPerPage': state.indicatorRowsPerPage,
+  'rowTotal': state.indicatorRowTotal,
+  'sortColumn': state.indicatorSortColumn
+});
 
-function king(e)
-{
-alert("We are Kings!!!")
-}
+const mapDispatchToProps = (dispatch) => ({
+  'setPage': (page) => dispatch(setIndicatorPage(page)),
+  'setRowsPerPage': (rowsPerPage) => dispatch(setIndicatorRowsPerPage(rowsPerPage)),
+  'setRowTotal': (rowTotal) => dispatch(setIndicatorRowTotal(rowTotal)),
+  'setSortColumn': (sortColumn) => dispatch(setIndicatorSortColumn(sortColumn))
+});
 
-export default IndicatorList;
+export default connect(mapStateToProps, mapDispatchToProps)(IndicatorList);

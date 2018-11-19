@@ -1,6 +1,7 @@
 """Unit tests for module /scripts/init/indicator.py."""
 import unittest
 from shared.utils import get_test_case_name
+from scripts.constants import IndicatorType
 from scripts.indicator import Indicator
 from scripts import utils
 
@@ -13,13 +14,13 @@ class TestIndicator(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
-        indicator_type_id = 1  # Completeness
+        indicator_type_id = IndicatorType.COMPLETENESS
         mutation_create_indicator = '''mutation{createIndicator(input:{indicator:{name:"test_case_name",flagActive:true,indicatorTypeId:indicator_type_id,indicatorGroupId:indicator_group_id}}){indicator{id}}}'''
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
@@ -67,13 +68,13 @@ class TestIndicator(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
-        indicator_type_id = 2  # Freshness
+        indicator_type_id = IndicatorType.FRESHNESS
         mutation_create_indicator = '''mutation{createIndicator(input:{indicator:{name:"test_case_name",flagActive:true,indicatorTypeId:indicator_type_id,indicatorGroupId:indicator_group_id}}){indicator{id}}}'''
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
@@ -119,13 +120,13 @@ class TestIndicator(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
-        indicator_type_id = 3  # Latency
+        indicator_type_id = IndicatorType.LATENCY
         mutation_create_indicator = '''mutation{createIndicator(input:{indicator:{name:"test_case_name",flagActive:true,indicatorTypeId:indicator_type_id,indicatorGroupId:indicator_group_id}}){indicator{id}}}'''
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
@@ -173,13 +174,13 @@ class TestIndicator(unittest.TestCase):
 
         # Create test indicator group
         test_case_name = get_test_case_name()
-        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name"}}){indicatorGroup{id}}}'''
+        mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
-        indicator_type_id = 4  # Validity
+        indicator_type_id = IndicatorType.VALIDITY
         mutation_create_indicator = '''mutation{createIndicator(input:{indicator:{name:"test_case_name",flagActive:true,indicatorTypeId:indicator_type_id,indicatorGroupId:indicator_group_id}}){indicator{id}}}'''
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces

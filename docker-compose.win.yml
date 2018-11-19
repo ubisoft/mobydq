@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
 
   db:
@@ -15,13 +15,13 @@ services:
       - 5432:5432
     networks:
       - default
-      
+
   graphql:
     container_name: mobydq-graphql
     restart: always
     image: graphile/postgraphile
     env_file:
-      - ./.env 
+      - ./.env
     ports:
       - 5433:5433
     depends_on:
@@ -31,7 +31,7 @@ services:
     networks:
       - default
     command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
-      
+
   api:
     container_name: mobydq-api
     restart: always
@@ -53,7 +53,7 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-    
+
   scripts:
     container_name: mobydq-scripts
     restart: always
@@ -74,7 +74,7 @@ services:
       - graphql
     networks:
       - default
-            
+
   app:
     container_name: mobydq-app
     restart: always
@@ -97,7 +97,7 @@ services:
       - graphql
     networks:
       - default
-      
+
 networks:
   default:
     external:

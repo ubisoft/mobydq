@@ -1,10 +1,11 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 class IndicatorRepository {
   static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
     return gql`
-      {
-        allIndicators {
+      query indicatorRange($first: Int!, $offset: Int!, $orderBy: [IndicatorsOrderBy!]) {
+        allIndicators(first: $first, offset: $offset, orderBy: $orderBy) {
+          totalCount
           nodes {
             id
             name
@@ -16,7 +17,7 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
   }
 
   static getFormDropdownData() {
@@ -35,7 +36,24 @@ class IndicatorRepository {
           }
         }
       }
-    `
+    `;
+  }
+
+  static display() {
+    return gql`
+        query getIndicator($id: Int!) {
+          indicatorById(id: $id) {
+            id
+            name
+            description
+            indicatorTypeId
+            indicatorGroupId
+            executionOrder
+            flagActive
+            updatedDate
+          }
+        }
+    `;
   }
 
   static insert() {
@@ -44,41 +62,51 @@ class IndicatorRepository {
         createIndicator(input: {indicator: $indicator}) {
           indicator {
             id
-            name
-            description
           }
         }
       }
-    `
+    `;
   }
 
   static getIndicatorToUpdate(id) {
-    return gql`
+    return `${gql`
       {
-        indicatorById(id:` + id + `) {
+        indicatorById(id:` + id}) {
           id
           name
           description
+          indicatorTypeId
+          indicatorGroupId
           executionOrder
           flagActive
-          createdDate
           updatedDate
-          indicatorTypeId
         }
       }
-    `
+    `;
   }
 
   static update() {
     return gql`
-      mutation updateIndicator($id: Int!, $indicatorPatch: IndicatorPatch!) {
-        updateIndicatorById(input: {id: $id, indicatorPatch: $indicatorPatch}) {
+      mutation updateIndicatorById($indicatorPatch: IndicatorPatch!, $id: Int!) {
+        updateIndicatorById(input: {indicatorPatch: $indicatorPatch, id: $id }) {
           indicator {
             id
           }
         }
       }
-    `
+    `;
+  }
+
+  static delete() {
+    return gql`
+      mutation deleteIndicatorById($id: Int!) {
+        deleteIndicatorById(input: {id: $id }) {
+          indicator {
+            id
+          }
+        }
+      }
+    `;
   }
 }
 

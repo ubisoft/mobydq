@@ -10,45 +10,36 @@ const SelectInput = ({
   id,
   label,
   items,
-  helperText,
   error,
-  touched,
-  errors,
   value,
+  touched, // eslint-disable-line
   onChange,
-  className,
   ...props
-}) => {
-  return (
-    <FormControl style={{width: '240px', margin: '15px', marginLeft: '0px'}} error={!!error}>
-      <InputLabel htmlFor={id}>{label}</InputLabel>
-      <Select
-        id={id}
-        name={id}
-        value={value}
-        onChange={onChange}
-        inputProps={{
-          id: { id }
-        }}
-      >
-        <MenuItem value="">
-          <em>Select..</em>
-        </MenuItem>
-        {items.map((item) => {
-          return (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
-        })
-        }
-      </Select>
-      <FormHelperText>{error}</FormHelperText>
-    </FormControl>
-  );
-};
-
+}) => <FormControl style={{ 'width': '240px', 'margin': '15px', 'marginLeft': '0px' }} error={Boolean(error)}>
+  <InputLabel htmlFor={id}>{label}</InputLabel>
+  <Select
+    id={id}
+    name={id}
+    value={value}
+    onChange={onChange}
+    inputProps={{
+      'id': { id }
+    }}
+    {...props}
+  >
+    <MenuItem value="">
+      <em>Select..</em>
+    </MenuItem>
+    {items.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
+    }
+  </Select>
+  <FormHelperText>{error}</FormHelperText>
+</FormControl>;
 export default SelectInput;
 
 
 SelectInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
+  'id': PropTypes.string.isRequired,
+  'label': PropTypes.string.isRequired,
+  'items': PropTypes.array.isRequired
 };

@@ -9,15 +9,17 @@
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 disable=
+    broad-except,
     duplicate-code,
-    line-too-long,
+    fixme,
     invalid-name,
-    too-many-locals,
-    useless-import-alias,
+    line-too-long,
+    missing-docstring,
     no-self-use,
     too-many-arguments,
-    missing-docstring,
-    fixme
+    too-many-function-args,
+    too-many-locals,
+    too-many-public-methods
 
 [FORMAT]
 # Expected format of line ending, e.g. empty (any line ending), LF or CRLF.

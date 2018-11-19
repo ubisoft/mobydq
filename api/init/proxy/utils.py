@@ -16,8 +16,9 @@ def execute_graphql_request(payload: dict):
     """Method to execute http request on the GraphQL API."""
 
     url = 'http://graphql:5433/graphql'  # Should be moved to config file
-    headers = {'Content-Type': 'application/graphql'}
-    response = requests.post(url, headers=headers, data=payload['query'])
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, headers=headers, json=payload)
     status = response.status_code
     data = response.json()
+
     return status, data

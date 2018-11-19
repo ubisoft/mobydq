@@ -1,3 +1,5 @@
+import logging
+import sys
 from datetime import datetime
 
 def get_test_case_name():
@@ -5,3 +7,9 @@ def get_test_case_name():
     # If not unique enough, replace with an uuid
     test_case_name = 'test ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
     return test_case_name
+
+def configure_test_logger():
+    logging.basicConfig(
+        stream=sys.stdout,
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
