@@ -20,8 +20,6 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
-    ports:
-      - 5433:5433
     depends_on:
       - db
     networks:
@@ -30,7 +28,7 @@ services:
 
   api:
     container_name: mobydq-api
-    # restart: always
+    restart: always
     image: mobydq-api
     build:
       context: ./api
