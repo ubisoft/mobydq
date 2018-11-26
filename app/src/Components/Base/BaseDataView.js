@@ -23,12 +23,8 @@ import { mainListItems } from '../../listItems';
 import Content from './Content';
 
 class BaseDataView extends React.Component {
-  handleDrawerOpen() {
-    this.props.isOpen(true);
-  }
-
-  handleDrawerClose() {
-    this.props.isOpen(false);
+  setDrawerOpen = (setOpen) => {
+    this.props.isOpen(setOpen);
   }
 
   render() {
@@ -46,9 +42,10 @@ class BaseDataView extends React.Component {
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerOpen.bind(this)}
+                onClick={() => this.props.isOpen(true)}
                 className={classNames(
                   classes.menuButton,
+                  'sidebarExpand',
                   this.props.open && classes.menuButtonHidden,
                 )}
               >
@@ -72,7 +69,7 @@ class BaseDataView extends React.Component {
             open={this.props.open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose.bind(this)}>
+              <IconButton onClick={this.setDrawerOpen(false)}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>

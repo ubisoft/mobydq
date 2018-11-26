@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallowWrap } from './../../setupTests';
+import { shallowWrap, mountWrap } from './../../setupTests';
 
 import { MemoryRouter } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ describe('UnauthorizedError component unit test', () => {
 
 describe('UnauthorizedError component functional test', () => {
   it('renders the UnauthorizedError component', () => {
-    const wrapper = mount(<div><MemoryRouter><UnauthorizedError/></MemoryRouter></div>);
+    const wrapper = mountWrap(<div><MemoryRouter><UnauthorizedError/></MemoryRouter></div>);
     const loginButton = <LinkButton label="Re-login" color="secondary" variant="contained" to={'/login'}/>;
     expect(wrapper.contains(loginButton)).toEqual(true);
   });
