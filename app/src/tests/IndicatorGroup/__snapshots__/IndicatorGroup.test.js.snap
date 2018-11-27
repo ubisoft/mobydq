@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`indicator component unit test matches snapshot 1`] = `
+exports[`IndicatorGroup component unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Indicator
+  Symbol(enzyme.__unrendered__): <IndicatorGroup
     classes={
       Object {
-        "appBar": "Indicator-appBar-4",
-        "appBarShift": "Indicator-appBarShift-5",
-        "appBarSpacer": "Indicator-appBarSpacer-11",
-        "chartContainer": "Indicator-chartContainer-13",
-        "content": "Indicator-content-12",
-        "drawerPaper": "Indicator-drawerPaper-9",
-        "drawerPaperClose": "Indicator-drawerPaperClose-10",
-        "formContainer": "Indicator-formContainer-14",
-        "menuButton": "Indicator-menuButton-6",
-        "menuButtonHidden": "Indicator-menuButtonHidden-7",
-        "root": "Indicator-root-1",
-        "tableContainer": "Indicator-tableContainer-15",
-        "title": "Indicator-title-8",
-        "toolbar": "Indicator-toolbar-2",
-        "toolbarIcon": "Indicator-toolbarIcon-3",
+        "appBar": "IndicatorGroup-appBar-4",
+        "appBarShift": "IndicatorGroup-appBarShift-5",
+        "appBarSpacer": "IndicatorGroup-appBarSpacer-11",
+        "chartContainer": "IndicatorGroup-chartContainer-13",
+        "content": "IndicatorGroup-content-12",
+        "drawerPaper": "IndicatorGroup-drawerPaper-9",
+        "drawerPaperClose": "IndicatorGroup-drawerPaperClose-10",
+        "formContainer": "IndicatorGroup-formContainer-14",
+        "menuButton": "IndicatorGroup-menuButton-6",
+        "menuButtonHidden": "IndicatorGroup-menuButtonHidden-7",
+        "root": "IndicatorGroup-root-1",
+        "tableContainer": "IndicatorGroup-tableContainer-15",
+        "title": "IndicatorGroup-title-8",
+        "toolbar": "IndicatorGroup-toolbar-2",
+        "toolbarIcon": "IndicatorGroup-toolbarIcon-3",
       }
     }
     match={
       Object {
-        "url": "/indicator",
+        "url": "/indicator-group",
       }
     }
   />,
@@ -44,24 +44,24 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          className="Indicator-appBarSpacer-11"
+          className="IndicatorGroup-appBarSpacer-11"
         />,
         <WithStyles(Typography)
-          className="Indicator-chartContainer-13"
+          className="IndicatorGroup-chartContainer-13"
           gutterBottom={true}
           variant="display1"
         >
           <Route
             component={[Function]}
-            path="/indicator/new"
+            path="/indicator-group/new"
           />
           <Route
             component={[Function]}
-            path="/indicator/edit/:id"
+            path="/indicator-group/edit/:id"
           />
           <Route
             exact={true}
-            path="/indicator"
+            path="/indicator-group"
             render={[Function]}
           />
         </WithStyles(Typography)>,
@@ -74,7 +74,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "className": "Indicator-appBarSpacer-11",
+          "className": "IndicatorGroup-appBarSpacer-11",
         },
         "ref": null,
         "rendered": null,
@@ -88,19 +88,19 @@ ShallowWrapper {
           "children": Array [
             <Route
               component={[Function]}
-              path="/indicator/new"
+              path="/indicator-group/new"
             />,
             <Route
               component={[Function]}
-              path="/indicator/edit/:id"
+              path="/indicator-group/edit/:id"
             />,
             <Route
               exact={true}
-              path="/indicator"
+              path="/indicator-group"
               render={[Function]}
             />,
           ],
-          "className": "Indicator-chartContainer-13",
+          "className": "IndicatorGroup-chartContainer-13",
           "gutterBottom": true,
           "variant": "display1",
         },
@@ -112,7 +112,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "component": [Function],
-              "path": "/indicator/new",
+              "path": "/indicator-group/new",
             },
             "ref": null,
             "rendered": null,
@@ -124,7 +124,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "component": [Function],
-              "path": "/indicator/edit/:id",
+              "path": "/indicator-group/edit/:id",
             },
             "ref": null,
             "rendered": null,
@@ -136,7 +136,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "exact": true,
-              "path": "/indicator",
+              "path": "/indicator-group",
               "render": [Function],
             },
             "ref": null,
@@ -157,24 +157,24 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className="Indicator-appBarSpacer-11"
+            className="IndicatorGroup-appBarSpacer-11"
           />,
           <WithStyles(Typography)
-            className="Indicator-chartContainer-13"
+            className="IndicatorGroup-chartContainer-13"
             gutterBottom={true}
             variant="display1"
           >
             <Route
               component={[Function]}
-              path="/indicator/new"
+              path="/indicator-group/new"
             />
             <Route
               component={[Function]}
-              path="/indicator/edit/:id"
+              path="/indicator-group/edit/:id"
             />
             <Route
               exact={true}
-              path="/indicator"
+              path="/indicator-group"
               render={[Function]}
             />
           </WithStyles(Typography)>,
@@ -187,7 +187,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "className": "Indicator-appBarSpacer-11",
+            "className": "IndicatorGroup-appBarSpacer-11",
           },
           "ref": null,
           "rendered": null,
@@ -201,19 +201,19 @@ ShallowWrapper {
             "children": Array [
               <Route
                 component={[Function]}
-                path="/indicator/new"
+                path="/indicator-group/new"
               />,
               <Route
                 component={[Function]}
-                path="/indicator/edit/:id"
+                path="/indicator-group/edit/:id"
               />,
               <Route
                 exact={true}
-                path="/indicator"
+                path="/indicator-group"
                 render={[Function]}
               />,
             ],
-            "className": "Indicator-chartContainer-13",
+            "className": "IndicatorGroup-chartContainer-13",
             "gutterBottom": true,
             "variant": "display1",
           },
@@ -225,7 +225,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "component": [Function],
-                "path": "/indicator/new",
+                "path": "/indicator-group/new",
               },
               "ref": null,
               "rendered": null,
@@ -237,7 +237,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "component": [Function],
-                "path": "/indicator/edit/:id",
+                "path": "/indicator-group/edit/:id",
               },
               "ref": null,
               "rendered": null,
@@ -249,7 +249,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "exact": true,
-                "path": "/indicator",
+                "path": "/indicator-group",
                 "render": [Function],
               },
               "ref": null,

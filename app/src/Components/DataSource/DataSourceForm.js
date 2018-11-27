@@ -51,7 +51,7 @@ const DataSourceFormFields = (props) => {
           helperText=""
           placeholder="Connection string"
           touched={touched.connectionString}
-          error={touched.name && errors.connectionString}
+          error={touched.connectionString && errors.connectionString}
           value={values.connectionString}
           onChange={handleChange}
           onBlur={handleBlur}
