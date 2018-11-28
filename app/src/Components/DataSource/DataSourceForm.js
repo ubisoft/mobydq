@@ -45,7 +45,7 @@ const DataSourceFormFields = (props) => {
         />
       </div>
       <div>
-        <textarea
+        <TextInput
           id="connectionString"
           label="Connection string"
           helperText=""
@@ -55,6 +55,7 @@ const DataSourceFormFields = (props) => {
           value={values.connectionString}
           onChange={handleChange}
           onBlur={handleBlur}
+          multiline={true}
         />
       </div>
       <div>
