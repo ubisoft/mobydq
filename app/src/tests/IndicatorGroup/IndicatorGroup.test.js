@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallowWrap } from './../../setupTests';
 
-import Indicator from './../../Components/Indicator/Indicator';
+import IndicatorGroup from './../../Components/IndicatorGroup/IndicatorGroup';
 
-describe('indicator component unit test', () => {
+describe('IndicatorGroup component unit test', () => {
   const match = {
-    'url': '/indicator'
+    'url': '/indicator-group'
   };
-  const wrapper = shallowWrap(<Indicator match={match}/>);
+  const wrapper = shallowWrap(<IndicatorGroup match={match}/>);
   it('matches snapshot', () => {
     expect(wrapper.dive()).toMatchSnapshot();
   });
