@@ -42,7 +42,7 @@ class BaseDataView extends React.Component {
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={() => this.props.isOpen(true)}
+                onClick={() => this.setDrawerOpen(true)}
                 className={classNames(
                   classes.menuButton,
                   'sidebarExpand',
@@ -69,7 +69,7 @@ class BaseDataView extends React.Component {
             open={this.props.open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.setDrawerOpen(false)}>
+              <IconButton onClick={() => this.setDrawerOpen(false)}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
