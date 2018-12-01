@@ -21,10 +21,12 @@ import Typography from '@material-ui/core/Typography';
 
 import { mainListItems } from '../../listItems';
 import Content from './Content';
+import { MessageBar } from './MessageBar';
+import { setMessageBarOpen } from '../../actions/messageBar';
 
 class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
-    this.props.isOpen(setOpen);
+    this.props.setSidebarOpen(setOpen);
   }
 
   render() {
@@ -36,9 +38,9 @@ class BaseDataView extends React.Component {
         <div className={classes.root}>
           <AppBar
             position="absolute"
-            className={classNames(classes.appBar, this.props.open && classes.appBarShift)}
+            className={classNames(classes.appBar, this.props.sidebarIsOpen && classes.appBarShift)}
           >
-            <Toolbar disableGutters={!this.props.open} className={classes.toolbar}>
+            <Toolbar disableGutters={!this.props.sidebarIsOpen} className={classes.toolbar}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
@@ -46,7 +48,7 @@ class BaseDataView extends React.Component {
                 className={classNames(
                   classes.menuButton,
                   'sidebarExpand',
-                  this.props.open && classes.menuButtonHidden,
+                  this.props.sidebarIsOpen && classes.menuButtonHidden,
                 )}
               >
                 <MenuIcon />
@@ -64,9 +66,9 @@ class BaseDataView extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              'paper': classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose)
+              'paper': classNames(classes.drawerPaper, !this.props.sidebarIsOpen && classes.drawerPaperClose)
             }}
-            open={this.props.open}
+            open={this.props.sidebarIsOpen}
           >
             <div className={classes.toolbarIcon}>
               <IconButton onClick={() => this.setDrawerOpen(false)}>
@@ -80,6 +82,11 @@ class BaseDataView extends React.Component {
             <Content />
           </main>
         </div>
+        <MessageBar
+          message={this.props.messageBarMessage}
+          isOpen={this.props.messageBarIsOpen}
+          setOpen={this.props.setMessageBarOpen}
+        />
       </React.Fragment>
     );
   }
@@ -92,11 +99,13 @@ class BaseDataView extends React.Component {
  */
 
 const mapStateToProps = (state) => ({
-  'open': state.sidebarIsOpen
+  'sidebarIsOpen': state.sidebarIsOpen,
+  'messageBarMessage': state.messageBarMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'isOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState))
+  'setSidebarOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
+  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
 });
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));
