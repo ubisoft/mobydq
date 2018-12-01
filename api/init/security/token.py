@@ -13,6 +13,7 @@ TOKEN_VALIDITY = 3600
 class TokenType(Enum):
     """Defines all OAuth providers"""
     Google = 0
+    Github = 1
 
 
 def is_token_valid(token: str):
