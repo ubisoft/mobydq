@@ -21,14 +21,12 @@ import Typography from '@material-ui/core/Typography';
 
 import { mainListItems } from '../../listItems';
 import Content from './Content';
+import { MessageBar } from './MessageBar';
+import { setMessageBarOpen } from '../../actions/messageBar';
 
 class BaseDataView extends React.Component {
-  handleDrawerOpen() {
-    this.props.isOpen(true);
-  }
-
-  handleDrawerClose() {
-    this.props.isOpen(false);
+  setDrawerOpen = (setOpen) => {
+    this.props.setSidebarOpen(setOpen);
   }
 
   render() {
@@ -40,22 +38,23 @@ class BaseDataView extends React.Component {
         <div className={classes.root}>
           <AppBar
             position="absolute"
-            className={classNames(classes.appBar, this.props.open && classes.appBarShift)}
+            className={classNames(classes.appBar, this.props.sidebarIsOpen && classes.appBarShift)}
           >
-            <Toolbar disableGutters={!this.props.open} className={classes.toolbar}>
+            <Toolbar disableGutters={!this.props.sidebarIsOpen} className={classes.toolbar}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerOpen.bind(this)}
+                onClick={() => this.setDrawerOpen(true)}
                 className={classNames(
                   classes.menuButton,
-                  this.props.open && classes.menuButtonHidden,
+                  'sidebarExpand',
+                  this.props.sidebarIsOpen && classes.menuButtonHidden,
                 )}
               >
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                MobyDQ
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -67,12 +66,12 @@ class BaseDataView extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              'paper': classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose)
+              'paper': classNames(classes.drawerPaper, !this.props.sidebarIsOpen && classes.drawerPaperClose)
             }}
-            open={this.props.open}
+            open={this.props.sidebarIsOpen}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose.bind(this)}>
+              <IconButton onClick={() => this.setDrawerOpen(false)}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -83,6 +82,11 @@ class BaseDataView extends React.Component {
             <Content />
           </main>
         </div>
+        <MessageBar
+          message={this.props.messageBarMessage}
+          isOpen={this.props.messageBarIsOpen}
+          setOpen={this.props.setMessageBarOpen}
+        />
       </React.Fragment>
     );
   }
@@ -95,11 +99,13 @@ class BaseDataView extends React.Component {
  */
 
 const mapStateToProps = (state) => ({
-  'open': state.sidebarIsOpen
+  'sidebarIsOpen': state.sidebarIsOpen,
+  'messageBarMessage': state.messageBarMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'isOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState))
+  'setSidebarOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
+  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
 });
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));

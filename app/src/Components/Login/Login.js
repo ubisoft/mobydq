@@ -8,31 +8,12 @@ const googleOAuthUrl = UrlBuilder.getDefault().googleOAuth();
 
 const Login = () => <React.Fragment>
   <div className="container">
-    <div className="loginForm">
-      <div className="loginFormHeader">
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <div className="btnCloseFake" />
-              </td>
-              <td>
-                <div className="btnMinimizeFake" />
-              </td>
-              <td>
-                <div className="btnMaximizeFake" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style={{ 'textAlign': 'center' }}>
-        <a style={{ 'textDecoration': 'none' }} href={googleOAuthUrl}>
-          <Button style={{ 'marginTop': '25%' }} variant="contained" color="secondary">
-            Sign in with Google
-          </Button>
-        </a>
-      </div>
+    <div style={{ 'textAlign': 'center' }}>
+      <a style={{ 'textDecoration': 'none' }} href={googleOAuthUrl}>
+        <Button style={{ 'marginTop': '10%' }} variant="contained" color="secondary">
+          Sign in with Google
+        </Button>
+      </a>
     </div>
   </div>
 </React.Fragment>;

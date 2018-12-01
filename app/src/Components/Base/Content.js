@@ -7,7 +7,7 @@ import Admin from './../Admin/Admin';
 import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent';
 import Login from '../Login/Login';
-import PrivateRoute from '../Base/PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 
 const Content = () => <main>
   <Switch>

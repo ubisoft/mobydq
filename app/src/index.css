@@ -28,23 +28,6 @@ body {
     transition: color .15s
 }
 
-.loginForm
-{
-    margin-top: 10%;
-    margin-left: 20%;
-    margin-right: 20%;
-    height: 400px;
-    background-color: #424242;
-    color: white;
-}
-
-.loginFormHeader
-{
-    margin-top: 10%;
-    height: 20px;
-    background-color: #E0DEE0;
-}
-
 .btnCloseFake
 {
     width: 12px;

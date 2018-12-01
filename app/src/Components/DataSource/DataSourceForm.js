@@ -3,7 +3,8 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
-import SimpleButton from './../FormInput/SimpleButton';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
 const DataSourceFormFields = (props) => {
   const {
@@ -29,32 +30,32 @@ const DataSourceFormFields = (props) => {
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-        <div>
-          <div>
-            <SelectInput
-              id="dataSourceTypeId"
-              label="Type"
-              items={data.allDataSourceTypes.nodes}
-              touched={touched.dataSourceTypeId}
-              error={touched.dataSourceTypeId && errors.dataSourceTypeId}
-              value={values.dataSourceTypeId}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </div>
-        </div>
+      </div>
+      <div>
+        <SelectInput
+          id="dataSourceTypeId"
+          label="Type"
+          items={data.allDataSourceTypes.nodes}
+          touched={touched.dataSourceTypeId}
+          error={touched.dataSourceTypeId && errors.dataSourceTypeId}
+          value={values.dataSourceTypeId}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div>
         <TextInput
           id="connectionString"
           label="Connection string"
           helperText=""
-          placeholder=""
+          placeholder="Connection string"
           touched={touched.connectionString}
-          error={touched.name && errors.connectionString}
+          error={touched.connectionString && errors.connectionString}
           value={values.connectionString}
           onChange={handleChange}
           onBlur={handleBlur}
+          multiline={true}
         />
       </div>
       <div>
@@ -68,10 +69,9 @@ const DataSourceFormFields = (props) => {
           value={values.login}
           onChange={handleChange}
           onBlur={handleBlur}
-          style={{ 'float': 'left' }}
         />
-        <div>
-        </div>
+      </div>
+      <div>
         <TextInput
           id="password"
           label="Password"
@@ -85,9 +85,10 @@ const DataSourceFormFields = (props) => {
         />
       </div>
       <div>
-        <div>
-          <SimpleButton type="submit" disabled={isSubmitting} label="Submit" variant="contained" color={'primary'}/>
-        </div>
+        <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
+          <SaveIcon />
+          Save
+        </Button>
       </div>
     </form>
   );

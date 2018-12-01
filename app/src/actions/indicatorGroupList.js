@@ -19,23 +19,9 @@ export function setIndicatorGroupRowTotal(int) {
   };
 }
 
-export function setIndicatorGroupMessage(str) {
+export function setIndicatorGroupSortColumn(string) {
   return {
-    'type': 'INDICATOR_GROUP_LIST_MESSAGE',
-    'message': str
-  };
-}
-
-export function setIndicatorGroupOpen(bool) {
-  return {
-    'type': 'INDICATOR_GROUP_LIST_OPEN',
-    'open': bool
-  };
-}
-
-export function setIndicatorGroupCurrentBatchId(int) {
-  return {
-    'type': 'INDICATOR_GROUP_LIST_CURRENT_BATCH_ID',
-    'currentBatchId': int
+    'type': 'INDICATOR_GROUP_LIST_SORT_COLUMN',
+    'sortColumn': string
   };
 }

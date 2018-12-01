@@ -1,6 +1,5 @@
 version: '3.1'
 services:
-
   db:
     container_name: mobydq-db
     restart: always
@@ -10,7 +9,7 @@ services:
     volumes:
       - mobydq-db-volume:/var/lib/postgresql/data
     env_file:
-        - ./.env
+      - ./.env
     ports:
       - 5432:5432
     networks:
@@ -39,13 +38,16 @@ services:
     build:
       context: ./api
     volumes:
-      - $API_VOLUME_PATH:/srv/api/
+      - /Projects/data-quality/api/init:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
+      - /Projects/data-quality/secrets:/run/secrets
     environment:
-      FLASK_APP: init/api.py
+      FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
     ports:
       - 5434:5434
+    env_file:
+      - ./.env
     depends_on:
       - graphql
     links:
@@ -53,7 +55,7 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-
+    
   scripts:
     container_name: mobydq-scripts
     restart: always
@@ -61,6 +63,7 @@ services:
     build:
       context: ./scripts
       args:
+        - GRAPHQL_URL=${GRAPHQL_URL}
         - MAIL_HOST=${MAIL_HOST}
         - MAIL_PORT=${MAIL_PORT}
         - MAIL_SENDER=${MAIL_SENDER}
@@ -70,11 +73,9 @@ services:
        - $SCRIPT_VOLUME_PATH:/srv/scripts
     depends_on:
       - graphql
-    links:
-      - graphql
     networks:
       - default
-
+            
   app:
     container_name: mobydq-app
     restart: always
@@ -83,8 +84,8 @@ services:
       context: ./app
       dockerfile: Dockerfile-dev
     volumes:
-      - $APP_VOLUME_PATH:/usr/src/app
-      - '/usr/src/app/node_modules'
+      - $APP_VOLUME_PATH/src:/usr/src/app/src:ro
+      - $APP_VOLUME_PATH/public:/usr/src/app/public:ro
     env_file:
       - ./.env
     ports:
@@ -97,7 +98,7 @@ services:
       - graphql
     networks:
       - default
-
+      
 networks:
   default:
     external:
@@ -106,3 +107,4 @@ networks:
 volumes:
   mobydq-db-volume:
     external: true
+    

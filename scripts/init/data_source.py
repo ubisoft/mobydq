@@ -26,7 +26,8 @@ class DataSource:
 
         # Hive
         if data_source_type_id == DataSourceType.HIVE_ID:
-            connection = pyodbc.connect(connection_string)
+            connection = pyodbc.connect(connection_string, autocommit=True)
+            connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
         # Impala

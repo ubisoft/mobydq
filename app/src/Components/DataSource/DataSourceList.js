@@ -1,88 +1,50 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { setDataSourcePage, setDataSourceRowsPerPage, setDataSourceRowTotal } from './../../actions/dataSourceList';
-
-import { Query } from 'react-apollo';
-import { GraphQLError } from './../Error/GraphQLError';
+import { setDataSourcePage, setDataSourceRowsPerPage, setDataSourceRowTotal, setDataSourceSortColumn } from './../../actions/dataSourceList';
 
 import DataSourceRepository from './../../repository/DataSourceRepository';
-import ListTable from '../ListTable/ListTable';
-import LinkButton from './../../Components/FormInput/LinkButton';
-
+import ListContainer from '../ListTable/ListContainer';
 
 class DataSourceList extends React.Component {
   render() {
-    return (
-      <Query
-        query={DataSourceRepository.getListPage()}
-        variables={{ 'first': this.props.dataSourceRowsPerPage, 'offset': this.props.dataSourcePage * this.props.dataSourceRowsPerPage }}
-        fetchPolicy={this.props.refetch ? 'cache-and-network' : 'cache-first'}
-      >
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <p>Loading...</p>;
-          }
-          if (error) {
-            return <GraphQLError error={error}/>;
-          }
-          this.props.setDataSourceRowTotal(data.allDataSources.totalCount);
-          return (
-            <div>
-              <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
-                Data Sources
-              </div>
-              <div style={{ 'float': 'right' }}>
-                <LinkButton label="Create" type="Create" color="primary"
-                  variant="contained" to={'/data-source/new'}/>
-              </div>
-              <ListTable
-                data={data.allDataSources.nodes}
-                buttons={[
-                  { 'function': 'edit', 'parameter': '/data-source' },
-                  { 'function': 'delete', 'parameter': this._buildDeleteParam() }
-                ]}
-                footerParams={this._buildFooterParam()}
-              />
-            </div>
-          );
-        }}
-      </Query>
-    );
+    const buttonConfig = [
+      { 'function': 'edit', 'parameter': '/data-source' },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+    ];
+    return <ListContainer
+      buttons={buttonConfig}
+      newLink={'/data-source/new'}
+      repository={DataSourceRepository}
+      dataObjectName={'allDataSources'}
+      tableHeader={'Data Sources'}
+      {...this.props}
+    />;
   }
 
   _buildDeleteParam() {
     return {
-      'page': this.props.dataSourcePage,
-      'rowTotal': this.props.dataSourceRowTotal,
-      'rowsPerPage': this.props.dataSourceRowsPerPage,
-      'setPage': this.props.setDataSourcePage,
+      'page': this.props.page,
+      'rowTotal': this.props.rowTotal,
+      'rowsPerPage': this.props.rowsPerPage,
+      'setPage': this.props.setPage,
       'repository': DataSourceRepository
-    };
-  }
-
-  _buildFooterParam() {
-    return {
-      'page': this.props.dataSourcePage,
-      'rowTotal': this.props.dataSourceRowTotal,
-      'rowsPerPage': this.props.dataSourceRowsPerPage,
-      'setPage': this.props.setDataSourcePage,
-      'setRowsPerPage': this.props.setDataSourceRowsPerPage
     };
   }
 }
 
 const mapStateToProps = (state) => ({
-  'dataSourcePage': state.dataSourcePage,
-  'dataSourceRowsPerPage': state.dataSourceRowsPerPage,
-  'dataSourceRowTotal': state.dataSourceRowTotal
+  'page': state.dataSourcePage,
+  'rowsPerPage': state.dataSourceRowsPerPage,
+  'rowTotal': state.dataSourceRowTotal,
+  'sortColumn': state.dataSourceSortColumn
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'setDataSourcePage': (page) => dispatch(setDataSourcePage(page)),
-  'setDataSourceRowsPerPage': (rowsPerPage) => dispatch(setDataSourceRowsPerPage(rowsPerPage)),
-  'setDataSourceRowTotal': (rowTotal) => dispatch(setDataSourceRowTotal(rowTotal))
+  'setPage': (page) => dispatch(setDataSourcePage(page)),
+  'setRowsPerPage': (rowsPerPage) => dispatch(setDataSourceRowsPerPage(rowsPerPage)),
+  'setRowTotal': (rowTotal) => dispatch(setDataSourceRowTotal(rowTotal)),
+  'setSortColumn': (sortColumn) => dispatch(setDataSourceSortColumn(sortColumn))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataSourceList);
-

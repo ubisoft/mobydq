@@ -25,13 +25,15 @@ export default function createDeleteRowButton(button, recordId) {
         if (error) {
           return <p>Error...</p>;
         }
-        return (
-          <IconButton key={`delete_${recordId}`} onClick={() => {
+        return <IconButton
+          key={`delete_${recordId}`}
+          onClick={() => {
             deleteFunc();
-          }} color="primary">
-            <DeleteIcon />
-          </IconButton>
-        );
+          }}
+          color={'secondary'}
+        >
+          <DeleteIcon />
+        </IconButton>;
       }}
     </Mutation>
   );

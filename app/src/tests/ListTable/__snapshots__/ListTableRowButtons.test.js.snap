@@ -29,7 +29,7 @@ ShallowWrapper {
     "props": Object {
       "contents": Array [
         <WithStyles(IconButton)
-          color="primary"
+          color="secondary"
           component={[Function]}
           to="/test-route/edit/1"
         >
@@ -49,7 +49,7 @@ ShallowWrapper {
       "props": Object {
         "contents": Array [
           <WithStyles(IconButton)
-            color="primary"
+            color="secondary"
             component={[Function]}
             to="/test-route/edit/1"
           >

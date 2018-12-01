@@ -1,2 +1,2 @@
-FROM postgres:10.4-alpine
-COPY ./db-postgresql/init/ /docker-entrypoint-initdb.d/
+FROM postgres:11.0-alpine
+COPY ./test/db-postgresql/init/ /docker-entrypoint-initdb.d/

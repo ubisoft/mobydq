@@ -6,7 +6,7 @@ import { GraphQLError } from './../Error/GraphQLError';
 
 import NotFoundComponent from '../Error/NotFoundComponent';
 
-import { BaseForm } from '../Base/Form';
+import { EnhancedForm } from '../Form/Form';
 import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 
 export const IndicatorGroupUpdateForm = ({ ...props }) => <Query query={IndicatorGroupRepository.display()} variables={{ 'id': props.match.params.id }}>
@@ -23,7 +23,7 @@ export const IndicatorGroupUpdateForm = ({ ...props }) => <Query query={Indicato
     return (
       data.indicatorGroupById === null
         ? <NotFoundComponent/>
-        : <BaseForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
+        : <EnhancedForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
           afterSaveRoute="/indicator-group/" title="Edit Indicator Group" initialFieldValues={data.indicatorGroupById} {...props}/>
     );
   }}
