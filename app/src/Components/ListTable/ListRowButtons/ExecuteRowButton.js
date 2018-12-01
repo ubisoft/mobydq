@@ -4,13 +4,13 @@ import { Mutation } from 'react-apollo';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Snackbar from '@material-ui/core/Snackbar';
-import { setIndicatorGroupCurrentBatchId, setIndicatorGroupOpen, setIndicatorGroupMessage } from '../../../actions/indicatorGroupList';
 
+import { setMessageBarMessage, setMessageBarOpen } from "../../../actions/messageBar";
 
 class ExecuteRowButton extends React.Component {
   execute = (func) => {
     func();
-    this.props.setOpen(true);
+    this.props.setMessageBarOpen(true);
   }
 
   render() {
@@ -30,46 +30,28 @@ class ExecuteRowButton extends React.Component {
         if (called && data) {
           const responseData = data.executeBatch.batch;
           if (responseData.id !== this.props.currentBatchId) {
-            this.props.setMessage(`Batch ${responseData.id}: ${responseData.status}`);
-            this.props.setCurrentBatchId(responseData.id);
+            this.props.setMessageBarMessage(`Batch ${responseData.id}: ${responseData.status}`);
           }
         }
 
         return (
-          <span>
+          <React.Fragment>
             <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="secondary">
               <PlayArrow />
             </IconButton>
-            <Snackbar
-              anchorOrigin={{
-                'vertical': 'bottom',
-                'horizontal': 'left'
-              }}
-              open={this.props.open}
-              autoHideDuration={5000}
-              message={<span>{this.props.message}</span>}
-              onClose={() => this.props.setOpen(false)}>
-            </Snackbar>
-          </span>
+          </React.Fragment>
         );
       }}
     </Mutation>;
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    'message': state.indicatorGroupMessage,
-    'open': state.indicatorGroupOpen,
-    'currentBatchId': state.indicatorGroupCurrentBatchId
-  }
-);
+const mapStateToProps = (state) => {};
 
 const mapDispatchToProps = (dispatch) => (
   {
-    'setMessage': (message) => dispatch(setIndicatorGroupMessage(message)),
-    'setOpen': (open) => dispatch(setIndicatorGroupOpen(open)),
-    'setCurrentBatchId': (currentBatchId) => dispatch(setIndicatorGroupCurrentBatchId(currentBatchId))
+    'setMessageBarMessage': (message) => dispatch(setMessageBarMessage(message)),
+    'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open)),
   }
 );
 

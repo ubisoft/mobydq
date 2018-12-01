@@ -22,7 +22,7 @@ describe('BaseDataView component unit test', () => {
 
 describe('BaseDataView component functional test', () => {
   let wrapper;
-  const initialState = { 'open': false };
+  const initialState = { 'sidebarIsOpen': false };
   const mockStore = configureStore();
   const store = mockStore(initialState);
   it('renders the BaseDataView component with sidebar closed', () => {
@@ -31,7 +31,7 @@ describe('BaseDataView component functional test', () => {
     wrapper.find('IconButton').first().simulate('click');
   });
 
-  it('renders the BaseDataView component with sidebar open', () => {
+  it('renders the BaseDataView component with sidebar sidebarIsOpen', () => {
     store.open = true;
     wrapper = mountWrap(<div><MemoryRouter><BaseDataView store={store}/></MemoryRouter></div>);
     expect(wrapper.find('AppBar').length === 1).toEqual(true);
