@@ -3,7 +3,7 @@ import { sidebarIsOpen } from './sidebar';
 import { indicatorPage, indicatorRowsPerPage, indicatorRowTotal, indicatorSortColumn } from './indicatorList';
 import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupSortColumn } from './indicatorGroupList';
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal, dataSourceSortColumn } from './dataSourceList';
-import { messageBarIsOpen, messageBarMessage} from './messageBar'
+import { messageBarIsOpen, messageBarMessage } from './messageBar';
 
 export default combineReducers({
   sidebarIsOpen,

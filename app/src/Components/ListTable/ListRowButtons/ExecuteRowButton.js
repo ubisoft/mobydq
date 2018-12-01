@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Mutation } from 'react-apollo';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrow from '@material-ui/icons/PlayArrow';
-import Snackbar from '@material-ui/core/Snackbar';
 
-import { setMessageBarMessage, setMessageBarOpen } from "../../../actions/messageBar";
+import { setMessageBarMessage, setMessageBarOpen } from '../../../actions/messageBar';
 
 class ExecuteRowButton extends React.Component {
   execute = (func) => {
@@ -46,12 +45,14 @@ class ExecuteRowButton extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => ({
+  'messageBarMessage': state.messageBarMessage
+});
 
 const mapDispatchToProps = (dispatch) => (
   {
     'setMessageBarMessage': (message) => dispatch(setMessageBarMessage(message)),
-    'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open)),
+    'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
   }
 );
 

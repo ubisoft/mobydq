@@ -1,5 +1,5 @@
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import React from "react";
+import Snackbar from '@material-ui/core/Snackbar/Snackbar';
+import React from 'react';
 
 export const MessageBar = ({ message, isOpen, setOpen }) => <Snackbar
   anchorOrigin={{
@@ -10,4 +10,4 @@ export const MessageBar = ({ message, isOpen, setOpen }) => <Snackbar
   autoHideDuration={5000}
   message={<span>{message}</span>}
   onClose={() => setOpen(false)}>
-</Snackbar>
+</Snackbar>;

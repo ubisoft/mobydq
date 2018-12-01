@@ -22,9 +22,7 @@ import Typography from '@material-ui/core/Typography';
 import { mainListItems } from '../../listItems';
 import Content from './Content';
 import { MessageBar } from './MessageBar';
-import { setMessageBarMessage, setMessageBarOpen } from "../../actions/messageBar";
-import { messageBarIsOpen } from "../../reducers/messageBar";
-
+import { setMessageBarOpen } from '../../actions/messageBar';
 
 class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
@@ -84,11 +82,11 @@ class BaseDataView extends React.Component {
             <Content />
           </main>
         </div>
-      <MessageBar
+        <MessageBar
           message={this.props.messageBarMessage}
           isOpen={this.props.messageBarIsOpen}
           setOpen={this.props.setMessageBarOpen}
-      />
+        />
       </React.Fragment>
     );
   }
@@ -102,13 +100,12 @@ class BaseDataView extends React.Component {
 
 const mapStateToProps = (state) => ({
   'sidebarIsOpen': state.sidebarIsOpen,
-  'messageBarMessage': state.messageBarMessage,
-  'messageBarIsOpen': state.messageBarIsOpen,
+  'messageBarMessage': state.messageBarMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
   'setSidebarOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
-  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open)),
+  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
 });
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));
