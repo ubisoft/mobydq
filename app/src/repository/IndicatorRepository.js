@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 class IndicatorRepository {
   static getListPage(pageNumber, pageSize) { // eslint-disable-line no-unused-vars
     return gql`
-      query indicatorRange($first: Int!, $offset: Int!) {
-        allIndicators(first: $first, offset: $offset) {
+      query indicatorRange($first: Int!, $offset: Int!, $orderBy: [IndicatorsOrderBy!]) {
+        allIndicators(first: $first, offset: $offset, orderBy: $orderBy) {
           totalCount
           nodes {
             id
@@ -62,8 +62,6 @@ class IndicatorRepository {
         createIndicator(input: {indicator: $indicator}) {
           indicator {
             id
-            name
-            description
           }
         }
       }
@@ -77,11 +75,11 @@ class IndicatorRepository {
           id
           name
           description
+          indicatorTypeId
+          indicatorGroupId
           executionOrder
           flagActive
-          createdDate
           updatedDate
-          indicatorTypeId
         }
       }
     `;
@@ -93,7 +91,6 @@ class IndicatorRepository {
         updateIndicatorById(input: {indicatorPatch: $indicatorPatch, id: $id }) {
           indicator {
             id
-            name
           }
         }
       }
@@ -106,7 +103,6 @@ class IndicatorRepository {
         deleteIndicatorById(input: {id: $id }) {
           indicator {
             id
-            name
           }
         }
       }

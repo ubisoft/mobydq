@@ -53,6 +53,20 @@ ShallowWrapper {
                               },
                             },
                           },
+                          Object {
+                            "kind": "Argument",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "orderBy",
+                            },
+                            "value": Object {
+                              "kind": "Variable",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "orderBy",
+                              },
+                            },
+                          },
                         ],
                         "directives": Array [],
                         "kind": "Field",
@@ -214,12 +228,36 @@ ShallowWrapper {
                         },
                       },
                     },
+                    Object {
+                      "defaultValue": undefined,
+                      "kind": "VariableDefinition",
+                      "type": Object {
+                        "kind": "ListType",
+                        "type": Object {
+                          "kind": "NonNullType",
+                          "type": Object {
+                            "kind": "NamedType",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "IndicatorsOrderBy",
+                            },
+                          },
+                        },
+                      },
+                      "variable": Object {
+                        "kind": "Variable",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "orderBy",
+                        },
+                      },
+                    },
                   ],
                 },
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 351,
+                "end": 402,
                 "start": 0,
               },
             },
@@ -291,19 +329,40 @@ ShallowWrapper {
       "client": ApolloClient {
         "cache": InMemoryCache {
           "addTypename": true,
+          "cacheKeyRoot": CacheKeyNode {
+            "children": null,
+            "key": null,
+          },
           "config": Object {
             "addTypename": true,
             "dataIdFromObject": [Function],
             "fragmentMatcher": HeuristicFragmentMatcher {},
-            "storeFactory": [Function],
           },
-          "data": ObjectCache {
+          "data": DepTrackingCache {
             "data": Object {},
+            "depend": [Function],
           },
+          "maybeBroadcastWatch": [Function],
           "optimistic": Array [],
           "silenceBroadcast": false,
-          "typenameDocumentCache": WeakMap {},
-          "watches": Array [],
+          "storeReader": StoreReader {
+            "cacheKeyRoot": CacheKeyNode {
+              "children": null,
+              "key": null,
+            },
+            "executeSelectionSet": [Function],
+            "executeStoreQuery": [Function],
+            "keyMaker": QueryKeyMaker {
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
+              "perQueryKeyMakers": Map {},
+            },
+          },
+          "storeWriter": StoreWriter {},
+          "typenameDocumentCache": Map {},
+          "watches": Set {},
         },
         "defaultOptions": Object {},
         "disableNetworkFetches": false,
@@ -320,22 +379,43 @@ ShallowWrapper {
         "store": DataStore {
           "cache": InMemoryCache {
             "addTypename": true,
+            "cacheKeyRoot": CacheKeyNode {
+              "children": null,
+              "key": null,
+            },
             "config": Object {
               "addTypename": true,
               "dataIdFromObject": [Function],
               "fragmentMatcher": HeuristicFragmentMatcher {},
-              "storeFactory": [Function],
             },
-            "data": ObjectCache {
+            "data": DepTrackingCache {
               "data": Object {},
+              "depend": [Function],
             },
+            "maybeBroadcastWatch": [Function],
             "optimistic": Array [],
             "silenceBroadcast": false,
-            "typenameDocumentCache": WeakMap {},
-            "watches": Array [],
+            "storeReader": StoreReader {
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
+              "executeSelectionSet": [Function],
+              "executeStoreQuery": [Function],
+              "keyMaker": QueryKeyMaker {
+                "cacheKeyRoot": CacheKeyNode {
+                  "children": null,
+                  "key": null,
+                },
+                "perQueryKeyMakers": Map {},
+              },
+            },
+            "storeWriter": StoreWriter {},
+            "typenameDocumentCache": Map {},
+            "watches": Set {},
           },
         },
-        "version": "2.4.2",
+        "version": "2.4.6",
         "watchQuery": [Function],
       },
     },
@@ -361,19 +441,40 @@ ShallowWrapper {
         "client": ApolloClient {
           "cache": InMemoryCache {
             "addTypename": true,
+            "cacheKeyRoot": CacheKeyNode {
+              "children": null,
+              "key": null,
+            },
             "config": Object {
               "addTypename": true,
               "dataIdFromObject": [Function],
               "fragmentMatcher": HeuristicFragmentMatcher {},
-              "storeFactory": [Function],
             },
-            "data": ObjectCache {
+            "data": DepTrackingCache {
               "data": Object {},
+              "depend": [Function],
             },
+            "maybeBroadcastWatch": [Function],
             "optimistic": Array [],
             "silenceBroadcast": false,
-            "typenameDocumentCache": WeakMap {},
-            "watches": Array [],
+            "storeReader": StoreReader {
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
+              "executeSelectionSet": [Function],
+              "executeStoreQuery": [Function],
+              "keyMaker": QueryKeyMaker {
+                "cacheKeyRoot": CacheKeyNode {
+                  "children": null,
+                  "key": null,
+                },
+                "perQueryKeyMakers": Map {},
+              },
+            },
+            "storeWriter": StoreWriter {},
+            "typenameDocumentCache": Map {},
+            "watches": Set {},
           },
           "defaultOptions": Object {},
           "disableNetworkFetches": false,
@@ -390,22 +491,43 @@ ShallowWrapper {
           "store": DataStore {
             "cache": InMemoryCache {
               "addTypename": true,
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
               "config": Object {
                 "addTypename": true,
                 "dataIdFromObject": [Function],
                 "fragmentMatcher": HeuristicFragmentMatcher {},
-                "storeFactory": [Function],
               },
-              "data": ObjectCache {
+              "data": DepTrackingCache {
                 "data": Object {},
+                "depend": [Function],
               },
+              "maybeBroadcastWatch": [Function],
               "optimistic": Array [],
               "silenceBroadcast": false,
-              "typenameDocumentCache": WeakMap {},
-              "watches": Array [],
+              "storeReader": StoreReader {
+                "cacheKeyRoot": CacheKeyNode {
+                  "children": null,
+                  "key": null,
+                },
+                "executeSelectionSet": [Function],
+                "executeStoreQuery": [Function],
+                "keyMaker": QueryKeyMaker {
+                  "cacheKeyRoot": CacheKeyNode {
+                    "children": null,
+                    "key": null,
+                  },
+                  "perQueryKeyMakers": Map {},
+                },
+              },
+              "storeWriter": StoreWriter {},
+              "typenameDocumentCache": Map {},
+              "watches": Set {},
             },
           },
-          "version": "2.4.2",
+          "version": "2.4.6",
           "watchQuery": [Function],
         },
       },

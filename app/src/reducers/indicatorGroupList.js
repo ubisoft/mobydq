@@ -25,28 +25,10 @@ export function indicatorGroupRowTotal(state = 0, action) {
   }
 }
 
-export function indicatorGroupCurrentBatchId(state = -1, action) {
+export function indicatorGroupSortColumn(state = null, action) {
   switch (action.type) {
-    case 'INDICATOR_GROUP_LIST_CURRENT_BATCH_ID':
-      return action.currentBatchId;
-    default:
-      return state;
-  }
-}
-
-export function indicatorGroupMessage(state = '', action) {
-  switch (action.type) {
-    case 'INDICATOR_GROUP_LIST_MESSAGE':
-      return action.message;
-    default:
-      return state;
-  }
-}
-
-export function indicatorGroupOpen(state = false, action) {
-  switch (action.type) {
-    case 'INDICATOR_GROUP_LIST_OPEN':
-      return action.open;
+    case 'INDICATOR_GROUP_LIST_SORT_COLUMN':
+      return action.sortColumn;
     default:
       return state;
   }

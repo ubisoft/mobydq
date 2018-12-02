@@ -12,7 +12,7 @@ scripts.cfg
 .vscode/
 
 # unit test results
-test-results/*.xml
+test/results/*.xml
 
 # keys
 public.pem

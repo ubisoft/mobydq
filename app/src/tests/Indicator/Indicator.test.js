@@ -1,16 +1,17 @@
 import React from 'react';
-import { StaticRouter } from 'react-router';
-import { shallow } from 'enzyme';
+import { shallowWrap } from './../../setupTests';
 
 import Indicator from './../../Components/Indicator/Indicator';
 
-test('Link matches snapshot', () => {
-  const context = {};
-  const wrapper = shallow(
-    <StaticRouter location="/indicator" context={context}>
-      <Indicator/>
-    </StaticRouter>
-  );
-
-  expect(wrapper).toMatchSnapshot();
+describe('indicator component unit test', () => {
+  const match = {
+    'url': '/indicator'
+  };
+  const wrapper = shallowWrap(<Indicator match={match}/>);
+  it('matches snapshot', () => {
+    expect(wrapper.dive()).toMatchSnapshot();
+  });
+  it('contains exactly 3 routes', () => {
+    expect(wrapper.dive().find('Route')).toHaveLength(3);
+  });
 });

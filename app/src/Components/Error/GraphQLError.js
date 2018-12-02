@@ -2,10 +2,8 @@ import React from 'react';
 import { UnauthorizedError } from './UnauthorizedError';
 
 export const GraphQLError = ({ error }) => {
-  if (error && error.graphQLErrors.length > 0) {
-    return <div>
-      {error.graphQLErrors.statusCode + ': ' + error.graphQLErrors.result.message}
-    </div>;
+  if (error && error.graphQLErrors && error.graphQLErrors.length > 0) {
+    return <div>{error.message}</div>;
   }
   if (error && error.networkError) {
     switch (error.networkError.statusCode) {
@@ -13,9 +11,9 @@ export const GraphQLError = ({ error }) => {
         return <UnauthorizedError />;
       default:
         return <div>
-          {error.networkError.statusCode + ': ' + error.networkError.result.message}
+          {`${error.networkError.statusCode}: ${error.networkError.message}`}
         </div>;
     }
   }
   return <div>No error. Something wrong happened...</div>;
-}
+};
