@@ -11,6 +11,7 @@
     "function-paren-newline": ["error", "consistent"],
     "indent": ["error", 2, {"SwitchCase": 1, "ignoredNodes": [ "JSXAttribute", "JSXSpreadAttribute"]}],
     "init-declarations": "off",
+    "linebreak-style": "off",
     "max-len": "off",
     "max-lines-per-function": "off",
     "max-statements": "off",

@@ -88,6 +88,25 @@ services:
     networks:
       - default
 
+  nginx:
+    container_name: mobydq-nginx
+    restart: always
+    image: nginx:alpine
+    links:
+      - api
+      - app
+    volumes:
+      - ./nginx/conf/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /root/data/certificates/:/etc/certificates
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - api
+      - app
+    networks:
+      - default
+
 networks:
   default:
     external:
