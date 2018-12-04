@@ -23,13 +23,10 @@ CORS(app)
 app.secret_key = os.urandom(24)
 
 # This is required to fix swagger UI not loading issue due to https
-
-
 @property
 def swagger_url(self):
     """Patch for HTTPS"""
     return url_for(self.endpoint('specs'), _external=True, _scheme='https')
-
 
 # Create blueprint to indicate api base url
 blueprint = Blueprint('api', __name__, url_prefix='/mobydq/api')
@@ -43,7 +40,9 @@ api = Api(
     description='API used to configure and trigger the execution of data quality indicators.',
     doc='/doc',
     contact=os.environ['MAIL_SENDER'])
-# TODO: Api.specs_url = swagger_url  # To be activated after we implement https
+
+# This is required to fix swagger UI not loading issue due to https
+Api.specs_url = swagger_url
 app.register_blueprint(blueprint)
 
 # Declare resources name spaces
