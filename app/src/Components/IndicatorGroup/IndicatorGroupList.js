@@ -35,6 +35,7 @@ class IndicatorGroupList extends React.Component {
       'rowTotal': this.props.rowTotal,
       'rowsPerPage': this.props.rowsPerPage,
       'setPage': this.props.setPage,
+      'sortColumn': this.props.sortColumn,
       'repository': IndicatorGroupRepository
     };
   }
