@@ -20,8 +20,6 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
-    ports:
-      - 5433:5433
     depends_on:
       - db
     networks:
@@ -30,7 +28,7 @@ services:
 
   api:
     container_name: mobydq-api
-    # restart: always
+    restart: always
     image: mobydq-api
     build:
       context: ./api
@@ -41,8 +39,6 @@ services:
       FLASK_RUN_PORT: 5434
     env_file:
         - ./.env
-    ports:
-      - 5434:5434
     depends_on:
       - graphql
     networks:
@@ -82,8 +78,6 @@ services:
       - ./app/public:/usr/src/app/public:ro
     env_file:
       - ./.env
-    ports:
-      - 80:3000
     depends_on:
       - api
       - graphql
@@ -94,15 +88,16 @@ services:
     container_name: mobydq-nginx
     restart: always
     image: nginx:alpine
-    links:
-      - api
-      - app
     volumes:
-      - ./nginx/conf/config/nginx.conf:/etc/nginx/nginx.conf:ro
-      - /root/data/certificates/:/etc/certificates
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/config/cert.pem:/etc/nginx/cert.pem
+      - ./nginx/config/key.pem:/etc/nginx/key.pem
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/letsencrypt:/var/www/letsencrypt
     ports:
       - 80:80
       - 443:443
+      - 5434:5434
     depends_on:
       - api
       - app
