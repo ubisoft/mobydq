@@ -8,11 +8,10 @@ from security.token import get_jwt_token, TokenType, get_token_redirect_response
 # pylint: disable=unused-variable
 
 # OAuth endpoints given in the Google API documentation
-AUTHORIZATION_URI = 'https://accounts.google.com/o/oauth2/auth'
-TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
-USER_PROFILE_URI = 'https://www.googleapis.com/auth/userinfo.profile'
-USER_EMAIL_URI = 'https://www.googleapis.com/auth/userinfo.email'
-SCOPE = [USER_PROFILE_URI, USER_EMAIL_URI]
+AUTHORIZATION_URI = 'https://accounts.google.com/o/oauth2/v2/auth'
+TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
+USER_PROFILE_URI = 'https://www.googleapis.com/oauth2/v1/userinfo'
+SCOPE = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
 
 # OAuth application configuration created on Google
 client_id = os.environ['GOOGLE_CLIENT_ID']
@@ -42,10 +41,11 @@ def register_google_oauth(namespace: Namespace):
             """Redirects user to Google OAuth page."""
 
             google_session = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=SCOPE)
-            url, state = google_session.authorization_url(AUTHORIZATION_URI)
+            url, state = google_session.authorization_url(AUTHORIZATION_URI, access_type="offline", prompt="select_account")
 
             # State is used to prevent CSRF, keep this for later.
             session['oauth_state'] = state
+            print(url)
             return redirect(url)
 
     @namespace.route('/security/oauth/google/callback')
@@ -56,7 +56,9 @@ def register_google_oauth(namespace: Namespace):
         def get(self):
             """Handles Google OAuth callback and fetch user access token."""
 
-            google_session = OAuth2Session(client_id, state=session['oauth_state'])
+            # google_session = OAuth2Session(client_id, state=session['oauth_state'])
+            google_session = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=SCOPE)
+            print(request.url)
             token = google_session.fetch_token(TOKEN_URI, client_secret=client_secret, authorization_response=request.url)
 
             # Persist token in session
@@ -65,3 +67,16 @@ def register_google_oauth(namespace: Namespace):
             user_info = get_user_info(google_session)
             jwt = get_jwt_token(TokenType.GOOGLE, user_info['email'], user_info, token)
             return get_token_redirect_response(jwt)
+
+
+
+>>> # Get the authorization verifier code from the callback url
+>>> redirect_response = raw_input('Paste the full redirect URL here:')
+
+>>> # Fetch the access token
+>>> google.fetch_token(token_url, client_secret=client_secret,
+...         authorization_response=redirect_response)
+
+>>> # Fetch a protected resource, i.e. user profile
+>>> r = google.get('https://www.googleapis.com/oauth2/v1/userinfo')
+>>> print r.content
