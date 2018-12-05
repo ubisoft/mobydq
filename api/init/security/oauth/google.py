@@ -1,69 +1,66 @@
-import os
 import json
-import requests
-from flask import redirect, request
+import os
+from flask import redirect, request, session
 from flask_restplus import Namespace, Resource
-from google_auth_oauthlib.flow import Flow
+from requests_oauthlib import OAuth2Session
 from security.token import get_jwt_token, TokenType, get_token_redirect_response
 
-# pylint: disable=unused-variable
+
+# OAuth endpoints given in the Google API documentation
+AUTHORIZATION_URI = 'https://accounts.google.com/o/oauth2/auth'
+TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
+USER_PROFILE_URI = 'https://www.googleapis.com/auth/userinfo.profile'
+USER_EMAIL_URI = 'https://www.googleapis.com/auth/userinfo.email'
+SCOPE = [USER_PROFILE_URI, USER_EMAIL_URI]
+
+# OAuth application configuration created on Google
+client_id = os.environ['GOOGLE_CLIENT_ID']
+client_secret = os.environ['GOOGLE_CLIENT_SECRET']
+redirect_uri = os.environ['GOOGLE_REDIRECT_URI']
 
 
-google_redirect_url = os.environ['GOOGLE_REDIRECT_URI']
-USER_PROFILE = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'
-SCOPES = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile'
-]
+def get_user_info(google_session: object):
+    """Gets user profile using OAuth session."""
 
-CLIENT_CONFIG = {
-    'installed': {
-        'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
-        'token_uri': 'https://accounts.google.com/o/oauth2/token',
-        'redirect_uris': [google_redirect_url],
-        'client_id': os.environ['GOOGLE_CLIENT_ID'],
-        'client_secret': os.environ['GOOGLE_CLIENT_SECRET']
-    }
-}
+    user_profile = google_session.get(USER_PROFILE_URI).content.decode('utf-8')
+    user_profile = json.loads(user_profile)
+    print(user_profile)
 
-# Create an OAuth flow (Authorization Code) from client id and client secret
-flow = Flow.from_client_config(CLIENT_CONFIG, SCOPES)
-# Redirect the user back after login
-flow.redirect_uri = google_redirect_url
-
-
-def get_user_info(oauth_token: str):
-    """Gets the user profile of the user after login using the corresponding OAuth token"""
-
-    request_url = USER_PROFILE.format(oauth_token)
-    response = requests.get(request_url)
-    return json.loads(response.text)
+    return user_profile
 
 
 def register_google_oauth(namespace: Namespace):
-    """Registers all endpoints used for Google OAuth authentication"""
+    """Registers all endpoints used for Google OAuth authentication."""
 
     @namespace.route('/security/oauth/google')
     @namespace.doc()
-    class GoogleOAuth(Resource):
+    class googleOAuth(Resource):
         """Defines resource to redirect user to Google OAuth page."""
 
         def get(self):
             """Redirects user to Google OAuth page."""
 
-            url, _ = flow.authorization_url()
+            google_session = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=SCOPE)
+            url, state = google_session.authorization_url(AUTHORIZATION_URI)
+
+            # State is used to prevent CSRF, keep this for later.
+            session['oauth_state'] = state
             return redirect(url)
 
     @namespace.route('/security/oauth/google/callback')
     @namespace.doc()
-    class GoogleOAuthCallback(Resource):
+    class googleOAuthCallback(Resource):
         """Defines resource to handle callback from Google OAuth."""
 
         def get(self):
             """Handles Google OAuth callback and fetch user access token."""
 
-            code = request.args.get('code')
-            token = flow.fetch_token(code=code)
-            user_info = get_user_info(token['access_token'])
-            jwt = get_jwt_token(TokenType.Google, user_info['email'], user_info, token)
+            google_session = OAuth2Session(client_id, state=session['oauth_state'])
+            token = google_session.fetch_token(TOKEN_URI, client_secret=client_secret, authorization_response=request.url)
+
+            # Persist token in session
+            # session['oauth_token'] = token
+
+            user_info = get_user_info(google_session)
+            jwt = get_jwt_token(TokenType.GOOGLE, user_info['email'], user_info, token)
             return get_token_redirect_response(jwt)
