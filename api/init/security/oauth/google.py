@@ -67,16 +67,3 @@ def register_google_oauth(namespace: Namespace):
             user_info = get_user_info(google_session)
             jwt = get_jwt_token(TokenType.GOOGLE, user_info['email'], user_info, token)
             return get_token_redirect_response(jwt)
-
-
-
->>> # Get the authorization verifier code from the callback url
->>> redirect_response = raw_input('Paste the full redirect URL here:')
-
->>> # Fetch the access token
->>> google.fetch_token(token_url, client_secret=client_secret,
-...         authorization_response=redirect_response)
-
->>> # Fetch a protected resource, i.e. user profile
->>> r = google.get('https://www.googleapis.com/oauth2/v1/userinfo')
->>> print r.content
