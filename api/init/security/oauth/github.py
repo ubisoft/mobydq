@@ -5,6 +5,7 @@ from flask_restplus import Namespace, Resource
 from requests_oauthlib import OAuth2Session
 from security.token import get_jwt_token, TokenType, get_token_redirect_response
 
+# pylint: disable=unused-variable
 
 # OAuth endpoints given in the GitHub API documentation
 AUTHORIZATION_URI = 'https://github.com/login/oauth/authorize'

@@ -15,7 +15,6 @@ class TokenType(Enum):
 
     GITHUB = 0
     GOOGLE = 1
-    
 
 
 def is_token_valid(token: str):

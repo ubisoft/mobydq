@@ -5,6 +5,7 @@ from flask_restplus import Namespace, Resource
 from requests_oauthlib import OAuth2Session
 from security.token import get_jwt_token, TokenType, get_token_redirect_response
 
+# pylint: disable=unused-variable
 
 # OAuth endpoints given in the Google API documentation
 AUTHORIZATION_URI = 'https://accounts.google.com/o/oauth2/auth'
@@ -34,7 +35,7 @@ def register_google_oauth(namespace: Namespace):
 
     @namespace.route('/security/oauth/google')
     @namespace.doc()
-    class googleOAuth(Resource):
+    class GoogleOAuth(Resource):
         """Defines resource to redirect user to Google OAuth page."""
 
         def get(self):
@@ -49,7 +50,7 @@ def register_google_oauth(namespace: Namespace):
 
     @namespace.route('/security/oauth/google/callback')
     @namespace.doc()
-    class googleOAuthCallback(Resource):
+    class GoogleOAuthCallback(Resource):
         """Defines resource to handle callback from Google OAuth."""
 
         def get(self):
