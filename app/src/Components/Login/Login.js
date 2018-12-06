@@ -4,13 +4,23 @@ import '../../index.css';
 import Button from '@material-ui/core/Button';
 import UrlBuilder from '../Base/UrlBuilder';
 
+const githubOAuthUrl = UrlBuilder.getDefault().githubOAuth();
 const googleOAuthUrl = UrlBuilder.getDefault().googleOAuth();
 
 const Login = () => <React.Fragment>
   <div className="container">
     <div style={{ 'textAlign': 'center' }}>
-      <a style={{ 'textDecoration': 'none' }} href={googleOAuthUrl}>
+      <a style={{ 'textDecoration': 'none' }} href={githubOAuthUrl}>
         <Button style={{ 'marginTop': '10%' }} variant="contained" color="secondary">
+          Sign in with Github
+        </Button>
+      </a>
+    </div>
+  </div>
+  <div className="container">
+    <div style={{ 'textAlign': 'center' }}>
+      <a style={{ 'textDecoration': 'none' }} href={googleOAuthUrl}>
+        <Button style={{ 'marginTop': '10px' }} variant="contained" color="secondary">
           Sign in with Google
         </Button>
       </a>
