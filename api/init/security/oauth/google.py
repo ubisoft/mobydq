@@ -24,7 +24,6 @@ def get_user_info(google_session: object):
 
     user_profile = google_session.get(USER_PROFILE_URI).content.decode('utf-8')
     user_profile = json.loads(user_profile)
-    print(user_profile)
 
     return user_profile
 
@@ -41,11 +40,11 @@ def register_google_oauth(namespace: Namespace):
             """Redirects user to Google OAuth page."""
 
             google_session = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=SCOPE)
-            url, state = google_session.authorization_url(AUTHORIZATION_URI, access_type="offline", prompt="select_account")
+            url, state = google_session.authorization_url(AUTHORIZATION_URI, access_type='offline', prompt='select_account')
 
             # State is used to prevent CSRF, keep this for later.
             session['oauth_state'] = state
-            print(url)
+
             return redirect(url)
 
     @namespace.route('/security/oauth/google/callback')
@@ -56,13 +55,8 @@ def register_google_oauth(namespace: Namespace):
         def get(self):
             """Handles Google OAuth callback and fetch user access token."""
 
-            # google_session = OAuth2Session(client_id, state=session['oauth_state'])
             google_session = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=SCOPE)
-            print(request.url)
             token = google_session.fetch_token(TOKEN_URI, client_secret=client_secret, authorization_response=request.url)
-
-            # Persist token in session
-            # session['oauth_token'] = token
 
             user_info = get_user_info(google_session)
             jwt = get_jwt_token(TokenType.GOOGLE, user_info['email'], user_info, token)

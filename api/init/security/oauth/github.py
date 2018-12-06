@@ -63,9 +63,6 @@ def register_github_oauth(namespace: Namespace):
             github_session = OAuth2Session(client_id, state=session['oauth_state'])
             token = github_session.fetch_token(TOKEN_URI, client_secret=client_secret, authorization_response=request.url)
 
-            # Persist token in session
-            # session['oauth_token'] = token
-
             user_info = get_user_info(github_session)
             jwt = get_jwt_token(TokenType.GITHUB, user_info['email'], user_info, token)
             return get_token_redirect_response(jwt)
