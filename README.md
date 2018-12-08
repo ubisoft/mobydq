@@ -56,3 +56,4 @@ The containers run by `docker-compose` have dependencies with the following Dock
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
 * [requests](http://docs.python-requests.org) (2.20.0)
+* [requests_oauthlib](https://requests-oauthlib.readthedocs.io)(1.0.0)
