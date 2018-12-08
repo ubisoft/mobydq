@@ -19,8 +19,6 @@ services:
       - ./api/init:/srv/api/
     expose:
       - 5434
-    ports:
-      - 5434:5434
     environment:
       FLASK_DEBUG: 1
 
