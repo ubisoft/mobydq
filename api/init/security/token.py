@@ -11,12 +11,15 @@ TOKEN_VALIDITY = 3600
 
 
 class TokenType(Enum):
-    """Defines all OAuth providers"""
-    Google = 0
+    """Defines all OAuth providers."""
+
+    GITHUB = 0
+    GOOGLE = 1
 
 
 def is_token_valid(token: str):
-    """Checks whether a given JWT is valid"""
+    """Checks whether a given JWT is valid."""
+
     verifying_key = get_public_key()
     try:
         parsed_token = JWT().decode(token, verifying_key)
@@ -26,7 +29,8 @@ def is_token_valid(token: str):
 
 
 def get_jwt_token(token_type: TokenType, email: str, user_info: object, oauth_token: object):
-    """Gets a signed JWT token for the specified OAuth provider"""
+    """Gets a signed JWT token for the specified OAuth provider."""
+
     now = time.time()
     message = {
         'iss': os.environ['TOKEN_ISSUER'],

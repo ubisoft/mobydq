@@ -37,6 +37,7 @@ services:
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
+      OAUTHLIB_INSECURE_TRANSPORT: 1
     env_file:
         - ./.env
     depends_on:
