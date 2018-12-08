@@ -26,7 +26,7 @@ jobs:
             echo "TOKEN_ISSUER=https://localhost" >> ./.env
             echo "AFTER_LOGIN_REDIRECT=https://localhost" >> ./.env
             echo "GITHUB_CLIENT_ID=client_id" >> ./.env
-            echo "GITHUB_CLIENT_ID=client_secret" >> ./.env
+            echo "GITHUB_CLIENT_SECRET=client_secret" >> ./.env
             echo "GITHUB_REDIRECT_URI=https://localhost/mobydq/api/v1/security/oauth/github/callback" >> ./.env
             echo "GOOGLE_CLIENT_ID=client_id" >> ./.env
             echo "GOOGLE_CLIENT_SECRET=client_secret" >> ./.env
