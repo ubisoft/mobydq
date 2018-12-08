@@ -22,13 +22,15 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change@me.com" >> ./.env
             echo "NODE_ENV=development" >> ./.env
-            echo "REACT_FLASK_API_HOST=http://api:5434/mobydq/api/v1/graphql" >> ./.env
+            echo "REACT_FLASK_API_HOST=https://localhost" >> ./.env
+            echo "TOKEN_ISSUER=https://localhost" >> ./.env
+            echo "AFTER_LOGIN_REDIRECT=https://localhost" >> ./.env
             echo "GITHUB_CLIENT_ID=client_id" >> ./.env
-            echo "GITHUB_CLIENT_ID=client_secret" >> ./.env
-            echo "GITHUB_REDIRECT_URI=http://localhost/mobydq/api/v1/security/oauth/github/callback" >> ./.env
+            echo "GITHUB_CLIENT_SECRET=client_secret" >> ./.env
+            echo "GITHUB_REDIRECT_URI=https://localhost/mobydq/api/v1/security/oauth/github/callback" >> ./.env
             echo "GOOGLE_CLIENT_ID=client_id" >> ./.env
             echo "GOOGLE_CLIENT_SECRET=client_secret" >> ./.env
-            echo "GOOGLE_REDIRECT_URI=http://localhost/mobydq/api/v1/security/oauth/github/callback" >> ./.env
+            echo "GOOGLE_REDIRECT_URI=https://localhost/mobydq/api/v1/security/oauth/github/callback" >> ./.env
 
       - run:
           name: Build Docker images
