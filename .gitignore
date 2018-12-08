@@ -17,3 +17,5 @@ test/results/*.xml
 # keys
 public.pem
 private.pem
+cert.pem
+key.pem
