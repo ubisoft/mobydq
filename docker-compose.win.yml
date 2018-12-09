@@ -46,6 +46,9 @@ services:
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
+      OAUTHLIB_INSECURE_TRANSPORT: 1
+      TOKEN_ISSUER: ${HOST_NAME}
+      AFTER_LOGIN_REDIRECT: ${HOST_NAME}
     ports:
       - 5434:5434
     depends_on:
