@@ -1,6 +1,5 @@
 # MobyDQ
 ![License](https://img.shields.io/github/license/mobydq/mobydq.svg "Apache-2.0")
-
 [![CircleCI](https://circleci.com/gh/mobydq/mobydq/tree/master.svg?style=shield)][CircleCI]
 
 [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
