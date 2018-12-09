@@ -1,6 +1,8 @@
 # MobyDQ
-![License]("https://img.shields.io/github/license/mobydq/mobydq.svg")
+![License](https://img.shields.io/github/license/mobydq/mobydq.svg "Apache-2.0")
+
 [![CircleCI](https://circleci.com/gh/mobydq/mobydq/tree/master.svg?style=shield)][CircleCI]
+
 [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
 
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
