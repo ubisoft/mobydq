@@ -40,8 +40,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY ./init/odbcinst.ini /etc
 
 # Get build arguments coming from .env file
-ARG GRAPHQL_URL
-ENV GRAPHQL_URL "$GRAPHQL_URL"
 ARG MAIL_HOST
 ENV MAIL_HOST "$MAIL_HOST"
 ARG MAIL_PORT
@@ -51,7 +49,7 @@ ENV MAIL_SENDER "$MAIL_SENDER"
 
 # Create config file to send mails using environment variables
 RUN echo "[graphql]" >> ./scripts.cfg \
-    && echo "url = $GRAPHQL_URL" >> ./scripts.cfg \
+    && echo "url = http://graphql:5433/graphql" >> ./scripts.cfg \
     && echo "" >> ./scripts.cfg \
     && echo "[mail]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
