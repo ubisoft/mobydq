@@ -41,13 +41,13 @@ services:
       - /Projects/data-quality/api/init:/srv/api/
       - /var/run/docker.sock:/var/run/docker.sock
       - /Projects/data-quality/secrets:/run/secrets
+    env_file:
+      - ./.env
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
     ports:
       - 5434:5434
-    env_file:
-      - ./.env
     depends_on:
       - graphql
     links:
@@ -63,7 +63,6 @@ services:
     build:
       context: ./scripts
       args:
-        - GRAPHQL_URL=${GRAPHQL_URL}
         - MAIL_HOST=${MAIL_HOST}
         - MAIL_PORT=${MAIL_PORT}
         - MAIL_SENDER=${MAIL_SENDER}
@@ -88,6 +87,8 @@ services:
       - $APP_VOLUME_PATH/public:/usr/src/app/public:ro
     env_file:
       - ./.env
+    environment:
+      REACT_APP_HOST_NAME: ${HOST_NAME}
     ports:
       - 80:3000
     depends_on:

@@ -11,8 +11,8 @@ class Dashboard extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          Some awesome Ux lalalalalala
-          ENV URL PARAM: {process.env.REACT_APP_FLASK_API_HOST}
+          Documentation: <a href="https://mobydq.github.io">https://mobydq.github.io</a><br/>
+          Flask API: <a href="/mobydq/api/doc">{process.env.REACT_APP_HOST_NAME}/mobydq/api/doc</a>
         </Typography>
       </React.Fragment>
     );

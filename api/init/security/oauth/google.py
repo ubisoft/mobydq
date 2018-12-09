@@ -16,7 +16,7 @@ SCOPE = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.google
 # OAuth application configuration created on Google
 client_id = os.environ['GOOGLE_CLIENT_ID']
 client_secret = os.environ['GOOGLE_CLIENT_SECRET']
-redirect_uri = os.environ['GOOGLE_REDIRECT_URI']
+redirect_uri = os.environ['HOST_NAME'] + os.environ['GOOGLE_REDIRECT_URI']
 
 
 def get_user_info(google_session: object):

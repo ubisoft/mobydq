@@ -34,12 +34,14 @@ services:
       context: ./api
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+        - ./.env
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
       OAUTHLIB_INSECURE_TRANSPORT: 1
-    env_file:
-        - ./.env
+      TOKEN_ISSUER: ${HOST_NAME}
+      AFTER_LOGIN_REDIRECT: ${HOST_NAME}
     depends_on:
       - graphql
     networks:
@@ -56,7 +58,6 @@ services:
     build:
       context: ./scripts
       args:
-        - GRAPHQL_URL=${GRAPHQL_URL}
         - MAIL_HOST=${MAIL_HOST}
         - MAIL_PORT=${MAIL_PORT}
         - MAIL_SENDER=${MAIL_SENDER}
@@ -79,6 +80,8 @@ services:
       - ./app/public:/usr/src/app/public:ro
     env_file:
       - ./.env
+    environment:
+      REACT_APP_HOST_NAME: ${HOST_NAME}
     depends_on:
       - api
       - graphql
