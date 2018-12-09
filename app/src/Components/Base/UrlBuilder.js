@@ -16,6 +16,10 @@ class UrlBuilder {
     return UrlBuilder._combineUrl(this._baseUrl, 'graphql');
   }
 
+  githubOAuth() {
+    return UrlBuilder._combineUrl(this._baseUrl, 'security/oauth/github');
+  }
+
   googleOAuth() {
     return UrlBuilder._combineUrl(this._baseUrl, 'security/oauth/google');
   }
