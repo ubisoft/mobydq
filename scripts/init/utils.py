@@ -91,8 +91,15 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
         part.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
         email.attach(part)
 
-    # Send e-mail via smtp server
+    # Connect to smtp server
     connection = smtplib.SMTP(config['host'], config['port'])
+
+    # If smtp server is Gmail, identify script to server and activate encryption
+    if config['host'] == 'smtp.gmail.com':
+        connection.ehlo()
+        connection.starttls()
+
+    # Send email
     connection.sendmail(email['From'], email['To'], email.as_string())
     connection.quit()
 

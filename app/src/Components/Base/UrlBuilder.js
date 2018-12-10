@@ -1,6 +1,6 @@
 
 
-const BASE_URL = process.env.REACT_APP_FLASK_API_HOST;
+const BASE_URL = process.env.REACT_APP_HOST_NAME;
 
 class UrlBuilder {
   constructor(version) {

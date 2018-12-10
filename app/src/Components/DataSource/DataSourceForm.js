@@ -65,7 +65,7 @@ const DataSourceFormFields = (props) => {
           helperText=""
           placeholder=""
           touched={touched.login}
-          error={touched.name && errors.login}
+          error={touched.login && errors.login}
           value={values.login}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -82,6 +82,20 @@ const DataSourceFormFields = (props) => {
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
+        />
+      </div>
+      <div>
+        <TextInput
+          id="connectivityStatus"
+          label="Connectivity status"
+          helperText=""
+          placeholder=""
+          touched={touched.connectivityStatus}
+          error={touched.connectivityStatus && errors.connectivityStatus}
+          value={values.connectivityStatus}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          readOnly={true}
         />
       </div>
       <div>
