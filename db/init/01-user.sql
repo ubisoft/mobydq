@@ -27,6 +27,7 @@ COMMENT ON FUNCTION base.get_current_user_id IS
 CREATE TABLE base.user (
     id SERIAL PRIMARY KEY
   , email TEXT NOT NULL UNIQUE
+  , password TEXT
   , oauth_type TEXT NOT NULL
   , access_token TEXT NOT NULL
   , refresh_token TEXT

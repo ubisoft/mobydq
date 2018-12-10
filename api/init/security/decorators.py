@@ -7,8 +7,9 @@ JWT_PREFIX = 'Bearer '
 
 
 def token_required(func):
-    """Gets a decorator to check whether a valid token is in the request headers. It will return
-        401, if the user provdies an invalid token.
+    """
+    Gets a decorator to check whether a valid token is in the request headers.
+    It will return 401, if the user provdies an invalid token.
     """
     def wrapper(*args, **kwargs):
         auth_header = _get_token_from_header()
