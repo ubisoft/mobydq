@@ -17,7 +17,7 @@ SCOPE = ['user:email']
 # OAuth application configuration created on Github
 client_id = os.environ['GITHUB_CLIENT_ID']
 client_secret = os.environ['GITHUB_CLIENT_SECRET']
-redirect_uri = os.environ['HOST_NAME'] + os.environ['GITHUB_REDIRECT_URI']
+redirect_uri = os.environ['HOST_NAME'] + '/mobydq/api/v1/security/oauth/github/callback'
 
 
 def get_user_info(github_session: object):
