@@ -12,6 +12,22 @@ INSERT INTO base.user (email, oauth_type, access_token, expiry_date) VALUES
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id, user_group_id) VALUES
 (
+   'dq_example_hive'
+  ,'driver=Cloudera Hive;Host=db-hive;Port=10000;'
+  ,'cloudera'
+  ,'cloudera'
+  ,1  -- Hive
+  ,0  -- Public user group
+),
+(
+   'dq_example_mariadb'
+  ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;Database=star_wars;'
+  ,'root'
+  ,'1234'
+  ,2  -- MariaDB
+  ,0  -- Public user group
+),
+(
    'dq_example_microsoft_sql_server'
   ,'driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;'
   ,'sa'
