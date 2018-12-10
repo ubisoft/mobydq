@@ -43,6 +43,7 @@ const IndicatorFormFields = (props) => {
         value={values.description}
         onChange={handleChange}
         onBlur={handleBlur}
+        multiline={true}
       />
     </div>
     <div>
