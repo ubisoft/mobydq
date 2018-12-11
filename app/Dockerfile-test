@@ -1,3 +1,0 @@
-FROM mobydq-app-dev:latest
-
-COPY . /usr/src/app
