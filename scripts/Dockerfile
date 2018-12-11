@@ -46,6 +46,8 @@ ARG MAIL_PORT
 ENV MAIL_PORT "$MAIL_PORT"
 ARG MAIL_SENDER
 ENV MAIL_SENDER "$MAIL_SENDER"
+ARG MAIL_PASSWORD
+ENV MAIL_PASSWORD "$MAIL_PASSWORD"
 
 # Create config file to send mails using environment variables
 RUN echo "[graphql]" >> ./scripts.cfg \
@@ -55,6 +57,7 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
     && echo "sender = $MAIL_SENDER" >> ./scripts.cfg
+    && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg
 
 # Deleting drivers packages
 RUN rm -R drivers

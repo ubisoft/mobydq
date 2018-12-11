@@ -19,7 +19,8 @@ jobs:
             echo "DATABASE_URL=postgres://postgres:password@db:5432/mobydq" >> ./.env
             echo "MAIL_HOST=smtp.server.org" >> ./.env
             echo "MAIL_PORT=25" >> ./.env
-            echo "MAIL_SENDER=change@me.com" >> ./.env
+            echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
+            echo "MAIL_PASSWORD=change_me" >> ./.env
             echo "GITHUB_CLIENT_ID=client_id" >> ./.env
             echo "GITHUB_CLIENT_SECRET=client_secret" >> ./.env
             echo "GOOGLE_CLIENT_ID=client_id" >> ./.env
