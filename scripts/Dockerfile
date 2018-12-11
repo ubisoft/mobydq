@@ -56,7 +56,7 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "[mail]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
-    && echo "sender = $MAIL_SENDER" >> ./scripts.cfg
+    && echo "sender = $MAIL_SENDER" >> ./scripts.cfg \
     && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg
 
 # Deleting drivers packages
