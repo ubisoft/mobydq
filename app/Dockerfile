@@ -13,5 +13,9 @@ RUN npm ci
 
 COPY .eslintrc.json /usr/src/app/
 
+# used for the tests in CircleCI
+# is overwritten by the volume mounted in docker compose when running in dev/prod
+COPY . /usr/src/app
+
 # start app
 CMD ["npm", "start"]
