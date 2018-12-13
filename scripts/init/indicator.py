@@ -81,7 +81,7 @@ class Indicator:
             data_source = response['data']['allDataSourcePasswords']['nodes'][0]
             password = data_source['password']
 
-            log.info('Connect to data source %s.', data_source)
+            log.info('Connect to data source.')
             data_source = DataSource()
             connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
         else:
@@ -90,7 +90,7 @@ class Indicator:
             raise Exception(error_message)
 
         # Get data frame
-        log.info('Execute request on data source %s.', data_source)
+        log.info('Execute request on data source.')
         data_frame = pandas.read_sql(request, connection)
         connection.close()
 

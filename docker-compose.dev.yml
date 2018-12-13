@@ -28,9 +28,6 @@ services:
     tty: true
 
   app:
-    image: mobydq-app-dev
-    build:
-      dockerfile: Dockerfile-dev
     volumes:
       - ./app/src:/usr/src/app/src:ro
       - ./app/public:/usr/src/app/public:ro
