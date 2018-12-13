@@ -61,6 +61,7 @@ services:
         - MAIL_HOST=${MAIL_HOST}
         - MAIL_PORT=${MAIL_PORT}
         - MAIL_SENDER=${MAIL_SENDER}
+        - MAIL_PASSWORD=${MAIL_PASSWORD}
     env_file:
       - ./.env
     depends_on:
