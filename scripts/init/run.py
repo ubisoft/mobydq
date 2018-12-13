@@ -16,7 +16,7 @@ logging.basicConfig(
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Entry point to execute data quality scripts.')
-    parser.add_argument('method', type=str, help='Method to be executed.')
+    parser.add_argument('method', type=str, help='Method to be executed: execute_batch, test_data_source')
     parser.add_argument('id', type=int, help='Id of the object on which to execute the method.')
     arguments = parser.parse_args()
 

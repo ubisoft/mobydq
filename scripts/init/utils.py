@@ -94,10 +94,11 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
     # Connect to smtp server
     connection = smtplib.SMTP(config['host'], config['port'])
 
-    # If smtp server is Gmail, identify script to server and activate encryption
+    # If smtp server is Gmail activate encryption and authenticate user
     if config['host'] == 'smtp.gmail.com':
         connection.ehlo()
         connection.starttls()
+        connection.login(config['sender'], config['password'])
 
     # Send email
     connection.sendmail(email['From'], email['To'], email.as_string())

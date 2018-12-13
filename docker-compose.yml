@@ -74,7 +74,6 @@ services:
     image: mobydq-app
     build:
       context: ./app
-      dockerfile: Dockerfile-dev
     volumes:
       - ./app/src:/usr/src/app/src:ro
       - ./app/public:/usr/src/app/public:ro
