@@ -205,6 +205,10 @@ const formikEnhancer = withFormik({
       },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    delete payload.createdDate;
+    delete payload.createdBy;
+    delete payload.updatedDate;
+    delete payload.updatedBy;
     let variables;
     if (props.initialFieldValues === null) {
       variables = { 'indicator': payload };
