@@ -50,7 +50,22 @@ class IndicatorRepository {
             indicatorGroupId
             executionOrder
             flagActive
+            createdDate
+            userByCreatedById { email }
             updatedDate
+            userByUpdatedById { email }
+            parametersByIndicatorId {
+              nodes {
+                id
+                value
+                updatedDate
+                parameterTypeId
+                createdDate
+                userByCreatedById { email }
+                updatedDate
+                userByUpdatedById { email }
+              }
+            }
           }
         }
     `;
@@ -79,7 +94,6 @@ class IndicatorRepository {
           indicatorGroupId
           executionOrder
           flagActive
-          updatedDate
         }
       }
     `;

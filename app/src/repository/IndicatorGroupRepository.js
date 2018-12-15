@@ -35,6 +35,10 @@ class IndicatorGroupRepository {
           indicatorGroupById(id: $id) {
             id
             name
+            createdDate
+            userByCreatedById { email }
+            updatedDate
+            userByUpdatedById { email }
           }
         }
     `;
