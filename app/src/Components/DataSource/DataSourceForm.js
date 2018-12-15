@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
+import ExecuteButton from './../FormInput/ExecuteButton';
 
 const DataSourceFormFields = (props) => {
   const {
@@ -18,7 +19,8 @@ const DataSourceFormFields = (props) => {
   } = props;
   return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
-      <SaveButton type="submit" disabled={isSubmitting} variant="contained" color="secondary" label="Save" />
+      <SaveButton disabled={isSubmitting} />
+      <ExecuteButton disabled={isSubmitting} />
     </div>
     <div>
       <TextInput

@@ -5,6 +5,7 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SwitchInput from './../FormInput/SwitchInput';
 import SaveButton from './../FormInput/SaveButton';
+import ExecuteButton from './../FormInput/ExecuteButton';
 
 const IndicatorFormFields = (props) => {
   const {
@@ -19,7 +20,8 @@ const IndicatorFormFields = (props) => {
   } = props;
   return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
-      <SaveButton type="submit" disabled={isSubmitting} variant="contained" color="secondary" label="Save" />
+      <SaveButton disabled={isSubmitting} />
+      <ExecuteButton disabled={isSubmitting} />
     </div>
     <div>
       <TextInput
