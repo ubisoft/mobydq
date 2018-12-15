@@ -1,21 +1,20 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import PlayArrow from '@material-ui/icons/PlayArrow';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const ExecuteButton = ({
+const DeleteButton = ({
   onClick,
   disabled
 }) => <Button
-  type={'execute'}
-  variant={'contained'}
-  color={'secondary'}
+  type={'submit'}
+  variant={'outlined'}
   size={'small'}
   style={{ 'marginRight':'10px'}}
   onClick={onClick}
   disabled={disabled}
   >
-  <PlayArrow />
-  Execute
+  Delete
+  <DeleteIcon />
 </Button>;
 
-export default ExecuteButton;
+export default DeleteButton;

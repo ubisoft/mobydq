@@ -6,6 +6,7 @@ import SelectInput from './../FormInput/SelectInput';
 import SwitchInput from './../FormInput/SwitchInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
+import DeleteButton from './../FormInput/DeleteButton';
 
 const IndicatorFormFields = (props) => {
   const {
@@ -22,6 +23,7 @@ const IndicatorFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton disabled={isSubmitting} />
+      <DeleteButton disabled={isSubmitting} />
     </div>
     <div>
       <TextInput

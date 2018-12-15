@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
+import DeleteButton from './../FormInput/DeleteButton';
 
 const IndicatorGroupFormFields = (props) => {
   const {
@@ -19,6 +20,7 @@ const IndicatorGroupFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton disabled={isSubmitting} />
+      <DeleteButton disabled={isSubmitting} />
     </div>
     <div>
       <TextInput
