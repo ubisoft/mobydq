@@ -44,6 +44,7 @@ const IndicatorFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         multiline={true}
+        rows={5}
       />
     </div>
     <div>
@@ -107,6 +108,7 @@ const IndicatorFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -121,6 +123,7 @@ const IndicatorFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -135,6 +138,7 @@ const IndicatorFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -149,6 +153,7 @@ const IndicatorFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>

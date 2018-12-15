@@ -15,13 +15,14 @@ const SelectInput = ({
   touched, // eslint-disable-line
   onChange,
   ...props
-}) => <FormControl style={{ 'width': '240px', 'margin': '15px', 'marginLeft': '0px' }} error={Boolean(error)}>
+}) => <FormControl style={{ 'width': '500px' }} error={Boolean(error)}>
   <InputLabel htmlFor={id}>{label}</InputLabel>
   <Select
     id={id}
     name={id}
     value={value}
     onChange={onChange}
+    variant={'outlined'}
     inputProps={{
       'id': { id }
     }}

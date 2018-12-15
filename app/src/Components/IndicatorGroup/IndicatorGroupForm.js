@@ -41,6 +41,7 @@ const IndicatorGroupFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -55,6 +56,7 @@ const IndicatorGroupFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -69,6 +71,7 @@ const IndicatorGroupFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -83,6 +86,7 @@ const IndicatorGroupFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>

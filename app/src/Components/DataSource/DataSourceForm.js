@@ -55,6 +55,7 @@ const DataSourceFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         multiline={true}
+        rows={5}
       />
     </div>
     <div>
@@ -95,21 +96,23 @@ const DataSourceFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
-    <TextInput
-      id="createdDate"
-      label="Created Date"
-      helperText=""
-      placeholder=""
-      touched={touched.createdDate}
-      error={touched.createdDate && errors.createdDate}
-      value={values.createdDate}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      disabled={true}
-    />
+      <TextInput
+        id="createdDate"
+        label="Created Date"
+        helperText=""
+        placeholder=""
+        touched={touched.createdDate}
+        error={touched.createdDate && errors.createdDate}
+        value={values.createdDate}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        disabled={true}
+        variant={'filled'}
+      />
     </div>
     <div>
       <TextInput
@@ -123,6 +126,7 @@ const DataSourceFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -137,6 +141,7 @@ const DataSourceFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
@@ -151,6 +156,7 @@ const DataSourceFormFields = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         disabled={true}
+        variant={'filled'}
       />
     </div>
     <div>
