@@ -18,7 +18,13 @@ const IndicatorFormFields = (props) => {
     handleSubmit,
     isSubmitting
   } = props;
-  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
+  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
+    <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
+      <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
+        <SaveIcon />
+        Save
+      </Button>
+    </div>
     <div>
       <TextInput
         id="name"
@@ -155,12 +161,6 @@ const IndicatorFormFields = (props) => {
         disabled={true}
         variant={'filled'}
       />
-    </div>
-    <div>
-      <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
-        <SaveIcon />
-        Save
-      </Button>
     </div>
   </form>;
 };

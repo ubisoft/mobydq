@@ -24,7 +24,7 @@ const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, h
           )
         }
       </div>
-      <div style={{ 'marginLeft': '60px' }}>{title}</div>
+      <div style={{ 'marginLeft': '50px' }}>{title}</div>
       <FormComponent
         data={dropDownData}
         mutate={mutate}

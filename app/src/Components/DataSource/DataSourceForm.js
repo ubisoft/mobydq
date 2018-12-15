@@ -17,7 +17,7 @@ const DataSourceFormFields = (props) => {
     handleSubmit,
     isSubmitting
   } = props;
-  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
+  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
     <div>
       <TextInput
         id="name"
