@@ -3,8 +3,7 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveButton from './../FormInput/SaveButton';
 
 const DataSourceFormFields = (props) => {
   const {
@@ -18,6 +17,9 @@ const DataSourceFormFields = (props) => {
     isSubmitting
   } = props;
   return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
+    <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
+      <SaveButton type="submit" disabled={isSubmitting} variant="contained" color="secondary" label="Save" />
+    </div>
     <div>
       <TextInput
         id="name"
@@ -158,12 +160,6 @@ const DataSourceFormFields = (props) => {
         disabled={true}
         variant={'filled'}
       />
-    </div>
-    <div>
-      <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
-        <SaveIcon />
-        Save
-      </Button>
     </div>
   </form>
   ;

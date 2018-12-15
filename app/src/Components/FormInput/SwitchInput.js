@@ -13,7 +13,7 @@ const SwitchInput = ({
   touched, // eslint-disable-line
   onChange,
   ...props
-}) => <FormControl style={{ 'width': '500px', 'margin-left': '0' }} error={Boolean(error)}>
+}) => <FormControl style={{ 'width': '500px' }} error={Boolean(error)}>
   <FormControlLabel
     control={
       <React.Fragment>
