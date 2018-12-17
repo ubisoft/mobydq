@@ -184,25 +184,25 @@ const formikEnhancer = withFormik({
 
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-        'name': '',
-        'description': '',
-        'executionOrder': 0,
-        'indicatorTypeId': 0,
-        'indicatorGroupId': 0,
-        'flagActive': false
-      }
+      'name': '',
+      'description': '',
+      'executionOrder': 0,
+      'indicatorTypeId': 0,
+      'indicatorGroupId': 0,
+      'flagActive': false
+    }
     : {
-        'name': props.initialFieldValues.name,
-        'description': props.initialFieldValues.description,
-        'executionOrder': props.initialFieldValues.executionOrder,
-        'indicatorTypeId': props.initialFieldValues.indicatorTypeId,
-        'indicatorGroupId': props.initialFieldValues.indicatorGroupId,
-        'flagActive': props.initialFieldValues.flagActive,
-        'createdDate': props.initialFieldValues.createdDate,
-        'createdBy': props.initialFieldValues.userByCreatedById.email,
-        'updatedDate': props.initialFieldValues.updatedDate,
-        'updatedBy': props.initialFieldValues.userByUpdatedById.email
-      },
+      'name': props.initialFieldValues.name,
+      'description': props.initialFieldValues.description,
+      'executionOrder': props.initialFieldValues.executionOrder,
+      'indicatorTypeId': props.initialFieldValues.indicatorTypeId,
+      'indicatorGroupId': props.initialFieldValues.indicatorGroupId,
+      'flagActive': props.initialFieldValues.flagActive,
+      'createdDate': props.initialFieldValues.createdDate,
+      'createdBy': props.initialFieldValues.userByCreatedById.email,
+      'updatedDate': props.initialFieldValues.updatedDate,
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email
+    },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     delete payload.createdDate;

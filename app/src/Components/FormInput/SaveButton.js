@@ -10,10 +10,10 @@ const SaveButton = ({
   variant={'contained'}
   color={'secondary'}
   size={'small'}
-  style={{ 'marginRight':'10px'}}
+  style={{ 'marginRight': '10px' }}
   onClick={onClick}
   disabled={disabled}
-  >
+>
   <SaveIcon />
   Save
 </Button>;

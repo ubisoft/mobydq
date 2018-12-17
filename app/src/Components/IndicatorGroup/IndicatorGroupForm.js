@@ -105,15 +105,15 @@ const formikEnhancer = withFormik({
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-        'name': ''
-      }
+      'name': ''
+    }
     : {
-        'name': props.initialFieldValues.name,
-        'createdDate': props.initialFieldValues.createdDate,
-        'createdBy': props.initialFieldValues.userByCreatedById.email,
-        'updatedDate': props.initialFieldValues.updatedDate,
-        'updatedBy': props.initialFieldValues.userByUpdatedById.email
-      },
+      'name': props.initialFieldValues.name,
+      'createdDate': props.initialFieldValues.createdDate,
+      'createdBy': props.initialFieldValues.userByCreatedById.email,
+      'updatedDate': props.initialFieldValues.updatedDate,
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email
+    },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     delete payload.createdDate;

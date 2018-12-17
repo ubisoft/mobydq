@@ -3,7 +3,15 @@ import { Query, Mutation } from 'react-apollo';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const BaseForm = ({ title, FormComponent, ComponentRepository, afterSaveRoute, history, initialFieldValues, dropDownData }) => {
+const BaseForm = ({
+  title,
+  FormComponent,
+  ComponentRepository,
+  afterSaveRoute,
+  history,
+  initialFieldValues,
+  dropDownData
+}) => {
   const mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
   const recordId = initialFieldValues === null ? null : initialFieldValues.id;
   return <Mutation

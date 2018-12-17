@@ -9,10 +9,10 @@ const DeleteButton = ({
   type={'submit'}
   variant={'outlined'}
   size={'small'}
-  style={{ 'marginRight':'10px'}}
+  style={{ 'marginRight': '10px' }}
   onClick={onClick}
   disabled={disabled}
-  >
+>
   Delete
   <DeleteIcon />
 </Button>;

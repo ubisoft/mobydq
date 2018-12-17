@@ -165,8 +165,7 @@ const DataSourceFormFields = (props) => {
         variant={'filled'}
       />
     </div>
-  </form>
-  ;
+  </form>;
 };
 
 const formikEnhancer = withFormik({
@@ -181,23 +180,23 @@ const formikEnhancer = withFormik({
 
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-        'name': '',
-        'connectionString': '',
-        'dataSourceTypeId': '',
-        'login': '',
-        'password': ''
-      }
+      'name': '',
+      'connectionString': '',
+      'dataSourceTypeId': '',
+      'login': '',
+      'password': ''
+    }
     : {
-        'name': props.initialFieldValues.name,
-        'connectionString': props.initialFieldValues.connectionString,
-        'dataSourceTypeId': props.initialFieldValues.dataSourceTypeId,
-        'login': props.initialFieldValues.login,
-        'password': props.initialFieldValues.password,
-        'createdDate': props.initialFieldValues.createdDate,
-        'createdBy': props.initialFieldValues.userByCreatedById.email,
-        'updatedDate': props.initialFieldValues.updatedDate,
-        'updatedBy': props.initialFieldValues.userByUpdatedById.email
-      },
+      'name': props.initialFieldValues.name,
+      'connectionString': props.initialFieldValues.connectionString,
+      'dataSourceTypeId': props.initialFieldValues.dataSourceTypeId,
+      'login': props.initialFieldValues.login,
+      'password': props.initialFieldValues.password,
+      'createdDate': props.initialFieldValues.createdDate,
+      'createdBy': props.initialFieldValues.userByCreatedById.email,
+      'updatedDate': props.initialFieldValues.updatedDate,
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email
+    },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
     delete payload.createdDate;
