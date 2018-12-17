@@ -32,9 +32,11 @@ ShallowWrapper {
           control={
             <React.Fragment>
               <TextField
+                fullWidth={true}
                 helperText="Helper Text"
                 id="Id"
                 label="Label"
+                margin="dense"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
                 placeholder="Enter indicator name"
@@ -42,7 +44,7 @@ ShallowWrapper {
                 select={false}
                 type="text"
                 value="value"
-                variant="standard"
+                variant="outlined"
               />
             </React.Fragment>
           }
@@ -54,7 +56,7 @@ ShallowWrapper {
       ],
       "error": false,
       "style": Object {
-        "width": "500px"
+        "width": "500px",
       },
     },
     "ref": null,
@@ -66,9 +68,11 @@ ShallowWrapper {
         "props": Object {
           "control": <React.Fragment>
             <TextField
+              fullWidth={true}
               helperText="Helper Text"
               id="Id"
               label="Label"
+              margin="dense"
               onBlur={[MockFunction]}
               onChange={[MockFunction]}
               placeholder="Enter indicator name"
@@ -76,7 +80,7 @@ ShallowWrapper {
               select={false}
               type="text"
               value="value"
-              variant="standard"
+              variant="outlined"
             />
           </React.Fragment>,
           "label": "",
@@ -110,9 +114,11 @@ ShallowWrapper {
             control={
               <React.Fragment>
                 <TextField
+                  fullWidth={true}
                   helperText="Helper Text"
                   id="Id"
                   label="Label"
+                  margin="dense"
                   onBlur={[MockFunction]}
                   onChange={[MockFunction]}
                   placeholder="Enter indicator name"
@@ -120,7 +126,7 @@ ShallowWrapper {
                   select={false}
                   type="text"
                   value="value"
-                  variant="standard"
+                  variant="outlined"
                 />
               </React.Fragment>
             }
@@ -132,7 +138,7 @@ ShallowWrapper {
         ],
         "error": false,
         "style": Object {
-          "width": "500px"
+          "width": "500px",
         },
       },
       "ref": null,
@@ -144,9 +150,11 @@ ShallowWrapper {
           "props": Object {
             "control": <React.Fragment>
               <TextField
+                fullWidth={true}
                 helperText="Helper Text"
                 id="Id"
                 label="Label"
+                margin="dense"
                 onBlur={[MockFunction]}
                 onChange={[MockFunction]}
                 placeholder="Enter indicator name"
@@ -154,7 +162,7 @@ ShallowWrapper {
                 select={false}
                 type="text"
                 value="value"
-                variant="standard"
+                variant="outlined"
               />
             </React.Fragment>,
             "label": "",

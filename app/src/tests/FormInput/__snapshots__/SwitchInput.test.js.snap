@@ -45,7 +45,7 @@ ShallowWrapper {
       ],
       "error": false,
       "style": Object {
-        "width": "500px"
+        "width": "500px",
       },
     },
     "ref": null,
@@ -109,7 +109,7 @@ ShallowWrapper {
         ],
         "error": false,
         "style": Object {
-          "width": "500px"
+          "width": "500px",
         },
       },
       "ref": null,
