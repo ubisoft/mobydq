@@ -22,8 +22,8 @@ const IndicatorFormFields = (props) => {
   return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
-      <ExecuteButton disabled={isSubmitting} />
-      <DeleteButton disabled={isSubmitting} />
+      <ExecuteButton onClick={() => alert('not yet implemented')}/>
+      <DeleteButton onClick={() => alert('not yet implemented')} />
     </div>
     <div>
       <TextInput
