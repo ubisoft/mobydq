@@ -11,7 +11,7 @@ class ListContainer extends React.Component {
   renderForm(data) {
     this.props.setRowTotal(data[this.props.dataObjectName].totalCount);
     return <div>
-      <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
+      <div style={{ 'float': 'left', 'marginLeft': '50px' }}>
         {this.props.tableHeader}
       </div>
       <div style={{ 'float': 'right' }}>

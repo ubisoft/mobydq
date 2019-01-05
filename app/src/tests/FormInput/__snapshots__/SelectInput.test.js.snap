@@ -60,6 +60,7 @@ ShallowWrapper {
           onChange={[MockFunction]}
           placeholder="Select indicator type"
           value="value"
+          variant="outlined"
         >
           <WithStyles(MenuItem)
             value=""
@@ -85,9 +86,7 @@ ShallowWrapper {
       ],
       "error": false,
       "style": Object {
-        "margin": "15px",
-        "marginLeft": "0px",
-        "width": "240px",
+        "width": "500px",
       },
     },
     "ref": null,
@@ -142,6 +141,7 @@ ShallowWrapper {
           "onChange": [MockFunction],
           "placeholder": "Select indicator type",
           "value": "value",
+          "variant": "outlined",
         },
         "ref": null,
         "rendered": Array [
@@ -237,6 +237,7 @@ ShallowWrapper {
             onChange={[MockFunction]}
             placeholder="Select indicator type"
             value="value"
+            variant="outlined"
           >
             <WithStyles(MenuItem)
               value=""
@@ -262,9 +263,7 @@ ShallowWrapper {
         ],
         "error": false,
         "style": Object {
-          "margin": "15px",
-          "marginLeft": "0px",
-          "width": "240px",
+          "width": "500px",
         },
       },
       "ref": null,
@@ -319,6 +318,7 @@ ShallowWrapper {
             "onChange": [MockFunction],
             "placeholder": "Select indicator type",
             "value": "value",
+            "variant": "outlined",
           },
           "ref": null,
           "rendered": Array [

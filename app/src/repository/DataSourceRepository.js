@@ -28,6 +28,10 @@ class DataSourceRepository {
             connectionString
             login
             connectivityStatus
+            createdDate
+            userByCreatedById { email }
+            updatedDate
+            userByUpdatedById { email }
           }
         }
     `;
