@@ -10,6 +10,8 @@ class Interceptor():
     """Class used to intercept custom mutations and trigger the corresponding scripts."""
 
     def __init__(self):
+        """Mapping between the GraphQL mutation (the dictionary key) and the corresponding Python module, class, method."""
+
         self.can_handle_mutations = {
             'executeBatch': {'module': 'proxy.batch', 'class': 'ExecuteBatch', 'method': 'execute_batch'},
             'testDataSource': {'module': 'proxy.data_source', 'class': 'TestDataSource', 'method': 'test_data_source'}

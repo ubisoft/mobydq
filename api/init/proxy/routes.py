@@ -34,8 +34,7 @@ def register_graphql(namespace: Namespace, api: Api):
 
             try:
                 # Validate http request payload and convert it to GraphQL document
-                graphql_document = validate_graphql_request(
-                    payload['query'])
+                graphql_document = validate_graphql_request(payload['query'])
 
                 # Verify GraphQL mutation can be handled
                 interceptor = Interceptor()
@@ -43,8 +42,7 @@ def register_graphql(namespace: Namespace, api: Api):
 
                 # Surcharge payload before request
                 if mutation_name:
-                    payload['query'] = interceptor.before_request(
-                        mutation_name)
+                    payload['query'] = interceptor.before_request(mutation_name)
 
                 # Execute request on GraphQL API
                 status, data = execute_graphql_request(payload)
