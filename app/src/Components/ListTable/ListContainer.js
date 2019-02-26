@@ -4,8 +4,8 @@ import { Query } from 'react-apollo';
 import { GraphQLError } from './../Error/GraphQLError';
 
 import ListTable from '../ListTable/ListTable';
-import LinkButton from './../../Components/FormInput/LinkButton';
 import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab/Fab';
 
 class ListContainer extends React.Component {
   renderForm(data) {
@@ -15,7 +15,9 @@ class ListContainer extends React.Component {
         {this.props.tableHeader}
       </div>
       <div style={{ 'float': 'right' }}>
-        <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={this.props.newLink}/>
+        <Fab color="secondary" to={this.props.newLink} variant="round">
+          <AddIcon />
+        </Fab>
       </div>
       <ListTable
         data={data[this.props.dataObjectName].nodes}
