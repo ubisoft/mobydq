@@ -22,7 +22,8 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "yup": "^0.26.6"
+    "yup": "^0.26.6",
+    "classnames": "latest"
   },
   "devDependencies": {
     "babel-eslint": "9.0.0",
