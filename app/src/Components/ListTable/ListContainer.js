@@ -3,6 +3,8 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { GraphQLError } from './../Error/GraphQLError';
 
+import { withRouter} from 'react-router-dom';
+
 import ListTable from '../ListTable/ListTable';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab/Fab';
@@ -15,7 +17,7 @@ class ListContainer extends React.Component {
         {this.props.tableHeader}
       </div>
       <div style={{ 'float': 'right' }}>
-        <Fab color="secondary" to={this.props.newLink} variant="round">
+        <Fab color="secondary" onClick={() => {this.props.history.push(this.props.newLink)} } variant="round">
           <AddIcon />
         </Fab>
       </div>
@@ -52,4 +54,4 @@ class ListContainer extends React.Component {
   }
 }
 
-export default ListContainer;
+export default withRouter(ListContainer);
