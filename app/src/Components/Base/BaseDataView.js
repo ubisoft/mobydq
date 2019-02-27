@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
-import { isOpen } from './../../actions/sidebar';
+import { isSidebarOpen } from './../../actions/sidebar';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Content from './Content';
@@ -16,7 +16,6 @@ class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
     this.props.setSidebarOpen(setOpen);
   }
-
   render() {
     const { classes } = this.props;
 
@@ -48,12 +47,12 @@ class BaseDataView extends React.Component {
 
 const mapStateToProps = (state) => ({
   'sidebarIsOpen': state.sidebarIsOpen,
-  'messageBarMessage': state.messageBarMessage
+  'messageBarMessage': state.messageBarMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'setSidebarOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
-  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
+  'setSidebarOpen': (sidebarOpenState) => dispatch(isSidebarOpen(sidebarOpenState)),
+  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open)),
 });
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));

@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Badge from '@material-ui/core/Badge/Badge';
 import React from 'react';
 import classNames from 'classnames';
+import UserMenu from './UserMenu';
 
 export const AppBarView = ({ classes, sidebarIsOpen, setDrawerOpen }) => <AppBar
   position="absolute"
@@ -33,5 +34,6 @@ export const AppBarView = ({ classes, sidebarIsOpen, setDrawerOpen }) => <AppBar
         <NotificationsIcon />
       </Badge>
     </IconButton>
+    <UserMenu/>
   </Toolbar>
 </AppBar>;
