@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import Popover from '@material-ui/core/Popover';
 import React from 'react';
 import { setUserMenuAnchor } from '../../../actions/topbar';
+import { setAlertDialog } from '../../../actions/app';
 import { AppBarMenuItem } from './AppBarMenuItem';
 
 class UserMenu extends React.Component {
@@ -21,8 +22,16 @@ handleClick(event) {
 }  
 
 logout() {
+  this.props.setAlertDialog({
+    'title': 'a very fancy title',
+    'description': 'dialog description text',
+    'yesText': 'yes!!',
+    'noText': 'NO!!!'
+  });
+}
+
+handleLogout() {
   document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-  alert("user logged out.")
   this.props.history.push('/login');
 }
 
@@ -53,19 +62,21 @@ render() {
         }}
       >
         <div><AppBarMenuItem icon={null} label='Admin' action={this.admin}/></div>
+        <Divider/>
         <div><AppBarMenuItem icon={null} label='Logout' action={this.logout}/></div>
-        <div><AppBarMenuItem icon={<Divider/>} label='' action={null}/></div>
     </Popover>
     </React.Fragment>;
   }
 }
 
 const mapStateToProps = (state) => ({
-  'userMenuAnchor': state.userMenuAnchor
+  'userMenuAnchor': state.userMenuAnchor,
+  'alertDialog': state.alertDialog
 });
 
 const mapDispatchToProps = (dispatch) => ({
   'setUserMenuAnchor': (anchor) => dispatch(setUserMenuAnchor(anchor)),
+  'setAlertDialog': (alertDialog) => dispatch(setAlertDialog(alertDialog)),
 });
 
 

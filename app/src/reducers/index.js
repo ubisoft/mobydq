@@ -5,8 +5,10 @@ import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, 
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal, dataSourceSortColumn } from './dataSourceList';
 import { messageBarIsOpen, messageBarMessage } from './messageBar';
 import { userMenuAnchor } from './topbar';
+import { alertDialog } from './app';
 
 export default combineReducers({
+  alertDialog,
   sidebarIsOpen,
   userMenuAnchor,
   indicatorPage,

@@ -11,6 +11,7 @@ import { MessageBar } from './MessageBar';
 import { setMessageBarOpen } from '../../actions/messageBar';
 import { AppBarView } from './AppBar/AppBarView';
 import { DrawerView } from './Drawer/DrawerView';
+import AlertDialog from './AlertDialog';
 
 class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
@@ -25,6 +26,7 @@ class BaseDataView extends React.Component {
         <div className={classes.root}>
           <AppBarView classes={classes} sidebarIsOpen={this.props.sidebarIsOpen} setDrawerOpen={this.setDrawerOpen}/>
           <DrawerView classes={classes} sidebarIsOpen={this.props.sidebarIsOpen} setDrawerOpen={this.setDrawerOpen}/>
+          <AlertDialog/>
           <main className={classes.content}>
             <Content />
           </main>
