@@ -15,6 +15,7 @@ constructor() {
   super();
   this.logout = this.logout.bind(this);
   this.handleLogout = this.handleLogout.bind(this);
+  this.closeUserMenu = this.closeUserMenu.bind(this);
   this.login = this.login.bind(this);
   this.admin = this.admin.bind(this);
 }
@@ -50,6 +51,7 @@ login() {
 }
 
 admin() {
+  this.closeUserMenu();
   this.props.history.push('/admin');
 }
 
