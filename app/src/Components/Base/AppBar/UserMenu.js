@@ -9,11 +9,14 @@ import React from 'react';
 import { setUserMenuAnchor } from '../../../actions/topbar';
 import { setAlertDialog } from '../../../actions/app';
 import { AppBarMenuItem } from './AppBarMenuItem';
+import { checkLoggedIn } from '../PrivateRoute';
 
 class UserMenu extends React.Component {
 constructor() {
   super();
   this.logout = this.logout.bind(this);
+  this.handleLogout = this.handleLogout.bind(this);
+  this.login = this.login.bind(this);
   this.admin = this.admin.bind(this);
 }
 
@@ -21,17 +24,29 @@ handleClick(event) {
   this.props.setUserMenuAnchor(event.currentTarget); 
 }  
 
+closeUserMenu() {
+  this.props.setUserMenuAnchor(null);
+}
+
 logout() {
   this.props.setAlertDialog({
-    'title': 'a very fancy title',
-    'description': 'dialog description text',
-    'yesText': 'yes!!',
-    'noText': 'NO!!!'
+    'title': 'Log out',
+    'description': 'Do you really want to log out?',
+    'yesText': 'Yes',
+    'noText': 'No',
+    'onYes': this.handleLogout,
+    'onNo': this.closeUserMenu
   });
 }
 
 handleLogout() {
+  this.closeUserMenu();
   document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  this.props.history.push('/login');
+}
+
+login() {
+  this.closeUserMenu();
   this.props.history.push('/login');
 }
 
@@ -54,7 +69,7 @@ render() {
         }}
         anchorEl={this.props.userMenuAnchor}
         onClose={() => {
-          this.props.setUserMenuAnchor(null);
+          this.closeUserMenu();
         }}
         transformOrigin={{
             vertical: 'top',
@@ -63,7 +78,7 @@ render() {
       >
         <div><AppBarMenuItem icon={null} label='Admin' action={this.admin}/></div>
         <Divider/>
-        <div><AppBarMenuItem icon={null} label='Logout' action={this.logout}/></div>
+        <div><AppBarMenuItem icon={null} label={checkLoggedIn() ? 'Logout' : 'Login'} action={checkLoggedIn() ? this.logout : this.login}/></div>
     </Popover>
     </React.Fragment>;
   }
