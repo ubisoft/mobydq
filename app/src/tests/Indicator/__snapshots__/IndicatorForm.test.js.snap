@@ -50,6 +50,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -163,6 +164,7 @@ ShallowWrapper {
         "setSubmitting": [Function],
         "setTouched": [Function],
         "setValues": [Function],
+        "status": undefined,
         "submitCount": 0,
         "submitForm": [Function],
         "touched": Object {},
@@ -237,6 +239,7 @@ ShallowWrapper {
         "setSubmitting": [Function],
         "setTouched": [Function],
         "setValues": [Function],
+        "status": undefined,
         "submitCount": 0,
         "submitForm": [Function],
         "touched": Object {},
@@ -385,6 +388,7 @@ ShallowWrapper {
           "setSubmitting": [Function],
           "setTouched": [Function],
           "setValues": [Function],
+          "status": undefined,
           "submitCount": 0,
           "submitForm": [Function],
           "touched": Object {},
@@ -459,6 +463,7 @@ ShallowWrapper {
           "setSubmitting": [Function],
           "setTouched": [Function],
           "setValues": [Function],
+          "status": undefined,
           "submitCount": 0,
           "submitForm": [Function],
           "touched": Object {},
@@ -504,9 +509,13 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
           },
           "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,
@@ -546,5 +555,6 @@ ShallowWrapper {
       },
     },
   },
+  Symbol(enzyme.__childContext__): null,
 }
 `;

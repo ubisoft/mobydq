@@ -188,6 +188,7 @@ ShallowWrapper {
                   "variableDefinitions": Array [
                     Object {
                       "defaultValue": undefined,
+                      "directives": Array [],
                       "kind": "VariableDefinition",
                       "type": Object {
                         "kind": "NonNullType",
@@ -209,6 +210,7 @@ ShallowWrapper {
                     },
                     Object {
                       "defaultValue": undefined,
+                      "directives": Array [],
                       "kind": "VariableDefinition",
                       "type": Object {
                         "kind": "NonNullType",
@@ -230,6 +232,7 @@ ShallowWrapper {
                     },
                     Object {
                       "defaultValue": undefined,
+                      "directives": Array [],
                       "kind": "VariableDefinition",
                       "type": Object {
                         "kind": "ListType",
@@ -314,6 +317,7 @@ ShallowWrapper {
   </MockedProvider>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -337,13 +341,17 @@ ShallowWrapper {
             "addTypename": true,
             "dataIdFromObject": [Function],
             "fragmentMatcher": HeuristicFragmentMatcher {},
+            "resultCaching": true,
           },
           "data": DepTrackingCache {
             "data": Object {},
             "depend": [Function],
           },
           "maybeBroadcastWatch": [Function],
-          "optimistic": Array [],
+          "optimisticData": DepTrackingCache {
+            "data": Object {},
+            "depend": [Function],
+          },
           "silenceBroadcast": false,
           "storeReader": StoreReader {
             "cacheKeyRoot": CacheKeyNode {
@@ -352,22 +360,54 @@ ShallowWrapper {
             },
             "executeSelectionSet": [Function],
             "executeStoreQuery": [Function],
-            "keyMaker": QueryKeyMaker {
-              "cacheKeyRoot": CacheKeyNode {
-                "children": null,
-                "key": null,
-              },
-              "perQueryKeyMakers": Map {},
-            },
           },
           "storeWriter": StoreWriter {},
           "typenameDocumentCache": Map {},
           "watches": Set {},
         },
+        "clearStoreCallbacks": Array [],
+        "clientAwareness": Object {},
         "defaultOptions": Object {},
         "disableNetworkFetches": false,
         "link": ApolloLink {
           "request": [Function],
+        },
+        "localState": LocalState {
+          "cache": InMemoryCache {
+            "addTypename": true,
+            "cacheKeyRoot": CacheKeyNode {
+              "children": null,
+              "key": null,
+            },
+            "config": Object {
+              "addTypename": true,
+              "dataIdFromObject": [Function],
+              "fragmentMatcher": HeuristicFragmentMatcher {},
+              "resultCaching": true,
+            },
+            "data": DepTrackingCache {
+              "data": Object {},
+              "depend": [Function],
+            },
+            "maybeBroadcastWatch": [Function],
+            "optimisticData": DepTrackingCache {
+              "data": Object {},
+              "depend": [Function],
+            },
+            "silenceBroadcast": false,
+            "storeReader": StoreReader {
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
+              "executeSelectionSet": [Function],
+              "executeStoreQuery": [Function],
+            },
+            "storeWriter": StoreWriter {},
+            "typenameDocumentCache": Map {},
+            "watches": Set {},
+          },
+          "client": [Circular],
         },
         "mutate": [Function],
         "query": [Function],
@@ -387,13 +427,17 @@ ShallowWrapper {
               "addTypename": true,
               "dataIdFromObject": [Function],
               "fragmentMatcher": HeuristicFragmentMatcher {},
+              "resultCaching": true,
             },
             "data": DepTrackingCache {
               "data": Object {},
               "depend": [Function],
             },
             "maybeBroadcastWatch": [Function],
-            "optimistic": Array [],
+            "optimisticData": DepTrackingCache {
+              "data": Object {},
+              "depend": [Function],
+            },
             "silenceBroadcast": false,
             "storeReader": StoreReader {
               "cacheKeyRoot": CacheKeyNode {
@@ -402,20 +446,14 @@ ShallowWrapper {
               },
               "executeSelectionSet": [Function],
               "executeStoreQuery": [Function],
-              "keyMaker": QueryKeyMaker {
-                "cacheKeyRoot": CacheKeyNode {
-                  "children": null,
-                  "key": null,
-                },
-                "perQueryKeyMakers": Map {},
-              },
             },
             "storeWriter": StoreWriter {},
             "typenameDocumentCache": Map {},
             "watches": Set {},
           },
         },
-        "version": "2.4.6",
+        "typeDefs": undefined,
+        "version": "2.5.0",
         "watchQuery": [Function],
       },
     },
@@ -449,13 +487,17 @@ ShallowWrapper {
               "addTypename": true,
               "dataIdFromObject": [Function],
               "fragmentMatcher": HeuristicFragmentMatcher {},
+              "resultCaching": true,
             },
             "data": DepTrackingCache {
               "data": Object {},
               "depend": [Function],
             },
             "maybeBroadcastWatch": [Function],
-            "optimistic": Array [],
+            "optimisticData": DepTrackingCache {
+              "data": Object {},
+              "depend": [Function],
+            },
             "silenceBroadcast": false,
             "storeReader": StoreReader {
               "cacheKeyRoot": CacheKeyNode {
@@ -464,22 +506,54 @@ ShallowWrapper {
               },
               "executeSelectionSet": [Function],
               "executeStoreQuery": [Function],
-              "keyMaker": QueryKeyMaker {
-                "cacheKeyRoot": CacheKeyNode {
-                  "children": null,
-                  "key": null,
-                },
-                "perQueryKeyMakers": Map {},
-              },
             },
             "storeWriter": StoreWriter {},
             "typenameDocumentCache": Map {},
             "watches": Set {},
           },
+          "clearStoreCallbacks": Array [],
+          "clientAwareness": Object {},
           "defaultOptions": Object {},
           "disableNetworkFetches": false,
           "link": ApolloLink {
             "request": [Function],
+          },
+          "localState": LocalState {
+            "cache": InMemoryCache {
+              "addTypename": true,
+              "cacheKeyRoot": CacheKeyNode {
+                "children": null,
+                "key": null,
+              },
+              "config": Object {
+                "addTypename": true,
+                "dataIdFromObject": [Function],
+                "fragmentMatcher": HeuristicFragmentMatcher {},
+                "resultCaching": true,
+              },
+              "data": DepTrackingCache {
+                "data": Object {},
+                "depend": [Function],
+              },
+              "maybeBroadcastWatch": [Function],
+              "optimisticData": DepTrackingCache {
+                "data": Object {},
+                "depend": [Function],
+              },
+              "silenceBroadcast": false,
+              "storeReader": StoreReader {
+                "cacheKeyRoot": CacheKeyNode {
+                  "children": null,
+                  "key": null,
+                },
+                "executeSelectionSet": [Function],
+                "executeStoreQuery": [Function],
+              },
+              "storeWriter": StoreWriter {},
+              "typenameDocumentCache": Map {},
+              "watches": Set {},
+            },
+            "client": [Circular],
           },
           "mutate": [Function],
           "query": [Function],
@@ -499,13 +573,17 @@ ShallowWrapper {
                 "addTypename": true,
                 "dataIdFromObject": [Function],
                 "fragmentMatcher": HeuristicFragmentMatcher {},
+                "resultCaching": true,
               },
               "data": DepTrackingCache {
                 "data": Object {},
                 "depend": [Function],
               },
               "maybeBroadcastWatch": [Function],
-              "optimistic": Array [],
+              "optimisticData": DepTrackingCache {
+                "data": Object {},
+                "depend": [Function],
+              },
               "silenceBroadcast": false,
               "storeReader": StoreReader {
                 "cacheKeyRoot": CacheKeyNode {
@@ -514,20 +592,14 @@ ShallowWrapper {
                 },
                 "executeSelectionSet": [Function],
                 "executeStoreQuery": [Function],
-                "keyMaker": QueryKeyMaker {
-                  "cacheKeyRoot": CacheKeyNode {
-                    "children": null,
-                    "key": null,
-                  },
-                  "perQueryKeyMakers": Map {},
-                },
               },
               "storeWriter": StoreWriter {},
               "typenameDocumentCache": Map {},
               "watches": Set {},
             },
           },
-          "version": "2.4.6",
+          "typeDefs": undefined,
+          "version": "2.5.0",
           "watchQuery": [Function],
         },
       },
@@ -548,9 +620,13 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
           },
           "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,
@@ -561,5 +637,6 @@ ShallowWrapper {
       },
     },
   },
+  Symbol(enzyme.__childContext__): null,
 }
 `;

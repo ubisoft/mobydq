@@ -4,9 +4,13 @@ import { indicatorPage, indicatorRowsPerPage, indicatorRowTotal, indicatorSortCo
 import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupSortColumn } from './indicatorGroupList';
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal, dataSourceSortColumn } from './dataSourceList';
 import { messageBarIsOpen, messageBarMessage } from './messageBar';
+import { userMenuAnchor } from './topbar';
+import { alertDialog } from './app';
 
 export default combineReducers({
+  alertDialog,
   sidebarIsOpen,
+  userMenuAnchor,
   indicatorPage,
   indicatorRowsPerPage,
   indicatorRowTotal,
