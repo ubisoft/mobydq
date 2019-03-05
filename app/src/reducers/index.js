@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { sidebarIsOpen } from './sidebar';
 import { indicatorPage, indicatorRowsPerPage, indicatorRowTotal, indicatorSortColumn } from './indicatorList';
 import { indicatorGroupPage, indicatorGroupRowsPerPage, indicatorGroupRowTotal, indicatorGroupSortColumn } from './indicatorGroupList';
+import { userGroupPage, userGroupRowsPerPage, userGroupRowTotal, userGroupSortColumn } from './userGroupList';
 import { dataSourcePage, dataSourceRowsPerPage, dataSourceRowTotal, dataSourceSortColumn } from './dataSourceList';
 import { messageBarIsOpen, messageBarMessage } from './messageBar';
 import { userMenuAnchor } from './topbar';
@@ -24,5 +25,9 @@ export default combineReducers({
   dataSourcePage,
   dataSourceRowsPerPage,
   dataSourceRowTotal,
-  dataSourceSortColumn
+  dataSourceSortColumn,
+  userGroupPage,
+  userGroupRowsPerPage,
+  userGroupRowTotal,
+  userGroupSortColumn,
 });
