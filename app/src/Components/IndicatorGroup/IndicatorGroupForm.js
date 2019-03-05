@@ -2,6 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
+import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
 import DeleteButton from './../FormInput/DeleteButton';
@@ -9,6 +10,7 @@ import LinkButton from './../FormInput/LinkButton';
 
 const IndicatorGroupFormFields = (props) => {
   const {
+    data,
     values,
     touched,
     errors,
@@ -21,7 +23,6 @@ const IndicatorGroupFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton onClick={() => alert('not yet implemented')}/>
-      <LinkButton type='execute' to={`/indicator-group/manage/${props.initialFieldValues.id}`} variant={'contained'} color={'primary'} label='manage'/>
     </div>
     <div>
       <TextInput
@@ -32,6 +33,18 @@ const IndicatorGroupFormFields = (props) => {
         touched={touched.name}
         error={touched.name && errors.name}
         value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SelectInput
+        id="userGroupId"
+        label="User Group"
+        items={data.allUserGroups.nodes}
+        touched={touched.userGroupId}
+        error={touched.userGroupId && errors.userGroupId}
+        value={values.userGroupId}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -102,18 +115,22 @@ const IndicatorGroupFormFields = (props) => {
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
     'name': Yup.string()
-      .required('Name cannot be blank')
+      .required('Name cannot be blank'),
+    'userGroupId': Yup.string()
+      .required('User Group cannot be blank'),
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-      'name': ''
+      'name': '',
+      'userGroupId': ''
     }
     : {
       'name': props.initialFieldValues.name,
       'createdDate': props.initialFieldValues.createdDate,
       'createdBy': props.initialFieldValues.userByCreatedById.email,
       'updatedDate': props.initialFieldValues.updatedDate,
-      'updatedBy': props.initialFieldValues.userByUpdatedById.email
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email,
+      'userGroupId': props.initialFieldValues.userGroupId,
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);

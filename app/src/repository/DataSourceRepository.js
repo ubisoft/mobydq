@@ -25,6 +25,7 @@ class DataSourceRepository {
             id
             name
             dataSourceTypeId
+            userGroupId
             connectionString
             login
             connectivityStatus
@@ -41,6 +42,12 @@ class DataSourceRepository {
     return gql`
       {
         allDataSourceTypes {
+          nodes {
+            id
+            name
+          }
+        }
+        allUserGroups {
           nodes {
             id
             name
