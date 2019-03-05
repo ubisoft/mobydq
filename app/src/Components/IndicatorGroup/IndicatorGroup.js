@@ -9,6 +9,7 @@ import IndicatorGroupRepository from './../../repository/IndicatorGroupRepositor
 
 import { EnhancedForm } from './../Form/Form';
 import { IndicatorGroupUpdateForm } from './IndicatorGroupUpdateForm';
+import { IndicatorGroupManageForm } from './IndicatorGroupManageForm';
 
 class IndicatorGroup extends React.Component {
   render() {
@@ -29,6 +30,12 @@ class IndicatorGroup extends React.Component {
             path={`${match.url}/edit/:id`}
             component={
               (props) => <IndicatorGroupUpdateForm {...props} />
+            }
+          />
+          <Route
+            path={`${match.url}/manage/:id`}
+            component={
+              (props) => <IndicatorGroupManageForm {...props} />
             }
           />
           <Route

@@ -5,7 +5,7 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
-import DeleteButton from './../FormInput/DeleteButton';
+import LinkButton from './../FormInput/LinkButton';
 
 const DataSourceFormFields = (props) => {
   const {
@@ -22,7 +22,7 @@ const DataSourceFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton disabled={isSubmitting} />
-      <DeleteButton disabled={isSubmitting} />
+      <LinkButton type='execute' to={`/data-source/manage/${props.initialFieldValues.id}`} variant={'contained'} color={'primary'} label='manage'/>
     </div>
     <div>
       <TextInput

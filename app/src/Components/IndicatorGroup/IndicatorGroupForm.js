@@ -5,6 +5,7 @@ import TextInput from './../FormInput/TextInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
 import DeleteButton from './../FormInput/DeleteButton';
+import LinkButton from './../FormInput/LinkButton';
 
 const IndicatorGroupFormFields = (props) => {
   const {
@@ -20,7 +21,7 @@ const IndicatorGroupFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton onClick={() => alert('not yet implemented')}/>
-      <DeleteButton onClick={() => alert('not yet implemented')} />
+      <LinkButton type='execute' to={`/indicator-group/manage/${props.initialFieldValues.id}`} variant={'contained'} color={'primary'} label='manage'/>
     </div>
     <div>
       <TextInput

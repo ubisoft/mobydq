@@ -9,6 +9,7 @@ import DataSourceRepository from './../../repository/DataSourceRepository';
 
 import { EnhancedForm } from './../Form/Form';
 import { DataSourceUpdateForm } from './DataSourceUpdateForm';
+import { DataSourceManageForm } from './DataSourceManageForm';
 
 class DataSource extends React.Component {
   render() {
@@ -29,6 +30,12 @@ class DataSource extends React.Component {
             path={`${match.url}/edit/:id`}
             component={
               (props) => <DataSourceUpdateForm {...props} />
+            }
+          />
+          <Route
+            path={`${match.url}/manage/:id`}
+            component={
+              (props) => <DataSourceManageForm {...props} />
             }
           />
           <Route
