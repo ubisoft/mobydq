@@ -2,13 +2,11 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
 
-const IndicatorGroupFormFields = (props) => {
+const UserGroupFormFields = (props) => {
   const {
-    data,
     values,
     touched,
     errors,
@@ -31,18 +29,6 @@ const IndicatorGroupFormFields = (props) => {
         touched={touched.name}
         error={touched.name && errors.name}
         value={values.name}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-    </div>
-    <div>
-      <SelectInput
-        id="userGroupId"
-        label="User Group"
-        items={data.allUserGroups.nodes}
-        touched={touched.userGroupId}
-        error={touched.userGroupId && errors.userGroupId}
-        value={values.userGroupId}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -113,22 +99,19 @@ const IndicatorGroupFormFields = (props) => {
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
     'name': Yup.string()
-      .required('Name cannot be blank'),
-    'userGroupId': Yup.string()
-      .required('User Group cannot be blank')
+      .required('Name cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-      'name': '',
-      'userGroupId': ''
+      'name': ''
     }
     : {
+      'id': props.initialFieldValues.userGroupId,
       'name': props.initialFieldValues.name,
       'createdDate': props.initialFieldValues.createdDate,
       'createdBy': props.initialFieldValues.userByCreatedById.email,
       'updatedDate': props.initialFieldValues.updatedDate,
-      'updatedBy': props.initialFieldValues.userByUpdatedById.email,
-      'userGroupId': props.initialFieldValues.userGroupId
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
@@ -138,18 +121,18 @@ const formikEnhancer = withFormik({
     delete payload.updatedBy;
     let variables;
     if (props.initialFieldValues === null) {
-      variables = { 'indicatorGroup': payload };
+      variables = { 'userGroup': payload };
     } else {
-      variables = { 'indicatorGroupPatch': payload, 'id': props.initialFieldValues.id };
+      variables = { 'userGroupPatch': payload, 'id': props.initialFieldValues.id };
     }
     props.mutate({
       variables
     });
   },
-  'displayName': 'IndicatorGroupForm'
+  'displayName': 'UserGroupForm'
 });
 
 
-const EnhancedIndicatorGroupForm = formikEnhancer(IndicatorGroupFormFields);
+const EnhancedUserGroupForm = formikEnhancer(UserGroupFormFields);
 
-export default EnhancedIndicatorGroupForm;
+export default EnhancedUserGroupForm;

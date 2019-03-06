@@ -5,7 +5,6 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
-import DeleteButton from './../FormInput/DeleteButton';
 
 const DataSourceFormFields = (props) => {
   const {
@@ -22,7 +21,6 @@ const DataSourceFormFields = (props) => {
     <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
       <SaveButton disabled={isSubmitting} />
       <ExecuteButton disabled={isSubmitting} />
-      <DeleteButton disabled={isSubmitting} />
     </div>
     <div>
       <TextInput
@@ -86,6 +84,18 @@ const DataSourceFormFields = (props) => {
         touched={touched.password}
         error={touched.password && errors.password}
         value={values.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SelectInput
+        id="userGroupId"
+        label="User Group"
+        items={data.allUserGroups.nodes}
+        touched={touched.userGroupId}
+        error={touched.userGroupId && errors.userGroupId}
+        value={values.userGroupId}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -174,6 +184,10 @@ const formikEnhancer = withFormik({
       .required('Name cannot be blank'),
     'connectionString': Yup.string()
       .required('Connection string cannot be blank'),
+    'userGroupId': Yup.string()
+      .required('User Group cannot be blank'),
+    'dataSourceTypeId': Yup.string()
+      .required('Data Source Type cannot be blank'),
     'login': Yup.string()
       .required('Login cannot be blank')
   }),
@@ -183,6 +197,7 @@ const formikEnhancer = withFormik({
       'name': '',
       'connectionString': '',
       'dataSourceTypeId': '',
+      'userGroupId': '',
       'login': '',
       'password': ''
     }
@@ -190,6 +205,7 @@ const formikEnhancer = withFormik({
       'name': props.initialFieldValues.name,
       'connectionString': props.initialFieldValues.connectionString,
       'dataSourceTypeId': props.initialFieldValues.dataSourceTypeId,
+      'userGroupId': props.initialFieldValues.userGroupId,
       'login': props.initialFieldValues.login,
       'password': props.initialFieldValues.password,
       'createdDate': props.initialFieldValues.createdDate,

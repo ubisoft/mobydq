@@ -17,6 +17,7 @@ class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
     this.props.setSidebarOpen(setOpen);
   }
+
   render() {
     const { classes } = this.props;
 
@@ -49,12 +50,12 @@ class BaseDataView extends React.Component {
 
 const mapStateToProps = (state) => ({
   'sidebarIsOpen': state.sidebarIsOpen,
-  'messageBarMessage': state.messageBarMessage,
+  'messageBarMessage': state.messageBarMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
   'setSidebarOpen': (sidebarOpenState) => dispatch(isSidebarOpen(sidebarOpenState)),
-  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open)),
+  'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
 });
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(BaseDataView)));
