@@ -16,7 +16,7 @@ class AlertDialog extends React.Component {
   };
 
   render() {
-    const alertDialog = this.props.alertDialog;
+    const { alertDialog } = this.props;
     return (
       alertDialog !== null && <div>
         <Dialog
@@ -33,16 +33,16 @@ class AlertDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={() => {
-                alertDialog.onNo();
-                this.setDialog(null);
+              alertDialog.onNo();
+              this.setDialog(null);
             } } >
               {alertDialog.noText}
             </Button>
             <Button color="primary" autoFocus onClick={() => {
-                alertDialog.onYes();
-                this.setDialog(null);
+              alertDialog.onYes();
+              this.setDialog(null);
             } }>
-            {alertDialog.yesText}
+              {alertDialog.yesText}
             </Button>
           </DialogActions>
         </Dialog>
@@ -52,13 +52,11 @@ class AlertDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    'alertDialog': state.alertDialog
-  });
-  
-  const mapDispatchToProps = (dispatch) => ({
-    'setAlertDialog': (alertDialog) => dispatch(setAlertDialog(alertDialog)),
-  });
-  
-  
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AlertDialog));
-  
+  'alertDialog': state.alertDialog
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  'setAlertDialog': (alertDialog) => dispatch(setAlertDialog(alertDialog))
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AlertDialog));

@@ -4,4 +4,3 @@ export function setAlertDialog(object) {
     'alertDialog': object
   };
 }
-  

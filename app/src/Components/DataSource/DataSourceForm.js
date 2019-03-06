@@ -5,7 +5,6 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
-import LinkButton from './../FormInput/LinkButton';
 
 const DataSourceFormFields = (props) => {
   const {

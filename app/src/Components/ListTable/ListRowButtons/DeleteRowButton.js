@@ -20,7 +20,7 @@ class DeleteRowButton extends React.Component {
 
   render() {
     const { rowsPerPage, page, rowTotal, sortColumn, repository, setPage } = this.props.parameter;
-    const recordId = this.props.recordId;
+    const { recordId } = this.props;
     return (
       <Mutation
         key={`delete_${recordId}`}
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'setAlertDialog': (alertDialog) => dispatch(setAlertDialog(alertDialog)),
+  'setAlertDialog': (alertDialog) => dispatch(setAlertDialog(alertDialog))
 });
 
 

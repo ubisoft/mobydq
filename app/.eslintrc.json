@@ -19,6 +19,7 @@
     "newline-per-chained-call": "off",
     "no-alert": "off",
     "no-confusing-arrow": "off",
+    "no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
     "no-inline-comments": "off",
     "no-magic-numbers": "off",
     "no-process-env": "off",

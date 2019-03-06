@@ -45,7 +45,7 @@ export function checkLoggedIn() {
     if (token === '') {
       return false;
     }
-    return true
+    return true;
   }
   return false;
 }

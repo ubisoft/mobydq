@@ -29,5 +29,5 @@ export default combineReducers({
   userGroupPage,
   userGroupRowsPerPage,
   userGroupRowTotal,
-  userGroupSortColumn,
+  userGroupSortColumn
 });

@@ -5,8 +5,6 @@ import TextInput from './../FormInput/TextInput';
 import SelectInput from './../FormInput/SelectInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
-import DeleteButton from './../FormInput/DeleteButton';
-import LinkButton from './../FormInput/LinkButton';
 
 const IndicatorGroupFormFields = (props) => {
   const {
@@ -117,7 +115,7 @@ const formikEnhancer = withFormik({
     'name': Yup.string()
       .required('Name cannot be blank'),
     'userGroupId': Yup.string()
-      .required('User Group cannot be blank'),
+      .required('User Group cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
@@ -130,7 +128,7 @@ const formikEnhancer = withFormik({
       'createdBy': props.initialFieldValues.userByCreatedById.email,
       'updatedDate': props.initialFieldValues.updatedDate,
       'updatedBy': props.initialFieldValues.userByUpdatedById.email,
-      'userGroupId': props.initialFieldValues.userGroupId,
+      'userGroupId': props.initialFieldValues.userGroupId
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
