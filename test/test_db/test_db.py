@@ -145,10 +145,9 @@ class TestDb(unittest.TestCase):
     def test_function_execute_batch(self):
         """Unit tests for custom function execute_batch."""
 
-        test_case_name = get_test_case_name()
-        
         # Insert user group
-        # user_group_id = self.create_user_group(test_case_name)
+        test_case_name = get_test_case_name()
+        user_group_id = self.create_user_group(test_case_name)
 
         # Insert indicator group
         indicator_group_id = self.create_indicator_group(test_case_name, user_group_id)
