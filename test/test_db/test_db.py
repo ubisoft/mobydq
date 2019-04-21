@@ -58,7 +58,7 @@ class TestDb(unittest.TestCase):
     def create_user(self, test_case_name: str, flag_admin: bool = False):
         """Create a user in the database and return its id."""
 
-        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
+        insert_user_query = f'''INSERT INTO base.user (email, password, role) values ('{test_case_name}', '123456', 'standard') RETURNING id;'''
         cursor = self.connection.execute(insert_user_query)
         user_id = cursor.fetchone()[0]
         return user_id
@@ -145,9 +145,10 @@ class TestDb(unittest.TestCase):
     def test_function_execute_batch(self):
         """Unit tests for custom function execute_batch."""
 
-        # Insert user group
         test_case_name = get_test_case_name()
-        user_group_id = self.create_user_group(test_case_name)
+        
+        # Insert user group
+        # user_group_id = self.create_user_group(test_case_name)
 
         # Insert indicator group
         indicator_group_id = self.create_indicator_group(test_case_name, user_group_id)
