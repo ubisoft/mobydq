@@ -89,7 +89,7 @@ class TestDb(unittest.TestCase):
     def update_user(self, user_id: int):
         """Update a user in the database and return its updated_by_id and updated_date."""
 
-        update_user_query = f'''UPDATE base.user SET flag_admin = true WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
+        update_user_query = f'''UPDATE base.user SET role = 'advanced' WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
         cursor = self.connection.execute(update_user_query)
         row = cursor.fetchone()
 
