@@ -20,6 +20,8 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
+    ports:
+      - 5433:5433
     depends_on:
       - db
     networks:
@@ -96,8 +98,6 @@ services:
       - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/config/cert.pem:/etc/nginx/cert.pem
       - ./nginx/config/key.pem:/etc/nginx/key.pem
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/www/letsencrypt:/var/www/letsencrypt
     ports:
       - 80:80
       - 443:443

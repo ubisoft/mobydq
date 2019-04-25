@@ -19,7 +19,7 @@ class ListTableHeader extends React.Component {
    * GraphQL uses FIELD_NAME format for defining the sort directives as opposed to camelCase in the field names.
    * This function is responsible for the necessary field name conversion
    */
-  _buildHeaderCell(fieldName, sortField, sortDirection) {
+  _buildHeaderCell(fieldName, sortField, sortDirection, useSort) {
     let header = fieldName;
     let nextSortHeader = null;
     if (header.length > 0) {
@@ -33,7 +33,7 @@ class ListTableHeader extends React.Component {
       <TableCell
         key={header}
       >
-        {header === 'Actions'
+        {header === 'Actions' || this.props.useSort === false
           ? <React.Fragment>{header}</React.Fragment>
           : <Tooltip
             title={'Sort'}
