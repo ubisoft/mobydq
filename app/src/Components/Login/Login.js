@@ -1,13 +1,20 @@
 import React from 'react';
 import './../../styles/baseStyles';
 import '../../index.css';
-import Button from '@material-ui/core/Button';
-import UrlBuilder from '../Base/UrlBuilder';
+import LoginForm from './LoginForm';
+//import Button from '@material-ui/core/Button';
+//import UrlBuilder from '../Base/UrlBuilder';
 
-const githubOAuthUrl = UrlBuilder.getDefault().githubOAuth();
-const googleOAuthUrl = UrlBuilder.getDefault().googleOAuth();
+//const githubOAuthUrl = UrlBuilder.getDefault().githubOAuth();
+//const googleOAuthUrl = UrlBuilder.getDefault().googleOAuth();
 
 const Login = () => <React.Fragment>
+  <div className="container">
+    <div style={{ 'paddingTop': '55px' }}>
+      <LoginForm message={'Test'}/>
+    </div>
+  </div>
+  {/* Disable Github and Google oauth
   <div className="container">
     <div style={{ 'textAlign': 'center' }}>
       <a style={{ 'textDecoration': 'none' }} href={githubOAuthUrl}>
@@ -26,6 +33,7 @@ const Login = () => <React.Fragment>
       </a>
     </div>
   </div>
-</React.Fragment>;
+      */}
+</React.Fragment>
 
 export default Login;

@@ -56,11 +56,14 @@ class BaseDataView extends React.Component {
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
                 MobyDQ
               </Typography>
+              {/*
+              Removed bell icon because it wasn't used yet
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              */}
             </Toolbar>
           </AppBar>
           <Drawer
