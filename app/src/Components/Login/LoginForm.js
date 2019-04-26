@@ -3,79 +3,106 @@ import { Button, Input, withStyles } from '@material-ui/core';
 import { styles } from '../../styles/baseStyles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { GraphQLSchema } from 'graphql';
+import Authentication from './Authentication';
+import DevLog from '../../actions/DevLog';
+import { Redirect } from 'react-router';
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    // Next we establish our state
     this.state = {
       'message': this.props.message ? this.props.message : '',
-      // Todo make name "sticky"
-      'name': '',
-      'password': ''
+      'email': '',
+      'password': '',
+      'redirect': false
     };
   }
 
-  onChangeName(changeEvent) {
+  _onChangeEmail(changeEvent) {
     this.setState({
-      'name': changeEvent.target.value
+      'email': changeEvent.target.value
     });
   }
 
-  onChangePassword(changeEvent) {
+  _onChangePassword(changeEvent) {
     this.setState({
       'password': changeEvent.target.value
     });
   }
 
-  onButtonPressed(username, password) {
-    console.log('yoboi');
-    let schema = new GraphQLSchema({
-      mutation {
-        authenticateUser(
-          input: {
-            userEmail: username,
-            userPassword: this.state.password
-          })
-      }
-      /*authenticateUser(input: {userEmail: this.state., userPassword: "admin"}) {
-        clientMutationId
-        token
-      }*/
+  // On enter pressed --> smoother login
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this._onButtonPressed();
+    }
+  };
+
+  _onButtonPressed() {
+    Authentication.getAndSaveBearerToken(this.state.email, this.state.password).then((result) => {
+      this.setState({
+        'redirect': true
+      });
+    }).catch((error) => {
+      this.setState({
+        'message': error.message
+      });
     });
   }
 
-  // The render function, where we actually tell the browser what it should show
+  // Todo sticky email
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/"/>;
+    }
     return (
-      <div className="container" style={{ 'padding-top': '-1%' }}>
+      <div className="container" style={{ 'paddingTop': '-15px' }}>
         <div style={{
           'textAlign': 'center',
-          'align-items': 'center'
+          'alignItems': 'center'
         }}>
           <div className="background-box" style={{
             'display': 'inline-block',
-            'padding': '2%'
+            'padding': '20px'
           }}>
             <h2>Login</h2>
             <p style={{ 'color': 'red' }}>{this.state.message}</p>
             <div style={{
               'textAlign': 'left',
-              'align-items': 'left'
+              'alignItems': 'left'
             }}>
               <FormGroup>
                 <section className="section">
-                  <FormLabel className="label">Username: </FormLabel>
-                  <Input className="input" name="name" placeholder="Enter your username..."
-                         autoFocus onChange={() => this.onChangeName}/>
-                  <br/>
-                  <br/>
-                  <FormLabel className="label">Password: </FormLabel>
-                  <Input className="input" type="password" name="password" onChange={() => this.onChangePassword}/>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td><FormLabel className="label">Email: </FormLabel></td>
+                        <td>
+                          <Input
+                            className="input"
+                            name="email"
+                            placeholder="Enter your email..."
+                            autoFocus
+                            onChange={(evt) => this._onChangeEmail(evt)}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><FormLabel className="label">Password: </FormLabel></td>
+                        <td>
+                          <Input
+                            className="input"
+                            type="password"
+                            name="password"
+                            placeholder="Your password"
+                            onChange={(evt) => this._onChangePassword(evt)}
+                            onKeyDown={this._handleKeyDown}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </section>
-                <Button action={() => this.onButtonPressed()} style={{ 'marginTop': '10%' }} variant="contained"
+                <Button onClick={() => this._onButtonPressed()} style={{ 'marginTop': '10%' }} variant="contained"
                         color="secondary">
                   Sign in
                 </Button>
@@ -83,8 +110,7 @@ class LoginForm extends React.Component {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>);
   }
 }
 
