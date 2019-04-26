@@ -55,10 +55,10 @@ class TestDb(unittest.TestCase):
         indicator_group_id = cursor.fetchone()[0]
         return indicator_group_id
 
-    def create_user(self, test_case_name: str, flag_admin: bool = False):
+    def create_user(self, test_case_name: str):
         """Create a user in the database and return its id."""
 
-        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
+        insert_user_query = f'''INSERT INTO base.user (email, password, role) values ('{test_case_name}', '123456', 'admin') RETURNING id;'''
         cursor = self.connection.execute(insert_user_query)
         user_id = cursor.fetchone()[0]
         return user_id
@@ -89,7 +89,7 @@ class TestDb(unittest.TestCase):
     def update_user(self, user_id: int):
         """Update a user in the database and return its updated_by_id and updated_date."""
 
-        update_user_query = f'''UPDATE base.user SET flag_admin = true WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
+        update_user_query = f'''UPDATE base.user SET role = 'advanced' WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
         cursor = self.connection.execute(update_user_query)
         row = cursor.fetchone()
 
@@ -231,23 +231,23 @@ class TestDb(unittest.TestCase):
         user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
-        # Get user and standard role
-        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'standard' WHERE a.rolname = '{user}';'''
+        # Get user and admin role
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and admin role granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'standard')
+        self.assertEqual(row[1], 'admin')
 
         # Get user and default user group
-        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_0' WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_1' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and user group granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'user_group_0')
+        self.assertEqual(row[1], 'user_group_1')
 
         # Rollback uncommitted data
         self.rollback()
@@ -415,7 +415,7 @@ class TestDb(unittest.TestCase):
 
         # Insert user
         test_case_name = get_test_case_name()
-        user_id = self.create_user(test_case_name, True)
+        user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
         # Change current role to new user
@@ -471,17 +471,17 @@ class TestDb(unittest.TestCase):
         user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
-        # Update user role to admin
+        # Update user role to advanced
         self.update_user(user_id)
 
         # Get user and role
-        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'advanced' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and advanced role granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'admin')
+        self.assertEqual(row[1], 'advanced')
 
         # Rollback uncommitted data
         self.rollback()

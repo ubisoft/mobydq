@@ -17,14 +17,11 @@ jobs:
             echo "POSTGRES_USER=postgres" >> ./.env
             echo "POSTGRES_PASSWORD=password" >> ./.env
             echo "DATABASE_URL=postgres://postgres:password@db:5432/mobydq" >> ./.env
+            echo "SECRET_KEY=change_me" >> ./.env
             echo "MAIL_HOST=smtp.server.org" >> ./.env
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
             echo "MAIL_PASSWORD=change_me" >> ./.env
-            echo "GITHUB_CLIENT_ID=client_id" >> ./.env
-            echo "GITHUB_CLIENT_SECRET=client_secret" >> ./.env
-            echo "GOOGLE_CLIENT_ID=client_id" >> ./.env
-            echo "GOOGLE_CLIENT_SECRET=client_secret" >> ./.env
             echo "HOST_NAME=https://localhost" >> ./.env
             echo "NODE_ENV=development" >> ./.env
 
@@ -41,11 +38,11 @@ jobs:
           command: |
             docker network create mobydq-network
             docker volume create mobydq-db-volume
-            docker-compose -f docker-compose.yml up -d db graphql api
+            docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
-            docker ps -a
-            # Wait for test databases to be up and running
+            echo "Wait for test databases to be up and running"
             sleep 240
+            docker ps -a
 
       - run:
           name: Run database tests
@@ -69,7 +66,7 @@ jobs:
           name: Run python linter
           when: always
           command: |
-            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health api/security > lint-results-python.xml"
+            docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health > lint-results-python.xml"
 
       - run:
           name: Run app tests

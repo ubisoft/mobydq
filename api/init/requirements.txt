@@ -6,4 +6,3 @@ flask_restplus==0.11.0
 graphql_py==0.7.1
 jwt==0.5.4
 requests==2.20.0
-requests_oauthlib==1.0.0

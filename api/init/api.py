@@ -7,7 +7,6 @@ from flask_login import LoginManager
 from flask_restplus import Api
 from health.routes import register_health
 from proxy.routes import register_graphql
-from security.routes import register_security
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -51,9 +50,7 @@ app.register_blueprint(blueprint)
 api.namespaces.clear()
 graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
-security = api.namespace('Security', path='/v1')
 
 # Register all API resources
 register_health(health)
 register_graphql(graphql, api)
-register_security(security)

@@ -11,7 +11,7 @@ CREATE TABLE base.batch (
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
-  , user_group_id INTEGER DEFAULT 0 REFERENCES base.user_group(id)
+  , user_group_id INTEGER DEFAULT 1 REFERENCES base.user_group(id)
   , indicator_group_id INTEGER NOT NULL REFERENCES base.indicator_group(id)
 );
 
@@ -42,7 +42,7 @@ BEGIN
     -- Create pending batch
     /*TODO: replace placeholder of column user_group_id*/
     INSERT INTO base.batch (status, indicator_group_id, user_group_id)
-    VALUES ('Pending', indicator_group_id, 0)
+    VALUES ('Pending', indicator_group_id, 1)
     RETURNING * INTO batch;
 
     -- Create pending session for each indicator
@@ -56,7 +56,7 @@ BEGIN
             AND a.id=ANY(indicator_id)
             ORDER BY a.execution_order
         ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
-        SELECT 'Pending', indicator.id, batch.id, 0 FROM indicator;
+        SELECT 'Pending', indicator.id, batch.id, 1 FROM indicator;
     ELSE
         WITH indicator AS (
             SELECT a.id
@@ -65,7 +65,7 @@ BEGIN
             AND a.flag_active=true
             ORDER BY a.execution_order
         ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
-        SELECT 'Pending', indicator.id, batch.id, 0 FROM indicator;
+        SELECT 'Pending', indicator.id, batch.id, 1 FROM indicator;
     END IF;
     -- Executions of indicators are triggered by the Flask API
     -- Return batch record

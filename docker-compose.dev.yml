@@ -3,22 +3,12 @@ services:
 
 
   db:
-    expose:
-      - 5432
     ports:
       - 5432:5432
-
-  graphql:
-    expose:
-      - 5433
-    ports:
-      - 5433:5433
 
   api:
     volumes:
       - ./api/init:/srv/api/
-    expose:
-      - 5434
     environment:
       FLASK_DEBUG: 1
 
@@ -31,7 +21,5 @@ services:
     volumes:
       - ./app/src:/usr/src/app/src:ro
       - ./app/public:/usr/src/app/public:ro
-    expose:
-      - 5499
     ports:
       - 5499:3000
