@@ -23,6 +23,7 @@ RUN apt-get install -y sqlite3
 
 # Test files
 COPY ./api/init ./api
+COPY ./test/__init__.py ./test
 COPY ./test/db-sqlite ./test/db-sqlite
 COPY ./test/test_db ./test/test_db
 COPY ./test/test_api ./test/test_api
