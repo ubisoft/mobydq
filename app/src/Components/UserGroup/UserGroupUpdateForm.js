@@ -9,7 +9,7 @@ import NotFoundComponent from '../Error/NotFoundComponent';
 import { EnhancedForm } from '../Form/Form';
 import EnhancedUserGroupForm from './UserGroupForm';
 
-export const UserGroupUpdateForm = ({ ...props }) => <Query query={UserGroupRepository.display()} variables={{ 'id': props.match.params.id }}>
+export const UserGroupUpdateForm = ({ ...props }) => <Query query={UserGroupRepository.display()} variables={{ 'id': parseInt(props.match.params.id, 10) }}>
   {({ loading, error, data }) => {
     if (typeof UserGroupRepository.display !== 'function') {
       throw new TypeError('Repository must implement update function.');

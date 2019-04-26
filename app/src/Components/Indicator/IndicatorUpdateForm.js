@@ -11,7 +11,7 @@ import EnhancedIndicatorForm from './IndicatorForm';
 
 import ParameterList from './Parameter/ParameterList';
 
-export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepository.display()} variables={{ 'id': props.match.params.id }}>
+export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepository.display()} variables={{ 'id': parseInt(props.match.params.id, 10) }}>
   {({ loading, error, data }) => {
     if (typeof IndicatorRepository.display !== 'function') {
       throw new TypeError('Repository must implement update function.');

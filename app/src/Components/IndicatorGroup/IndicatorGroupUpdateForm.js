@@ -9,7 +9,7 @@ import NotFoundComponent from '../Error/NotFoundComponent';
 import { EnhancedForm } from '../Form/Form';
 import EnhancedIndicatorGroupForm from './IndicatorGroupForm';
 
-export const IndicatorGroupUpdateForm = ({ ...props }) => <Query query={IndicatorGroupRepository.display()} variables={{ 'id': props.match.params.id }}>
+export const IndicatorGroupUpdateForm = ({ ...props }) => <Query query={IndicatorGroupRepository.display()} variables={{ 'id': parseInt(props.match.params.id, 10) }}>
   {({ loading, error, data }) => {
     if (typeof IndicatorGroupRepository.display !== 'function') {
       throw new TypeError('Repository must implement update function.');
