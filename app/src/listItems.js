@@ -8,6 +8,7 @@ import IndicatorIcon from '@material-ui/icons/Timeline';
 import IndicatorGroupIcon from '@material-ui/icons/Folder';
 import DataSourceIcon from '@material-ui/icons/Cloud';
 import AdminIcon from '@material-ui/icons/Settings';
+import UserGroupIcon from '@material-ui/icons/Group';
 
 export const mainListItems =
   <div>
@@ -34,6 +35,12 @@ export const mainListItems =
         <DataSourceIcon />
       </ListItemIcon>
       <ListItemText primary="Data Sources" />
+    </ListItem>
+    <ListItem button component={Link} to="/user-group">
+      <ListItemIcon>
+        <UserGroupIcon />
+      </ListItemIcon>
+      <ListItemText primary="User Groups" />
     </ListItem>
     <ListItem button component={Link} to="/admin">
       <ListItemIcon>

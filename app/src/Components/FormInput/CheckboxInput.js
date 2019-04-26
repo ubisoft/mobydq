@@ -13,7 +13,7 @@ const CheckboxInput = ({
   onChange,
   touched, // eslint-disable-line
   ...props
-}) => <FormControl style={{ 'width': '250px', 'margin': '15px' }} error={Boolean(error)}>
+}) => <FormControl style={{ 'width': '500px' }} error={Boolean(error)}>
   <FormControlLabel
     control={
       <React.Fragment>

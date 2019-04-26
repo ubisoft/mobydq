@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Dashboard from './../Dashboard/Dashboard';
 import Indicator from './../Indicator/Indicator';
 import IndicatorGroup from './../IndicatorGroup/IndicatorGroup';
+import UserGroup from './../UserGroup/UserGroup';
 import Admin from './../Admin/Admin';
 import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent';
@@ -15,6 +16,7 @@ const Content = () => <main>
     <PrivateRoute permissions={['TBD for postgraphile']} path="/indicator" component={(props) => <Indicator {...props} />} />
     <PrivateRoute permissions={['TBD for postgraphile']} path="/indicator-group" component={IndicatorGroup} />
     <PrivateRoute permissions={['TBD for postgraphile']} path="/data-source" component={DataSource} />
+    <PrivateRoute permissions={['TBD for postgraphile']} path="/user-group" component={UserGroup} />
     <PrivateRoute permissions={['TBD for postgraphile']} path="/admin" component={Admin} />
     <Route path="/login" component={Login} />
     <Route component={NotFoundComponent} />
