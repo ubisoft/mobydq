@@ -3,7 +3,6 @@ import sys
 import os
 from flask import Blueprint, Flask, url_for
 from flask_cors import CORS
-from flask_login import LoginManager
 from flask_restplus import Api
 from health.routes import register_health
 from proxy.routes import register_graphql
@@ -18,7 +17,6 @@ logging.basicConfig(
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
 CORS(app)
-login = LoginManager(app)
 
 # Get a cryptographically secure random sequence of bytes to be used as the app's secret_key
 app.secret_key = os.urandom(24)
