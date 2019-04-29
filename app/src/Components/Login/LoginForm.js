@@ -3,9 +3,9 @@ import { Button, Input, withStyles } from '@material-ui/core';
 import { styles } from '../../styles/baseStyles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import Authentication from './Authentication';
-import DevLog from '../../actions/DevLog';
+import Authentication from '../../actions/Auth/Authentication';
 import { Redirect } from 'react-router';
+import DevLog from '../../actions/DevLog';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -31,14 +31,16 @@ class LoginForm extends React.Component {
   }
 
   // On enter pressed --> smoother login
-  _handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+  _handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
       this._onButtonPressed();
     }
   };
 
   _onButtonPressed() {
-    Authentication.getAndSaveBearerToken(this.state.email, this.state.password).then((result) => {
+    Authentication.authenticateSessionUser(this.state.email, this.state.password).then((result) => {
+      DevLog.log(result);
+
       this.setState({
         'redirect': true
       });
@@ -47,6 +49,10 @@ class LoginForm extends React.Component {
         'message': error.message
       });
     });
+  }
+
+  _onContinueAnonymous() {
+    // Todo set User in SessionUser
   }
 
   // Todo sticky email
@@ -80,7 +86,7 @@ class LoginForm extends React.Component {
                           <Input
                             className="input"
                             name="email"
-                            placeholder="Enter your email..."
+                            placeholder="Enter your email"
                             autoFocus
                             onChange={(evt) => this._onChangeEmail(evt)}
                           />
@@ -107,6 +113,8 @@ class LoginForm extends React.Component {
                   Sign in
                 </Button>
               </FormGroup>
+              <br/>
+              <a href="#" onClick={ () => this._onContinueAnonymous() }>Continue anonymous...</a>
             </div>
           </div>
         </div>

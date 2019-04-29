@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import SessionUser from '../../actions/Auth/SessionUser';
+import UserRolePermissions from '../../actions/Auth/UserRolePermissions';
 
 const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...parentProps} render={(props) => isAuthenticated(parentProps)
   ? <Component {...props} />
@@ -9,7 +11,7 @@ const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...
   }} />
 } />;
 function isAuthenticated(props) {
-  const cookieValue = getCookieValue('token');
+  /*const cookieValue = getCookieValue('token');
   if (cookieValue) {
     const token = parseJwt(cookieValue);
     if (token === '') {
@@ -17,6 +19,14 @@ function isAuthenticated(props) {
     }
     return props.permissions.every((permission) => token.role.includes(permission));
   }
+  return false;*/
+
+  // Null = not logged in
+  if (SessionUser.sessionUser) {
+    const userPermissions = UserRolePermissions.getPermissionsObjectByRole(SessionUser.sessionUser.role);
+    return props.permissions.every((permission) => userPermissions.permissions.includes(permission));
+  }
+
   return false;
 }
 

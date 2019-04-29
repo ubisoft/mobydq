@@ -1,16 +1,14 @@
 import ApolloClient from 'apollo-boost';
 import UrlBuilder from '../Base/UrlBuilder';
+import SessionUser from '../../actions/Auth/SessionUser';
 
-
-// TODO Re-use with PrivateRoute.js
-function getCookieValue(key) {
-  const valueMatch = document.cookie.match(`(^|;)\\s*${key}\\s*=\\s*([^;]+)`);
-  return valueMatch ? valueMatch.pop() : '';
+function getSessionToken() {
+  return SessionUser.sessionToken;
 }
 
 export default new ApolloClient({
   'uri': UrlBuilder.getDefault().graphQl(),
   'headers': {
-    'Authorization': `Bearer ${getCookieValue('token')}`
+    'Authorization': `Bearer ${getSessionToken()}`
   }
 });

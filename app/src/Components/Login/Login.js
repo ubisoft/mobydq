@@ -9,6 +9,6 @@ const Login = () => <React.Fragment>
       <LoginForm/>
     </div>
   </div>
-</React.Fragment>
+</React.Fragment>;
 
 export default Login;

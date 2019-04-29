@@ -1,9 +1,9 @@
 import React from 'react';
-import Authentication from '../../Components/Login/Authentication';
+import Authentication from '../../actions/Auth/Authentication';
 
 describe('invalid auth credentials unit test', () => {
   it('matches snapshot', () => {
-    Authentication.getBearerToken('someuser', 'somepassword').catch((error) => {
+    Authentication.getFreshBearerToken('someuser', 'somepassword').catch((error) => {
       expect(error).toMatchSnapshot();
     });
   });

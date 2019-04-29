@@ -27,7 +27,7 @@ import { setMessageBarOpen } from '../../actions/messageBar';
 class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
     this.props.setSidebarOpen(setOpen);
-  }
+  };
 
   render() {
     const { classes } = this.props;
