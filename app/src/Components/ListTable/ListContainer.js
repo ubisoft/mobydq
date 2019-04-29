@@ -3,19 +3,25 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { GraphQLError } from './../Error/GraphQLError';
 
+import { withRouter } from 'react-router-dom';
+
 import ListTable from '../ListTable/ListTable';
-import LinkButton from './../../Components/FormInput/LinkButton';
 import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab/Fab';
 
 class ListContainer extends React.Component {
   renderForm(data) {
     this.props.setRowTotal(data[this.props.dataObjectName].totalCount);
     return <div>
-      <div style={{ 'float': 'left', 'marginLeft': '60px' }}>
+      <div style={{ 'float': 'left', 'marginLeft': '50px' }}>
         {this.props.tableHeader}
       </div>
       <div style={{ 'float': 'right' }}>
-        <LinkButton label=<AddIcon /> type="create" color="secondary" variant="fab" to={this.props.newLink}/>
+        <Fab color="secondary" onClick={() => {
+          this.props.history.push(this.props.newLink);
+        }} variant="round">
+          <AddIcon />
+        </Fab>
       </div>
       <ListTable
         data={data[this.props.dataObjectName].nodes}
@@ -50,4 +56,4 @@ class ListContainer extends React.Component {
   }
 }
 
-export default ListContainer;
+export default withRouter(ListContainer);

@@ -16,6 +16,7 @@ ShallowWrapper {
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -28,7 +29,7 @@ ShallowWrapper {
     "nodeType": "class",
     "props": Object {
       "children": Array [
-        <WithStyles(FormControlLabel)
+        <WithStyles(WithFormControlContext(FormControlLabel))
           control={
             <React.Fragment>
               <WithStyles(Checkbox)
@@ -43,14 +44,13 @@ ShallowWrapper {
           }
           label="Label"
         />,
-        <WithStyles(FormHelperText)>
+        <WithStyles(WithFormControlContext(FormHelperText))>
           
-        </WithStyles(FormHelperText)>,
+        </WithStyles(WithFormControlContext(FormHelperText))>,
       ],
       "error": false,
       "style": Object {
-        "margin": "15px",
-        "width": "250px",
+        "width": "500px",
       },
     },
     "ref": null,
@@ -97,7 +97,7 @@ ShallowWrapper {
       "nodeType": "class",
       "props": Object {
         "children": Array [
-          <WithStyles(FormControlLabel)
+          <WithStyles(WithFormControlContext(FormControlLabel))
             control={
               <React.Fragment>
                 <WithStyles(Checkbox)
@@ -112,14 +112,13 @@ ShallowWrapper {
             }
             label="Label"
           />,
-          <WithStyles(FormHelperText)>
+          <WithStyles(WithFormControlContext(FormHelperText))>
             
-          </WithStyles(FormHelperText)>,
+          </WithStyles(WithFormControlContext(FormHelperText))>,
         ],
         "error": false,
         "style": Object {
-          "margin": "15px",
-          "width": "250px",
+          "width": "500px",
         },
       },
       "ref": null,
@@ -164,9 +163,13 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
           },
           "getDerivedStateFromProps": true,
           "getSnapshotBeforeUpdate": true,

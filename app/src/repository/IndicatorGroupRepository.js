@@ -19,7 +19,7 @@ class IndicatorGroupRepository {
   static getFormDropdownData() {
     return gql`
       {
-        allIndicatorGroups {
+        allUserGroups {
           nodes {
             id
             name
@@ -35,6 +35,11 @@ class IndicatorGroupRepository {
           indicatorGroupById(id: $id) {
             id
             name
+            userGroupId
+            createdDate
+            userByCreatedById { email }
+            updatedDate
+            userByUpdatedById { email }
           }
         }
     `;

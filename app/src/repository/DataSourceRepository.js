@@ -25,9 +25,14 @@ class DataSourceRepository {
             id
             name
             dataSourceTypeId
+            userGroupId
             connectionString
             login
             connectivityStatus
+            createdDate
+            userByCreatedById { email }
+            updatedDate
+            userByUpdatedById { email }
           }
         }
     `;
@@ -37,6 +42,12 @@ class DataSourceRepository {
     return gql`
       {
         allDataSourceTypes {
+          nodes {
+            id
+            name
+          }
+        }
+        allUserGroups {
           nodes {
             id
             name
