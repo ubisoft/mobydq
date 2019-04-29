@@ -25,7 +25,51 @@ class BaseDataView extends React.Component {
       <React.Fragment>
         <CssBaseline />
         <div className={classes.root}>
-          <AppBarView classes={classes} sidebarIsOpen={this.props.sidebarIsOpen} setDrawerOpen={this.setDrawerOpen}/>
+          <AppBar
+            position="absolute"
+            className={classNames(classes.appBar, this.props.sidebarIsOpen && classes.appBarShift)}
+          >
+            <Toolbar disableGutters={!this.props.sidebarIsOpen} className={classes.toolbar}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={() => this.setDrawerOpen(true)}
+                className={classNames(
+                  classes.menuButton,
+                  'sidebarExpand',
+                  this.props.sidebarIsOpen && classes.menuButtonHidden,
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit" noWrap className={classes.title}>
+                MobyDQ
+              </Typography>
+              {/*
+              Removed bell icon because it wasn't used yet
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              */}
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              'paper': classNames(classes.drawerPaper, !this.props.sidebarIsOpen && classes.drawerPaperClose)
+            }}
+            open={this.props.sidebarIsOpen}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={() => this.setDrawerOpen(false)}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <List>{mainListItems}</List>
+          </Drawer>
           <DrawerView classes={classes} sidebarIsOpen={this.props.sidebarIsOpen} setDrawerOpen={this.setDrawerOpen}/>
           <AlertDialog/>
           <main className={classes.content}>
