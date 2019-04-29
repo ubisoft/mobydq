@@ -3,26 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
-import { isOpen } from './../../actions/sidebar';
+import { isSidebarOpen } from './../../actions/sidebar';
 
-import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Typography from '@material-ui/core/Typography';
-
-import { mainListItems } from '../../listItems';
 import Content from './Content';
 import { MessageBar } from './MessageBar';
 import { setMessageBarOpen } from '../../actions/messageBar';
+import { AppBarView } from './AppBar/AppBarView';
+import { DrawerView } from './Drawer/DrawerView';
+import AlertDialog from './AlertDialog';
 
 class BaseDataView extends React.Component {
   setDrawerOpen = (setOpen) => {
@@ -81,6 +70,8 @@ class BaseDataView extends React.Component {
             <Divider />
             <List>{mainListItems}</List>
           </Drawer>
+          <DrawerView classes={classes} sidebarIsOpen={this.props.sidebarIsOpen} setDrawerOpen={this.setDrawerOpen}/>
+          <AlertDialog/>
           <main className={classes.content}>
             <Content />
           </main>
@@ -107,7 +98,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  'setSidebarOpen': (sidebarOpenState) => dispatch(isOpen(sidebarOpenState)),
+  'setSidebarOpen': (sidebarOpenState) => dispatch(isSidebarOpen(sidebarOpenState)),
   'setMessageBarOpen': (open) => dispatch(setMessageBarOpen(open))
 });
 

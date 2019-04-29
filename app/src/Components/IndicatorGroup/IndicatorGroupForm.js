@@ -2,11 +2,13 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
+import SelectInput from './../FormInput/SelectInput';
+import SaveButton from './../FormInput/SaveButton';
+import ExecuteButton from './../FormInput/ExecuteButton';
 
 const IndicatorGroupFormFields = (props) => {
   const {
+    data,
     values,
     touched,
     errors,
@@ -15,7 +17,11 @@ const IndicatorGroupFormFields = (props) => {
     handleSubmit,
     isSubmitting
   } = props;
-  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '60px' }}>
+  return <form onSubmit={handleSubmit} style={{ 'marginLeft': '50px' }}>
+    <div style={{ 'marginTop': '10px', 'marginBottom': '30px' }}>
+      <SaveButton disabled={isSubmitting} />
+      <ExecuteButton onClick={() => alert('not yet implemented')}/>
+    </div>
     <div>
       <TextInput
         id="name"
@@ -30,10 +36,76 @@ const IndicatorGroupFormFields = (props) => {
       />
     </div>
     <div>
-      <Button type="submit" disabled={isSubmitting} variant="contained" color={'secondary'}>
-        <SaveIcon />
-        Save
-      </Button>
+      <SelectInput
+        id="userGroupId"
+        label="User Group"
+        items={data.allUserGroups.nodes}
+        touched={touched.userGroupId}
+        error={touched.userGroupId && errors.userGroupId}
+        value={values.userGroupId}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="createdDate"
+        label="Created Date"
+        helperText=""
+        placeholder=""
+        touched={touched.createdDate}
+        error={touched.createdDate && errors.createdDate}
+        value={values.createdDate}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        disabled={true}
+        variant={'filled'}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="createdBy"
+        label="Created By"
+        helperText=""
+        placeholder=""
+        touched={touched.createdBy}
+        error={touched.createdBy && errors.createdBy}
+        value={values.createdBy}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        disabled={true}
+        variant={'filled'}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="updatedDate"
+        label="Updated Date"
+        helperText=""
+        placeholder=""
+        touched={touched.updatedDate}
+        error={touched.updatedDate && errors.updatedDate}
+        value={values.updatedDate}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        disabled={true}
+        variant={'filled'}
+      />
+    </div>
+    <div>
+      <TextInput
+        id="updatedBy"
+        label="Updated By"
+        helperText=""
+        placeholder=""
+        touched={touched.updatedBy}
+        error={touched.updatedBy && errors.updatedBy}
+        value={values.updatedBy}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        disabled={true}
+        variant={'filled'}
+      />
     </div>
   </form>;
 };
@@ -41,13 +113,29 @@ const IndicatorGroupFormFields = (props) => {
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
     'name': Yup.string()
-      .required('Name cannot be blank')
+      .required('Name cannot be blank'),
+    'userGroupId': Yup.string()
+      .required('User Group cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
-    ? { 'name': '' }
-    : { 'name': props.initialFieldValues.name },
+    ? {
+      'name': '',
+      'userGroupId': ''
+    }
+    : {
+      'name': props.initialFieldValues.name,
+      'createdDate': props.initialFieldValues.createdDate,
+      'createdBy': props.initialFieldValues.userByCreatedById.email,
+      'updatedDate': props.initialFieldValues.updatedDate,
+      'updatedBy': props.initialFieldValues.userByUpdatedById.email,
+      'userGroupId': props.initialFieldValues.userGroupId
+    },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    delete payload.createdDate;
+    delete payload.createdBy;
+    delete payload.updatedDate;
+    delete payload.updatedBy;
     let variables;
     if (props.initialFieldValues === null) {
       variables = { 'indicatorGroup': payload };

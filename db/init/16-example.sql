@@ -120,7 +120,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''change.me@example.com'']'
+  ,'[''contact.mobydq@gmail.com'']'
   ,1  -- Public user group
 ),
 (
@@ -150,13 +150,13 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-  ,'example_microsoft_sql_server'
+  ,'example_mysql'
   ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-  ,'SELECT gender, COUNT(id) FROM dbo.people GROUP BY gender;'
+  ,'SELECT gender, COUNT(id) FROM people GROUP BY gender;'
   ,1  -- Public user group
 );
 
@@ -178,7 +178,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''change.me@example.com'']'
+  ,'[''contact.mobydq@gmail.com'']'
   ,1  -- Public user group
 ),
 (
@@ -224,7 +224,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''change.me@example.com'']'
+  ,'[''contact.mobydq@gmail.com'']'
   ,1  -- Public user group
 ),
 (
@@ -254,13 +254,13 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-  ,'example_microsoft_sql_server'
+  ,'example_mysql'
   ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-  ,'SELECT name, MAX(updated_date) FROM dbo.people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
+  ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
   ,1  -- Public user group
 );
 
@@ -282,7 +282,7 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''change.me@example.com'']'
+  ,'[''contact.mobydq@gmail.com'']'
   ,1  -- Public user group
 ),
 (

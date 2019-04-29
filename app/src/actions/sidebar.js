@@ -1,6 +1,6 @@
-export function isOpen(bool) {
+export function isSidebarOpen(bool) {
   return {
     'type': 'SIDEBAR_IS_OPEN',
-    'setSidebarOpen': bool
+    'isOpen': bool
   };
 }
