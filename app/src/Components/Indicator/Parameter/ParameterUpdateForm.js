@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Query } from 'react-apollo';
-import ParameterRepository from '../../repository/ParameterRepository';
-import { GraphQLError } from './../Error/GraphQLError';
+import ParameterRepository from '../../../repository/ParameterRepository';
+import { GraphQLError } from './../../Error/GraphQLError';
 
-import NotFoundComponent from '../Error/NotFoundComponent';
+import NotFoundComponent from '../../Error/NotFoundComponent';
 
-import { EnhancedForm } from '../Form/Form';
+import { EnhancedForm } from '../../Form/Form';
 import EnhancedParameterForm from './ParameterForm';
 
-export const ParameterUpdateForm = ({ ...props }) => <Query query={ParameterRepository.display()} variables={{ 'id': props.match.params.id }}>
+export const ParameterUpdateForm = ({ ...props }) => <Query query={ParameterRepository.display()} variables={{ 'id': props.id }}>
   {({ loading, error, data }) => {
     if (typeof ParameterRepository.display !== 'function') {
       throw new TypeError('Repository must implement update function.');

@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import ParameterRepository from './../../../repository/ParameterRepository';
 import ListTable from '../../ListTable/ListTable';
 import Button from '@material-ui/core/Button';
-import withModal from '../../hoc/withModal';
+import withModal from '../../../hoc/withModal';
+import { ParameterUpdateForm } from './ParameterUpdateForm';
+import { EnhancedForm } from './../../Form/Form';
+import EnhancedParameterForm from './ParameterForm';
 
 class ParameterList extends React.Component {
   render() {
-    console.log(this.props)
     const buttonConfig = [
       { 'function': 'edit', 'parameter': '/parameter' }
       //      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
@@ -24,6 +26,9 @@ class ParameterList extends React.Component {
           size={'small'}
           style={{ 'marginRight': '10px', 'marginLeft': '10px' }}
           onClick={() => {
+            this.props.setModalContent(<div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
+              title="Create Parameter" initialFieldValues={null}/></div>)
+//            this.props.setModalContent( <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={}/></div>)
             this.props.showModal();
           } }
           disabled={false}

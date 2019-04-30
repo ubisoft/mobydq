@@ -14,6 +14,24 @@ class ParameterRepository {
     `;
   }
 
+  static display() {
+    return gql`
+        query getParameter($id: Int!) {
+          parameterById(id: $id) {
+            id
+            value
+            createdDate
+            userByCreatedById { email }
+            updatedDate
+            userByUpdatedById { email }
+            userGroupId
+            indicatorId
+            parameterTypeId
+          }
+        }
+    `;
+  }
+
   static insert() {
   return gql`
     mutation addNewParameter($parameter: ParameterInput!) {
