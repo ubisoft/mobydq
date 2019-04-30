@@ -3,23 +3,26 @@
  * r = READ
  * w = WRITE
  */
-export default class UserRolePermissions {
-  static getPermissionsObjectByRole(role){
+class UserRolePermissions {
+  static getPermissionsObjectByRole(role) {
     switch (role) {
       case 'admin':
-        return new Admin();
+        return new UserRolePermissions.Admin();
       case 'advanced':
-        return new Advanced();
-      case 'Standard':
-        return new Standard();
+        return new UserRolePermissions.Advanced();
+      case 'standard':
+        return new UserRolePermissions.Standard();
       default:
-        return new Anonymous();
+        return new UserRolePermissions.Anonymous();
     }
   }
 }
-export class Anonymous {
-  static get permissions() {
-    return [
+
+UserRolePermissions.Anonymous = class Anonymous {
+  permissions;
+
+  constructor() {
+    this.permissions = [
       'r_data_sources',
       'r_data_source_types',
       'r_indicators',
@@ -32,11 +35,12 @@ export class Anonymous {
       'r_session_results'
     ];
   }
-}
+};
 
-export class Standard extends Anonymous {
-  static get permissions() {
-    return Anonymous.permissions.push(
+UserRolePermissions.Standard = class Standard extends UserRolePermissions.Anonymous {
+  constructor() {
+    super();
+    this.permissions.push(
       'w_indicators',
       'w_indicator_groups',
       'w_indicator_parameters',
@@ -45,19 +49,21 @@ export class Standard extends Anonymous {
       'w_session_results'
     );
   }
-}
+};
 
-export class Advanced extends Standard {
-  static get permissions() {
-    return Standard.permissions.push(
-      'w_data_sources',
+UserRolePermissions.Advanced = class Advanced extends UserRolePermissions.Standard {
+  constructor() {
+    super();
+    this.permissions.push(
+      'w_data_sources'
     );
   }
-}
+};
 
-export class Admin extends Advanced {
-  static get permissions() {
-    return Advanced.permissions.push(
+UserRolePermissions.Admin = class Admin extends UserRolePermissions.Advanced {
+  constructor() {
+    super();
+    this.permissions.push(
       'w_data_source_types',
       'w_indicator_types',
       'w_indicator_parameters',
@@ -67,4 +73,6 @@ export class Admin extends Advanced {
       'w_user_groups'
     );
   }
-}
+};
+
+export default UserRolePermissions;

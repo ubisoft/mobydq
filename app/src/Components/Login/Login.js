@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 const Login = () => <React.Fragment>
   <div className="container">
     <div style={{ 'paddingTop': '55px' }}>
-      <LoginForm/>
+      <LoginForm />
     </div>
   </div>
 </React.Fragment>;

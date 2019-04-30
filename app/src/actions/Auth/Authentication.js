@@ -18,7 +18,7 @@ export default class Authentication {
     const token = await this.getFreshBearerToken(userEmail, password);
     SessionUser.sessionToken = token;
     const user = await this.getUser(userEmail);
-    SessionUser.sessionUser = user;
+    SessionUser.user = user;
     return SessionUser;
   }
 
@@ -83,7 +83,6 @@ export default class Authentication {
 
     DevLog.log('Userdata: ', result.data.userByEmail);
 
-    this.getPermissions();
     return result.data.userByEmail;
   }
 

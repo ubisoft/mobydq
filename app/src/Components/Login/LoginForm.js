@@ -6,7 +6,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Authentication from '../../actions/Auth/Authentication';
 import { Redirect } from 'react-router';
 import DevLog from '../../actions/DevLog';
+import SessionUser from '../../actions/Auth/SessionUser';
 
+
+// Todo show message that not had access to page
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +55,11 @@ class LoginForm extends React.Component {
   }
 
   _onContinueAnonymous() {
-    // Todo set User in SessionUser
+    DevLog.info('Clicked on continue anonymous');
+    SessionUser.logInAsAnonymous();
+    this.setState({
+      'redirect': true
+    });
   }
 
   // Todo sticky email
