@@ -14,7 +14,8 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const ParameterList = (props) => {
   const buttonConfig = [
-      { 'function': 'modal', 'icon': <EditIcon/>, 'modalContent': _buildEditModalContent}
+      { 'function': 'modal', 'icon': <EditIcon/>, 'modalContent': _buildEditModalContent },
+      { 'function': 'delete', 'parameter': _buildDeleteParam() }
     ];
     const createFormModalContent = <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}>
      <EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
@@ -51,11 +52,12 @@ const ParameterList = (props) => {
 
 function _buildDeleteParam() {
   return {
-    'page': null,
-    'rowTotal': null,
-    'rowsPerPage': null,
+    'page': 0,
+    'rowTotal': 100,
+    'rowsPerPage': 100,
     'setPage': null,
     'sortColumn': 'id',
+    'usePagination': false,
     'repository': ParameterRepository
   };
 }

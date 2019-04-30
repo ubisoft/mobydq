@@ -29,6 +29,7 @@ class IndicatorList extends React.Component {
       'rowsPerPage': this.props.rowsPerPage,
       'setPage': this.props.setPage,
       'sortColumn': this.props.sortColumn,
+      'usePagination': true,
       'repository': IndicatorRepository
     };
   }
