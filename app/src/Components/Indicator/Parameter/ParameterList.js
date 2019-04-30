@@ -10,15 +10,13 @@ import { ParameterUpdateForm } from './ParameterUpdateForm';
 import { EnhancedForm } from './../../Form/Form';
 import EnhancedParameterForm from './ParameterForm';
 
-class ParameterList extends React.Component {
-  render() {
-    const buttonConfig = [
-      { 'function': 'edit', 'parameter': '/parameter' }
-      //      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+const ParameterList = (props) => {
+  const buttonConfig = [
+    { 'function': 'edit', 'parameter': '/parameter' }
     ];
     const createFormModalContent = <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}>
      <EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
-       title="Create Parameter" initialFieldValues={null} indicatorId={this.props.indicatorId} afterSave={this.props.closeModal}/>
+       title="Create Parameter" initialFieldValues={null} indicatorId={props.indicatorId} afterSave={() => _closeModal(props)}/>
     </div>;
     return <div>
       <div style={{ 'display': 'flex', 'flexDirection': 'row' }}>
@@ -30,9 +28,9 @@ class ParameterList extends React.Component {
           size={'small'}
           style={{ 'marginRight': '10px', 'marginLeft': '10px' }}
           onClick={() => {
-            this.props.setModalContent(createFormModalContent);
+            props.setModalContent(createFormModalContent);
 //            this.props.setModalContent( <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={}/></div>)
-            this.props.showModal();
+            props.showModal();
           } }
           disabled={false}
         >
@@ -40,27 +38,30 @@ class ParameterList extends React.Component {
         </Button>
       </div>
       <ListTable
-        data={this.props.data !== null ? this.props.data.nodes : []}
+        data={props.data !== null ? props.data.nodes : []}
         buttons={buttonConfig}
         sortColumn="id"
         showFooter={false}
         useSort={false}
-        {...this.props}
+        {...props}
       />
     </div>;
-  }
+  };
 
-  _buildDeleteParam() {
-    return {
-      'page': null,
-      'rowTotal': null,
-      'rowsPerPage': null,
-      'setPage': null,
-      'sortColumn': 'id',
-      'repository': ParameterRepository
-    };
-  }
+function _buildDeleteParam() {
+  return {
+    'page': null,
+    'rowTotal': null,
+    'rowsPerPage': null,
+    'setPage': null,
+    'sortColumn': 'id',
+    'repository': ParameterRepository
+  };
 }
 
+function _closeModal(props) {
+  props.closeModal();
+  window.location.reload();
+}
 
 export default withModal(ParameterList);
