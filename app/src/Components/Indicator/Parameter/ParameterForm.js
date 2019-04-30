@@ -65,6 +65,20 @@ const ParameterFormFields = (props) => {
     </div>
     <div>
       <TextInput
+        id="indicatorId"
+        label="indicatorId"
+        helperText=""
+        placeholder=""
+        disabled={true}
+        touched={touched.indicatorId}
+        error={touched.id && errors.indicatorId}
+        value={values.indicatorId}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <TextInput
         id="createdDate"
         label="Created Date"
         helperText=""
@@ -138,12 +152,13 @@ const formikEnhancer = withFormik({
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
       'id': '',
+      'indicatorId': props.indicatorId,
       'value': '',
-      'description': '',
       'parameterTypeId': 0
     }
     : {
       'id': props.initialFieldValues.id,
+      'indicatorId': props.initialFieldValues.indicatorId,
       'value': props.initialFieldValues.value,
       'parameterTypeId': props.initialFieldValues.parameterTypeId,
       'createdDate': props.initialFieldValues.createdDate,
@@ -153,6 +168,7 @@ const formikEnhancer = withFormik({
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
+    delete payload.id;
     delete payload.createdDate;
     delete payload.createdBy;
     delete payload.updatedDate;

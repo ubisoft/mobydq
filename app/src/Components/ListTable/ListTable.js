@@ -32,11 +32,7 @@ class ListTable extends React.Component {
 
     const headerNames = this._buildTableFieldNames();
     const content = this.props.data;
-    console.log(headerNames)
-    console.log(content)
     return (
-
-
       <Table>
         <ListTableHeader useSort={this.props.useSort} headerNames={headerNames} params={this.props}/>
         <ListTableBody buttons={this.props.buttons} content={content} contentColumnList={headerNames}/>

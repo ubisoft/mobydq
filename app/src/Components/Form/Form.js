@@ -10,8 +10,10 @@ const BaseForm = ({
   afterSaveRoute,
   history,
   initialFieldValues,
-  dropDownData
+  dropDownData,
+  ...props
 }) => {
+
   const mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
   const recordId = initialFieldValues === null ? null : initialFieldValues.id;
   return <Mutation
@@ -37,6 +39,7 @@ const BaseForm = ({
         data={dropDownData}
         mutate={mutate}
         initialFieldValues={initialFieldValues}
+        {...props}
       />
       {loading && <p>Loading...</p>}
       {error && <p>Error .. Please try again</p>}

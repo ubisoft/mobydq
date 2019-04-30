@@ -27,7 +27,7 @@ class ParameterList extends React.Component {
           style={{ 'marginRight': '10px', 'marginLeft': '10px' }}
           onClick={() => {
             this.props.setModalContent(<div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
-              title="Create Parameter" initialFieldValues={null}/></div>)
+              title="Create Parameter" initialFieldValues={null} indicatorId={this.props.indicatorId}/></div>)
 //            this.props.setModalContent( <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={}/></div>)
             this.props.showModal();
           } }
