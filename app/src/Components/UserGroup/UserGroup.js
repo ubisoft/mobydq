@@ -28,7 +28,7 @@ class UserGroup extends React.Component {
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <UserGroupUpdateForm {...props} />
+              (props) => <UserGroupUpdateForm afterSave={() => this.props.history.push('/user-group/')} {...props} />
             }
           />
           <Route

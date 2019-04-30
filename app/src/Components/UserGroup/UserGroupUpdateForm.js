@@ -24,7 +24,7 @@ export const UserGroupUpdateForm = ({ ...props }) => <Query query={UserGroupRepo
       data.UserGroupById === null
         ? <NotFoundComponent/>
         : <EnhancedForm ComponentRepository={UserGroupRepository} FormComponent={EnhancedUserGroupForm}
-          afterSaveRoute="/user-group/" title="Edit User Group" initialFieldValues={data.userGroupById} {...props}/>
+          afterSave={props.afterSave} title="Edit User Group" initialFieldValues={data.userGroupById} {...props}/>
     );
   }}
 </Query>;

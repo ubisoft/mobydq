@@ -28,7 +28,7 @@ class IndicatorGroup extends React.Component {
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <IndicatorGroupUpdateForm {...props} />
+              (props) => <IndicatorGroupUpdateForm afterSave={() => this.props.history.push('/indicator-group/')} {...props} />
             }
           />
           <Route

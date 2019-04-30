@@ -28,7 +28,7 @@ class DataSource extends React.Component {
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <DataSourceUpdateForm {...props} />
+              (props) => <DataSourceUpdateForm afterSave={() => this.props.history.push('/data-source/')} {...props} />
             }
           />
           <Route

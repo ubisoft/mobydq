@@ -24,7 +24,7 @@ export const IndicatorGroupUpdateForm = ({ ...props }) => <Query query={Indicato
       data.indicatorGroupById === null
         ? <NotFoundComponent/>
         : <EnhancedForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
-          afterSaveRoute="/indicator-group/" title="Edit Indicator Group" initialFieldValues={data.indicatorGroupById} {...props}/>
+          afterSave={props.afterSave} title="Edit Indicator Group" initialFieldValues={data.indicatorGroupById} {...props}/>
     );
   }}
 </Query>;

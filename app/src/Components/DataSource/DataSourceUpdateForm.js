@@ -23,7 +23,7 @@ export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRe
       data.dataSourceById === null
         ? <NotFoundComponent/>
         : <EnhancedForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
-          afterSaveRoute="/data-source/" title="Edit Data Source" initialFieldValues={data.dataSourceById} {...props}/>
+          afterSave={props.afterSave} title="Edit Data Source" initialFieldValues={data.dataSourceById} {...props}/>
     );
   }}
 </Query>;

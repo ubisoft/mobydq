@@ -102,66 +102,6 @@ const IndicatorFormFields = (props) => {
         onBlur={handleBlur}
       />
     </div>
-    <div>
-      <TextInput
-        id="createdDate"
-        label="Created Date"
-        helperText=""
-        placeholder=""
-        touched={touched.createdDate}
-        error={touched.createdDate && errors.createdDate}
-        value={values.createdDate}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="createdBy"
-        label="Created By"
-        helperText=""
-        placeholder=""
-        touched={touched.createdBy}
-        error={touched.createdBy && errors.createdBy}
-        value={values.createdBy}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="updatedDate"
-        label="Updated Date"
-        helperText=""
-        placeholder=""
-        touched={touched.updatedDate}
-        error={touched.updatedDate && errors.updatedDate}
-        value={values.updatedDate}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="updatedBy"
-        label="Updated By"
-        helperText=""
-        placeholder=""
-        touched={touched.updatedBy}
-        error={touched.updatedBy && errors.updatedBy}
-        value={values.updatedBy}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
   </form>;
 };
 
@@ -198,17 +138,9 @@ const formikEnhancer = withFormik({
       'indicatorTypeId': props.initialFieldValues.indicatorTypeId,
       'indicatorGroupId': props.initialFieldValues.indicatorGroupId,
       'flagActive': props.initialFieldValues.flagActive,
-      'createdDate': props.initialFieldValues.createdDate,
-      'createdBy': props.initialFieldValues.userByCreatedById.email,
-      'updatedDate': props.initialFieldValues.updatedDate,
-      'updatedBy': props.initialFieldValues.userByUpdatedById.email
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
-    delete payload.createdDate;
-    delete payload.createdBy;
-    delete payload.updatedDate;
-    delete payload.updatedBy;
     let variables;
     if (props.initialFieldValues === null) {
       variables = { 'indicator': payload };

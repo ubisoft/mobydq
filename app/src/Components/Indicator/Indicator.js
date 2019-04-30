@@ -28,7 +28,7 @@ class Indicator extends React.Component {
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <IndicatorUpdateForm {...props} />
+              (props) => <IndicatorUpdateForm afterSave={() => this.props.history.push('/indicator/')} {...props} />
             }
           />
           <Route
