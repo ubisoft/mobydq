@@ -24,7 +24,7 @@ export const ParameterUpdateForm = ({ ...props }) => <Query query={ParameterRepo
       data.parameterGroupById === null
         ? <NotFoundComponent/>
         : <EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
-          afterSaveRoute="/parameter/" title="Edit Parameter" initialFieldValues={data.parameterById} {...props}/>
+          afterSave={props.afterSave} title="Edit Parameter" initialFieldValues={data.parameterById} {...props}/>
     );
   }}
 </Query>;

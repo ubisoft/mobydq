@@ -27,6 +27,7 @@ class ParameterRepository {
             userGroupId
             indicatorId
             parameterTypeId
+
           }
         }
     `;
@@ -52,7 +53,7 @@ class ParameterRepository {
   static update() {
   return gql`
     mutation updateParameterById($parameterPatch: ParameterPatch!, $id: Int!) {
-      updateParameterById(input: {parameterPatch: $ParameterPatch, id: $id }) {
+      updateParameterById(input: {parameterPatch: $parameterPatch, id: $id }) {
         parameter {
           id
           value

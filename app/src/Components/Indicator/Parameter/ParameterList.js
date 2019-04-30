@@ -10,9 +10,11 @@ import { ParameterUpdateForm } from './ParameterUpdateForm';
 import { EnhancedForm } from './../../Form/Form';
 import EnhancedParameterForm from './ParameterForm';
 
+import EditIcon from '@material-ui/icons/Edit';
+
 const ParameterList = (props) => {
   const buttonConfig = [
-    { 'function': 'edit', 'parameter': '/parameter' }
+      { 'function': 'modal', 'icon': <EditIcon/>, 'modalContent': _buildEditModalContent}
     ];
     const createFormModalContent = <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}>
      <EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
@@ -29,7 +31,6 @@ const ParameterList = (props) => {
           style={{ 'marginRight': '10px', 'marginLeft': '10px' }}
           onClick={() => {
             props.setModalContent(createFormModalContent);
-//            this.props.setModalContent( <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={}/></div>)
             props.showModal();
           } }
           disabled={false}
@@ -57,6 +58,10 @@ function _buildDeleteParam() {
     'sortColumn': 'id',
     'repository': ParameterRepository
   };
+}
+
+function _buildEditModalContent(recordId, closeModal) {
+  return <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={recordId} afterSave={closeModal}/></div>;
 }
 
 function _closeModal(props) {

@@ -25,20 +25,6 @@ const ParameterFormFields = (props) => {
     </div>
     <div>
       <TextInput
-        id="id"
-        label="id"
-        helperText=""
-        placeholder=""
-        disabled={true}
-        touched={touched.id}
-        error={touched.id && errors.id}
-        value={values.id}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-    </div>
-    <div>
-      <TextInput
         id="value"
         label="value"
         helperText=""
@@ -77,66 +63,6 @@ const ParameterFormFields = (props) => {
         onBlur={handleBlur}
       />
     </div>
-    <div>
-      <TextInput
-        id="createdDate"
-        label="Created Date"
-        helperText=""
-        placeholder=""
-        touched={touched.createdDate}
-        error={touched.createdDate && errors.createdDate}
-        value={values.createdDate}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="createdBy"
-        label="Created By"
-        helperText=""
-        placeholder=""
-        touched={touched.createdBy}
-        error={touched.createdBy && errors.createdBy}
-        value={values.createdBy}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="updatedDate"
-        label="Updated Date"
-        helperText=""
-        placeholder=""
-        touched={touched.updatedDate}
-        error={touched.updatedDate && errors.updatedDate}
-        value={values.updatedDate}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
-    <div>
-      <TextInput
-        id="updatedBy"
-        label="Updated By"
-        helperText=""
-        placeholder=""
-        touched={touched.updatedBy}
-        error={touched.updatedBy && errors.updatedBy}
-        value={values.updatedBy}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        variant={'filled'}
-      />
-    </div>
   </form>;
 };
 
@@ -151,28 +77,17 @@ const formikEnhancer = withFormik({
 
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
-      'id': '',
       'indicatorId': props.indicatorId,
       'value': '',
       'parameterTypeId': 0
     }
     : {
-      'id': props.initialFieldValues.id,
       'indicatorId': props.initialFieldValues.indicatorId,
       'value': props.initialFieldValues.value,
-      'parameterTypeId': props.initialFieldValues.parameterTypeId,
-      'createdDate': props.initialFieldValues.createdDate,
-      'createdBy': props.initialFieldValues.userByCreatedById.email,
-      'updatedDate': props.initialFieldValues.updatedDate,
-      'updatedBy': props.initialFieldValues.userByUpdatedById.email
+      'parameterTypeId': props.initialFieldValues.parameterTypeId
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
-    delete payload.id;
-    delete payload.createdDate;
-    delete payload.createdBy;
-    delete payload.updatedDate;
-    delete payload.updatedBy;
     let variables;
     if (props.initialFieldValues === null) {
       variables = { 'parameter': payload };
