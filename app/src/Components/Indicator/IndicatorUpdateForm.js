@@ -26,10 +26,10 @@ export const IndicatorUpdateForm = ({ ...props }) => <Query query={IndicatorRepo
       data.indicatorGroupById === null
         ? <NotFoundComponent/>
         : <div>
-            <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
+          <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
               afterSaveRoute="/indicator/" title="Edit Indicator" initialFieldValues={data.indicatorById} {...props}/>
-            <ParameterList data={data.indicatorById.parametersByIndicatorId.nodes} />
-          </div>
+          <ParameterList data={data.indicatorById.parametersByIndicatorId.nodes} />
+        </div>
     );
   }}
 </Query>;
