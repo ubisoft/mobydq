@@ -16,6 +16,10 @@ class ParameterList extends React.Component {
       { 'function': 'edit', 'parameter': '/parameter' }
       //      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
     ];
+    const createFormModalContent = <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}>
+     <EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
+       title="Create Parameter" initialFieldValues={null} indicatorId={this.props.indicatorId} afterSave={this.props.closeModal}/>
+    </div>;
     return <div>
       <div style={{ 'display': 'flex', 'flexDirection': 'row' }}>
         <div>Indicator Parameters</div>
@@ -26,8 +30,7 @@ class ParameterList extends React.Component {
           size={'small'}
           style={{ 'marginRight': '10px', 'marginLeft': '10px' }}
           onClick={() => {
-            this.props.setModalContent(<div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><EnhancedForm ComponentRepository={ParameterRepository} FormComponent={EnhancedParameterForm}
-              title="Create Parameter" initialFieldValues={null} indicatorId={this.props.indicatorId}/></div>)
+            this.props.setModalContent(createFormModalContent);
 //            this.props.setModalContent( <div style={{ 'backgroundColor': '#FFF', 'width': '750px', 'margin': '0 auto' }}><ParameterUpdateForm id={}/></div>)
             this.props.showModal();
           } }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +22,7 @@ class DataSource extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
-                afterSaveRoute="/data-source/" title="Create Data Source" initialFieldValues={null} {...props} />
+                afterSave={() => this.props.history.push('/data-source/')} title="Create Data Source" initialFieldValues={null} {...props} />
             }
           />
           <Route
@@ -41,4 +41,4 @@ class DataSource extends React.Component {
     );
   }
 }
-export default withStyles(styles)(DataSource);
+export default withRouter(withStyles(styles)(DataSource));

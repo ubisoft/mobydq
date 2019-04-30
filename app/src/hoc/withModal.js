@@ -10,7 +10,7 @@ export default function withModal(WrappedComponent) {
     const show = () => setIsShown(true);
 
     return <div>
-      <WrappedComponent isModalOpen={isShown} showModal={show} setModalContent={setModalContent} {...props} />
+      <WrappedComponent isModalOpen={isShown} showModal={show} closeModal={hide} setModalContent={setModalContent} {...props} />
       <MaterialModal
         open={isShown}
         onClose={hide}>

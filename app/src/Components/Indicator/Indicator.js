@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IndicatorList from './IndicatorList';
 import EnhancedIndicatorForm from './IndicatorForm';
 import IndicatorRepository from './../../repository/IndicatorRepository';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 import { EnhancedForm } from './../Form/Form';
 import { IndicatorUpdateForm } from '../Indicator/IndicatorUpdateForm';
@@ -22,7 +22,7 @@ class Indicator extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
-                afterSaveRoute="/indicator/" title="Create Indicator" initialFieldValues={null} {...props} />
+                afterSave={() => this.props.history.push('/indicator/')} title="Create Indicator" initialFieldValues={null} {...props} />
             }
           />
           <Route
@@ -41,4 +41,4 @@ class Indicator extends React.Component {
     );
   }
 }
-export default withStyles(styles)(Indicator);
+export default withRouter(withStyles(styles)(Indicator));

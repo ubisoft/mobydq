@@ -8,9 +8,9 @@ const BaseForm = ({
   FormComponent,
   ComponentRepository,
   afterSaveRoute,
-  history,
   initialFieldValues,
   dropDownData,
+  afterSave,
   ...props
 }) => {
 
@@ -19,7 +19,7 @@ const BaseForm = ({
   return <Mutation
     mutation={mutation}
     onCompleted={() => {
-      history.push(afterSaveRoute);
+      afterSave();
     }}
   >
     {(mutate, { loading, error }) => <React.Fragment>
@@ -29,7 +29,7 @@ const BaseForm = ({
             ComponentRepository,
             recordId,
             () => {
-              history.push(afterSaveRoute);
+              afterSave();
             }
           )
         }
