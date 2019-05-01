@@ -17,7 +17,7 @@ import createExecuteRowButton from './ListRowButtons/ExecuteRowButton';
  */
 
 function ListTableRowButtons(props) {
-    return <ListTableCell contents={props.buttons.map((button) => _createButton(button, props.value))} />;
+  return <ListTableCell contents={props.buttons.map((button) => _createButton(button, props.value))} />;
 }
 
 function _createButton(button, recordId) {

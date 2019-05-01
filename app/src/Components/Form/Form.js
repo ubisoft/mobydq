@@ -7,13 +7,11 @@ const BaseForm = ({
   title,
   FormComponent,
   ComponentRepository,
-  afterSaveRoute,
   initialFieldValues,
   dropDownData,
   afterSave,
   ...props
 }) => {
-
   const mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
   const recordId = initialFieldValues === null ? null : initialFieldValues.id;
   return <Mutation

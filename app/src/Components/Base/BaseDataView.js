@@ -27,8 +27,6 @@ import { mainListItems } from '../../listItems';
 import Content from './Content';
 import { MessageBar } from './MessageBar';
 import { setMessageBarOpen } from '../../actions/messageBar';
-import { AppBarView } from './AppBar/AppBarView';
-import { DrawerView } from './Drawer/DrawerView';
 import AlertDialog from './AlertDialog';
 
 class BaseDataView extends React.Component {

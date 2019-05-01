@@ -137,7 +137,7 @@ const formikEnhancer = withFormik({
       'executionOrder': props.initialFieldValues.executionOrder,
       'indicatorTypeId': props.initialFieldValues.indicatorTypeId,
       'indicatorGroupId': props.initialFieldValues.indicatorGroupId,
-      'flagActive': props.initialFieldValues.flagActive,
+      'flagActive': props.initialFieldValues.flagActive
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);

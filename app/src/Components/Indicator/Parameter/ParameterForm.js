@@ -3,7 +3,6 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../../FormInput/TextInput';
 import SelectInput from './../../FormInput/SelectInput';
-import SwitchInput from './../../FormInput/SwitchInput';
 import SaveButton from './../../FormInput/SaveButton';
 import DeleteButton from './../../FormInput/DeleteButton';
 

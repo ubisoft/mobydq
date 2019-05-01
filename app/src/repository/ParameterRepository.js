@@ -34,7 +34,7 @@ class ParameterRepository {
   }
 
   static insert() {
-  return gql`
+    return gql`
     mutation addNewParameter($parameter: ParameterInput!) {
       createParameter(input: {parameter: $parameter}) {
         parameter {
@@ -51,7 +51,7 @@ class ParameterRepository {
   }
 
   static update() {
-  return gql`
+    return gql`
     mutation updateParameterById($parameterPatch: ParameterPatch!, $id: Int!) {
       updateParameterById(input: {parameterPatch: $parameterPatch, id: $id }) {
         parameter {
@@ -68,7 +68,7 @@ class ParameterRepository {
   }
 
   static delete() {
-  return gql`
+    return gql`
     mutation deleteParameterById($id: Int!) {
       deleteParameterById(input: { id: $id }) {
         parameter {
