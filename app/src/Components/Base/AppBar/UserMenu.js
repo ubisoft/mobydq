@@ -8,8 +8,7 @@ import React from 'react';
 import { setUserMenuAnchor } from '../../../actions/topbar';
 import { setAlertDialog } from '../../../actions/app';
 import { AppBarMenuItem } from './AppBarMenuItem';
-import { checkLoggedIn } from '../PrivateRoute';
-import SessionUser from '../../../actions/Auth/SessionUser';
+import SessionUser from '../Auth/SessionUser';
 
 class UserMenu extends React.Component {
   constructor() {

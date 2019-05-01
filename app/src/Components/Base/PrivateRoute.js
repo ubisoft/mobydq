@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import SessionUser from '../../actions/Auth/SessionUser';
-import UserRolePermissions from '../../actions/Auth/UserRolePermissions';
+import SessionUser from './Auth/SessionUser';
+import UserRolePermissions from './Auth/UserRolePermissions';
 
 const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...parentProps} render={(props) => isAuthenticated(parentProps)
   ? <Component {...props} />

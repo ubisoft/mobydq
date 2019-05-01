@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
-import UrlBuilder from '../../Components/Base/UrlBuilder';
-import InvalidUserCredentials from '../../Exceptions/InvalidUserCredentials';
-import DevLog from '../DevLog';
-import Client from '../../Components/Base/Client';
-import SessionUser from '../Auth/SessionUser';
+import UrlBuilder from '../UrlBuilder';
+import InvalidUserCredentials from '../../../Exceptions/InvalidUserCredentials';
+import DevLog from '../../../actions/DevLog';
+import Client from '../Client';
+import SessionUser from './SessionUser';
 
 export default class Authentication {
   // THIS LINE IS REQUIRED FOR ESLINT :/
