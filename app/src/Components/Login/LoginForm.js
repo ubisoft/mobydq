@@ -53,7 +53,7 @@ class LoginForm extends React.Component {
   }
 
   _onContinueAnonymous() {
-    DevLog.info('Clicked on continue anonymous');
+    DevLog.info('Clicked on continue anonymously');
     SessionUser.logInAsAnonymous();
     this.setState({
       'redirect': true
@@ -122,7 +122,7 @@ class LoginForm extends React.Component {
                 </Button>
               </FormGroup>
               <br/>
-              <a href="#" onClick={() => this._onContinueAnonymous()}>Continue anonymous...</a>
+              <a href="#" onClick={() => this._onContinueAnonymous()}>Continue anonymously...</a>
             </div>
           </div>
         </div>
