@@ -1,52 +1,23 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import SessionUser from '../../actions/Auth/SessionUser';
+import UserRolePermissions from '../../actions/Auth/UserRolePermissions';
 
 const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...parentProps} render={(props) => isAuthenticated(parentProps)
   ? <Component {...props} />
   : <Redirect to={{
     'pathname': '/login',
-    'state': { 'from': props.location }
+    'state': { 'from': props.location, 'message': 'You don\'t have access to this page.' }
   }} />
 } />;
+
 function isAuthenticated(props) {
-  const cookieValue = getCookieValue('token');
-  if (cookieValue) {
-    const token = parseJwt(cookieValue);
-    if (token === '') {
-      return false;
-    }
-    return props.permissions.every((permission) => token.role.includes(permission));
+  // Null = not logged in
+  if (SessionUser.user) {
+    const userPermissions = UserRolePermissions.getPermissionsObjectByRole(SessionUser.user.role);
+    return props.permissions.every((permission) => userPermissions.permissions.includes(permission));
   }
-  return false;
-}
 
-function parseJwt(token) {
-  const [, base64Token] = token.split('.');
-  const base64 = base64Token.replace('-', '+').replace('_', '/');
-  let decodedToken;
-  try {
-    decodedToken = JSON.parse(window.atob(base64));
-  } catch (InvalidCharacterError) {
-    decodedToken = '';
-  }
-  return decodedToken;
-}
-
-// TODO Re-use with Root.js
-function getCookieValue(key) {
-  const valueMatch = document.cookie.match(`(^|;)\\s*${key}\\s*=\\s*([^;]+)`);
-  return valueMatch ? valueMatch.pop() : '';
-}
-
-export function checkLoggedIn() {
-  const cookieValue = getCookieValue('token');
-  if (cookieValue) {
-    const token = parseJwt(cookieValue);
-    if (token === '') {
-      return false;
-    }
-    return true;
-  }
   return false;
 }
 

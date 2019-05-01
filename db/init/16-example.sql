@@ -3,12 +3,6 @@
 
 
 
-/*Create user*/
-INSERT INTO base.user (email, oauth_type, access_token, expiry_date) VALUES
-('user@example.com', 'GOOGLE', '1234', '2999-12-31');
-
-
-
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id, user_group_id) VALUES
 (
@@ -17,7 +11,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'cloudera'
   ,'cloudera'
   ,1  -- Hive
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    'example_mariadb'
@@ -25,7 +19,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'root'
   ,'1234'
   ,2  -- MariaDB
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    'example_microsoft_sql_server'
@@ -33,7 +27,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'sa'
   ,'1234-abcd'
   ,4  -- Microsoft SQL Server
-  ,0  -- Public user group
+  ,1  -- Public user group
 )
 ,(
    'example_mysql'
@@ -41,7 +35,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'root'
   ,'1234'
   ,5  -- MySQL
-  ,0  -- Public user group
+  ,1  -- Public user group
 )
 ,(
    'example_postgresql'
@@ -49,7 +43,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'postgres'
   ,'1234'
   ,7  -- PostgreSQL
-  ,0  -- Public user group
+  ,1  -- Public user group
 )
 ,(
    'example_teradata'
@@ -57,7 +51,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'dbc'
   ,'1234'
   ,9  -- Teradata
-  ,0  -- Public user group
+  ,1  -- Public user group
 );
 
 
@@ -65,7 +59,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
 INSERT INTO base.indicator_group (name, user_group_id) VALUES
 (
    'example_indicator_group'
-  ,0  -- Public user group
+  ,1  -- Public user group
 );
 
 
@@ -78,7 +72,7 @@ INSERT INTO base.indicator (name, description, execution_order, flag_active, ind
   ,true
   ,(SELECT id FROM base.indicator_type WHERE id=1)  -- Completeness
   ,(SELECT id FROM base.indicator_group WHERE name='example_indicator_group')
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    'example_freshness_indicator'
@@ -87,7 +81,7 @@ INSERT INTO base.indicator (name, description, execution_order, flag_active, ind
   ,true
   ,(SELECT id FROM base.indicator_type WHERE id=2)  -- Freshness
   ,(SELECT id FROM base.indicator_group WHERE name='example_indicator_group')
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    'example_latency_indicator'
@@ -96,7 +90,7 @@ INSERT INTO base.indicator (name, description, execution_order, flag_active, ind
   ,true
   ,(SELECT id FROM base.indicator_type WHERE id=3)  -- Latency
   ,(SELECT id FROM base.indicator_group WHERE name='example_indicator_group')
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    'example_validity_indicator'
@@ -105,7 +99,7 @@ INSERT INTO base.indicator (name, description, execution_order, flag_active, ind
   ,true
   ,(SELECT id FROM base.indicator_type WHERE id=4)  -- Validity
   ,(SELECT id FROM base.indicator_group WHERE name='example_indicator_group')
-  ,0  -- Public user group
+  ,1  -- Public user group
 );
 
 
@@ -115,55 +109,55 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=1)  -- Alert operator
   ,'>='
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=2)  -- Alert threshold
   ,'0'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''contact.mobydq@gmail.com'']'
-  ,0  -- Public user group
+  ,'[''change.me@example.com'']'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
   ,'[''gender'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=5)  -- Measure
   ,'[''nb_people'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=6)  -- Source
   ,'example_postgresql'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=7)  -- Source request
   ,'SELECT gender, COUNT(id) FROM people GROUP BY gender;'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-  ,'example_mysql'
-  ,0  -- Public user group
+  ,'example_microsoft_sql_server'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_completeness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-  ,'SELECT gender, COUNT(id) FROM people GROUP BY gender;'
-  ,0  -- Public user group
+  ,'SELECT gender, COUNT(id) FROM dbo.people GROUP BY gender;'
+  ,1  -- Public user group
 );
 
 
@@ -173,43 +167,43 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=1)  -- Alert operator
   ,'>='
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=2)  -- Alert threshold
   ,'0'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''contact.mobydq@gmail.com'']'
-  ,0  -- Public user group
+  ,'[''change.me@example.com'']'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
   ,'[''name'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=5)  -- Measure
   ,'[''last_updated_date'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
   ,'example_mysql'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_freshness_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
   ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
-  ,0  -- Public user group
+  ,1  -- Public user group
 );
 
 
@@ -219,55 +213,55 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=1)  -- Alert operator
   ,'>='
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=2)  -- Alert threshold
   ,'0'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''contact.mobydq@gmail.com'']'
-  ,0  -- Public user group
+  ,'[''change.me@example.com'']'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
   ,'[''name'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=5)  -- Measure
   ,'[''last_updated_date'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=6)  -- Source
   ,'example_postgresql'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=7)  -- Source request
   ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
-  ,'example_mysql'
-  ,0  -- Public user group
+  ,'example_microsoft_sql_server'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_latency_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
-  ,'SELECT name, MAX(updated_date) FROM people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
-  ,0  -- Public user group
+  ,'SELECT name, MAX(updated_date) FROM dbo.people WHERE name LIKE ''%Skywalker%'' GROUP BY name;'
+  ,1  -- Public user group
 );
 
 
@@ -277,41 +271,41 @@ INSERT INTO base.parameter (indicator_id, parameter_type_id, value, user_group_i
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=1)  -- Alert operator
   ,'<'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=2)  -- Alert threshold
   ,'1000000'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=3)  -- Distribution list
-  ,'[''contact.mobydq@gmail.com'']'
-  ,0  -- Public user group
+  ,'[''change.me@example.com'']'
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=4)  -- Dimension
   ,'[''name'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=5)  -- Measure
   ,'[''population'']'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=8)  -- Target
   ,'example_postgresql'
-  ,0  -- Public user group
+  ,1  -- Public user group
 ),
 (
    (SELECT id FROM base.indicator WHERE name='example_validity_indicator')
   ,(SELECT id FROM base.parameter_type WHERE id=9)  -- Target request
   ,'SELECT name, SUM(population) FROM planet WHERE climate=''temperate'' GROUP BY name;'
-  ,0  -- Public user group
+  ,1  -- Public user group
 );

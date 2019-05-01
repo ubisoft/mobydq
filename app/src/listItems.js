@@ -8,33 +8,34 @@ import IndicatorIcon from '@material-ui/icons/Timeline';
 import IndicatorGroupIcon from '@material-ui/icons/Folder';
 import DataSourceIcon from '@material-ui/icons/Cloud';
 import AdminIcon from '@material-ui/icons/Settings';
+import LoginOutDrawerItem from './Components/Login/LoginOutDrawerItem';
 import UserGroupIcon from '@material-ui/icons/Group';
 
 export const mainListItems =
   <div>
     <ListItem button component={Link} to="/">
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon/>
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Dashboard"/>
     </ListItem>
     <ListItem button component={Link} to="/indicator">
       <ListItemIcon>
-        <IndicatorIcon />
+        <IndicatorIcon/>
       </ListItemIcon>
-      <ListItemText primary="Indicators" />
+      <ListItemText primary="Indicators"/>
     </ListItem>
     <ListItem button component={Link} to="/indicator-group">
       <ListItemIcon>
-        <IndicatorGroupIcon />
+        <IndicatorGroupIcon/>
       </ListItemIcon>
-      <ListItemText primary="Indicator Groups" />
+      <ListItemText primary="Indicator Groups"/>
     </ListItem>
     <ListItem button component={Link} to="/data-source">
       <ListItemIcon>
-        <DataSourceIcon />
+        <DataSourceIcon/>
       </ListItemIcon>
-      <ListItemText primary="Data Sources" />
+      <ListItemText primary="Data Sources"/>
     </ListItem>
     <ListItem button component={Link} to="/user-group">
       <ListItemIcon>
@@ -44,8 +45,9 @@ export const mainListItems =
     </ListItem>
     <ListItem button component={Link} to="/admin">
       <ListItemIcon>
-        <AdminIcon />
+        <AdminIcon/>
       </ListItemIcon>
-      <ListItemText primary="Admin" />
+      <ListItemText primary="Admin"/>
     </ListItem>
+    <LoginOutDrawerItem/>
   </div>;

@@ -1,31 +1,31 @@
 import React from 'react';
 import './../../styles/baseStyles';
 import '../../index.css';
-import Button from '@material-ui/core/Button';
-import UrlBuilder from '../Base/UrlBuilder';
+import LoginForm from './LoginForm';
 
-const githubOAuthUrl = UrlBuilder.getDefault().githubOAuth();
-const googleOAuthUrl = UrlBuilder.getDefault().googleOAuth();
+/**
+ * Login page
+ */
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      'message': props.message ? props.message : ''
+    };
+  }
 
-const Login = () => <React.Fragment>
-  <div className="container">
-    <div style={{ 'textAlign': 'center' }}>
-      <a style={{ 'textDecoration': 'none' }} href={githubOAuthUrl}>
-        <Button style={{ 'marginTop': '10%' }} variant="contained" color="secondary">
-          Sign in with Github
-        </Button>
-      </a>
-    </div>
-  </div>
-  <div className="container">
-    <div style={{ 'textAlign': 'center' }}>
-      <a style={{ 'textDecoration': 'none' }} href={googleOAuthUrl}>
-        <Button style={{ 'marginTop': '10px' }} variant="contained" color="secondary">
-          Sign in with Google
-        </Button>
-      </a>
-    </div>
-  </div>
-</React.Fragment>;
+  render() {
+    return (
+      <div className="container">
+        <div style={{
+          'paddingTop': '60px',
+          'transform': 'translateX(30%)'
+        }}>
+          <LoginForm message={ this.props.message } />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Login;

@@ -11,7 +11,7 @@ CREATE TABLE base.indicator_group (
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
   , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
-  , user_group_id INTEGER DEFAULT 0 REFERENCES base.user_group(id)
+  , user_group_id INTEGER DEFAULT 1 REFERENCES base.user_group(id)
 );
 
 COMMENT ON TABLE base.indicator_group IS

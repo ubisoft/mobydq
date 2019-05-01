@@ -3,15 +3,34 @@
 
 
 
-/*Create standard user role*/
-CREATE ROLE standard;
-GRANT USAGE ON SCHEMA base TO standard;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_group TO standard;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator TO standard;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter TO standard;
+/*
+Create anonymous user role
+The anonymous role is the default role used to query the database for non authenticated users.
+It grants permissions to read data in to the Public user group.
+*/
+CREATE ROLE anonymous;
+GRANT user_group_1 TO anonymous;  /*Grant Public user group to anonymous*/
+
+/*base schema*/
+GRANT USAGE ON SCHEMA base TO anonymous;
+GRANT SELECT ON base.data_source_type TO anonymous;
+GRANT SELECT ON base.indicator_type TO anonymous;
+GRANT SELECT ON base.indicator_group TO anonymous;
+GRANT SELECT ON base.indicator TO anonymous;
+GRANT SELECT ON base.parameter_type TO anonymous;
+GRANT SELECT ON base.parameter TO anonymous;
+GRANT SELECT ON base.batch TO anonymous;
+GRANT SELECT ON base.session TO anonymous;
+GRANT SELECT ON base.session_result TO anonymous;
+
+/*Views*/
+--GRANT SELECT ON base.batch_statistics TO anonymous;
+--GRANT SELECT ON base.batch_status TO anonymous;
+--GRANT SELECT ON base.session_statistics TO anonymous;
+--GRANT SELECT ON base.session_status TO anonymous;
 
 
-/*Prevent standard user role to access data source password by enforcing grant on selected columns*/
+/*Prevent anonymous user role to access data source password by enforcing grant on selected columns*/
 GRANT SELECT (
     id
   , name
@@ -24,73 +43,90 @@ GRANT SELECT (
   , updated_by_id
   , updated_date
   , data_source_type_id
-) ON base.data_source TO standard;
-GRANT UPDATE, INSERT, DELETE ON base.data_source TO standard;
+) ON base.data_source TO anonymous;
 
 
-/*Create admin user role*/
+
+/*
+Create standard user role
+The standard role is the default role for all users who wish to create and manage data quality indicators.
+*/
+CREATE ROLE standard;
+GRANT anonymous TO standard;
+
+/*base schema*/
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator_group TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.batch TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session TO standard;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session_result TO standard;
+
+
+
+/*
+Create advanced user role
+The advanced role is the role used for users who wish to create and manage data sources.
+In addition to the permissions of the standard role, it grants permissions to create, update and delete data sources.
+*/
+CREATE ROLE advanced;
+GRANT standard TO advanced;
+
+/*base schema*/
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO advanced;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON base.data_source TO advanced;
+
+
+
+/*
+Create admin user role
+The admin role is used to manage application users and configuration.
+It grants the same permissions as the advanced role, plus the permissions to read, write and delete the following objects:
+Users, User Groups, Data Source Types, Indicator Types, Parameter Types
+*/
 CREATE ROLE admin;
-GRANT standard TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.data_source TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.data_source_type TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.indicator_type TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.parameter_type TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.user TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.user_group TO admin;
-GRANT SELECT, UPDATE, INSERT, DELETE ON base.user_group_user TO admin;
+GRANT advanced TO admin;
+
+/*base schema*/
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.user TO admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.user_group TO admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.user_group_user TO admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.data_source_type TO admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.indicator_type TO admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON base.parameter_type TO admin;
+
+/*Grant admin role to default user*/
+GRANT admin TO user_1;
 
 
 
-/*Create row level security for data source*/
+/*Create row level security policies*/
 ALTER TABLE base.data_source ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_data_source on base.data_source
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for indicator group*/
 ALTER TABLE base.indicator_group ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_indicator_group on base.indicator_group
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for indicator*/
 ALTER TABLE base.indicator ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_indicator on base.indicator
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for parameter*/
 ALTER TABLE base.parameter ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_parameter on base.parameter
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for batch*/
 ALTER TABLE base.batch ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_batch on base.batch
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for session*/
 ALTER TABLE base.session ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY user_group_session on base.session
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-
-
-/*Create row level security for session result*/
 ALTER TABLE base.session_result ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY user_group_session_result on base.session_result
-TO standard USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+CREATE POLICY user_group_policy on base.data_source FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.indicator_group FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.indicator FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.parameter FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.batch FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.session FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
+
+CREATE POLICY user_group_policy on base.session_result FOR ALL TO PUBLIC
+USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));

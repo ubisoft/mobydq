@@ -4,6 +4,7 @@
 
 
 /*Create function to get Id of the current user based on his database user role*/
+/*This is used to update the created_by_id and updated_by_id columns*/
 CREATE OR REPLACE FUNCTION base.get_current_user_id()
 RETURNS INTEGER AS $$
 DECLARE
@@ -12,7 +13,7 @@ BEGIN
     IF CURRENT_USER LIKE 'user_%' THEN
       SELECT SUBSTRING(CURRENT_USER, 6) INTO user_id;
     ELSE
-      SELECT 0 INTO user_id;
+      SELECT 1 INTO user_id;
     END IF;
     RETURN user_id;
 END;
@@ -28,11 +29,7 @@ CREATE TABLE base.user (
     id SERIAL PRIMARY KEY
   , email TEXT NOT NULL UNIQUE
   , password TEXT
-  , oauth_type TEXT NOT NULL
-  , access_token TEXT NOT NULL
-  , refresh_token TEXT
-  , expiry_date TIMESTAMP NOT NULL
-  , flag_admin BOOLEAN DEFAULT FALSE
+  , role TEXT NOT NULL DEFAULT 'standard'
   , flag_active BOOLEAN DEFAULT TRUE
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -41,7 +38,11 @@ CREATE TABLE base.user (
 );
 
 COMMENT ON TABLE base.user IS
-'Users information and their authentication methods.';
+'Users information.';
+
+/*Add circular reference to user table*/
+ALTER TABLE base.user ADD CONSTRAINT user_created_by_id_fkey FOREIGN KEY (created_by_id) REFERENCES base.user(id);
+ALTER TABLE base.user ADD CONSTRAINT user_updated_by_id_fkey FOREIGN KEY (updated_by_id) REFERENCES base.user(id);
 
 CREATE TRIGGER user_update_updated_date BEFORE UPDATE
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
@@ -49,10 +50,66 @@ base.update_updated_date();
 
 
 
+/*Create function to hash password column*/
+CREATE OR REPLACE FUNCTION base.hash_password()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.password = crypt(NEW.password, gen_salt('bf', 8));
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.hash_password IS
+'Function used to hash password when creating a user.';
+
+/*Triggers must be created before inserting default user below to ensure password is hashed*/
+CREATE TRIGGER user_hash_password BEFORE INSERT
+ON base.user FOR EACH ROW EXECUTE PROCEDURE
+base.hash_password();
+
+
+
+/*Create composite type to generate JWT*/
+CREATE TYPE base.token AS (
+    email TEXT,
+    role TEXT,
+    aud TEXT  --audience
+);
+
+/*Create function to authenticate users*/
+CREATE OR REPLACE FUNCTION base.authenticate_user(user_email TEXT, user_password TEXT)
+RETURNS base.token AS $$
+DECLARE
+    user_account base.user;
+BEGIN
+    SELECT a.*
+    INTO user_account
+    FROM base.user a
+    WHERE a.email = user_email
+    AND flag_active = true;
+
+    IF user_account.password = crypt(user_password, user_account.password) THEN
+        RETURN (
+            user_account.email,  --email
+            'user_' || user_account.id,  --role
+            'postgraphile'  --audience
+        )::base.token;
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ language plpgsql strict security definer;
+
+COMMENT ON FUNCTION base.authenticate_user IS
+'Function used to authenticate users.';
+
+
+
 /*Create default user*/
-/*Must be created before other triggers to avoid conflicts in pg_roles table*/
-INSERT INTO base.user (id, email, oauth_type, access_token, expiry_date, flag_admin) VALUES
-(0, 'postgres', 'not_used', 'not_used', '2999-12-31', true);
+/*User is required to be able to create the default user group later*/
+/*Must be created before other triggers to avoid conflicts*/
+INSERT INTO base.user (email, password, role) VALUES ('admin', 'admin', 'admin');
+CREATE ROLE user_1 WITH CREATEROLE;
 
 
 
@@ -79,14 +136,10 @@ CREATE OR REPLACE FUNCTION base.create_user()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Create database user
-    EXECUTE 'CREATE USER user_' || NEW.id;
+    EXECUTE 'CREATE ROLE user_' || NEW.id || ' WITH CREATEROLE';
 
     -- Grant permission
-    IF NEW.flag_admin THEN
-      EXECUTE 'GRANT admin TO user_' || NEW.id;
-    ELSE
-      EXECUTE 'GRANT standard TO user_' || NEW.id;
-    END IF;
+    EXECUTE 'GRANT ' || NEW.role || ' TO user_' || NEW.id;
 
     -- Assign default user group
     INSERT INTO base.user_group_user (user_id) VALUES (NEW.id);
@@ -107,14 +160,13 @@ base.create_user();
 CREATE OR REPLACE FUNCTION base.update_user_permission()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF OLD.flag_admin <> NEW.flag_admin THEN
-      IF NEW.flag_admin THEN
-        EXECUTE 'GRANT admin TO user_' || NEW.id;
-        EXECUTE 'REVOKE standard FROM user_' || NEW.id;
-      ELSE
-        EXECUTE 'GRANT standard TO user_' || NEW.id;
-        EXECUTE 'REVOKE admin FROM user_' || NEW.id;
-      END IF;
+    -- Update permission
+    IF OLD.role <> NEW.role THEN
+        -- Revoke permission
+        EXECUTE 'REVOKE ' || OLD.role || ' FROM user_' || OLD.id;
+
+        -- Grant permission
+        EXECUTE 'GRANT ' || NEW.role || ' TO user_' || NEW.id;
     END IF;
     RETURN NEW;
 END;

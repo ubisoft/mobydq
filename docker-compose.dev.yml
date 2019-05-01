@@ -1,112 +1,25 @@
 version: '3.1'
 services:
 
+
   db:
-    container_name: mobydq-db
-    #restart: always
-    image: mobydq-db
-    build:
-      context: ./db
-    volumes:
-      - mobydq-db-volume:/var/lib/postgresql/data
-    env_file:
-        - ./.env
     ports:
       - 5432:5432
-    networks:
-      - default
-
-  graphql:
-    container_name: mobydq-graphql
-    #restart: always
-    image: graphile/postgraphile
-    env_file:
-      - ./.env
-    depends_on:
-      - db
-    ports:
-      - 5433:5433
-    networks:
-      - default
-    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
 
   api:
-    container_name: mobydq-api
-    #restart: always
-    image: mobydq-api
-    build:
-      context: ./api
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-        - ./.env
+      - ./api/init:/srv/api/
     environment:
-      FLASK_APP: api.py
-      FLASK_RUN_PORT: 5434
-      OAUTHLIB_INSECURE_TRANSPORT: 1
-      TOKEN_ISSUER: ${HOST_NAME}
-      AFTER_LOGIN_REDIRECT: ${HOST_NAME}
-    ports:
-      - 5434:5434
-    depends_on:
-      - graphql
-    networks:
-      - default
-    command: ["flask", "run", "--host=0.0.0.0"]
-    secrets:
-      - public_key
-      - private_key
+      FLASK_DEBUG: 1
 
   scripts:
-    container_name: mobydq-scripts
-    #restart: always
-    image: mobydq-scripts
-    build:
-      context: ./scripts
-      args:
-        - MAIL_HOST=${MAIL_HOST}
-        - MAIL_PORT=${MAIL_PORT}
-        - MAIL_SENDER=${MAIL_SENDER}
-        - MAIL_PASSWORD=${MAIL_PASSWORD}
-    env_file:
-      - ./.env
-    depends_on:
-      - graphql
-    networks:
-      - default
+    volumes:
+       - ./scripts/init:/srv/scripts
+    tty: true
 
   app:
-    container_name: mobydq-app
-    #restart: always
-    image: mobydq-app
-    build:
-      context: ./app
     volumes:
       - ./app/src:/usr/src/app/src:ro
       - ./app/public:/usr/src/app/public:ro
-    env_file:
-      - ./.env
-    environment:
-      REACT_APP_HOST_NAME: ${HOST_NAME}
     ports:
-      - 80:3000
-    depends_on:
-      - api
-      - graphql
-    networks:
-      - default
-
-networks:
-  default:
-    external:
-      name: mobydq-network
-
-volumes:
-  mobydq-db-volume:
-    external: true
-
-secrets:
-  public_key:
-    file: public.pem
-  private_key:
-    file: private.pem
+      - 5499:3000

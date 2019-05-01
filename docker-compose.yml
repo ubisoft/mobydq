@@ -26,7 +26,14 @@ services:
       - db
     networks:
       - default
-    command: ["postgraphile", "--cors", "--connection", "${DATABASE_URL}", "--host", "0.0.0.0", "--port", "5433", "--schema", "base"]
+    command: ["postgraphile",
+      "--connection", "${DATABASE_URL}",
+      "--port", "5433",
+      "--schema", "base",
+      "--default-role", "anonymous",
+      "--jwt-secret", "${SECRET_KEY}",
+      "--jwt-token-identifier", "base.token",
+      "--cors"]
 
   api:
     container_name: mobydq-api
@@ -35,7 +42,7 @@ services:
     build:
       context: ./api
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - //var/run/docker.sock:/var/run/docker.sock
     env_file:
         - ./.env
     environment:
@@ -49,9 +56,6 @@ services:
     networks:
       - default
     command: ["flask", "run", "--host=0.0.0.0"]
-    secrets:
-      - public_key
-      - private_key
 
   scripts:
     container_name: mobydq-scripts
@@ -85,8 +89,8 @@ services:
     environment:
       REACT_APP_HOST_NAME: ${HOST_NAME}
     depends_on:
-      - api
       - graphql
+      - api
     networks:
       - default
 
@@ -101,10 +105,11 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 5433:5433
       - 5434:5434
     depends_on:
+      - graphql
       - api
-      - app
     networks:
       - default
 
@@ -116,9 +121,3 @@ networks:
 volumes:
   mobydq-db-volume:
     external: true
-
-secrets:
-  public_key:
-    file: public.pem
-  private_key:
-    file: private.pem

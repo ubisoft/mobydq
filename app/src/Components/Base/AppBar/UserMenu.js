@@ -9,6 +9,7 @@ import { setUserMenuAnchor } from '../../../actions/topbar';
 import { setAlertDialog } from '../../../actions/app';
 import { AppBarMenuItem } from './AppBarMenuItem';
 import { checkLoggedIn } from '../PrivateRoute';
+import SessionUser from '../../../actions/Auth/SessionUser';
 
 class UserMenu extends React.Component {
   constructor() {
@@ -75,7 +76,7 @@ class UserMenu extends React.Component {
       >
         <div><AppBarMenuItem icon={null} label={'Admin'} action={ this.admin }/></div>
         <Divider/>
-        <div><AppBarMenuItem icon={null} label={ checkLoggedIn() ? 'Logout' : 'Login'} action={checkLoggedIn() ? this.logout : this.login }/></div>
+        <div><AppBarMenuItem icon={null} label={ SessionUser.user ? 'Logout' : 'Login'} action={SessionUser.user ? this.logout : this.login }/></div>
       </Popover>
     </React.Fragment>;
   }
