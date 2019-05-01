@@ -8,8 +8,6 @@ import { Redirect } from 'react-router';
 import DevLog from '../../actions/DevLog';
 import SessionUser from '../../actions/Auth/SessionUser';
 
-
-// Todo show message that not had access to page
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -71,14 +69,17 @@ class LoginForm extends React.Component {
       <div className="container" style={{ 'paddingTop': '-15px' }}>
         <div style={{
           'textAlign': 'center',
-          'alignItems': 'center'
+          'alignItems': 'center',
+          'width': '300px'
         }}>
           <div className="background-box" style={{
             'display': 'inline-block',
             'padding': '20px'
           }}>
             <h2>Login</h2>
-            <p style={{ 'color': 'red' }}>{this.state.message}</p>
+            <p style={{
+              'color': 'red'
+            }}>{this.state.message}</p>
             <div style={{
               'textAlign': 'left',
               'alignItems': 'left'
@@ -121,7 +122,7 @@ class LoginForm extends React.Component {
                 </Button>
               </FormGroup>
               <br/>
-              <a href="#" onClick={ () => this._onContinueAnonymous() }>Continue anonymous...</a>
+              <a href="#" onClick={() => this._onContinueAnonymous()}>Continue anonymous...</a>
             </div>
           </div>
         </div>

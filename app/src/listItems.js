@@ -8,7 +8,7 @@ import IndicatorIcon from '@material-ui/icons/Timeline';
 import IndicatorGroupIcon from '@material-ui/icons/Folder';
 import DataSourceIcon from '@material-ui/icons/Cloud';
 import AdminIcon from '@material-ui/icons/Settings';
-import SessionUser from './actions/Auth/SessionUser';
+import LoginOutDrawerItem from './Components/Login/LoginOutDrawerItem';
 
 export const mainListItems =
   <div>
@@ -42,10 +42,5 @@ export const mainListItems =
       </ListItemIcon>
       <ListItemText primary="Admin"/>
     </ListItem>
-    <ListItem button onClick={() => SessionUser.logOut()} component={Link} to={'/login'}>
-      <ListItemIcon>
-        <AdminIcon/>
-      </ListItemIcon>
-      <ListItemText primary={SessionUser.user ? 'Login' : 'Logout'}/>
-    </ListItem> */
+    <LoginOutDrawerItem/>
   </div>;

@@ -1,13 +1,12 @@
 import gql from 'graphql-tag';
 import UrlBuilder from '../../Components/Base/UrlBuilder';
-import ApolloClient from 'apollo-boost';
 import InvalidUserCredentials from '../../Exceptions/InvalidUserCredentials';
 import DevLog from '../DevLog';
 import Client from '../../Components/Base/Client';
 import SessionUser from '../Auth/SessionUser';
 
 export default class Authentication {
-
+  // THIS LINE IS REQUIRED FOR ESLINT :/
   /**
    * Authenticate current user and save their tokens/data in the session storage
    * @param userEmail
@@ -15,10 +14,8 @@ export default class Authentication {
    * @returns {Promise<SessionUser>}
    */
   static async authenticateSessionUser(userEmail, password) {
-    const token = await this.getFreshBearerToken(userEmail, password);
-    SessionUser.sessionToken = token;
-    const user = await this.getUser(userEmail);
-    SessionUser.user = user;
+    SessionUser.sessionToken = await this.getFreshBearerToken(userEmail, password);
+    SessionUser.user = await this.getUser(userEmail);
     return SessionUser;
   }
 
@@ -43,10 +40,7 @@ export default class Authentication {
 
     DevLog.info(`Requesting auth-token: ${UrlBuilder.getDefault().graphQl()}`);
 
-    // Use new client because Client.js already includes authentication that is not present at this point.
-    const apolloClient = new ApolloClient({
-      'uri': UrlBuilder.getDefault().graphQl()
-    });
+    const apolloClient = Client.getApolloClient();
 
     const result = await apolloClient.mutate({
       'mutation': GET_TOKEN,
@@ -74,7 +68,7 @@ export default class Authentication {
 
     DevLog.info(`Requesting user data: ${UrlBuilder.getDefault().graphQl()}`);
 
-    const apolloClient = Client;
+    const apolloClient = Client.getApolloClient();
 
     const result = await apolloClient.query({
       'query': GET_USER_ROLE,
@@ -84,19 +78,5 @@ export default class Authentication {
     DevLog.log('Userdata: ', result.data.userByEmail);
 
     return result.data.userByEmail;
-  }
-
-  static async getPermissions() {
-    const GET_PERMISSIONS = gql`
-    query mygroups {
-      allUserGroups{
-        nodes {
-          name
-          id
-        }
-      }
-    }`;
-
-    DevLog.info(await Client.query({ 'query': GET_PERMISSIONS }));
   }
 }

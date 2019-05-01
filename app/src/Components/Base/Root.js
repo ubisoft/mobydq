@@ -7,7 +7,7 @@ import BaseDataView from './BaseDataView';
 import Client from './Client';
 
 
-const Root = ({ store }) => <ApolloProvider client={Client} store={store}>
+const Root = ({ store }) => <ApolloProvider client={Client.getApolloClient()} store={store}>
   <Provider store={store}>
     <BrowserRouter>
       <BaseDataView />
