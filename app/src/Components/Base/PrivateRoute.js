@@ -17,19 +17,6 @@ function isAuthenticated(props) {
     const userPermissions = UserRolePermissions.getPermissionsObjectByRole(SessionUser.user.role);
     return props.permissions.every((permission) => userPermissions.permissions.includes(permission));
   }
-
-  return false;
-}
-
-export function checkLoggedIn() {
-  const cookieValue = getCookieValue('token');
-  if (cookieValue) {
-    const token = parseJwt(cookieValue);
-    if (token === '') {
-      return false;
-    }
-    return true;
-  }
   return false;
 }
 

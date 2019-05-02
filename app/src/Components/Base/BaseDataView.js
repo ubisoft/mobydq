@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import { isSidebarOpen } from './../../actions/sidebar';
-
+import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
