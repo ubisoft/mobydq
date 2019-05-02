@@ -63,6 +63,8 @@ class LoginForm extends React.Component {
   // Todo sticky email
   render() {
     if (this.state.redirect) {
+      // Todo remove reload on log in and replace with redux hooks
+      window.location.reload();
       return <Redirect to="/"/>;
     }
     return (
