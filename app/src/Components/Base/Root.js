@@ -12,7 +12,7 @@ import Client from './Client';
 const Root = ({ store }) => <ApolloProvider client={Client.getApolloClient()} store={store}>
   <Provider store={store}>
     <HashRouter>
-      <BaseDataView/>
+      <BaseDataView />
     </HashRouter>
   </Provider>
 </ApolloProvider>;

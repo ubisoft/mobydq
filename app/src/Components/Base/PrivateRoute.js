@@ -21,4 +21,16 @@ function isAuthenticated(props) {
   return false;
 }
 
+export function checkLoggedIn() {
+  const cookieValue = getCookieValue('token');
+  if (cookieValue) {
+    const token = parseJwt(cookieValue);
+    if (token === '') {
+      return false;
+    }
+    return true;
+  }
+  return false;
+}
+
 export default PrivateRoute;

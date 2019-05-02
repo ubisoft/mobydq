@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Dashboard from './../Dashboard/Dashboard';
 import Indicator from './../Indicator/Indicator';
 import IndicatorGroup from './../IndicatorGroup/IndicatorGroup';
+import UserGroup from './../UserGroup/UserGroup';
 import Admin from './../Admin/Admin';
 import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent';
@@ -20,6 +21,7 @@ const Content = () => <main>
     <PrivateRoute permissions={['r_indicators']} path="/indicator" component={(props) => <Indicator {...props} />}/>
     <PrivateRoute permissions={['r_indicator_groups']} path="/indicator-group" component={IndicatorGroup}/>
     <PrivateRoute permissions={['r_data_sources']} path="/data-source" component={DataSource}/>
+      <PrivateRoute permissions={[] /* TBD for Dashboard */} path="/user-group" component={UserGroup} /
     <PrivateRoute permissions={['r_users']} path="/admin" component={Admin}/>
     { /* You can pass an error message to the login using <Redirect to={{ 'pathname': '/XX', 'state': { 'from': props.location, 'message': 'Your message' }}} />*/}
     <Route path="/login" render={(props) => <Login message={props.location.state ? props.location.state.message : '' }/>}/>

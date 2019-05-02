@@ -5,7 +5,6 @@ import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import { isSidebarOpen } from './../../actions/sidebar';
 
-import classNames from 'classnames';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -86,6 +85,7 @@ class BaseDataView extends React.Component {
             <Divider />
             <List>{mainListItems}</List>
           </Drawer>
+          <AlertDialog/>
           <main className={classes.content}>
             <Content />
           </main>

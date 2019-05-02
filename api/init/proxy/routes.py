@@ -51,7 +51,7 @@ def register_graphql(namespace: Namespace, api: Api):
 
                 # Execute custom scripts after request for some specific mutations
                 if mutation_name:
-                    data = interceptor.after_request(mutation_name, data)
+                    data = interceptor.after_request(authorization, mutation_name, data)
 
                 # Return result
                 return make_response(jsonify(data), status)

@@ -34,12 +34,12 @@ class Interceptor():
         payload = getattr(class_instance, 'build_payload')()
         return payload
 
-    def after_request(self, mutation_name: str, response: dict):
+    def after_request(self, mutation_name: str, authorization: str, response: dict):
         """Method used to trigger scripts after the request to GraphQL API."""
 
         module_name = self.can_handle_mutations[mutation_name]['module']
         class_name = self.can_handle_mutations[mutation_name]['class']
         method_name = self.can_handle_mutations[mutation_name]['method']
         class_instance = getattr(sys.modules[module_name], class_name)()
-        response = getattr(class_instance, method_name)(response)
+        response = getattr(class_instance, method_name)(authorization, response)
         return response

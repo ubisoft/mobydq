@@ -62,6 +62,9 @@ class IndicatorRepository {
                 parameterTypeId
                 createdDate
                 updatedDate
+                userByCreatedById { email }
+                updatedDate
+                userByUpdatedById { email }
               }
             }
           }
