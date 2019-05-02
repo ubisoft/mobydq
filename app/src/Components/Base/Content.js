@@ -9,7 +9,6 @@ import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent';
 import Login from '../Login/Login';
 import PrivateRoute from './PrivateRoute';
-import UserGroup from '../UserGroup/UserGroup';
 import User from '../User/User';
 
 /**
@@ -26,7 +25,7 @@ const Content = () => <main>
     <PrivateRoute permissions={[] /* TBD for Dashboard */} path="/user-group" component={UserGroup}/>
     <PrivateRoute permissions={['r_users']} path="/admin" component={Admin}/>
     <PrivateRoute permissions={[] /* Todo TBD for usergroups */} path="/user-group" component={UserGroup} />
-    <PrivateRoute permissions={[] /* Todo TBD for usergroups */} path="/user" component={User} />
+    <PrivateRoute permissions={[] /* Todo TBD for user */} path="/user" component={User} />
     { /* You can pass an error message to the login using <Redirect to={{ 'pathname': '/XX', 'state': { 'from': props.location, 'message': 'Your message' }}} />*/}
     <Route path="/login" render={(props) => <Login message={props.location.state ? props.location.state.message : ''}/>}/>
     <Route component={NotFoundComponent}/>
