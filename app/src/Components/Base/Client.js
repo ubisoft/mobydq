@@ -1,6 +1,7 @@
 import ApolloClient from 'apollo-boost';
 import UrlBuilder from '../Base/UrlBuilder';
-import SessionUser from './Auth/SessionUser';
+import SessionUser from '../../Authentication/SessionUser';
+import DevLog from '../../actions/DevLog';
 
 export default class Client {
   static getSessionToken() {
@@ -20,10 +21,12 @@ export default class Client {
    * @returns {DefaultClient<any>}
    */
   static getBasicApolloClient() {
+    DevLog.log('Get basic apollo client.');
     return new ApolloClient({ 'uri': UrlBuilder.getDefault().graphQl() });
   }
 
   static getAuthApolloClient() {
+    DevLog.log('Get authenticated apollo client.');
     return new ApolloClient({
       'uri': UrlBuilder.getDefault().graphQl(),
       'headers': {

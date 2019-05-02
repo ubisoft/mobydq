@@ -1,3 +1,5 @@
+/* eslint-disable */
+// Disable because it's much more convenient to have all classes/roles with their permissions in one file.
 /**
  * The Permissions of each role.
  * r = READ

@@ -20,8 +20,6 @@ services:
     image: graphile/postgraphile
     env_file:
       - ./.env
-    ports:
-      - 5433:5433
     depends_on:
       - db
     networks:
