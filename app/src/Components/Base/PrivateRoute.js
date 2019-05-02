@@ -17,7 +17,6 @@ function isAuthenticated(props) {
     const userPermissions = UserRolePermissions.getPermissionsObjectByRole(SessionUser.user.role);
     return props.permissions.every((permission) => userPermissions.permissions.includes(permission));
   }
-
   return false;
 }
 

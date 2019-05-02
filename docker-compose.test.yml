@@ -1,6 +1,14 @@
 version: '3.1'
 services:
 
+  # Run GraphQL API without authentication
+  graphql:
+    command: ["postgraphile",
+      "--connection", "${DATABASE_URL}",
+      "--port", "5433",
+      "--schema", "base",
+      "--cors"]
+
   db-hive:
     container_name: mobydq-test-db-hive
     image: mobydq-test-db-hive

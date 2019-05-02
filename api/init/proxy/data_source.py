@@ -11,7 +11,7 @@ class TestDataSource():
         mutation = f'mutation testDataSource{{testDataSource(input:{mutation_arguments}){{dataSource{{id,connectivityStatus}}}}}}'
         return mutation
 
-    def test_data_source(self, response: dict):
+    def test_data_source(self, authorization: str, response: dict):
         """Method used to run Docker container which tests connectivity to a data source."""
 
         data_source_id = str(response['data']['testDataSource']['dataSource']['id'])
@@ -28,5 +28,5 @@ class TestDataSource():
 
         # Get connectivity test result
         query = f'query{{dataSourceById(id:{data_source_id}){{id,connectivityStatus}}}}'
-        data = utils.execute_graphql_request(query)
+        data = utils.execute_graphql_request(authorization, query)
         return data

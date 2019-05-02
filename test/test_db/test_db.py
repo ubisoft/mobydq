@@ -55,7 +55,7 @@ class TestDb(unittest.TestCase):
         indicator_group_id = cursor.fetchone()[0]
         return indicator_group_id
 
-    def create_user(self, test_case_name: str, flag_admin: bool = False):
+    def create_user(self, test_case_name: str):
         """Create a user in the database and return its id."""
 
         insert_user_query = f'''INSERT INTO base.user (email, password, role) values ('{test_case_name}', '123456', 'admin') RETURNING id;'''
@@ -415,7 +415,7 @@ class TestDb(unittest.TestCase):
 
         # Insert user
         test_case_name = get_test_case_name()
-        user_id = self.create_user(test_case_name, True)
+        user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
         # Change current role to new user

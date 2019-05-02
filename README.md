@@ -19,9 +19,11 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 You can run all tests locally using the following commands:
 ```shell
 $ cd mobydq
-$ # Backend
+
+# Backend
 $ test/run-tests.sh
-$ # Frontend
+
+# Frontend
 $ app/run-container.sh npm run test
 ```
 
@@ -30,9 +32,11 @@ Depending on the used editor, eslint and pylint can be integrated.
 You can run all linters locally using the following commands:
 ```shell
 $ cd mobydq
-$ # Backend
+
+# Backend
 $ test/run-linter.sh
-$ # Frontend
+
+# Frontend
 $ app/run-container.sh npm run lint
 ```
 
@@ -54,9 +58,7 @@ The containers run by `docker-compose` have dependencies with the following Dock
 * [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
 * [graphql_py](https://pypi.org/project/graphql-py) (0.7.1)
 * [jinja2](http://jinja.pocoo.org) (2.10.1)
-* [jwt](https://pypi.org/project/jwt) (0.5.4)
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
 * [requests](http://docs.python-requests.org) (2.20.0)
-* [requests_oauthlib](https://requests-oauthlib.readthedocs.io)(1.0.0)
