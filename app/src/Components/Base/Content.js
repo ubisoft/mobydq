@@ -8,6 +8,8 @@ import DataSource from './../DataSource/DataSource';
 import NotFoundComponent from '../Error/NotFoundComponent';
 import Login from '../Login/Login';
 import PrivateRoute from './PrivateRoute';
+import UserGroup from '../UserGroup/UserGroup';
+import User from '../User/User';
 
 /**
  * You can find all possible permissions in the UserRolePermissions file
@@ -16,11 +18,13 @@ import PrivateRoute from './PrivateRoute';
 
 const Content = () => <main>
   <Switch>
-    <PrivateRoute permissions={[] /* TBD for Dashboard */} exact path="/" component={Dashboard}/>
+    <PrivateRoute permissions={[] /* Todo TBD for Dashboard */} exact path="/" component={Dashboard}/>
     <PrivateRoute permissions={['r_indicators']} path="/indicator" component={(props) => <Indicator {...props} />}/>
     <PrivateRoute permissions={['r_indicator_groups']} path="/indicator-group" component={IndicatorGroup}/>
     <PrivateRoute permissions={['r_data_sources']} path="/data-source" component={DataSource}/>
     <PrivateRoute permissions={['r_users']} path="/admin" component={Admin}/>
+    <PrivateRoute permissions={[] /* Todo TBD for usergroups */} path="/user-group" component={UserGroup} />
+    <PrivateRoute permissions={[] /* Todo TBD for usergroups */} path="/user" component={User} />
     { /* You can pass an error message to the login using <Redirect to={{ 'pathname': '/XX', 'state': { 'from': props.location, 'message': 'Your message' }}} />*/}
     <Route path="/login" render={(props) => <Login message={props.location.state ? props.location.state.message : '' }/>}/>
     <Route component={NotFoundComponent}/>

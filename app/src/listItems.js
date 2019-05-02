@@ -10,6 +10,7 @@ import DataSourceIcon from '@material-ui/icons/Cloud';
 import AdminIcon from '@material-ui/icons/Settings';
 import LoginOutDrawerItem from './Components/Login/LoginOutDrawerItem';
 import UserGroupIcon from '@material-ui/icons/Group';
+import UserIcon from '@material-ui/icons/Person';
 
 export const mainListItems =
   <div>
@@ -42,6 +43,12 @@ export const mainListItems =
         <UserGroupIcon />
       </ListItemIcon>
       <ListItemText primary="User Groups" />
+    </ListItem>
+    <ListItem button component={Link} to="/user">
+      <ListItemIcon>
+        <UserIcon />
+      </ListItemIcon>
+      <ListItemText primary="Users" />
     </ListItem>
     <ListItem button component={Link} to="/admin">
       <ListItemIcon>
