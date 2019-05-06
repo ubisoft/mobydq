@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
+import SwitchInput from './../FormInput/SwitchInput';
 
 const UserFormFields = (props) => {
   const {
@@ -36,25 +37,35 @@ const UserFormFields = (props) => {
         onBlur={handleBlur}
       />
     </div>
+    <div>
+      <SwitchInput
+        id="flagActive"
+        label="Active"
+        touched={touched.flagActive}
+        error={touched.flagActive && errors.flagActive}
+        checked={values.flagActive}
+        value="flagActive"
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
   </form>;
 };
 
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
     'email': Yup.string()
-      .required('Email cannot be blank'),
-    'active': Yup.bool()
-      .required('Active cannot be blank')
+      .required('Email cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
       'email': '',
-      'active': true
+      'flagActive': false
     }
     : {
       'id': props.initialFieldValues.id,
       'email': props.initialFieldValues.email,
-      'active': props.initialFieldValues.flagActive
+      'flagActive': props.initialFieldValues.flagActive
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
     setSubmitting(false);
