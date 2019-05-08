@@ -5,6 +5,7 @@ import TextInput from './../FormInput/TextInput';
 import SaveButton from './../FormInput/SaveButton';
 import ExecuteButton from './../FormInput/ExecuteButton';
 import SwitchInput from './../FormInput/SwitchInput';
+import SelectInput from './../FormInput/SelectInput';
 
 const UserFormFields = (props) => {
   const {
@@ -38,6 +39,36 @@ const UserFormFields = (props) => {
       />
     </div>
     <div>
+      <TextInput
+        type="password"
+        id="password"
+        label="Password"
+        helperText=""
+        placeholder=""
+        touched={touched.password}
+        error={touched.password && errors.password}
+        value={values.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
+      <SelectInput
+        id="role"
+        label="Role"
+        items={[
+          { 'id': 'standard', 'name': 'Standard' },
+          { 'id': 'advanced ', 'name': 'Advanced ' },
+          { 'id': 'admin', 'name': 'Admin' }
+        ]}
+        touched={touched.role}
+        error={touched.role && errors.role}
+        value={values.role}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+    </div>
+    <div>
       <SwitchInput
         id="flagActive"
         label="Active"
@@ -55,16 +86,22 @@ const UserFormFields = (props) => {
 const formikEnhancer = withFormik({
   'validationSchema': Yup.object().shape({
     'email': Yup.string()
-      .required('Email cannot be blank')
+      .required('Email cannot be blank'),
+    'role': Yup.string()
+      .required('Role cannot be blank')
   }),
   'mapPropsToValues': (props) => props.initialFieldValues === null
     ? {
       'email': '',
+      'password': '',
+      'role': '',
       'flagActive': false
     }
-    : {
+    : /* It doesn't make sense to display the hashed password*/{
       'id': props.initialFieldValues.id,
       'email': props.initialFieldValues.email,
+      'dataSourceTypeId': props.initialFieldValues.role,
+      'password': '',
       'flagActive': props.initialFieldValues.flagActive
     },
   'handleSubmit': (payload, { props, setSubmitting }) => {
@@ -73,6 +110,10 @@ const formikEnhancer = withFormik({
     delete payload.createdBy;
     delete payload.updatedDate;
     delete payload.updatedBy;
+    // If the password isn't changed, it shouldn't be sent to the server
+    if (payload.password === '') {
+      delete payload.password;
+    }
     let variables;
     if (props.initialFieldValues === null) {
       variables = { 'user': payload };
