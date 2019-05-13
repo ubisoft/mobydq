@@ -9,6 +9,8 @@ import IndicatorGroupRepository from './../../repository/IndicatorGroupRepositor
 
 import { EnhancedForm } from './../Form/Form';
 import { IndicatorGroupUpdateForm } from './IndicatorGroupUpdateForm';
+import PrivateRoute from '../Base/PrivateRoute';
+
 
 class IndicatorGroup extends React.Component {
   render() {
@@ -18,14 +20,16 @@ class IndicatorGroup extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          <Route
+          <PrivateRoute
+            permissions={['w_indicator_groups']}
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
                 afterSave={() => this.props.history.push('/indicator-group/')} title="Create Indicator Group" initialFieldValues={null} {...props} />
             }
           />
-          <Route
+          <PrivateRoute
+            permissions={['w_indicator_groups']}
             path={`${match.url}/edit/:id`}
             component={
               (props) => <IndicatorGroupUpdateForm afterSave={() => this.props.history.push('/indicator-group/')} {...props} />

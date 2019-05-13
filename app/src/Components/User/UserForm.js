@@ -3,7 +3,6 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from './../FormInput/TextInput';
 import SaveButton from './../FormInput/SaveButton';
-import ExecuteButton from './../FormInput/ExecuteButton';
 import SwitchInput from './../FormInput/SwitchInput';
 import SelectInput from './../FormInput/SelectInput';
 
@@ -23,7 +22,6 @@ const UserFormFields = (props) => {
       'marginBottom': '30px'
     }}>
       <SaveButton disabled={isSubmitting}/>
-      <ExecuteButton onClick={() => alert('not yet implemented')}/>
     </div>
     <div>
       <TextInput

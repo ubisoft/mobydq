@@ -9,6 +9,8 @@ import { Route, withRouter } from 'react-router-dom';
 
 import { EnhancedForm } from './../Form/Form';
 import { IndicatorUpdateForm } from '../Indicator/IndicatorUpdateForm';
+import PrivateRoute from '../Base/PrivateRoute';
+
 
 class Indicator extends React.Component {
   render() {
@@ -18,14 +20,16 @@ class Indicator extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          <Route
+          <PrivateRoute
+            permissions={['w_indicators']}
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={IndicatorRepository} FormComponent={EnhancedIndicatorForm}
                 afterSave={() => this.props.history.push('/indicator/')} title="Create Indicator" initialFieldValues={null} {...props} />
             }
           />
-          <Route
+          <PrivateRoute
+            permissions={['w_indicators']}
             path={`${match.url}/edit/:id`}
             component={
               (props) => <IndicatorUpdateForm afterSave={() => this.props.history.push('/indicator/')} {...props} />
