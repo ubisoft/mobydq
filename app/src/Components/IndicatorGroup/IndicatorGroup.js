@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -22,13 +22,13 @@ class IndicatorGroup extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={IndicatorGroupRepository} FormComponent={EnhancedIndicatorGroupForm}
-                afterSaveRoute="/indicator-group/" title="Create Indicator Group" initialFieldValues={null} {...props} />
+                afterSave={() => this.props.history.push('/indicator-group/')} title="Create Indicator Group" initialFieldValues={null} {...props} />
             }
           />
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <IndicatorGroupUpdateForm {...props} />
+              (props) => <IndicatorGroupUpdateForm afterSave={() => this.props.history.push('/indicator-group/')} {...props} />
             }
           />
           <Route
@@ -41,4 +41,4 @@ class IndicatorGroup extends React.Component {
     );
   }
 }
-export default withStyles(styles)(IndicatorGroup);
+export default withRouter(withStyles(styles)(IndicatorGroup));

@@ -3,6 +3,9 @@ import { UnauthorizedError } from './UnauthorizedError';
 
 export const GraphQLError = ({ error }) => {
   if (error && error.graphQLErrors && error.graphQLErrors.length > 0) {
+    if (error.message === 'jwt expired') {
+      return <UnauthorizedError />;
+    }
     return <div>{error.message}</div>;
   }
   if (error && error.networkError) {

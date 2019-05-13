@@ -19,17 +19,19 @@ class DeleteRowButton extends React.Component {
   }
 
   render() {
-    const { rowsPerPage, page, rowTotal, sortColumn, repository, setPage } = this.props.parameter;
+    const { rowsPerPage, page, rowTotal, sortColumn, repository, setPage, usePagination } = this.props.parameter;
     const { recordId } = this.props;
     return (
       <Mutation
         key={`delete_${recordId}`}
         mutation={repository.delete()}
         variables={{ 'id': recordId }}
-        refetchQueries={[{ 'query': repository.getListPage(), 'variables': { 'first': rowsPerPage, 'offset': rowsPerPage * page, 'orderBy': sortColumn } }]}
+        refetchQueries={usePagination && [{ 'query': repository.getListPage(), 'variables': { 'first': rowsPerPage, 'offset': rowsPerPage * page, 'orderBy': sortColumn } }]}
         onCompleted={() => {
           // If deleting a row would make the page empty, jump to the previous page
-          if (rowsPerPage * page === rowTotal - 1 && page > 0) {
+          if (usePagination === false) {
+            window.location.reload();
+          } else if (rowsPerPage * page === rowTotal - 1 && page > 0) {
             setPage(page - 1);
           }
         }}>

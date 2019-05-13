@@ -22,13 +22,13 @@ class UserGroup extends React.Component {
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={UserGroupRepository} FormComponent={EnhancedUserGroupForm}
-                afterSaveRoute="/user-group/" title="Create User Group" initialFieldValues={null} {...props} />
+                afterSave={() => this.props.history.push('/user-group/')} title="Create User Group" initialFieldValues={null} {...props} />
             }
           />
           <Route
             path={`${match.url}/edit/:id`}
             component={
-              (props) => <UserGroupUpdateForm {...props} />
+              (props) => <UserGroupUpdateForm afterSave={() => this.props.history.push('/user-group/')} {...props} />
             }
           />
           <Route

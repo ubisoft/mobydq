@@ -7,17 +7,17 @@ const BaseForm = ({
   title,
   FormComponent,
   ComponentRepository,
-  afterSaveRoute,
-  history,
   initialFieldValues,
-  dropDownData
+  dropDownData,
+  afterSave,
+  ...props
 }) => {
   const mutation = initialFieldValues === null ? ComponentRepository.insert() : ComponentRepository.update();
   const recordId = initialFieldValues === null ? null : initialFieldValues.id;
   return <Mutation
     mutation={mutation}
     onCompleted={() => {
-      history.push(afterSaveRoute);
+      afterSave();
     }}
   >
     {(mutate, { loading, error }) => <React.Fragment>
@@ -27,7 +27,7 @@ const BaseForm = ({
             ComponentRepository,
             recordId,
             () => {
-              history.push(afterSaveRoute);
+              afterSave();
             }
           )
         }
@@ -37,6 +37,7 @@ const BaseForm = ({
         data={dropDownData}
         mutate={mutate}
         initialFieldValues={initialFieldValues}
+        {...props}
       />
       {loading && <p>Loading...</p>}
       {error && <p>Error .. Please try again</p>}

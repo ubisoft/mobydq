@@ -26,6 +26,8 @@ class ListContainer extends React.Component {
       <ListTable
         data={data[this.props.dataObjectName].nodes}
         buttons={this.props.buttons}
+        showFooter={true}
+        useSort={true}
         {...this.props}
       />
     </div>;

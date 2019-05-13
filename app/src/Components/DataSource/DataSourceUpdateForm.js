@@ -8,7 +8,7 @@ import NotFoundComponent from '../Error/NotFoundComponent';
 import { EnhancedForm } from '../Form/Form';
 import EnhancedDataSourceForm from './DataSourceForm';
 
-export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRepository.display()} variables={{ 'id': props.match.params.id }}>
+export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRepository.display()} variables={{ 'id': parseInt(props.match.params.id, 10) }}>
   {({ loading, error, data }) => {
     if (typeof DataSourceRepository.display !== 'function') {
       throw new TypeError('Repository must implement update function.');
@@ -23,7 +23,7 @@ export const DataSourceUpdateForm = ({ ...props }) => <Query query={DataSourceRe
       data.dataSourceById === null
         ? <NotFoundComponent/>
         : <EnhancedForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
-          afterSaveRoute="/data-source/" title="Edit Data Source" initialFieldValues={data.dataSourceById} {...props}/>
+          afterSave={props.afterSave} title="Edit Data Source" initialFieldValues={data.dataSourceById} {...props}/>
     );
   }}
 </Query>;

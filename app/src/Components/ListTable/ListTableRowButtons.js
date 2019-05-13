@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListTableCell } from './ListTableCell';
 import createEditRowFunction from './ListRowButtons/EditRowButton';
+import ModalButton from './ListRowButtons/ModalRowButton';
 import createDeleteRowButton from './ListRowButtons/DeleteRowButton';
 import createExecuteRowButton from './ListRowButtons/ExecuteRowButton';
 
@@ -15,23 +16,22 @@ import createExecuteRowButton from './ListRowButtons/ExecuteRowButton';
  * Calls a Button component to render each button
  */
 
-class ListTableRowButtons extends React.Component {
-  render() {
-    return <ListTableCell contents={this.props.buttons.map((button) => this._createButton(button))} />;
-  }
+function ListTableRowButtons(props) {
+  return <ListTableCell contents={props.buttons.map((button) => _createButton(button, props.value))} />;
+}
 
-  _createButton(button) {
-    const recordId = this.props.value;
-    switch (button.function) {
-      case 'edit':
-        return createEditRowFunction(button, recordId);
-      case 'delete':
-        return createDeleteRowButton(button, recordId);
-      case 'execute':
-        return createExecuteRowButton(button, recordId);
-      default:
-        return <React.Fragment key={`none_${recordId}`} />;
-    }
+function _createButton(button, recordId) {
+  switch (button.function) {
+    case 'edit':
+      return createEditRowFunction(button, recordId);
+    case 'modal':
+      return <ModalButton key={`modal_${recordId}`} button={button} recordId={recordId}/>;
+    case 'delete':
+      return createDeleteRowButton(button, recordId);
+    case 'execute':
+      return createExecuteRowButton(button, recordId);
+    default:
+      return <React.Fragment key={`none_${recordId}`} />;
   }
 }
 

@@ -2,7 +2,7 @@ version: '3.1'
 services:
   db:
     container_name: mobydq-db
-    restart: always
+    # restart: always
     image: mobydq-db
     build:
       context: ./db
@@ -17,7 +17,7 @@ services:
 
   graphql:
     container_name: mobydq-graphql
-    restart: always
+    # restart: always
     image: graphile/postgraphile
     env_file:
       - ./.env
@@ -25,7 +25,7 @@ services:
       - 5433:5433
     depends_on:
       - db
-    links:
+    links: 
       - db
     networks:
       - default
@@ -33,7 +33,7 @@ services:
 
   api:
     container_name: mobydq-api
-    restart: always
+    # restart: always
     image: mobydq-api
     build:
       context: ./api
@@ -61,7 +61,7 @@ services:
     
   scripts:
     container_name: mobydq-scripts
-    restart: always
+    # restart: always
     image: mobydq-scripts
     build:
       context: ./scripts
@@ -80,7 +80,7 @@ services:
             
   app:
     container_name: mobydq-app
-    restart: always
+    # restart: always
     image: mobydq-app
     build:
       context: ./app

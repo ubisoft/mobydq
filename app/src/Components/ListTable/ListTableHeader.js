@@ -33,7 +33,7 @@ class ListTableHeader extends React.Component {
       <TableCell
         key={header}
       >
-        {header === 'Actions'
+        {header === 'Actions' || this.props.useSort === false
           ? <React.Fragment>{header}</React.Fragment>
           : <Tooltip
             title={'Sort'}

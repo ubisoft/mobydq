@@ -3,9 +3,10 @@ import { Button, Input, withStyles } from '@material-ui/core';
 import { styles } from '../../styles/baseStyles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import Authentication from './Authentication';
-import DevLog from '../../actions/DevLog';
+import Authentication from '../../Authentication/Authentication';
 import { Redirect } from 'react-router';
+import DevLog from '../../actions/DevLog';
+import SessionUser from '../../Authentication/SessionUser';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -31,14 +32,16 @@ class LoginForm extends React.Component {
   }
 
   // On enter pressed --> smoother login
-  _handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+  _handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
       this._onButtonPressed();
     }
   };
 
   _onButtonPressed() {
-    Authentication.getAndSaveBearerToken(this.state.email, this.state.password).then((result) => {
+    Authentication.authenticateSessionUser(this.state.email, this.state.password).then((result) => {
+      DevLog.log(result);
+
       this.setState({
         'redirect': true
       });
@@ -49,23 +52,36 @@ class LoginForm extends React.Component {
     });
   }
 
+  _onContinueAnonymous() {
+    DevLog.info('Clicked on continue anonymously');
+    SessionUser.logInAsAnonymous();
+    this.setState({
+      'redirect': true
+    });
+  }
+
   // Todo sticky email
   render() {
     if (this.state.redirect) {
+      // Todo remove reload on log in and replace with redux hooks
+      window.location.reload();
       return <Redirect to="/"/>;
     }
     return (
       <div className="container" style={{ 'paddingTop': '-15px' }}>
         <div style={{
           'textAlign': 'center',
-          'alignItems': 'center'
+          'alignItems': 'center',
+          'width': '300px'
         }}>
           <div className="background-box" style={{
             'display': 'inline-block',
             'padding': '20px'
           }}>
             <h2>Login</h2>
-            <p style={{ 'color': 'red' }}>{this.state.message}</p>
+            <p style={{
+              'color': 'red'
+            }}>{this.state.message}</p>
             <div style={{
               'textAlign': 'left',
               'alignItems': 'left'
@@ -80,7 +96,7 @@ class LoginForm extends React.Component {
                           <Input
                             className="input"
                             name="email"
-                            placeholder="Enter your email..."
+                            placeholder="Enter your email"
                             autoFocus
                             onChange={(evt) => this._onChangeEmail(evt)}
                           />
@@ -107,6 +123,8 @@ class LoginForm extends React.Component {
                   Sign in
                 </Button>
               </FormGroup>
+              <br/>
+              <a href="#" onClick={() => this._onContinueAnonymous()}>Continue anonymously...</a>
             </div>
           </div>
         </div>

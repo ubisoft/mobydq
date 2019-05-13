@@ -34,9 +34,9 @@ class ListTable extends React.Component {
     const content = this.props.data;
     return (
       <Table>
-        <ListTableHeader headerNames={headerNames} params={this.props}/>
+        <ListTableHeader useSort={this.props.useSort} headerNames={headerNames} params={this.props}/>
         <ListTableBody buttons={this.props.buttons} content={content} contentColumnList={headerNames}/>
-        <ListTableFooter params={this.props}/>
+        {this.props.showFooter && <ListTableFooter params={this.props}/>}
       </Table>
     );
   }
