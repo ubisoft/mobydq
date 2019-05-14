@@ -9,8 +9,8 @@ import ListContainer from '../ListTable/ListContainer';
 class UserList extends React.Component {
   render() {
     const buttonConfig = [
-      { 'function': 'edit', 'parameter': '/user' },
-      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+      { 'function': 'edit', 'parameter': '/user', 'permissions': ['w_users'] },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam(), 'permissions': ['w_users'] }
     ];
     return <ListContainer
       buttons={buttonConfig}

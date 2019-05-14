@@ -9,8 +9,8 @@ import ListContainer from '../ListTable/ListContainer';
 class IndicatorList extends React.Component {
   render() {
     const buttonConfig = [
-      { 'function': 'edit', 'parameter': '/indicator' },
-      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+      { 'function': 'edit', 'parameter': '/indicator', 'permissions': ['w_indicators'] },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam(), 'permissions': ['w_indicators'] }
     ];
     return <ListContainer
       buttons={buttonConfig}

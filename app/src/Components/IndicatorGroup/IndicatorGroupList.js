@@ -9,9 +9,9 @@ import ListContainer from '../ListTable/ListContainer';
 class IndicatorGroupList extends React.Component {
   render() {
     const buttonConfig = [
-      { 'function': 'execute', 'parameter': this._buildExecuteParam() },
-      { 'function': 'edit', 'parameter': '/indicator-group' },
-      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+      { 'function': 'execute', 'parameter': this._buildExecuteParam(), 'permissions': [/* TBD for a user group*/] },
+      { 'function': 'edit', 'parameter': '/indicator-group', 'permissions': ['w_indicator_groups'] },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam(), 'permissions': ['w_indicator_groups'] }
     ];
     return <ListContainer
       buttons={buttonConfig}

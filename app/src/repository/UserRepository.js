@@ -93,9 +93,9 @@ class UserRepository {
 
   static delete() {
     return gql`
-      mutation deleteUserById($id: Int!) {
-        deleteUserById(input: {id: $id }) {
-          user {
+      mutation deactivateUserById($id: Int!) {
+        updateUserById(input: {userPatch: {flagActive: false}, id: $id}){
+          user{
             id
           }
         }

@@ -35,7 +35,7 @@ class ExecuteRowButton extends React.Component {
 
         return (
           <React.Fragment>
-            <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="secondary">
+            <IconButton key={`execute_${this.props.recordId}`} onClick={() => this.execute(executeFunc)} color="secondary" disabled={this.props.disabled}>
               <PlayArrow />
             </IconButton>
           </React.Fragment>
@@ -58,10 +58,11 @@ const mapDispatchToProps = (dispatch) => (
 
 const VisibleExecuteRowButton = connect(mapStateToProps, mapDispatchToProps)(ExecuteRowButton);
 
-export default function createExecuteRowButton(button, recordId) {
+export default function createExecuteRowButton(button, recordId, disabled) {
   return <VisibleExecuteRowButton
     key={`execute_${recordId}`}
     parameter={button.parameter}
-    recordId={recordId}>
+    recordId={recordId}
+    disabled={disabled}>
   </VisibleExecuteRowButton>;
 }

@@ -6,6 +6,21 @@ import SaveButton from './../FormInput/SaveButton';
 import SwitchInput from './../FormInput/SwitchInput';
 import SelectInput from './../FormInput/SelectInput';
 
+const userRoles = [
+  {
+    'id': 'standard',
+    'name': 'Standard'
+  },
+  {
+    'id': 'advanced ',
+    'name': 'Advanced '
+  },
+  {
+    'id': 'admin',
+    'name': 'Admin'
+  }
+];
+
 const UserFormFields = (props) => {
   const {
     values,
@@ -54,11 +69,7 @@ const UserFormFields = (props) => {
       <SelectInput
         id="role"
         label="Role"
-        items={[
-          { 'id': 'standard', 'name': 'Standard' },
-          { 'id': 'advanced ', 'name': 'Advanced ' },
-          { 'id': 'admin', 'name': 'Admin' }
-        ]}
+        items={userRoles}
         touched={touched.role}
         error={touched.role && errors.role}
         value={values.role}
@@ -82,6 +93,7 @@ const UserFormFields = (props) => {
 };
 
 const formikEnhancer = withFormik({
+  // Todo only require password if the user get created
   'validationSchema': Yup.object().shape({
     'email': Yup.string()
       .required('Email cannot be blank'),
@@ -93,12 +105,12 @@ const formikEnhancer = withFormik({
       'email': '',
       'password': '',
       'role': '',
-      'flagActive': false
+      'flagActive': true
     }
     : /* It doesn't make sense to display the hashed password*/{
       'id': props.initialFieldValues.id,
       'email': props.initialFieldValues.email,
-      'dataSourceTypeId': props.initialFieldValues.role,
+      'role': props.initialFieldValues.role,
       'password': '',
       'flagActive': props.initialFieldValues.flagActive
     },
