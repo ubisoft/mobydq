@@ -1,7 +1,7 @@
 import ApolloClient from 'apollo-boost';
 import UrlBuilder from '../Base/UrlBuilder';
 import SessionUser from '../../Authentication/SessionUser';
-import DevLog from '../../actions/DevLog';
+import DevLog from '../../DevLog';
 
 export default class Client {
   static getSessionToken() {

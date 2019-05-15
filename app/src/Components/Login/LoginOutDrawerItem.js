@@ -5,7 +5,7 @@ import SessionUser from '../../Authentication/SessionUser';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import LockIcon from '@material-ui/icons/Lock';
-import DevLog from '../../actions/DevLog';
+import DevLog from '../../DevLog';
 
 
 export default class LoginOutDrawerItem extends React.Component {
