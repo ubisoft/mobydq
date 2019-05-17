@@ -11,7 +11,4 @@ describe('IndicatorGroup component unit test', () => {
   it('matches snapshot', () => {
     expect(wrapper.dive()).toMatchSnapshot();
   });
-  it('contains exactly 3 routes', () => {
-    expect(wrapper.dive().find('Route')).toHaveLength(3);
-  });
 });

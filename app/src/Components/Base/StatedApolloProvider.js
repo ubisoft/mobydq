@@ -6,7 +6,6 @@ import Client from './Client';
  * Because the Apollo client gets changed when the user logs in, it must get a new instance on setState.
  */
 export default class StatedApolloProvider extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

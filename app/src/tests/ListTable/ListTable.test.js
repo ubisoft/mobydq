@@ -58,8 +58,8 @@ describe('ListTable functional test', () => {
     expect(wrapper.find('ListTableRowButtons').exists()).toBe(true);
     expect(wrapper.find('ListTableRowButtons')).toHaveLength(2);
     expect(wrapper.find('EditIcon').exists()).toBe(true);
-    expect(wrapper.find('tr')).toHaveLength(4);
-    expect(wrapper.find('td')).toHaveLength(11);
+    expect(wrapper.find('tr')).toHaveLength(3);
+    expect(wrapper.find('td')).toHaveLength(10);
     expect(wrapper.find('th')).toHaveLength(5);
     expect(wrapper.find('th').at(0)
       .text()).toEqual('Id');
