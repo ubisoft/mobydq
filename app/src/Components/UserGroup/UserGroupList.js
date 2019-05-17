@@ -9,8 +9,8 @@ import ListContainer from '../ListTable/ListContainer';
 class UserGroupList extends React.Component {
   render() {
     const buttonConfig = [
-      { 'function': 'edit', 'parameter': '/user-group' },
-      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+      { 'function': 'edit', 'parameter': '/user-group', 'permissions': ['w_user_groups'] },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam(), 'permissions': ['w_user_groups'] }
     ];
     return <ListContainer
       buttons={buttonConfig}

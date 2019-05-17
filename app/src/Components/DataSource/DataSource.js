@@ -9,6 +9,7 @@ import DataSourceRepository from './../../repository/DataSourceRepository';
 
 import { EnhancedForm } from './../Form/Form';
 import { DataSourceUpdateForm } from './DataSourceUpdateForm';
+import PrivateRoute from '../Base/PrivateRoute';
 
 class DataSource extends React.Component {
   render() {
@@ -18,14 +19,16 @@ class DataSource extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          <Route
+          <PrivateRoute
+            permissions={['w_data_sources', 'r_data_source_types']}
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={DataSourceRepository} FormComponent={EnhancedDataSourceForm}
                 afterSave={() => this.props.history.push('/data-source/')} title="Create Data Source" initialFieldValues={null} {...props} />
             }
           />
-          <Route
+          <PrivateRoute
+            permissions={['w_data_sources', 'r_data_source_types']}
             path={`${match.url}/edit/:id`}
             component={
               (props) => <DataSourceUpdateForm afterSave={() => this.props.history.push('/data-source/')} {...props} />

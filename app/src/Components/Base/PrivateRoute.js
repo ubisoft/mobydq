@@ -11,7 +11,7 @@ const PrivateRoute = ({ 'component': Component, ...parentProps }) => <Route {...
   }} />
 } />;
 
-function isAuthenticated(props) {
+export function isAuthenticated(props) {
   // Null = not logged in
   if (SessionUser.user) {
     const userPermissions = UserRolePermissions.getPermissionsObjectByRole(SessionUser.user.role);

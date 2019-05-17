@@ -3,32 +3,9 @@
 exports[`IndicatorGroup component unit test matches snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <IndicatorGroup
-    classes={
-      Object {
-        "appBar": "IndicatorGroup-appBar-4",
-        "appBarShift": "IndicatorGroup-appBarShift-5",
-        "appBarSpacer": "IndicatorGroup-appBarSpacer-11",
-        "chartContainer": "IndicatorGroup-chartContainer-13",
-        "content": "IndicatorGroup-content-12",
-        "drawerPaper": "IndicatorGroup-drawerPaper-9",
-        "drawerPaperClose": "IndicatorGroup-drawerPaperClose-10",
-        "formContainer": "IndicatorGroup-formContainer-14",
-        "menuButton": "IndicatorGroup-menuButton-6",
-        "menuButtonHidden": "IndicatorGroup-menuButtonHidden-7",
-        "root": "IndicatorGroup-root-1",
-        "tableContainer": "IndicatorGroup-tableContainer-15",
-        "title": "IndicatorGroup-title-8",
-        "toolbar": "IndicatorGroup-toolbar-2",
-        "toolbarIcon": "IndicatorGroup-toolbarIcon-3",
-      }
-    }
-    match={
-      Object {
-        "url": "/indicator-group",
-      }
-    }
-  />,
+  Symbol(enzyme.__unrendered__): <Route>
+    [Function]
+  </Route>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "checkPropTypes": [Function],
@@ -41,227 +18,65 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "function",
+    "nodeType": "class",
     "props": Object {
-      "children": Array [
-        <div
-          className="IndicatorGroup-appBarSpacer-11"
-        />,
-        <WithStyles(Typography)
-          className="IndicatorGroup-chartContainer-13"
-          gutterBottom={true}
-          variant="display1"
-        >
-          <Route
-            component={[Function]}
-            path="/indicator-group/new"
-          />
-          <Route
-            component={[Function]}
-            path="/indicator-group/edit/:id"
-          />
-          <Route
-            exact={true}
-            path="/indicator-group"
-            render={[Function]}
-          />
-        </WithStyles(Typography)>,
-      ],
+      "history": Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      },
+      "location": Object {},
+      "match": Object {},
+      "staticContext": undefined,
     },
     "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "className": "IndicatorGroup-appBarSpacer-11",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "class",
-        "props": Object {
-          "children": Array [
-            <Route
-              component={[Function]}
-              path="/indicator-group/new"
-            />,
-            <Route
-              component={[Function]}
-              path="/indicator-group/edit/:id"
-            />,
-            <Route
-              exact={true}
-              path="/indicator-group"
-              render={[Function]}
-            />,
-          ],
-          "className": "IndicatorGroup-chartContainer-13",
-          "gutterBottom": true,
-          "variant": "display1",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "component": [Function],
-              "path": "/indicator-group/new",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "component": [Function],
-              "path": "/indicator-group/edit/:id",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "exact": true,
-              "path": "/indicator-group",
-              "render": [Function],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-        ],
-        "type": [Function],
-      },
-    ],
-    "type": Symbol(react.fragment),
+    "rendered": null,
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
-        "children": Array [
-          <div
-            className="IndicatorGroup-appBarSpacer-11"
-          />,
-          <WithStyles(Typography)
-            className="IndicatorGroup-chartContainer-13"
-            gutterBottom={true}
-            variant="display1"
-          >
-            <Route
-              component={[Function]}
-              path="/indicator-group/new"
-            />
-            <Route
-              component={[Function]}
-              path="/indicator-group/edit/:id"
-            />
-            <Route
-              exact={true}
-              path="/indicator-group"
-              render={[Function]}
-            />
-          </WithStyles(Typography)>,
-        ],
+        "history": Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        },
+        "location": Object {},
+        "match": Object {},
+        "staticContext": undefined,
       },
       "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "className": "IndicatorGroup-appBarSpacer-11",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "children": Array [
-              <Route
-                component={[Function]}
-                path="/indicator-group/new"
-              />,
-              <Route
-                component={[Function]}
-                path="/indicator-group/edit/:id"
-              />,
-              <Route
-                exact={true}
-                path="/indicator-group"
-                render={[Function]}
-              />,
-            ],
-            "className": "IndicatorGroup-chartContainer-13",
-            "gutterBottom": true,
-            "variant": "display1",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "component": [Function],
-                "path": "/indicator-group/new",
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "component": [Function],
-                "path": "/indicator-group/edit/:id",
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "class",
-              "props": Object {
-                "exact": true,
-                "path": "/indicator-group",
-                "render": [Function],
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-          ],
-          "type": [Function],
-        },
-      ],
-      "type": Symbol(react.fragment),
+      "rendered": null,
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {
@@ -314,6 +129,31 @@ ShallowWrapper {
       },
     },
   },
-  Symbol(enzyme.__childContext__): null,
+  Symbol(enzyme.__childContext__): Object {
+    "router": Object {
+      "history": Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      },
+      "route": Object {
+        "location": Object {},
+        "match": Object {},
+      },
+    },
+  },
 }
 `;

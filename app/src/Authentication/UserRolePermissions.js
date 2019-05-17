@@ -48,7 +48,9 @@ UserRolePermissions.Standard = class Standard extends UserRolePermissions.Anonym
       'w_indicator_parameters',
       'w_batches',
       'w_sessions',
-      'w_session_results'
+      'w_session_results',
+      'r_users',
+      'r_user_groups'
     );
   }
 };
@@ -69,9 +71,7 @@ UserRolePermissions.Admin = class Admin extends UserRolePermissions.Advanced {
       'w_data_source_types',
       'w_indicator_types',
       'w_indicator_parameters',
-      'r_users',
       'w_users',
-      'r_user_groups',
       'w_user_groups'
     );
   }

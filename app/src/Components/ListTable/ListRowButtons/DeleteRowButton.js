@@ -44,6 +44,7 @@ class DeleteRowButton extends React.Component {
           }
           return <IconButton
             key={`delete_${recordId}`}
+            disabled={this.props.disabled}
             onClick={() => {
               this.confirmDelete(deleteFunc);
             }}
@@ -68,10 +69,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 const VisibleDeleteRowButton = connect(mapStateToProps, mapDispatchToProps)(DeleteRowButton);
 
-export default function createDeleteRowButton(button, recordId) {
+export default function createDeleteRowButton(button, recordId, disabled) {
   return <VisibleDeleteRowButton
     key={recordId}
     parameter={button.parameter}
-    recordId={recordId}>
+    recordId={recordId}
+    disabled={disabled}>
   </VisibleDeleteRowButton>;
 }

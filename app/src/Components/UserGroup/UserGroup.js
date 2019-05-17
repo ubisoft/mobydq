@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { styles } from './../../styles/baseStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +8,9 @@ import UserGroupRepository from './../../repository/UserGroupRepository';
 
 import { EnhancedForm } from './../Form/Form';
 import { UserGroupUpdateForm } from './UserGroupUpdateForm';
+import PrivateRoute from '../Base/PrivateRoute';
+import { Route } from 'react-router-dom';
+
 
 class UserGroup extends React.Component {
   render() {
@@ -18,14 +20,16 @@ class UserGroup extends React.Component {
       <React.Fragment>
         <div className={classes.appBarSpacer} />
         <Typography variant="display1" gutterBottom className={classes.chartContainer}>
-          <Route
+          <PrivateRoute
+            permissions={['w_user_groups']}
             path={`${match.url}/new`}
             component={
               (props) => <EnhancedForm ComponentRepository={UserGroupRepository} FormComponent={EnhancedUserGroupForm}
                 afterSave={() => this.props.history.push('/user-group/')} title="Create User Group" initialFieldValues={null} {...props} />
             }
           />
-          <Route
+          <PrivateRoute
+            permissions={['w_user_groups']}
             path={`${match.url}/edit/:id`}
             component={
               (props) => <UserGroupUpdateForm afterSave={() => this.props.history.push('/user-group/')} {...props} />

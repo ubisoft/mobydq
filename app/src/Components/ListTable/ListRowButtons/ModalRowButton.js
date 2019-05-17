@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import withModal from '../../../hoc/withModal';
 
 const ModalButton = (props) => <IconButton
-  color="secondary" onClick={() => onModalButtonClick(props)}>
+  color="secondary" onClick={() => onModalButtonClick(props)} disabled={props.disabled}>
   {props.button.icon}
 </IconButton>;
 

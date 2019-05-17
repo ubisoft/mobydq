@@ -5,7 +5,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Authentication from '../../Authentication/Authentication';
 import { Redirect } from 'react-router';
-import DevLog from '../../actions/DevLog';
+import DevLog from '../../DevLog';
 import SessionUser from '../../Authentication/SessionUser';
 
 class LoginForm extends React.Component {

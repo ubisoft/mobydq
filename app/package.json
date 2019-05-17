@@ -10,7 +10,7 @@
     "formik": "^1.5.1",
     "graphql": "^14.1.1",
     "react": "^16.8.3",
-    "react-apollo": "^2.4.1",
+    "react-apollo": "^2.5.1",
     "react-app-env": "^1.2.3",
     "react-dom": "^16.8.3",
     "react-number-format": "^4.0.6",

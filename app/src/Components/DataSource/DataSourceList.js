@@ -9,8 +9,8 @@ import ListContainer from '../ListTable/ListContainer';
 class DataSourceList extends React.Component {
   render() {
     const buttonConfig = [
-      { 'function': 'edit', 'parameter': '/data-source' },
-      { 'function': 'delete', 'parameter': this._buildDeleteParam() }
+      { 'function': 'edit', 'parameter': '/data-source', 'permissions': ['w_data_sources'] },
+      { 'function': 'delete', 'parameter': this._buildDeleteParam(), 'permissions': ['w_data_sources'] }
     ];
     return <ListContainer
       buttons={buttonConfig}

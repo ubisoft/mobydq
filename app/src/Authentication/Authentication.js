@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import UrlBuilder from '../Components/Base/UrlBuilder';
 import InvalidUserCredentials from '../Exceptions/InvalidUserCredentials';
-import DevLog from '../actions/DevLog';
+import DevLog from '../DevLog';
 import Client from '../Components/Base/Client';
 import SessionUser from './SessionUser';
 
