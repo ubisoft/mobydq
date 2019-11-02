@@ -1,0 +1,36 @@
+<template>
+  <nav class="navbar text-light justify-content-between">
+    <span class="navbar-brand">
+      <router-link to="/">
+        MobyDQ...
+      </router-link>
+    </span>
+
+    <form class="form-inline">
+      <!-- User group is picked when creating lists instead of at session level -->
+      <header-button-admin></header-button-admin>
+      <header-button-login></header-button-login>
+      <header-button-logout></header-button-logout>
+    </form>
+  </nav>
+</template>
+
+<script>
+import HeaderButtonAdmin from "./HeaderButtonAdmin.vue";
+import HeaderButtonLogin from "./HeaderButtonLogin.vue";
+import HeaderButtonLogout from "./HeaderButtonLogout.vue";
+
+export default {
+  components: {
+    "header-button-admin": HeaderButtonAdmin,
+    "header-button-login": HeaderButtonLogin,
+    "header-button-logout": HeaderButtonLogout
+  }
+};
+</script>
+
+<style>
+.navbar {
+  background-color: #2c3034;
+}
+</style>

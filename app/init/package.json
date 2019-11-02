@@ -1,0 +1,64 @@
+{
+  "name": "mobydq",
+  "version": "0.8.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "prettier": "prettier --write \"src/**/*.{js,vue}\" --tab-width 4 --print-width 160 --jsx-bracket-same-line"
+  },
+  "dependencies": {
+    "@riophae/vue-treeselect": "0.0.38",
+    "core-js": "^2.6.5",
+    "file-saver": "^2.0.2",
+    "jszip": "^3.2.1",
+    "inflection": "^1.12.0",
+    "lodash": "^4.17.13",
+    "papaparse": "^5.0.0-beta.0",
+    "topological-sort": "^0.3.0",
+    "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.6",
+    "vue-session": "^1.0.0",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "prettier": "1.18.2",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "prettier": {
+    "jsxBracketSameLine": true,
+    "printWidth": 160,
+    "tabWidth": 2
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
