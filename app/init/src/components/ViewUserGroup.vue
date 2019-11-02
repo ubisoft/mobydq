@@ -1,5 +1,5 @@
 <template>
-  <div class="col-8">
+  <div class="col">
     <h1 class="mt-5">User Groups</h1>
     <user-group-button-create></user-group-button-create>
     <user-group-search></user-group-search>

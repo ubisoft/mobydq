@@ -4,7 +4,7 @@
 
     <form>
       <div class="form-row">
-        <div class="col-md-8">
+        <div class="col-md-4">
           <!-- User Form -->
           <div class="form-group required">
             <label for="userGroupName" class="col-form-label">
@@ -13,22 +13,23 @@
             <input class="form-control col-sm" id="userGroupName" type="text" required="required" placeholder="Type user group name" v-model="userGroup.name" />
           </div>
 
-          <!-- Button Menu -->
+          <!-- Meta-Data -->
           <div>
-            <user-group-button-save v-bind:userGroup="userGroup"> </user-group-button-save>
+            <user-group-meta-data
+              v-if="userGroup.id"
+              v-bind:id="userGroup.id"
+              v-bind:createdDate="userGroup.createdDate"
+              v-bind:createdBy="userGroup.userByCreatedById.email"
+              v-bind:updatedDate="userGroup.updatedDate"
+              v-bind:updatedBy="userGroup.userByUpdatedById.email"
+            ></user-group-meta-data>
+          </div>
 
+          <!-- Button Menu -->
+          <div class="mt-3">
+            <user-group-button-save v-bind:userGroup="userGroup"> </user-group-button-save>
             <user-group-button-close> </user-group-button-close>
           </div>
-        </div>
-        <div class="col-md-4">
-          <user-group-meta-data
-            v-if="userGroup.id"
-            v-bind:id="userGroup.id"
-            v-bind:createdDate="userGroup.createdDate"
-            v-bind:createdBy="userGroup.sysUserByCreatedById.email"
-            v-bind:updatedDate="userGroup.updatedDate"
-            v-bind:updatedBy="userGroup.sysUserByUpdatedById.email"
-          ></user-group-meta-data>
         </div>
       </div>
     </form>
@@ -76,7 +77,7 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            this.userGroup = response.data.data.sysUserGroupById;
+            this.userGroup = response.data.data.userGroupById;
           }
         },
         // Error callback

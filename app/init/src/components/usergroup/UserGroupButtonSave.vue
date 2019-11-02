@@ -21,7 +21,7 @@ export default {
           query: this.$store.state.mutationUpdateUserGroup,
           variables: {
             id: this.userGroup.id,
-            sysUserGroupPatch: {
+            userGroupPatch: {
               name: this.userGroup.name
             }
           }
@@ -35,8 +35,8 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              this.userGroup.updatedDate = response.data.data.updateSysUserGroupById.sysUserGroup.updatedDate;
-              this.userGroup.sysUserByUpdatedById.email = response.data.data.updateSysUserGroupById.sysUserGroup.sysUserByUpdatedById.email;
+              this.userGroup.updatedDate = response.data.data.updateUserGroupById.userGroup.updatedDate;
+              this.userGroup.userByUpdatedById.email = response.data.data.updateUserGroupById.userGroup.userByUpdatedById.email;
 
               // Refresh list of current user groups
               this.refreshCurrentUserGroups();
@@ -53,7 +53,7 @@ export default {
         let payload = {
           query: this.$store.state.mutationCreateUserGroup,
           variables: {
-            sysUserGroup: {
+            userGroup: {
               name: this.userGroup.name
             }
           }
@@ -68,7 +68,7 @@ export default {
               this.displayError(response);
             } else {
               // Capture new user group Id in case user wants to delete or update it
-              this.userGroup.id = response.data.data.createSysUserGroup.sysUserGroup.id;
+              this.userGroup.id = response.data.data.createUserGroup.userGroup.id;
               this.$router.push({
                 name: "edit-user-group",
                 params: {
@@ -103,10 +103,10 @@ export default {
             this.displayError(response);
           } else {
             // Prepare list of current user groups
-            let memberships = response.data.data.sysUserByEmail.sysUserGroupMembershipsByUserId.nodes;
+            let memberships = response.data.data.userByEmail.userGroupMembershipsByUserId.nodes;
             let currentUserGroups = [];
             for (let i = 0; i < memberships.length; i++) {
-              currentUserGroups.push(memberships[i]["sysUserGroupByUserGroupId"]);
+              currentUserGroups.push(memberships[i]["userGroupByUserGroupId"]);
             }
 
             // Reset current user groups

@@ -72,8 +72,8 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            this.userGroups = response.data.data.allSysUserGroups.nodes;
-            this.nbUserGroups = response.data.data.allSysUserGroups.totalCount;
+            this.userGroups = response.data.data.allUserGroups.nodes;
+            this.nbUserGroups = response.data.data.allUserGroups.totalCount;
 
             // Set current page
             this.currentPage = {
@@ -117,7 +117,7 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              this.userGroups = response.data.data.searchUserGroup.sysUserGroups;
+              this.userGroups = response.data.data.searchUserGroup.userGroups;
             }
           },
           // Error callback

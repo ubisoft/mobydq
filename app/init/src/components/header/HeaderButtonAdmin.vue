@@ -4,9 +4,6 @@
       Admin
     </button>
     <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="admin">
-      <router-link to="/admin/backup" class="dropdown-item">
-        Backup & Restore
-      </router-link>
       <router-link to="/admin/users" class="dropdown-item">
         Users
       </router-link>
