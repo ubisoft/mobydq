@@ -13,6 +13,10 @@ services:
       - ./.env
     networks:
       - network
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
 
   graphql:
     container_name: mobydq-graphql
@@ -67,6 +71,38 @@ services:
       - network
     command: ["flask", "run", "--host=0.0.0.0"]
 
+  app:
+    container_name: mobydq-app
+    restart: always
+    image: mobydq-app
+    build:
+      context: ./app
+    env_file:
+      - ./.env
+    depends_on:
+      - graphql
+      - api
+    networks:
+      - network
+    command: ["prod"]
+
+  nginx:
+    container_name: mobydq-nginx
+    restart: always
+    image: nginx:alpine
+    volumes:
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/config/cert.pem:/etc/nginx/cert.pem
+      - ./nginx/config/key.pem:/etc/nginx/key.pem
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - graphql
+      - api
+    networks:
+      - network
+
   scripts:
     container_name: mobydq-scripts
     restart: always
@@ -82,44 +118,6 @@ services:
       - ./.env
     depends_on:
       - graphql
-    networks:
-      - network
-
-  app:
-    container_name: mobydq-app
-    restart: always
-    image: mobydq-app
-    build:
-      context: ./app
-    volumes:
-      - ./app/src:/usr/src/app/src:ro
-      - ./app/public:/usr/src/app/public:ro
-    env_file:
-      - ./.env
-    environment:
-      REACT_APP_HOST_NAME: ${HOST_NAME}
-    depends_on:
-      - graphql
-      - api
-    networks:
-      - network
-
-  nginx:
-    container_name: mobydq-nginx
-    restart: always
-    image: nginx:alpine
-    volumes:
-      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/config/cert.pem:/etc/nginx/cert.pem
-      - ./nginx/config/key.pem:/etc/nginx/key.pem
-    ports:
-      - 80:80
-      - 443:443
-      - 5433:5433
-      - 5434:5434
-    depends_on:
-      - graphql
-      - api
     networks:
       - network
 
