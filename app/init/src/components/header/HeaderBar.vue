@@ -1,10 +1,6 @@
 <template>
   <nav class="navbar text-light justify-content-between">
-    <span class="navbar-brand">
-      <router-link to="/">
-        MobyDQ...
-      </router-link>
-    </span>
+    <span class="navbar-brand"></span>
 
     <form class="form-inline">
       <!-- User group is picked when creating lists instead of at session level -->

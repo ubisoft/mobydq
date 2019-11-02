@@ -1,16 +1,16 @@
 export const mutationAuthenticateUser = `mutation authenticateUser($userEmail: String!, $userPassword: String!) {
     authenticateUser(input: {userEmail: $userEmail, userPassword: $userPassword}) {
-        sysToken
+        token
     }
 }`;
 
 export const queryGetCurrentUser = `query getCurrentUser($email: String!) {
-    sysUserByEmail(email: $email) {
+    userByEmail(email: $email) {
         email
         role
-        sysUserGroupMembershipsByUserId{
+        userGroupMembershipsByUserId{
             nodes {
-                sysUserGroupByUserGroupId {
+                userGroupByUserGroupId {
                     id
                     name
                 }

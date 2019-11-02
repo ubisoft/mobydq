@@ -22,7 +22,7 @@ export default {
           query: this.$store.state.mutationUpdateUser,
           variables: {
             id: this.user.id,
-            sysUserPatch: {
+            userPatch: {
               email: this.user.email,
               role: this.user.role,
               flagActive: this.user.flagActive
@@ -38,8 +38,8 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              this.user.updatedDate = response.data.data.updateSysUserById.sysUser.updatedDate;
-              this.user.sysUserByUpdatedById.email = response.data.data.updateSysUserById.sysUser.sysUserByUpdatedById.email;
+              this.user.updatedDate = response.data.data.updateUserById.user.updatedDate;
+              this.user.userByUpdatedById.email = response.data.data.updateUserById.user.userByUpdatedById.email;
 
               // Update password only if value is supplied by admin user
               if (this.showPasswordField && this.user.password) {
@@ -58,7 +58,7 @@ export default {
         let payload = {
           query: this.$store.state.mutationCreateUser,
           variables: {
-            sysUser: {
+            user: {
               email: this.user.email,
               role: this.user.role,
               flagActive: this.user.flagActive
@@ -75,7 +75,7 @@ export default {
               this.displayError(response);
             } else {
               // Capture new user Id in case user wants to delete or update it
-              this.user.id = response.data.data.createSysUser.sysUser.id;
+              this.user.id = response.data.data.createUser.user.id;
 
               // Create password for the user
               this.createPassword();
@@ -101,7 +101,7 @@ export default {
       let payload = {
         query: this.$store.state.mutationCreatePassword,
         variables: {
-          sysPassword: {
+          password: {
             userId: this.user.id,
             password: this.user.password
           }
@@ -130,7 +130,7 @@ export default {
         query: this.$store.state.mutationUpdatePassword,
         variables: {
           userId: this.user.id,
-          sysPasswordPatch: {
+          passwordPatch: {
             password: this.user.password
           }
         }

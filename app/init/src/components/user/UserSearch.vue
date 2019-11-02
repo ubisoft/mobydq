@@ -67,8 +67,8 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            this.users = response.data.data.allSysUsers.nodes;
-            this.nbUsers = response.data.data.allSysUsers.totalCount;
+            this.users = response.data.data.allUsers.nodes;
+            this.nbUsers = response.data.data.allUsers.totalCount;
 
             // Set current page
             this.currentPage = {
@@ -112,7 +112,7 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              this.users = response.data.data.searchUser.sysUsers;
+              this.users = response.data.data.searchUser.users;
             }
           },
           // Error callback

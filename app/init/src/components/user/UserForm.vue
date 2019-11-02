@@ -4,7 +4,7 @@
 
     <form>
       <div class="form-row">
-        <div class="col-md-8">
+        <div class="col-md-4">
           <!-- User Form -->
           <div class="form-group required">
             <label for="userEmail" class="col-form-label">
@@ -12,7 +12,7 @@
             </label>
             <input class="form-control col-sm" id="userEmail" type="email" required="required" placeholder="Type user e-mail" v-model="user.email" />
           </div>
-          <div v-if="showPasswordField" class="form-group required">
+          <div v-if="showPasswordField" class="form-group">
             <label for="userPassword" class="col-form-label">
               Password:
             </label>
@@ -36,24 +36,26 @@
             </label>
           </div>
 
-          <!-- Button Menu -->
+          <!-- Meta-Data -->
           <div>
-            <user-button-save v-bind:user="user" v-bind:showPasswordField="showPasswordField"> </user-button-save>
-            <user-button-reset-password v-on:resetPassword="resetPassword" v-bind:userId="userId"> </user-button-reset-password>
-            <user-button-close> </user-button-close>
+            <user-meta-data
+              v-if="user.id"
+              v-bind:id="user.id"
+              v-bind:createdDate="user.createdDate"
+              v-bind:createdBy="user.userByCreatedById.email"
+              v-bind:updatedDate="user.updatedDate"
+              v-bind:updatedBy="user.userByUpdatedById.email"
+            ></user-meta-data>
+          </div>
+
+          <!-- Button Menu -->
+          <div class="mt-3">
+              <user-button-save v-bind:user="user" v-bind:showPasswordField="showPasswordField"> </user-button-save>
+              <user-button-reset-password v-on:resetPassword="resetPassword" v-bind:userId="userId"> </user-button-reset-password>
+              <user-button-close> </user-button-close>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <user-meta-data
-            v-if="user.id"
-            v-bind:id="user.id"
-            v-bind:createdDate="user.createdDate"
-            v-bind:createdBy="user.sysUserByCreatedById.email"
-            v-bind:updatedDate="user.updatedDate"
-            v-bind:updatedBy="user.sysUserByUpdatedById.email"
-          ></user-meta-data>
-        </div>
-      </div>
 
       <!-- User Groups -->
       <div class="form-group required">
@@ -98,13 +100,13 @@ export default {
   },
   methods: {
     addUserGroupMembership(userGroupMembership) {
-      this.user.sysUserGroupMembershipsByUserId.nodes.push(userGroupMembership);
+      this.user.userGroupMembershipsByUserId.nodes.push(userGroupMembership);
     },
     removeUserGroupMembership(id) {
-      let memberships = this.user.sysUserGroupMembershipsByUserId.nodes;
+      let memberships = this.user.userGroupMembershipsByUserId.nodes;
       for (let i = 0; i < memberships.length; i++) {
         if (memberships[i]["id"] == id) {
-          this.user.sysUserGroupMembershipsByUserId.nodes.splice(i, 1);
+          this.user.userGroupMembershipsByUserId.nodes.splice(i, 1);
         }
       }
     },
@@ -130,7 +132,7 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            this.user = response.data.data.sysUserById;
+            this.user = response.data.data.userById;
           }
         },
         // Error callback

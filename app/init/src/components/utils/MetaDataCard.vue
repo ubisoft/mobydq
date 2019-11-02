@@ -1,6 +1,5 @@
 <template>
   <div class="card text-white bg-secondary small p-2">
-    <h5>Meta-data</h5>
     <table>
       <tr>
         <td>Id:</td>

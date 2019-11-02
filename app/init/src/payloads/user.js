@@ -1,5 +1,5 @@
-export const queryGetAllUsers = `query getAllUsers($first: Int, $offset: Int, $orderBy: [SysUsersOrderBy!]){
-    allSysUsers(first: $first offset: $offset orderBy: $orderBy) {
+export const queryGetAllUsers = `query getAllUsers($first: Int, $offset: Int, $orderBy: [UsersOrderBy!]){
+    allUsers(first: $first offset: $offset orderBy: $orderBy) {
         nodes {
             id
             email
@@ -11,64 +11,64 @@ export const queryGetAllUsers = `query getAllUsers($first: Int, $offset: Int, $o
 }`;
 
 export const queryGetUser = `query getUser($id: Int!) {
-    sysUserById(id: $id) {
+    userById(id: $id) {
         id
         email
         role
         flagActive
-        sysUserGroupMembershipsByUserId {
+        userGroupMembershipsByUserId {
             nodes {
                 id
                 userGroupId
-                sysUserGroupByUserGroupId { name }
+                userGroupByUserGroupId { name }
             }
         }
         createdDate
         updatedDate
-        sysUserByCreatedById { email }
-        sysUserByUpdatedById { email }
+        userByCreatedById { email }
+        userByUpdatedById { email }
     }
 }`;
 
-export const mutationCreateUser = `mutation createUser($sysUser: SysUserInput!) {
-    createSysUser(input: {sysUser: $sysUser}) {
-        sysUser {
+export const mutationCreateUser = `mutation createUser($user: UserInput!) {
+    createUser(input: {user: $user}) {
+        user {
             id
         }
     }
 }`;
 
-export const mutationUpdateUser = `mutation updateUser($id: Int!, $sysUserPatch: SysUserPatch!) {
-    updateSysUserById(input: {id: $id, sysUserPatch: $sysUserPatch}) {
-        sysUser {
+export const mutationUpdateUser = `mutation updateUser($id: Int!, $userPatch: UserPatch!) {
+    updateUserById(input: {id: $id, userPatch: $userPatch}) {
+        user {
             id
             updatedDate
-            sysUserByUpdatedById { email }
+            userByUpdatedById { email }
         }
     }
 }`;
 
-export const mutationCreatePassword = `mutation createPassword($sysPassword: SysPasswordInput!) {
-    createSysPassword(input: {sysPassword: $sysPassword}) {
-        sysPassword {
+export const mutationCreatePassword = `mutation createPassword($password: PasswordInput!) {
+    createPassword(input: {password: $password}) {
+        password {
             id
         }
     }
 }`;
 
-export const mutationUpdatePassword = `mutation updatePassword($userId: Int!, $sysPasswordPatch: SysPasswordPatch!) {
-    updateSysPasswordByUserId(input: {userId: $userId, sysPasswordPatch: $sysPasswordPatch}) {
-        sysPassword {
+export const mutationUpdatePassword = `mutation updatePassword($userId: Int!, $passwordPatch: PasswordPatch!) {
+    updatePasswordByUserId(input: {userId: $userId, passwordPatch: $passwordPatch}) {
+        password {
             id
             updatedDate
-            sysUserByUpdatedById { email }
+            userByUpdatedById { email }
         }
     }
 }`;
 
 export const mutationSearchUser = `mutation searchUser($searchKeyword: String, $sortAttribute: String, $sortOrder: String) {
     searchUser(input: {searchKeyword: $searchKeyword, sortAttribute: $sortAttribute, sortOrder: $sortOrder}) {
-        sysUsers {
+        users {
             id
             email
             role
@@ -77,19 +77,19 @@ export const mutationSearchUser = `mutation searchUser($searchKeyword: String, $
     }
 }`;
 
-export const mutationCreateUserGroupMembership = `mutation createUserGroupMembership($sysUserGroupMembership: SysUserGroupMembershipInput!) {
-    createSysUserGroupMembership(input: {sysUserGroupMembership: $sysUserGroupMembership}) {
-        sysUserGroupMembership {
+export const mutationCreateUserGroupMembership = `mutation createUserGroupMembership($userGroupMembership: UserGroupMembershipInput!) {
+    createUserGroupMembership(input: {userGroupMembership: $userGroupMembership}) {
+        userGroupMembership {
             id
             userGroupId
-            sysUserGroupByUserGroupId { name }
+            userGroupByUserGroupId { name }
         }
     }
 }`;
 
 export const mutationDeleteUserGroupMembership = `mutation deleteUserGroupMembership($id: Int!) {
-    deleteSysUserGroupMembershipById(input: {id: $id}){
-        sysUserGroupMembership {
+    deleteUserGroupMembershipById(input: {id: $id}){
+        userGroupMembership {
             id
         }
     }

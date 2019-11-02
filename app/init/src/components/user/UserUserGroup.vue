@@ -10,7 +10,7 @@
       </user-button-add-user-group>
     </div>
 
-    <user-user-group-table v-if="user.sysUserGroupMembershipsByUserId" v-bind:user="user" v-on:removeUserGroupMembership="removeUserGroupMembership">
+    <user-user-group-table v-if="user.userGroupMembershipsByUserId" v-bind:user="user" v-on:removeUserGroupMembership="removeUserGroupMembership">
     </user-user-group-table>
   </div>
 </template>
@@ -57,7 +57,7 @@ export default {
         if (response.data.errors) {
           this.displayError(response);
         } else {
-          this.options = response.data.data.allSysUserGroups.nodes;
+          this.options = response.data.data.allUserGroups.nodes;
         }
       },
       // Error callback

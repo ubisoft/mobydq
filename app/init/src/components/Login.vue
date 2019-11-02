@@ -1,5 +1,5 @@
 <template>
-  <div class="col-8">
+  <div class="col">
     <h1 class="mt-5">Login</h1>
 
     <!-- User Form -->
@@ -46,7 +46,7 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            let token = response.data.data.authenticateUser.sysToken;
+            let token = response.data.data.authenticateUser.token;
             if (token) {
               // Set session token
               this.$session.set("jwt", token);
@@ -82,23 +82,23 @@ export default {
             this.displayError(response);
           } else {
             // Prepare list of current user groups
-            let memberships = response.data.data.sysUserByEmail.sysUserGroupMembershipsByUserId.nodes;
+            let memberships = response.data.data.userByEmail.userGroupMembershipsByUserId.nodes;
             let currentUserGroups = [];
             for (let i = 0; i < memberships.length; i++) {
-              currentUserGroups.push(memberships[i]["sysUserGroupByUserGroupId"]);
+              currentUserGroups.push(memberships[i]["userGroupByUserGroupId"]);
             }
 
             // Set current user, role, user groups in session object
-            this.$session.set("email", response.data.data.sysUserByEmail.email);
-            this.$session.set("role", response.data.data.sysUserByEmail.role);
+            this.$session.set("email", response.data.data.userByEmail.email);
+            this.$session.set("role", response.data.data.userByEmail.role);
             this.$session.set("userGroups", currentUserGroups);
             this.$session.set("selectedUserGroup", currentUserGroups[0]);
 
             // Set current user, role, user groups in store
             let currentUser = {
               isAuthenticated: true,
-              email: response.data.data.sysUserByEmail.email,
-              role: response.data.data.sysUserByEmail.role,
+              email: response.data.data.userByEmail.email,
+              role: response.data.data.userByEmail.role,
               userGroups: currentUserGroups,
               selectedUserGroup: currentUserGroups[0]
             };

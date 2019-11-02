@@ -22,6 +22,9 @@ CREATE SCHEMA base;
 /*Install pgcrypto exstension to encrypt/decrypt data sources passwords*/
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+/*Install citext extension for case insensitive sort*/
+CREATE EXTENSION IF NOT EXISTS citext;
+
 /*Create function to update updated_date column*/
 CREATE OR REPLACE FUNCTION base.update_updated_date()
 RETURNS TRIGGER AS $$

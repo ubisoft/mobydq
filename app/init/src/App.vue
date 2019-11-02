@@ -1,11 +1,21 @@
 <template>
   <div id="app">
-    <header-bar></header-bar>
-    <error-message></error-message>
-
     <div class="container-fluid">
-      <div id="main" class="row justify-content-center">
-        <router-view :key="$route.fullPath"></router-view>
+      <div class="row">
+        <!-- Sidebar -->
+        <sidebar></sidebar>
+
+        <div class="col container">
+          <!-- Header -->
+          <header-bar></header-bar>
+          <error-message></error-message>
+
+          <!-- Content -->
+          <div id="main" class="justify-content-center">
+            <router-view :key="$route.fullPath"></router-view>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -14,12 +24,14 @@
 <script>
 import HeaderBar from "./components/header/HeaderBar.vue";
 import ErrorMessage from "./components/utils/ErrorMessage.vue";
+import Sidebar from "./components/sidebar/Sidebar.vue";
 
 export default {
   name: "app",
   components: {
     "header-bar": HeaderBar,
-    "error-message": ErrorMessage
+    "error-message": ErrorMessage,
+    "sidebar": Sidebar
   },
   computed: {
     currentUser() {
@@ -43,6 +55,15 @@ export default {
 </script>
 
 <style>
+.container{
+  padding: 0;
+}
+
+#main{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /*Style for required fields*/
 .form-group.required .col-form-label:after {
   content: "*";

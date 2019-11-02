@@ -65,7 +65,7 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session_result TO standard;
 GRANT SELECT ON base.user TO standard;
 GRANT SELECT ON base.password TO standard;
 GRANT SELECT ON base.user_group TO standard;
-GRANT SELECT ON base.user_group_user TO standard;
+GRANT SELECT ON base.user_group_membership TO standard;
 
 
 
@@ -96,7 +96,7 @@ GRANT advanced TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.user TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.password TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.user_group TO admin;
-GRANT INSERT, UPDATE, DELETE ON base.user_group_user TO admin;
+GRANT INSERT, UPDATE, DELETE ON base.user_group_membership TO admin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON base.data_source_type TO admin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON base.indicator_type TO admin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON base.parameter_type TO admin;

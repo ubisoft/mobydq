@@ -18,7 +18,7 @@ export default {
       // Method to create a relationship between a user and a user group
       // Get list of current user groups
       let currentUserGroups = [];
-      this.user.sysUserGroupMembershipsByUserId.nodes.forEach(
+      this.user.userGroupMembershipsByUserId.nodes.forEach(
         function(userGroupMembership) {
           currentUserGroups.push(userGroupMembership["userGroupId"]);
         }.bind(this)
@@ -33,7 +33,7 @@ export default {
             let payload = {
               query: this.$store.state.mutationCreateUserGroupMembership,
               variables: {
-                sysUserGroupMembership: {
+                userGroupMembership: {
                   userId: this.user.id,
                   userGroupId: userGroup
                 }
@@ -48,7 +48,7 @@ export default {
                 if (response.data.errors) {
                   this.displayError(response);
                 } else {
-                  let userGroupMembership = response.data.data.createSysUserGroupMembership.sysUserGroupMembership;
+                  let userGroupMembership = response.data.data.createUserGroupMembership.userGroupMembership;
                   this.$emit("addUserGroupMembership", userGroupMembership);
                 }
               },
@@ -80,10 +80,10 @@ export default {
             this.displayError(response);
           } else {
             // Prepare list of current user groups
-            let memberships = response.data.data.sysUserByEmail.sysUserGroupMembershipsByUserId.nodes;
+            let memberships = response.data.data.userByEmail.userGroupMembershipsByUserId.nodes;
             let currentUserGroups = [];
             for (let i = 0; i < memberships.length; i++) {
-              currentUserGroups.push(memberships[i]["sysUserGroupByUserGroupId"]);
+              currentUserGroups.push(memberships[i]["userGroupByUserGroupId"]);
             }
 
             // Reset current user groups

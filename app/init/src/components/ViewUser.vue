@@ -1,5 +1,5 @@
 <template>
-  <div class="col-8">
+  <div class="col">
     <h1 class="mt-5">Users</h1>
     <user-button-create></user-button-create>
     <user-search></user-search>

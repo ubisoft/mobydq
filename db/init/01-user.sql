@@ -86,7 +86,7 @@ BEGIN
     EXECUTE 'GRANT ' || NEW.role || ' TO user_' || NEW.id;
 
     -- Assign default user group
-    INSERT INTO base.user_group_user (user_id) VALUES (NEW.id);
+    INSERT INTO base.user_group_membership (user_id) VALUES (NEW.id);
     RETURN NEW;
 END;
 $$ language plpgsql;
