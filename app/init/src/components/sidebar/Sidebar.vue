@@ -15,11 +15,31 @@
 </script>
 
 <style>
+.navbar-brand {
+  margin-bottom: 20px;
+}
+
 .sidebar {
   background-color: #212529;
   min-width: 250px;
   max-width: 250px;
   min-height: 100vh;
   padding: 0;
+}
+
+a.nav-link {
+  color: #cccccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+a.nav-link:hover {
+  color: #ffffff;
+}
+
+a.nav-link.active {
+  min-width: 250px;
+  max-width: 250px;
+  background-color: #2c3034;
 }
 </style>
