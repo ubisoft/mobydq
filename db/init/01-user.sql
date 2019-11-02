@@ -28,7 +28,6 @@ COMMENT ON FUNCTION base.get_current_user_id IS
 CREATE TABLE base.user (
     id SERIAL PRIMARY KEY
   , email TEXT NOT NULL UNIQUE
-  , password TEXT
   , role TEXT NOT NULL DEFAULT 'standard'
   , flag_active BOOLEAN DEFAULT TRUE
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -50,65 +49,10 @@ base.update_updated_date();
 
 
 
-/*Create function to hash password column*/
-CREATE OR REPLACE FUNCTION base.hash_password()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.password = crypt(NEW.password, gen_salt('bf', 8));
-    RETURN NEW;
-END;
-$$ language plpgsql;
-
-COMMENT ON FUNCTION base.hash_password IS
-'Function used to hash password when creating a user.';
-
-/*Triggers must be created before inserting default user below to ensure password is hashed*/
-CREATE TRIGGER user_hash_password BEFORE INSERT
-ON base.user FOR EACH ROW EXECUTE PROCEDURE
-base.hash_password();
-
-
-
-/*Create composite type to generate JWT*/
-CREATE TYPE base.token AS (
-    email TEXT,
-    role TEXT,
-    aud TEXT  --audience
-);
-
-/*Create function to authenticate users*/
-CREATE OR REPLACE FUNCTION base.authenticate_user(user_email TEXT, user_password TEXT)
-RETURNS base.token AS $$
-DECLARE
-    user_account base.user;
-BEGIN
-    SELECT a.*
-    INTO user_account
-    FROM base.user a
-    WHERE a.email = user_email
-    AND flag_active = true;
-
-    IF user_account.password = crypt(user_password, user_account.password) THEN
-        RETURN (
-            user_account.email,  --email
-            'user_' || user_account.id,  --role
-            'postgraphile'  --audience
-        )::base.token;
-    ELSE
-        RETURN NULL;
-    END IF;
-END;
-$$ language plpgsql strict security definer;
-
-COMMENT ON FUNCTION base.authenticate_user IS
-'Function used to authenticate users.';
-
-
-
 /*Create default user*/
 /*User is required to be able to create the default user group later*/
 /*Must be created before other triggers to avoid conflicts*/
-INSERT INTO base.user (email, password, role) VALUES ('admin', 'admin', 'admin');
+INSERT INTO base.user (email, role) VALUES ('admin', 'admin');
 CREATE ROLE user_1 WITH CREATEROLE;
 
 
@@ -125,7 +69,7 @@ $$ language plpgsql;
 COMMENT ON FUNCTION base.update_updated_by_id IS
 'Function used to automatically update the updated_by_id column in tables.';
 
-CREATE TRIGGER user_updated_by_id BEFORE UPDATE
+CREATE TRIGGER user_update_updated_by_id BEFORE UPDATE
 ON base.user FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
