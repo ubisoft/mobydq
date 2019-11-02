@@ -13,10 +13,6 @@ services:
       - ./.env
     networks:
       - network
-    expose:
-      - 5432
-    ports:
-      - 5432:5432
 
   graphql:
     container_name: mobydq-graphql
