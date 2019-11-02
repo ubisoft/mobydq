@@ -7,14 +7,14 @@
 CREATE TABLE base.password (
     id SERIAL PRIMARY KEY
   , "password" TEXT NOT NULL
-  , user_id INTEGER NOT NULL UNIQUE REFERENCES base.sys_user(id)
+  , user_id INTEGER NOT NULL UNIQUE REFERENCES base.user(id)
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.sys_user(id)
-  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.sys_user(id)
+  , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
+  , updated_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
 );
 
-COMMENT ON TABLE base.sys_password IS
+COMMENT ON TABLE base.password IS
 'Users password information.';
 
 
@@ -42,7 +42,7 @@ CREATE TYPE base.token AS (
 
 /*Create function to authenticate users*/
 CREATE OR REPLACE FUNCTION base.authenticate_user(user_email TEXT, user_password TEXT)
-RETURNS base.sys_token AS $$
+RETURNS base.token AS $$
 DECLARE
     user_account RECORD;
 BEGIN
