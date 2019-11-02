@@ -22,8 +22,6 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
             echo "MAIL_PASSWORD=change_me" >> ./.env
-            echo "HOST_NAME=https://localhost" >> ./.env
-            echo "NODE_ENV=development" >> ./.env
 
       - run:
           name: Build Docker images
