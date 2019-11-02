@@ -21,9 +21,11 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 You can run all tests locally using the following commands:
 ```shell
 $ cd mobydq
-$ # Backend
+
+# Backend
 $ test/run-tests.sh
-$ # Frontend
+
+# Frontend
 $ app/run-container.sh npm run test
 ```
 
@@ -32,9 +34,11 @@ Depending on the used editor, eslint and pylint can be integrated.
 You can run all linters locally using the following commands:
 ```shell
 $ cd mobydq
-$ # Backend
+
+# Backend
 $ test/run-linter.sh
-$ # Frontend
+
+# Frontend
 $ app/run-container.sh npm run lint
 ```
 
