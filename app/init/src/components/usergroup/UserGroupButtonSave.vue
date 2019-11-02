@@ -88,7 +88,6 @@ export default {
       }
     },
     refreshCurrentUserGroups() {
-      console.log(1);
       // Method to refresh current user's user groups
       let payload = {
         query: this.$store.state.queryGetCurrentUser,

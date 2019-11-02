@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import * as Session from "./payloads/session";
 import * as UserPayload from "./payloads/user";
 import * as UserGroupPayload from "./payloads/usergroup";
 
