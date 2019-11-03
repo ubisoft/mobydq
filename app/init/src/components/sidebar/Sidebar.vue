@@ -2,7 +2,7 @@
   <nav id="sidebar" class="nav flex-column col sidebar">
     <span class="navbar-brand">
       <router-link to="/">
-        <img src="logo.png"  alt="MobyDQ" />
+        <img src="/logo.png"  alt="MobyDQ" />
       </router-link>
     </span>
 

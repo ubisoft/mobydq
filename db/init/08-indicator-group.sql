@@ -32,3 +32,24 @@ base.delete_children('indicator', 'indicator_group_id');
 CREATE TRIGGER indicator_group_delete_batch BEFORE DELETE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('batch', 'indicator_group_id');
+
+
+
+/*Create function to search data sources*/
+CREATE OR REPLACE FUNCTION base.search_indicator_group(search_keyword TEXT, sort_attribute TEXT, sort_order TEXT)
+RETURNS SETOF base.indicator_group AS $$
+BEGIN
+    RETURN QUERY
+    EXECUTE format(
+        'SELECT a.*
+        FROM base.indicator_group a
+        WHERE a.name ILIKE (''%%%s%%'')
+        ORDER BY a.%I %s',
+        search_keyword,
+        sort_attribute,
+        sort_order);
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.search_indicator_group IS
+'Function used to search indicator groups based on keywords contained in their name.';

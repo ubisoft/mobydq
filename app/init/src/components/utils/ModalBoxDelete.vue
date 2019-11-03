@@ -32,19 +32,22 @@ export default {
   mixins: [Mixins],
   props: {
     objectType: String,
-    dataSourceId: Number
+    objectId: Number
   },
   methods: {
     deleteObject() {
       // Get mutation for each type of object
-      let mutation, objectId, route;
+      let mutation, route;
       if (this.objectType == "dataSource") {
         mutation = this.$store.state.mutationDeleteDataSource;
-        objectId = this.dataSourceId;
         route = { name: "view-data-source" };
-      } else if (this.objectType == "indicator") {
+      }
+      else if (this.objectType == "indicatorGroup") {
+        mutation = this.$store.state.mutationDeleteIndicatorGroup;
+        route = { name: "view-indicator-group" };
+      }
+      else if (this.objectType == "indicator") {
         mutation = this.$store.state.mutationDeleteIndicator;
-        objectId = this.indicatorId;
         route = { name: "view-indicator" };
       }
 
@@ -52,7 +55,7 @@ export default {
       let payload = {
         query: mutation,
         variables: {
-          id: objectId
+          id: this.objectId
         }
       };
       let headers = {};

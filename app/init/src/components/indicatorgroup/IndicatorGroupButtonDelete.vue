@@ -5,7 +5,7 @@
     </button>
 
     <!-- Modal box to confirm deletion -->
-    <modal-box-delete v-bind:objectType="'dataSource'" v-bind:objectId="dataSourceId"> </modal-box-delete>
+    <modal-box-delete v-bind:objectType="'indicatorGroup'" v-bind:objectId="indicatorGroupId"> </modal-box-delete>
   </span>
 </template>
 
@@ -19,7 +19,7 @@ export default {
     "modal-box-delete": ModalBoxDelete
   },
   props: {
-    dataSourceId: Number
+    indicatorGroupId: Number
   },
   computed: {
     show() {

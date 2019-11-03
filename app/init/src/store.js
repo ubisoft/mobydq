@@ -5,6 +5,7 @@ import * as UserPayload from "./payloads/user";
 import * as UserGroupPayload from "./payloads/usergroup";
 import * as DataSourcePayload from "./payloads/datasource";
 import * as DataSourceTypePayload from "./payloads/datasourcetype";
+import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 
 Vue.use(Vuex);
 
@@ -64,6 +65,14 @@ export const store = new Vuex.Store({
 
     // Data source types queries and mutations
     queryGetAllDataSourceTypes: DataSourceTypePayload.queryGetAllDataSourceTypes,
-    queryGetDataSourceTypes: DataSourceTypePayload.queryGetDataSourceTypes
+    queryGetDataSourceTypes: DataSourceTypePayload.queryGetDataSourceTypes,
+
+    //Indicator groups queries and mutations
+    queryGetAllIndicatorGroups: IndicatorGroupPayload.queryGetAllIndicatorGroups,
+    queryGetIndicatorGroup: IndicatorGroupPayload.queryGetIndicatorGroup,
+    mutationCreateIndicatorGroup: IndicatorGroupPayload.mutationCreateIndicatorGroup,
+    mutationUpdateIndicatorGroup: IndicatorGroupPayload.mutationUpdateIndicatorGroup,
+    mutationDeleteIndicatorGroup: IndicatorGroupPayload.mutationDeleteIndicatorGroup,
+    mutationSearchIndicatorGroup: IndicatorGroupPayload.mutationSearchIndicatorGroup
   }
 });

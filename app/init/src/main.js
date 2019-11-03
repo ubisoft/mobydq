@@ -10,9 +10,11 @@ import Login from "./components/Login.vue";
 import EditUser from "./components/EditUser.vue";
 import EditUserGroup from "./components/EditUserGroup.vue";
 import EditDataSource from "./components/EditDataSource.vue";
+import EditIndicatorGroup from "./components/EditIndicatorGroup.vue";
 import ViewUser from "./components/ViewUser.vue";
 import ViewUserGroup from "./components/ViewUserGroup.vue";
 import ViewDataSource from "./components/ViewDataSource.vue";
+import ViewIndicatorGroup from "./components/ViewIndicatorGroup.vue";
 
 
 // Tell Vue to use libraries
@@ -29,7 +31,9 @@ const routes = [
   { name: "view-user-group", path: "/admin/usergroups", component: ViewUserGroup },
   { name: "edit-user-group", path: "/admin/usergroups/:userGroupId", component: EditUserGroup },
   { name: "view-data-source", path: "/datasources", component: ViewDataSource },
-  { name: "edit-data-source", path: "/datasources/:dataSourceId", component: EditDataSource }
+  { name: "edit-data-source", path: "/datasources/:dataSourceId", component: EditDataSource },
+  { name: "view-indicator-group", path: "/indicatorgroups", component: ViewIndicatorGroup },
+  { name: "edit-indicator-group", path: "/indicatorgroups/:indicatorGroupId", component: EditIndicatorGroup }
 ];
 
 // Configure router
