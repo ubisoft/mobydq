@@ -60,6 +60,7 @@ export const store = new Vuex.Store({
     mutationUpdateDataSource: DataSourcePayload.mutationUpdateDataSource,
     mutationDeleteDataSource: DataSourcePayload.mutationDeleteDataSource,
     mutationSearchDataSource: DataSourcePayload.mutationSearchDataSource,
+    mutationTestDataSource: DataSourcePayload.mutationTestDataSource,
 
     // Data source types queries and mutations
     queryGetAllDataSourceTypes: DataSourceTypePayload.queryGetAllDataSourceTypes,

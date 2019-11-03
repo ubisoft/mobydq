@@ -18,7 +18,7 @@ class ExecuteBatch():
         client.containers.run(
             name=container_name,
             image='mobydq-scripts',
-            network='mobydq-network',
+            network='mobydq_network',
             command=['python', 'run.py', 'execute_batch', batch_id],
             remove=True,
             detach=True

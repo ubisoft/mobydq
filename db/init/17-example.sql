@@ -18,7 +18,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;Database=star_wars;'
   ,'root'
   ,'1234'
-  ,2  -- MariaDB
+  ,3  -- MariaDB
   ,1  -- Public user group
 ),
 (

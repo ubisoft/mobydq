@@ -61,3 +61,14 @@ export const mutationSearchDataSource = `mutation searchDataSource($searchKeywor
         }
     }
 }`;
+
+export const mutationTestDataSource = `mutation testDataSource($dataSourceId: Int!) {
+    testDataSource(input: {dataSourceId: $dataSourceId}){
+        dataSource {
+            id
+            connectivityStatus
+            updatedDate
+            userByUpdatedById { email }
+        }
+    }
+}`;

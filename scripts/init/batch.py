@@ -20,15 +20,15 @@ class Batch:
     def __init__(self):
         pass
 
-    def update_batch_status(self, batch_id: int, batch_status: str):
+    def update_batch_status(self, authorization: str, batch_id: int, batch_status: str):
         """Update a batch status."""
         mutation = 'mutation{updateBatchById(input:{id:batch_id,batchPatch:{status:"batch_status"}}){batch{status}}}'
         mutation = mutation.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
         mutation = mutation.replace('batch_status', str(batch_status))  # Use replace() instead of format() because of curly braces
-        data = utils.execute_graphql_request(mutation)
+        data = utils.execute_graphql_request(authorization, mutation)
         return data
 
-    def execute(self, batch_id: int):
+    def execute(self, authorization: str, batch_id: int):
         log.info('Start execution of batch Id %i.', batch_id)
 
         # Get list of indicator sessions
@@ -37,12 +37,12 @@ class Batch:
         nodes{id,batchId,indicatorId,indicatorByIndicatorId{name,indicatorTypeId,indicatorTypeByIndicatorTypeId{module,class,method},parametersByIndicatorId{
         nodes{parameterTypeId,value}}}}}}'''
         query = query.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
-        response = utils.execute_graphql_request(query)
+        response = utils.execute_graphql_request(authorization, query)
 
         if response['data']['allSessions']['nodes']:
             # Update batch status to running
             log.debug('Update batch status to Running.')
-            self.update_batch_status(batch_id, 'Running')
+            self.update_batch_status(authorization, batch_id, 'Running')
             is_error = False  # Variable used to update batch status to Failed if one indicator fails
 
             # For each indicator session execute corresponding method
@@ -74,11 +74,11 @@ class Batch:
             # Update batch status
             if is_error:
                 log.debug('Update batch status to Failed.')
-                self.update_batch_status(batch_id, 'Failed')
+                self.update_batch_status(authorization, batch_id, 'Failed')
                 log.warning('Batch Id %i completed with errors.', batch_id)
             else:
                 log.debug('Update batch status to Succeeded.')
-                self.update_batch_status(batch_id, 'Succeeded')
+                self.update_batch_status(authorization, batch_id, 'Succeeded')
                 log.info('Batch Id %i completed successfully.', batch_id)
 
         else:

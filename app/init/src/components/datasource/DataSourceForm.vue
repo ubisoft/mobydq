@@ -61,6 +61,12 @@
               placeholder="Type data source password"
               v-model="dataSource.password" />
           </div>
+          <div class="form-group">
+              Connectivity Status:
+              <span class="badge badge-pill" v-bind:class="{ 'badge-success': connectivityStatusOK, 'badge-danger': connectivityStatusKO }" >
+                  {{ dataSource.connectivityStatus }}
+              </span>
+          </div>
 
           <!-- Meta-Data -->
           <div>
@@ -78,7 +84,7 @@
           <div class="mt-3">
             <data-source-button-save v-bind:dataSource="dataSource" v-bind:showPasswordField="showPasswordField"> </data-source-button-save>
             <data-source-button-reset-password v-on:resetPassword="resetPassword" v-bind:dataSourceId="dataSourceId"> </data-source-button-reset-password>
-            <data-source-button-test-connectivity v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
+            <data-source-button-test-connectivity v-on:connectivityTestResult="connectivityTestResult" v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
             <data-source-button-close> </data-source-button-close>
             <data-source-button-delete v-if="dataSource.id" v-bind:dataSourceId="dataSource.id"> </data-source-button-delete>
           </div>
@@ -118,6 +124,12 @@ export default {
   computed: {
     dataSourceId() {
       return this.$route.params.dataSourceId.toString();
+    },
+    connectivityStatusOK() {
+      return this.dataSource.connectivityStatus == "Success";
+    },
+    connectivityStatusKO() {
+      return this.dataSource.connectivityStatus == "Failed";
     }
   },
   created: function() {
@@ -161,6 +173,11 @@ export default {
     },
     resetPassword(value) {
       this.showPasswordField = value;
+    },
+    connectivityTestResult(value) {
+      this.dataSource.connectivityStatus = value.connectivityStatus;
+      this.dataSource.updatedDate = value.updatedDate;
+      this.dataSource.userByUpdatedById.email = value.userByUpdatedById.email;
     }
   }
 };

@@ -25,7 +25,7 @@ COMMENT ON FUNCTION base.encrypt_password IS
 /*Create table data source*/
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY
-  , name TEXT NOT NULL UNIQUE
+  , name CITEXT NOT NULL UNIQUE
   , connection_string TEXT NOT NULL
   , login TEXT
   , password TEXT

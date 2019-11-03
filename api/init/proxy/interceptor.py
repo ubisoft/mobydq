@@ -36,7 +36,6 @@ class Interceptor():
 
     def after_request(self, mutation_name: str, authorization: str, response: dict):
         """Method used to trigger scripts after the request to GraphQL API."""
-
         module_name = self.can_handle_mutations[mutation_name]['module']
         class_name = self.can_handle_mutations[mutation_name]['class']
         method_name = self.can_handle_mutations[mutation_name]['method']
