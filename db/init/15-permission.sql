@@ -80,6 +80,7 @@ GRANT standard TO advanced;
 /*base schema*/
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO advanced;
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON base.data_source TO advanced;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON base.configuration TO advanced;
 
 
 
@@ -97,9 +98,9 @@ GRANT INSERT, UPDATE, DELETE ON base.user TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.password TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.user_group TO admin;
 GRANT INSERT, UPDATE, DELETE ON base.user_group_membership TO admin;
-GRANT SELECT, INSERT, UPDATE, DELETE ON base.data_source_type TO admin;
-GRANT SELECT, INSERT, UPDATE, DELETE ON base.indicator_type TO admin;
-GRANT SELECT, INSERT, UPDATE, DELETE ON base.parameter_type TO admin;
+GRANT INSERT, UPDATE, DELETE ON base.data_source_type TO admin;
+GRANT INSERT, UPDATE, DELETE ON base.indicator_type TO admin;
+GRANT INSERT, UPDATE, DELETE ON base.parameter_type TO admin;
 
 /*Grant admin role to default user*/
 GRANT admin TO user_1;

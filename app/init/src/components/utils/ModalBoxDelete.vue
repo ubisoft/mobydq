@@ -32,36 +32,20 @@ export default {
   mixins: [Mixins],
   props: {
     objectType: String,
-    listId: Number,
-    attributeId: Number,
-    valueId: Number,
-    graphQlListName: String // Example tableName
+    dataSourceId: Number
   },
   methods: {
     deleteObject() {
       // Get mutation for each type of object
       let mutation, objectId, route;
-      if (this.objectType == "list") {
-        mutation = this.$store.state.mutationDeleteList;
-        objectId = this.listId;
-        route = { name: "view-list" };
-      } else if (this.objectType == "attribute") {
-        mutation = this.$store.state.mutationDeleteAttribute;
-        objectId = this.attributeId;
-        route = {
-          name: "edit-list",
-          params: { listId: this.listId }
-        };
-      } else if (this.objectType == "value") {
-        // Build GraphQL delete mutation
-        let graphQlListNameUpperCase = this.graphQlListName.charAt(0).toUpperCase() + this.graphQlListName.slice(1);
-        mutation = this.$store.state.mutationDeleteValue.replace(/<GraphQlListName>/g, graphQlListNameUpperCase);
-        mutation = mutation.replace(/<graphQlListName>/g, this.graphQlListName);
-        objectId = this.valueId;
-        route = {
-          name: "view-list-value",
-          params: { listId: this.listId }
-        };
+      if (this.objectType == "dataSource") {
+        mutation = this.$store.state.mutationDeleteDataSource;
+        objectId = this.dataSourceId;
+        route = { name: "view-data-source" };
+      } else if (this.objectType == "indicator") {
+        mutation = this.$store.state.mutationDeleteIndicator;
+        objectId = this.indicatorId;
+        route = { name: "view-indicator" };
       }
 
       // Method to delete object

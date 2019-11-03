@@ -4,6 +4,9 @@
       Admin
     </button>
     <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="admin">
+      <router-link to="/admin/config" class="dropdown-item">
+        Configuration
+      </router-link>
       <router-link to="/admin/users" class="dropdown-item">
         Users
       </router-link>

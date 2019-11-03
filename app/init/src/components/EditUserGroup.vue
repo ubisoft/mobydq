@@ -1,5 +1,5 @@
 <template>
-  <div class="col-8">
+  <div class="col">
     <user-group-form></user-group-form>
   </div>
 </template>

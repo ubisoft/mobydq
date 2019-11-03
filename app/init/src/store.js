@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import * as Session from "./payloads/session";
 import * as UserPayload from "./payloads/user";
 import * as UserGroupPayload from "./payloads/usergroup";
+import * as DataSourcePayload from "./payloads/datasource";
+import * as DataSourceTypePayload from "./payloads/datasourcetype";
 
 Vue.use(Vuex);
 
@@ -49,6 +51,18 @@ export const store = new Vuex.Store({
     queryGetUserUserGroups: UserGroupPayload.queryGetUserUserGroups, // Data for user groups drodpdown in user form
     mutationCreateUserGroup: UserGroupPayload.mutationCreateUserGroup,
     mutationUpdateUserGroup: UserGroupPayload.mutationUpdateUserGroup,
-    mutationSearchUserGroup: UserGroupPayload.mutationSearchUserGroup
+    mutationSearchUserGroup: UserGroupPayload.mutationSearchUserGroup,
+
+    // Data sources queries and mutations
+    queryGetAllDataSources: DataSourcePayload.queryGetAllDataSources,
+    queryGetDataSource: DataSourcePayload.queryGetDataSource,
+    mutationCreateDataSource: DataSourcePayload.mutationCreateDataSource,
+    mutationUpdateDataSource: DataSourcePayload.mutationUpdateDataSource,
+    mutationDeleteDataSource: DataSourcePayload.mutationDeleteDataSource,
+    mutationSearchDataSource: DataSourcePayload.mutationSearchDataSource,
+
+    // Data source types queries and mutations
+    queryGetAllDataSourceTypes: DataSourceTypePayload.queryGetAllDataSourceTypes,
+    queryGetDataSourceTypes: DataSourceTypePayload.queryGetDataSourceTypes
   }
 });

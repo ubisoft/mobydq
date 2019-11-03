@@ -26,7 +26,7 @@ COMMENT ON FUNCTION base.encrypt_password IS
 CREATE TABLE base.data_source (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
-  , connection_string TEXT
+  , connection_string TEXT NOT NULL
   , login TEXT
   , password TEXT
   , connectivity_status TEXT
@@ -56,6 +56,27 @@ base.update_updated_date();
 CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+
+
+/*Create function to search data sources*/
+CREATE OR REPLACE FUNCTION base.search_data_source(search_keyword TEXT, sort_attribute TEXT, sort_order TEXT)
+RETURNS SETOF base.data_source AS $$
+BEGIN
+    RETURN QUERY
+    EXECUTE format(
+        'SELECT a.*
+        FROM base.data_source a
+        WHERE a.name ILIKE (''%%%s%%'')
+        ORDER BY a.%I %s',
+        search_keyword,
+        sort_attribute,
+        sort_order);
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.search_data_source IS
+'Function used to search data sources based on keywords contained in their name.';
 
 
 

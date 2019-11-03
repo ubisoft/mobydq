@@ -9,8 +9,11 @@ import { store } from "./store";
 import Login from "./components/Login.vue";
 import EditUser from "./components/EditUser.vue";
 import EditUserGroup from "./components/EditUserGroup.vue";
+import EditDataSource from "./components/EditDataSource.vue";
 import ViewUser from "./components/ViewUser.vue";
 import ViewUserGroup from "./components/ViewUserGroup.vue";
+import ViewDataSource from "./components/ViewDataSource.vue";
+
 
 // Tell Vue to use libraries
 Vue.use(VueResource);
@@ -24,7 +27,9 @@ const routes = [
   { name: "view-user", path: "/admin/users", component: ViewUser },
   { name: "edit-user", path: "/admin/users/:userId", component: EditUser },
   { name: "view-user-group", path: "/admin/usergroups", component: ViewUserGroup },
-  { name: "edit-user-group", path: "/admin/usergroups/:userGroupId", component: EditUserGroup }
+  { name: "edit-user-group", path: "/admin/usergroups/:userGroupId", component: EditUserGroup },
+  { name: "view-data-source", path: "/datasources", component: ViewDataSource },
+  { name: "edit-data-source", path: "/datasources/:dataSourceId", component: EditDataSource }
 ];
 
 // Configure router

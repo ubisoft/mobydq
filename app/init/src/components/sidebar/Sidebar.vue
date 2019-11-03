@@ -5,9 +5,20 @@
         <img src="logo.png"  alt="MobyDQ" />
       </router-link>
     </span>
-    <a class="nav-link" href="#">Indicators</a>
-    <a class="nav-link" href="#">Indicator Groups</a>
-    <a class="nav-link active" href="#">Data Sources</a>    
+
+    <!-- Menu -->
+    <router-link to="/" class="nav-link">
+      Dashboard
+    </router-link>
+    <router-link to="/indicators" class="nav-link">
+      Indicators
+    </router-link>
+    <router-link to="/indicatorgroups" class="nav-link">
+      Indicator Groups
+    </router-link>
+    <router-link to="/datasources" class="nav-link">
+      Data Sources
+    </router-link>
   </nav>
 </template>
 
