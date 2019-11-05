@@ -40,6 +40,27 @@ base.delete_children('session', 'indicator_id');
 
 
 
+/*Create function to search indicators*/
+CREATE OR REPLACE FUNCTION base.search_indicator(search_keyword TEXT, sort_attribute TEXT, sort_order TEXT)
+RETURNS SETOF base.indicator AS $$
+BEGIN
+    RETURN QUERY
+    EXECUTE format(
+        'SELECT a.*
+        FROM base.indicator a
+        WHERE a.name ILIKE (''%%%s%%'')
+        ORDER BY a.%I %s',
+        search_keyword,
+        sort_attribute,
+        sort_order);
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.search_indicator IS
+'Function used to search indicators based on keywords contained in their name.';
+
+
+
 /*Create function to duplicate an indicator*/
 CREATE OR REPLACE FUNCTION base.duplicate_indicator(indicator_id INTEGER, new_indicator_name TEXT)
 RETURNS base.indicator AS $$
