@@ -26,7 +26,7 @@ Vue.use(VueSession, { persist: true });
 
 // Declare application URLs
 const routes = [
-  { name: "home", path: "/", component: ViewUser },
+  { name: "home", path: "/", component: ViewIndicator },
   { name: "login", path: "/login", component: Login },
   { name: "view-user", path: "/admin/users", component: ViewUser },
   { name: "edit-user", path: "/admin/users/:userId", component: EditUser },

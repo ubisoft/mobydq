@@ -22,7 +22,12 @@ export default {
           variables: {
             id: this.indicator.id,
             indicatorPatch: {
-              name: this.indicator.name
+              name: this.indicator.name,
+              description: this.indicator.description,
+              indicatorTypeId: this.indicator.indicatorTypeId,
+              indicatorGroupId: this.indicator.indicatorGroupId,
+              executionOrder: parseInt(this.indicator.executionOrder),
+              flagActive: this.indicator.flagActive
             }
           }
         };
@@ -51,7 +56,12 @@ export default {
           query: this.$store.state.mutationCreateIndicator,
           variables: {
             indicator: {
-              name: this.indicator.name
+              name: this.indicator.name,
+              description: this.indicator.description,
+              indicatorTypeId: this.indicator.indicatorTypeId,
+              indicatorGroupId: this.indicator.indicatorGroupId,
+              executionOrder: this.indicator.executionOrder,
+              flagActive: this.indicator.flagActive
             }
           }
         };
