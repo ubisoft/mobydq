@@ -166,11 +166,11 @@ export default {
   },
   methods: {
     getDataSourceType(value) {
-      // Get user group from child component
+      // Get data source type from child component
       if (value != null) {
         this.dataSource["dataSourceTypeId"] = value;
       } else {
-        this.list["dataSourceTypeId"] = null;
+        this.dataSource["dataSourceTypeId"] = null;
       }
     },
     resetPassword(value) {

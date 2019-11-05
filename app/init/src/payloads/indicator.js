@@ -1,0 +1,66 @@
+export const queryGetAllIndicators = `query getAllIndicators($first: Int, $offset: Int, $orderBy: [IndicatorsOrderBy!]){
+    allIndicators(first: $first, offset: $offset, orderBy: $orderBy) {
+        nodes {
+            id
+            name
+            indicatorTypeByIndicatorTypeId { name }
+            indicatorGroupByIndicatorGroupId { name }
+            flagActive
+        }
+        totalCount
+    }
+}`;
+
+export const queryGetIndicator = `query getIndicator($id: Int!) {
+    indicatorById(id: $id) {
+        id
+        name
+        description
+        indicatorTypeId
+        indicatorGroupId
+        executionOrder
+        flagActive
+        createdDate
+        updatedDate
+        userByCreatedById { email }
+        userByUpdatedById { email }
+    }
+}`;
+
+export const mutationCreateIndicator = `mutation createIndicator($indicator: IndicatorInput!) {
+    createIndicator(input: {indicator: $indicator}) {
+        indicator {
+            id
+        }
+    }
+}`;
+
+export const mutationUpdateIndicator = `mutation updateIndicator($id: Int!, $indicatorPatch: IndicatorPatch!) {
+    updateIndicatorById(input: {id: $id, indicatorPatch: $indicatorPatch }) {
+        indicator {
+            id
+            updatedDate
+            userByUpdatedById { email }
+        }
+    }
+}`;
+
+export const mutationDeleteIndicator = `mutation deleteIndicator($id: Int!) {
+    deleteIndicatorById(input: {id: $id}) {
+        indicator {
+            id
+        }
+    }
+}`;
+
+export const mutationSearchIndicator = `mutation searchIndicator($searchKeyword: String, $sortAttribute: String, $sortOrder: String) {
+    searchIndicator(input: {searchKeyword: $searchKeyword, sortAttribute: $sortAttribute, sortOrder: $sortOrder}) {
+        indicators {
+            id
+            name
+            indicatorTypeByIndicatorTypeId { name }
+            indicatorGroupByIndicatorGroupId { name }
+            flagActive
+        }
+    }
+}`;

@@ -6,6 +6,8 @@ import * as UserGroupPayload from "./payloads/usergroup";
 import * as DataSourcePayload from "./payloads/datasource";
 import * as DataSourceTypePayload from "./payloads/datasourcetype";
 import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
+import * as IndicatorPayload from "./payloads/indicator";
+import * as IndicatorTypePayload from "./payloads/indicatortype";
 
 Vue.use(Vuex);
 
@@ -70,9 +72,21 @@ export const store = new Vuex.Store({
     //Indicator groups queries and mutations
     queryGetAllIndicatorGroups: IndicatorGroupPayload.queryGetAllIndicatorGroups,
     queryGetIndicatorGroup: IndicatorGroupPayload.queryGetIndicatorGroup,
+    queryGetIndicatorGroups: IndicatorGroupPayload.queryGetIndicatorGroups, // Data for indicator groups drodpdown in indicator form
     mutationCreateIndicatorGroup: IndicatorGroupPayload.mutationCreateIndicatorGroup,
     mutationUpdateIndicatorGroup: IndicatorGroupPayload.mutationUpdateIndicatorGroup,
     mutationDeleteIndicatorGroup: IndicatorGroupPayload.mutationDeleteIndicatorGroup,
-    mutationSearchIndicatorGroup: IndicatorGroupPayload.mutationSearchIndicatorGroup
+    mutationSearchIndicatorGroup: IndicatorGroupPayload.mutationSearchIndicatorGroup,
+
+    //Indicator queries and mutations
+    queryGetAllIndicators: IndicatorPayload.queryGetAllIndicators,
+    queryGetIndicator: IndicatorPayload.queryGetIndicator,
+    mutationCreateIndicator: IndicatorPayload.mutationCreateIndicator,
+    mutationUpdateIndicator: IndicatorPayload.mutationUpdateIndicator,
+    mutationDeleteIndicator: IndicatorPayload.mutationDeleteIndicator,
+    mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
+
+    //Indicator types queries and mutations
+    queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes // Data for indicator types drodpdown in indicator form
   }
 });

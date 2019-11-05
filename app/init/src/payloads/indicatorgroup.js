@@ -53,3 +53,13 @@ export const mutationSearchIndicatorGroup = `mutation searchIndicatorGroup($sear
         }
     }
 }`;
+
+// Response labels must be formatted according to Treeselect requirements
+export const queryGetIndicatorGroups = `query getAllIndicatorGroups {
+    allIndicatorGroups(orderBy: NAME_ASC) {
+        nodes {
+            id
+            label:name
+        }
+    }
+}`;
