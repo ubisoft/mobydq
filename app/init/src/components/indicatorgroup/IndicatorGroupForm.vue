@@ -5,7 +5,7 @@
     <form>
       <div class="form-row">
         <div class="col-md-4">
-          <!-- Data Source Form -->
+          <!-- Indicator Group Form -->
           <div class="form-group required">
             <label for="indicatorGroupName" class="col-form-label">
               Name:

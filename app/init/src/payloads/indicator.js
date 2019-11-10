@@ -20,6 +20,18 @@ export const queryGetIndicator = `query getIndicator($id: Int!) {
         indicatorGroupId
         executionOrder
         flagActive
+        parametersByIndicatorId {
+            nodes {
+                id
+                parameterTypeId
+                parameterTypeByParameterTypeId { name }
+                value
+                createdDate
+                updatedDate
+                userByCreatedById { email }
+                userByUpdatedById { email }
+            }
+        }
         createdDate
         updatedDate
         userByCreatedById { email }

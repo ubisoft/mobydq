@@ -72,3 +72,13 @@ export const mutationTestDataSource = `mutation testDataSource($dataSourceId: In
         }
     }
 }`;
+
+// Response labels must be formatted according to Treeselect requirements
+export const queryGetDataSources = `query getAllDataSources {
+    allDataSources(orderBy: NAME_ASC) {
+        nodes {
+            id:name
+            label:name
+        }
+    }
+}`;

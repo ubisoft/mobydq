@@ -1,10 +1,10 @@
 <template>
   <div class="form-group">
-    <label for="indicatorGroup" class="col-form-label">
-      Indicator Group:
+    <label for="dataSource" class="col-form-label">
+      Data Source
     </label>
     <treeselect
-      placeholder="Select indicator group"
+      placeholder="Select data source"
       v-model="selectedValue"
       v-bind:options="options"
       v-bind:multiple="false"
@@ -24,7 +24,8 @@ export default {
     treeselect: Treeselect
   },
   props: {
-    value: Number
+    system: String,
+    value: String
   },
   data() {
     return {
@@ -37,12 +38,12 @@ export default {
       this.selectedValue = arg;
     },
     selectedValue(arg) {
-      this.$emit("changeIndicatorGroup", arg);
+      this.$emit("changeDataSource", arg);
     }
   },
   created: function() {
-    // Get list of indicator groups to populate dropdown options
-    let payload = { query: this.$store.state.queryGetIndicatorGroups };
+    // Get list of data sources to populate dropdown options
+    let payload = { query: this.$store.state.queryGetDataSources };
     let headers = {};
     if (this.$session.exists()) {
       headers = { Authorization: "Bearer " + this.$session.get("jwt") };
@@ -52,7 +53,7 @@ export default {
         if (response.data.errors) {
           this.displayError(response);
         } else {
-          this.options = response.data.data.allIndicatorGroups.nodes;
+          this.options = response.data.data.allDataSources.nodes;
         }
       },
       // Error callback

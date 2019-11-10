@@ -50,7 +50,7 @@ export default {
           }
         );
       }
-      // If indicator.id does not exist, create a new data source
+      // If indicator.id does not exist, create a new indicator
       else {
         let payload = {
           query: this.$store.state.mutationCreateIndicator,
@@ -60,7 +60,7 @@ export default {
               description: this.indicator.description,
               indicatorTypeId: this.indicator.indicatorTypeId,
               indicatorGroupId: this.indicator.indicatorGroupId,
-              executionOrder: this.indicator.executionOrder,
+              executionOrder: parseInt(this.indicator.executionOrder),
               flagActive: this.indicator.flagActive
             }
           }

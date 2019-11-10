@@ -50,6 +50,9 @@ export default {
         mutation = this.$store.state.mutationDeleteIndicator;
         route = { name: "view-indicator" };
       }
+      else if (this.objectType == "parameter") {
+        mutation = this.$store.state.mutationDeleteParameter;
+      }
 
       // Method to delete object
       let payload = {

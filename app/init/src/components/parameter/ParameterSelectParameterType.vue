@@ -1,10 +1,10 @@
 <template>
   <div class="form-group">
-    <label for="indicatorGroup" class="col-form-label">
-      Indicator Group:
+    <label for="parameterType" class="col-form-label">
+      Parameter Type:
     </label>
     <treeselect
-      placeholder="Select indicator group"
+      placeholder="Select parameter type"
       v-model="selectedValue"
       v-bind:options="options"
       v-bind:multiple="false"
@@ -37,12 +37,12 @@ export default {
       this.selectedValue = arg;
     },
     selectedValue(arg) {
-      this.$emit("changeIndicatorGroup", arg);
+      this.$emit("changeParameterType", arg);
     }
   },
   created: function() {
-    // Get list of indicator groups to populate dropdown options
-    let payload = { query: this.$store.state.queryGetIndicatorGroups };
+    // Get list of parameter types to populate dropdown options
+    let payload = { query: this.$store.state.queryGetParameterTypes };
     let headers = {};
     if (this.$session.exists()) {
       headers = { Authorization: "Bearer " + this.$session.get("jwt") };
@@ -52,7 +52,7 @@ export default {
         if (response.data.errors) {
           this.displayError(response);
         } else {
-          this.options = response.data.data.allIndicatorGroups.nodes;
+          this.options = response.data.data.allParameterTypes.nodes;
         }
       },
       // Error callback

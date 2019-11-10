@@ -8,6 +8,7 @@ import * as DataSourceTypePayload from "./payloads/datasourcetype";
 import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 import * as IndicatorPayload from "./payloads/indicator";
 import * as IndicatorTypePayload from "./payloads/indicatortype";
+import * as ParameterPayload from "./payloads/parameter";
 
 Vue.use(Vuex);
 
@@ -59,6 +60,7 @@ export const store = new Vuex.Store({
     // Data sources queries and mutations
     queryGetAllDataSources: DataSourcePayload.queryGetAllDataSources,
     queryGetDataSource: DataSourcePayload.queryGetDataSource,
+    queryGetDataSources: DataSourcePayload.queryGetDataSources, // Data for data sources drodpdown in parameter form
     mutationCreateDataSource: DataSourcePayload.mutationCreateDataSource,
     mutationUpdateDataSource: DataSourcePayload.mutationUpdateDataSource,
     mutationDeleteDataSource: DataSourcePayload.mutationDeleteDataSource,
@@ -87,6 +89,12 @@ export const store = new Vuex.Store({
     mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
 
     //Indicator types queries and mutations
-    queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes // Data for indicator types drodpdown in indicator form
+    queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes, // Data for indicator types drodpdown in indicator form
+
+    //Indicator parameters queries and mutations
+    mutationCreateParameter: ParameterPayload.mutationCreateParameter,
+    mutationUpdateParameter: ParameterPayload.mutationUpdateParameter,
+    mutationDeleteParameter: ParameterPayload.mutationDeleteParameter,
+    queryGetParameterTypes: ParameterPayload.queryGetParameterTypes // Data for indicator parameter types drodpdown in indicator parameter form
   }
 });

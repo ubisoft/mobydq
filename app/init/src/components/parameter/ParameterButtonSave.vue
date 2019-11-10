@@ -1,5 +1,5 @@
 <template>
-  <button v-if="show" type="button" class="btn btn-success" v-on:click="saveIndicatorGroup">
+  <button v-if="show" type="button" class="btn btn-success float-right" v-on:click="saveParameter">
     Save
   </button>
 </template>
@@ -10,19 +10,21 @@ import Mixins from "../utils/Mixins.vue";
 export default {
   mixins: [Mixins],
   props: {
-    indicatorGroup: Object
+    indicatorId: Number,
+    parameter: Object
   },
   methods: {
-    saveIndicatorGroup() {
-      // Method to create or update an indicator group
-      // If indicatorGroup.id exists, update existing indicator group
-      if (this.indicatorGroup.id) {
+    saveParameter() {
+      // Method to create or update a parameter
+      // If parameter.id exists, update existing parameter
+      if (this.parameter.id) {
         let payload = {
-          query: this.$store.state.mutationUpdateIndicatorGroup,
+          query: this.$store.state.mutationUpdateParameter,
           variables: {
-            id: this.indicatorGroup.id,
-            indicatorGroupPatch: {
-              name: this.indicatorGroup.name
+            id: this.parameter.id,
+            parameterPatch: {
+              parameterTypeId: this.parameter.parameterTypeId,
+              value: this.parameter.value
             }
           }
         };
@@ -35,8 +37,8 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              this.indicatorGroup.updatedDate = response.data.data.updateIndicatorGroupById.indicatorGroup.updatedDate;
-              this.indicatorGroup.userByUpdatedById.email = response.data.data.updateIndicatorGroupById.indicatorGroup.userByUpdatedById.email;
+              this.parameter.updatedDate = response.data.data.updateParameterById.parameter.updatedDate;
+              this.parameter.userByUpdatedById.email = response.data.data.updateParameterById.parameter.userByUpdatedById.email;
             }
           },
           // Error callback
@@ -45,13 +47,15 @@ export default {
           }
         );
       }
-      // If indicatorGroup.id does not exist, create a new indicator group
+      // If parameter.id does not exist, create a new parameter
       else {
         let payload = {
-          query: this.$store.state.mutationCreateIndicatorGroup,
+          query: this.$store.state.mutationCreateParameter,
           variables: {
-            indicatorGroup: {
-              name: this.indicatorGroup.name
+            parameter: {
+              indicatorId: this.indicatorId,
+              parameterTypeId: this.parameter.parameterTypeId,
+              value: this.parameter.value
             }
           }
         };
@@ -64,14 +68,8 @@ export default {
             if (response.data.errors) {
               this.displayError(response);
             } else {
-              // Capture new indicator group Id in case user wants to delete or update it
-              this.indicatorGroup.id = response.data.data.createIndicatorGroup.indicatorGroup.id;
-              this.$router.push({
-                name: "edit-indicator-group",
-                params: {
-                  indicatorGroupId: this.indicatorGroup.id
-                }
-              });
+              // Send new parameter to parent to update parameter table
+              this.$emit("addParameter", response.data.data.createParameter.parameter);
             }
           },
           // Error callback

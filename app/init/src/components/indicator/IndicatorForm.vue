@@ -5,7 +5,7 @@
     <form>
       <div class="form-row">
         <div class="col-md-4">
-          <!-- Data Source Form -->
+          <!-- Indicator Form -->
           <div class="form-group required">
             <label for="indicatorName" class="col-form-label">
               Name:
@@ -82,6 +82,33 @@
         </div>
       </div>
     </form>
+
+    <!-- Parameters -->
+    <h1 class="mt-5" v-if="indicator.id">Indicator Parameters</h1>
+    <p>
+      <indicator-button-create-parameter
+        v-if="indicator.id"
+        v-on:editParameter="getParameter">
+      </indicator-button-create-parameter>
+    </p>
+
+    <!-- Parameter table -->
+    <parameter-table
+      v-if="indicator.id"
+      v-bind:parameters="parameters"
+      v-on:editParameter="getParameter"
+      v-bind:key="refreshTable">
+    </parameter-table>
+
+    <!-- Modal box to update parameters -->
+    <parameter-modal-box
+      v-if="indicator.id"
+      v-bind:indicatorId="indicator.id"
+      v-bind:indicatorTypeId="indicator.indicatorTypeId"
+      v-bind:parameter="selectedParameter"
+      v-on:addParameter="addParameter"
+      v-on:removeParameter="removeParameter">
+    </parameter-modal-box>
   </div>
 </template>
 
@@ -92,7 +119,11 @@ import IndicatorButtonSave from "./IndicatorButtonSave.vue";
 import IndicatorButtonClose from "./IndicatorButtonClose.vue";
 import IndicatorButtonDelete from "./IndicatorButtonDelete.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
+import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
+import IndicatorParameterTable from "./IndicatorParameterTable.vue";
+import ParameterModalBox from "../parameter/ParameterModalBox.vue";
 import Mixins from "../utils/Mixins.vue";
+import remove from "lodash/remove";
 
 export default {
   mixins: [Mixins],
@@ -102,16 +133,29 @@ export default {
     "indicator-meta-data": MetaDataCard,
     "indicator-button-save": IndicatorButtonSave,
     "indicator-button-close": IndicatorButtonClose,
-    "indicator-button-delete": IndicatorButtonDelete
+    "indicator-button-delete": IndicatorButtonDelete,
+    "indicator-button-create-parameter": IndicatorButtonAddParameter,
+    "parameter-table": IndicatorParameterTable,
+    "parameter-modal-box": ParameterModalBox
   },
   data: function() {
     return {
-      indicator: {}
+      indicator: {},
+      selectedParameter: {
+        id: null,
+        parameterTypeId: null,
+        value: null,
+        indicatorId: null
+      },
+      refreshTable: 0 // Key used to force refresh of parameter table when deleting parameter
     };
   },
   computed: {
     indicatorId() {
       return this.$route.params.indicatorId;
+    },
+    parameters() {
+      return this.indicator.parametersByIndicatorId.nodes;
     }
   },
   created: function() {
@@ -158,6 +202,28 @@ export default {
       } else {
         this.indicator["indicatorGroupId"] = null;
       }
+    },
+    getParameter(value) {
+      // Get parameter to be created or updated
+      if (value != null) {
+        this.selectedParameter = value;
+      } else {
+        this.selectedParameter['id'] = null;
+        this.selectedParameter['parameterTypeId'] = null;
+        this.selectedParameter['value'] = null;
+        this.selectedParameter['indicatorId'] = null;
+      }
+    },
+    addParameter(value) {
+      // Add parameter to parameter table
+      this.indicator.parametersByIndicatorId.nodes.push(value);
+    },
+    removeParameter(value) {
+      // Remove parameter from parameter table
+      remove(this.indicator.parametersByIndicatorId.nodes, function(parameter) {
+        return parameter.id == value;
+      });
+      this.refreshTable += 1; // Force refresh of parameter table
     }
   }
 };
