@@ -76,3 +76,12 @@ export const mutationSearchIndicator = `mutation searchIndicator($searchKeyword:
         }
     }
 }`;
+
+export const mutationExecuteIndicator = `mutation executeBatch($indicatorGroupId: Int, $indicatorId: [Int]) {
+    executeBatch(input: {indicatorGroupId: $indicatorGroupId, indicatorId: $indicatorId}) {
+        batch {
+            id
+            status
+        }
+    }
+}`;

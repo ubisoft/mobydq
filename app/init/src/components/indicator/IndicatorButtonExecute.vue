@@ -1,7 +1,7 @@
 <template>
   <span>
-    <button v-if="show" type="button" class="btn btn-secondary ml-1" v-on:click="testConnectivity">
-      Test Connectivity
+    <button v-if="show" type="button" class="btn btn-secondary ml-1" v-on:click="execute">
+      Execute
     </button>
   </span>
 </template>
@@ -12,7 +12,8 @@ import Mixins from "../utils/Mixins.vue";
 export default {
   mixins: [Mixins],
   props: {
-    dataSourceId: String
+    indicatorGroupId: Number,
+    indicatorId: String
   },
   data: function() {
     return {
@@ -22,13 +23,11 @@ export default {
   computed: {
     show() {
       let roles = ["standard", "advanced", "admin"];
-      return this.dataSourceId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return this.indicatorId != "new" && roles.includes(this.$store.state.currentUser.role);
     }
   },
   methods: {
-    testConnectivity(){
-      this.connectivityTestStatus['spinner'] = true;
-      this.$emit("connectivityTestStatus", this.connectivityTestStatus);
+    execute(){
       let payload = {
         query: this.$store.state.mutationTestDataSource,
         variables: {

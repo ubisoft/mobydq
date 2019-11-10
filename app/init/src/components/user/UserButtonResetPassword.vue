@@ -16,7 +16,8 @@ export default {
   },
   computed: {
     show() {
-      return this.userId != "new";
+      let roles = ["admin"];
+      return this.userId != "new" && roles.includes(this.$store.state.currentUser.role);
     }
   }
 };
