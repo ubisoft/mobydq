@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     showEditIndicatorGroup() {
-      let roles = ["admin"];
+      let roles = ["standard", "advanced", "admin"];
       return roles.includes(this.$store.state.currentUser.role);
     }
   },

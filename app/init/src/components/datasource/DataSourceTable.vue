@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     showEditDataSource() {
-      let roles = ["admin"];
+      let roles = ["advanced", "admin"];
       return roles.includes(this.$store.state.currentUser.role);
     }
   },
