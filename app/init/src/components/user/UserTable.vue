@@ -32,7 +32,7 @@
           </td>
           <td>
             <router-link v-if="showEditUser" class="badge badge-secondary" v-bind:to="'/admin/users/' + user.id">
-              Edit User
+              Edit
             </router-link>
           </td>
         </tr>

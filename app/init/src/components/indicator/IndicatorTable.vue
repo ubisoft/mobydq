@@ -37,7 +37,7 @@
           </td>
           <td>
             <router-link v-if="showEditIndicator" class="badge badge-secondary" v-bind:to="'/indicators/' + indicator.id">
-              Edit Indicator
+              Edit
             </router-link>
           </td>
         </tr>

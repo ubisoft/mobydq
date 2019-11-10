@@ -28,7 +28,7 @@
               v-on:click="editParameter(parameter)"
               data-toggle="modal"
               data-target="#ParameterModalBox">
-              Edit Parameter
+              Edit
             </span>
           </td>
         </tr>

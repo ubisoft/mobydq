@@ -19,7 +19,7 @@
           </td>
           <td>
             <router-link v-if="showEditUserGroup" class="badge badge-secondary" v-bind:to="'/admin/usergroups/' + userGroup.id">
-              Edit User Group
+              Edit
             </router-link>
           </td>
         </tr>

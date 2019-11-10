@@ -31,7 +31,7 @@
           </td>
           <td>
             <router-link v-if="showEditDataSource" class="badge badge-secondary" v-bind:to="'/datasources/' + dataSource.id">
-              Edit Data Source
+              Edit
             </router-link>
           </td>
         </tr>

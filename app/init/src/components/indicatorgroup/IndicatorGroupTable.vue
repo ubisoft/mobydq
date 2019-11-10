@@ -19,7 +19,7 @@
           </td>
           <td>
             <router-link v-if="showEditIndicatorGroup" class="badge badge-secondary" v-bind:to="'/indicatorgroups/' + indicatorGroup.id">
-              Edit Indicator Group
+              Edit
             </router-link>
           </td>
         </tr>
