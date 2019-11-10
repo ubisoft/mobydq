@@ -6,7 +6,7 @@
 /*Create table indicator*/
 CREATE TABLE base.indicator (
     id SERIAL PRIMARY KEY
-  , name TEXT NOT NULL UNIQUE
+  , name CITEXT NOT NULL UNIQUE
   , description TEXT
   , execution_order INTEGER DEFAULT 0
   , flag_active BOOLEAN DEFAULT FALSE
