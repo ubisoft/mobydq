@@ -3,7 +3,6 @@
     <span class="navbar-brand"></span>
 
     <form class="form-inline">
-      <!-- User group is picked when creating lists instead of at session level -->
       <header-button-admin></header-button-admin>
       <header-button-login></header-button-login>
       <header-button-logout></header-button-logout>

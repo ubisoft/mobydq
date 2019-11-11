@@ -12,6 +12,7 @@ import EditUserGroup from "./components/EditUserGroup.vue";
 import EditDataSource from "./components/EditDataSource.vue";
 import EditIndicatorGroup from "./components/EditIndicatorGroup.vue";
 import EditIndicator from "./components/EditIndicator.vue";
+import ViewDashboard from "./components/ViewDashboard.vue";
 import ViewUser from "./components/ViewUser.vue";
 import ViewUserGroup from "./components/ViewUserGroup.vue";
 import ViewDataSource from "./components/ViewDataSource.vue";
@@ -26,7 +27,7 @@ Vue.use(VueSession, { persist: true });
 
 // Declare application URLs
 const routes = [
-  { name: "home", path: "/", component: ViewIndicator },
+  { name: "home", path: "/", component: ViewDashboard },
   { name: "login", path: "/login", component: Login },
   { name: "view-user", path: "/admin/users", component: ViewUser },
   { name: "edit-user", path: "/admin/users/:userId", component: EditUser },
