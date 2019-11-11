@@ -13,37 +13,7 @@ GRANT user_group_1 TO anonymous;  /*Grant Public user group to anonymous*/
 
 /*base schema*/
 GRANT USAGE ON SCHEMA base TO anonymous;
-GRANT SELECT ON base.data_source_type TO anonymous;
-GRANT SELECT ON base.indicator_type TO anonymous;
-GRANT SELECT ON base.indicator_group TO anonymous;
-GRANT SELECT ON base.indicator TO anonymous;
-GRANT SELECT ON base.parameter_type TO anonymous;
-GRANT SELECT ON base.parameter TO anonymous;
-GRANT SELECT ON base.batch TO anonymous;
-GRANT SELECT ON base.session TO anonymous;
-GRANT SELECT ON base.session_result TO anonymous;
-
-/*Views*/
---GRANT SELECT ON base.batch_statistics TO anonymous;
---GRANT SELECT ON base.batch_status TO anonymous;
---GRANT SELECT ON base.session_statistics TO anonymous;
---GRANT SELECT ON base.session_status TO anonymous;
-
-
-/*Prevent anonymous user role to access data source password by enforcing grant on selected columns*/
-GRANT SELECT (
-    id
-  , name
-  , connection_string
-  , login
-  , connectivity_status
-  , user_group_id
-  , created_by_id
-  , created_date
-  , updated_by_id
-  , updated_date
-  , data_source_type_id
-) ON base.data_source TO anonymous;
+GRANT SELECT ON ALL TABLES IN SCHEMA base TO anonymous;
 
 
 
@@ -62,10 +32,6 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.batch TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session_result TO standard;
-GRANT SELECT ON base.user TO standard;
-GRANT SELECT ON base.password TO standard;
-GRANT SELECT ON base.user_group TO standard;
-GRANT SELECT ON base.user_group_membership TO standard;
 
 
 
@@ -78,10 +44,8 @@ CREATE ROLE advanced;
 GRANT standard TO advanced;
 
 /*base schema*/
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO advanced;
-GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON base.configuration TO advanced;
-GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON base.data_source TO advanced;
-GRANT SELECT ON base.data_source_password TO advanced;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.configuration TO advanced;
+GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.data_source TO advanced;
 
 
 
