@@ -27,7 +27,9 @@
             {{ dataSource.dataSourceTypeByDataSourceTypeId.name }}
           </td>
           <td>
-            {{ dataSource.connectivityStatus }}
+              <span class="badge badge-pill" v-bind:class="cssClass(dataSource.connectivityStatus)" >
+                {{ dataSource.connectivityStatus }}
+              </span>
           </td>
           <td>
             <router-link v-if="showEditDataSource" class="badge badge-secondary" v-bind:to="'/datasources/' + dataSource.id">
@@ -60,6 +62,15 @@ export default {
   methods: {
     setSortAttribute(attribute) {
       this.$emit("sortAttribute", attribute);
+    },
+    cssClass(status) {
+      let cssClass;
+      if(status == 'Success') {
+        cssClass = 'badge-success';
+      } else if (status == 'Failed') {
+        cssClass = 'badge-danger';
+      }
+      return cssClass;
     }
   }
 };

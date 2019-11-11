@@ -63,7 +63,7 @@
           </div>
           <div class="form-group">
               Connectivity Status:
-              <span class="badge badge-pill" v-bind:class="{ 'badge-success': connectivityStatusOK, 'badge-danger': connectivityStatusKO }" >
+              <span class="badge badge-pill" v-bind:class="cssClass(dataSource.connectivityStatus)" >
                   {{ dataSource.connectivityStatus }}
               </span>
               <span v-show="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -126,12 +126,6 @@ export default {
   computed: {
     dataSourceId() {
       return this.$route.params.dataSourceId.toString();
-    },
-    connectivityStatusOK() {
-      return this.dataSource.connectivityStatus == "Success";
-    },
-    connectivityStatusKO() {
-      return this.dataSource.connectivityStatus == "Failed";
     }
   },
   created: function() {
@@ -183,6 +177,15 @@ export default {
         this.dataSource.updatedDate = value.updatedDate;
         this.dataSource.userByUpdatedById.email = value.userByUpdatedById.email;
       }
+    },
+    cssClass(status) {
+      let cssClass;
+      if(status == 'Success') {
+        cssClass = 'badge-success';
+      } else if (status == 'Failed') {
+        cssClass = 'badge-danger';
+      }
+      return cssClass;
     }
   }
 };
