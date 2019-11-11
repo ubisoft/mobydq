@@ -76,6 +76,7 @@
           <!-- Button Menu -->
           <div class="mt-3">
             <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
+            <indicator-button-execute v-bind:indicator="indicator"> </indicator-button-execute>
             <indicator-button-close> </indicator-button-close>
             <indicator-button-delete v-if="indicator.id" v-bind:indicatorId="indicator.id"> </indicator-button-delete>
           </div>
@@ -118,6 +119,7 @@ import IndicatorSelectIndicatorGroup from "./IndicatorSelectIndicatorGroup.vue";
 import IndicatorButtonSave from "./IndicatorButtonSave.vue";
 import IndicatorButtonClose from "./IndicatorButtonClose.vue";
 import IndicatorButtonDelete from "./IndicatorButtonDelete.vue";
+import IndicatorButtonExecute from "./IndicatorButtonExecute.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
 import IndicatorParameterTable from "./IndicatorParameterTable.vue";
@@ -134,6 +136,7 @@ export default {
     "indicator-button-save": IndicatorButtonSave,
     "indicator-button-close": IndicatorButtonClose,
     "indicator-button-delete": IndicatorButtonDelete,
+    "indicator-button-execute": IndicatorButtonExecute,
     "indicator-button-create-parameter": IndicatorButtonAddParameter,
     "parameter-table": IndicatorParameterTable,
     "parameter-modal-box": ParameterModalBox
