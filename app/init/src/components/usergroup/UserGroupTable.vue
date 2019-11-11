@@ -15,7 +15,9 @@
       <tbody>
         <tr v-for="userGroup in userGroups" v-bind:key="userGroup.id">
           <td>
-            {{ userGroup.name }}
+            <router-link v-bind:to="'/admin/usergroups/' + userGroup.id">
+              {{ userGroup.name }}
+            </router-link>
           </td>
           <td>
             <router-link v-if="showEditUserGroup" class="badge badge-secondary" v-bind:to="'/admin/usergroups/' + userGroup.id">

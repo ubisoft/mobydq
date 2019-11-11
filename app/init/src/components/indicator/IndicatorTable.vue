@@ -24,7 +24,9 @@
       <tbody>
         <tr v-for="indicator in indicators" v-bind:key="indicator.id">
           <td>
-            {{ indicator.name }}
+            <router-link v-bind:to="'/indicators/' + indicator.id">
+              {{ indicator.name }}
+            </router-link>
           </td>
           <td>
             {{ indicator.indicatorTypeByIndicatorTypeId.name }}

@@ -15,7 +15,9 @@
       <tbody>
         <tr v-for="indicatorGroup in indicatorGroups" v-bind:key="indicatorGroup.id">
           <td>
-            {{ indicatorGroup.name }}
+            <router-link v-bind:to="'/indicatorgroups/' + indicatorGroup.id">
+              {{ indicatorGroup.name }}
+            </router-link>
           </td>
           <td>
             <router-link v-if="showEditIndicatorGroup" class="badge badge-secondary" v-bind:to="'/indicatorgroups/' + indicatorGroup.id">

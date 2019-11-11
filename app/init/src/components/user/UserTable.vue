@@ -22,7 +22,9 @@
       <tbody>
         <tr v-for="user in users" v-bind:key="user.id">
           <td>
-            {{ user.email }}
+            <router-link v-bind:to="'/admin/users/' + user.id">
+              {{ user.email }}
+            </router-link>
           </td>
           <td>
             {{ user.role }}

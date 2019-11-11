@@ -21,7 +21,9 @@
       <tbody>
         <tr v-for="dataSource in dataSources" v-bind:key="dataSource.id">
           <td>
-            {{ dataSource.name }}
+              <router-link v-bind:to="'/datasources/' + dataSource.id">
+                {{ dataSource.name }}
+              </router-link>
           </td>
           <td>
             {{ dataSource.dataSourceTypeByDataSourceTypeId.name }}
