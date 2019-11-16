@@ -11,31 +11,31 @@ log = logging.getLogger(__name__)
 class Completeness(Indicator):
     """Class used to compute indicators of type completeness."""
 
-    def execute(self, session: dict):
+    def execute(self, authorization: str, session: dict):
         """Execute indicator of type completeness."""
         # Update session status to running
         session_id = session['id']
         indicator_id = session['indicatorId']
         log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
-        update_session_status(session_id, 'Running')
+        update_session_status(authorization, session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
         indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
         parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
-        parameters = super().verify_indicator_parameters(indicator_type_id, parameters)
+        parameters = super().verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Get source data
         dimensions = parameters[4]
         measures = parameters[5]
         source = parameters[6]
         source_request = parameters[7]
-        source_data = super().get_data_frame(source, source_request, dimensions, measures)
+        source_data = super().get_data_frame(authorization, source, source_request, dimensions, measures)
 
         # Get target data
         target = parameters[8]
         target_request = parameters[9]
-        target_data = super().get_data_frame(target, target_request, dimensions, measures)
+        target_data = super().get_data_frame(authorization, target, target_request, dimensions, measures)
 
         # Evaluate completeness
         alert_operator = parameters[1]  # Alert operator
@@ -45,8 +45,7 @@ class Completeness(Indicator):
             source_data, target_data, dimensions, measures, alert_operator, alert_threshold)
 
         # Compute session result
-        nb_records_alert = super().compute_session_result(
-            session_id, alert_operator, alert_threshold, result_data)
+        nb_records_alert = super().compute_session_result(authorization, session_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
@@ -56,17 +55,11 @@ class Completeness(Indicator):
                                alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
-        log.debug('Update session status to Succeeded.')
-        update_session_status(session_id, 'Succeeded')
+        log.debug('Update session status to Success.')
+        update_session_status(authorization, session_id, 'Success')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
-    def evaluate_completeness(self,
-                              source_data: pandas.DataFrame,
-                              target_data: pandas.DataFrame,
-                              dimensions: str,
-                              measures: str,
-                              alert_operator: str,
-                              alert_threshold: str):
+    def evaluate_completeness(self, source_data: pandas.DataFrame, target_data: pandas.DataFrame, dimensions: str, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of completeness indicator and return results in a data frame."""
         # Merge data frames to compare their measures
         result_data = pandas.merge(

@@ -29,14 +29,17 @@ def get_parameter(section: str, parameter_name: str = None):
     return parameters
 
 
-def execute_graphql_request(payload: object):
-    """Execute queries and mutations on the GraphQL API."""
-    url = get_parameter('graphql', 'url')
-    headers = {'Content-Type': 'application/graphql'}
-    response = requests.post(url, headers=headers, data=payload)
-    data = response.json()
-    return data
+def execute_graphql_request(authorization: str, payload: dict):
+    """Method to execute http request on the GraphQL API."""
 
+    url = 'http://graphql:5433/graphql'  # url = get_parameter('graphql', 'url')
+    headers = {'Content-Type': 'application/json'}
+    if authorization:
+        headers['Authorization'] = authorization
+    response = requests.post(url, headers=headers, json=payload)
+    data = response.json()
+
+    return data
 
 def send_mail(session_id: int, distribution_list: list, template: str = None, attachment: any = None, **kwargs):
     """Send e-mail to the distribution list."""

@@ -7,9 +7,9 @@ class ExecuteBatch():
     def build_payload(self):
         """Method used to surcharge payload sent to GraphQL API."""
 
-        return 'mutation executeBatch($id: Int!) { executeBatch(input: { indicatorGroupId: $id }) { batch {id status } } }'
+        return 'mutation executeBatch($indicatorGroupId: Int, $indicatorId: [Int]) { executeBatch(input: {indicatorGroupId: $indicatorGroupId, indicatorId: $indicatorId}) { batch { id status }}}'
 
-    def execute_batch(self, response: dict):
+    def execute_batch(self, authorization: str, response: dict):
         """Method used to run Docker container which executes batch of indicators."""
 
         batch_id = str(response['data']['executeBatch']['batch']['id'])
@@ -18,8 +18,8 @@ class ExecuteBatch():
         client.containers.run(
             name=container_name,
             image='mobydq-scripts',
-            network='mobydq-network',
-            command=['python', 'run.py', 'execute_batch', batch_id],
+            network='mobydq_network',
+            command=['python', 'run.py', authorization, 'execute_batch', batch_id],
             remove=True,
             detach=True
         )

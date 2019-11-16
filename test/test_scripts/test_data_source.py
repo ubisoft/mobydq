@@ -131,10 +131,10 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
-    def test_get_connection_teradata(self):
-        """Unit tests for method get_connection for Teradata database."""
+    # def test_get_connection_teradata(self):
+        # """Unit tests for method get_connection for Teradata database."""
         # TODO:
-        pass
+        # pass
 
 
 if __name__ == '__main__':

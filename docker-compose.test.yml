@@ -1,6 +1,14 @@
 version: '3.1'
 services:
 
+  # Run GraphQL API without authentication
+  graphql:
+    command: ["postgraphile",
+      "--connection", "${DATABASE_URL}",
+      "--port", "5433",
+      "--schema", "base",
+      "--cors"]
+
   db-hive:
     container_name: mobydq-test-db-hive
     image: mobydq-test-db-hive
@@ -11,7 +19,7 @@ services:
     expose:
       - 10000
     networks:
-      - default
+      - network
     hostname: quickstart.cloudera
     privileged: true
     tty: true
@@ -28,7 +36,7 @@ services:
     expose:
       - 3306
     networks:
-      - default
+      - network
 
   db-mariadb:
     container_name: mobydq-test-db-mariadb
@@ -42,7 +50,7 @@ services:
     expose:
       - 3306
     networks:
-      - default
+      - network
 
   db-postgresql:
     container_name: mobydq-test-db-postgresql
@@ -58,7 +66,7 @@ services:
     expose:
       - 5432
     networks:
-      - default
+      - network
 
   db-sql-server:
     container_name: mobydq-test-db-sql-server
@@ -73,7 +81,7 @@ services:
     expose:
       - 1433
     networks:
-      - default
+      - network
 
   test-db:
     container_name: mobydq-test-db
@@ -86,7 +94,7 @@ services:
       - db
       - scripts
     networks:
-      - default
+      - network
 
   test-api:
     container_name: mobydq-test-api
@@ -99,7 +107,7 @@ services:
       - api
       - scripts
     networks:
-      - default
+      - network
 
   test-scripts:
     container_name: mobydq-test-scripts
@@ -116,7 +124,7 @@ services:
       - db-mariadb
       - db-postgresql
     networks:
-      - default
+      - network
 
   test-lint-python:
     container_name: mobydq-test-lint-python
@@ -126,17 +134,3 @@ services:
       dockerfile: ./test/Dockerfile
     depends_on:
       - scripts
-
-  test-app:
-    container_name: mobydq-test-app
-    build:
-      context: ./app
-    env_file:
-      - ./.env
-    command: "npm run test && npm run lint"
-    image: mobydq-test-app
-
-networks:
-  default:
-    external:
-      name: mobydq-network

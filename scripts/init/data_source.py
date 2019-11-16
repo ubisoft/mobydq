@@ -13,6 +13,9 @@ log = logging.getLogger(__name__)
 class DataSource:
     """Data source class."""
 
+    def __init__(self):
+        pass
+
     def get_connection(self, data_source_type_id: int, connection_string: str, login: str = None, password: str = None):
         """Connect to a data source. Return a connection object."""
 
@@ -76,15 +79,16 @@ class DataSource:
 
         return connection
 
-    def test(self, data_source_id: int):
+    def test(self, authorization: str, data_source_id: int):
         """Test connectivity to a data source and update its connectivity status."""
         log.info('Test connectivity to data source Id %i.', data_source_id)
 
         # Get data source
         log.debug('Get data source.')
-        query = 'query{dataSourceById(id:data_source_id){dataSourceTypeId,connectionString,login,password}}'
+        query = 'query{dataSourceById(id:data_source_id){dataSourceTypeId,connectionString,login}}'
         query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        response = utils.execute_graphql_request(query)
+        query = {'query': query}  # Convert to dictionary
+        response = utils.execute_graphql_request(authorization, query)
 
         if response['data']['dataSourceById']:
             data_source = response['data']['dataSourceById']
@@ -95,7 +99,8 @@ class DataSource:
         # Get data source password
         query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
         query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        response = utils.execute_graphql_request(query)
+        query = {'query': query}  # Convert to dictionary
+        response = utils.execute_graphql_request(authorization, query)
 
         if response['data']['allDataSourcePasswords']['nodes'][0]:
             data_source = response['data']['allDataSourcePasswords']['nodes'][0]
@@ -109,7 +114,8 @@ class DataSource:
                 log.info('Connection to data source succeeded.')
                 mutation = 'mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Success"}}){dataSource{connectivityStatus}}}'
                 mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-                utils.execute_graphql_request(mutation)
+                mutation = {'query': mutation}  # Convert to dictionary
+                utils.execute_graphql_request(authorization, mutation)
 
             except Exception:  # Pylint: disable=broad-except
                 log.error('Connection to data source failed.')
@@ -119,7 +125,8 @@ class DataSource:
                 # Update connectivity status
                 mutation = 'mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Failed"}}){dataSource{connectivityStatus}}}'
                 mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-                utils.execute_graphql_request(mutation)
+                mutation = {'query': mutation}  # Convert to dictionary
+                utils.execute_graphql_request(authorization, mutation)
 
         else:
             error_message = f'Data source Id {data_source_id} does not exist.'

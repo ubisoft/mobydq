@@ -31,7 +31,7 @@ class TestDb(unittest.TestCase):
     def create_data_source(self, test_case_name: str):
         """Create a data source in the database and return its id and password."""
 
-        insert_data_source_query = f'''INSERT INTO base.data_source (name, data_source_type_id, password) VALUES ('{test_case_name}', 1, 1234) RETURNING id, password;'''
+        insert_data_source_query = f'''INSERT INTO base.data_source (name, connection_string, data_source_type_id) VALUES ('{test_case_name}', 'Test connection string', 1) RETURNING id, password;'''
         cursor = self.connection.execute(insert_data_source_query)
         row = cursor.fetchone()
 
@@ -55,10 +55,10 @@ class TestDb(unittest.TestCase):
         indicator_group_id = cursor.fetchone()[0]
         return indicator_group_id
 
-    def create_user(self, test_case_name: str, flag_admin: bool = False):
+    def create_user(self, test_case_name: str):
         """Create a user in the database and return its id."""
 
-        insert_user_query = f'''INSERT INTO base.user (email, oauth_type, access_token, expiry_date, flag_admin) values ('{test_case_name}', 'GOOGLE', '1234', '2999-12-31', {flag_admin}) RETURNING id;'''
+        insert_user_query = f'''INSERT INTO base.user (email, role) values ('{test_case_name}', 'admin') RETURNING id;'''
         cursor = self.connection.execute(insert_user_query)
         user_id = cursor.fetchone()[0]
         return user_id
@@ -71,13 +71,13 @@ class TestDb(unittest.TestCase):
         user_group_id = cursor.fetchone()[0]
         return user_group_id
 
-    def create_user_group_user(self, user_group_id: int, user_id: int):
+    def create_user_group_membership(self, user_group_id: int, user_id: int):
         """Create a user group user in the database and return its id."""
 
-        insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
-        cursor = self.connection.execute(insert_user_group_user_query)
-        user_group_user_id = cursor.fetchone()[0]
-        return user_group_user_id
+        insert_user_group_membership_query = f'''INSERT INTO base.user_group_membership (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_membership_query)
+        user_group_membership_id = cursor.fetchone()[0]
+        return user_group_membership_id
 
     def delete_user_group(self, user_group_id: int):
         """Delete a user group from the database."""
@@ -85,11 +85,18 @@ class TestDb(unittest.TestCase):
         delete_user_group_query = f'''DELETE FROM base.user_group WHERE id = {user_group_id};'''
         self.connection.execute(delete_user_group_query)
         return True
+    
+    def delete_user_group_membership(self, user_group_id: int):
+        """Delete a user group membership from the database."""
+
+        delete_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE user_group_id = {user_group_id};'''
+        self.connection.execute(delete_user_group_membership_query)
+        return True
 
     def update_user(self, user_id: int):
         """Update a user in the database and return its updated_by_id and updated_date."""
 
-        update_user_query = f'''UPDATE base.user SET flag_admin = true WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
+        update_user_query = f'''UPDATE base.user SET role = 'advanced' WHERE id = {user_id} RETURNING updated_by_id, updated_date, created_date;'''
         cursor = self.connection.execute(update_user_query)
         row = cursor.fetchone()
 
@@ -231,23 +238,23 @@ class TestDb(unittest.TestCase):
         user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
-        # Get user and standard role
-        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'standard' WHERE a.rolname = '{user}';'''
+        # Get user and admin role
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and admin role granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'standard')
+        self.assertEqual(row[1], 'admin')
 
         # Get user and default user group
-        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_0' WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'user_group_1' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and user group granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'user_group_0')
+        self.assertEqual(row[1], 'user_group_1')
 
         # Rollback uncommitted data
         self.rollback()
@@ -314,18 +321,18 @@ class TestDb(unittest.TestCase):
         # Insert user group
         user_group_id = self.create_user_group(test_case_name)
 
-        # Insert user group user
-        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
+        # Insert user group membership
+        user_group_membership_id = self.create_user_group_membership(user_group_id, user_id)
 
         # Delete user group
         self.delete_user_group(user_group_id)
 
-        # Get user group user
-        select_user_group_user_query = f'''SELECT id FROM base.user_group_user WHERE id = '{user_group_user_id}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        # Get user group membership
+        select_user_group_membership_query = f'''SELECT id FROM base.user_group_membership WHERE id = '{user_group_membership_id}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
-        # Assert user group user has been deleted
+        # Assert user group membership has been deleted
         self.assertTrue(row is None)
 
         # Rollback uncommitted data
@@ -366,11 +373,11 @@ class TestDb(unittest.TestCase):
         user_group = f'user_group_{user_group_id}'
 
         # Insert user group user
-        self.create_user_group_user(user_group_id, user_id)
+        self.create_user_group_membership(user_group_id, user_id)
 
         # Get user and user group roles
-        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        select_user_group_membership_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
         # Assert user was created and user group role granted
@@ -393,15 +400,15 @@ class TestDb(unittest.TestCase):
         user_group = f'user_group_{user_group_id}'
 
         # Insert user group user
-        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
+        user_group_membership_id = self.create_user_group_membership(user_group_id, user_id)
 
         # Delete user group user
-        insert_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE id = {user_group_user_id};'''
-        self.connection.execute(insert_user_group_user_query)
+        insert_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE id = {user_group_membership_id};'''
+        self.connection.execute(insert_user_group_membership_query)
 
         # Get user and user group
-        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        select_user_group_membership_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
         # Assert user group role has been revoked
@@ -415,7 +422,7 @@ class TestDb(unittest.TestCase):
 
         # Insert user
         test_case_name = get_test_case_name()
-        user_id = self.create_user(test_case_name, True)
+        user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
         # Change current role to new user
@@ -456,8 +463,8 @@ class TestDb(unittest.TestCase):
         self.assertLess(created_date, updated_date)
 
         # Delete committed data
-        delete_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE user_id = {user_id};'''
-        self.connection.execute(delete_user_group_user_query)
+        delete_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE user_id = {user_id};'''
+        self.connection.execute(delete_user_group_membership_query)
 
         delete_user_query = f'''DELETE FROM base.user WHERE id = {user_id};'''
         self.connection.execute(delete_user_query)
@@ -471,17 +478,17 @@ class TestDb(unittest.TestCase):
         user_id = self.create_user(test_case_name)
         user = f'user_{user_id}'
 
-        # Update user role to admin
+        # Update user role to advanced
         self.update_user(user_id)
 
         # Get user and role
-        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'admin' WHERE a.rolname = '{user}';'''
+        select_user_role_query = f'''SELECT a.rolname AS user, c.rolname AS role FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid AND c.rolname = 'advanced' WHERE a.rolname = '{user}';'''
         cursor = self.connection.execute(select_user_role_query)
         row = cursor.fetchone()
 
-        # Assert user was created and standard role granted
+        # Assert user was created and advanced role granted
         self.assertEqual(row[0], user)
-        self.assertEqual(row[1], 'admin')
+        self.assertEqual(row[1], 'advanced')
 
         # Rollback uncommitted data
         self.rollback()

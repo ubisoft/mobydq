@@ -4,8 +4,6 @@
 
 [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
 
-# /!\ Frontend currently being reworked /!\
-
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 ![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
@@ -37,9 +35,6 @@ $ cd mobydq
 
 # Backend
 $ test/run-linter.sh
-
-# Frontend
-$ app/run-container.sh npm run lint
 ```
 
 
@@ -56,13 +51,11 @@ The containers run by `docker-compose` have dependencies with the following Dock
 ## Python Packages
 * [docker](https://docker-py.readthedocs.io) (3.5.0)
 * [flask](http://flask.pocoo.org) (1.0.2)
-* [flask_cors](https://flask-cors.readthedocs.io) (3.0.6)
+* [flask_cors](https://flask-cors.readthedocs.io) (3.0.8)
 * [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
 * [graphql_py](https://pypi.org/project/graphql-py) (0.7.1)
 * [jinja2](http://jinja.pocoo.org) (2.10.1)
-* [jwt](https://pypi.org/project/jwt) (0.5.4)
 * [numpy](http://www.numpy.org) (1.14.0)
 * [pandas](https://pandas.pydata.org) (0.23.0)
 * [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
 * [requests](http://docs.python-requests.org) (2.20.0)
-* [requests_oauthlib](https://requests-oauthlib.readthedocs.io)(1.0.0)

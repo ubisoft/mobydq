@@ -1,10 +1,6 @@
-authlib==0.9
 docker==3.5.0
 flask==1.0.2
-flask_cors==3.0.6
-flask_login==0.4.1
+flask_cors==3.0.8
 flask_restplus==0.11.0
 graphql_py==0.7.1
-jwt==0.5.4
 requests==2.20.0
-requests_oauthlib==1.0.0

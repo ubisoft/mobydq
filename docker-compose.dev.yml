@@ -1,7 +1,5 @@
 version: '3.1'
 services:
-
-
   db:
     expose:
       - 5432
@@ -17,21 +15,20 @@ services:
   api:
     volumes:
       - ./api/init:/srv/api/
-    expose:
-      - 5434
     environment:
       FLASK_DEBUG: 1
 
-  scripts:
-    volumes:
-       - ./scripts/init:/srv/scripts
-    tty: true
-
   app:
     volumes:
-      - ./app/src:/usr/src/app/src:ro
-      - ./app/public:/usr/src/app/public:ro
-    expose:
-      - 5499
+      - ./app/init/public:/srv/app/public
+      - ./app/init/src:/srv/app/src
+    command: ["dev"]
+  
+  nginx:
     ports:
-      - 5499:3000
+      - 8080:8080
+
+  scripts:
+    volumes:
+      - ./scripts/init:/srv/scripts
+    tty: true

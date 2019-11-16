@@ -12,11 +12,13 @@ def validate_graphql_request(payload: str):
         raise RequestException(400, 'Invalid GraphQL payload.')
 
 
-def execute_graphql_request(payload: dict):
+def execute_graphql_request(authorization: str, payload: dict):
     """Method to execute http request on the GraphQL API."""
 
     url = 'http://graphql:5433/graphql'  # Should be moved to config file
     headers = {'Content-Type': 'application/json'}
+    if authorization:
+        headers['Authorization'] = authorization
     response = requests.post(url, headers=headers, json=payload)
     status = response.status_code
     data = response.json()

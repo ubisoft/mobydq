@@ -3,11 +3,9 @@ import sys
 import os
 from flask import Blueprint, Flask, url_for
 from flask_cors import CORS
-from flask_login import LoginManager
 from flask_restplus import Api
 from health.routes import register_health
 from proxy.routes import register_graphql
-from security.routes import register_security
 
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -19,7 +17,6 @@ logging.basicConfig(
 # Create flask app and enable cross origin resource sharing
 app = Flask(__name__)
 CORS(app)
-login = LoginManager(app)
 
 # Get a cryptographically secure random sequence of bytes to be used as the app's secret_key
 app.secret_key = os.urandom(24)
@@ -51,9 +48,7 @@ app.register_blueprint(blueprint)
 api.namespaces.clear()
 graphql = api.namespace('GraphQL', path='/v1')
 health = api.namespace('Health', path='/v1')
-security = api.namespace('Security', path='/v1')
 
 # Register all API resources
 register_health(health)
 register_graphql(graphql, api)
-register_security(security)
