@@ -321,18 +321,18 @@ class TestDb(unittest.TestCase):
         # Insert user group
         user_group_id = self.create_user_group(test_case_name)
 
-        # Insert user group user
+        # Insert user group membership
         user_group_membership_id = self.create_user_group_membership(user_group_id, user_id)
 
         # Delete user group
         self.delete_user_group(user_group_id)
 
-        # Get user group user
+        # Get user group membership
         select_user_group_membership_query = f'''SELECT id FROM base.user_group_membership WHERE id = '{user_group_membership_id}';'''
         cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
-        # Assert user group user has been deleted
+        # Assert user group membership has been deleted
         self.assertTrue(row is None)
 
         # Rollback uncommitted data
@@ -345,9 +345,6 @@ class TestDb(unittest.TestCase):
         test_case_name = get_test_case_name()
         user_group_id = self.create_user_group(test_case_name)
         user_group = f'user_group_{user_group_id}'
-
-        # Delete user group membership of admin user
-        self.delete_user_group_membership(user_group_id)
 
         # Delete user group
         self.delete_user_group(user_group_id)
