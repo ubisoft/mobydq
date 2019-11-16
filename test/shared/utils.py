@@ -18,5 +18,5 @@ def configure_test_logger():
 def get_authorization():
     mutation = '''mutation{authenticateUser(input:{userEmail:"admin",userPassword:"admin"}){token}}'''
     mutation = {'query': mutation}  # Convert to dictionary
-    data = utils.execute_graphql_request(None, mutation)
+    response = utils.execute_graphql_request(None, mutation)
     return "Bearer " + response['data']['authenticateUser']['token']
