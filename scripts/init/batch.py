@@ -77,8 +77,8 @@ class Batch:
                 self.update_batch_status(authorization, batch_id, 'Failed')
                 log.warning('Batch Id %i completed with errors.', batch_id)
             else:
-                log.debug('Update batch status to Succeeded.')
-                self.update_batch_status(authorization, batch_id, 'Succeeded')
+                log.debug('Update batch status to Success.')
+                self.update_batch_status(authorization, batch_id, 'Success')
                 log.info('Batch Id %i completed successfully.', batch_id)
 
         else:

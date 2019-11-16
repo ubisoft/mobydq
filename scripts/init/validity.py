@@ -53,8 +53,8 @@ class Validity(Indicator):
                                alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
-        log.debug('Update session status to Succeeded.')
-        update_session_status(authorization, session_id, 'Succeeded')
+        log.debug('Update session status to Success.')
+        update_session_status(authorization, session_id, 'Success')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_validity(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):

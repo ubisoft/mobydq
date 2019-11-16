@@ -56,8 +56,8 @@ class Latency(Indicator):
             super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
-        log.debug('Update session status to Succeeded.')
-        update_session_status(authorization, session_id, 'Succeeded')
+        log.debug('Update session status to Success.')
+        update_session_status(authorization, session_id, 'Success')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_latency(self,
