@@ -21,7 +21,9 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.6",
     "vue-session": "^1.0.0",
-    "vuex": "^3.1.1"
+    "vuex": "^3.1.1",
+    "chart.js": "^2.9.3",
+    "vue-chartjs": "^3.5.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",

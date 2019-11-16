@@ -85,3 +85,22 @@ export const mutationExecuteIndicator = `mutation executeBatch($indicatorGroupId
         }
     }
 }`;
+
+export const queryGetIndicatorSessions = `query getAllSessions($indicatorId: Int, $first: Int, $offset: Int, $orderBy: [SessionsOrderBy!]){
+    allSessions(condition: {indicatorId: $indicatorId}, first: $first, offset: $offset, orderBy: $orderBy) {
+        nodes {
+            id
+          	status
+          	createdDate
+          	updatedDate
+            userByCreatedById { email }
+            sessionResultsBySessionId {
+                nodes {
+                    nbRecords
+                    nbRecordsAlert
+                    nbRecordsNoAlert
+                }
+            }  
+        }
+    }
+}`;

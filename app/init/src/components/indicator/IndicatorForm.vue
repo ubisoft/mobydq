@@ -101,6 +101,13 @@
       </div>
       <div class="col">
         <h1 class="mt-5">Executions</h1>
+          <indicator-chart
+            chart-id="indicatorChart"
+            height=150
+            v-if="indicatorSessionsLabels"
+            v-bind:indicatorSessions="indicatorSessions"
+            v-bind:labels="indicatorSessionsLabels">
+          </indicator-chart>
       </div>
     </div>
 
@@ -144,6 +151,7 @@ import MetaDataCard from "../utils/MetaDataCard.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
 import IndicatorParameterTable from "./IndicatorParameterTable.vue";
 import ParameterModalBox from "../parameter/ParameterModalBox.vue";
+import IndicatorChart from "./IndicatorChart.vue";
 import Mixins from "../utils/Mixins.vue";
 import remove from "lodash/remove";
 
@@ -158,12 +166,14 @@ export default {
     "indicator-button-delete": IndicatorButtonDelete,
     "indicator-button-execute": IndicatorButtonExecute,
     "indicator-button-create-parameter": IndicatorButtonAddParameter,
+    "indicator-chart": IndicatorChart,
     "parameter-table": IndicatorParameterTable,
     "parameter-modal-box": ParameterModalBox
   },
   data: function() {
     return {
       indicator: {},
+      indicatorSessions: [],
       selectedParameter: {
         id: null,
         parameterTypeId: null,
@@ -183,21 +193,37 @@ export default {
     isReadOnly() {
       let roles = ["standard", "advanced", "admin"];
       return !roles.includes(this.$store.state.currentUser.role);
+    },
+    indicatorSessionsLabels() {
+      return this.indicatorSessions.map(function(session) {
+        return "Session " + session.id;
+      });
     }
   },
   created: function() {
     // If indicatorId != new then get data for existing indicator
     if (this.indicatorId != "new") {
+
+      let headers = {};
+      if (this.$session.exists()) {
+        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+      }
+
+      // Get indicator
+      this.getIndicator(headers);
+
+      // Get indicator sessions
+      this.getIndicatorSessions(headers);
+    }
+  },
+  methods: {
+    getIndicator(headers) {
       let payload = {
         query: this.$store.state.queryGetIndicator,
         variables: {
           id: parseInt(this.indicatorId)
         }
       };
-      let headers = {};
-      if (this.$session.exists()) {
-        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
-      }
       this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
         function(response) {
           if (response.data.errors) {
@@ -211,9 +237,31 @@ export default {
           this.displayError(response);
         }
       );
-    }
-  },
-  methods: {
+    },
+    getIndicatorSessions(headers) {
+      let payload = {
+        query: this.$store.state.queryGetIndicatorSessions,
+        variables: {
+          first: 10,
+          offset: 0,
+          orderBy: "ID_DESC",
+          indicatorId: parseInt(this.indicatorId)
+        }
+      };
+      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+        function(response) {
+          if (response.data.errors) {
+            this.displayError(response);
+          } else {
+            this.indicatorSessions = response.data.data.allSessions.nodes;
+          }
+        },
+        // Error callback
+        function(response) {
+          this.displayError(response);
+        }
+      );
+    },
     getIndicatorType(value) {
       // Get indicator type from child component
       if (value != null) {
@@ -255,3 +303,9 @@ export default {
   }
 };
 </script>
+
+<style>
+#IndicatorChart {
+  height: 200px;
+}
+</style>

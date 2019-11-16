@@ -54,7 +54,6 @@ COMMENT ON FUNCTION base.create_user_group IS
 
 
 /*Create function to delete database user group in pg_roles table when user group is deleted in user_group table*/
-/*Feature to delete user group has been deactivated because of referential, integrity constraints
 CREATE OR REPLACE FUNCTION base.delete_user_group()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -65,7 +64,6 @@ $$ language plpgsql;
 
 COMMENT ON FUNCTION base.delete_user_group IS
 'Function used to automatically delete database user group in pg_roles table when user group is deleted in user_group table.';
-*/
 
 
 
@@ -88,16 +86,13 @@ base.update_updated_by_id();
 
 
 /*Triggers on delete*/
-/*Feature to delete user group has been deactivated because of referential integrity constraints
-CREATE TRIGGER user_group_delete_user_group AFTER DELETE
-ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
-base.delete_user_group();
-
-
 CREATE TRIGGER user_group_delete_user_group_membership BEFORE DELETE
 ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('user_group_membership', 'user_group_id');
-*/
+
+CREATE TRIGGER user_group_delete_user_group AFTER DELETE
+ON base.user_group FOR EACH ROW EXECUTE PROCEDURE
+base.delete_user_group();
 
 
 /*Create default user group*/
