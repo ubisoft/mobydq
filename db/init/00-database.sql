@@ -2,25 +2,48 @@
 \connect mobydq
 
 /*Create schema*/
-CREATE SCHEMA configuration;
+CREATE SCHEMA base;
 
-/*Create table user group*/
-CREATE TABLE configuration.parameter (
+/*Install pgcrypto exstension to encrypt/decrypt passwords*/
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+/*Install citext extension for case insensitive sort*/
+CREATE EXTENSION IF NOT EXISTS citext;
+
+
+
+/*Create table configuration*/
+CREATE TABLE base.configuration (
     id SERIAL PRIMARY KEY
   , name TEXT NOT NULL UNIQUE
   , value TEXT
 );
 
-COMMENT ON TABLE configuration.parameter IS
-'Configuration parameters.';
+COMMENT ON TABLE base.configuration IS
+'Table to store application configuration parameters.';
 
 
 
-/*Create schema*/
-CREATE SCHEMA base;
+/*Create function to get Id of the current user based on his database user role*/
+/*This is used to update the created_by_id and updated_by_id columns*/
+CREATE OR REPLACE FUNCTION base.get_current_user_id()
+RETURNS INTEGER AS $$
+DECLARE
+    user_id INTEGER;
+BEGIN
+    IF CURRENT_USER LIKE 'user_%' THEN
+      SELECT SUBSTRING(CURRENT_USER, 6) INTO user_id;
+    ELSE
+      SELECT 1 INTO user_id;
+    END IF;
+    RETURN user_id;
+END;
+$$ language plpgsql;
 
-/*Install pgcrypto exstension to encrypt/decrypt data sources passwords*/
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+COMMENT ON FUNCTION base.get_current_user_id IS
+'Function used to get Id of the current user based on his database user role.';
+
+
 
 /*Create function to update updated_date column*/
 CREATE OR REPLACE FUNCTION base.update_updated_date()
@@ -33,6 +56,20 @@ $$ language plpgsql;
 
 COMMENT ON FUNCTION base.update_updated_date IS
 'Function used to automatically update the updated_date column in tables.';
+
+
+
+/*Create function to update updated_by_id column*/
+CREATE OR REPLACE FUNCTION base.update_updated_by_id()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_by_id = base.get_current_user_id();
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.update_updated_by_id IS
+'Function used to automatically update the updated_by_id column in tables.';
 
 
 

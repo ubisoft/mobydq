@@ -1,21 +1,25 @@
-FROM node:10.11.0-alpine
+FROM node:lts-alpine
 
-# set working directory
-RUN mkdir /usr/src && mkdir /usr/src/app
-WORKDIR /usr/src/app
+# Project files
+ARG PROJECT_DIR=/srv/app
+RUN mkdir -p $PROJECT_DIR
+WORKDIR $PROJECT_DIR
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+# Copy both 'package.json' and 'package-lock.json' (if available)
+COPY ./init/package*.json ./
 
-# install and cache app dependencies
-COPY package.json package-lock.json /usr/src/app/
-RUN npm ci
+# Install http-server to serve files to Nginx for production
+RUN npm install -g http-server
 
-COPY .eslintrc.json /usr/src/app/
+# Install Vue CLI
+RUN npm install -g @vue/cli
 
-# used for the tests in CircleCI
-# is overwritten by the volume mounted in docker compose when running in dev/prod
-COPY . /usr/src/app
+# Install project dependencies
+RUN npm install
 
-# start app
-CMD ["npm", "start"]
+# Copy project files and folders to the current working directory
+COPY ./entrypoint.sh ./
+COPY ./init/ ./
+
+# Use entrypoint to differentiate build process between dev and prod
+ENTRYPOINT [ "./entrypoint.sh" ]

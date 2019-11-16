@@ -1,6 +1,6 @@
 docker==3.5.0
 flask==1.0.2
-flask_cors==3.0.6
+flask_cors==3.0.8
 flask_restplus==0.11.0
 graphql_py==0.7.1
 requests==2.20.0

@@ -8,30 +8,42 @@ services:
     build:
       context: ./db
     volumes:
-      - mobydq-db-volume:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     env_file:
-        - ./.env
+      - ./.env
     networks:
-      - default
+      - network
 
   graphql:
     container_name: mobydq-graphql
     restart: always
-    image: graphile/postgraphile
+    image: mobydq-graphql
+    build:
+      context: ./graphql
     env_file:
       - ./.env
     depends_on:
       - db
     networks:
-      - default
-    command: ["postgraphile",
-      "--connection", "${DATABASE_URL}",
-      "--port", "5433",
-      "--schema", "base",
-      "--default-role", "anonymous",
-      "--jwt-secret", "${SECRET_KEY}",
-      "--jwt-token-identifier", "base.token",
-      "--cors"]
+      - network
+    command: [
+      "postgraphile",
+      "--connection",
+      "${DATABASE_URL}",
+      "--port",
+      "5433",
+      "--schema",
+      "base",
+      "--default-role",
+      "anonymous",
+      "--jwt-secret",
+      "${SECRET_KEY}",
+      "--jwt-token-identifier",
+      "base.token",
+      "--append-plugins",
+      "postgraphile-plugin-connection-filter",
+      "--cors"
+      ]
 
   api:
     container_name: mobydq-api
@@ -42,18 +54,47 @@ services:
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
     env_file:
-        - ./.env
+      - ./.env
     environment:
       FLASK_APP: api.py
       FLASK_RUN_PORT: 5434
-      OAUTHLIB_INSECURE_TRANSPORT: 1
-      TOKEN_ISSUER: ${HOST_NAME}
-      AFTER_LOGIN_REDIRECT: ${HOST_NAME}
     depends_on:
       - graphql
     networks:
-      - default
+      - network
     command: ["flask", "run", "--host=0.0.0.0"]
+
+  app:
+    container_name: mobydq-app
+    restart: always
+    image: mobydq-app
+    build:
+      context: ./app
+    env_file:
+      - ./.env
+    depends_on:
+      - graphql
+      - api
+    networks:
+      - network
+    command: ["prod"]
+
+  nginx:
+    container_name: mobydq-nginx
+    restart: always
+    image: nginx:alpine
+    volumes:
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/config/cert.pem:/etc/nginx/cert.pem
+      - ./nginx/config/key.pem:/etc/nginx/key.pem
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - graphql
+      - api
+    networks:
+      - network
 
   scripts:
     container_name: mobydq-scripts
@@ -71,51 +112,10 @@ services:
     depends_on:
       - graphql
     networks:
-      - default
-
-  app:
-    container_name: mobydq-app
-    restart: always
-    image: mobydq-app
-    build:
-      context: ./app
-    volumes:
-      - ./app/src:/usr/src/app/src:ro
-      - ./app/public:/usr/src/app/public:ro
-    env_file:
-      - ./.env
-    environment:
-      REACT_APP_HOST_NAME: ${HOST_NAME}
-    depends_on:
-      - graphql
-      - api
-    networks:
-      - default
-
-  nginx:
-    container_name: mobydq-nginx
-    restart: always
-    image: nginx:alpine
-    volumes:
-      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/config/cert.pem:/etc/nginx/cert.pem
-      - ./nginx/config/key.pem:/etc/nginx/key.pem
-    ports:
-      - 80:80
-      - 443:443
-      - 5433:5433
-      - 5434:5434
-    depends_on:
-      - graphql
-      - api
-    networks:
-      - default
+      - network
 
 networks:
-  default:
-    external:
-      name: mobydq-network
+    network:
 
 volumes:
-  mobydq-db-volume:
-    external: true
+    db:

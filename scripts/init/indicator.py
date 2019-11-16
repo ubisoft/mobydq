@@ -15,11 +15,12 @@ log = logging.getLogger(__name__)
 class Indicator:
     """Base class used to compute indicators, regardless of their type."""
 
-    def verify_indicator_parameters(self, indicator_type_id: int, parameters: List[dict]):
+    def verify_indicator_parameters(self, authorization: str, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
         query = 'query{allParameterTypes{nodes{id,name}}}'
-        response = utils.execute_graphql_request(query)
+        query = {'query': query}  # Convert to dictionary
+        response = utils.execute_graphql_request(authorization, query)
         parameter_types_referential = {}
         for parameter_type in response['data']['allParameterTypes']['nodes']:
             parameter_types_referential[parameter_type['id']] = parameter_type['name']
@@ -58,12 +59,13 @@ class Indicator:
 
         return indicator_parameters
 
-    def get_data_frame(self, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
+    def get_data_frame(self, authorization: str, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
         # Get data source credentials
         query = '{dataSourceByName(name:"data_source"){id,connectionString,login,dataSourceTypeId}}'
         query = query.replace('data_source', data_source)
-        response = utils.execute_graphql_request(query)
+        query = {'query': query}  # Convert to dictionary
+        response = utils.execute_graphql_request(authorization, query)
 
         # Get connection object
         if response['data']['dataSourceByName']:
@@ -75,7 +77,8 @@ class Indicator:
         # Get data source password
         query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
         query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        response = utils.execute_graphql_request(query)
+        query = {'query': query}  # Convert to dictionary
+        response = utils.execute_graphql_request(authorization, query)
 
         if response['data']['allDataSourcePasswords']['nodes'][0]:
             data_source = response['data']['allDataSourcePasswords']['nodes'][0]
@@ -117,7 +120,7 @@ class Indicator:
         """
         return eval(str(measure_value) + alert_operator + str(alert_threshold)) # pylint: disable=W0123
 
-    def compute_session_result(self, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
+    def compute_session_result(self, authorization: str, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)
@@ -136,7 +139,8 @@ class Indicator:
         mutation = mutation.replace('nb_records_alert', str(nb_records_alert))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('nb_records', str(nb_records))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('session_id', str(session_id))
-        utils.execute_graphql_request(mutation)
+        mutation = {'query': mutation}  # Convert to dictionary
+        utils.execute_graphql_request(authorization, mutation)
 
         return nb_records_alert
 

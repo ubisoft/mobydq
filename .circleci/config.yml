@@ -22,8 +22,6 @@ jobs:
             echo "MAIL_PORT=25" >> ./.env
             echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
             echo "MAIL_PASSWORD=change_me" >> ./.env
-            echo "HOST_NAME=https://localhost" >> ./.env
-            echo "NODE_ENV=development" >> ./.env
 
       - run:
           name: Build Docker images
@@ -36,8 +34,6 @@ jobs:
           name: Run Docker containers
           when: always
           command: |
-            docker network create mobydq-network
-            docker volume create mobydq-db-volume
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
             docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
             echo "Wait for test databases to be up and running"
@@ -69,18 +65,6 @@ jobs:
             docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health > lint-results-python.xml"
 
       - run:
-          name: Run app tests
-          when: always
-          command: |
-            docker run --name mobydq-test-app -e JEST_JUNIT_OUTPUT="/reports/junit/test-results-app.xml" -e CI=true mobydq-test-app npm test -- --ci --reporters=jest-junit
-
-      - run:
-          name: Run app linter
-          when: always
-          command: |
-            docker run --name mobydq-test-app-lint mobydq-test-app npm run lint -- --format junit -o /reports/junit/lint-results-js.xml
-
-      - run:
           name: Collect tests results
           when: always
           command: |
@@ -88,8 +72,6 @@ jobs:
             docker cp mobydq-test-api:/srv/test-results.xml ./test/results/test-results-api.xml
             docker cp mobydq-test-scripts:/srv/test-results.xml ./test/results/test-results-scripts.xml
             docker cp mobydq-test-lint-python:/srv/lint-results-python.xml ./test/results/
-            docker cp mobydq-test-app:/reports/junit/test-results-app.xml ./test/results/
-            docker cp mobydq-test-app-lint:/reports/junit/lint-results-js.xml ./test/results/
 
       - store_test_results:
           path: ./test/results
