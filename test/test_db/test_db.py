@@ -71,13 +71,13 @@ class TestDb(unittest.TestCase):
         user_group_id = cursor.fetchone()[0]
         return user_group_id
 
-    def create_user_group_user(self, user_group_id: int, user_id: int):
+    def create_user_group_membership(self, user_group_id: int, user_id: int):
         """Create a user group user in the database and return its id."""
 
-        insert_user_group_user_query = f'''INSERT INTO base.user_group_user (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
-        cursor = self.connection.execute(insert_user_group_user_query)
-        user_group_user_id = cursor.fetchone()[0]
-        return user_group_user_id
+        insert_user_group_membership_query = f'''INSERT INTO base.user_group_membership (user_group_id, user_id) VALUES ({user_group_id}, {user_id}) RETURNING id;'''
+        cursor = self.connection.execute(insert_user_group_membership_query)
+        user_group_membership_id = cursor.fetchone()[0]
+        return user_group_membership_id
 
     def delete_user_group(self, user_group_id: int):
         """Delete a user group from the database."""
@@ -322,14 +322,14 @@ class TestDb(unittest.TestCase):
         user_group_id = self.create_user_group(test_case_name)
 
         # Insert user group user
-        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
+        user_group_membership_id = self.create_user_group_membership(user_group_id, user_id)
 
         # Delete user group
         self.delete_user_group(user_group_id)
 
         # Get user group user
-        select_user_group_user_query = f'''SELECT id FROM base.user_group_user WHERE id = '{user_group_user_id}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        select_user_group_membership_query = f'''SELECT id FROM base.user_group_membership WHERE id = '{user_group_membership_id}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
         # Assert user group user has been deleted
@@ -376,11 +376,11 @@ class TestDb(unittest.TestCase):
         user_group = f'user_group_{user_group_id}'
 
         # Insert user group user
-        self.create_user_group_user(user_group_id, user_id)
+        self.create_user_group_membership(user_group_id, user_id)
 
         # Get user and user group roles
-        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        select_user_group_membership_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
         # Assert user was created and user group role granted
@@ -403,15 +403,15 @@ class TestDb(unittest.TestCase):
         user_group = f'user_group_{user_group_id}'
 
         # Insert user group user
-        user_group_user_id = self.create_user_group_user(user_group_id, user_id)
+        user_group_membership_id = self.create_user_group_membership(user_group_id, user_id)
 
         # Delete user group user
-        insert_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE id = {user_group_user_id};'''
-        self.connection.execute(insert_user_group_user_query)
+        insert_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE id = {user_group_membership_id};'''
+        self.connection.execute(insert_user_group_membership_query)
 
         # Get user and user group
-        select_user_group_user_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
-        cursor = self.connection.execute(select_user_group_user_query)
+        select_user_group_membership_query = f'''SELECT a.rolname, c.rolname FROM pg_catalog.pg_roles a INNER JOIN pg_catalog.pg_auth_members b ON a.oid = b.member INNER JOIN pg_catalog.pg_roles c ON b.roleid = c.oid WHERE a.rolname = '{user}' AND c.rolname = '{user_group}';'''
+        cursor = self.connection.execute(select_user_group_membership_query)
         row = cursor.fetchone()
 
         # Assert user group role has been revoked
@@ -466,8 +466,8 @@ class TestDb(unittest.TestCase):
         self.assertLess(created_date, updated_date)
 
         # Delete committed data
-        delete_user_group_user_query = f'''DELETE FROM base.user_group_user WHERE user_id = {user_id};'''
-        self.connection.execute(delete_user_group_user_query)
+        delete_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE user_id = {user_id};'''
+        self.connection.execute(delete_user_group_membership_query)
 
         delete_user_query = f'''DELETE FROM base.user WHERE id = {user_id};'''
         self.connection.execute(delete_user_query)
