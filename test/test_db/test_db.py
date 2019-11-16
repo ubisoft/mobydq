@@ -31,7 +31,7 @@ class TestDb(unittest.TestCase):
     def create_data_source(self, test_case_name: str):
         """Create a data source in the database and return its id and password."""
 
-        insert_data_source_query = f'''INSERT INTO base.data_source (name, data_source_type_id, password) VALUES ('{test_case_name}', 1, 1234) RETURNING id, password;'''
+        insert_data_source_query = f'''INSERT INTO base.data_source (name, connection_string, data_source_type_id) VALUES ('{test_case_name}', 'Test connection string', 1) RETURNING id, password;'''
         cursor = self.connection.execute(insert_data_source_query)
         row = cursor.fetchone()
 
@@ -58,7 +58,7 @@ class TestDb(unittest.TestCase):
     def create_user(self, test_case_name: str):
         """Create a user in the database and return its id."""
 
-        insert_user_query = f'''INSERT INTO base.user (email, password, role) values ('{test_case_name}', '123456', 'admin') RETURNING id;'''
+        insert_user_query = f'''INSERT INTO base.user (email, role) values ('{test_case_name}', 'admin') RETURNING id;'''
         cursor = self.connection.execute(insert_user_query)
         user_id = cursor.fetchone()[0]
         return user_id
@@ -83,6 +83,13 @@ class TestDb(unittest.TestCase):
         """Delete a user group from the database."""
 
         delete_user_group_query = f'''DELETE FROM base.user_group WHERE id = {user_group_id};'''
+        self.connection.execute(delete_user_group_query)
+        return True
+    
+    def delete_user_group_membership(self, user_group_id: int):
+        """Delete a user group membership from the database."""
+
+        delete_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE user_group_id = {user_group_id};'''
         self.connection.execute(delete_user_group_query)
         return True
 
@@ -338,6 +345,9 @@ class TestDb(unittest.TestCase):
         test_case_name = get_test_case_name()
         user_group_id = self.create_user_group(test_case_name)
         user_group = f'user_group_{user_group_id}'
+
+        # Delete user group membership of admin user
+        self.delete_user_group_membership(user_group_id)
 
         # Delete user group
         self.delete_user_group(user_group_id)

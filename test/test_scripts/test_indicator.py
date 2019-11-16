@@ -1,6 +1,6 @@
 """Unit tests for module /scripts/init/indicator.py."""
 import unittest
-from shared.utils import get_test_case_name
+from shared.utils import get_test_case_name, get_authorization
 from scripts.constants import IndicatorType
 from scripts.indicator import Indicator
 from scripts import utils
@@ -12,11 +12,15 @@ class TestIndicator(unittest.TestCase):
     def test_verify_indicator_parameters_completeness(self):
         """Unit tests for method verify_indicator_parameters for completeness indicators."""
 
+        # Authenticate user
+        authorization = get_authorization()
+
         # Create test indicator group
         test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
-        indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
+        mutation_create_indicator_group = {'query': mutation_create_indicator_group}  # Convert to dictionary
+        indicator_group = utils.execute_graphql_request(authorization, mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
@@ -25,7 +29,8 @@ class TestIndicator(unittest.TestCase):
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('indicator_group_id', str(indicator_group_id))  # Use replace() instead of format() because of curly braces
-        indicator = utils.execute_graphql_request(mutation_create_indicator)
+        mutation_create_indicator = {'query': mutation_create_indicator}  # Convert to dictionary
+        indicator = utils.execute_graphql_request(authorization, mutation_create_indicator)
         indicator_id = indicator['data']['createIndicator']['indicator']['id']
 
         # Create test indicator parameters
@@ -46,12 +51,14 @@ class TestIndicator(unittest.TestCase):
             mutation_create_parameter = mutation_create_parameter.replace('param_key', str(param_key))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('param_value', str(param_value))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-            utils.execute_graphql_request(mutation_create_parameter)
+            mutation_create_parameter = {'query': mutation_create_parameter}  # Convert to dictionary
+            utils.execute_graphql_request(authorization,mutation_create_parameter)
 
         # Get list of parameters
         query_get_parameters = '''query{indicatorById(id:indicator_id){parametersByIndicatorId{nodes{parameterTypeId,value}}}}'''
         query_get_parameters = query_get_parameters.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-        parameters = utils.execute_graphql_request(query_get_parameters)
+        query_get_parameters = {'query': query_get_parameters}  # Convert to dictionary
+        parameters = utils.execute_graphql_request(authorization, query_get_parameters)
         parameters = parameters['data']['indicatorById']['parametersByIndicatorId']['nodes']
 
         indicator = Indicator()
@@ -66,11 +73,15 @@ class TestIndicator(unittest.TestCase):
     def test_verify_indicator_parameters_freshness(self):
         """Unit tests for method verify_indicator_parameters for freshness indicators."""
 
+        # Authenticate user
+        authorization = get_authorization()
+
         # Create test indicator group
         test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
-        indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
+        mutation_create_indicator_group = {'query': mutation_create_indicator_group}  # Convert to dictionary
+        indicator_group = utils.execute_graphql_request(authorization, mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
@@ -79,7 +90,8 @@ class TestIndicator(unittest.TestCase):
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('indicator_group_id', str(indicator_group_id))  # Use replace() instead of format() because of curly braces
-        indicator = utils.execute_graphql_request(mutation_create_indicator)
+        mutation_create_indicator = {'query': mutation_create_indicator}  # Convert to dictionary
+        indicator = utils.execute_graphql_request(authorization, mutation_create_indicator)
         indicator_id = indicator['data']['createIndicator']['indicator']['id']
 
         # Create test indicator parameters
@@ -98,16 +110,18 @@ class TestIndicator(unittest.TestCase):
             mutation_create_parameter = mutation_create_parameter.replace('param_key', str(param_key))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('param_value', str(param_value))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-            utils.execute_graphql_request(mutation_create_parameter)
+            mutation_create_parameter = {'query': mutation_create_parameter}  # Convert to dictionary
+            utils.execute_graphql_request(authorization, mutation_create_parameter)
 
         # Get list of parameters
         query_get_parameters = '''query{indicatorById(id:indicator_id){parametersByIndicatorId{nodes{parameterTypeId,value}}}}'''
         query_get_parameters = query_get_parameters.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-        parameters = utils.execute_graphql_request(query_get_parameters)
+        query_get_parameters = {'query': query_get_parameters}  # Convert to dictionary
+        parameters = utils.execute_graphql_request(authorization, query_get_parameters)
         parameters = parameters['data']['indicatorById']['parametersByIndicatorId']['nodes']
 
         indicator = Indicator()
-        verified_parameters = indicator.verify_indicator_parameters(indicator_type_id, parameters)
+        verified_parameters = indicator.verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Assert list of parameters is correct
         self.assertEqual(len(verified_parameters), 7)
@@ -118,11 +132,15 @@ class TestIndicator(unittest.TestCase):
     def test_verify_indicator_parameters_latency(self):
         """Unit tests for method verify_indicator_parameters for latency indicators."""
 
+        # Authenticate user
+        authorization = get_authorization()
+
         # Create test indicator group
         test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
-        indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
+        mutation_create_indicator_group = {'query': mutation_create_indicator_group}  # Convert to dictionary
+        indicator_group = utils.execute_graphql_request(authorization, mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
@@ -131,7 +149,8 @@ class TestIndicator(unittest.TestCase):
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('indicator_group_id', str(indicator_group_id))  # Use replace() instead of format() because of curly braces
-        indicator = utils.execute_graphql_request(mutation_create_indicator)
+        mutation_create_indicator = {'query': mutation_create_indicator}  # Convert to dictionary
+        indicator = utils.execute_graphql_request(authorization, mutation_create_indicator)
         indicator_id = indicator['data']['createIndicator']['indicator']['id']
 
         # Create test indicator parameters
@@ -152,16 +171,18 @@ class TestIndicator(unittest.TestCase):
             mutation_create_parameter = mutation_create_parameter.replace('param_key', str(param_key))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('param_value', str(param_value))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-            utils.execute_graphql_request(mutation_create_parameter)
+            mutation_create_parameter = {'query': mutation_create_parameter}  # Convert to dictionary
+            utils.execute_graphql_request(authorization, mutation_create_parameter)
 
         # Get list of parameters
         query_get_parameters = '''query{indicatorById(id:indicator_id){parametersByIndicatorId{nodes{parameterTypeId,value}}}}'''
         query_get_parameters = query_get_parameters.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-        parameters = utils.execute_graphql_request(query_get_parameters)
+        query_get_parameters = {'query': query_get_parameters}  # Convert to dictionary
+        parameters = utils.execute_graphql_request(authorization, query_get_parameters)
         parameters = parameters['data']['indicatorById']['parametersByIndicatorId']['nodes']
 
         indicator = Indicator()
-        verified_parameters = indicator.verify_indicator_parameters(indicator_type_id, parameters)
+        verified_parameters = indicator.verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Assert list of parameters is correct
         self.assertEqual(len(verified_parameters), 9)
@@ -172,11 +193,15 @@ class TestIndicator(unittest.TestCase):
     def test_verify_indicator_parameters_validity(self):
         """Unit tests for method verify_indicator_parameters for validity indicators."""
 
+        # Authenticate user
+        authorization = get_authorization()
+
         # Create test indicator group
         test_case_name = get_test_case_name()
         mutation_create_indicator_group = '''mutation{createIndicatorGroup(input:{indicatorGroup:{name:"test_case_name",}}){indicatorGroup{id}}}'''
         mutation_create_indicator_group = mutation_create_indicator_group.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
-        indicator_group = utils.execute_graphql_request(mutation_create_indicator_group)
+        mutation_create_indicator_group = {'query': mutation_create_indicator_group}  # Convert to dictionary
+        indicator_group = utils.execute_graphql_request(authorization, mutation_create_indicator_group)
         indicator_group_id = indicator_group['data']['createIndicatorGroup']['indicatorGroup']['id']
 
         # Create test indicator
@@ -185,7 +210,8 @@ class TestIndicator(unittest.TestCase):
         mutation_create_indicator = mutation_create_indicator.replace('indicator_type_id', str(indicator_type_id))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_indicator = mutation_create_indicator.replace('indicator_group_id', str(indicator_group_id))  # Use replace() instead of format() because of curly braces
-        indicator = utils.execute_graphql_request(mutation_create_indicator)
+        mutation_create_indicator = {'query': mutation_create_indicator}  # Convert to dictionary
+        indicator = utils.execute_graphql_request(authorization, mutation_create_indicator)
         indicator_id = indicator['data']['createIndicator']['indicator']['id']
 
         # Create test indicator parameters
@@ -204,16 +230,18 @@ class TestIndicator(unittest.TestCase):
             mutation_create_parameter = mutation_create_parameter.replace('param_key', str(param_key))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('param_value', str(param_value))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-            utils.execute_graphql_request(mutation_create_parameter)
+            mutation_create_parameter = {'query': mutation_create_parameter}  # Convert to dictionary
+            utils.execute_graphql_request(authorization, mutation_create_parameter)
 
         # Get list of parameters
         query_get_parameters = '''query{indicatorById(id:indicator_id){parametersByIndicatorId{nodes{parameterTypeId,value}}}}'''
         query_get_parameters = query_get_parameters.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
-        parameters = utils.execute_graphql_request(query_get_parameters)
+        query_get_parameters = {'query': query_get_parameters}  # Convert to dictionary
+        parameters = utils.execute_graphql_request(authorization, query_get_parameters)
         parameters = parameters['data']['indicatorById']['parametersByIndicatorId']['nodes']
 
         indicator = Indicator()
-        verified_parameters = indicator.verify_indicator_parameters(indicator_type_id, parameters)
+        verified_parameters = indicator.verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Assert list of parameters is correct
         self.assertEqual(len(verified_parameters), 7)
@@ -224,11 +252,15 @@ class TestIndicator(unittest.TestCase):
     def test_get_data_frame(self):
         """Unit tests for method get_data_frame."""
 
+        # Authenticate user
+        authorization = get_authorization()
+
         # Create data source
         test_case_name = get_test_case_name()
         mutation_create_data_source = '''mutation{createDataSource(input:{dataSource:{name:"test_case_name",connectionString:"driver={PostgreSQL Unicode};server=db-postgresql;port=5432;database=star_wars;",login:"postgres",password:"1234",dataSourceTypeId:7}}){dataSource{name}}}'''
         mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
-        data_source = utils.execute_graphql_request(mutation_create_data_source)
+        mutation_create_data_source = {'query': mutation_create_data_source}  # Convert to dictionary
+        data_source = utils.execute_graphql_request(authorization, mutation_create_data_source)
         data_source = data_source['data']['createDataSource']['dataSource']['name']
 
         # Set parameters and call method
@@ -236,7 +268,7 @@ class TestIndicator(unittest.TestCase):
         dimensions = ['gender']
         measures = ['nb_people']
         indicator = Indicator()
-        data_frame = indicator.get_data_frame(data_source, request, dimensions, measures)
+        data_frame = indicator.get_data_frame(authorization, data_source, request, dimensions, measures)
 
         # Assert data frame is correct
         nb_records = len(data_frame)

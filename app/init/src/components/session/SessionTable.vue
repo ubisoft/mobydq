@@ -81,7 +81,7 @@ export default {
     },
     cssClass(status) {
       let cssClass;
-      if(status == 'Pending') {
+      if (status == 'Pending') {
         cssClass = 'badge-secondary';
       } else if(status == 'Running') {
         cssClass = 'badge-info';
