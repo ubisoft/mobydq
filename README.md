@@ -4,6 +4,8 @@
 
 [CircleCI]: https://circleci.com/gh/mobydq/mobydq/tree/master (CircleCI)
 
+# /!\ Frontend currently being reworked /!\
+
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 ![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
