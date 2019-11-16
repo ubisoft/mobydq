@@ -13,11 +13,10 @@ export default {
   mixins: [Mixins],
   props: {
     indicatorGroupId: Number,
-    indicatorId: String
+    indicatorId: Number
   },
   data: function() {
     return {
-      connectivityTestStatus: {}
     };
   },
   computed: {
@@ -29,9 +28,10 @@ export default {
   methods: {
     execute(){
       let payload = {
-        query: this.$store.state.mutationTestDataSource,
+        query: this.$store.state.mutationExecuteIndicator,
         variables: {
-          dataSourceId: parseInt(this.dataSourceId)
+          indicatorGroupId: this.indicatorGroupId,
+          indicatorId: [this.indicatorId]
         }
       };
       let headers = {};

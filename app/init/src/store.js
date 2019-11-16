@@ -1,14 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import * as Session from "./payloads/session";
 import * as UserPayload from "./payloads/user";
 import * as UserGroupPayload from "./payloads/usergroup";
+import * as UserSession from "./payloads/usersession";
 import * as DataSourcePayload from "./payloads/datasource";
 import * as DataSourceTypePayload from "./payloads/datasourcetype";
 import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 import * as IndicatorPayload from "./payloads/indicator";
 import * as IndicatorTypePayload from "./payloads/indicatortype";
 import * as ParameterPayload from "./payloads/parameter";
+import * as SessionPayload from "./payloads/session";
 
 Vue.use(Vuex);
 
@@ -21,8 +22,8 @@ export const store = new Vuex.Store({
     },
 
     // Authenticate user
-    mutationAuthenticateUser: Session.mutationAuthenticateUser,
-    queryGetCurrentUser: Session.queryGetCurrentUser,
+    mutationAuthenticateUser: UserSession.mutationAuthenticateUser,
+    queryGetCurrentUser: UserSession.queryGetCurrentUser,
     currentUser: {
       isAuthenticated: false, // Used to customize UI display
       role: "anonymous", // Used to customize UI display
@@ -87,6 +88,7 @@ export const store = new Vuex.Store({
     mutationUpdateIndicator: IndicatorPayload.mutationUpdateIndicator,
     mutationDeleteIndicator: IndicatorPayload.mutationDeleteIndicator,
     mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
+    mutationExecuteIndicator: IndicatorPayload.mutationExecuteIndicator,
 
     //Indicator types queries and mutations
     queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes, // Data for indicator types drodpdown in indicator form
@@ -95,6 +97,9 @@ export const store = new Vuex.Store({
     mutationCreateParameter: ParameterPayload.mutationCreateParameter,
     mutationUpdateParameter: ParameterPayload.mutationUpdateParameter,
     mutationDeleteParameter: ParameterPayload.mutationDeleteParameter,
-    queryGetParameterTypes: ParameterPayload.queryGetParameterTypes // Data for indicator parameter types drodpdown in indicator parameter form
+    queryGetParameterTypes: ParameterPayload.queryGetParameterTypes, // Data for indicator parameter types drodpdown in indicator parameter form
+
+    //Sessions queries
+    queryGetAllSessions: SessionPayload.queryGetAllSessions
   }
 });

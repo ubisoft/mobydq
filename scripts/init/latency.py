@@ -14,31 +14,31 @@ class Latency(Indicator):
     def __init__(self):
         pass
 
-    def execute(self, session: dict):
+    def execute(self, authorization: str, session: dict):
         """Execute indicator of type latency."""
         # Update session status to running
         session_id: int = session['id']
         indicator_id: int = session['indicatorId']
         log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
-        update_session_status(session_id, 'Running')
+        update_session_status(authorization, session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
         indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
         parameters = session['indicatorByIndicatorId']['parametersByIndicatorId']['nodes']
-        parameters = super().verify_indicator_parameters(indicator_type_id, parameters)
+        parameters = super().verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Get source data
         dimensions = parameters[4]
         measures = parameters[5]
         source = parameters[6]
         source_request = parameters[7]
-        source_data = super().get_data_frame(source, source_request, dimensions, measures)
+        source_data = super().get_data_frame(authorization, source, source_request, dimensions, measures)
 
         # Get target data
         target = parameters[8]
         target_request = parameters[9]
-        target_data = super().get_data_frame(target, target_request, dimensions, measures)
+        target_data = super().get_data_frame(authorization, target, target_request, dimensions, measures)
 
         # Evaluate latency
         alert_operator = parameters[1]  # Alert operator
@@ -47,7 +47,7 @@ class Latency(Indicator):
         result_data = self.evaluate_latency(source_data, target_data, dimensions, measures, alert_operator, alert_threshold)
 
         # Compute session result
-        nb_records_alert = super().compute_session_result(session_id, alert_operator, alert_threshold, result_data)
+        nb_records_alert = super().compute_session_result(authorization, session_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
@@ -57,7 +57,7 @@ class Latency(Indicator):
 
         # Update session status to succeeded
         log.debug('Update session status to Succeeded.')
-        update_session_status(session_id, 'Succeeded')
+        update_session_status(authorization, session_id, 'Succeeded')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_latency(self,

@@ -19,6 +19,7 @@ class Indicator:
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
         # Build dictionary of parameter types referential
         query = 'query{allParameterTypes{nodes{id,name}}}'
+        query = {'query': query}  # Convert to dictionary
         response = utils.execute_graphql_request(authorization, query)
         parameter_types_referential = {}
         for parameter_type in response['data']['allParameterTypes']['nodes']:
@@ -63,6 +64,7 @@ class Indicator:
         # Get data source credentials
         query = '{dataSourceByName(name:"data_source"){id,connectionString,login,dataSourceTypeId}}'
         query = query.replace('data_source', data_source)
+        query = {'query': query}  # Convert to dictionary
         response = utils.execute_graphql_request(authorization, query)
 
         # Get connection object
@@ -75,6 +77,7 @@ class Indicator:
         # Get data source password
         query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
         query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
+        query = {'query': query}  # Convert to dictionary
         response = utils.execute_graphql_request(authorization, query)
 
         if response['data']['allDataSourcePasswords']['nodes'][0]:
@@ -136,6 +139,7 @@ class Indicator:
         mutation = mutation.replace('nb_records_alert', str(nb_records_alert))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('nb_records', str(nb_records))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('session_id', str(session_id))
+        mutation = {'query': mutation}  # Convert to dictionary
         utils.execute_graphql_request(authorization, mutation)
 
         return nb_records_alert

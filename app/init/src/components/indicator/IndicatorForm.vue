@@ -1,102 +1,108 @@
 <template>
   <div>
-    <h1 class="mt-5">Edit Indicator</h1>
+    <div class="row">
+      <div class="col">
+        <h1 class="mt-5">Edit Indicator</h1>
+        <form>
+          <div class="form-row">
+            <div class="col-md-8">
+              <!-- Indicator Form -->
+              <div class="form-group required">
+                <label for="indicatorName" class="col-form-label">
+                  Name:
+                </label>
+                <input
+                  class="form-control col-sm"
+                  id="indicatorName"
+                  type="text"
+                  required="required"
+                  placeholder="Type indicator name"
+                  v-model="indicator.name"
+                  v-bind:disabled="isReadOnly"
+                  v-bind:readonly="isReadOnly"
+                />
+              </div>
+              <div class="form-group">
+                <label for="indicatorDescription" class="col-form-label">
+                  Description:
+                </label>
+                <textarea
+                  class="form-control col-sm"
+                  id="indicatorDescription"
+                  placeholder="Type indicator description"
+                  rows="3"
+                  v-model="indicator.description"
+                  v-bind:disabled="isReadOnly"
+                  v-bind:readonly="isReadOnly"
+                />
+              </div>
+              <div class="form-group required">
+                <indicator-select-indicator-type
+                  v-model="indicator.indicatorTypeId"
+                  v-on:changeIndicatorType="getIndicatorType">
+                </indicator-select-indicator-type>
+              </div>
+              <div class="form-group required">
+                <indicator-select-indicator-group
+                  v-model="indicator.indicatorGroupId"
+                  v-on:changeIndicatorGroup="getIndicatorGroup">
+                </indicator-select-indicator-group>
+              </div>
+              <div class="form-group">
+                <label for="indicatorExecutionOrder" class="col-form-label">
+                  Execution Order:
+                </label>
+                <input
+                  class="form-control col-sm"
+                  type="number"
+                  id="indicatorExecutionOrder"
+                  v-model="indicator.executionOrder"
+                  v-bind:disabled="isReadOnly"
+                  v-bind:readonly="isReadOnly"
+                />
+              </div>
+              <div class="custom-control custom-switch mr-4 mt-1 mb-2">
+                <input
+                  class="custom-control-input"
+                  id="active"
+                  type="checkbox"
+                  value=""
+                  v-model="indicator.flagActive" 
+                  v-bind:disabled="isReadOnly"
+                  v-bind:readonly="isReadOnly"
+                />
+                <label for="active" class="custom-control-label">
+                  Active
+                </label>
+              </div>
 
-    <form>
-      <div class="form-row">
-        <div class="col-md-4">
-          <!-- Indicator Form -->
-          <div class="form-group required">
-            <label for="indicatorName" class="col-form-label">
-              Name:
-            </label>
-            <input
-              class="form-control col-sm"
-              id="indicatorName"
-              type="text"
-              required="required"
-              placeholder="Type indicator name"
-              v-model="indicator.name"
-              v-bind:disabled="isReadOnly"
-              v-bind:readonly="isReadOnly"
-            />
-          </div>
-          <div class="form-group">
-            <label for="indicatorDescription" class="col-form-label">
-              Description:
-            </label>
-            <textarea
-              class="form-control col-sm"
-              id="indicatorDescription"
-              placeholder="Type indicator description"
-              rows="3"
-              v-model="indicator.description"
-              v-bind:disabled="isReadOnly"
-              v-bind:readonly="isReadOnly"
-            />
-          </div>
-          <div class="form-group required">
-            <indicator-select-indicator-type
-              v-model="indicator.indicatorTypeId"
-              v-on:changeIndicatorType="getIndicatorType">
-            </indicator-select-indicator-type>
-          </div>
-          <div class="form-group required">
-            <indicator-select-indicator-group
-              v-model="indicator.indicatorGroupId"
-              v-on:changeIndicatorGroup="getIndicatorGroup">
-            </indicator-select-indicator-group>
-          </div>
-          <div class="form-group">
-            <label for="indicatorExecutionOrder" class="col-form-label">
-              Execution Order:
-            </label>
-            <input
-              class="form-control col-sm"
-              type="number"
-              id="indicatorExecutionOrder"
-              v-model="indicator.executionOrder"
-              v-bind:disabled="isReadOnly"
-              v-bind:readonly="isReadOnly"
-            />
-          </div>
-          <div class="custom-control custom-switch mr-4 mt-1 mb-2">
-            <input
-              class="custom-control-input"
-              id="active"
-              type="checkbox"
-              value=""
-              v-model="indicator.flagActive" 
-              v-bind:disabled="isReadOnly"
-              v-bind:readonly="isReadOnly"
-            />
-            <label for="active" class="custom-control-label">
-              Active
-            </label>
-          </div>
+              <!-- Meta-Data -->
+              <div>
+                <indicator-meta-data
+                  v-if="indicator.id"
+                  v-bind:id="indicator.id"
+                  v-bind:createdDate="indicator.createdDate"
+                  v-bind:createdBy="indicator.userByCreatedById.email"
+                  v-bind:updatedDate="indicator.updatedDate"
+                  v-bind:updatedBy="indicator.userByUpdatedById.email"
+                ></indicator-meta-data>
+              </div>
 
-          <!-- Meta-Data -->
-          <div>
-            <indicator-meta-data
-              v-if="indicator.id"
-              v-bind:id="indicator.id"
-              v-bind:createdDate="indicator.createdDate"
-              v-bind:createdBy="indicator.userByCreatedById.email"
-              v-bind:updatedDate="indicator.updatedDate"
-              v-bind:updatedBy="indicator.userByUpdatedById.email"
-            ></indicator-meta-data>
+              <!-- Button Menu -->
+              <div class="mt-3">
+                <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
+                <indicator-button-execute v-bind:indicatorId="indicator.id" v-bind:indicatorGroupId="indicator.indicatorGroupId"> </indicator-button-execute>
+                <indicator-button-close> </indicator-button-close>
+                <indicator-button-delete v-if="indicator.id" v-bind:indicatorId="indicator.id"> </indicator-button-delete>
+              </div>
+            </div>
           </div>
-
-          <!-- Button Menu -->
-          <div class="mt-3">
-            <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
-            <indicator-button-execute v-bind:indicator="indicator"> </indicator-button-execute>
-            <indicator-button-close> </indicator-button-close>
-            <indicator-button-delete v-if="indicator.id" v-bind:indicatorId="indicator.id"> </indicator-button-delete>
-          </div>
-        </div>
+        </form>
       </div>
-    </form>
+      <div class="col">
+        <h1 class="mt-5">Executions</h1>
+      </div>
+    </div>
 
     <!-- Parameters -->
     <h1 class="mt-5" v-if="indicator.id">Indicator Parameters</h1>

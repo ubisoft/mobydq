@@ -1,20 +1,17 @@
-export const mutationAuthenticateUser = `mutation authenticateUser($userEmail: String!, $userPassword: String!) {
-    authenticateUser(input: {userEmail: $userEmail, userPassword: $userPassword}) {
-        token
-    }
-}`;
-
-export const queryGetCurrentUser = `query getCurrentUser($email: String!) {
-    userByEmail(email: $email) {
-        email
-        role
-        userGroupMembershipsByUserId{
-            nodes {
-                userGroupByUserGroupId {
-                    id
-                    name
-                }
+export const queryGetAllSessions = `query getAllSessions($first: Int, $offset: Int, $orderBy: [SessionsOrderBy!]){
+    allSessions(first: $first, offset: $offset, orderBy: $orderBy) {
+        nodes {
+            batchId
+            id
+            indicatorByIndicatorId {
+                name
+                indicatorGroupByIndicatorGroupId { name }
             }
+            status
+            createdDate
+            updatedDate
+            userByCreatedById { email }
         }
+        totalCount
     }
 }`;
