@@ -90,7 +90,7 @@ class TestDb(unittest.TestCase):
         """Delete a user group membership from the database."""
 
         delete_user_group_membership_query = f'''DELETE FROM base.user_group_membership WHERE user_group_id = {user_group_id};'''
-        self.connection.execute(delete_user_group_query)
+        self.connection.execute(delete_user_group_membership_query)
         return True
 
     def update_user(self, user_id: int):
