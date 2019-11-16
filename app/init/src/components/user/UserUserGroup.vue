@@ -4,7 +4,15 @@
 
     <div class="form-group">
       <div class="w-50 float-left mr-2 mb-4">
-        <treeselect placeholder="Select user groups" v-model="userGroups" v-bind:options="options" v-bind:multiple="true" v-bind:disable-branch-nodes="true" />
+        <treeselect
+          placeholder="Select user groups"
+          v-model="userGroups"
+          v-bind:options="options"
+          v-bind:multiple="true"
+          v-bind:disable-branch-nodes="true"
+          v-bind:disabled="isReadOnly"
+          v-bind:readonly="isReadOnly"
+        />
       </div>
       <user-button-add-user-group class="float-left" v-bind:user="user" v-bind:userGroups="userGroups" v-on:addUserGroupMembership="addUserGroupMembership">
       </user-button-add-user-group>
@@ -37,6 +45,12 @@ export default {
       userGroups: [],
       options: []
     };
+  },
+  computed: {
+    isReadOnly() {
+      let roles = ["admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
+    }
   },
   methods: {
     addUserGroupMembership(userGroupMembership) {

@@ -22,13 +22,18 @@
               <label for="alertOperator" class="col-form-label">
                 Alert Operator:
               </label>
-              <select class="form-control" id="alertOperator" v-model="parameter.value">
-                <option value="==">&#61;&#61;</option>
-                <option value=">">&gt;</option>
-                <option value=">=">&gt;&#61;</option>
-                <option value="<">&lt;</option>
-                <option value="<=">&lt;&#61;</option>
-                <option value="<>">&lt;&gt;</option>
+              <select
+                class="form-control"
+                id="alertOperator"
+                v-model="parameter.value"
+                v-bind:disabled="isReadOnly"
+                v-bind:readonly="isReadOnly">
+                  <option value="==">&#61;&#61;</option>
+                  <option value=">">&gt;</option>
+                  <option value=">=">&gt;&#61;</option>
+                  <option value="<">&lt;</option>
+                  <option value="<=">&lt;&#61;</option>
+                  <option value="<>">&lt;&gt;</option>
               </select>
           </div>
 
@@ -43,6 +48,8 @@
               type="number"
               placeholder="Type alert threshold value"
               v-model="parameter.value"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
 
@@ -57,6 +64,8 @@
               type="text"
               placeholder="Type e-mail address"
               v-model="parameter.value"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
 
@@ -71,6 +80,8 @@
               type="text"
               placeholder="Type alias name for dimension column"
               v-model="parameter.value"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
 
@@ -85,6 +96,8 @@
               type="text"
               placeholder="Type alias name for measure column"
               v-model="parameter.value"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
 
@@ -107,6 +120,8 @@
               placeholder="Type query to be executed on data source"
               rows="5"
               v-model="parameter.value"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
         </div>
@@ -160,6 +175,10 @@ export default {
     };
   },
   computed: {
+    isReadOnly() {
+      let roles = ["standard", "advanced", "admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
+    }
   },
   methods: {
     getParameterType(value) {

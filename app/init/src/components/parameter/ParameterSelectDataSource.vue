@@ -9,6 +9,8 @@
       v-bind:options="options"
       v-bind:multiple="false"
       v-bind:disable-branch-nodes="true"
+      v-bind:disabled="isReadOnly"
+      v-bind:readonly="isReadOnly"
     />
   </div>
 </template>
@@ -39,6 +41,12 @@ export default {
     },
     selectedValue(arg) {
       this.$emit("changeDataSource", arg);
+    }
+  },
+  computed: {
+    isReadOnly() {
+      let roles = ["standard", "advanced", "admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
     }
   },
   created: function() {

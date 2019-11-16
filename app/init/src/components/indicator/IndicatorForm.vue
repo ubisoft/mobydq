@@ -17,6 +17,8 @@
               required="required"
               placeholder="Type indicator name"
               v-model="indicator.name"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div class="form-group">
@@ -29,6 +31,8 @@
               placeholder="Type indicator description"
               rows="3"
               v-model="indicator.description"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div class="form-group required">
@@ -52,10 +56,20 @@
               type="number"
               id="indicatorExecutionOrder"
               v-model="indicator.executionOrder"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div class="custom-control custom-switch mr-4 mt-1 mb-2">
-            <input class="custom-control-input" id="active" type="checkbox" value="" v-model="indicator.flagActive" />
+            <input
+              class="custom-control-input"
+              id="active"
+              type="checkbox"
+              value=""
+              v-model="indicator.flagActive" 
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
+            />
             <label for="active" class="custom-control-label">
               Active
             </label>
@@ -159,6 +173,10 @@ export default {
     },
     parameters() {
       return this.indicator.parametersByIndicatorId.nodes;
+    },
+    isReadOnly() {
+      let roles = ["standard", "advanced", "admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
     }
   },
   created: function() {

@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     show() {
-      let roles = ["standard", "advanced", "admin"];
+      let roles = ["advanced", "admin"];
       return this.dataSourceId != "new" && roles.includes(this.$store.state.currentUser.role);
     }
   },

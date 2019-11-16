@@ -10,7 +10,16 @@
             <label for="userGroupName" class="col-form-label">
               Name:
             </label>
-            <input class="form-control col-sm" id="userGroupName" type="text" required="required" placeholder="Type user group name" v-model="userGroup.name" />
+            <input
+              class="form-control col-sm"
+              id="userGroupName"
+              type="text"
+              required="required"
+              placeholder="Type user group name"
+              v-model="userGroup.name"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
+            />
           </div>
 
           <!-- Meta-Data -->
@@ -57,6 +66,10 @@ export default {
   computed: {
     userGroupId() {
       return this.$route.params.userGroupId;
+    },
+    isReadOnly() {
+      let roles = ["admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
     }
   },
   created: function() {

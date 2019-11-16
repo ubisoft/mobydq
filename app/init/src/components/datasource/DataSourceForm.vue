@@ -17,6 +17,8 @@
               required="required"
               placeholder="Type data source name"
               v-model="dataSource.name"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div class="form-group required">
@@ -36,6 +38,8 @@
               placeholder="Type data source connection string"
               rows="3"
               v-model="dataSource.connectionString"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div class="form-group">
@@ -48,6 +52,8 @@
               type="text"
               placeholder="Type data source login"
               v-model="dataSource.login"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
           <div v-if="showPasswordField" class="form-group">
@@ -59,7 +65,10 @@
               id="dataSourcePassword"
               type="password"
               placeholder="Type data source password"
-              v-model="dataSource.password" />
+              v-model="dataSource.password"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
+            />
           </div>
           <div class="form-group">
               Connectivity Status:
@@ -126,6 +135,10 @@ export default {
   computed: {
     dataSourceId() {
       return this.$route.params.dataSourceId.toString();
+    },
+    isReadOnly() {
+      let roles = ["advanced", "admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
     }
   },
   created: function() {

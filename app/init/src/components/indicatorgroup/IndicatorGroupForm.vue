@@ -17,6 +17,8 @@
               required="required"
               placeholder="Type indicator group name"
               v-model="indicatorGroup.name"
+              v-bind:disabled="isReadOnly"
+              v-bind:readonly="isReadOnly"
             />
           </div>
 
@@ -67,6 +69,10 @@ export default {
   computed: {
     indicatorGroupId() {
       return this.$route.params.indicatorGroupId;
+    },
+    isReadOnly() {
+      let roles = ["standard", "advanced", "admin"];
+      return !roles.includes(this.$store.state.currentUser.role);
     }
   },
   created: function() {
