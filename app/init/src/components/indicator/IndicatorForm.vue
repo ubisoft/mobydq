@@ -100,14 +100,16 @@
         </form>
       </div>
       <div class="col">
-        <h1 class="mt-5">Executions</h1>
-          <indicator-chart
-            chart-id="indicatorChart"
-            height=150
-            v-if="indicatorSessionsLabels"
-            v-bind:indicatorSessions="indicatorSessions"
-            v-bind:labels="indicatorSessionsLabels">
-          </indicator-chart>
+        <h1 class="mt-5">Sessions</h1>
+          <indicator-quality
+            v-if="indicatorId"
+            v-bind:height=150
+            v-bind:width=510
+            v-bind:indicatorId="indicatorId">
+          </indicator-quality>
+          <indicator-session
+            v-bind:sessions="indicator.sessionsByIndicatorId.nodes">
+          </indicator-session>
       </div>
     </div>
 
@@ -151,7 +153,8 @@ import MetaDataCard from "../utils/MetaDataCard.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
 import IndicatorParameterTable from "./IndicatorParameterTable.vue";
 import ParameterModalBox from "../parameter/ParameterModalBox.vue";
-import IndicatorChart from "./IndicatorChart.vue";
+import IndicatorQuality from "./IndicatorQuality.vue";
+import IndicatorSession from "./IndicatorSession.vue";
 import Mixins from "../utils/Mixins.vue";
 import remove from "lodash/remove";
 
@@ -166,14 +169,14 @@ export default {
     "indicator-button-delete": IndicatorButtonDelete,
     "indicator-button-execute": IndicatorButtonExecute,
     "indicator-button-create-parameter": IndicatorButtonAddParameter,
-    "indicator-chart": IndicatorChart,
+    "indicator-quality": IndicatorQuality,
+    "indicator-session": IndicatorSession,
     "parameter-table": IndicatorParameterTable,
     "parameter-modal-box": ParameterModalBox
   },
   data: function() {
     return {
       indicator: {},
-      indicatorSessions: [],
       selectedParameter: {
         id: null,
         parameterTypeId: null,
@@ -193,11 +196,6 @@ export default {
     isReadOnly() {
       let roles = ["standard", "advanced", "admin"];
       return !roles.includes(this.$store.state.currentUser.role);
-    },
-    indicatorSessionsLabels() {
-      return this.indicatorSessions.map(function(session) {
-        return "Session " + session.id;
-      });
     }
   },
   created: function() {
@@ -210,18 +208,13 @@ export default {
       }
 
       // Get indicator
-      this.getIndicator(headers);
-
-      // Get indicator sessions
-      this.getIndicatorSessions(headers);
-    }
-  },
-  methods: {
-    getIndicator(headers) {
       let payload = {
         query: this.$store.state.queryGetIndicator,
         variables: {
-          id: parseInt(this.indicatorId)
+          id: parseInt(this.indicatorId),
+          first: 10,
+          offset: 0,
+          orderBy: "ID_DESC"
         }
       };
       this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
@@ -237,31 +230,9 @@ export default {
           this.displayError(response);
         }
       );
-    },
-    getIndicatorSessions(headers) {
-      let payload = {
-        query: this.$store.state.queryGetIndicatorSessions,
-        variables: {
-          first: 10,
-          offset: 0,
-          orderBy: "ID_DESC",
-          indicatorId: parseInt(this.indicatorId)
-        }
-      };
-      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
-        function(response) {
-          if (response.data.errors) {
-            this.displayError(response);
-          } else {
-            this.indicatorSessions = response.data.data.allSessions.nodes;
-          }
-        },
-        // Error callback
-        function(response) {
-          this.displayError(response);
-        }
-      );
-    },
+    }
+  },
+  methods: {
     getIndicatorType(value) {
       // Get indicator type from child component
       if (value != null) {
@@ -279,7 +250,7 @@ export default {
       }
     },
     getParameter(value) {
-      // Get parameter to be created or updated
+      // Get parameter to be created or updated, from child component (modal box)
       if (value != null) {
         this.selectedParameter = value;
       } else {
@@ -290,7 +261,7 @@ export default {
       }
     },
     addParameter(value) {
-      // Add parameter to parameter table
+      // Add newly created parameter to parameter table
       this.indicator.parametersByIndicatorId.nodes.push(value);
     },
     removeParameter(value) {
@@ -303,9 +274,3 @@ export default {
   }
 };
 </script>
-
-<style>
-#IndicatorChart {
-  height: 200px;
-}
-</style>
