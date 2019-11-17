@@ -19,4 +19,5 @@ def get_authorization():
     mutation = '''mutation{authenticateUser(input:{userEmail:"admin",userPassword:"admin"}){token}}'''
     mutation = {'query': mutation}  # Convert to dictionary
     response = utils.execute_graphql_request(None, mutation)
+    print(response)
     return "Bearer " + response['data']['authenticateUser']['token']
