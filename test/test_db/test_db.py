@@ -16,7 +16,7 @@ class TestDb(unittest.TestCase):
     def get_connection():
         """Return connection to mobydq database."""
 
-        connection_string = 'driver={PostgreSQL Unicode};server=db;port=5432;database=mobydq;uid=postgres;pwd=password;'  # Should be moved to config file
+        connection_string = 'driver={PostgreSQL Unicode};server=db;port=5432;database=mobydq;uid=postgres;pwd=change_me;'  # Should be moved to config file
         connection = pyodbc.connect(connection_string)
         connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
         connection.setencoding(encoding='utf-8')
