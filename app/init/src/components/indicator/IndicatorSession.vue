@@ -18,6 +18,9 @@
             Nb Alerts
           </th>
           <th scope="col">
+            Quality Level
+          </th>
+          <th scope="col">
             Actions
           </th>
         </tr>
@@ -32,9 +35,23 @@
               {{ session.status }}
             </span>
           </td>
-          <td>
+          <td v-if="session.sessionResultsBySessionId.nodes[0]">
+            {{ session.sessionResultsBySessionId.nodes[0]['nbRecords'] }}
           </td>
-          <td>
+          <td v-else>
+            n/a
+          </td>
+          <td v-if="session.sessionResultsBySessionId.nodes[0]">
+            {{ session.sessionResultsBySessionId.nodes[0]['nbRecordsAlert'] }}
+          </td>
+          <td v-else>
+            n/a
+          </td>
+          <td v-if="session.sessionResultsBySessionId.nodes[0]">
+            {{ (session.sessionResultsBySessionId.nodes[0]['nbRecordsNoAlert']/session.sessionResultsBySessionId.nodes[0]['nbRecords'])*100 }}%
+          </td>
+          <td v-else>
+            n/a
           </td>
           <td>
             <router-link class="badge badge-secondary" v-bind:to="'/sessions/' + session.id">

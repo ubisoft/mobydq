@@ -13,13 +13,17 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Quality Level Objective (%)',
+            label: 'Quality Level (%)',
             backgroundColor: this.generateGradient,
             data: [],
           }
         ]
       },
       options: {
+        title: {
+          display: false,
+          text: 'Quality Level'
+        },
         legend: {
           display: false
         },

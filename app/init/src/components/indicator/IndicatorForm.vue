@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="row">
+      <!-- Left column -->
       <div class="col">
         <h1 class="mt-5">Edit Indicator</h1>
         <form>
@@ -50,7 +51,7 @@
               </div>
               <div class="form-group">
                 <label for="indicatorExecutionOrder" class="col-form-label">
-                  Execution Order:
+                  Execution Order: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="Order in wich the indicator is executed in a batch.">?</span>
                 </label>
                 <input
                   class="form-control col-sm"
@@ -99,14 +100,18 @@
           </div>
         </form>
       </div>
+
+      <!-- Right column -->
       <div class="col">
-        <h1 class="mt-5">Sessions</h1>
+        <h1 class="mt-5">Executions History</h1>
+          Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
           <indicator-quality
             v-if="indicatorId"
             v-bind:height=150
             v-bind:width=510
             v-bind:indicatorId="indicatorId">
           </indicator-quality>
+
           <indicator-session
             v-bind:sessions="indicator.sessionsByIndicatorId.nodes">
           </indicator-session>
