@@ -1,30 +1,5 @@
 version: "3.1"
 services:
-    graphql:
-        expose:
-            - 5433
-        ports:
-            - 5433:5433
-        command:
-            [
-                "postgraphile",
-                "--connection",
-                "${DATABASE_URL}",
-                "--port",
-                "5433",
-                "--schema",
-                "base",
-                "--default-role",
-                "anonymous",
-                "--jwt-secret",
-                "${SECRET_KEY}",
-                "--jwt-token-identifier",
-                "base.token",
-                "--append-plugins",
-                "postgraphile-plugin-connection-filter",
-                "--cors",
-            ]
-
     db-hive:
         container_name: mobydq-test-db-hive
         image: mobydq-test-db-hive
