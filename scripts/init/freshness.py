@@ -40,6 +40,7 @@ class Freshness(Indicator):
         result_data = self.evaluate_freshness(target_data, measures, alert_operator, alert_threshold)
 
         # Compute session result
+        user_group_id = session['userGroupId']
         nb_records_alert = super().compute_session_result(authorization, session_id, user_group_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
