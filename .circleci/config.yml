@@ -56,6 +56,7 @@ jobs:
                   when: always
                   command: |
                       docker ps -a
+                      docker-compose -f docker-compose.yml -f docker-compose.test.yml up graphql
 
             - run:
                   name: Run scripts tests
