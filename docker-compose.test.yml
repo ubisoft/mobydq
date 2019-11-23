@@ -1,5 +1,11 @@
 version: "3.1"
 services:
+    graphql:
+    expose:
+        - 5433
+    ports:
+        - 5433:5433
+
     db-hive:
         container_name: mobydq-test-db-hive
         image: mobydq-test-db-hive
