@@ -48,7 +48,7 @@ export default {
         isActive: true
       },
       sortAttribute: {
-        columnName: "id",
+        columnName: "updated_date",
         sortOrder: "desc"
       }
     };
