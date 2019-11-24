@@ -52,7 +52,7 @@ class TestIndicator(unittest.TestCase):
             mutation_create_parameter = mutation_create_parameter.replace('param_value', str(param_value))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = mutation_create_parameter.replace('indicator_id', str(indicator_id))  # Use replace() instead of format() because of curly braces
             mutation_create_parameter = {'query': mutation_create_parameter}  # Convert to dictionary
-            utils.execute_graphql_request(authorization,mutation_create_parameter)
+            utils.execute_graphql_request(authorization, mutation_create_parameter)
 
         # Get list of parameters
         query_get_parameters = '''query{indicatorById(id:indicator_id){parametersByIndicatorId{nodes{parameterTypeId,value}}}}'''
@@ -62,7 +62,7 @@ class TestIndicator(unittest.TestCase):
         parameters = parameters['data']['indicatorById']['parametersByIndicatorId']['nodes']
 
         indicator = Indicator()
-        verified_parameters = indicator.verify_indicator_parameters(indicator_type_id, parameters)
+        verified_parameters = indicator.verify_indicator_parameters(authorization, indicator_type_id, parameters)
 
         # Assert list of parameters is correct
         self.assertEqual(len(verified_parameters), 9)
