@@ -4,7 +4,7 @@
 
     <form>
       <div class="form-row">
-        <div class="col-md-4">
+        <div class="col-11">
           <!-- Data Source Form -->
           <div class="form-group required">
             <label for="dataSourceName" class="col-form-label">

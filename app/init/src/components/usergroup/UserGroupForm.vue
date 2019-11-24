@@ -4,7 +4,7 @@
 
     <form>
       <div class="form-row">
-        <div class="col-md-4">
+        <div class="col-11">
           <!-- User Form -->
           <div class="form-group required">
             <label for="userGroupName" class="col-form-label">

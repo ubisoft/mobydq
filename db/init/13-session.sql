@@ -30,3 +30,25 @@ base.update_updated_by_id();
 CREATE TRIGGER session_delete_session_result BEFORE DELETE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('session_result', 'session_id');
+
+
+
+/*Create function to search sessions*/
+CREATE OR REPLACE FUNCTION base.search_session(search_keyword TEXT, sort_attribute TEXT, sort_order TEXT)
+RETURNS SETOF base.session AS $$
+BEGIN
+    RETURN QUERY
+    EXECUTE format(
+        'SELECT a.*
+        FROM base.session a
+        INNER JOIN base.indicator b ON a.indicator_id=b.id
+        WHERE b.name ILIKE (''%%%s%%'')
+        ORDER BY a.%I %s',
+        search_keyword,
+        sort_attribute,
+        sort_order);
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.search_session IS
+'Function used to search sessions based on id or keywords contained in their indicator name.';

@@ -4,7 +4,7 @@
 
     <form>
       <div class="form-row">
-        <div class="col-md-4">
+        <div class="col-11">
           <!-- Indicator Group Form -->
           <div class="form-group required">
             <label for="indicatorGroupName" class="col-form-label">

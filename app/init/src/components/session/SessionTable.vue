@@ -48,9 +48,9 @@
             {{ session.userByCreatedById.email }}
           </td>
           <td>
-            <span v-if="showKillSession" class="badge badge-secondary">
+            <!-- <span v-if="showKillSession" class="badge badge-secondary">
               Kill
-            </span>
+            </span> -->
           </td>
         </tr>
       </tbody>
