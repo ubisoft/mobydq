@@ -15,13 +15,18 @@ This tool has been inspired by an internal project developed at <a href="https:/
 
 Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://mobydq.github.io/pages/gettingstarted/). The complete documentation is also available on Github Pages: [https://mobydq.github.io](https://mobydq.github.io).
 
+# Screenshots
+
+Some screenshot of the web application to give you a taste of how it's like.
+
+![Edit Indicator](https://mobydq.github.io/img/edit_indicator.png)
+
 # Run Dev
 
 Run MobyDQ in development mode with the following command:
 
 ```shell
 $ cd mobydq
-
 $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql api app nginx
 ```
 
@@ -31,7 +36,6 @@ Run MobyDQ in production mode with the following command. The argument `-d` is t
 
 ```shell
 $ cd mobydq
-
 $ docker-compose up -d db graphql api app nginx
 ```
 
