@@ -101,6 +101,7 @@ export const store = new Vuex.Store({
     queryGetParameterTypes: ParameterPayload.queryGetParameterTypes, // Data for indicator parameter types drodpdown in indicator parameter form
 
     //Sessions queries
-    queryGetAllSessions: SessionPayload.queryGetAllSessions
+    queryGetAllSessions: SessionPayload.queryGetAllSessions,
+    mutationSearchSession: SessionPayload.mutationSearchSession
   }
 });

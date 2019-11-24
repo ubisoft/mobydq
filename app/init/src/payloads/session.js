@@ -11,3 +11,16 @@ export const queryGetAllSessions = `query getAllSessions($first: Int, $offset: I
         totalCount
     }
 }`;
+
+export const mutationSearchSession = `mutation searchSession($searchKeyword: String, $sortAttribute: String, $sortOrder: String) {
+    searchSession(input: {searchKeyword: $searchKeyword, sortAttribute: $sortAttribute, sortOrder: $sortOrder}) {
+        sessions {
+            id
+            status
+            indicatorId
+            indicatorByIndicatorId { name }
+            updatedDate
+            userByCreatedById { email }
+        }
+    }
+}`;

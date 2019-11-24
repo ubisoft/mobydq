@@ -1,7 +1,5 @@
 <template>
-  <div class="col">
     <indicator-form></indicator-form>
-  </div>
 </template>
 
 <script>

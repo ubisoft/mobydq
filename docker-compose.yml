@@ -27,7 +27,6 @@ services:
             - network
         command:
             [
-                "postgraphile",
                 "--connection",
                 "${DATABASE_URL}",
                 "--port",
