@@ -2,11 +2,11 @@
   <div>
     <div class="row">
       <!-- Left column -->
-      <div class="col-6">
+      <div class="col-5">
         <h1 class="mt-5">Edit Indicator</h1>
         <form>
           <div class="form-row">
-            <div class="col-md-8">
+            <div class="col-11">
               <!-- Indicator Form -->
               <div class="form-group required">
                 <label for="indicatorName" class="col-form-label">
@@ -104,18 +104,18 @@
       <!-- Right column -->
       <div class="col-6">
         <h1 class="mt-5">Executions History</h1>
-          Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
-          <indicator-quality
-            v-if="indicator.id"
-            v-bind:height=150
-            v-bind:width=510
-            v-bind:sessions="sessions">
-          </indicator-quality>
+        Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
+        <indicator-quality
+          v-if="indicator.id"
+          v-bind:height=150
+          v-bind:width=510
+          v-bind:sessions="sessions">
+        </indicator-quality>
 
-          <indicator-session
-            v-if="indicator.id"
-            v-bind:sessions="sessions">
-          </indicator-session>
+        <indicator-session
+          v-if="indicator.id"
+          v-bind:sessions="sessions">
+        </indicator-session>
       </div>
     </div>
 
