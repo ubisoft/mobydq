@@ -42,10 +42,14 @@ You can run tests using the following commands:
 ```shell
 $ cd mobydq
 
-# Test
+# Start test database instances
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
+
+# Run tests
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-api test-scripts
 
-# Linter
+# Run linter
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml build test-scripts test-lint-python
 $ docker run --rm mobydq-test-lint-python pylint scripts test api/api.py api/proxy api/health api/security
 ```
