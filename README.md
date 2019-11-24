@@ -27,12 +27,12 @@ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql a
 
 # Run Prod
 
-Run MobyDQ in production mode with the following command:
+Run MobyDQ in production mode with the following command. The argument `-d` is to run containers in the background as daemons.
 
 ```shell
 $ cd mobydq
 
-$ docker-compose up db graphql api app nginx
+$ docker-compose up -d db graphql api app nginx
 ```
 
 # Run Tests
