@@ -5,11 +5,9 @@
         <tr>
           <th scope="col">
             Session Id
-            <table-sort v-bind:columnName="'id'" v-bind:sortAttribute="sortAttribute" v-on:sortAttribute="setSortAttribute"></table-sort>
           </th>
           <th scope="col">
             Status
-            <table-sort v-bind:columnName="'status'" v-bind:sortAttribute="sortAttribute" v-on:sortAttribute="setSortAttribute"></table-sort>
           </th>
           <th scope="col">
             Nb Records
@@ -48,7 +46,7 @@
             n/a
           </td>
           <td v-if="session.sessionResultsBySessionId.nodes[0]">
-            {{ (session.sessionResultsBySessionId.nodes[0]['nbRecordsNoAlert']/session.sessionResultsBySessionId.nodes[0]['nbRecords'])*100 }}%
+            {{ Math.round((session.sessionResultsBySessionId.nodes[0]['nbRecordsNoAlert']/session.sessionResultsBySessionId.nodes[0]['nbRecords'])*100) }}%
           </td>
           <td v-else>
             n/a
@@ -72,15 +70,11 @@ export default {
     "table-sort": TableSort
   },
   props: {
-    sessions: Array,
-    sortAttribute: Object
+    sessions: Array
   },
   computed: {
   },
   methods: {
-    setSortAttribute(attribute) {
-      this.$emit("sortAttribute", attribute);
-    },
     cssClass(status) {
       let cssClass;
       if (status == 'Pending') {

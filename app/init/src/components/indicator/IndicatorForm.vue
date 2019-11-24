@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <!-- Left column -->
-      <div class="col">
+      <div class="col-6">
         <h1 class="mt-5">Edit Indicator</h1>
         <form>
           <div class="form-row">
@@ -102,18 +102,19 @@
       </div>
 
       <!-- Right column -->
-      <div class="col">
+      <div class="col-6">
         <h1 class="mt-5">Executions History</h1>
           Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
           <indicator-quality
-            v-if="indicatorId"
+            v-if="indicator.id"
             v-bind:height=150
             v-bind:width=510
-            v-bind:indicatorId="indicatorId">
+            v-bind:sessions="sessions">
           </indicator-quality>
 
           <indicator-session
-            v-bind:sessions="indicator.sessionsByIndicatorId.nodes">
+            v-if="indicator.id"
+            v-bind:sessions="sessions">
           </indicator-session>
       </div>
     </div>
@@ -197,6 +198,9 @@ export default {
     },
     parameters() {
       return this.indicator.parametersByIndicatorId.nodes;
+    },
+    sessions() {
+      return this.indicator.sessionsByIndicatorId.nodes;
     },
     isReadOnly() {
       let roles = ["standard", "advanced", "admin"];
