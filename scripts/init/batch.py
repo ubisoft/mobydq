@@ -34,7 +34,7 @@ class Batch:
 
         # Get list of indicator sessions
         log.debug('Get list of indicator sessions.')
-        query = 'query{allSessions(condition:{batchId:batch_id},orderBy:ID_ASC){nodes{id,batchId,indicatorId,indicatorByIndicatorId{name,indicatorTypeId,indicatorTypeByIndicatorTypeId{module,class,method},parametersByIndicatorId{nodes{parameterTypeId,value}}}}}}'
+        query = 'query{allSessions(condition:{batchId:batch_id},orderBy:ID_ASC){nodes{id,batchId,indicatorId,userGroupId,indicatorByIndicatorId{name,indicatorTypeId,indicatorTypeByIndicatorTypeId{module,class,method},parametersByIndicatorId{nodes{parameterTypeId,value}}}}}}'
         query = query.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
         query = {'query': query}  # Convert to dictionary
         response = utils.execute_graphql_request(authorization, query)

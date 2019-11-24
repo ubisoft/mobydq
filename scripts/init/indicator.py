@@ -120,7 +120,7 @@ class Indicator:
         """
         return eval(str(measure_value) + alert_operator + str(alert_threshold)) # pylint: disable=W0123
 
-    def compute_session_result(self, authorization: str, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
+    def compute_session_result(self, authorization: str, session_id: int, user_group_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
         log.info('Compute session results.')
         nb_records = len(result_data)
@@ -128,9 +128,7 @@ class Indicator:
         nb_records_no_alert = len(result_data.loc[result_data['Alert'] == False]) # pylint: disable=C0121
 
         # Post results to database
-        mutation = '''mutation{createSessionResult(input:{sessionResult:{
-        alertOperator:"alert_operator",alertThreshold:alert_threshold,nbRecords:nb_records,
-        nbRecordsAlert:nb_records_alert,nbRecordsNoAlert:nb_records_no_alert,userGroup:"test_group",sessionId:session_id}}){sessionResult{id}}}'''
+        mutation = '''mutation{createSessionResult(input:{sessionResult:{alertOperator:"alert_operator",alertThreshold:alert_threshold,nbRecords:nb_records,nbRecordsAlert:nb_records_alert,nbRecordsNoAlert:nb_records_no_alert,sessionId:session_id,userGroupId:user_group_id}}){sessionResult{id}}}'''
 
         # Use replace() instead of format() because of curly braces
         mutation = mutation.replace('alert_operator', alert_operator)
@@ -139,6 +137,7 @@ class Indicator:
         mutation = mutation.replace('nb_records_alert', str(nb_records_alert))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('nb_records', str(nb_records))  # Order matters to avoid replacing other strings nb_records
         mutation = mutation.replace('session_id', str(session_id))
+        mutation = mutation.replace('user_group_id', str(user_group_id))
         mutation = {'query': mutation}  # Convert to dictionary
         utils.execute_graphql_request(authorization, mutation)
 

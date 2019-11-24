@@ -20,6 +20,7 @@ class TestUtils(unittest.TestCase):
         """Unit tests for method execute_graphql_request."""
 
         payload = 'query{allDataSourceTypes{nodes{id}}}'
+        payload = {'query': payload}  # Convert to dictionary
         data = utils.execute_graphql_request(None, payload)
         nb_records = len(data['data']['allDataSourceTypes']['nodes'])
 

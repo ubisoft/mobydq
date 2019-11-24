@@ -11,7 +11,7 @@ export const queryGetAllIndicators = `query getAllIndicators($first: Int, $offse
     }
 }`;
 
-export const queryGetIndicator = `query getIndicator($id: Int!) {
+export const queryGetIndicator = `query getIndicator($id: Int!, $first: Int, $offset: Int, $orderBy: [SessionsOrderBy!]) {
     indicatorById(id: $id) {
         id
         name
@@ -36,6 +36,22 @@ export const queryGetIndicator = `query getIndicator($id: Int!) {
         updatedDate
         userByCreatedById { email }
         userByUpdatedById { email }
+        sessionsByIndicatorId(first: $first, offset: $offset, orderBy: $orderBy) {
+            nodes {
+                id
+                status
+                createdDate
+                updatedDate
+                userByCreatedById { email }
+                sessionResultsBySessionId {
+                    nodes {
+                        nbRecords
+                        nbRecordsAlert
+                        nbRecordsNoAlert
+                    }
+                }
+            }
+        }
     }
 }`;
 
