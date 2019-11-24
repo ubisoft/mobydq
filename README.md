@@ -42,7 +42,7 @@ You can run tests using the following commands:
 ```shell
 $ cd mobydq
 
-# Backend
+# Test
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-api test-scripts
 
 # Linter
