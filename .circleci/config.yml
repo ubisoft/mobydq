@@ -63,7 +63,6 @@ jobs:
                   when: always
                   command: |
                       docker cp mobydq-test-db:/srv/test-results.xml ./test/results/test-results-db.xml
-                      docker cp mobydq-test-api:/srv/test-results.xml ./test/results/test-results-api.xml
                       docker cp mobydq-test-scripts:/srv/test-results.xml ./test/results/test-results-scripts.xml
                       docker cp mobydq-test-lint-python:/srv/lint-results-python.xml ./test/results/
 

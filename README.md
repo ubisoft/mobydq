@@ -27,7 +27,7 @@ Run MobyDQ in development mode with the following command:
 
 ```shell
 $ cd mobydq
-$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql api app nginx
+$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql app nginx
 ```
 
 # Run Prod
@@ -36,7 +36,7 @@ Run MobyDQ in production mode with the following command. The argument `-d` is t
 
 ```shell
 $ cd mobydq
-$ docker-compose up -d db graphql api app nginx
+$ docker-compose up -d db graphql app nginx
 ```
 
 # Run Tests
@@ -47,15 +47,15 @@ You can run tests using the following commands:
 $ cd mobydq
 
 # Start test database instances
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
 
 # Run tests
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-api test-scripts
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-scripts
 
 # Run linter
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml build test-scripts test-lint-python
-$ docker run --rm mobydq-test-lint-python pylint scripts test api/api.py api/proxy api/health api/security
+$ docker run --rm mobydq-test-lint-python pylint scripts test
 ```
 
 # Dependencies
