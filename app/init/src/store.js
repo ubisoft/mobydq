@@ -15,7 +15,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    graphqlUrl: "/mobydq/api/v1/graphql",
+    graphqlUrl: "/graphql",
     errorObject: {
       flag: false,
       message: ""

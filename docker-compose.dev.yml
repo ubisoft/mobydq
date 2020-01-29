@@ -1,22 +1,12 @@
 version: "3.1"
 services:
     db:
-        expose:
-            - 5432
         ports:
             - 5432:5432
 
     graphql:
-        expose:
-            - 5433
         ports:
             - 5433:5433
-
-    api:
-        volumes:
-            - ./api/init:/srv/api/
-        environment:
-            FLASK_DEBUG: 1
 
     app:
         volumes:
