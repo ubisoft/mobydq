@@ -1,0 +1,15 @@
+{
+    "name": "mobydq-plugin",
+    "version": "0.0.1",
+    "description": "MobyDQ plugin for PostGraphile to execute custom mutations.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Alexis ROLLAND",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "dockerode": "^3.0.2",
+        "graphile-utils": "^4.5.6"
+    }
+}

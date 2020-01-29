@@ -9,11 +9,15 @@ WORKDIR /home/node/app
 COPY ./src/package*.json .
 
 # Install dependencies
-USER node
 RUN npm install
 
 # Copy application files
 COPY --chown=node:node ./src .
+
+# Install MobyDQ plugin
+RUN cd ./mobydq-plugin && npm pack
+RUN npm install ./mobydq-plugin/mobydq-plugin-0.0.1.tgz
+RUN rm -rf ./mobydq-plugin
 
 EXPOSE 8080
 CMD [ "node", "server.js" ]
