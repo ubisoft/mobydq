@@ -15,8 +15,9 @@ jobs:
                       echo "POSTGRES_DB=mobydq" >> ./.env
                       echo "POSTGRES_USER=postgres" >> ./.env
                       echo "POSTGRES_PASSWORD=change_me" >> ./.env
-                      echo "DATABASE_URL=postgres://postgres:change_me@db:5432/mobydq" >> ./.env
-                      echo "SECRET_KEY=change_me" >> ./.env
+                      echo "GRAPHQL_DATABASE_URL=postgres://postgres:change_me@db:5432/mobydq" >> ./.env
+                      echo "GRAPHQL_PORT=5433" >> ./.env
+                      echo "GRAPHQL_SECRET_KEY=change_me" >> ./.env
                       echo "MAIL_HOST=smtp.server.org" >> ./.env
                       echo "MAIL_PORT=25" >> ./.env
                       echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
@@ -33,7 +34,7 @@ jobs:
                   name: Run Docker containers
                   when: always
                   command: |
-                      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+                      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
                       docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
                       echo "Wait for test databases to be up and running"
                       sleep 240
@@ -46,12 +47,6 @@ jobs:
                       docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
             - run:
-                  name: Run API tests
-                  when: always
-                  command: |
-                      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-api test-api
-
-            - run:
                   name: Run scripts tests
                   when: always
                   command: |
@@ -61,14 +56,13 @@ jobs:
                   name: Run python linter
                   when: always
                   command: |
-                      docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test api/api.py api/proxy api/health > lint-results-python.xml"
+                      docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test > lint-results-python.xml"
 
             - run:
                   name: Collect tests results
                   when: always
                   command: |
                       docker cp mobydq-test-db:/srv/test-results.xml ./test/results/test-results-db.xml
-                      docker cp mobydq-test-api:/srv/test-results.xml ./test/results/test-results-api.xml
                       docker cp mobydq-test-scripts:/srv/test-results.xml ./test/results/test-results-scripts.xml
                       docker cp mobydq-test-lint-python:/srv/lint-results-python.xml ./test/results/
 

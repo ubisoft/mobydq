@@ -27,7 +27,7 @@ Run MobyDQ in development mode with the following command:
 
 ```shell
 $ cd mobydq
-$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql api app nginx
+$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up db graphql app nginx
 ```
 
 # Run Prod
@@ -36,7 +36,7 @@ Run MobyDQ in production mode with the following command. The argument `-d` is t
 
 ```shell
 $ cd mobydq
-$ docker-compose up -d db graphql api app nginx
+$ docker-compose up -d db graphql app nginx
 ```
 
 # Run Tests
@@ -47,15 +47,15 @@ You can run tests using the following commands:
 $ cd mobydq
 
 # Start test database instances
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql api
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
 
 # Run tests
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-api test-scripts
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-scripts
 
 # Run linter
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml build test-scripts test-lint-python
-$ docker run --rm mobydq-test-lint-python pylint scripts test api/api.py api/proxy api/health api/security
+$ docker run --rm mobydq-test-lint-python pylint scripts test
 ```
 
 # Dependencies
@@ -66,17 +66,12 @@ The containers run by `docker-compose` have dependencies with the following Dock
 
 -   [postgres](https://hub.docker.com/_/postgres/) (tag: 11.0-alpine)
 -   [graphile/postgraphile](https://hub.docker.com/r/graphile/postgraphile/) (tag: latest)
--   [python](https://hub.docker.com/_/python/) (tag: 3.6.6-alpine3.8)
 -   [python](https://hub.docker.com/_/python/) (tag: 3.6.6-slim-stretch)
 -   [nginx](https://hub.docker.com/_/nginx/) (tag: latest)
 
 ## Python Packages
 
 -   [docker](https://docker-py.readthedocs.io) (3.5.0)
--   [flask](http://flask.pocoo.org) (1.0.2)
--   [flask_cors](https://flask-cors.readthedocs.io) (3.0.8)
--   [flask_restplus](https://flask-restplus.readthedocs.io) (0.11.0)
--   [graphql_py](https://pypi.org/project/graphql-py) (0.7.1)
 -   [jinja2](http://jinja.pocoo.org) (2.10.1)
 -   [numpy](http://www.numpy.org) (1.14.0)
 -   [pandas](https://pandas.pydata.org) (0.23.0)

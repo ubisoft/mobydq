@@ -87,19 +87,6 @@ services:
         networks:
             - network
 
-    test-api:
-        container_name: mobydq-test-api
-        image: mobydq-test-api
-        build:
-            context: .
-            dockerfile: ./test/Dockerfile
-        command: ["nose2", "-v", "test_api.TestApi"]
-        depends_on:
-            - api
-            - scripts
-        networks:
-            - network
-
     test-scripts:
         container_name: mobydq-test-scripts
         image: mobydq-test-scripts

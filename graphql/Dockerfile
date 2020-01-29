@@ -1,8 +1,23 @@
 FROM node:alpine
 LABEL description="Instant high-performance GraphQL API for your PostgreSQL database https://github.com/graphile/postgraphile"
 
-RUN npm install -g postgraphile
-RUN npm install -g postgraphile-plugin-connection-filter
+# Set Node.js app folder
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+WORKDIR /home/node/app
 
-EXPOSE 5000
-ENTRYPOINT ["postgraphile", "-n", "0.0.0.0"]
+# Copy dependencies
+COPY ./src/package*.json .
+
+# Install dependencies
+RUN npm install
+
+# Copy application files
+COPY --chown=node:node ./src .
+
+# Install MobyDQ plugin
+RUN cd ./mobydq-plugin && npm pack
+RUN npm install ./mobydq-plugin/mobydq-plugin-0.0.1.tgz
+RUN rm -rf ./mobydq-plugin
+
+EXPOSE 8080
+CMD [ "node", "server.js" ]
