@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 import pandas
 from indicator import Indicator
-from session import update_session_status
+from session import Session
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class Freshness(Indicator):
         indicator_id: int = session['indicatorId']
         log.info('Start execution of session Id %i for indicator Id %i.', session_id, indicator_id)
         log.debug('Update session status to Running.')
-        update_session_status(authorization, session_id, 'Running')
+        Session.update_session_status(authorization, session_id, 'Running')
 
         # Verify if the list of indicator parameters is valid
         indicator_type_id = session['indicatorByIndicatorId']['indicatorTypeId']
@@ -42,7 +42,7 @@ class Freshness(Indicator):
 
         # Compute session result
         user_group_id = session['userGroupId']
-        nb_records_alert = super().compute_session_result(authorization, session_id, user_group_id, alert_operator, alert_threshold, result_data)
+        nb_records_alert = Session.compute_session_result(authorization, session_id, user_group_id, alert_operator, alert_threshold, result_data)
 
         # Send e-mail alert
         if nb_records_alert != 0:
@@ -52,7 +52,7 @@ class Freshness(Indicator):
 
         # Update session status to succeeded
         log.debug('Update session status to Success.')
-        update_session_status(authorization, session_id, 'Success')
+        Session.update_session_status(authorization, session_id, 'Success')
         log.info('Session Id %i for indicator Id %i completed successfully.', session_id, indicator_id)
 
     def evaluate_freshness(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):

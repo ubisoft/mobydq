@@ -1,7 +1,7 @@
 """Unit tests for module /scripts/init/session.py."""
 import unittest
 from shared.utils import get_test_case_name, get_authorization
-from scripts.session import update_session_status
+from scripts.session import Session
 from scripts import utils
 
 
@@ -46,7 +46,7 @@ class TestSession(unittest.TestCase):
         session_id = session['data']['createSession']['session']['id']
 
         # Update test session status
-        data = update_session_status(authorization, session_id, 'Running')
+        data = Session.update_session_status(authorization, session_id, 'Running')
         session_status = data['data']['updateSessionById']['session']['status']
 
         # Assert batch status is Running

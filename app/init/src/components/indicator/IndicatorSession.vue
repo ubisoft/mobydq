@@ -33,23 +33,16 @@
               {{ session.status }}
             </span>
           </td>
-          <td v-if="session.sessionResultsBySessionId.nodes[0]">
-            {{ session.sessionResultsBySessionId.nodes[0]['nbRecords'] }}
+          <td>
+            {{ session.nbRecords }}
+          </td>
+          <td>
+            {{ session.nbRecordsAlert }}
+          </td>
+          <td v-if="session.nbRecords > 0">
+            {{ Math.round((session.nbRecordsNoAlert/session.nbRecords)*100) }}%
           </td>
           <td v-else>
-            n/a
-          </td>
-          <td v-if="session.sessionResultsBySessionId.nodes[0]">
-            {{ session.sessionResultsBySessionId.nodes[0]['nbRecordsAlert'] }}
-          </td>
-          <td v-else>
-            n/a
-          </td>
-          <td v-if="session.sessionResultsBySessionId.nodes[0]">
-            {{ Math.round((session.sessionResultsBySessionId.nodes[0]['nbRecordsNoAlert']/session.sessionResultsBySessionId.nodes[0]['nbRecords'])*100) }}%
-          </td>
-          <td v-else>
-            n/a
           </td>
           <td>
             <router-link class="badge badge-secondary" v-bind:to="'/logs/sessions/' + session.id">

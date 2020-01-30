@@ -25,7 +25,6 @@ GRANT SELECT ON base.parameter_type TO anonymous;
 GRANT SELECT ON base.parameter TO anonymous;
 GRANT SELECT ON base.batch TO anonymous;
 GRANT SELECT ON base.session TO anonymous;
-GRANT SELECT ON base.session_result TO anonymous;
 GRANT SELECT ON base.log TO anonymous;
 
 /*Dashboard views*/
@@ -53,7 +52,6 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.batch TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session TO standard;
-GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session_result TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.log TO standard;
 
 
@@ -102,7 +100,6 @@ ALTER TABLE base.indicator ENABLE ROW LEVEL SECURITY;
 ALTER TABLE base.parameter ENABLE ROW LEVEL SECURITY;
 ALTER TABLE base.batch ENABLE ROW LEVEL SECURITY;
 ALTER TABLE base.session ENABLE ROW LEVEL SECURITY;
-ALTER TABLE base.session_result ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_group_policy on base.data_source FOR ALL TO PUBLIC
 USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
@@ -120,7 +117,4 @@ CREATE POLICY user_group_policy on base.batch FOR ALL TO PUBLIC
 USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
 CREATE POLICY user_group_policy on base.session FOR ALL TO PUBLIC
-USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
-
-CREATE POLICY user_group_policy on base.session_result FOR ALL TO PUBLIC
 USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));

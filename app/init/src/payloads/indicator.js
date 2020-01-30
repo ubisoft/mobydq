@@ -40,16 +40,12 @@ export const queryGetIndicator = `query getIndicator($id: Int!, $first: Int, $of
             nodes {
                 id
                 status
+                nbRecords
+                nbRecordsAlert
+                nbRecordsNoAlert
                 createdDate
                 updatedDate
                 userByCreatedById { email }
-                sessionResultsBySessionId {
-                    nodes {
-                        nbRecords
-                        nbRecordsAlert
-                        nbRecordsNoAlert
-                    }
-                }
             }
         }
     }
@@ -114,17 +110,13 @@ export const queryGetIndicatorSessions = `query getAllSessions($indicatorId: Int
     allSessions(condition: {indicatorId: $indicatorId}, first: $first, offset: $offset, orderBy: $orderBy) {
         nodes {
             id
-          	status
+            status
+            nbRecords
+            nbRecordsAlert
+            nbRecordsNoAlert
           	createdDate
           	updatedDate
-            userByCreatedById { email }
-            sessionResultsBySessionId {
-                nodes {
-                    nbRecords
-                    nbRecordsAlert
-                    nbRecordsNoAlert
-                }
-            }  
+            userByCreatedById { email }  
         }
     }
 }`;

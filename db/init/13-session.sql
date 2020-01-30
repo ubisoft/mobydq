@@ -7,6 +7,11 @@
 CREATE TABLE base.session (
     id SERIAL PRIMARY KEY
   , status TEXT NOT NULL
+  , alert_operator TEXT NULL
+  , alert_threshold FLOAT NULL
+  , nb_records INTEGER NULL
+  , nb_records_alert INTEGER NULL
+  , nb_records_no_alert INTEGER NULL
   , created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   , created_by_id INTEGER DEFAULT base.get_current_user_id() REFERENCES base.user(id)
@@ -26,10 +31,6 @@ base.update_updated_date();
 CREATE TRIGGER session_update_updated_by_id BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
-
-CREATE TRIGGER session_delete_session_result BEFORE DELETE
-ON base.session FOR EACH ROW EXECUTE PROCEDURE
-base.delete_children('session_result', 'session_id');
 
 
 
