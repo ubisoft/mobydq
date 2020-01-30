@@ -47,6 +47,7 @@ GRANT anonymous TO standard;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO standard;
 GRANT SELECT ON base.password TO standard;
 GRANT SELECT ON base.data_source_password TO standard;
+GRANT SELECT ON base.configuration TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator_group TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
