@@ -12,8 +12,7 @@ import Mixins from "../utils/Mixins.vue";
 export default {
   mixins: [Mixins],
   props: {
-    indicatorGroupId: Number,
-    indicatorId: Number
+    indicatorGroupId: Number
   },
   data: function() {
     return {
@@ -28,10 +27,9 @@ export default {
   methods: {
     execute(){
       let payload = {
-        query: this.$store.state.mutationExecuteIndicator,
+        query: this.$store.state.mutationExecuteIndicatorGroup,
         variables: {
-          indicatorGroupId: this.indicatorGroupId,
-          indicatorId: [this.indicatorId]
+          indicatorGroupId: this.indicatorGroupId
         }
       };
       let headers = {};
@@ -43,7 +41,7 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            //this.$emit("executedIndicator", ...);  // Send test status to parent component
+            //this.$emit("executedIndicatorGroup", ...);  // Send test status to parent component
           }
         },
         // Error callback
