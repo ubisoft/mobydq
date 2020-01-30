@@ -13,9 +13,6 @@ log = logging.getLogger(__name__)
 class DataSource:
     """Data source class."""
 
-    def __init__(self):
-        pass
-
     def get_connection(self, data_source_type_id: int, connection_string: str, login: str = None, password: str = None):
         """Connect to a data source. Return a connection object."""
 

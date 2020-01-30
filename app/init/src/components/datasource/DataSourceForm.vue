@@ -95,6 +95,7 @@
             <data-source-button-save v-bind:dataSource="dataSource" v-bind:showPasswordField="showPasswordField"> </data-source-button-save>
             <data-source-button-reset-password v-on:resetPassword="resetPassword" v-bind:dataSourceId="dataSourceId"> </data-source-button-reset-password>
             <data-source-button-test-connectivity v-on:connectivityTestStatus="connectivityTestStatus" v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
+            <data-source-button-log v-bind:dataSourceId="dataSource.id"> </data-source-button-log>
             <data-source-button-close> </data-source-button-close>
             <data-source-button-delete v-if="dataSource.id" v-bind:dataSourceId="dataSource.id"> </data-source-button-delete>
           </div>
@@ -109,6 +110,7 @@ import DataSourceSelectDataSourceType from "./DataSourceSelectDataSourceType.vue
 import DataSourceButtonSave from "./DataSourceButtonSave.vue";
 import DataSourceButtonResetPassword from "./DataSourceButtonResetPassword.vue";
 import DataSourceButtonTestConnectivity from "./DataSourceButtonTestConnectivity.vue";
+import DataSourceButtonLog from "./DataSourceButtonLog.vue";
 import DataSourceButtonClose from "./DataSourceButtonClose.vue";
 import DataSourceButtonDelete from "./DataSourceButtonDelete.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
@@ -122,6 +124,7 @@ export default {
     "data-source-button-save": DataSourceButtonSave,
     "data-source-button-reset-password": DataSourceButtonResetPassword,
     "data-source-button-test-connectivity": DataSourceButtonTestConnectivity,
+    "data-source-button-log": DataSourceButtonLog,
     "data-source-button-close": DataSourceButtonClose,
     "data-source-button-delete": DataSourceButtonDelete
   },

@@ -18,7 +18,7 @@ import ViewUserGroup from "./components/ViewUserGroup.vue";
 import ViewDataSource from "./components/ViewDataSource.vue";
 import ViewIndicatorGroup from "./components/ViewIndicatorGroup.vue";
 import ViewIndicator from "./components/ViewIndicator.vue";
-
+import ViewLog from "./components/ViewLog.vue";
 
 // Tell Vue to use libraries
 Vue.use(VueResource);
@@ -38,7 +38,10 @@ const routes = [
   { name: "view-indicator-group", path: "/indicatorgroups", component: ViewIndicatorGroup },
   { name: "edit-indicator-group", path: "/indicatorgroups/:indicatorGroupId", component: EditIndicatorGroup },
   { name: "view-indicator", path: "/indicators", component: ViewIndicator },
-  { name: "edit-indicator", path: "/indicators/:indicatorId", component: EditIndicator }
+  { name: "edit-indicator", path: "/indicators/:indicatorId", component: EditIndicator },
+  { name: "view-batch-log", path: "/logs/batches/:batchId", component: ViewLog },
+  { name: "view-session-log", path: "/logs/sessions/:sessionId", component: ViewLog },
+  { name: "view-data-source-log", path: "/logs/datasources/:dataSourceId", component: ViewLog }
 ];
 
 // Configure router

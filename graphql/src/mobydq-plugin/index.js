@@ -18,10 +18,10 @@ const triggerTestDataSourceContainer = () => {
         docker.run(
             "mobydq-scripts",
             ["python", "run.py", authorization, "test_data_source", dataSourceId.toString()],
-            [process.stdout, process.stderr],
-            { name: "mobydq-test-data-source-" + dataSourceId, tty: false, HostConfig: { NetworkMode: "mobydq_network" } },
+            process.stdout,
+            { name: "mobydq-test-data-source-" + dataSourceId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } }, // Start options
             function(err, data, container) {
-                container.remove();
+                // Do nothing
             }
         );
 
@@ -47,10 +47,10 @@ const triggerExecuteBatchContainer = () => {
         docker.run(
             "mobydq-scripts",
             ["python", "run.py", authorization, "execute_batch", batchId.toString()],
-            [process.stdout, process.stderr],
-            { name: "mobydq-batch-" + batchId, tty: false, HostConfig: { NetworkMode: "mobydq_network" } },
+            process.stdout,
+            { name: "mobydq-batch-" + batchId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } },
             function(err, data, container) {
-                container.remove();
+                // Do nothing
             }
         );
 

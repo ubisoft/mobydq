@@ -4,15 +4,54 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import configparser
+import json
 import logging
 import os
 import smtplib
+import traceback
+
+# Custom modules must be imported after standard modules (pylin C0411: wrong-import-order)
 from jinja2 import Template
 import requests
+
 
 # Load logging configuration
 log = logging.getLogger(__name__)
 
+
+class CustomLogHandler(logging.Handler):
+    """Custom log handler to send log messages to GraphQL API."""
+
+    def __init__(self, authorization: str, batch_id: int = None, session_id: int = None, data_source_id: int = None):
+        logging.Handler.__init__(self)
+        self.authorization = authorization
+        self.batch_id = batch_id
+        self.session_id = session_id
+        self.data_source_id = data_source_id
+
+    def emit(self, record):
+        file_name = record.name
+        log_level = record.levelname
+        log_message = json.dumps(record.message)  # Sanitize log message for http request
+
+        # Build mutation payload
+        mutation = 'mutation{createLog(input:{log:{fileName:"file_name",logLevel:"log_level",message:log_message foreign_keys}}){log{id}}}'
+        mutation = mutation.replace('file_name', file_name)  # Use replace() instead of format() because of curly braces
+        mutation = mutation.replace('log_level', log_level)  # Use replace() instead of format() because of curly braces
+        mutation = mutation.replace('log_message', log_message)  # Use replace() instead of format() because of curly braces
+
+        # Add foreign keys to log record
+        foreign_keys = ''
+        if self.batch_id is not None:
+            foreign_keys = ',batchId:{}'.format(self.batch_id)
+        if self.session_id is not None:
+            foreign_keys = foreign_keys + ',sessionId:{}'.format(self.session_id)
+        if self.data_source_id is not None:
+            foreign_keys = foreign_keys + ',dataSourceId:{}'.format(self.data_source_id)
+
+        mutation = mutation.replace('foreign_keys', foreign_keys)  # Use replace() instead of format() because of curly braces
+        mutation = {'query': mutation}  # Convert to dictionary
+        execute_graphql_request(self.authorization, mutation)
 
 def get_parameter(section: str, parameter_name: str = None):
     """Get parameters from flat file config.cfg."""
@@ -27,7 +66,6 @@ def get_parameter(section: str, parameter_name: str = None):
             parameters[key] = configuration[section][key]
 
     return parameters
-
 
 def execute_graphql_request(authorization: str, payload: dict):
     """Method to execute http request on the GraphQL API."""
@@ -104,11 +142,16 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
         connection.login(config['sender'], config['password'])
 
     # Send email
-    connection.sendmail(email['From'], email['To'], email.as_string())
+    try:
+        connection.sendmail(email['From'], email['To'], email.as_string())
+
+    except Exception: # pylint: disable=broad-except
+        error_message = traceback.format_exc()
+        log.error(error_message)
+
     connection.quit()
 
     return True
-
 
 def send_error(indicator_id: int, indicator_name: str, session_id: int, distribution_list: list, error_message: str):
     """Build the error e-mail to be sent for the session."""

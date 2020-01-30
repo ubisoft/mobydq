@@ -93,6 +93,7 @@
               <div class="mt-3">
                 <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
                 <indicator-button-execute v-bind:indicatorId="indicator.id" v-bind:indicatorGroupId="indicator.indicatorGroupId"> </indicator-button-execute>
+                <indicator-button-duplicate v-bind:indicatorId="indicator.id"> </indicator-button-duplicate>
                 <indicator-button-close> </indicator-button-close>
                 <indicator-button-delete v-if="indicator.id" v-bind:indicatorId="indicator.id"> </indicator-button-delete>
               </div>
@@ -105,6 +106,8 @@
       <div class="col-6">
         <h1 class="mt-5">Executions History</h1>
         Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
+        
+        <!-- Chart -->
         <indicator-quality
           v-if="indicator.id"
           v-bind:height=150
@@ -112,6 +115,7 @@
           v-bind:sessions="sessions">
         </indicator-quality>
 
+        <!-- Session table -->
         <indicator-session
           v-if="indicator.id"
           v-bind:sessions="sessions">
@@ -155,6 +159,7 @@ import IndicatorButtonSave from "./IndicatorButtonSave.vue";
 import IndicatorButtonClose from "./IndicatorButtonClose.vue";
 import IndicatorButtonDelete from "./IndicatorButtonDelete.vue";
 import IndicatorButtonExecute from "./IndicatorButtonExecute.vue";
+import IndicatorButtonDuplicate from "./IndicatorButtonDuplicate.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
 import IndicatorParameterTable from "./IndicatorParameterTable.vue";
@@ -174,6 +179,7 @@ export default {
     "indicator-button-close": IndicatorButtonClose,
     "indicator-button-delete": IndicatorButtonDelete,
     "indicator-button-execute": IndicatorButtonExecute,
+    "indicator-button-duplicate": IndicatorButtonDuplicate,
     "indicator-button-create-parameter": IndicatorButtonAddParameter,
     "indicator-quality": IndicatorQuality,
     "indicator-session": IndicatorSession,

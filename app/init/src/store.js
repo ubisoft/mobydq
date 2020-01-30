@@ -8,6 +8,7 @@ import * as DataSourceTypePayload from "./payloads/datasourcetype";
 import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 import * as IndicatorPayload from "./payloads/indicator";
 import * as IndicatorTypePayload from "./payloads/indicatortype";
+import * as LogPayload from "./payloads/log";
 import * as ParameterPayload from "./payloads/parameter";
 import * as SessionPayload from "./payloads/session";
 
@@ -80,6 +81,7 @@ export const store = new Vuex.Store({
     mutationUpdateIndicatorGroup: IndicatorGroupPayload.mutationUpdateIndicatorGroup,
     mutationDeleteIndicatorGroup: IndicatorGroupPayload.mutationDeleteIndicatorGroup,
     mutationSearchIndicatorGroup: IndicatorGroupPayload.mutationSearchIndicatorGroup,
+    mutationExecuteIndicatorGroup: IndicatorGroupPayload.mutationExecuteIndicatorGroup,
 
     //Indicator queries and mutations
     queryGetAllIndicators: IndicatorPayload.queryGetAllIndicators,
@@ -89,10 +91,16 @@ export const store = new Vuex.Store({
     mutationDeleteIndicator: IndicatorPayload.mutationDeleteIndicator,
     mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
     mutationExecuteIndicator: IndicatorPayload.mutationExecuteIndicator,
+    mutationDuplicateIndicator: IndicatorPayload.mutationDuplicateIndicator,
     queryGetIndicatorSessions: IndicatorPayload.queryGetIndicatorSessions,
 
     //Indicator types queries and mutations
     queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes, // Data for indicator types drodpdown in indicator form
+
+    // Logs queries and mutations
+    queryGetBatchLog: LogPayload.queryGetBatchLog,
+    queryGetSessionLog: LogPayload.queryGetSessionLog,
+    queryGetDataSourceLog: LogPayload.queryGetDataSourceLog,
 
     //Indicator parameters queries and mutations
     mutationCreateParameter: ParameterPayload.mutationCreateParameter,

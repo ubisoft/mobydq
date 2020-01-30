@@ -37,6 +37,7 @@
           <!-- Button Menu -->
           <div class="mt-3">
             <indicator-group-button-save v-bind:indicatorGroup="indicatorGroup"> </indicator-group-button-save>
+            <indicator-group-button-execute v-bind:indicatorGroupId="indicatorGroup.id"> </indicator-group-button-execute>
             <indicator-group-button-close> </indicator-group-button-close>
             <indicator-group-button-delete v-if="indicatorGroup.id" v-bind:indicatorGroupId="indicatorGroup.id"> </indicator-group-button-delete>
           </div>
@@ -50,6 +51,7 @@
 import IndicatorGroupButtonSave from "./IndicatorGroupButtonSave.vue";
 import IndicatorGroupButtonClose from "./IndicatorGroupButtonClose.vue";
 import IndicatorGroupButtonDelete from "./IndicatorGroupButtonDelete.vue";
+import IndicatorGroupButtonExecute from "./IndicatorGroupButtonExecute.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
 import Mixins from "../utils/Mixins.vue";
 
@@ -59,7 +61,8 @@ export default {
     "indicator-group-meta-data": MetaDataCard,
     "indicator-group-button-save": IndicatorGroupButtonSave,
     "indicator-group-button-close": IndicatorGroupButtonClose,
-    "indicator-group-button-delete": IndicatorGroupButtonDelete
+    "indicator-group-button-delete": IndicatorGroupButtonDelete,
+    "indicator-group-button-execute": IndicatorGroupButtonExecute
   },
   data: function() {
     return {

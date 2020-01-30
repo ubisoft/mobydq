@@ -52,9 +52,9 @@
             n/a
           </td>
           <td>
-            <!-- <router-link class="badge badge-secondary" v-bind:to="'/sessions/' + session.id">
-              View
-            </router-link> -->
+            <router-link class="badge badge-secondary" v-bind:to="'/logs/sessions/' + session.id">
+              Log
+            </router-link>
           </td>
         </tr>
       </tbody>

@@ -11,11 +11,9 @@ log = logging.getLogger(__name__)
 class Validity(Indicator):
     """Class used to compute indicators of type validity."""
 
-    def __init__(self):
-        pass
-
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type validity."""
+
         # Update session status to running
         session_id = session['id']
         indicator_id = session['indicatorId']
@@ -39,8 +37,7 @@ class Validity(Indicator):
         alert_operator = parameters[1]  # Alert operator
         alert_threshold = parameters[2]  # Alert threshold
         log.info('Evaluate validity of target data source.')
-        result_data = self.evaluate_validity(
-            target_data, measures, alert_operator, alert_threshold)
+        result_data = self.evaluate_validity(target_data, measures, alert_operator, alert_threshold)
 
         # Compute session result
         user_group_id = session['userGroupId']
@@ -50,8 +47,7 @@ class Validity(Indicator):
         if nb_records_alert != 0:
             indicator_name = session['indicatorByIndicatorId']['name']
             distribution_list = parameters[3]  # Distribution list
-            super().send_alert(indicator_id, indicator_name, session_id, distribution_list,
-                               alert_operator, alert_threshold, nb_records_alert, result_data)
+            super().send_alert(indicator_id, indicator_name, session_id, distribution_list, alert_operator, alert_threshold, nb_records_alert, result_data)
 
         # Update session status to succeeded
         log.debug('Update session status to Success.')

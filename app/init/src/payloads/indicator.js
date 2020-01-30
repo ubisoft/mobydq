@@ -102,6 +102,14 @@ export const mutationExecuteIndicator = `mutation executeBatch($indicatorGroupId
     }
 }`;
 
+export const mutationDuplicateIndicator = `mutation mutationDuplicateIndicator($indicatorId: Int, $newIndicatorName: String) {
+    duplicateIndicator(input: {indicatorId: $indicatorId, newIndicatorName: $newIndicatorName}) {
+        indicator {
+            id
+        }
+    }
+}`;
+
 export const queryGetIndicatorSessions = `query getAllSessions($indicatorId: Int, $first: Int, $offset: Int, $orderBy: [SessionsOrderBy!]){
     allSessions(condition: {indicatorId: $indicatorId}, first: $first, offset: $offset, orderBy: $orderBy) {
         nodes {

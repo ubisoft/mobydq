@@ -54,6 +54,15 @@ export const mutationSearchIndicatorGroup = `mutation searchIndicatorGroup($sear
     }
 }`;
 
+export const mutationExecuteIndicatorGroup = `mutation executeBatch($indicatorGroupId: Int) {
+    executeBatch(input: {indicatorGroupId: $indicatorGroupId}) {
+        batch {
+            id
+            status
+        }
+    }
+}`;
+
 // Response labels must be formatted according to Treeselect requirements
 export const queryGetIndicatorGroups = `query getAllIndicatorGroups {
     allIndicatorGroups(orderBy: NAME_ASC) {

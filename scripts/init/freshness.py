@@ -14,6 +14,7 @@ class Freshness(Indicator):
 
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type freshness."""
+
         # Update session status to running
         session_id: int = session['id']
         indicator_id: int = session['indicatorId']
