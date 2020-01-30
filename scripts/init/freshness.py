@@ -12,8 +12,12 @@ log = logging.getLogger(__name__)
 class Freshness(Indicator):
     """Class used to compute indicators of type freshness."""
 
+    def __init__(self):
+        pass
+
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type freshness."""
+
         # Update session status to running
         session_id: int = session['id']
         indicator_id: int = session['indicatorId']

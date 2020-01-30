@@ -15,8 +15,12 @@ log = logging.getLogger(__name__)
 class Indicator:
     """Base class used to compute indicators, regardless of their type."""
 
+    def __init__(self):
+        pass
+
     def verify_indicator_parameters(self, authorization: str, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
+
         # Build dictionary of parameter types referential
         query = 'query{allParameterTypes{nodes{id,name}}}'
         query = {'query': query}  # Convert to dictionary
@@ -61,6 +65,7 @@ class Indicator:
 
     def get_data_frame(self, authorization: str, data_source: pandas.DataFrame, request: str, dimensions: str, measures: str):
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
+
         # Get data source credentials
         query = '{dataSourceByName(name:"data_source"){id,connectionString,login,dataSourceTypeId}}'
         query = query.replace('data_source', data_source)
@@ -122,6 +127,7 @@ class Indicator:
 
     def compute_session_result(self, authorization: str, session_id: int, user_group_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
+
         log.info('Compute session results.')
         nb_records = len(result_data)
         nb_records_alert = len(result_data.loc[result_data['Alert'] == True]) # pylint: disable=C0121
@@ -145,6 +151,7 @@ class Indicator:
 
     def send_alert(self, indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], alert_operator: str, alert_threshold: str, nb_records_alert: str, result_data: pandas.DataFrame):
         """Build the alert e-mail to be sent for the session."""
+
         # Create csv file to send in attachment
         file_name = f'indicator_{indicator_id}_session_{session_id}.csv'
         file_path = os.path.dirname(__file__) + "/" + file_name

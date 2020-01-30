@@ -22,11 +22,13 @@ class Batch:
 
     def update_batch_status(self, authorization: str, batch_id: int, batch_status: str):
         """Update a batch status."""
+
         mutation = 'mutation{updateBatchById(input:{id:batch_id,batchPatch:{status:"batch_status"}}){batch{status}}}'
         mutation = mutation.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
         mutation = mutation.replace('batch_status', str(batch_status))  # Use replace() instead of format() because of curly braces
         mutation = {'query': mutation}  # Convert to dictionary
         data = utils.execute_graphql_request(authorization, mutation)
+
         return data
 
     def execute(self, authorization: str, batch_id: int):
@@ -45,9 +47,16 @@ class Batch:
             self.update_batch_status(authorization, batch_id, 'Running')
             is_error = False  # Variable used to update batch status to Failed if one indicator fails
 
-            # For each indicator session execute corresponding method
+            # Loop over each indicator session
             for session in response['data']['allSessions']['nodes']:
                 try:
+                    # Recreate custom log handler to add session Id to context
+                    root_log = logging.getLogger()
+                    custom_handler = root_log.handlers[1]
+                    root_log.removeHandler(custom_handler)
+                    root_log.addHandler(utils.CustomLogHandler(authorization, batch_id=batch_id, session_id=session['id']))
+                    
+                    # For each session execute indicator type method
                     module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
                     class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']
                     method_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['method']

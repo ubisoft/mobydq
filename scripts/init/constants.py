@@ -4,6 +4,7 @@
 
 class DataSourceType:
     """Data source type Ids."""
+
     HIVE_ID = 1
     IMPALA_ID = 2
     MARIADB_ID = 3
@@ -17,6 +18,7 @@ class DataSourceType:
 
 class IndicatorType:
     """Indicator type Ids."""
+
     COMPLETENESS = 1
     FRESHNESS = 2
     LATENCY = 3
