@@ -3,14 +3,16 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from jinja2 import Template
 import configparser
 import json
 import logging
 import os
-import requests
 import smtplib
 import traceback
+
+# Custom modules must be imported after standard modules (pylin C0411: wrong-import-order)
+from jinja2 import Template
+import requests
 
 
 # Load logging configuration
