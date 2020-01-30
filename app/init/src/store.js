@@ -91,6 +91,7 @@ export const store = new Vuex.Store({
     mutationDeleteIndicator: IndicatorPayload.mutationDeleteIndicator,
     mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
     mutationExecuteIndicator: IndicatorPayload.mutationExecuteIndicator,
+    mutationDuplicateIndicator: IndicatorPayload.mutationDuplicateIndicator,
     queryGetIndicatorSessions: IndicatorPayload.queryGetIndicatorSessions,
 
     //Indicator types queries and mutations

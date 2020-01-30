@@ -41,8 +41,14 @@ BEGIN
     EXECUTE format(
         'SELECT a.*
         FROM base.log a
-        WHERE a.file_name ILIKE (''%%%s%%'') OR a.log_level ILIKE (''%%%s%%'') OR a.message ILIKE (''%%%s%%'')
+        WHERE a.created_date ILIKE (''%%%s%%'')
+          OR a.file_name ILIKE (''%%%s%%'')
+          OR a.log_level ILIKE (''%%%s%%'')
+          OR a.message ILIKE (''%%%s%%'')
         ORDER BY a.%I %s',
+        search_keyword,
+        search_keyword,
+        search_keyword,
         search_keyword,
         sort_attribute,
         sort_order);

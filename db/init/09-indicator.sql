@@ -48,8 +48,10 @@ BEGIN
     EXECUTE format(
         'SELECT a.*
         FROM base.indicator a
-        WHERE a.name ILIKE (''%%%s%%'')
+        INNER JOIN base.indicator_group b on a.indicator_group_id=b.id
+        WHERE a.name ILIKE (''%%%s%%'') OR b.name ILIKE (''%%%s%%'')
         ORDER BY a.%I %s',
+        search_keyword,
         search_keyword,
         sort_attribute,
         sort_order);
