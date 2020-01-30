@@ -52,7 +52,7 @@
             n/a
           </td>
           <td>
-            <router-link class="badge badge-secondary" v-bind:to="'/indicators/' + indicatorId + '/sessions/' + session.id">
+            <router-link class="badge badge-secondary" v-bind:to="'/logs/sessions/' + session.id">
               Log
             </router-link>
           </td>
@@ -70,7 +70,6 @@ export default {
     "table-sort": TableSort
   },
   props: {
-    indicatorId: Number,
     sessions: Array
   },
   computed: {

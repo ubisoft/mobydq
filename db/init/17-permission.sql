@@ -13,7 +13,26 @@ GRANT user_group_1 TO anonymous;  /*Grant Public user group to anonymous*/
 
 /*base schema*/
 GRANT USAGE ON SCHEMA base TO anonymous;
-GRANT SELECT ON ALL TABLES IN SCHEMA base TO anonymous;
+GRANT SELECT ON base.user TO anonymous;
+GRANT SELECT ON base.user_group TO anonymous;
+GRANT SELECT ON base.user_group_membership TO anonymous;
+GRANT SELECT ON base.data_source_type TO anonymous;
+GRANT SELECT ON base.data_source TO anonymous;
+GRANT SELECT ON base.indicator_type TO anonymous;
+GRANT SELECT ON base.indicator_group TO anonymous;
+GRANT SELECT ON base.indicator TO anonymous;
+GRANT SELECT ON base.parameter_type TO anonymous;
+GRANT SELECT ON base.parameter TO anonymous;
+GRANT SELECT ON base.batch TO anonymous;
+GRANT SELECT ON base.session TO anonymous;
+GRANT SELECT ON base.session_result TO anonymous;
+GRANT SELECT ON base.log TO anonymous;
+
+/*Dashboard views*/
+GRANT SELECT ON base.batch_status TO anonymous;
+GRANT SELECT ON base.batch_statistics TO anonymous;
+GRANT SELECT ON base.session_status TO anonymous;
+GRANT SELECT ON base.session_statistics TO anonymous;
 
 
 
@@ -26,6 +45,8 @@ GRANT anonymous TO standard;
 
 /*base schema*/
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO standard;
+GRANT SELECT ON base.password TO standard;
+GRANT SELECT ON base.data_source_password TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator_group TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;

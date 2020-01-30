@@ -105,6 +105,8 @@
       <div class="col-6">
         <h1 class="mt-5">Executions History</h1>
         Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
+        
+        <!-- Chart -->
         <indicator-quality
           v-if="indicator.id"
           v-bind:height=150
@@ -112,9 +114,9 @@
           v-bind:sessions="sessions">
         </indicator-quality>
 
+        <!-- Session table -->
         <indicator-session
           v-if="indicator.id"
-          v-bind:indicatorId="indicator.id"
           v-bind:sessions="sessions">
         </indicator-session>
       </div>
