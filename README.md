@@ -62,18 +62,18 @@ $ docker run --rm mobydq-test-lint-python pylint scripts test
 
 ## Docker Images
 
-The containers run by `docker-compose` have dependencies with the following Docker images:
-
 -   [postgres](https://hub.docker.com/_/postgres/) (tag: 11.0-alpine)
--   [graphile/postgraphile](https://hub.docker.com/r/graphile/postgraphile/) (tag: latest)
 -   [python](https://hub.docker.com/_/python/) (tag: 3.6.6-slim-stretch)
 -   [nginx](https://hub.docker.com/_/nginx/) (tag: latest)
 
 ## Python Packages
 
--   [docker](https://docker-py.readthedocs.io) (3.5.0)
 -   [jinja2](http://jinja.pocoo.org) (2.10.1)
 -   [numpy](http://www.numpy.org) (1.14.0)
 -   [pandas](https://pandas.pydata.org) (0.23.0)
 -   [pyodbc](https://github.com/mkleehammer/pyodbc) (4.0.23)
 -   [requests](http://docs.python-requests.org) (2.20.0)
+
+## JavaScript Packages
+
+-   To be documented
