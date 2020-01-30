@@ -55,7 +55,7 @@ class Batch:
                     custom_handler = root_log.handlers[1]
                     root_log.removeHandler(custom_handler)
                     root_log.addHandler(utils.CustomLogHandler(authorization, batch_id=batch_id, session_id=session['id']))
-                    
+
                     # For each session execute indicator type method
                     module_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['module']
                     class_name = session['indicatorByIndicatorId']['indicatorTypeByIndicatorTypeId']['class']

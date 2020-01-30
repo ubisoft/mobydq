@@ -10,6 +10,7 @@ import logging
 import os
 import requests
 import smtplib
+import traceback
 
 
 # Load logging configuration
@@ -38,7 +39,7 @@ class CustomLogHandler(logging.Handler):
         mutation = mutation.replace('log_message', log_message)  # Use replace() instead of format() because of curly braces
 
         # Add foreign keys to log record
-        foreign_keys=''
+        foreign_keys = ''
         if self.batch_id != None:
             foreign_keys = ',batchId:{}'.format(self.batch_id)
         if self.session_id != None:
@@ -139,7 +140,13 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
         connection.login(config['sender'], config['password'])
 
     # Send email
-    connection.sendmail(email['From'], email['To'], email.as_string())
+    try:
+        connection.sendmail(email['From'], email['To'], email.as_string())
+
+    except Exception: # pylint: disable=broad-except
+        error_message = traceback.format_exc()
+        log.error(error_message)
+
     connection.quit()
 
     return True

@@ -15,9 +15,6 @@ log = logging.getLogger(__name__)
 class Indicator:
     """Base class used to compute indicators, regardless of their type."""
 
-    def __init__(self):
-        pass
-
     def verify_indicator_parameters(self, authorization: str, indicator_type_id: int, parameters: List[dict]):
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
 

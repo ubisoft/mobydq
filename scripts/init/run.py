@@ -28,7 +28,7 @@ if __name__ == '__main__':
         # Customize logger to send logs to GraphQL API when executing a batch
         root_log = logging.getLogger()
         root_log.addHandler(CustomLogHandler(authorization, batch_id=batch_id))
- 
+
         batch = Batch()
         batch.execute(authorization, batch_id)
 

@@ -11,9 +11,6 @@ log = logging.getLogger(__name__)
 class Completeness(Indicator):
     """Class used to compute indicators of type completeness."""
 
-    def __init__(self):
-        pass
-
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type completeness."""
 

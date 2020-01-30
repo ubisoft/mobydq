@@ -11,9 +11,6 @@ log = logging.getLogger(__name__)
 class Validity(Indicator):
     """Class used to compute indicators of type validity."""
 
-    def __init__(self):
-        pass
-
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type validity."""
 
