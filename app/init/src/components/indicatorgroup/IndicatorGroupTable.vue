@@ -23,6 +23,9 @@
             <router-link v-if="showEditIndicatorGroup" class="badge badge-secondary" v-bind:to="'/indicatorgroups/' + indicatorGroup.id">
               Edit
             </router-link>
+            <span v-if="showEditIndicatorGroup" class="badge badge-secondary ml-1" v-on:click="execute(indicatorGroup.id)">
+              Execute
+            </span>
           </td>
         </tr>
       </tbody>
@@ -31,9 +34,11 @@
 </template>
 
 <script>
+import Mixins from "../utils/Mixins.vue";
 import TableSort from "../utils/TableSort.vue";
 
 export default {
+  mixins: [Mixins],
   components: {
     "table-sort": TableSort
   },
@@ -50,6 +55,31 @@ export default {
   methods: {
     setSortAttribute(attribute) {
       this.$emit("sortAttribute", attribute);
+    },
+    execute(indicatorGroupId){
+      let payload = {
+        query: this.$store.state.mutationExecuteIndicatorGroup,
+        variables: {
+          indicatorGroupId: indicatorGroupId
+        }
+      };
+      let headers = {};
+      if (this.$session.exists()) {
+        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+      }
+      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+        function(response) {
+          if (response.data.errors) {
+            this.displayError(response);
+          } else {
+            //this.$emit("executedIndicatorGroup", ...);  // Send test status to parent component
+          }
+        },
+        // Error callback
+        function(response) {
+          this.displayError(response);
+        }
+      );
     }
   }
 };

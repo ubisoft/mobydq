@@ -3,6 +3,7 @@ export const queryGetAllIndicators = `query getAllIndicators($first: Int, $offse
         nodes {
             id
             name
+            indicatorGroupId
             indicatorTypeByIndicatorTypeId { name }
             indicatorGroupByIndicatorGroupId { name }
             flagActive
@@ -82,6 +83,7 @@ export const mutationSearchIndicator = `mutation searchIndicator($searchKeyword:
         indicators {
             id
             name
+            indicatorGroupId
             indicatorTypeByIndicatorTypeId { name }
             indicatorGroupByIndicatorGroupId { name }
             flagActive
