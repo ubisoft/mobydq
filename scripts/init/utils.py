@@ -40,11 +40,11 @@ class CustomLogHandler(logging.Handler):
 
         # Add foreign keys to log record
         foreign_keys = ''
-        if self.batch_id != None:
+        if self.batch_id is not None:
             foreign_keys = ',batchId:{}'.format(self.batch_id)
-        if self.session_id != None:
+        if self.session_id is not None:
             foreign_keys = foreign_keys + ',sessionId:{}'.format(self.session_id)
-        if self.data_source_id != None:
+        if self.data_source_id is not None:
             foreign_keys = foreign_keys + ',dataSourceId:{}'.format(self.data_source_id)
 
         mutation = mutation.replace('foreign_keys', foreign_keys)  # Use replace() instead of format() because of curly braces
