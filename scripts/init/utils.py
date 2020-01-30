@@ -48,7 +48,6 @@ class CustomLogHandler(logging.Handler):
 
         mutation = mutation.replace('foreign_keys', foreign_keys)  # Use replace() instead of format() because of curly braces
         mutation = {'query': mutation}  # Convert to dictionary
-        print(mutation)
         execute_graphql_request(self.authorization, mutation)
 
 def get_parameter(section: str, parameter_name: str = None):

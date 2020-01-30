@@ -120,3 +120,15 @@ export const queryGetIndicatorSessions = `query getAllSessions($indicatorId: Int
         }
     }
 }`;
+
+export const queryGetIndicatorSessionLog = `query getIndicatorSessionLog($sessionId: Int, $orderBy: [LogsOrderBy!]){
+    allLogs(condition: {sessionId: $sessionId}, orderBy: $orderBy) {
+        nodes {
+            id
+            createdDate
+            fileName
+            logLevel
+            message
+        }
+    }
+}`;

@@ -90,6 +90,7 @@ export const store = new Vuex.Store({
     mutationSearchIndicator: IndicatorPayload.mutationSearchIndicator,
     mutationExecuteIndicator: IndicatorPayload.mutationExecuteIndicator,
     queryGetIndicatorSessions: IndicatorPayload.queryGetIndicatorSessions,
+    queryGetIndicatorSessionLog: IndicatorPayload.queryGetIndicatorSessionLog,
 
     //Indicator types queries and mutations
     queryGetIndicatorTypes: IndicatorTypePayload.queryGetIndicatorTypes, // Data for indicator types drodpdown in indicator form

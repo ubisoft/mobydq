@@ -114,6 +114,7 @@
 
         <indicator-session
           v-if="indicator.id"
+          v-bind:indicatorId="indicator.id"
           v-bind:sessions="sessions">
         </indicator-session>
       </div>
