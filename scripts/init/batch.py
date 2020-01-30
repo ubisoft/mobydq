@@ -67,7 +67,7 @@ class Batch:
 
                     # Update session status
                     session_id = session['id']
-                    Session.update_session_status(authorization, session_id, 'Failed')
+                    Session().update_session_status(authorization, session_id, 'Failed')
 
                     # Get error context and send error e-mail
                     indicator_id = session['indicatorId']

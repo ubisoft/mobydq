@@ -46,11 +46,16 @@ class TestSession(unittest.TestCase):
         session_id = session['data']['createSession']['session']['id']
 
         # Update test session status
-        data = Session.update_session_status(authorization, session_id, 'Running')
+        data = Session().update_session_status(authorization, session_id, 'Running')
         session_status = data['data']['updateSessionById']['session']['status']
 
         # Assert batch status is Running
         self.assertEqual(session_status, 'Running')
+
+    # def test_compute_session_result(self):
+        # """Unit tests for method compute_session_result."""
+        # TODO:
+        # pass
 
 
 if __name__ == '__main__':

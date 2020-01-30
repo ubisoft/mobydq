@@ -296,11 +296,6 @@ class TestIndicator(unittest.TestCase):
         self.assertTrue(smaller_equal)
         self.assertTrue(different)
 
-    # def test_compute_session_result(self):
-        # """Unit tests for method compute_session_result."""
-        # TODO:
-        # pass
-
 
 if __name__ == '__main__':
     unittest.main()

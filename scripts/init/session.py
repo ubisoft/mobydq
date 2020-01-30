@@ -21,7 +21,7 @@ class Session:
 
         return data
 
-    def compute_session_result(self, authorization: str, session_id: int, user_group_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
+    def compute_session_result(self, authorization: str, session_id: int, alert_operator: str, alert_threshold: str, result_data: pandas.DataFrame):
         """Compute aggregated results for the indicator session."""
 
         log.info('Compute session results.')
