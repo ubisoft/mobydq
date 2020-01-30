@@ -1,7 +1,6 @@
 """Entrypoint to execute python scripts."""
 import argparse
 import logging
-import sys
 from batch import Batch
 from data_source import DataSource
 from utils import CustomLogHandler

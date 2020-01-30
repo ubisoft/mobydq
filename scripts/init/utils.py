@@ -27,10 +27,10 @@ class CustomLogHandler(logging.Handler):
         self.session_id = session_id
         self.data_source_id = data_source_id
 
-    def emit(self, log_record):
-        file_name = log_record.name
-        log_level = log_record.levelname
-        log_message = json.dumps(log_record.message)  # Sanitize log message for http request
+    def emit(self, record):
+        file_name = record.name
+        log_level = record.levelname
+        log_message = json.dumps(record.message)  # Sanitize log message for http request
 
         # Build mutation payload
         mutation = 'mutation{createLog(input:{log:{fileName:"file_name",logLevel:"log_level",message:log_message foreign_keys}}){log{id}}}'
