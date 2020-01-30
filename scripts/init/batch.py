@@ -17,9 +17,6 @@ log = logging.getLogger(__name__)
 class Batch:
     """Batch class."""
 
-    def __init__(self):
-        pass
-
     def update_batch_status(self, authorization: str, batch_id: int, batch_status: str):
         """Update a batch status."""
 
