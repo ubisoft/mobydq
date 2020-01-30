@@ -261,6 +261,7 @@ class TestIndicator(unittest.TestCase):
         mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_data_source = {'query': mutation_create_data_source}  # Convert to dictionary
         data_source = utils.execute_graphql_request(authorization, mutation_create_data_source)
+        print(data_source)
         data_source = data_source['data']['createDataSource']['dataSource']['name']
 
         # Set parameters and call method
@@ -294,11 +295,6 @@ class TestIndicator(unittest.TestCase):
         self.assertTrue(smaller)
         self.assertTrue(smaller_equal)
         self.assertTrue(different)
-
-    # def test_compute_session_result(self):
-        # """Unit tests for method compute_session_result."""
-        # TODO:
-        # pass
 
 
 if __name__ == '__main__':

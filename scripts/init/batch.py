@@ -8,7 +8,7 @@ import freshness  # Called dynamically with getattr pylint: disable=W0611
 import latency  # Called dynamically with getattr pylint: disable=W0611
 import validity  # Called dynamically with getattr pylint: disable=W0611
 import utils
-from session import update_session_status
+from session import Session
 
 # Load logging configuration
 log = logging.getLogger(__name__)
@@ -16,9 +16,6 @@ log = logging.getLogger(__name__)
 
 class Batch:
     """Batch class."""
-
-    def __init__(self):
-        pass
 
     def update_batch_status(self, authorization: str, batch_id: int, batch_status: str):
         """Update a batch status."""
@@ -70,7 +67,7 @@ class Batch:
 
                     # Update session status
                     session_id = session['id']
-                    update_session_status(authorization, session_id, 'Failed')
+                    Session().update_session_status(authorization, session_id, 'Failed')
 
                     # Get error context and send error e-mail
                     indicator_id = session['indicatorId']

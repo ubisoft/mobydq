@@ -51,9 +51,8 @@ export default {
 
     // Create data array
     this.data.datasets[0]['data'] = this.sessions.map(function(session) {
-      if (session.sessionResultsBySessionId.nodes[0]) {
-        let results = session.sessionResultsBySessionId.nodes[0];
-        return Math.round((results.nbRecordsNoAlert/results.nbRecords)*100);
+      if (session.nbRecords>0) {
+        return Math.round((session.nbRecordsNoAlert/session.nbRecords)*100);
       } else {
         return 0;
       }
