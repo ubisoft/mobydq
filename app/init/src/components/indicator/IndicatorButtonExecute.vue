@@ -22,7 +22,7 @@ export default {
   computed: {
     show() {
       let roles = ["standard", "advanced", "admin"];
-      return this.indicatorId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.indicatorId) && roles.includes(this.$store.state.currentUser.role);
     }
   },
   methods: {

@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     userId() {
-      return this.$route.params.userId.toString();
+      return parseInt(this.$route.params.userId.toString());
     },
     isReadOnly() {
       let roles = ["admin"];
@@ -155,7 +155,7 @@ export default {
   },
   created: function() {
     // If userId != new then get data for existing user
-    if (this.userId != "new") {
+    if (Number.isInteger(this.userId)) {
       let payload = {
         query: this.$store.state.queryGetUser,
         variables: {
