@@ -10,7 +10,7 @@ COPY ./init/drivers ./drivers
 
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
-    && apt-get install -y g++ unixodbc-dev
+    && apt-get install -y g++ unixodbc unixodbc-dev
 
 # Add Cloudera Hive ODBC driver
 RUN dpkg -i ./drivers/clouderahiveodbc_2.5.25.1020-2_amd64.deb
@@ -25,6 +25,9 @@ RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.g
 
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
+
+# Add Snowflake ODBC driver
+RUN dpkg -i ./drivers/snowflake-odbc-2.20.4.x86_64.deb
 
 # Add Teradata ODBC driver
 RUN apt-get install -y lib32stdc++6 \
