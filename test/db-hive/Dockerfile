@@ -4,7 +4,7 @@ FROM cloudera/quickstart:latest
 ARG PROJECT_DIR=/srv/db-hive
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
-COPY ./test/db-hive/init/ ./
+COPY ./init/ ./
 
 # Grant permissions for scripts to be executable
 RUN chmod +x $PROJECT_DIR/entrypoint.sh
