@@ -20,7 +20,7 @@ CREATE TABLE base.configuration (
 );
 
 COMMENT ON TABLE base.configuration IS
-'Table to store application configuration parameters.';
+E'@omit\nTable to store application configuration parameters.';
 
 
 
@@ -41,7 +41,7 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.get_current_user_id IS
-'Function used to get Id of the current user based on his database user role.';
+E'@omit\nFunction used to get Id of the current user based on his database user role.';
 
 
 
