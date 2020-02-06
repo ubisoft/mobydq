@@ -86,7 +86,7 @@ AS SELECT id, PGP_SYM_DECRYPT(password::bytea, (SELECT value FROM base.configura
 FROM base.data_source;
 
 COMMENT ON VIEW base.data_source_password IS
-'View used to decrypt the password of a data source.';
+E'@omit create\nView used to decrypt the password of a data source.';
 
 
 
