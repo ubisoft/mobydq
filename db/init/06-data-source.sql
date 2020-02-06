@@ -104,7 +104,7 @@ BEGIN
     RETURNING * INTO data_source;
     RETURN data_source;
 END;
-$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
 
 COMMENT ON FUNCTION base.test_data_source IS
 'Function used to test connectivity to a data source.';
