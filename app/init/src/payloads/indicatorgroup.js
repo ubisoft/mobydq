@@ -54,7 +54,7 @@ export const mutationSearchIndicatorGroup = `mutation searchIndicatorGroup($sear
     }
 }`;
 
-export const mutationExecuteIndicatorGroup = `mutation executeBatch($indicatorGroupId: Int) {
+export const mutationExecuteIndicatorGroup = `mutation executeBatch($indicatorGroupId: Int!) {
     executeBatch(input: {indicatorGroupId: $indicatorGroupId}) {
         batch {
             id

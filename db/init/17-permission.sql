@@ -53,6 +53,8 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.batch TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.log TO standard;
+GRANT EXECUTE ON FUNCTION base.test_data_source TO standard;
+GRANT EXECUTE ON FUNCTION base.execute_batch TO standard;
 
 
 

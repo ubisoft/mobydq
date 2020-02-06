@@ -86,7 +86,7 @@ AS SELECT id, PGP_SYM_DECRYPT(password::bytea, (SELECT value FROM base.configura
 FROM base.data_source;
 
 COMMENT ON VIEW base.data_source_password IS
-'View used to decrypt the password of a data source.';
+E'@omit create\nView used to decrypt the password of a data source.';
 
 
 
@@ -104,7 +104,9 @@ BEGIN
     RETURNING * INTO data_source;
     RETURN data_source;
 END;
-$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
 
 COMMENT ON FUNCTION base.test_data_source IS
 'Function used to test connectivity to a data source.';
+
+REVOKE ALL ON FUNCTION base.test_data_source FROM PUBLIC;
