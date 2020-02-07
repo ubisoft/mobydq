@@ -12,19 +12,9 @@ export default {
       // Reset current user
       let currentUser = {
         isAuthenticated: false,
-        role: "anonymous",
-        userGroups: [
-          {
-            id: 0,
-            name: ""
-          }
-        ],
-        selectedUserGroup: {
-          id: 0,
-          name: ""
-        }
+        role: "anonymous"
       };
-      this.$store.state.currentUser = currentUser;
+      this.$store.commit("setCurrentUser", currentUser);
       this.$router.push({
         name: "home"
       });
