@@ -107,7 +107,7 @@ export const store = new Vuex.Store({
     mutationSearchSession: SessionPayload.mutationSearchSession
   },
   mutations: {
-    errorObject(state, errorObject) {
+    setErrorObject(state, errorObject) {
       state.errorObject = errorObject;
     },
     setCurrentUser(state, currentUser) {
