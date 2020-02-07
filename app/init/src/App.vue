@@ -34,22 +34,26 @@ export default {
     "sidebar": Sidebar
   },
   computed: {
-    currentUser() {
+    setCurrentUser() {
       // Set current user in store to manage UI display based on permissions
+      // This also ensure user is not disconnected when refreshing the page
+      let currentUser = {};
       if (this.$session.exists()) {
-        this.$store.state.currentUser.isAuthenticated = true;
-        this.$store.state.currentUser.role = this.$session.get("role");
-        this.$store.state.currentUser.userGroups = this.$session.get("userGroups");
-        this.$store.state.currentUser.selectedUserGroup = this.$session.get("selectedUserGroup");
+        currentUser = {
+          isAuthenticated: true,
+          role: this.$session.get("role"),
+        };
       } else {
-        this.$store.state.currentUser.isAuthenticated = false;
-        this.$store.state.currentUser.role = "anonymous";
+        currentUser = {
+          isAuthenticated: false,
+          role: "anonymous",
+        };
       }
-      return this.$store.state.currentUser;
+      this.$store.commit("setCurrentUser", currentUser);
     }
   },
   created() {
-    this.currentUser; // Trigger get user session on page refresh
+    this.setCurrentUser();
   }
 };
 </script>
