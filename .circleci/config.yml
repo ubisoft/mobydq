@@ -27,7 +27,7 @@ jobs:
                   name: Build Docker images
                   when: always
                   command: |
-                      docker-compose -f docker-compose.yml -f docker-compose.test.yml build
+                      docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server
                       docker images
 
             - run:
