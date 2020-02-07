@@ -56,11 +56,8 @@
 </template>
 
 <script>
-import TableSort from "../utils/TableSort.vue";
-
 export default {
   components: {
-    "table-sort": TableSort
   },
   props: {
     sessions: Array
