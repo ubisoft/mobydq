@@ -59,6 +59,7 @@ COMMENT ON VIEW base.batch_statistics IS
 CREATE OR REPLACE VIEW base.session_status
 AS SELECT a.id
   , a.batch_id
+  , a.indicator_id
   , b.name AS indicator
   , c.name AS indicator_group
   , a.status

@@ -1,34 +1,35 @@
 <template>
   <div class="col">
     <h1 class="mt-5">Dashboard</h1>
-      <div class="row"> 
-         
-        <div class="doughnut">
-          <nb-indicators
-            v-if="nbIndicatorsActive + nbIndicatorsInactive"
-            v-bind:nbIndicators="[nbIndicatorsActive, nbIndicatorsInactive]"
-            v-bind:nbIndicatorsPerType="[nbIndicatorsCompleteness, nbIndicatorsFreshness, nbIndicatorsLatency, nbIndicatorsValidity]"
-            v-bind:height=250
-            v-bind:width=500>
-          </nb-indicators>
-          
-          <div v-if="nbIndicators" class="nbindicators">
-            <h1>{{ nbIndicators }}</h1>
-          </div>
-        </div>
-        
-        <div class="timeserie">
-          <nb-sessions
-            v-if="rawSessions.length > 0 && sessionLabelsAlias.length > 0 && sessionLabels.length > 0 && sessions.length > 0"
-            v-bind:rawSessions="rawSessions"
-            v-bind:sessionLabelsAlias="sessionLabelsAlias"
-            v-bind:sessionLabels="sessionLabels"
-            v-bind:sessions="sessions"
-            v-bind:height=250
-            v-bind:width=1000>
-          </nb-sessions>
+    <div class="row">
+      <div class="doughnut">
+        <nb-indicators
+          v-if="nbIndicatorsActive + nbIndicatorsInactive"
+          v-bind:nbIndicators="[nbIndicatorsActive, nbIndicatorsInactive]"
+          v-bind:nbIndicatorsPerType="[nbIndicatorsCompleteness, nbIndicatorsFreshness, nbIndicatorsLatency, nbIndicatorsValidity]"
+          v-bind:height="250"
+          v-bind:width="500"
+        >
+        </nb-indicators>
+
+        <div v-if="nbIndicators" class="nbindicators">
+          <h1>{{ nbIndicators }}</h1>
         </div>
       </div>
+
+      <div class="timeserie">
+        <nb-sessions
+          v-if="rawSessions.length > 0 && sessionLabelsAlias.length > 0 && sessionLabels.length > 0 && sessions.length > 0"
+          v-bind:rawSessions="rawSessions"
+          v-bind:sessionLabelsAlias="sessionLabelsAlias"
+          v-bind:sessionLabels="sessionLabels"
+          v-bind:sessions="sessions"
+          v-bind:height="250"
+          v-bind:width="1000"
+        >
+        </nb-sessions>
+      </div>
+    </div>
 
     <h1 class="mt-5">Sessions</h1>
     <session-search></session-search>
@@ -63,15 +64,15 @@ export default {
       sessionLabelsAlias: [],
       sessions: [],
       tooltips: []
-    }
+    };
   },
   created: function() {
     // Get number of indicators
     this.getIndicators();
-    
+
     // Get sessions
     var date = new Date();
-    date.setDate(date.getDate()-7);
+    date.setDate(date.getDate() - 7);
     date.toISOString();
     this.getSessions(date);
   },
@@ -96,7 +97,7 @@ export default {
             for (let i = 0; i < this.rawIndicators.length; i++) {
               // Total number of indicators
               this.nbIndicators = this.nbIndicators + parseInt(this.rawIndicators[i].nbIndicators);
-              
+
               // Number of active / inactive indicators
               if (this.rawIndicators[i].flagActive) {
                 this.nbIndicatorsActive = this.nbIndicatorsActive + parseInt(this.rawIndicators[i].nbIndicators);
@@ -143,10 +144,11 @@ export default {
             // Get list of sessions
             this.rawSessions = response.data.data.allSessionStatuses.nodes;
 
+            // Prepare data for visualization
             for (let i = 0; i < this.rawSessions.length; i++) {
               this.sessionLabels.push(this.rawSessions[i].id);
-              this.sessionLabelsAlias.push(this.rawSessions[i].createdDate);
-              this.sessions.push({ x: this.rawSessions[i].id, y: Math.round(this.rawSessions[i].qualityLevel*100), r: 5 });
+              this.sessions.push({ x: this.rawSessions[i].id, y: Math.round(this.rawSessions[i].qualityLevel * 100) });
+              this.sessionLabelsAlias.push(this.rawSessions[i].createdDate.substring(0, 19));
             }
           }
         },
