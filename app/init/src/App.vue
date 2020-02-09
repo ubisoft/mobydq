@@ -50,10 +50,11 @@ export default {
         };
       }
       this.$store.commit("setCurrentUser", currentUser);
+      return currentUser;
     }
   },
   created() {
-    this.setCurrentUser();
+    this.setCurrentUser;
   }
 };
 </script>

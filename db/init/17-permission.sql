@@ -28,6 +28,7 @@ GRANT SELECT ON base.session TO anonymous;
 GRANT SELECT ON base.log TO anonymous;
 
 /*Dashboard views*/
+GRANT SELECT ON base.nb_indicators TO anonymous;
 GRANT SELECT ON base.batch_status TO anonymous;
 GRANT SELECT ON base.batch_statistics TO anonymous;
 GRANT SELECT ON base.session_status TO anonymous;

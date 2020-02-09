@@ -11,6 +11,7 @@ import * as IndicatorTypePayload from "./payloads/indicatortype";
 import * as LogPayload from "./payloads/log";
 import * as ParameterPayload from "./payloads/parameter";
 import * as SessionPayload from "./payloads/session";
+import * as DashboardPayload from "./payloads/dashboard";
 
 Vue.use(Vuex);
 
@@ -104,7 +105,11 @@ export const store = new Vuex.Store({
 
     //Sessions queries
     queryGetAllSessions: SessionPayload.queryGetAllSessions,
-    mutationSearchSession: SessionPayload.mutationSearchSession
+    mutationSearchSession: SessionPayload.mutationSearchSession,
+
+    //Dashboard queries
+    queryGetNbIndicators: DashboardPayload.queryGetNbIndicators,
+    queryGetLastSessions: DashboardPayload.queryGetLastSessions
   },
   mutations: {
     setErrorObject(state, errorObject) {

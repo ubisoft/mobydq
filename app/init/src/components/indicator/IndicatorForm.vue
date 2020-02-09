@@ -92,7 +92,7 @@
               <!-- Button Menu -->
               <div class="mt-3">
                 <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
-                <indicator-button-execute v-bind:indicatorId="indicatorId" v-bind:indicatorGroupId="indicator.indicatorGroupId"> </indicator-button-execute>
+                <indicator-button-execute v-bind:indicatorId="indicatorId" v-bind:indicatorGroupId="indicator.indicatorGroupId" v-bind:flagActive="indicator.flagActive"> </indicator-button-execute>
                 <indicator-button-duplicate v-bind:indicatorId="indicatorId"> </indicator-button-duplicate>
                 <indicator-button-close> </indicator-button-close>
                 <indicator-button-delete v-bind:indicatorId="indicatorId"> </indicator-button-delete>
@@ -118,6 +118,7 @@
         <!-- Session table -->
         <indicator-session
           v-if="indicator.id"
+          v-bind:indicatorId="indicatorId"
           v-bind:sessions="sessions">
         </indicator-session>
       </div>

@@ -44,7 +44,7 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            this.connectivityTestStatus = response.data[1]['data']['dataSourceById'];
+            this.connectivityTestStatus = response.data.data.testDataSource.dataSource;
             this.connectivityTestStatus['spinner'] = false;
             this.$emit("connectivityTestStatus", this.connectivityTestStatus);  // Send test results to parent component
           }

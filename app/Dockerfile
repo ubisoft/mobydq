@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:alpine
 
 # Project files
 ARG PROJECT_DIR=/srv/app
