@@ -2,13 +2,12 @@
   <div class="col">
     <h1 class="mt-5">Dashboard</h1>
     <div class="row">
-      <div class="doughnut">
+      <div class="doughnut" v-if="nbIndicators > 0">
         <nb-indicators
-          v-if="nbIndicatorsActive + nbIndicatorsInactive"
           v-bind:nbIndicators="[nbIndicatorsActive, nbIndicatorsInactive]"
           v-bind:nbIndicatorsPerType="[nbIndicatorsCompleteness, nbIndicatorsFreshness, nbIndicatorsLatency, nbIndicatorsValidity]"
-          v-bind:height="250"
           v-bind:width="500"
+          v-bind:height="250"
         >
         </nb-indicators>
 
@@ -17,15 +16,16 @@
         </div>
       </div>
 
-      <div class="timeserie">
+      <div class="timeserie" v-if="sessionsLabels.length > 0">
         <nb-sessions
-          v-if="rawSessions.length > 0 && sessionLabelsAlias.length > 0 && sessionLabels.length > 0 && sessions.length > 0"
+          v-bind:sessionsLabels="sessionsLabels"
+          v-bind:sessionsCompleteness="sessionsCompleteness"
+          v-bind:sessionsFreshness="sessionsFreshness"
+          v-bind:sessionsLatency="sessionsLatency"
+          v-bind:sessionsValidity="sessionsValidity"
           v-bind:rawSessions="rawSessions"
-          v-bind:sessionLabelsAlias="sessionLabelsAlias"
-          v-bind:sessionLabels="sessionLabels"
-          v-bind:sessions="sessions"
-          v-bind:height="250"
           v-bind:width="1000"
+          v-bind:height="300"
         >
         </nb-sessions>
       </div>
@@ -60,10 +60,11 @@ export default {
       nbIndicatorsLatency: 0,
       nbIndicatorsValidity: 0,
       rawSessions: [],
-      sessionLabels: [],
-      sessionLabelsAlias: [],
-      sessions: [],
-      tooltips: []
+      sessionsLabels: [],
+      sessionsCompleteness: [],
+      sessionsFreshness: [],
+      sessionsLatency: [],
+      sessionsValidity: []
     };
   },
   created: function() {
@@ -95,9 +96,6 @@ export default {
             this.rawIndicators = response.data.data.allNbIndicators.nodes;
 
             for (let i = 0; i < this.rawIndicators.length; i++) {
-              // Total number of indicators
-              this.nbIndicators = this.nbIndicators + parseInt(this.rawIndicators[i].nbIndicators);
-
               // Number of active / inactive indicators
               if (this.rawIndicators[i].flagActive) {
                 this.nbIndicatorsActive = this.nbIndicatorsActive + parseInt(this.rawIndicators[i].nbIndicators);
@@ -115,6 +113,9 @@ export default {
               } else if (this.rawIndicators[i].indicatorType == "Validity") {
                 this.nbIndicatorsValidity = this.nbIndicatorsValidity + parseInt(this.rawIndicators[i].nbIndicators);
               }
+
+              // Total number of indicators
+              this.nbIndicators = this.nbIndicators + parseInt(this.rawIndicators[i].nbIndicators);
             }
           }
         },
@@ -145,10 +146,35 @@ export default {
             this.rawSessions = response.data.data.allSessionStatuses.nodes;
 
             // Prepare data for visualization
-            for (let i = 0; i < this.rawSessions.length; i++) {
-              this.sessionLabels.push(this.rawSessions[i].id);
-              this.sessions.push({ x: this.rawSessions[i].id, y: Math.round(this.rawSessions[i].qualityLevel * 100) });
-              this.sessionLabelsAlias.push(this.rawSessions[i].createdDate.substring(0, 19));
+            if (this.rawSessions.length > 0) {
+              for (let i = 0; i < this.rawSessions.length; i++) {
+                // Labels
+                let sessionDate = new Date(this.rawSessions[i].createdDate.substring(0, 19));
+                if (!this.sessionsLabels.includes(sessionDate)) {
+                  this.sessionsLabels.push(sessionDate);
+                }
+
+                // Data point
+                let dataPoint = {
+                  x: sessionDate,
+                  y: Math.round(this.rawSessions[i].qualityLevel * 100),
+                  sessionId: this.rawSessions[i].id,
+                  indicator: this.rawSessions[i].indicator,
+                  createdDate: this.rawSessions[i].createdDate,
+                  status: this.rawSessions[i].status,
+                }
+                if (this.rawSessions[i].indicatorType == "Completeness") {
+                  this.sessionsCompleteness.push(dataPoint);
+                } else if (this.rawSessions[i].indicatorType == "Freshness") {
+                  this.sessionsFreshness.push(dataPoint);
+                } else if (this.rawSessions[i].indicatorType == "Latency") {
+                  this.sessionsLatency.push(dataPoint);
+                } else if (this.rawSessions[i].indicatorType == "Validity") {
+                  this.sessionsValidity.push(dataPoint);
+                }
+              }
+            } else {
+              this.sessionsLabels.push(Date.now());
             }
           }
         },
@@ -179,6 +205,6 @@ export default {
 .timeserie {
   display: block;
   width: 1000px;
-  height: 250px;
+  height: 300px;
 }
 </style>

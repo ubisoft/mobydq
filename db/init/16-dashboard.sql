@@ -61,7 +61,7 @@ AS SELECT a.id
   , a.batch_id
   , a.indicator_id
   , b.name AS indicator
-  , c.name AS indicator_group
+  , c.name AS indicator_type
   , a.status
   , a.created_date
   , a.updated_date
@@ -70,11 +70,11 @@ AS SELECT a.id
      DATE_PART('minute', a.updated_date::timestamp - a.created_date::timestamp) AS duration_minutes
   , a.updated_date::timestamp - a.created_date::timestamp AS duration
   , CASE WHEN a.nb_records IS NOT NULL
-    THEN a.nb_records_no_alert / a.nb_records
+    THEN a.nb_records_no_alert / CAST(a.nb_records AS DECIMAL)
     ELSE 0 END AS quality_level
 FROM base.session a
 INNER JOIN base.indicator b ON a.indicator_id=b.id
-INNER JOIN base.indicator_group c ON b.indicator_group_id=c.id;
+INNER JOIN base.indicator_type c ON b.indicator_type_id=c.id;
 
 COMMENT ON VIEW base.session_status IS
 'View used to get session status summary.';

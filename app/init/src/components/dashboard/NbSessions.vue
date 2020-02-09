@@ -1,24 +1,40 @@
 <script>
-import { Bubble, mixins } from 'vue-chartjs';
-const { reactiveProp, reactiveData } = mixins
+import { Bubble } from 'vue-chartjs';
 
 export default {
   extends: Bubble,
   props: {
-    rawSessions: Array,
-    sessionLabelsAlias: Array,
-    sessionLabels: Array,
-    sessions: Array
+    sessionsLabels: Array,
+    sessionsCompleteness: Array,
+    sessionsFreshness: Array,
+    sessionsLatency: Array,
+    sessionsValidity: Array,
+    rawSessions: Array
   },
   data: function() {
     return {
       data: {
-        labels: this.sessionLabels,
+        labels: this.sessionsLabels,
         datasets: [
           {
-            label: 'Quality Level (%)',
+            label: 'Completeness',
             backgroundColor: "#42b983",
-            data: this.sessions
+            data: this.sessionsCompleteness
+          },
+          {
+            label: 'Freshness',
+            backgroundColor: "#36a2eb",
+            data: this.sessionsFreshness
+          },
+          {
+            label: 'Latency',
+            backgroundColor: "#ffcd56",
+            data: this.sessionsLatency
+          },
+          {
+            label: 'Validity',
+            backgroundColor: "#ff6384",
+            data: this.sessionsValidity
           }
         ]
       },
@@ -34,33 +50,25 @@ export default {
           displayColors: false,
           bodySpacing: 5,
           callbacks: {
-            title: function(tooltipItem, data) {
-              console.log(tooltipItem);
-              return " Session " + tooltipItem[0].xLabel;
-            },
             label: function(tooltipItem, data) {
               let tooltip = [];
-              tooltip.push(" Indicator: " + this.rawSessions[tooltipItem.index].indicator);
-              tooltip.push(" Created Date: " + this.rawSessions[tooltipItem.index].createdDate);
-              tooltip.push(" Quality Level (%): " + Math.round(this.rawSessions[tooltipItem.index].qualityLevel*100));
+              tooltip.push(" Session: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].sessionId);
+              tooltip.push(" Indicator: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].indicator);
+              tooltip.push(" Created Date: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].createdDate);
+              tooltip.push(" Status: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].status);
+              tooltip.push(" Quality Level (%): " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y);
               return tooltip;
             }.bind(this)
           }
         },
         legend: {
-          display: false
+          display: true,
+          position: "bottom"
         },
         scales: {
           xAxes: [{
+            type: "time",
             time: {
-              unit: 'day',
-              unitStepSize: 0.5,
-            },
-            ticks: {
-              callback: function(value, index, values) {
-                //return new Date(this.sessionLabelsAlias[index]);
-                return null;
-              }.bind(this)
             }
           }],
           yAxes: [{

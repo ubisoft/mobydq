@@ -44,7 +44,6 @@ export default {
         tooltips: {
           callbacks: {
             label: function (item, data) {
-              console.log(item)
               var label = data.datasets[item.datasetIndex].labels[item.index];
               var value = data.datasets[item.datasetIndex].data[item.index];
               return label + ': ' + value;

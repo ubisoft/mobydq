@@ -13,6 +13,7 @@ export const queryGetLastSessions = `query queryGetLastSessions($date: Datetime)
         nodes {
             id
             indicator
+            indicatorType
             status
             createdDate
             qualityLevel
