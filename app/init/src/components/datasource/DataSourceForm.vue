@@ -70,7 +70,7 @@
               v-bind:readonly="isReadOnly"
             />
           </div>
-          <div class="form-group">
+          <div v-if="dataSource.id" class="form-group">
               Connectivity Status:
               <span class="badge badge-pill" v-bind:class="cssClass(dataSource.connectivityStatus)" >
                   {{ dataSource.connectivityStatus }}
@@ -95,9 +95,9 @@
             <data-source-button-save v-bind:dataSource="dataSource" v-bind:showPasswordField="showPasswordField"> </data-source-button-save>
             <data-source-button-reset-password v-on:resetPassword="resetPassword" v-bind:dataSourceId="dataSourceId"> </data-source-button-reset-password>
             <data-source-button-test-connectivity v-on:connectivityTestStatus="connectivityTestStatus" v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
-            <data-source-button-log v-bind:dataSourceId="dataSource.id"> </data-source-button-log>
+            <data-source-button-log v-bind:dataSourceId="dataSourceId"> </data-source-button-log>
             <data-source-button-close> </data-source-button-close>
-            <data-source-button-delete v-if="dataSource.id" v-bind:dataSourceId="dataSource.id"> </data-source-button-delete>
+            <data-source-button-delete v-bind:dataSourceId="dataSourceId"> </data-source-button-delete>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@ export default {
   },
   computed: {
     dataSourceId() {
-      return this.$route.params.dataSourceId.toString();
+      return parseInt(this.$route.params.dataSourceId);
     },
     isReadOnly() {
       let roles = ["advanced", "admin"];
@@ -146,7 +146,7 @@ export default {
   },
   created: function() {
     // If dataSourceId != new then get data for existing data source
-    if (this.dataSourceId != "new") {
+    if (Number.isInteger(this.dataSourceId)) {
       let payload = {
         query: this.$store.state.queryGetDataSource,
         variables: {

@@ -24,7 +24,7 @@ export default {
   computed: {
     show() {
       let roles = ["advanced", "admin"];
-      return roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.dataSourceId) && roles.includes(this.$store.state.currentUser.role);
     }
   }
 };

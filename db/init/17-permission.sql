@@ -28,6 +28,7 @@ GRANT SELECT ON base.session TO anonymous;
 GRANT SELECT ON base.log TO anonymous;
 
 /*Dashboard views*/
+GRANT SELECT ON base.nb_indicators TO anonymous;
 GRANT SELECT ON base.batch_status TO anonymous;
 GRANT SELECT ON base.batch_statistics TO anonymous;
 GRANT SELECT ON base.session_status TO anonymous;
@@ -53,6 +54,8 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.batch TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.session TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.log TO standard;
+GRANT EXECUTE ON FUNCTION base.test_data_source TO standard;
+GRANT EXECUTE ON FUNCTION base.execute_batch TO standard;
 
 
 

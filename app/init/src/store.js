@@ -11,34 +11,29 @@ import * as IndicatorTypePayload from "./payloads/indicatortype";
 import * as LogPayload from "./payloads/log";
 import * as ParameterPayload from "./payloads/parameter";
 import * as SessionPayload from "./payloads/session";
+import * as DashboardPayload from "./payloads/dashboard";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
     graphqlUrl: "/graphql",
+
+    // Error message
     errorObject: {
       flag: false,
       message: ""
     },
 
+    // Session
+    currentUser: {
+      isAuthenticated: false, // Used to customize UI display
+      role: "anonymous" // Used to customize UI display
+    },
+
     // Authenticate user
     mutationAuthenticateUser: UserSession.mutationAuthenticateUser,
     queryGetCurrentUser: UserSession.queryGetCurrentUser,
-    currentUser: {
-      isAuthenticated: false, // Used to customize UI display
-      role: "anonymous", // Used to customize UI display
-      userGroups: [
-        {
-          id: 0,
-          name: ""
-        }
-      ],
-      selectedUserGroup: {
-        id: 0,
-        name: ""
-      }
-    },
 
     // Users queries and mutations
     queryGetAllUsers: UserPayload.queryGetAllUsers,
@@ -110,6 +105,18 @@ export const store = new Vuex.Store({
 
     //Sessions queries
     queryGetAllSessions: SessionPayload.queryGetAllSessions,
-    mutationSearchSession: SessionPayload.mutationSearchSession
+    mutationSearchSession: SessionPayload.mutationSearchSession,
+
+    //Dashboard queries
+    queryGetNbIndicators: DashboardPayload.queryGetNbIndicators,
+    queryGetLastSessions: DashboardPayload.queryGetLastSessions
+  },
+  mutations: {
+    setErrorObject(state, errorObject) {
+      state.errorObject = errorObject;
+    },
+    setCurrentUser(state, currentUser) {
+      state.currentUser = currentUser;
+    }
   }
 });

@@ -33,7 +33,7 @@ base.delete_children('session', 'batch_id');
 
 
 /*Create function to execute batch of indicators*/
-CREATE OR REPLACE FUNCTION base.execute_batch(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT NULL)
+CREATE OR REPLACE FUNCTION base.execute_batch(indicator_group_id INTEGER, indicator_id INTEGER ARRAY DEFAULT '{}')
 RETURNS base.batch AS $$
 #variable_conflict use_variable
 DECLARE
@@ -47,7 +47,7 @@ BEGIN
 
     -- Create pending session for each indicator
     /*TODO: replace placeholder of column user_group_id*/
-    IF indicator_id IS NOT NULL THEN
+    IF indicator_id <> '{}' THEN
         WITH indicator AS (
             SELECT a.id
             FROM base.indicator a
@@ -67,11 +67,13 @@ BEGIN
         ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
         SELECT 'Pending', indicator.id, batch.id, 1 FROM indicator;
     END IF;
-    -- Executions of indicators are triggered by the Flask API
+    -- Executions of indicators are triggered by the GraphQL API
     -- Return batch record
     RETURN batch;
 END;
-$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
 
 COMMENT ON FUNCTION base.execute_batch IS
 'Function used to execute a batch of indicators.';
+
+REVOKE ALL ON FUNCTION base.execute_batch FROM PUBLIC;

@@ -35,7 +35,7 @@ base.delete_children('batch', 'indicator_group_id');
 
 
 
-/*Create function to search data sources*/
+/*Create function to search indicator groups*/
 CREATE OR REPLACE FUNCTION base.search_indicator_group(search_keyword TEXT, sort_attribute TEXT, sort_order TEXT)
 RETURNS SETOF base.indicator_group AS $$
 BEGIN

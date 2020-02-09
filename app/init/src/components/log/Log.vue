@@ -18,13 +18,13 @@ export default {
   },
   computed: {
     batchId() {
-      return this.$route.params.batchId;
+      return parseInt(this.$route.params.batchId);
     },
     sessionId() {
-      return this.$route.params.sessionId;
+      return parseInt(this.$route.params.sessionId);
     },
     dataSourceId() {
-      return this.$route.params.dataSourceId;
+      return parseInt(this.$route.params.dataSourceId);
     },
   },
   methods: {
