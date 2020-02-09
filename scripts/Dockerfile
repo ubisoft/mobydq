@@ -31,7 +31,7 @@ RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.g
 # Install PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
 
-# Add Snowflake ODBC driver
+# Install Snowflake ODBC driver
 RUN dpkg -i ./drivers/snowflake-odbc-2.20.4.x86_64.deb
 
 # Install Teradata ODBC driver
