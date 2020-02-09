@@ -19,7 +19,7 @@ Skip the bla bla and run your data quality indicators by following the [Getting 
 
 Some screenshot of the web application to give you a taste of how it's like.
 
-![Indicator](https://mobydq.github.io/img/indicator.png)
+![Demo](https://mobydq.github.io/img/demo_screenshot.png)
 
 # Run Dev
 
