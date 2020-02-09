@@ -12,6 +12,7 @@ export const queryGetLastSessions = `query queryGetLastSessions($date: Datetime)
     allSessionStatuses(orderBy: CREATED_DATE_ASC, filter: { createdDate: { greaterThanOrEqualTo: $date } }) {
         nodes {
             id
+            indicatorId
             indicator
             indicatorType
             status

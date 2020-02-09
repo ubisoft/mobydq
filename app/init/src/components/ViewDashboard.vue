@@ -148,21 +148,24 @@ export default {
             // Prepare data for visualization
             if (this.rawSessions.length > 0) {
               for (let i = 0; i < this.rawSessions.length; i++) {
-                // Labels
+                // Build labels
                 let sessionDate = new Date(this.rawSessions[i].createdDate.substring(0, 19));
                 if (!this.sessionsLabels.includes(sessionDate)) {
                   this.sessionsLabels.push(sessionDate);
                 }
 
-                // Data point
+                // Build data point
                 let dataPoint = {
                   x: sessionDate,
                   y: Math.round(this.rawSessions[i].qualityLevel * 100),
                   sessionId: this.rawSessions[i].id,
+                  indicatorId: this.rawSessions[i].indicatorId,
                   indicator: this.rawSessions[i].indicator,
                   createdDate: this.rawSessions[i].createdDate,
                   status: this.rawSessions[i].status,
                 }
+
+                // Add data point to dataset
                 if (this.rawSessions[i].indicatorType == "Completeness") {
                   this.sessionsCompleteness.push(dataPoint);
                 } else if (this.rawSessions[i].indicatorType == "Freshness") {

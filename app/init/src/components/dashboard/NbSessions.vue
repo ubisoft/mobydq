@@ -47,16 +47,18 @@ export default {
           fontStyle: "normal"
         },
         tooltips: {
+          mode: "point",
+          intersect: false,
           displayColors: false,
           bodySpacing: 5,
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: function(tooltipItem) {
               let tooltip = [];
               tooltip.push(" Session: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].sessionId);
-              tooltip.push(" Indicator: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].indicator);
-              tooltip.push(" Created Date: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].createdDate);
-              tooltip.push(" Status: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].status);
-              tooltip.push(" Quality Level (%): " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y);
+              //tooltip.push(" Indicator: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].indicator);
+              //tooltip.push(" Created Date: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].createdDate);
+              //tooltip.push(" Status: " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].status);
+              //tooltip.push(" Quality Level (%): " + this.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y);
               return tooltip;
             }.bind(this)
           }
@@ -78,7 +80,8 @@ export default {
               stepSize: 10
             }
           }]
-        }
+        },
+        onClick: this.goToIndicator
       }
     };
   },
@@ -88,6 +91,14 @@ export default {
   created: function() {
   },
   methods: {
+    goToIndicator(point, event) {
+      this.$router.push({
+        name: "edit-indicator",
+        params: {
+          indicatorId: this.data.datasets[event[0]._datasetIndex].data[event[0]._index].indicatorId
+        }
+      });
+    }
   }
 };
 </script>
