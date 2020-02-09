@@ -23,6 +23,11 @@ RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.g
     && cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/ \
     && rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
+# Install Oracle ODBC driver
+RUN apt-get install -y alien libaio1 \
+    && alien -i ./drivers/oracle-instantclient12.2-* \
+    && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/oracle/12.2/client64/lib
+
 # Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
 
