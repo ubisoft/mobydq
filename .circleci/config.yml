@@ -28,7 +28,7 @@ jobs:
                   when: always
                   command: |
                       docker-compose -f docker-compose.yml build db graphql scripts
-                      docker-compose -f docker-compose.yml -f docker-compose.test.yml db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
+                      docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
                       docker images
 
             - run:
