@@ -45,7 +45,7 @@
           <td v-else>
           </td>
           <td>
-            <router-link class="badge badge-secondary" v-bind:to="'/logs/sessions/' + session.id">
+            <router-link class="badge badge-secondary" v-bind:to="'/indicators/' + indicatorId + '/sessions/' + session.id + '/logs'">
               Log
             </router-link>
           </td>
@@ -60,6 +60,7 @@ export default {
   components: {
   },
   props: {
+    indicatorId: Number,
     sessions: Array
   },
   computed: {
