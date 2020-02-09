@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    userId: String
+    userId: Number
   },
   methods: {
     resetPassword() {
@@ -17,7 +17,7 @@ export default {
   computed: {
     show() {
       let roles = ["admin"];
-      return this.userId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.userId) && roles.includes(this.$store.state.currentUser.role);
     }
   }
 };

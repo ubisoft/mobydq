@@ -12,7 +12,7 @@ import Mixins from "../utils/Mixins.vue";
 export default {
   mixins: [Mixins],
   props: {
-    dataSourceId: String
+    dataSourceId: Number
   },
   data: function() {
     return {
@@ -22,7 +22,7 @@ export default {
   computed: {
     show() {
       let roles = ["advanced", "admin"];
-      return this.dataSourceId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.dataSourceId) && roles.includes(this.$store.state.currentUser.role);
     }
   },
   methods: {

@@ -15,7 +15,7 @@ export default {
   computed: {
     show() {
       let roles = ["standard", "advanced", "admin"];
-      return roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.parameterId) && roles.includes(this.$store.state.currentUser.role);
     }
   },
    methods: {

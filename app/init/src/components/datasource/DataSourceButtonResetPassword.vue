@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    dataSourceId: String
+    dataSourceId: Number
   },
   methods: {
     resetPassword() {
@@ -17,7 +17,7 @@ export default {
   computed: {
     show() {
       let roles = ["advanced", "admin"];
-      return this.dataSourceId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.dataSourceId) && roles.includes(this.$store.state.currentUser.role);
     }
   }
 };
