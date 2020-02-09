@@ -64,7 +64,8 @@ $ docker run --rm mobydq-test-lint-python pylint scripts test
 
 -   [postgres](https://hub.docker.com/_/postgres/) (tag: 11.0-alpine)
 -   [python](https://hub.docker.com/_/python/) (tag: 3.6.6-slim-stretch)
--   [nginx](https://hub.docker.com/_/nginx/) (tag: latest)
+-   [node](https://hub.docker.com/_/node/) (tag: alpine)
+-   [nginx](https://hub.docker.com/_/nginx/) (tag: alpine)
 
 ## Python Packages
 
