@@ -51,7 +51,7 @@ services:
             context: ./test/db-oracle/
             dockerfile: Dockerfile
         environment:
-            ORACLE_PWD: "1234"
+            ORACLE_PWD: "1234-abcd"
         expose:
             - 1521
         networks:
