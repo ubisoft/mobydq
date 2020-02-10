@@ -40,4 +40,5 @@ INSERT INTO base.data_source_type (name) VALUES
 , ('Oracle')
 , ('PostgreSQL')
 , ('SQLite')
-, ('Teradata');
+, ('Teradata')
+, ('Snowflake');
