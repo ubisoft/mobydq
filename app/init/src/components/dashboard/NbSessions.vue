@@ -71,6 +71,10 @@ export default {
           xAxes: [{
             type: "time",
             time: {
+              unit: 'second',
+              displayFormats: {
+                second: 'YYYY-MM-DD HH:mm:ss'
+              }
             }
           }],
           yAxes: [{
