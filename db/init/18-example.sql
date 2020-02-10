@@ -52,8 +52,16 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'1234'
   ,7  -- PostgreSQL
   ,1  -- Public user group
-),
-(
+)
+,(
+   'example_snowflake'
+  ,'driver={Snowflake};server=account-name.snowflakecomputing.com;port=443;'
+  ,'snowflake_user'
+  ,'snowflake_password'
+  ,10  -- Snowflake
+  ,1  -- Public user group
+)
+,(
    'example_teradata'
   ,'driver={Teradata 64};dbcname=db-teradata;defaultdatabase=star_wars;charset=utf8;'
   ,'dbc'
