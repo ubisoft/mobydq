@@ -39,9 +39,9 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
 ),
 (
    'example_oracle'
-  ,'driver=Oracle;dbq=db-oracle:1521/orcl;'
-  ,'sys'
-  ,'1234'
+  ,'driver={Oracle};dbq=db-oracle:1521/orclcdb;'
+  ,'oracle'
+  ,'1234-abcd'
   ,6  -- Oracle
   ,1  -- Public user group
 ),
