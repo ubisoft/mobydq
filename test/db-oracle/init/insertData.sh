@@ -1,5 +1,5 @@
 # Create tables in Oracle
-sqlplus sys/1234@//localhost:1521/ORCLCDB as sysdba<<EOF
+sqlplus sys/1234-abcd@//localhost:1521/ORCLCDB as sysdba<<EOF
 
 CREATE USER oracle IDENTIFIED BY 1234-abcd;
 GRANT CREATE SESSION TO oracle;
