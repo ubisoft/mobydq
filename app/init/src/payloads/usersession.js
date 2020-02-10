@@ -8,13 +8,5 @@ export const queryGetCurrentUser = `query getCurrentUser($email: String!) {
     userByEmail(email: $email) {
         email
         role
-        userGroupMembershipsByUserId{
-            nodes {
-                userGroupByUserGroupId {
-                    id
-                    name
-                }
-            }
-        }
     }
 }`;

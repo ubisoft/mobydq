@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     userGroupId() {
-      return this.$route.params.userGroupId;
+      return parseInt(this.$route.params.userGroupId);
     },
     isReadOnly() {
       let roles = ["admin"];
@@ -74,7 +74,7 @@ export default {
   },
   created: function() {
     // If userGroupId != new then get data for existing user group
-    if (this.userGroupId != "new") {
+    if (Number.isInteger(this.userGroupId)) {
       let payload = {
         query: this.$store.state.queryGetUserGroup,
         variables: {

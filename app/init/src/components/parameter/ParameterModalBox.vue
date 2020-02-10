@@ -56,7 +56,7 @@
           <!-- Input for distribution list -->
           <div v-if="parameter.parameterTypeId==3" class="form-group">
             <label for="distributionList" class="col-form-label">
-              Distribution List:
+              Distribution List: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="Must be in Python list format such as: ['a@b.com', 'c@d.com']">?</span>
             </label>
             <input
               class="form-control col-sm"
@@ -72,7 +72,7 @@
           <!-- Input for dimension -->
           <div v-if="parameter.parameterTypeId==4" class="form-group">
             <label for="dimension" class="col-form-label">
-              Dimensions:
+              Dimensions: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="Must be in Python list format such as: ['dim column 1', 'dim column 2']">?</span>
             </label>
             <input
               class="form-control col-sm"
@@ -88,7 +88,7 @@
           <!-- Input for measure -->
           <div v-if="parameter.parameterTypeId==5" class="form-group">
             <label for="measure" class="col-form-label">
-              Measures:
+              Measures: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="Must be in Python list format such as: ['measure column 1', ' measure column 2']">?</span>
             </label>
             <input
               class="form-control col-sm"

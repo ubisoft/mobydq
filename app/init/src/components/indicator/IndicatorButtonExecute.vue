@@ -1,6 +1,6 @@
 <template>
   <span>
-    <button v-if="show" type="button" class="btn btn-secondary ml-1" v-on:click="execute">
+    <button v-if="show" type="button" class="btn btn-secondary ml-1" v-on:click="execute" v-bind:disabled="!flagActive" v-bind:readonly="!flagActive">
       Execute
     </button>
   </span>
@@ -13,7 +13,8 @@ export default {
   mixins: [Mixins],
   props: {
     indicatorGroupId: Number,
-    indicatorId: Number
+    indicatorId: Number,
+    flagActive: Boolean
   },
   data: function() {
     return {
@@ -22,7 +23,7 @@ export default {
   computed: {
     show() {
       let roles = ["standard", "advanced", "admin"];
-      return this.indicatorId != "new" && roles.includes(this.$store.state.currentUser.role);
+      return Number.isInteger(this.indicatorId) && roles.includes(this.$store.state.currentUser.role);
     }
   },
   methods: {

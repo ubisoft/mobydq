@@ -4,6 +4,7 @@
 
 
 /*Create table log*/
+/*Consider adding indexes on foreign keys in the future to improve performances*/
 CREATE TABLE base.log (
     id SERIAL PRIMARY KEY
   , file_name TEXT

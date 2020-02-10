@@ -12,13 +12,11 @@
 </template>
 
 <script>
-import ParameterModalBox from "../parameter/ParameterModalBox.vue";
 import Mixins from "../utils/Mixins.vue";
 
 export default {
   mixins: [Mixins],
   components: {
-    "add-parameter-modal-box": ParameterModalBox,
   },
   computed: {
     show() {

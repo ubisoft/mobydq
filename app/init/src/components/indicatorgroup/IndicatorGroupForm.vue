@@ -37,9 +37,9 @@
           <!-- Button Menu -->
           <div class="mt-3">
             <indicator-group-button-save v-bind:indicatorGroup="indicatorGroup"> </indicator-group-button-save>
-            <indicator-group-button-execute v-bind:indicatorGroupId="indicatorGroup.id"> </indicator-group-button-execute>
+            <indicator-group-button-execute v-bind:indicatorGroupId="indicatorGroupId"> </indicator-group-button-execute>
             <indicator-group-button-close> </indicator-group-button-close>
-            <indicator-group-button-delete v-if="indicatorGroup.id" v-bind:indicatorGroupId="indicatorGroup.id"> </indicator-group-button-delete>
+            <indicator-group-button-delete v-bind:indicatorGroupId="indicatorGroupId"> </indicator-group-button-delete>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     indicatorGroupId() {
-      return this.$route.params.indicatorGroupId;
+      return parseInt(this.$route.params.indicatorGroupId);
     },
     isReadOnly() {
       let roles = ["standard", "advanced", "admin"];
@@ -80,7 +80,7 @@ export default {
   },
   created: function() {
     // If indicatorGroupId != new then get data for existing indicator group
-    if (this.indicatorGroupId != "new") {
+    if (Number.isInteger(this.indicatorGroupId)) {
       let payload = {
         query: this.$store.state.queryGetIndicatorGroup,
         variables: {

@@ -81,28 +81,16 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            // Prepare list of current user groups
-            let memberships = response.data.data.userByEmail.userGroupMembershipsByUserId.nodes;
-            let currentUserGroups = [];
-            for (let i = 0; i < memberships.length; i++) {
-              currentUserGroups.push(memberships[i]["userGroupByUserGroupId"]);
-            }
-
             // Set current user, role, user groups in session object
             this.$session.set("email", response.data.data.userByEmail.email);
             this.$session.set("role", response.data.data.userByEmail.role);
-            this.$session.set("userGroups", currentUserGroups);
-            this.$session.set("selectedUserGroup", currentUserGroups[0]);
 
             // Set current user, role, user groups in store
             let currentUser = {
               isAuthenticated: true,
-              email: response.data.data.userByEmail.email,
-              role: response.data.data.userByEmail.role,
-              userGroups: currentUserGroups,
-              selectedUserGroup: currentUserGroups[0]
+              role: response.data.data.userByEmail.role
             };
-            this.$store.state.currentUser = currentUser;
+            this.$store.commit("setCurrentUser", currentUser);
           }
         },
         // Error callback

@@ -39,9 +39,9 @@ const routes = [
   { name: "edit-indicator-group", path: "/indicatorgroups/:indicatorGroupId", component: EditIndicatorGroup },
   { name: "view-indicator", path: "/indicators", component: ViewIndicator },
   { name: "edit-indicator", path: "/indicators/:indicatorId", component: EditIndicator },
-  { name: "view-batch-log", path: "/logs/batches/:batchId", component: ViewLog },
-  { name: "view-session-log", path: "/logs/sessions/:sessionId", component: ViewLog },
-  { name: "view-data-source-log", path: "/logs/datasources/:dataSourceId", component: ViewLog }
+  { name: "view-batch-log", path: "/indicatorgroups/:indicatorGroupId/batches/:batchId/logs", component: ViewLog },
+  { name: "view-session-log", path: "/indicators/:indicatorId/sessions/:sessionId/logs", component: ViewLog },
+  { name: "view-data-source-log", path: "/datasources/:dataSourceId/logs", component: ViewLog }
 ];
 
 // Configure router

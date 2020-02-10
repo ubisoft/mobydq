@@ -92,10 +92,10 @@
               <!-- Button Menu -->
               <div class="mt-3">
                 <indicator-button-save v-bind:indicator="indicator"> </indicator-button-save>
-                <indicator-button-execute v-bind:indicatorId="indicator.id" v-bind:indicatorGroupId="indicator.indicatorGroupId"> </indicator-button-execute>
-                <indicator-button-duplicate v-bind:indicatorId="indicator.id"> </indicator-button-duplicate>
+                <indicator-button-execute v-bind:indicatorId="indicatorId" v-bind:indicatorGroupId="indicator.indicatorGroupId" v-bind:flagActive="indicator.flagActive"> </indicator-button-execute>
+                <indicator-button-duplicate v-bind:indicatorId="indicatorId"> </indicator-button-duplicate>
                 <indicator-button-close> </indicator-button-close>
-                <indicator-button-delete v-if="indicator.id" v-bind:indicatorId="indicator.id"> </indicator-button-delete>
+                <indicator-button-delete v-bind:indicatorId="indicatorId"> </indicator-button-delete>
               </div>
             </div>
           </div>
@@ -118,6 +118,7 @@
         <!-- Session table -->
         <indicator-session
           v-if="indicator.id"
+          v-bind:indicatorId="indicatorId"
           v-bind:sessions="sessions">
         </indicator-session>
       </div>
@@ -200,7 +201,7 @@ export default {
   },
   computed: {
     indicatorId() {
-      return this.$route.params.indicatorId;
+      return parseInt(this.$route.params.indicatorId);
     },
     parameters() {
       return this.indicator.parametersByIndicatorId.nodes;
@@ -215,14 +216,11 @@ export default {
   },
   created: function() {
     // If indicatorId != new then get data for existing indicator
-    if (this.indicatorId != "new") {
-
+    if (Number.isInteger(this.indicatorId)) {
       let headers = {};
       if (this.$session.exists()) {
         headers = { Authorization: "Bearer " + this.$session.get("jwt") };
       }
-
-      // Get indicator
       let payload = {
         query: this.$store.state.queryGetIndicator,
         variables: {
