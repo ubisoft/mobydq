@@ -7,7 +7,7 @@
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id, user_group_id) VALUES
 (
    'example_hive'
-  ,'driver=Cloudera Hive;Host=db-hive;Port=10000;'
+  ,'driver={Cloudera Hive};host=db-hive;port=10000;'
   ,'cloudera'
   ,'cloudera'
   ,1  -- Hive
@@ -15,7 +15,7 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
 ),
 (
    'example_mariadb'
-  ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;Database=star_wars;'
+  ,'driver={MariaDB Unicode};server=db-mariadb;port=3306;database=star_wars;'
   ,'root'
   ,'1234'
   ,3  -- MariaDB
@@ -28,24 +28,32 @@ INSERT INTO base.data_source (name, connection_string, login, password, data_sou
   ,'1234-abcd'
   ,4  -- Microsoft SQL Server
   ,1  -- Public user group
-)
-,(
+),
+(
    'example_mysql'
   ,'driver={MySQL Unicode};server=db-mysql;port=3306;database=star_wars;'
   ,'root'
   ,'1234'
   ,5  -- MySQL
   ,1  -- Public user group
-)
-,(
+),
+(
+   'example_oracle'
+  ,'driver={Oracle};dbq=db-oracle:1521/orclcdb;'
+  ,'oracle'
+  ,'1234-abcd'
+  ,6  -- Oracle
+  ,1  -- Public user group
+),
+(
    'example_postgresql'
   ,'driver={PostgreSQL Unicode};server=db-postgresql;port=5432;database=star_wars;'
   ,'postgres'
   ,'1234'
   ,7  -- PostgreSQL
   ,1  -- Public user group
-)
-,(
+),
+(
    'example_teradata'
   ,'driver={Teradata 64};dbcname=db-teradata;defaultdatabase=star_wars;charset=utf8;'
   ,'dbc'

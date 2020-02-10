@@ -131,9 +131,14 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
+    # def test_get_connection_oracle(self):
+        # """Unit tests for method get_connection for Teradata database."""
+        # TODO: Not implemented because Oracle Docker container is too heavy
+        # pass
+
     # def test_get_connection_teradata(self):
         # """Unit tests for method get_connection for Teradata database."""
-        # TODO:
+        # TODO: Not implemented because there is no Teradata Docker image
         # pass
 
 
