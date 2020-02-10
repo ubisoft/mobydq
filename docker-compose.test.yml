@@ -5,8 +5,8 @@ services:
         image: mobydq-test-db-hive
         restart: always
         build:
-            context: .
-            dockerfile: ./test/db-hive/Dockerfile
+            context: ./test/db-hive/
+            dockerfile: Dockerfile
         expose:
             - 10000
         networks:
@@ -20,8 +20,8 @@ services:
         image: mobydq-test-db-mysql
         restart: always
         build:
-            context: .
-            dockerfile: ./test/db-mysql/Dockerfile
+            context: ./test/db-mysql/
+            dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         expose:
@@ -34,12 +34,26 @@ services:
         image: mobydq-test-db-mariadb
         restart: always
         build:
-            context: .
-            dockerfile: ./test/db-mariadb/Dockerfile
+            context: ./test/db-mariadb/
+            dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         expose:
             - 3306
+        networks:
+            - network
+
+    db-oracle:
+        container_name: mobydq-test-db-oracle
+        image: mobydq-test-db-oracle
+        restart: always
+        build:
+            context: ./test/db-oracle/
+            dockerfile: Dockerfile
+        environment:
+            ORACLE_PWD: "1234-abcd"
+        expose:
+            - 1521
         networks:
             - network
 
@@ -48,8 +62,8 @@ services:
         image: mobydq-test-db-postgresql
         restart: always
         build:
-            context: .
-            dockerfile: ./test/db-postgresql/Dockerfile
+            context: ./test/db-postgresql/
+            dockerfile: Dockerfile
         environment:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "1234"
@@ -64,8 +78,8 @@ services:
         image: mobydq-test-db-sql-server
         restart: always
         build:
-            context: .
-            dockerfile: ./test/db-sql-server/Dockerfile
+            context: ./test/db-sql-server/
+            dockerfile: Dockerfile
         environment:
             ACCEPT_EULA: "Y"
             SA_PASSWORD: "1234-abcd"
@@ -100,6 +114,7 @@ services:
             - db-sql-server
             - db-mysql
             - db-mariadb
+            #- db-oracle
             - db-postgresql
         networks:
             - network

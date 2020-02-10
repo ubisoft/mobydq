@@ -7,7 +7,7 @@ WORKDIR $PROJECT_DIR
 
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
-    && apt-get install -y g++ unixodbc-dev
+    && apt-get install -y g++ unixodbc unixodbc-dev
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
@@ -28,8 +28,16 @@ RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.g
     && cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/ \
     && rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
-# Install PostgreSQL ODBC driver
+# Install Oracle ODBC driver
+RUN apt-get install -y alien libaio1 \
+    && alien -i ./drivers/oracle-instantclient12.2-*
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/oracle/12.2/client64/lib
+
+# Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
+
+# Install Snowflake ODBC driver
+RUN dpkg -i ./drivers/snowflake-odbc-2.20.4.x86_64.deb
 
 # Install Teradata ODBC driver
 RUN apt-get install -y lib32stdc++6 \
