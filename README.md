@@ -9,9 +9,9 @@
 
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
-![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
-
 This tool has been inspired by an internal project developed at <a href="https://www.ubisoft.com">Ubisoft Entertainment</a> in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been reworked to improve its design, simplify it and remove technical dependencies with commercial software.
+
+![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
 
 # Getting Started
 
