@@ -124,9 +124,11 @@ class Indicator:
         # Prepare e-mail body
         body = {}
         body['indicator_name'] = indicator_name
+        body['indicator_url'] = f'/indicators/{indicator_id}'
+        body['session_log_url'] = f'/indicators/{indicator_id}/sessions/{session_id}/logs'
         body['alert_threshold'] = alert_operator + alert_threshold
         body['nb_records_alert'] = nb_records_alert
-        body['log_url'] = 'http://'  # To be updated
+        
 
         # Send e-mail
         log.info('Send e-mail alert.')

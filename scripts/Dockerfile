@@ -5,9 +5,15 @@ ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
+RUN echo "deb http://ftp.cn.debian.org/debian/ stretch main" > /etc/apt/sources.list \
+    && echo "deb http://ftp.cn.debian.org/debian/ stretch-updates main" >> /etc/apt/sources.list
+
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
     && apt-get install -y g++ unixodbc unixodbc-dev
+
+RUN pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U \
+    && pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
@@ -57,6 +63,8 @@ ARG MAIL_SENDER
 ENV MAIL_SENDER "$MAIL_SENDER"
 ARG MAIL_PASSWORD
 ENV MAIL_PASSWORD "$MAIL_PASSWORD"
+ARG MAIL_BASE_URL
+ENV MAIL_BASE_URL "$MAIL_BASE_URL"
 
 # Create config file to send mails using environment variables
 RUN echo "[graphql]" >> ./scripts.cfg \
@@ -66,7 +74,8 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
     && echo "sender = $MAIL_SENDER" >> ./scripts.cfg \
-    && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg
+    && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg \
+    && echo "base_url = $MAIL_BASE_URL" >> ./scripts.cfg
 
 # Deleting drivers packages
 RUN rm -rf ./drivers
