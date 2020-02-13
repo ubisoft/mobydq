@@ -15,7 +15,7 @@ RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
 # Copy drivers
-COPY ./init/drivers ./drivers
+COPY ./drivers ./drivers
 
 # Install Cloudera Hive ODBC driver
 RUN dpkg -i ./drivers/clouderahiveodbc_2.5.25.1020-2_amd64.deb
@@ -69,7 +69,7 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg
 
 # Deleting drivers packages
-RUN rm -R drivers
+RUN rm -rf ./drivers
 
 # Copy code as late as possible
 COPY ./init ./
