@@ -84,7 +84,7 @@ class DataSource:
         payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
-        if len(response['data']['allDataSourcePasswords']['nodes']) > 0:
+        if response['data']['allDataSourcePasswords']['nodes']:
             data_source = response['data']['allDataSourcePasswords']['nodes'][0]
             password = data_source['password']
 
