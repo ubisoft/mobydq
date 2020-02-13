@@ -20,23 +20,22 @@ class Batch:
     def update_batch_status(self, authorization: str, batch_id: int, batch_status: str):
         """Update a batch status."""
 
-        mutation = 'mutation{updateBatchById(input:{id:batch_id,batchPatch:{status:"batch_status"}}){batch{status}}}'
-        mutation = mutation.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
-        mutation = mutation.replace('batch_status', str(batch_status))  # Use replace() instead of format() because of curly braces
-        mutation = {'query': mutation}  # Convert to dictionary
-        data = utils.execute_graphql_request(authorization, mutation)
+        query = 'mutation updateBatchStatus($id: Int!, $batchPatch: BatchPatch!){updateBatchById(input:{id: $id, batchPatch: $batchPatch}){batch{status}}}'
+        variables = { 'id': batch_id, 'batchPatch': { 'status': batch_status }}
+        payload = { 'query': query, 'variables': variables }
+        response = utils.execute_graphql_request(authorization, payload)
 
-        return data
+        return response
 
     def execute(self, authorization: str, batch_id: int):
         log.info('Start execution of batch Id %i.', batch_id)
 
         # Get list of indicator sessions
         log.debug('Get list of indicator sessions.')
-        query = 'query{allSessions(condition:{batchId:batch_id},orderBy:ID_ASC){nodes{id,batchId,indicatorId,userGroupId,indicatorByIndicatorId{name,indicatorTypeId,indicatorTypeByIndicatorTypeId{module,class,method},parametersByIndicatorId{nodes{parameterTypeId,value}}}}}}'
-        query = query.replace('batch_id', str(batch_id))  # Use replace() instead of format() because of curly braces
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        query = 'query getAllSessions($batchId: Int){allSessions(condition:{batchId: $batchId}, orderBy:ID_ASC){nodes{id, batchId, indicatorId, userGroupId, indicatorByIndicatorId{name, indicatorTypeId, indicatorTypeByIndicatorTypeId{module, class, method}, parametersByIndicatorId{nodes{parameterTypeId, value}}}}}}'
+        variables = { 'batchId': batch_id }
+        payload = { 'query': query, 'variables': variables }
+        response = utils.execute_graphql_request(authorization, payload)
 
         if response['data']['allSessions']['nodes']:
             # Update batch status to running

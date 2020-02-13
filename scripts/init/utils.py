@@ -35,33 +35,35 @@ class CustomLogHandler(logging.Handler):
         log_message = json.dumps(record.message)  # Sanitize log message for http request
 
         # Build mutation payload
-        mutation = 'mutation{createLog(input:{log:{fileName:"file_name",logLevel:"log_level",message:log_message foreign_keys}}){log{id}}}'
-        mutation = mutation.replace('file_name', file_name)  # Use replace() instead of format() because of curly braces
-        mutation = mutation.replace('log_level', log_level)  # Use replace() instead of format() because of curly braces
-        mutation = mutation.replace('log_message', log_message)  # Use replace() instead of format() because of curly braces
+        query = 'mutation createLog($log: LogInput!){createLog(input:{log: $log}){log{id}}}'
+        variables = {}
+        variables['fileName'] = file_name
+        variables['logLevel'] = log_level
+        variables['message'] = log_message
 
         # Add foreign keys to log record
         foreign_keys = ''
         if self.batch_id is not None:
-            foreign_keys = ',batchId:{}'.format(self.batch_id)
+            variables['batchId'] = self.batch_id
         if self.session_id is not None:
-            foreign_keys = foreign_keys + ',sessionId:{}'.format(self.session_id)
+            variables['sessionId'] = self.session_id
         if self.data_source_id is not None:
-            foreign_keys = foreign_keys + ',dataSourceId:{}'.format(self.data_source_id)
+            variables['dataSourceId'] = self.data_source_id
 
-        mutation = mutation.replace('foreign_keys', foreign_keys)  # Use replace() instead of format() because of curly braces
-        mutation = {'query': mutation}  # Convert to dictionary
-        execute_graphql_request(self.authorization, mutation)
+        payload = { 'query': query, 'variables': variables }
+        execute_graphql_request(self.authorization, payload)
 
 def get_parameter(section: str, parameter_name: str = None):
     """Get parameters from flat file config.cfg."""
     configuration = configparser.ConfigParser()
     path = os.path.dirname(__file__)
+    print(path + '/scripts.cfg')
     configuration.read(path + '/scripts.cfg')
     if parameter_name:
         parameters = configuration[section][parameter_name]
     else:
         parameters = {}
+        print()
         for key in configuration[section]:
             parameters[key] = configuration[section][key]
 

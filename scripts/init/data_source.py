@@ -76,16 +76,34 @@ class DataSource:
 
         return connection
 
+    def get_password(self, authorization: str, data_source_id: int):
+        """Get unencrypted password of a data source. Return the password."""
+
+        query = 'query getDataSourcePassword($id: Int){allDataSourcePasswords(condition:{id: $id}){nodes{password}}}'
+        variables = { 'id': data_source_id }
+        payload = { 'query': query, 'variables': variables }
+        response = utils.execute_graphql_request(authorization, payload)
+
+        if len(response['data']['allDataSourcePasswords']['nodes']) > 0:
+            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
+            password = data_source['password']
+            return password
+
+        else:
+            error_message = f'Data source {data_source_id} does not exist.'
+            log.error(error_message)
+            raise Exception(error_message)
+
     def test(self, authorization: str, data_source_id: int):
         """Test connectivity to a data source and update its connectivity status."""
         log.info('Test connectivity to data source Id %i.', data_source_id)
 
         # Get data source
         log.debug('Get data source.')
-        query = 'query{dataSourceById(id:data_source_id){dataSourceTypeId,connectionString,login}}'
-        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        query = 'query getDataSource($id: Int!){dataSourceById(id: $id){dataSourceTypeId, connectionString, login}}'
+        variables = { 'id': data_source_id }
+        payload = { 'query': query, 'variables': variables }
+        response = utils.execute_graphql_request(authorization, payload)
 
         if response['data']['dataSourceById']:
             data_source = response['data']['dataSourceById']
@@ -94,38 +112,26 @@ class DataSource:
             login = data_source['login']
 
         # Get data source password
-        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
-        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        password = self.get_password(authorization, data_source_id)
 
-        if response['data']['allDataSourcePasswords']['nodes'][0]:
-            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
-            password = data_source['password']
+        # Test connectivity
+        try:
+            log.debug('Connect to data source.')
+            self.get_connection(data_source_type_id, connection_string, login, password)
 
-            # Test connectivity
-            try:
-                log.debug('Connect to data source.')
-                self.get_connection(data_source_type_id, connection_string, login, password)
+            log.info('Connection to data source succeeded.')
+            query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch:{connectivityStatus: $status}}){dataSource{connectivityStatus}}}'
+            variables = { 'id': data_source_id, 'dataSourcePatch': { 'connectivityStatus': 'Success' } }
+            payload = { 'query': query, 'variables': variables }
+            utils.execute_graphql_request(authorization, payload)
 
-                log.info('Connection to data source succeeded.')
-                mutation = 'mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Success"}}){dataSource{connectivityStatus}}}'
-                mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-                mutation = {'query': mutation}  # Convert to dictionary
-                utils.execute_graphql_request(authorization, mutation)
-
-            except Exception:  # Pylint: disable=broad-except
-                log.error('Connection to data source failed.')
-                error_message = traceback.format_exc()
-                log.error(error_message)
-
-                # Update connectivity status
-                mutation = 'mutation{updateDataSourceById(input:{id:data_source_id,dataSourcePatch:{connectivityStatus:"Failed"}}){dataSource{connectivityStatus}}}'
-                mutation = mutation.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-                mutation = {'query': mutation}  # Convert to dictionary
-                utils.execute_graphql_request(authorization, mutation)
-
-        else:
-            error_message = f'Data source Id {data_source_id} does not exist.'
+        except Exception:  # Pylint: disable=broad-except
+            log.error('Connection to data source failed.')
+            error_message = traceback.format_exc()
             log.error(error_message)
-            raise Exception(error_message)
+
+            # Update connectivity status
+            query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch: $dataSourcePatch}){dataSource{connectivityStatus}}}'
+            variables = { 'id': data_source_id, 'dataSourcePatch': { 'connectivityStatus': 'Failed' } }
+            payload = { 'query': query, 'variables': variables }
+            utils.execute_graphql_request(authorization, payload)

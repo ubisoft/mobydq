@@ -19,9 +19,10 @@ class Indicator:
         """Verify if the list of indicator parameters is valid and return them as a dictionary."""
 
         # Build dictionary of parameter types referential
-        query = 'query{allParameterTypes{nodes{id,name}}}'
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        query = 'query{allParameterTypes{nodes{id, name}}}'
+        payload = {'query': query}
+        response = utils.execute_graphql_request(authorization, payload)
+
         parameter_types_referential = {}
         for parameter_type in response['data']['allParameterTypes']['nodes']:
             parameter_types_referential[parameter_type['id']] = parameter_type['name']
@@ -64,10 +65,10 @@ class Indicator:
         """Get data from data source. Return a formatted data frame according to dimensions and measures parameters."""
 
         # Get data source credentials
-        query = '{dataSourceByName(name:"data_source"){id,connectionString,login,dataSourceTypeId}}'
-        query = query.replace('data_source', data_source)
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        query = 'query getDataSource($name: String!){dataSourceByName(name: $name){id, connectionString, login, dataSourceTypeId}}'
+        variables = { 'name': data_source }
+        payload = { 'query': query, 'variables': variables }
+        response = utils.execute_graphql_request(authorization, payload)
 
         # Get connection object
         if response['data']['dataSourceByName']:
@@ -77,22 +78,12 @@ class Indicator:
             login = response['data']['dataSourceByName']['login']
 
         # Get data source password
-        query = 'query{allDataSourcePasswords(condition:{id:data_source_id}){nodes{password}}}'
-        query = query.replace('data_source_id', str(data_source_id))  # Use replace() instead of format() because of curly braces
-        query = {'query': query}  # Convert to dictionary
-        response = utils.execute_graphql_request(authorization, query)
+        data_source = DataSource()
+        password = data_source.get_password(authorization, data_source_id)
 
-        if response['data']['allDataSourcePasswords']['nodes'][0]:
-            data_source = response['data']['allDataSourcePasswords']['nodes'][0]
-            password = data_source['password']
-
-            log.info('Connect to data source.')
-            data_source = DataSource()
-            connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
-        else:
-            error_message = f'Data source {data_source} does not exist.'
-            log.error(error_message)
-            raise Exception(error_message)
+        # Connect to data source
+        log.info('Connect to data source.')
+        connection = data_source.get_connection(data_source_type_id, connection_string, login, password)
 
         # Get data frame
         log.info('Execute request on data source.')
