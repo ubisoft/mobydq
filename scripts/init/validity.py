@@ -55,6 +55,7 @@ class Validity(Indicator):
 
     def evaluate_validity(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of validity indicator and return results in a data frame."""
+
         # No tranformation needed for this data frame
         result_data = target_data
         result_data = result_data.fillna(value=0)  # Replace NaN values per 0

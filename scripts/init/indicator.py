@@ -66,8 +66,8 @@ class Indicator:
 
         # Get data source credentials
         query = 'query getDataSource($name: String!){dataSourceByName(name: $name){id, connectionString, login, dataSourceTypeId}}'
-        variables = { 'name': data_source }
-        payload = { 'query': query, 'variables': variables }
+        variables = {'name': data_source}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         # Get connection object

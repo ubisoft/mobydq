@@ -44,7 +44,6 @@ class CustomLogHandler(logging.Handler):
         variables['message'] = log_message
 
         # Add foreign keys to log record
-        foreign_keys = ''
         if self.batch_id is not None:
             variables['batchId'] = self.batch_id
         if self.session_id is not None:
@@ -52,7 +51,7 @@ class CustomLogHandler(logging.Handler):
         if self.data_source_id is not None:
             variables['dataSourceId'] = self.data_source_id
 
-        payload = { 'query': query, 'variables': variables }
+        payload = {'query': query, 'variables': variables}
         execute_graphql_request(self.authorization, payload)
 
 def get_parameter(section: str, parameter_name: str = None):
@@ -84,7 +83,7 @@ def execute_graphql_request(authorization: str, payload: dict):
 
 def send_mail(session_id: int, distribution_list: list, template: str = None, attachment: any = None, **kwargs):
     """Send e-mail to the distribution list."""
-    
+
     # Verify e-mail configuration
     config = get_parameter('mail')
     for key, value in config.items():
@@ -115,7 +114,7 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
     else:
         email['Subject'] = 'Data quality notification'
         html = open(os.path.dirname(__file__) + '/email/default.html', 'r')
-    
+
     # Render template
     body = html.read()
     body = Template(body)

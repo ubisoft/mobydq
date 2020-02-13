@@ -13,6 +13,7 @@ class Latency(Indicator):
 
     def execute(self, authorization: str, session: dict):
         """Execute indicator of type latency."""
+
         # Update session status to running
         session_id: int = session['id']
         indicator_id: int = session['indicatorId']
@@ -59,6 +60,7 @@ class Latency(Indicator):
 
     def evaluate_latency(self, source_data: pandas.DataFrame, target_data: pandas.DataFrame, dimensions: str, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of latency indicator and return results in a data frame."""
+
         # Merge data frames to compare their measures
         result_data = pandas.merge(
             left=source_data,

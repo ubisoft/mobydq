@@ -13,9 +13,9 @@ class Session:
     def update_session_status(self, authorization: str, session_id: int, session_status: str):
         """Update a session status."""
 
-        query = 'mutation updateSessionStatus($id: Int!, sessionPatch: SessionPatch!){updateSessionById(input:{id: $id, sessionPatch: $sessionPatch}){session{status}}}'
-        variables = { 'id': session_id, 'sessionPatch': { 'status': session_status }}
-        payload = { 'query': query, 'variables': variables }
+        query = 'mutation updateSessionStatus($id: Int!, $sessionPatch: SessionPatch!){updateSessionById(input:{id: $id, sessionPatch: $sessionPatch}){session{status}}}'
+        variables = {'id': session_id, 'sessionPatch': {'status': session_status}}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         return response
@@ -38,7 +38,7 @@ class Session:
         variables['sessionPatch']['nbRecordsNoAlert'] = nb_records_no_alert
         variables['sessionPatch']['nbRecordsAlert'] = nb_records_alert
         variables['sessionPatch']['nbRecords'] = nb_records
-        payload = { 'query': query, 'variables': variables }
+        payload = {'query': query, 'variables': variables}
         utils.execute_graphql_request(authorization, payload)
 
         return nb_records_alert

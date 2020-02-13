@@ -80,19 +80,20 @@ class DataSource:
         """Get unencrypted password of a data source. Return the password."""
 
         query = 'query getDataSourcePassword($id: Int){allDataSourcePasswords(condition:{id: $id}){nodes{password}}}'
-        variables = { 'id': data_source_id }
-        payload = { 'query': query, 'variables': variables }
+        variables = {'id': data_source_id}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         if len(response['data']['allDataSourcePasswords']['nodes']) > 0:
             data_source = response['data']['allDataSourcePasswords']['nodes'][0]
             password = data_source['password']
-            return password
 
         else:
             error_message = f'Data source {data_source_id} does not exist.'
             log.error(error_message)
             raise Exception(error_message)
+
+        return password
 
     def test(self, authorization: str, data_source_id: int):
         """Test connectivity to a data source and update its connectivity status."""
@@ -101,8 +102,8 @@ class DataSource:
         # Get data source
         log.debug('Get data source.')
         query = 'query getDataSource($id: Int!){dataSourceById(id: $id){dataSourceTypeId, connectionString, login}}'
-        variables = { 'id': data_source_id }
-        payload = { 'query': query, 'variables': variables }
+        variables = {'id': data_source_id}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         if response['data']['dataSourceById']:
@@ -121,8 +122,8 @@ class DataSource:
 
             log.info('Connection to data source succeeded.')
             query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch:{connectivityStatus: $status}}){dataSource{connectivityStatus}}}'
-            variables = { 'id': data_source_id, 'dataSourcePatch': { 'connectivityStatus': 'Success' } }
-            payload = { 'query': query, 'variables': variables }
+            variables = {'id': data_source_id, 'dataSourcePatch': {'connectivityStatus': 'Success'}}
+            payload = {'query': query, 'variables': variables}
             utils.execute_graphql_request(authorization, payload)
 
         except Exception:  # Pylint: disable=broad-except
@@ -132,6 +133,6 @@ class DataSource:
 
             # Update connectivity status
             query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch: $dataSourcePatch}){dataSource{connectivityStatus}}}'
-            variables = { 'id': data_source_id, 'dataSourcePatch': { 'connectivityStatus': 'Failed' } }
-            payload = { 'query': query, 'variables': variables }
+            variables = {'id': data_source_id, 'dataSourcePatch': {'connectivityStatus': 'Failed'}}
+            payload = {'query': query, 'variables': variables}
             utils.execute_graphql_request(authorization, payload)

@@ -47,6 +47,7 @@ class TestSession(unittest.TestCase):
 
         # Update test session status
         data = Session().update_session_status(authorization, session_id, 'Running')
+        print(data)
         session_status = data['data']['updateSessionById']['session']['status']
 
         # Assert batch status is Running

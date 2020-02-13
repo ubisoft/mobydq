@@ -21,8 +21,8 @@ class Batch:
         """Update a batch status."""
 
         query = 'mutation updateBatchStatus($id: Int!, $batchPatch: BatchPatch!){updateBatchById(input:{id: $id, batchPatch: $batchPatch}){batch{status}}}'
-        variables = { 'id': batch_id, 'batchPatch': { 'status': batch_status }}
-        payload = { 'query': query, 'variables': variables }
+        variables = {'id': batch_id, 'batchPatch': {'status': batch_status}}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         return response
@@ -33,8 +33,8 @@ class Batch:
         # Get list of indicator sessions
         log.debug('Get list of indicator sessions.')
         query = 'query getAllSessions($batchId: Int){allSessions(condition:{batchId: $batchId}, orderBy:ID_ASC){nodes{id, batchId, indicatorId, userGroupId, indicatorByIndicatorId{name, indicatorTypeId, indicatorTypeByIndicatorTypeId{module, class, method}, parametersByIndicatorId{nodes{parameterTypeId, value}}}}}}'
-        variables = { 'batchId': batch_id }
-        payload = { 'query': query, 'variables': variables }
+        variables = {'batchId': batch_id}
+        payload = {'query': query, 'variables': variables}
         response = utils.execute_graphql_request(authorization, payload)
 
         if response['data']['allSessions']['nodes']:
