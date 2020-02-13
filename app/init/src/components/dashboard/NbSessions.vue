@@ -41,7 +41,7 @@ export default {
       options: {
         title: {
           display: true,
-          text: 'Sessions executed over the last 7 days',
+          text: 'Sessions executed over the last 24h',
           fontColor: "#ffffff",
           fontSize: "14",
           fontStyle: "normal"
@@ -49,7 +49,7 @@ export default {
         tooltips: {
           mode: "point",
           intersect: false,
-          displayColors: false,
+          displayColors: true,
           bodySpacing: 5,
           callbacks: {
             label: function(tooltipItem) {
@@ -71,9 +71,10 @@ export default {
           xAxes: [{
             type: "time",
             time: {
-              unit: 'second',
+              unit: 'hour',
+              stepSize: 0.5,
               displayFormats: {
-                second: 'YYYY-MM-DD HH:mm:ss'
+                hour: 'YYYY-MM-DD hA'
               }
             }
           }],
@@ -85,7 +86,7 @@ export default {
             }
           }]
         },
-        onClick: this.goToIndicator
+        //onClick: this.goToIndicator
       }
     };
   },

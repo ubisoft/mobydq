@@ -73,7 +73,7 @@ export default {
 
     // Get sessions
     var date = new Date();
-    date.setDate(date.getDate() - 7);
+    date.setDate(date.getDate() - 1);
     date.toISOString();
     this.getSessions(date);
   },
@@ -158,6 +158,7 @@ export default {
                 let dataPoint = {
                   x: sessionDate,
                   y: Math.round(this.rawSessions[i].qualityLevel * 100),
+                  r: 5,
                   sessionId: this.rawSessions[i].id,
                   indicatorId: this.rawSessions[i].indicatorId,
                   indicator: this.rawSessions[i].indicator,
