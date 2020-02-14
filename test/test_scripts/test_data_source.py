@@ -13,7 +13,7 @@ class TestDataSource(unittest.TestCase):
 
         # Authenticate user
         authorization = get_authorization()
-        
+
         # Get password for Hive data source
         data_source = DataSource()
         password = data_source.get_password(authorization, 1)

@@ -128,7 +128,6 @@ class Indicator:
         body['session_log_url'] = f'/indicators/{indicator_id}/sessions/{session_id}/logs'
         body['alert_threshold'] = alert_operator + alert_threshold
         body['nb_records_alert'] = nb_records_alert
-        
 
         # Send e-mail
         log.info('Send e-mail alert.')
