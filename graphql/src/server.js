@@ -2,17 +2,19 @@ const http = require("http");
 const { postgraphile } = require("postgraphile");
 
 const postgraphileOptions = {
-    graphiql: true,
-    enhanceGraphiql: true,
     pgDefaultRole: "anonymous",
     jwtSecret: process.env.GRAPHQL_SECRET_KEY,
     jwtPgTypeIdentifier: "base.token",
-    appendPlugins: [require("postgraphile-plugin-connection-filter"), require("mobydq-plugin")],
-    enableCors: true,
     pgStrictFunctions: true,
+    enableCors: true,
+    graphiql: true,
+    enhanceGraphiql: true,
+    allowExplain: process.env.ALLOW_EXPLAIN,
+    appendPlugins: [require("postgraphile-plugin-connection-filter"), require("mobydq-plugin")],
     additionalGraphQLContextFromRequest(req) {
         return {
-            authorization: req.headers.authorization // This is need to pass authorization header to PostGraphile context
+            // This is needed to pass authorization header to PostGraphile context
+            authorization: req.headers.authorization
         };
     }
 };

@@ -56,6 +56,7 @@ class Freshness(Indicator):
 
     def evaluate_freshness(self, target_data: pandas.DataFrame, measures: str, alert_operator: str, alert_threshold: str):
         """Compute specificities of freshness indicator and return results in a data frame."""
+
         result_data = target_data
         result_data['current_timestamp'] = datetime.utcnow()
 

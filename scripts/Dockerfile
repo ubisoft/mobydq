@@ -5,9 +5,15 @@ ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
+RUN echo "deb http://ftp.cn.debian.org/debian/ stretch main" > /etc/apt/sources.list \
+    && echo "deb http://ftp.cn.debian.org/debian/ stretch-updates main" >> /etc/apt/sources.list
+
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
-    && apt-get install -y g++ unixodbc-dev
+    && apt-get install -y g++ unixodbc unixodbc-dev
+
+RUN pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U \
+    && pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
@@ -15,7 +21,7 @@ RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
 # Copy drivers
-COPY ./init/drivers ./drivers
+COPY ./drivers ./drivers
 
 # Install Cloudera Hive ODBC driver
 RUN dpkg -i ./drivers/clouderahiveodbc_2.5.25.1020-2_amd64.deb
@@ -28,8 +34,16 @@ RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.g
     && cp ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit/lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/ \
     && rm -R ./mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit
 
-# Install PostgreSQL ODBC driver
+# Install Oracle ODBC driver
+RUN apt-get install -y alien libaio1 \
+    && alien -i ./drivers/oracle-instantclient12.2-*
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/oracle/12.2/client64/lib
+
+# Add PostgreSQL ODBC driver
 RUN apt-get install -y odbc-postgresql
+
+# Install Snowflake ODBC driver
+RUN dpkg -i ./drivers/snowflake-odbc-2.20.4.x86_64.deb
 
 # Install Teradata ODBC driver
 RUN apt-get install -y lib32stdc++6 \
@@ -49,6 +63,8 @@ ARG MAIL_SENDER
 ENV MAIL_SENDER "$MAIL_SENDER"
 ARG MAIL_PASSWORD
 ENV MAIL_PASSWORD "$MAIL_PASSWORD"
+ARG MAIL_BASE_URL
+ENV MAIL_BASE_URL "$MAIL_BASE_URL"
 
 # Create config file to send mails using environment variables
 RUN echo "[graphql]" >> ./scripts.cfg \
@@ -58,10 +74,11 @@ RUN echo "[graphql]" >> ./scripts.cfg \
     && echo "host = $MAIL_HOST" >> ./scripts.cfg \
     && echo "port = $MAIL_PORT" >> ./scripts.cfg \
     && echo "sender = $MAIL_SENDER" >> ./scripts.cfg \
-    && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg
+    && echo "password = $MAIL_PASSWORD" >> ./scripts.cfg \
+    && echo "base_url = $MAIL_BASE_URL" >> ./scripts.cfg
 
 # Deleting drivers packages
-RUN rm -R drivers
+RUN rm -rf ./drivers
 
 # Copy code as late as possible
 COPY ./init ./

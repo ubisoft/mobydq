@@ -1,11 +1,25 @@
 """Unit tests for module /scripts/init/data_source.py."""
 import unittest
+from shared.utils import get_authorization
 from scripts.data_source import DataSource
 from scripts.constants import DataSourceType
 
 
 class TestDataSource(unittest.TestCase):
     """Unit tests for class DataSource."""
+
+    def test_get_password(self):
+        """Unit tests for method get_password."""
+
+        # Authenticate user
+        authorization = get_authorization()
+
+        # Get password for Hive data source
+        data_source = DataSource()
+        password = data_source.get_password(authorization, 1)
+
+        # Assert query result
+        self.assertEqual(password, 'cloudera')
 
     def test_get_connection_hive(self):
         """Unit tests for method get_connection for Hive database."""
@@ -131,9 +145,14 @@ class TestDataSource(unittest.TestCase):
         # Assert query result
         self.assertEqual(result, 'Tatooine')
 
+    # def test_get_connection_oracle(self):
+        # """Unit tests for method get_connection for Teradata database."""
+        # TODO: Not implemented because Oracle Docker container is too heavy
+        # pass
+
     # def test_get_connection_teradata(self):
         # """Unit tests for method get_connection for Teradata database."""
-        # TODO:
+        # TODO: Not implemented because there is no Teradata Docker image
         # pass
 
 

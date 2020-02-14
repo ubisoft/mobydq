@@ -261,7 +261,6 @@ class TestIndicator(unittest.TestCase):
         mutation_create_data_source = mutation_create_data_source.replace('test_case_name', str(test_case_name))  # Use replace() instead of format() because of curly braces
         mutation_create_data_source = {'query': mutation_create_data_source}  # Convert to dictionary
         data_source = utils.execute_graphql_request(authorization, mutation_create_data_source)
-        print(data_source)
         data_source = data_source['data']['createDataSource']['dataSource']['name']
 
         # Set parameters and call method

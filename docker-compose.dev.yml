@@ -5,6 +5,8 @@ services:
             - 5432:5432
 
     graphql:
+        environment:
+            - ALLOW_EXPLAIN=true
         ports:
             - 5433:5433
 
