@@ -58,21 +58,21 @@ const runExecuteBatchContainer = () => {
     };
 };
 
-// Create custom resolver to kill batch of indicators
-const killExecuteBatchContainer = () => {
+// Create custom resolver to kill container
+const killContainer = (containerName, objectId) => {
     return async (resolve, source, args, context, resolveInfo) => {
         // Instantiate Docker
         var Docker = require("dockerode");
         var docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
         // Get Docker container
-        const batchId = args.input.batchId;
-        var container = docker.getContainer("mobydq-batch-" + batchId);
+        const id = args.input[objectId];
+        var container = docker.getContainer(containerName + id);
 
         // Test if container exists
         container.inspect(function(err, data) {
             if (data) {
-                // Kill Docker container (container has autoremove set to true)
+                // Kill Docker container (container has autoremove set to true, no need to remove manually)
                 container.kill(function(err, data) {
                     if (err) {
                         console.error(err);
@@ -92,7 +92,8 @@ const killExecuteBatchContainer = () => {
 module.exports = makeWrapResolversPlugin({
     Mutation: {
         testDataSource: runTestDataSourceContainer(),
+        killTestDataSource: killContainer("mobydq-test-data-source-", "dataSourceId"),
         executeBatch: runExecuteBatchContainer(),
-        killBatch: killExecuteBatchContainer()
+        killBatch: killContainer("mobydq-batch-", "batchId")
     }
 });

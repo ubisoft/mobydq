@@ -110,3 +110,40 @@ COMMENT ON FUNCTION base.test_data_source IS
 'Function used to test connectivity to a data source.';
 
 REVOKE ALL ON FUNCTION base.test_data_source FROM PUBLIC;
+
+
+
+/*Create function to kill test of a data source*/
+CREATE OR REPLACE FUNCTION base.kill_test_data_source(data_source_id INTEGER)
+RETURNS base.data_source AS $$
+#variable_conflict use_variable
+DECLARE
+    data_source base.data_source;
+    existing_data_source RECORD;
+BEGIN
+    -- Get existing data source
+    SELECT id
+    INTO existing_data_source
+    FROM base.data_source
+    WHERE id=data_source_id
+    AND connectivity_status NOT IN ('Success', 'Failed', 'Killed');
+    
+    -- Verify if data source exists
+    IF existing_data_source.id IS NOT NULL THEN
+        -- Update connectivity status to Killed
+        UPDATE base.data_source
+        SET connectivity_status='Killed'
+        WHERE id=data_source_id
+        RETURNING * INTO data_source;
+    ELSE
+        RAISE EXCEPTION 'Data source Id % does not exist or connectivity status is already Success, Failed or Killed.', data_source_id;
+    END IF;
+
+    RETURN data_source;
+END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
+
+COMMENT ON FUNCTION base.kill_test_data_source IS
+'Function used to kill a test of a data source.';
+
+REVOKE ALL ON FUNCTION base.kill_test_data_source FROM PUBLIC;

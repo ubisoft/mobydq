@@ -70,7 +70,8 @@ GRANT standard TO advanced;
 /*base schema*/
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.configuration TO advanced;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.data_source TO advanced;
-GRANT EXECUTE ON FUNCTION base.kill_batch TO advanced;
+GRANT EXECUTE ON FUNCTION base.kill_test_data_source TO advanced;
+GRANT EXECUTE ON FUNCTION base.kill_execute_batch TO advanced;
 
 
 

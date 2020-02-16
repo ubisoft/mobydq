@@ -89,22 +89,22 @@ REVOKE ALL ON FUNCTION base.execute_batch FROM PUBLIC;
 
 
 /*Create function to kill batch of indicators*/
-CREATE OR REPLACE FUNCTION base.kill_batch(batch_id INTEGER)
+CREATE OR REPLACE FUNCTION base.kill_execute_batch(batch_id INTEGER)
 RETURNS base.batch AS $$
 #variable_conflict use_variable
 DECLARE
     batch base.batch;
-    existing_batch_id RECORD;
+    existing_batch RECORD;
 BEGIN
     -- Get existing batch
     SELECT id
-    INTO existing_batch_id
+    INTO existing_batch
     FROM base.batch
     WHERE id=batch_id
     AND status NOT IN ('Success', 'Failed', 'Killed');
     
     -- Verify if batch exists
-    IF existing_batch_id.id IS NOT NULL THEN
+    IF existing_batch.id IS NOT NULL THEN
         -- Update sessions status to Killed
         UPDATE base.session a
         SET status='Killed'
@@ -124,7 +124,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
 
-COMMENT ON FUNCTION base.kill_batch IS
+COMMENT ON FUNCTION base.kill_execute_batch IS
 'Function used to kill a batch of indicators.';
 
-REVOKE ALL ON FUNCTION base.kill_batch FROM PUBLIC;
+REVOKE ALL ON FUNCTION base.kill_execute_batch FROM PUBLIC;
