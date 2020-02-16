@@ -24,6 +24,15 @@ CREATE TABLE base.session (
 COMMENT ON TABLE base.session IS
 'Sessions record the execution of indicators within a batch.';
 
+
+
+/*Define list of values for batch status*/
+ALTER TABLE base.session
+ADD CONSTRAINT check_types 
+CHECK (status IN ('Pending', 'Running', 'Success', 'Failed', 'Killed'));
+
+
+
 CREATE TRIGGER session_update_updated_date BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
