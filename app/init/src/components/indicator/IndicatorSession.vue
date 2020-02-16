@@ -29,7 +29,7 @@
             {{ session.id }}
           </td>
           <td>
-            <span class="badge badge-pill" v-bind:class="cssClass(session.status)" >
+            <span class="badge badge-pill" v-bind:class="statusCssClass(session.status)" >
               {{ session.status }}
             </span>
           </td>
@@ -56,7 +56,10 @@
 </template>
 
 <script>
+import Mixins from "../utils/Mixins.vue";
+
 export default {
+  mixins: [Mixins],
   components: {
   },
   props: {
@@ -66,19 +69,6 @@ export default {
   computed: {
   },
   methods: {
-    cssClass(status) {
-      let cssClass;
-      if (status == 'Pending') {
-        cssClass = 'badge-secondary';
-      } else if(status == 'Running') {
-        cssClass = 'badge-info';
-      } else if(status == 'Success') {
-        cssClass = 'badge-success';
-      } else if (status == 'Failed') {
-        cssClass = 'badge-danger';
-      }
-      return cssClass;
-    },
   }
 };
 </script>
