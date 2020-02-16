@@ -39,7 +39,7 @@ export default {
       } else if (status == 'Failed') {
         cssClass = 'badge-danger';
       } else if (status == 'Killed') {
-        cssClass = 'badge-danger';
+        cssClass = 'badge-light';
       }
       return cssClass;
     },
