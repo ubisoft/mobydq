@@ -167,7 +167,7 @@ class TestDb(unittest.TestCase):
         self.connection.execute(call_execute_batch_query)
 
         # Get batch and indicator session
-        select_batch_query = f'''SELECT B.status, C.status FROM base.indicator_group A INNER JOIN base.batch B ON A.id = B.indicator_group_id INNER JOIN base.session C ON B.id = C.batch_id WHERE A.id = '{indicator_group_id}';'''
+        select_batch_query = f'''SELECT A.status, B.status FROM base.batch A INNER JOIN base.session B ON A.id = B.batch_id WHERE A.indicator_group_id = {indicator_group_id};'''
         cursor = self.connection.execute(select_batch_query)
         row = cursor.fetchone()
 
@@ -383,6 +383,75 @@ class TestDb(unittest.TestCase):
         # Assert user was created and user group role granted
         self.assertEqual(row[0], user)
         self.assertEqual(row[1], user_group)
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_kill_execute_batch(self):
+        """Unit tests for custom function kill_execute_batch."""
+
+        # Insert user group
+        test_case_name = get_test_case_name()
+        user_group_id = self.create_user_group(test_case_name)
+
+        # Insert indicator group
+        indicator_group_id = self.create_indicator_group(test_case_name, user_group_id)
+
+        # Insert indicator
+        self.create_indicator(test_case_name, indicator_group_id, user_group_id)
+
+        # Call execute batch function
+        call_execute_batch_query = f'''SELECT base.execute_batch({indicator_group_id});'''
+        self.connection.execute(call_execute_batch_query)
+
+        # Get batch
+        select_batch_query = f'''SELECT A.id FROM base.batch A WHERE A.indicator_group_id = {indicator_group_id};'''
+        cursor = self.connection.execute(select_batch_query)
+        row = cursor.fetchone()
+        batch_id = row[0]
+
+        # Call kill execute batch function
+        call_kill_execute_batch_query = f'''SELECT base.kill_execute_batch({batch_id});'''
+        self.connection.execute(call_kill_execute_batch_query)
+
+        # Get batch and session with updated status
+        select_batch_query = f'''SELECT A.status, B.status FROM base.batch A INNER JOIN base.session B ON A.id = B.batch_id WHERE A.id = {batch_id};'''
+        cursor = self.connection.execute(select_batch_query)
+        row = cursor.fetchone()
+
+        # Assert batch and session status are Pending
+        batch_status = row[0]
+        session_status = row[1]
+        self.assertEqual(batch_status, 'Killed')
+        self.assertEqual(session_status, 'Killed')
+
+        # Rollback uncommitted data
+        self.rollback()
+
+    def test_kill_test_data_source(self):
+        """Unit tests for custom function kill_test_data_source."""
+
+        # Insert data source
+        test_case_name = get_test_case_name()
+        data = self.create_data_source(test_case_name)
+        data_source_id = data[0]
+
+        # Call test data source function
+        call_test_data_source_query = f'''SELECT base.test_data_source({data_source_id});'''
+        self.connection.execute(call_test_data_source_query)
+
+        # Call kill test data source function
+        call_kill_test_data_source_query = f'''SELECT base.kill_test_data_source({data_source_id});'''
+        self.connection.execute(call_kill_test_data_source_query)
+
+        # Get data source connectivity status
+        select_data_source_status_query = f'''SELECT A.connectivity_status FROM base.data_source A WHERE A.id = {data_source_id};'''
+        cursor = self.connection.execute(select_data_source_status_query)
+        row = cursor.fetchone()
+
+        # Assert batch and session status are Pending
+        data_source_status = row[0]
+        self.assertEqual(data_source_status, 'Killed')
 
         # Rollback uncommitted data
         self.rollback()
