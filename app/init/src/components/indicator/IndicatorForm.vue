@@ -4,6 +4,7 @@
       <!-- Left column -->
       <div class="col-5">
         <h1 class="mt-5">Edit Indicator</h1>
+
         <form>
           <div class="form-row">
             <div class="col-11">
@@ -104,7 +105,7 @@
 
       <!-- Right column -->
       <div class="col-6">
-        <h1 class="mt-5">Executions History</h1>
+        <h1 class="mt-5">Execution History</h1>
         Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
         
         <!-- Chart -->
@@ -127,10 +128,10 @@
     <!-- Parameters -->
     <h1 class="mt-5" v-if="indicator.id">Indicator Parameters</h1>
     <p>
-      <indicator-button-create-parameter
+      <indicator-button-add-parameter
         v-if="indicator.id"
         v-on:editParameter="getParameter">
-      </indicator-button-create-parameter>
+      </indicator-button-add-parameter>
     </p>
 
     <!-- Parameter table -->
@@ -154,6 +155,8 @@
 </template>
 
 <script>
+import Mixins from "../utils/Mixins.vue";
+import remove from "lodash/remove";
 import IndicatorSelectIndicatorType from "./IndicatorSelectIndicatorType.vue";
 import IndicatorSelectIndicatorGroup from "./IndicatorSelectIndicatorGroup.vue";
 import IndicatorButtonSave from "./IndicatorButtonSave.vue";
@@ -161,31 +164,29 @@ import IndicatorButtonClose from "./IndicatorButtonClose.vue";
 import IndicatorButtonDelete from "./IndicatorButtonDelete.vue";
 import IndicatorButtonExecute from "./IndicatorButtonExecute.vue";
 import IndicatorButtonDuplicate from "./IndicatorButtonDuplicate.vue";
-import MetaDataCard from "../utils/MetaDataCard.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
-import IndicatorParameterTable from "./IndicatorParameterTable.vue";
-import ParameterModalBox from "../parameter/ParameterModalBox.vue";
 import IndicatorQuality from "./IndicatorQuality.vue";
 import IndicatorSession from "./IndicatorSession.vue";
-import Mixins from "../utils/Mixins.vue";
-import remove from "lodash/remove";
+import IndicatorParameterTable from "./IndicatorParameterTable.vue";
+import ParameterModalBox from "../parameter/ParameterModalBox.vue";
+import MetaDataCard from "../utils/MetaDataCard.vue";
 
 export default {
   mixins: [Mixins],
   components: {
     "indicator-select-indicator-type": IndicatorSelectIndicatorType,
     "indicator-select-indicator-group": IndicatorSelectIndicatorGroup,
-    "indicator-meta-data": MetaDataCard,
     "indicator-button-save": IndicatorButtonSave,
     "indicator-button-close": IndicatorButtonClose,
     "indicator-button-delete": IndicatorButtonDelete,
     "indicator-button-execute": IndicatorButtonExecute,
     "indicator-button-duplicate": IndicatorButtonDuplicate,
-    "indicator-button-create-parameter": IndicatorButtonAddParameter,
+    "indicator-button-add-parameter": IndicatorButtonAddParameter,
     "indicator-quality": IndicatorQuality,
     "indicator-session": IndicatorSession,
     "parameter-table": IndicatorParameterTable,
-    "parameter-modal-box": ParameterModalBox
+    "parameter-modal-box": ParameterModalBox,
+    "indicator-meta-data": MetaDataCard
   },
   data: function() {
     return {

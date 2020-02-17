@@ -18,6 +18,7 @@ export const queryGetBatchLog = `query getBatchLog($batchId: Int!, $orderBy: [Lo
 export const queryGetSessionLog = `query getSessionLog($sessionId: Int!, $orderBy: [LogsOrderBy!]){
     sessionById(id: $sessionId){
         status
+        batchId
         indicatorId
     	indicatorByIndicatorId {
             name

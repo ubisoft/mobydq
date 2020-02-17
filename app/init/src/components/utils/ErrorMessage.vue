@@ -37,3 +37,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#errorMessage {
+  margin-left: 250px;
+}
+</style>

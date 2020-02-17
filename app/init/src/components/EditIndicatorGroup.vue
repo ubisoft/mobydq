@@ -1,5 +1,5 @@
 <template>
-  <div class="col-5">
+  <div class="col">
     <indicator-group-form></indicator-group-form>
   </div>
 </template>
