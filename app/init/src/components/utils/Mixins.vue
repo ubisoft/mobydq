@@ -28,6 +28,21 @@ export default {
       }
       this.$store.commit("setErrorObject", errorObject);
     },
+    statusCssClass(status) {
+      let cssClass;
+      if (status == 'Pending') {
+        cssClass = 'badge-secondary';
+      } else if(status == 'Running') {
+        cssClass = 'badge-info';
+      } else if(status == 'Success') {
+        cssClass = 'badge-success';
+      } else if (status == 'Failed') {
+        cssClass = 'badge-danger';
+      } else if (status == 'Killed') {
+        cssClass = 'badge-light';
+      }
+      return cssClass;
+    },
     getGraphQlName(name, number = null, setUpperFirst = false) {
       // Method to compute GraphQL queries, mutations and fields names based on tables and columns names
       // Use case is to transform the input: my_list

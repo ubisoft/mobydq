@@ -1,7 +1,7 @@
 const { makeWrapResolversPlugin } = require("graphile-utils");
 
 // Create custom resolver to test data source
-const triggerTestDataSourceContainer = () => {
+const runTestDataSourceContainer = () => {
     return async (resolve, source, args, context, resolveInfo) => {
         // Let resolver execute against database
         const result = await resolve();
@@ -30,7 +30,7 @@ const triggerTestDataSourceContainer = () => {
 };
 
 // Create custom resolver to execute batch of indicators
-const triggerExecuteBatchContainer = () => {
+const runExecuteBatchContainer = () => {
     return async (resolve, source, args, context, resolveInfo) => {
         // Let resolver execute against database
         const result = await resolve();
@@ -58,10 +58,42 @@ const triggerExecuteBatchContainer = () => {
     };
 };
 
+// Create custom resolver to kill container
+const killContainer = (containerName, objectId) => {
+    return async (resolve, source, args, context, resolveInfo) => {
+        // Instantiate Docker
+        var Docker = require("dockerode");
+        var docker = new Docker({ socketPath: "/var/run/docker.sock" });
+
+        // Get Docker container
+        const id = args.input[objectId];
+        var container = docker.getContainer(containerName + id);
+
+        // Test if container exists
+        container.inspect(function(err, data) {
+            if (data) {
+                // Kill Docker container (container has autoremove set to true, no need to remove manually)
+                container.kill(function(err, data) {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            } else if (err) {
+                console.error(err);
+            }
+        });
+
+        const result = await resolve();
+        return result;
+    };
+};
+
 // Register custom resolvers
 module.exports = makeWrapResolversPlugin({
     Mutation: {
-        testDataSource: triggerTestDataSourceContainer(),
-        executeBatch: triggerExecuteBatchContainer()
+        testDataSource: runTestDataSourceContainer(),
+        killTestDataSource: killContainer("mobydq-test-data-source-", "dataSourceId"),
+        executeBatch: runExecuteBatchContainer(),
+        killBatch: killContainer("mobydq-batch-", "batchId")
     }
 });

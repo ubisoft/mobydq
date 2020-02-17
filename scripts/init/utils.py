@@ -39,17 +39,18 @@ class CustomLogHandler(logging.Handler):
         # Build mutation payload
         query = 'mutation createLog($log: LogInput!){createLog(input:{log: $log}){log{id}}}'
         variables = {}
-        variables['fileName'] = file_name
-        variables['logLevel'] = log_level
-        variables['message'] = log_message
+        variables['log'] = {}
+        variables['log']['fileName'] = file_name
+        variables['log']['logLevel'] = log_level
+        variables['log']['message'] = log_message
 
         # Add foreign keys to log record
         if self.batch_id is not None:
-            variables['batchId'] = self.batch_id
+            variables['log']['batchId'] = self.batch_id
         if self.session_id is not None:
-            variables['sessionId'] = self.session_id
+            variables['log']['sessionId'] = self.session_id
         if self.data_source_id is not None:
-            variables['dataSourceId'] = self.data_source_id
+            variables['log']['dataSourceId'] = self.data_source_id
 
         payload = {'query': query, 'variables': variables}
         execute_graphql_request(self.authorization, payload)

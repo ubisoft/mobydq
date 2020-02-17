@@ -72,7 +72,7 @@
           </div>
           <div v-if="dataSource.id" class="form-group">
               Connectivity Status:
-              <span class="badge badge-pill" v-bind:class="cssClass(dataSource.connectivityStatus)" >
+              <span class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" >
                   {{ dataSource.connectivityStatus }}
               </span>
               <span v-show="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -193,15 +193,6 @@ export default {
         this.dataSource.updatedDate = value.updatedDate;
         this.dataSource.userByUpdatedById.email = value.userByUpdatedById.email;
       }
-    },
-    cssClass(status) {
-      let cssClass;
-      if(status == 'Success') {
-        cssClass = 'badge-success';
-      } else if (status == 'Failed') {
-        cssClass = 'badge-danger';
-      }
-      return cssClass;
     }
   }
 };

@@ -18,6 +18,14 @@ CREATE TABLE base.batch (
 COMMENT ON TABLE base.batch IS
 'Batches record the execution of groups of indicators.';
 
+
+/*Define list of values for batch status*/
+ALTER TABLE base.batch
+ADD CONSTRAINT check_types 
+CHECK (status IN ('Pending', 'Running', 'Success', 'Failed', 'Killed'));
+
+
+
 CREATE TRIGGER batch_update_updated_date BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -67,7 +75,7 @@ BEGIN
         ) INSERT INTO base.session (status, indicator_id, batch_id, user_group_id)
         SELECT 'Pending', indicator.id, batch.id, 1 FROM indicator;
     END IF;
-    -- Executions of indicators are triggered by the GraphQL API
+    -- Execution of indicators is triggered by the GraphQL API
     -- Return batch record
     RETURN batch;
 END;
@@ -77,3 +85,46 @@ COMMENT ON FUNCTION base.execute_batch IS
 'Function used to execute a batch of indicators.';
 
 REVOKE ALL ON FUNCTION base.execute_batch FROM PUBLIC;
+
+
+
+/*Create function to kill batch of indicators*/
+CREATE OR REPLACE FUNCTION base.kill_execute_batch(batch_id INTEGER)
+RETURNS base.batch AS $$
+#variable_conflict use_variable
+DECLARE
+    batch base.batch;
+    existing_batch RECORD;
+BEGIN
+    -- Get existing batch
+    SELECT id
+    INTO existing_batch
+    FROM base.batch
+    WHERE id=batch_id
+    AND status NOT IN ('Success', 'Failed', 'Killed');
+    
+    -- Verify if batch exists
+    IF existing_batch.id IS NOT NULL THEN
+        -- Update sessions status to Killed
+        UPDATE base.session a
+        SET status='Killed'
+        WHERE a.batch_id=batch_id
+        AND a.status NOT IN ('Success', 'Failed', 'Killed');
+
+        -- Update batch status to Killed
+        UPDATE base.batch
+        SET status='Killed'
+        WHERE id=batch_id
+        RETURNING * INTO batch;
+    ELSE
+        RAISE EXCEPTION 'Batch Id % does not exist or status is already Success, Failed or Killed.', batch_id;
+    END IF;
+
+    RETURN batch;
+END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SECURITY DEFINER;
+
+COMMENT ON FUNCTION base.kill_execute_batch IS
+'Function used to kill a batch of indicators.';
+
+REVOKE ALL ON FUNCTION base.kill_execute_batch FROM PUBLIC;

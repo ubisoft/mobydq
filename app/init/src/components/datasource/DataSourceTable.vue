@@ -29,7 +29,7 @@
             {{ dataSource.dataSourceTypeByDataSourceTypeId.name }}
           </td>
           <td>
-              <span class="badge badge-pill" v-bind:class="cssClass(dataSource.connectivityStatus)" >
+              <span class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" >
                 {{ dataSource.connectivityStatus }}
               </span>
           </td>
@@ -45,9 +45,11 @@
 </template>
 
 <script>
+import Mixins from "../utils/Mixins.vue";
 import TableSort from "../utils/TableSort.vue";
 
 export default {
+  mixins: [Mixins],
   components: {
     "table-sort": TableSort
   },
@@ -64,15 +66,6 @@ export default {
   methods: {
     setSortAttribute(attribute) {
       this.$emit("sortAttribute", attribute);
-    },
-    cssClass(status) {
-      let cssClass;
-      if(status == 'Success') {
-        cssClass = 'badge-success';
-      } else if (status == 'Failed') {
-        cssClass = 'badge-danger';
-      }
-      return cssClass;
     }
   }
 };

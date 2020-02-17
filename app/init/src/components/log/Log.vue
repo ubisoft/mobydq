@@ -3,14 +3,14 @@
     <!-- Meta data for batch logs -->
     <p v-if="batchId">
       Batch Id: {{ batchId }}<br>
-      Status: <span class="badge badge-pill" v-bind:class="cssClass(batchStatus)" >{{ batchStatus }}</span><br>
+      Status: <span class="badge badge-pill" v-bind:class="statusCssClass(batchStatus)" >{{ batchStatus }}</span><br>
       Indicator Group: <router-link v-bind:to="'/indicatorgroups/' + indicatorGroupId">{{ indicatorGroup }}</router-link>
     </p>
 
     <!-- Meta data for session logs -->
     <p v-if="sessionId">
       Session Id: {{ sessionId }}<br>
-      Status: <span class="badge badge-pill" v-bind:class="cssClass(sessionStatus)" >{{ sessionStatus }}</span><br>
+      Status: <span class="badge badge-pill" v-bind:class="statusCssClass(sessionStatus)" >{{ sessionStatus }}</span><br>
       Indicator: <router-link v-bind:to="'/indicators/' + indicatorId">{{ indicator }}</router-link><br>
       Indicator Type: {{ indicatorType }}
     </p>
@@ -108,7 +108,6 @@ export default {
 
               // Fetch logs for session
               else if (this.sessionId) {
-                this.sessionId = response.data.data.sessionById.id;
                 this.sessionStatus = response.data.data.sessionById.status;
                 this.indicatorId = response.data.data.sessionById.indicatorId;
                 this.indicator = response.data.data.sessionById.indicatorByIndicatorId.name;
@@ -136,19 +135,6 @@ export default {
           }
         );
       }
-    },
-    cssClass(status) {
-      let cssClass;
-      if (status == 'Pending') {
-        cssClass = 'badge-secondary';
-      } else if(status == 'Running') {
-        cssClass = 'badge-info';
-      } else if(status == 'Success') {
-        cssClass = 'badge-success';
-      } else if (status == 'Failed') {
-        cssClass = 'badge-danger';
-      }
-      return cssClass;
     }
   },
   created: function() {
