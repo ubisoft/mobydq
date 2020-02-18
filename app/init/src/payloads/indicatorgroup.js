@@ -8,7 +8,7 @@ export const queryGetAllIndicatorGroups = `query getAllIndicatorGroups($first: I
     }
 }`;
 
-export const queryGetIndicatorGroup = `query getIndicatorGroup($id: Int!) {
+export const queryGetIndicatorGroup = `query getIndicatorGroup($id: Int!, $first: Int, $offset: Int, $orderBy: [BatchesOrderBy!]) {
     indicatorGroupById(id: $id) {
         id
         name
@@ -16,6 +16,13 @@ export const queryGetIndicatorGroup = `query getIndicatorGroup($id: Int!) {
         updatedDate
         userByCreatedById { email }
         userByUpdatedById { email }
+        batchesByIndicatorGroupId(first: $first, offset: $offset, orderBy: $orderBy) {
+            nodes {
+                id
+                status
+                sessionsByBatchId { totalCount }
+            }
+        }
     }
 }`;
 

@@ -9,6 +9,7 @@
 
     <!-- Meta data for session logs -->
     <p v-if="sessionId">
+      Batch Id: {{ sessionId }}<br>
       Session Id: {{ sessionId }}<br>
       Status: <span class="badge badge-pill" v-bind:class="statusCssClass(sessionStatus)" >{{ sessionStatus }}</span><br>
       Indicator: <router-link v-bind:to="'/indicators/' + indicatorId">{{ indicator }}</router-link><br>

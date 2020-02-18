@@ -1,22 +1,15 @@
 <template>
   <div id="app">
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <sidebar></sidebar>
+    <!-- Sidebar -->
+    <sidebar></sidebar>
+    
+    <!-- Header -->
+    <header-bar></header-bar>
+    <error-message></error-message>
 
-        <div class="col container">
-          <!-- Header -->
-          <header-bar></header-bar>
-          <error-message></error-message>
-
-          <!-- Content -->
-          <div id="main" class="justify-content-center">
-            <router-view :key="$route.fullPath"></router-view>
-          </div>
-        </div>
-
-      </div>
+    <!-- Content -->
+    <div id="main">
+      <router-view :key="$route.fullPath"></router-view>
     </div>
   </div>
 </template>
@@ -60,11 +53,8 @@ export default {
 </script>
 
 <style>
-.container{
-  padding: 0;
-}
-
-#main{
+#main {
+  margin-left: 250px;
   padding-left: 20px;
   padding-right: 20px;
 }

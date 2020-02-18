@@ -1,5 +1,5 @@
 <template>
-  <nav id="sidebar" class="nav flex-column col sidebar">
+  <div id="sidebar">
     <span class="navbar-brand">
       <router-link to="/">
         <img src="/logo.png"  alt="MobyDQ" />
@@ -19,38 +19,32 @@
     <router-link to="/datasources" class="nav-link">
       Data Sources
     </router-link>
-  </nav>
+  </div>
 </template>
 
 <script>
 </script>
 
 <style>
-.navbar-brand {
-  margin-bottom: 20px;
-}
-
-.sidebar {
+#sidebar {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
   background-color: #212529;
-  min-width: 250px;
-  max-width: 250px;
-  min-height: 100vh;
-  padding: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
-a.nav-link {
+.nav-link {
   color: #cccccc;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-a.nav-link:hover {
+.nav-link:hover {
   color: #ffffff;
-}
-
-a.nav-link.active {
-  min-width: 250px;
-  max-width: 250px;
-  background-color: #2c3034;
 }
 </style>

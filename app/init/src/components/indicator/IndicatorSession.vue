@@ -10,13 +10,13 @@
             Status
           </th>
           <th scope="col">
-            Nb Records
-          </th>
-          <th scope="col">
             Nb Alerts
           </th>
           <th scope="col">
             Quality Level
+          </th>
+          <th scope="col">
+            Batch Id
           </th>
           <th scope="col">
             Actions
@@ -34,15 +34,15 @@
             </span>
           </td>
           <td>
-            {{ session.nbRecords }}
-          </td>
-          <td>
             {{ session.nbRecordsAlert }}
           </td>
           <td v-if="session.nbRecords > 0">
             {{ Math.round((session.nbRecordsNoAlert/session.nbRecords)*100) }}%
           </td>
           <td v-else>
+          </td>
+          <td>
+            {{ session.batchId }}
           </td>
           <td>
             <router-link class="badge badge-secondary" v-bind:to="'/indicators/' + indicatorId + '/sessions/' + session.id + '/logs'">

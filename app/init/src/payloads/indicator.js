@@ -44,6 +44,7 @@ export const queryGetIndicator = `query getIndicator($id: Int!, $first: Int, $of
                 nbRecords
                 nbRecordsAlert
                 nbRecordsNoAlert
+                batchId
                 createdDate
                 updatedDate
                 userByCreatedById { email }
