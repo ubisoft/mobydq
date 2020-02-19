@@ -48,27 +48,49 @@
             <router-link class="badge badge-secondary" v-bind:to="'/indicators/' + indicatorId + '/sessions/' + session.id + '/logs'">
               Log
             </router-link>
+            <a v-if="showKillBatch(session.batchByBatchId.status)" class="badge badge-secondary ml-1" v-on:click="setModalBoxBatchId(session.batchId)" data-toggle="modal" data-target="#ModalBoxKillBatch">
+              Kill
+            </a>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal box to kill batch -->
+    <modal-box-kill-batch v-bind:batchId="modalBoxBatchId"> </modal-box-kill-batch>
   </div>
 </template>
 
 <script>
 import Mixins from "../utils/Mixins.vue";
+import ModalBoxKillBatch from "../utils/ModalBoxKillBatch.vue";
 
 export default {
   mixins: [Mixins],
   components: {
+    "modal-box-kill-batch": ModalBoxKillBatch
   },
   props: {
     indicatorId: Number,
     sessions: Array
   },
+  data: function() {
+    return {
+      modalBoxBatchId: null
+    };
+  },
   computed: {
   },
   methods: {
+    showKillBatch(batchStatus) {
+      // Show kill batch
+      let roles = ["standard", "advanced", "admin"];
+      let status = ["Success", "Failed", "Killed"];
+      return roles.includes(this.$store.state.currentUser.role) && !status.includes(batchStatus);
+    },
+    setModalBoxBatchId(batchId) {
+      this.modalBoxBatchId = batchId;
+    }
   }
 };
 </script>
