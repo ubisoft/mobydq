@@ -111,7 +111,7 @@ class Indicator:
         Return True if an alert must be sent, False otherwise.
         Supported alert operators are: ==, >, >=, <, <=, !=
         """
-        return eval(str(measure_value) + alert_operator + str(alert_threshold)) # pylint: disable=W0123
+        return eval(measure_value + alert_operator + alert_threshold) # pylint: disable=W0123
 
     def send_alert(self, indicator_id: int, indicator_name: str, session_id: int, distribution_list: List[str], alert_operator: str, alert_threshold: str, nb_records_alert: str, result_data: pandas.DataFrame):
         """Build the alert e-mail to be sent for the session."""
