@@ -280,12 +280,12 @@ class TestIndicator(unittest.TestCase):
         """Unit tests for method is_alert."""
 
         indicator = Indicator()
-        equal = indicator.is_alert(0, '==', 0)
-        greater = indicator.is_alert(1, '>', 0)
-        greater_equal = indicator.is_alert(1, '>=', 0)
-        smaller = indicator.is_alert(0, '<', 1)
-        smaller_equal = indicator.is_alert(0, '<=', 1)
-        different = indicator.is_alert(1, '!=', 2)
+        equal = indicator.is_alert('0', '==', '0')
+        greater = indicator.is_alert('1', '>', '0')
+        greater_equal = indicator.is_alert('1', '>=', '0')
+        smaller = indicator.is_alert('0', '<', '1')
+        smaller_equal = indicator.is_alert('0', '<=', '1')
+        different = indicator.is_alert('1', '!=', '2')
 
         # Assert expressions
         self.assertTrue(equal)

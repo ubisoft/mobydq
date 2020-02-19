@@ -81,7 +81,7 @@ class Freshness(Indicator):
         for measure in measures:
             for row_num in result_data.index:
                 measure_value = result_data.loc[row_num, measure + '_delta_minutes']
-                if self.is_alert(measure_value, alert_operator, alert_threshold):
+                if self.is_alert(str(measure_value), alert_operator, alert_threshold):
                     result_data.loc[row_num, 'Alert'] = True
 
         return result_data

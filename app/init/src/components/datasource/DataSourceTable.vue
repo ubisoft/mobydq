@@ -29,9 +29,9 @@
             {{ dataSource.dataSourceTypeByDataSourceTypeId.name }}
           </td>
           <td>
-              <span class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" >
+              <router-link class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" v-bind:to="'/datasources/' + dataSource.id">
                 {{ dataSource.connectivityStatus }}
-              </span>
+              </router-link>
           </td>
           <td>
             <router-link v-if="showEditDataSource" class="badge badge-secondary" v-bind:to="'/datasources/' + dataSource.id">

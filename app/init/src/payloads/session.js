@@ -5,6 +5,11 @@ export const queryGetAllSessions = `query getAllSessions($first: Int, $offset: I
             status
             indicatorId
             indicatorByIndicatorId { name }
+            batchId
+            batchByBatchId {
+                status
+                indicatorGroupId
+            }
             updatedDate
             userByCreatedById { email }
         }
@@ -19,6 +24,11 @@ export const mutationSearchSession = `mutation searchSession($searchKeyword: Str
             status
             indicatorId
             indicatorByIndicatorId { name }
+            batchId
+            batchByBatchId {
+                status
+                indicatorGroupId
+            }
             updatedDate
             userByCreatedById { email }
         }

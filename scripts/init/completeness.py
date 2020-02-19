@@ -105,7 +105,7 @@ class Completeness(Indicator):
                 measure_value = result_data.loc[row_num, measure + '_delta_percentage']
                 # Multiply by 100 to format to percentage
                 measure_value = abs(measure_value) * 100
-                if super().is_alert(measure_value, alert_operator, alert_threshold):
+                if super().is_alert(str(measure_value), alert_operator, alert_threshold):
                     result_data.loc[row_num, 'Alert'] = True
 
         return result_data

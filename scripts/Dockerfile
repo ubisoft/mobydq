@@ -5,15 +5,9 @@ ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
-RUN echo "deb http://ftp.cn.debian.org/debian/ stretch main" > /etc/apt/sources.list \
-    && echo "deb http://ftp.cn.debian.org/debian/ stretch-updates main" >> /etc/apt/sources.list
-
 # Add dependencies for Python package pyodbc
 RUN apt-get update \
     && apt-get install -y g++ unixodbc unixodbc-dev
-
-RUN pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U \
-    && pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
