@@ -23,9 +23,9 @@
             <router-link v-if="showEditIndicatorGroup" class="badge badge-secondary" v-bind:to="'/indicatorgroups/' + indicatorGroup.id">
               Edit
             </router-link>
-            <span v-if="showEditIndicatorGroup" class="badge badge-secondary ml-1" v-on:click="execute(indicatorGroup.id)">
+            <a v-if="showEditIndicatorGroup" class="badge badge-secondary ml-1" v-on:click="execute(indicatorGroup.id)">
               Execute
-            </span>
+            </a>
           </td>
         </tr>
       </tbody>

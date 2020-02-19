@@ -37,9 +37,9 @@
             </router-link>
           </td>
           <td>
-            <span class="badge badge-pill" v-bind:class="statusCssClass(session.status)" >
+            <router-link class="badge badge-pill" v-bind:class="statusCssClass(session.status)" v-bind:to="'/indicators/' + session.indicatorId">
               {{ session.status }}
-            </span>
+            </router-link>
           </td>
           <td>
             {{ session.updatedDate }}
