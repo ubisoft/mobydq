@@ -34,7 +34,7 @@ class Session:
         variables['id'] = session_id
         variables['sessionPatch'] = {}
         variables['sessionPatch']['alertOperator'] = alert_operator
-        variables['sessionPatch']['alertThreshold'] = alert_threshold
+        variables['sessionPatch']['alertThreshold'] = float(alert_threshold)  # Alert threshold is stored as string in parameters and needs to be converted to float
         variables['sessionPatch']['nbRecordsNoAlert'] = nb_records_no_alert
         variables['sessionPatch']['nbRecordsAlert'] = nb_records_alert
         variables['sessionPatch']['nbRecords'] = nb_records
