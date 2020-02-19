@@ -121,10 +121,10 @@ class DataSource:
             self.get_connection(data_source_type_id, connection_string, login, password)
 
             log.info('Connection to data source succeeded.')
-            query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch:{connectivityStatus: $status}}){dataSource{connectivityStatus}}}'
+            query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch: $dataSourcePatch}){dataSource{connectivityStatus}}}'
             variables = {'id': data_source_id, 'dataSourcePatch': {'connectivityStatus': 'Success'}}
             payload = {'query': query, 'variables': variables}
-            utils.execute_graphql_request(authorization, payload)
+            response = utils.execute_graphql_request(authorization, payload)
 
         except Exception:  # Pylint: disable=broad-except
             log.error('Connection to data source failed.')
