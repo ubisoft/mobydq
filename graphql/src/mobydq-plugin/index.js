@@ -94,6 +94,6 @@ module.exports = makeWrapResolversPlugin({
         testDataSource: runTestDataSourceContainer(),
         killTestDataSource: killContainer("mobydq-test-data-source-", "dataSourceId"),
         executeBatch: runExecuteBatchContainer(),
-        killBatch: killContainer("mobydq-batch-", "batchId")
+        killExecuteBatch: killContainer("mobydq-batch-", "batchId")
     }
 });
