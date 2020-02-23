@@ -99,6 +99,12 @@ class DataSource:
         """Test connectivity to a data source and update its connectivity status."""
         log.info('Test connectivity to data source Id %i.', data_source_id)
 
+        # Set connectivity test to running
+        query = 'mutation updateDataSourceStatus($id: Int!, $dataSourcePatch: DataSourcePatch!){updateDataSourceById(input:{id: $id, dataSourcePatch: $dataSourcePatch}){dataSource{connectivityStatus}}}'
+        variables = {'id': data_source_id, 'dataSourcePatch': {'connectivityStatus': 'Running'}}
+        payload = {'query': query, 'variables': variables}
+        utils.execute_graphql_request(authorization, payload)
+
         # Get data source
         log.debug('Get data source.')
         query = 'query getDataSource($id: Int!){dataSourceById(id: $id){dataSourceTypeId, connectionString, login}}'
