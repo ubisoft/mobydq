@@ -16,6 +16,7 @@ CREATE TABLE base.data_source_type (
 COMMENT ON TABLE base.data_source_type IS
 'Data source types describe the types of a data sources indicators can connect to.';
 
+/*Triggers on update*/
 CREATE TRIGGER data_source_type_update_updated_date BEFORE UPDATE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -24,6 +25,9 @@ CREATE TRIGGER data_source_type_update_updated_by_id BEFORE UPDATE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER data_source_type_delete_data_source BEFORE DELETE
 ON base.data_source_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('data_source', 'data_source_type_id');
