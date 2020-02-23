@@ -21,22 +21,25 @@
       <tbody>
         <tr v-for="dataSource in dataSources" v-bind:key="dataSource.id">
           <td>
-              <router-link v-bind:to="'/datasources/' + dataSource.id">
-                {{ dataSource.name }}
-              </router-link>
+            <router-link v-bind:to="'/datasources/' + dataSource.id">
+              {{ dataSource.name }}
+            </router-link>
           </td>
           <td>
             {{ dataSource.dataSourceTypeByDataSourceTypeId.name }}
           </td>
           <td>
-              <router-link class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" v-bind:to="'/datasources/' + dataSource.id">
-                {{ dataSource.connectivityStatus }}
-              </router-link>
+            <router-link class="badge badge-pill" v-bind:class="statusCssClass(dataSource.connectivityStatus)" v-bind:to="'/datasources/' + dataSource.id">
+              {{ dataSource.connectivityStatus }}
+            </router-link>
           </td>
           <td>
             <router-link v-if="showEditDataSource" class="badge badge-secondary" v-bind:to="'/datasources/' + dataSource.id">
               Edit
             </router-link>
+            <a v-if="showEditDataSource" class="badge badge-secondary ml-1" v-on:click="testConnectivity(dataSource.id)">
+              Test
+            </a>
           </td>
         </tr>
       </tbody>
@@ -66,6 +69,31 @@ export default {
   methods: {
     setSortAttribute(attribute) {
       this.$emit("sortAttribute", attribute);
+    },
+    testConnectivity(dataSourceId) {
+      let payload = {
+        query: this.$store.state.mutationTestDataSource,
+        variables: {
+          dataSourceId: dataSourceId
+        }
+      };
+      let headers = {};
+      if (this.$session.exists()) {
+        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+      }
+      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+        function(response) {
+          if (response.data.errors) {
+            this.displayError(response);
+          } else {
+            // this.$emit("connectivityTestStatus", this.connectivityTestStatus); // Send test results to parent component
+          }
+        },
+        // Error callback
+        function(response) {
+          this.displayError(response);
+        }
+      );
     }
   }
 };
