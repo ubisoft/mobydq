@@ -106,7 +106,7 @@
       <!-- Right column -->
       <div class="col-6">
         <h1 class="mt-5">Execution History</h1>
-        Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
+        Quality Level (%): <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
         
         <!-- Chart -->
         <indicator-session-chart
