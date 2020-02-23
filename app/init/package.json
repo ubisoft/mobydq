@@ -9,21 +9,16 @@
     "prettier": "prettier --write \"src/**/*.{js,vue}\" --tab-width 4 --print-width 160 --jsx-bracket-same-line"
   },
   "dependencies": {
-    "@riophae/vue-treeselect": "0.0.38",
-    "core-js": "^2.6.5",
-    "file-saver": "^2.0.2",
-    "jszip": "^3.2.1",
-    "inflection": "^1.12.0",
     "lodash": "^4.17.13",
-    "papaparse": "^5.0.0-beta.0",
-    "topological-sort": "^0.3.0",
+    "chart.js": "^2.9.3",
     "vue": "^2.6.10",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.6",
     "vue-session": "^1.0.0",
     "vuex": "^3.1.1",
-    "chart.js": "^2.9.3",
-    "vue-chartjs": "^3.5.0"
+    "vue-chartjs": "^3.5.0",
+    "vue-native-websocket": "^2.0.14",
+    "@riophae/vue-treeselect": "0.0.38"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
