@@ -1,6 +1,15 @@
 <template>
   <div v-if="show" class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle ml-1" id="notification" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <!-- Notification button -->
+    <button
+      class="btn btn-secondary dropdown-toggle ml-1"
+      id="notification"
+      type="button"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      v-on:click="getAllNotifications"
+    >
       <span v-if="nbNotifications > 0" class="badge badge-pill badge-info">
         {{ nbNotifications }}
       </span>
@@ -26,7 +35,7 @@
 
       <!-- Notification items -->
       <div v-for="notification in notifications" v-bind:key="notification.id">
-        <div class="dropdown-item notification-item">
+        <router-link class="dropdown-item notification-item" to="/notifications">
           Status of <b>{{ formatNotification(notification) }}</b> set to
           <span class="badge badge-pill" v-bind:class="statusCssClass(notification.status)">
             {{ notification.status }}
@@ -34,9 +43,7 @@
           <div class="text-muted">
             <small>{{ notification.createdDate }}</small>
           </div>
-        </div>
-
-        <router-link to="/admin/users"> </router-link>
+        </router-link>
         <div class="dropdown-divider notification-divider"></div>
       </div>
     </div>
@@ -77,7 +84,7 @@ export default {
         return `data source ${dataSourceName}`;
       }
     },
-    getNotification() {
+    listenNotifications() {
       // Method using GraphQL subscription to listen to notifications
       let payload = {
         query: this.$store.state.subscriptionGetNotification
@@ -163,7 +170,8 @@ export default {
   },
   created: function() {
     this.getAllNotifications(this.currentPage);
-    this.getNotification();
+    //this.listenNotifications();
+    this.$options.sockets.onmessage = data => console.log(data);
   }
 };
 </script>
