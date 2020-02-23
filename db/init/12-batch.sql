@@ -26,6 +26,12 @@ CHECK (status IN ('Pending', 'Running', 'Success', 'Failed', 'Killed'));
 
 
 
+/*Triggers on insert*/
+CREATE TRIGGER batch_insert_notification AFTER INSERT
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE base.send_notification('Batch');
+
+
+
 /*Triggers on update*/
 CREATE TRIGGER batch_update_updated_date BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
@@ -34,6 +40,10 @@ base.update_updated_date();
 CREATE TRIGGER batch_update_updated_by_id BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+CREATE TRIGGER batch_update_notification AFTER UPDATE
+ON base.batch FOR EACH ROW WHEN (OLD.status <> NEW.status)
+EXECUTE PROCEDURE base.send_notification('Batch');
 
 
 

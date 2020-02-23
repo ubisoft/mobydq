@@ -91,3 +91,21 @@ $$ language plpgsql;
 
 COMMENT ON FUNCTION base.delete_children IS
 'Function used to automate cascade delete on children tables.';
+
+
+
+/*Create function to send notification to frontend via GraphQL subscriptions*/
+CREATE OR REPLACE FUNCTION base.send_notification()
+RETURNS TRIGGER AS $$
+DECLARE
+    object_type TEXT; -- Topic must be a GraphQL field such as DataSource, Batch, Session, etc.
+BEGIN
+    object_type = TG_ARGV[0];
+    -- First argument of PG_NOTIFY is the channel, it must contain 'postgraphile:' to be captured by PostGraphile simple subscriptions
+    PERFORM(SELECT PG_NOTIFY('postgraphile:notification', JSON_BUILD_OBJECT('__node__', JSON_BUILD_ARRAY(object_type, NEW.id))::text));
+    RETURN NEW;
+END;
+$$ language plpgsql;
+
+COMMENT ON FUNCTION base.send_notification IS
+'Function used to send notification to frontend via GraphQL subscriptions.';
