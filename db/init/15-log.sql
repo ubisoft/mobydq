@@ -18,7 +18,7 @@ CREATE TABLE base.log (
 );
 
 COMMENT ON TABLE base.log IS
-'Logs recorded during the execution of batches, sessions and tests of data sources.';
+E'@omit update,delete\nLogs recorded during the execution of batches, sessions and tests of data sources.';
 
 
 

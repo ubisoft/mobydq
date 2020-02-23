@@ -9,6 +9,7 @@ import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 import * as IndicatorPayload from "./payloads/indicator";
 import * as IndicatorTypePayload from "./payloads/indicatortype";
 import * as LogPayload from "./payloads/log";
+import * as NotificationPayload from "./payloads/notification";
 import * as ParameterPayload from "./payloads/parameter";
 import * as SessionPayload from "./payloads/session";
 import * as BatchPayload from "./payloads/batch";
@@ -97,6 +98,11 @@ export const store = new Vuex.Store({
     queryGetBatchLog: LogPayload.queryGetBatchLog,
     queryGetSessionLog: LogPayload.queryGetSessionLog,
     queryGetDataSourceLog: LogPayload.queryGetDataSourceLog,
+
+    // Notifications queries and mutations
+    subscriptionGetNotification: NotificationPayload.subscriptionGetNotification,
+    queryGetAllNotifications: NotificationPayload.queryGetAllNotifications,
+    mutationMarkAllNotificationsAsRead: NotificationPayload.mutationMarkAllNotificationsAsRead,
 
     //Indicator parameters queries and mutations
     mutationCreateParameter: ParameterPayload.mutationCreateParameter,

@@ -63,16 +63,16 @@ CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
-CREATE TRIGGER data_source_update_notification AFTER UPDATE
-ON base.data_source FOR EACH ROW WHEN (OLD.connectivity_status <> NEW.connectivity_status)
-EXECUTE PROCEDURE base.send_notification('DataSource');
-
 
 
 /*Triggers on delete*/
 CREATE TRIGGER data_source_delete_log BEFORE DELETE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('log', 'data_source_id');
+
+CREATE TRIGGER data_source_delete_notification BEFORE DELETE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('notification', 'data_source_id');
 
 
 
