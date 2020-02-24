@@ -26,6 +26,7 @@ GRANT SELECT ON base.parameter TO anonymous;
 GRANT SELECT ON base.batch TO anonymous;
 GRANT SELECT ON base.session TO anonymous;
 GRANT SELECT ON base.log TO anonymous;
+GRANT SELECT ON base.notification TO anonymous;
 
 /*Dashboard views*/
 GRANT SELECT ON base.nb_indicators TO anonymous;
@@ -48,7 +49,6 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA base TO standard;
 GRANT SELECT ON base.password TO standard;
 GRANT SELECT ON base.data_source_password TO standard;
 GRANT SELECT ON base.configuration TO standard;
-GRANT SELECT ON base.notification TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator_group TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.indicator TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.parameter TO standard;
@@ -58,6 +58,7 @@ GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.log TO standard;
 GRANT INSERT, UPDATE, DELETE, REFERENCES ON base.notification TO standard;
 GRANT EXECUTE ON FUNCTION base.test_data_source TO standard;
 GRANT EXECUTE ON FUNCTION base.execute_batch TO standard;
+GRANT EXECUTE ON FUNCTION base.mark_all_notifications_as_read TO standard;
 
 
 
@@ -126,5 +127,5 @@ USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 CREATE POLICY user_group_policy on base.session FOR ALL TO PUBLIC
 USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
-CREATE POLICY user_policy on base.notification FOR ALL TO PUBLIC
-USING (created_by_id=base.get_current_user_id());
+--CREATE POLICY user_policy on base.notification FOR ALL TO PUBLIC
+--USING (created_by_id=base.get_current_user_id());

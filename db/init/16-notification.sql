@@ -70,20 +70,18 @@ CREATE OR REPLACE FUNCTION base.mark_all_notifications_as_read()
 RETURNS SETOF base.notification AS $$
 BEGIN
     RETURN QUERY
-    WITH unread_notifications AS (
-      UPDATE base.notification
-      SET flag_read=TRUE 
-      WHERE flag_read=FALSE
-      AND created_by_id=base.get_current_user_id()
-      RETURNING id
-    )
-    SELECT * FROM base.notification a
-    WHERE a.id IN (SELECT id FROM unread_notifications);
+    UPDATE base.notification
+    SET flag_read=TRUE 
+    WHERE flag_read=FALSE
+    AND created_by_id=base.get_current_user_id()
+    RETURNING *;
 END;
 $$ language plpgsql VOLATILE STRICT SECURITY DEFINER;
 
 COMMENT ON FUNCTION base.mark_all_notifications_as_read IS
 'Function used to mark all notifications of a user as read.';
+
+REVOKE ALL ON FUNCTION base.mark_all_notifications_as_read FROM PUBLIC;
 
 
 
@@ -102,5 +100,5 @@ ON base.batch FOR EACH ROW WHEN (OLD.status <> NEW.status)
 EXECUTE PROCEDURE base.create_notification_message('batch');
 
 CREATE TRIGGER data_source_update_notification AFTER UPDATE
-ON base.data_source FOR EACH ROW WHEN (OLD.connectivity_status IS NULL OR (OLD.connectivity_status <> NEW.connectivity_status))
+ON base.data_source FOR EACH ROW WHEN (OLD.connectivity_status <> NEW.connectivity_status)
 EXECUTE PROCEDURE base.create_notification_message('data_source');
