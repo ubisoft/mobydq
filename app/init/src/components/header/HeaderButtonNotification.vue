@@ -84,31 +84,6 @@ export default {
         return `data source ${dataSourceName}`;
       }
     },
-    listenNotifications() {
-      // Method using GraphQL subscription to listen to notifications
-      let payload = {
-        query: this.$store.state.subscriptionGetNotification
-      };
-      let headers = {};
-      if (this.$session.exists()) {
-        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
-      }
-      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
-        function(response) {
-          if (response.data.errors) {
-            this.displayError(response);
-          } else {
-            console.log(response.data.data.listen.relatedNode);
-            //this.notifications = this.notifications.unshift(response.data.data.listen.relatedNode); // Add item to beginning of array
-            //this.nbNotifications = this.nbNotifications + 1;
-          }
-        },
-        // Error callback
-        function(response) {
-          this.displayError(response);
-        }
-      );
-    },
     getAllNotifications(page) {
       let payload = {
         query: this.$store.state.queryGetAllNotifications,
@@ -169,9 +144,17 @@ export default {
     }
   },
   created: function() {
+    // Get notifications
     this.getAllNotifications(this.currentPage);
-    //this.listenNotifications();
-    this.$options.sockets.onmessage = data => console.log(data);
+
+    // Capture notification via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "notification" && message.type == "data") {
+        this.nbNotifications = this.nbNotifications + 1;
+        this.notifications.unshift(message.payload.data.listen.relatedNode); // Push notification to array
+      }
+    };
   }
 };
 </script>
@@ -182,6 +165,8 @@ export default {
   color: #ffffff;
   padding: 0;
   min-width: 300px;
+  max-height: 450px;
+  overflow: auto;
 }
 #dropdown-notification .notification-menu {
   padding: 10px 20px;

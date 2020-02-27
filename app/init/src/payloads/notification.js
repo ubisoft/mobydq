@@ -1,19 +1,19 @@
 export const subscriptionGetNotification = `subscription getNotifications {
     listen(topic: "notification") {
-        relatedNode {
-            ... on Notification {
-                id
-                message
-                flagRead
-                createdDate
-                batchId
-                dataSourceId
-                dataSourceByDataSourceId { name }
-                status
-            }
+      relatedNode {
+        ... on Notification {
+          id
+          message
+          flagRead
+          createdDate
+          batchId
+          dataSourceId
+          dataSourceByDataSourceId { name }
+          status
         }
+      }
     }
-}`;
+  }`;
 
 export const queryGetAllNotifications = `query getAllNotifications($first: Int, $offset: Int, $orderBy: [NotificationsOrderBy!]) {
     allNotifications(first: $first, offset: $offset, orderBy: $orderBy, condition: { flagRead: false }) {

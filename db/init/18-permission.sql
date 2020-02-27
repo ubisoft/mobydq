@@ -127,5 +127,5 @@ USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 CREATE POLICY user_group_policy on base.session FOR ALL TO PUBLIC
 USING (pg_has_role('user_group_' || user_group_id, 'MEMBER'));
 
---CREATE POLICY user_policy on base.notification FOR ALL TO PUBLIC
---USING (created_by_id=base.get_current_user_id());
+CREATE POLICY user_policy on base.notification FOR ALL TO PUBLIC
+USING (created_by_id=base.get_current_user_id());

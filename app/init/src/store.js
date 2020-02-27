@@ -33,6 +33,12 @@ export const store = new Vuex.Store({
       role: "anonymous" // Used to customize UI display
     },
 
+    // Websocket
+    websocket: {
+      isConnected: false
+      //message: "" // Not used
+    },
+
     // Authenticate user
     mutationAuthenticateUser: UserSession.mutationAuthenticateUser,
     queryGetCurrentUser: UserSession.queryGetCurrentUser,
@@ -127,6 +133,35 @@ export const store = new Vuex.Store({
     },
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
+    },
+
+    // Mutations triggered by websocket events
+    SOCKET_ONOPEN(state, event) {
+      Vue.prototype.$socket = event.currentTarget;
+      state.websocket.isConnected = true;
+
+      // Define connection payload and activate connection
+      let init = { type: "connection_init", payload: {} };
+      Vue.prototype.$socket.sendObj(init);
+
+      // Define listener payload and activate listener
+      let payload = { id: "notification", type: "start", payload: { query: state.subscriptionGetNotification } };
+      Vue.prototype.$socket.sendObj(payload);
+    },
+    SOCKET_ONCLOSE(state, event) {
+      state.websocket.isConnected = false;
+    },
+    SOCKET_ONERROR(state, event) {
+      console.error(state, event);
+    },
+    SOCKET_ONMESSAGE(state, message) {
+      //state.websocket.message = message; // Default handler called for all methods
+    },
+    SOCKET_RECONNECT(state, count) {
+      //console.info(state, count); // Mutations for reconnect methods
+    },
+    SOCKET_RECONNECT_ERROR(state) {
+      //state.websocket.reconnectError = true;
     }
   }
 });

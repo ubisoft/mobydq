@@ -73,7 +73,6 @@ BEGIN
     UPDATE base.notification
     SET flag_read=TRUE 
     WHERE flag_read=FALSE
-    AND created_by_id=base.get_current_user_id()
     RETURNING *;
 END;
 $$ language plpgsql VOLATILE STRICT SECURITY DEFINER;
