@@ -36,7 +36,14 @@
       <!-- Notification items -->
       <div v-for="notification in notifications" v-bind:key="notification.id">
         <router-link class="dropdown-item notification-item" to="/notifications">
-          Status of <b>{{ formatNotification(notification) }}</b> set to
+          <!-- Batch notification -->
+          <span  v-if="notification.batchId">
+          Status of batch Id <b>{{ notification.batchId }}</b> set to
+          </span>
+          <!-- Data source notification -->
+          <span  v-if="notification.dataSourceId">
+          Status of data source <b>{{ notification.dataSourceByDataSourceId.name }}</b> set to
+          </span>
           <span class="badge badge-pill" v-bind:class="statusCssClass(notification.status)">
             {{ notification.status }}
           </span>
@@ -76,11 +83,9 @@ export default {
     formatNotification(notification) {
       if (notification.batchId) {
         let batchId = notification.batchId;
-        let batchStatus = notification.status;
         return `batch Id ${batchId}`;
       } else if (notification.dataSourceId) {
         let dataSourceName = notification.dataSourceByDataSourceId.name;
-        let dataSourceConnectivityStatus = notification.status;
         return `data source ${dataSourceName}`;
       }
     },
