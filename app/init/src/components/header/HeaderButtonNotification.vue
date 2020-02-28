@@ -38,11 +38,11 @@
         <router-link class="dropdown-item notification-item" to="/notifications">
           <!-- Batch notification -->
           <span  v-if="notification.batchId">
-          Status of batch Id <b>{{ notification.batchId }}</b> set to
+            Status of batch Id <b>{{ notification.batchId }}</b> set to
           </span>
           <!-- Data source notification -->
           <span  v-if="notification.dataSourceId">
-          Status of data source <b>{{ notification.dataSourceByDataSourceId.name }}</b> set to
+            Status of data source <b>{{ notification.dataSourceByDataSourceId.name }}</b> set to
           </span>
           <span class="badge badge-pill" v-bind:class="statusCssClass(notification.status)">
             {{ notification.status }}
@@ -65,12 +65,7 @@ export default {
   data: function() {
     return {
       notifications: [],
-      nbNotifications: null,
-      currentPage: {
-        pageNum: 1,
-        offset: 0,
-        nbItems: 10
-      }
+      nbNotifications: null
     };
   },
   computed: {
@@ -80,21 +75,10 @@ export default {
     }
   },
   methods: {
-    formatNotification(notification) {
-      if (notification.batchId) {
-        let batchId = notification.batchId;
-        return `batch Id ${batchId}`;
-      } else if (notification.dataSourceId) {
-        let dataSourceName = notification.dataSourceByDataSourceId.name;
-        return `data source ${dataSourceName}`;
-      }
-    },
-    getAllNotifications(page) {
+    getAllNotifications() {
       let payload = {
         query: this.$store.state.queryGetAllNotifications,
         variables: {
-          first: page.nbItems,
-          offset: page.offset,
           orderBy: ["CREATED_DATE_DESC"]
         }
       };
@@ -109,13 +93,6 @@ export default {
           } else {
             this.notifications = response.data.data.allNotifications.nodes;
             this.nbNotifications = response.data.data.allNotifications.totalCount;
-
-            // Set current page
-            this.currentPage = {
-              pageNum: page.pageNum,
-              offset: page.offset,
-              nbItems: page.nbItems
-            };
           }
         },
         // Error callback
@@ -138,7 +115,7 @@ export default {
             this.displayError(response);
           } else {
             // Force refresh list of notifications
-            this.getAllNotifications(this.currentPage);
+            this.getAllNotifications();
           }
         },
         // Error callback

@@ -109,6 +109,7 @@ export const store = new Vuex.Store({
     subscriptionGetNotification: NotificationPayload.subscriptionGetNotification,
     queryGetAllNotifications: NotificationPayload.queryGetAllNotifications,
     mutationMarkAllNotificationsAsRead: NotificationPayload.mutationMarkAllNotificationsAsRead,
+    mutationMarkNotificationsAsRead: NotificationPayload.mutationMarkNotificationsAsRead,
 
     //Indicator parameters queries and mutations
     mutationCreateParameter: ParameterPayload.mutationCreateParameter,
