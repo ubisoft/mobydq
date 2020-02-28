@@ -41,10 +41,16 @@ CREATE TABLE base.data_source (
 COMMENT ON TABLE base.data_source IS
 'Data sources are systems containing or exposing data on which to compute indicators.';
 
+
+
+/*Triggers on insert*/
 CREATE TRIGGER data_source_insert_password BEFORE INSERT
 ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL) EXECUTE PROCEDURE
 base.encrypt_password();
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER data_source_update_password BEFORE UPDATE OF password
 ON base.data_source FOR EACH ROW WHEN (NEW.password IS NOT NULL)
 EXECUTE PROCEDURE base.encrypt_password();
@@ -56,6 +62,17 @@ base.update_updated_date();
 CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+
+
+/*Triggers on delete*/
+CREATE TRIGGER data_source_delete_log BEFORE DELETE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('log', 'data_source_id');
+
+CREATE TRIGGER data_source_delete_notification BEFORE DELETE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('notification', 'data_source_id');
 
 
 

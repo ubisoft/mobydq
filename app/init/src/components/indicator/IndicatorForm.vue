@@ -106,15 +106,15 @@
       <!-- Right column -->
       <div class="col-6">
         <h1 class="mt-5">Execution History</h1>
-        Quality Level: <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
+        Quality Level (%): <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="right" title="(Nb Records Without Alert/Nb Records)x100">?</span>
         
         <!-- Chart -->
-        <indicator-quality
+        <indicator-session-chart
           v-if="indicator.id"
           v-bind:height=150
           v-bind:width=510
           v-bind:sessions="sessions">
-        </indicator-quality>
+        </indicator-session-chart>
 
         <!-- Session table -->
         <indicator-session
@@ -165,8 +165,8 @@ import IndicatorButtonDelete from "./IndicatorButtonDelete.vue";
 import IndicatorButtonExecute from "./IndicatorButtonExecute.vue";
 import IndicatorButtonDuplicate from "./IndicatorButtonDuplicate.vue";
 import IndicatorButtonAddParameter from "./IndicatorButtonAddParameter.vue";
-import IndicatorQuality from "./IndicatorQuality.vue";
 import IndicatorSession from "./IndicatorSession.vue";
+import IndicatorSessionChart from "./IndicatorSessionChart.vue";
 import IndicatorParameterTable from "./IndicatorParameterTable.vue";
 import ParameterModalBox from "../parameter/ParameterModalBox.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
@@ -182,8 +182,8 @@ export default {
     "indicator-button-execute": IndicatorButtonExecute,
     "indicator-button-duplicate": IndicatorButtonDuplicate,
     "indicator-button-add-parameter": IndicatorButtonAddParameter,
-    "indicator-quality": IndicatorQuality,
     "indicator-session": IndicatorSession,
+    "indicator-session-chart": IndicatorSessionChart,
     "parameter-table": IndicatorParameterTable,
     "parameter-modal-box": ParameterModalBox,
     "indicator-meta-data": MetaDataCard

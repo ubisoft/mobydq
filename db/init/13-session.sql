@@ -33,6 +33,7 @@ CHECK (status IN ('Pending', 'Running', 'Success', 'Failed', 'Killed'));
 
 
 
+/*Triggers on update*/
 CREATE TRIGGER session_update_updated_date BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -40,6 +41,13 @@ base.update_updated_date();
 CREATE TRIGGER session_update_updated_by_id BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
+
+
+
+/*Triggers on delete*/
+CREATE TRIGGER session_delete_log BEFORE DELETE
+ON base.session FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('log', 'session_id');
 
 
 

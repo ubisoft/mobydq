@@ -3,13 +3,13 @@
     <h1 class="mt-5">Dashboard</h1>
     <div class="row">
       <div class="doughnut" v-if="nbIndicators > 0">
-        <nb-indicators
+        <indicator-chart
           v-bind:nbIndicators="[nbIndicatorsActive, nbIndicatorsInactive]"
           v-bind:nbIndicatorsPerType="[nbIndicatorsCompleteness, nbIndicatorsFreshness, nbIndicatorsLatency, nbIndicatorsValidity]"
           v-bind:width="500"
           v-bind:height="250"
         >
-        </nb-indicators>
+        </indicator-chart>
 
         <div v-if="nbIndicators" class="nbindicators">
           <h1>{{ nbIndicators }}</h1>
@@ -17,7 +17,7 @@
       </div>
 
       <div class="timeserie" v-if="sessionsLabels.length > 0">
-        <nb-sessions
+        <session-chart
           v-bind:sessionsLabels="sessionsLabels"
           v-bind:sessionsCompleteness="sessionsCompleteness"
           v-bind:sessionsFreshness="sessionsFreshness"
@@ -27,7 +27,7 @@
           v-bind:width="1000"
           v-bind:height="300"
         >
-        </nb-sessions>
+        </session-chart>
       </div>
     </div>
 
@@ -38,15 +38,15 @@
 
 <script>
 import Mixins from "./utils/Mixins.vue";
-import NbIndicators from "./dashboard/NbIndicators.vue";
-import NbSessions from "./dashboard/NbSessions.vue";
+import IndicatorChart from "./dashboard/IndicatorChart.vue";
+import SessionChart from "./dashboard/SessionChart.vue";
 import SessionSearch from "./session/SessionSearch.vue";
 
 export default {
   mixins: [Mixins],
   components: {
-    "nb-indicators": NbIndicators,
-    "nb-sessions": NbSessions,
+    "indicator-chart": IndicatorChart,
+    "session-chart": SessionChart,
     "session-search": SessionSearch
   },
   data: function() {

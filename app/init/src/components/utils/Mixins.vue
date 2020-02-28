@@ -1,8 +1,4 @@
 <script>
-import upperFirst from "lodash/upperFirst";
-import camelCase from "lodash/camelCase";
-import inflection from "inflection";
-
 export default {
   methods: {
     displayError(response, batchErrors = null) {
@@ -30,40 +26,18 @@ export default {
     },
     statusCssClass(status) {
       let cssClass;
-      if (status == 'Pending') {
-        cssClass = 'badge-secondary';
-      } else if(status == 'Running') {
-        cssClass = 'badge-info';
-      } else if(status == 'Success') {
-        cssClass = 'badge-success';
-      } else if (status == 'Failed') {
-        cssClass = 'badge-danger';
-      } else if (status == 'Killed') {
-        cssClass = 'badge-light';
+      if (status == "Pending") {
+        cssClass = "badge-secondary";
+      } else if (status == "Running") {
+        cssClass = "badge-info";
+      } else if (status == "Success") {
+        cssClass = "badge-success";
+      } else if (status == "Failed") {
+        cssClass = "badge-danger";
+      } else if (status == "Killed") {
+        cssClass = "badge-light";
       }
       return cssClass;
-    },
-    getGraphQlName(name, number = null, setUpperFirst = false) {
-      // Method to compute GraphQL queries, mutations and fields names based on tables and columns names
-      // Use case is to transform the input: my_list
-      // In an output such as: allMyLists, myListById, etc...
-
-      // Apply number
-      if (number == "singular") {
-        name = inflection.singularize(name); // Example: my_lists > my_list
-      } else if (number == "plural") {
-        name = inflection.pluralize(name); // Example: my_list > my_lists
-      }
-
-      // Camel case
-      name = camelCase(name);
-
-      // Upper case first letter
-      if (setUpperFirst == true) {
-        name = upperFirst(name);
-      }
-
-      return name;
     }
   }
 };

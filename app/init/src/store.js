@@ -9,6 +9,7 @@ import * as IndicatorGroupPayload from "./payloads/indicatorgroup";
 import * as IndicatorPayload from "./payloads/indicator";
 import * as IndicatorTypePayload from "./payloads/indicatortype";
 import * as LogPayload from "./payloads/log";
+import * as NotificationPayload from "./payloads/notification";
 import * as ParameterPayload from "./payloads/parameter";
 import * as SessionPayload from "./payloads/session";
 import * as BatchPayload from "./payloads/batch";
@@ -30,6 +31,12 @@ export const store = new Vuex.Store({
     currentUser: {
       isAuthenticated: false, // Used to customize UI display
       role: "anonymous" // Used to customize UI display
+    },
+
+    // Websocket
+    websocket: {
+      isConnected: false
+      //message: "" // Not used
     },
 
     // Authenticate user
@@ -98,6 +105,11 @@ export const store = new Vuex.Store({
     queryGetSessionLog: LogPayload.queryGetSessionLog,
     queryGetDataSourceLog: LogPayload.queryGetDataSourceLog,
 
+    // Notifications queries and mutations
+    subscriptionGetNotification: NotificationPayload.subscriptionGetNotification,
+    queryGetAllNotifications: NotificationPayload.queryGetAllNotifications,
+    mutationMarkAllNotificationsAsRead: NotificationPayload.mutationMarkAllNotificationsAsRead,
+
     //Indicator parameters queries and mutations
     mutationCreateParameter: ParameterPayload.mutationCreateParameter,
     mutationUpdateParameter: ParameterPayload.mutationUpdateParameter,
@@ -121,6 +133,35 @@ export const store = new Vuex.Store({
     },
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
+    },
+
+    // Mutations triggered by websocket events
+    SOCKET_ONOPEN(state, event) {
+      Vue.prototype.$socket = event.currentTarget;
+      state.websocket.isConnected = true;
+
+      // Define connection payload and activate connection
+      let init = { type: "connection_init", payload: {} };
+      Vue.prototype.$socket.sendObj(init);
+
+      // Define listener payload and activate listener
+      let payload = { id: "notification", type: "start", payload: { query: state.subscriptionGetNotification } };
+      Vue.prototype.$socket.sendObj(payload);
+    },
+    SOCKET_ONCLOSE(state, event) {
+      state.websocket.isConnected = false;
+    },
+    SOCKET_ONERROR(state, event) {
+      console.error(state, event);
+    },
+    SOCKET_ONMESSAGE(state, message) {
+      //state.websocket.message = message; // Default handler called for all methods
+    },
+    SOCKET_RECONNECT(state, count) {
+      //console.info(state, count); // Mutations for reconnect methods
+    },
+    SOCKET_RECONNECT_ERROR(state) {
+      //state.websocket.reconnectError = true;
     }
   }
 });

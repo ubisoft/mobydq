@@ -18,19 +18,7 @@ CREATE TABLE base.log (
 );
 
 COMMENT ON TABLE base.log IS
-'Logs recorded during the execution of batches, sessions and tests of data sources.';
-
-CREATE TRIGGER batch_delete_log BEFORE DELETE
-ON base.batch FOR EACH ROW EXECUTE PROCEDURE
-base.delete_children('log', 'batch_id');
-
-CREATE TRIGGER session_delete_log BEFORE DELETE
-ON base.session FOR EACH ROW EXECUTE PROCEDURE
-base.delete_children('log', 'session_id');
-
-CREATE TRIGGER data_source_delete_log BEFORE DELETE
-ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
-base.delete_children('log', 'data_source_id');
+E'@omit update,delete\nLogs recorded during the execution of batches, sessions and tests of data sources.';
 
 
 

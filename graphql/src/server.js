@@ -1,11 +1,16 @@
 const http = require("http");
-const { postgraphile } = require("postgraphile");
+const { postgraphile, makePluginHook } = require("postgraphile");
+const { default: PgPubsub } = require("@graphile/pg-pubsub");
+const pluginHook = makePluginHook([PgPubsub]);
 
 const postgraphileOptions = {
     pgDefaultRole: "anonymous",
     jwtSecret: process.env.GRAPHQL_SECRET_KEY,
     jwtPgTypeIdentifier: "base.token",
-    pgStrictFunctions: true,
+    pgStrictFunctions: true, // This is needed to allow custom mutations with optional arguments
+    pluginHook,
+    subscriptions: true,
+    simpleSubscriptions: true,
     enableCors: true,
     graphiql: true,
     enhanceGraphiql: true,

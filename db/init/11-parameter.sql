@@ -20,6 +20,9 @@ CREATE TABLE base.parameter (
 COMMENT ON TABLE base.parameter IS
 'Parameters used to compute indicators.';
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER parameter_update_updated_date BEFORE UPDATE
 ON base.parameter FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();

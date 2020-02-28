@@ -17,6 +17,9 @@ CREATE TABLE base.parameter_type (
 COMMENT ON TABLE base.parameter_type IS
 'Parameter types determine which types of parameters can be used to compute indicators.';
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER parameter_type_update_updated_date BEFORE UPDATE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -25,6 +28,9 @@ CREATE TRIGGER parameter_type_update_updated_by_id BEFORE UPDATE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER parameter_type_delete_parameter BEFORE DELETE
 ON base.parameter_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('parameter', 'parameter_type_id');

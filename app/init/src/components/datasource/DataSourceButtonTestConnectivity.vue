@@ -1,7 +1,7 @@
 <template>
   <span>
     <button v-if="show" type="button" class="btn btn-secondary ml-1" v-on:click="testConnectivity">
-      Test Connectivity
+      Test
     </button>
   </span>
 </template>
@@ -26,8 +26,8 @@ export default {
     }
   },
   methods: {
-    testConnectivity(){
-      this.connectivityTestStatus['spinner'] = true;
+    testConnectivity() {
+      this.connectivityTestStatus["spinner"] = true;
       this.$emit("connectivityTestStatus", this.connectivityTestStatus);
       let payload = {
         query: this.$store.state.mutationTestDataSource,
@@ -45,8 +45,8 @@ export default {
             this.displayError(response);
           } else {
             this.connectivityTestStatus = response.data.data.testDataSource.dataSource;
-            this.connectivityTestStatus['spinner'] = false;
-            this.$emit("connectivityTestStatus", this.connectivityTestStatus);  // Send test results to parent component
+            this.connectivityTestStatus["spinner"] = false;
+            this.$emit("connectivityTestStatus", this.connectivityTestStatus); // Send test results to parent component
           }
         },
         // Error callback

@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueResource from "vue-resource";
 import VueRouter from "vue-router";
 import VueSession from "vue-session";
+import VueNativeSock from "vue-native-websocket";
+
 import App from "./App.vue";
 import { store } from "./store";
 
@@ -24,6 +26,14 @@ import ViewLog from "./components/ViewLog.vue";
 Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(VueSession, { persist: true });
+Vue.use(VueNativeSock, "wss://localhost/graphql", {
+  protocol: "graphql-ws",
+  store: store,
+  format: "json",
+  reconnection: true, // (Boolean) whether to reconnect automatically (false)
+  reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity)
+  reconnectionDelay: 3000 // (Number) how long to initially wait before attempting a new (1000)
+});
 
 // Declare application URLs
 const routes = [

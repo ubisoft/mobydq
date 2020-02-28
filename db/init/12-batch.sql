@@ -26,6 +26,7 @@ CHECK (status IN ('Pending', 'Running', 'Success', 'Failed', 'Killed'));
 
 
 
+/*Triggers on update*/
 CREATE TRIGGER batch_update_updated_date BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -34,9 +35,20 @@ CREATE TRIGGER batch_update_updated_by_id BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER batch_delete_session BEFORE DELETE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('session', 'batch_id');
+
+CREATE TRIGGER batch_delete_log BEFORE DELETE
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('log', 'batch_id');
+
+CREATE TRIGGER batch_delete_notification BEFORE DELETE
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE
+base.delete_children('notification', 'batch_id');
 
 
 

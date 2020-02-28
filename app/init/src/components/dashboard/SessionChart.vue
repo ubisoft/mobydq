@@ -79,6 +79,10 @@ export default {
             }
           }],
           yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Quality Level (%)'
+            },
             ticks: {
               max: 100,
               min: 0,

@@ -22,6 +22,9 @@ CREATE TABLE base.indicator (
 COMMENT ON TABLE base.indicator IS
 'Indicators compute data sets on one or several data sources in order to evaluate the quality of their data.';
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER indicator_update_updated_date BEFORE UPDATE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -30,6 +33,9 @@ CREATE TRIGGER indicator_update_updated_by_id BEFORE UPDATE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER indicator_delete_parameter BEFORE DELETE
 ON base.indicator FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('parameter', 'indicator_id');

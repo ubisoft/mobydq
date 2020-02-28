@@ -11,6 +11,7 @@
     ],
     "dependencies": {
         "postgraphile": "^4.5.5",
-        "postgraphile-plugin-connection-filter": "^1.1.3"
+        "postgraphile-plugin-connection-filter": "^1.1.3",
+        "@graphile/pg-pubsub": "^4.5.0"
     }
 }

@@ -1,4 +1,4 @@
-export const queryGetAllIndicators = `query getAllIndicators($first: Int, $offset: Int, $orderBy: [IndicatorsOrderBy!]){
+export const queryGetAllIndicators = `query getAllIndicators($first: Int, $offset: Int, $orderBy: [IndicatorsOrderBy!]) {
     allIndicators(first: $first, offset: $offset, orderBy: $orderBy) {
         nodes {
             id

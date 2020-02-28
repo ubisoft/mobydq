@@ -17,6 +17,9 @@ CREATE TABLE base.indicator_group (
 COMMENT ON TABLE base.indicator_group IS
 'Indicator groups define collections of indicators to be computed in the same batch.';
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER indicator_group_update_updated_date BEFORE UPDATE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -25,6 +28,9 @@ CREATE TRIGGER indicator_group_update_updated_by_id BEFORE UPDATE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER indicator_group_delete_indicator BEFORE DELETE
 ON base.indicator_group FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('indicator', 'indicator_group_id');

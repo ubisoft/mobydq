@@ -19,6 +19,9 @@ CREATE TABLE base.indicator_type (
 COMMENT ON TABLE base.indicator_type IS
 'Indicator types determine which class and method is used to compute indicators.';
 
+
+
+/*Triggers on update*/
 CREATE TRIGGER indicator_type_update_updated_date BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_date();
@@ -27,6 +30,9 @@ CREATE TRIGGER indicator_type_update_updated_by_id BEFORE UPDATE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+
+
+/*Triggers on delete*/
 CREATE TRIGGER indicator_type_delete_indicator BEFORE DELETE
 ON base.indicator_type FOR EACH ROW EXECUTE PROCEDURE
 base.delete_children('indicator', 'indicator_type_id');
