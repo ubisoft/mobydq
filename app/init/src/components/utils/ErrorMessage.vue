@@ -20,12 +20,6 @@ export default {
       }
     },
     errorMessage() {
-      // Reroute user to login page if JWT expired
-      if (this.$store.state.errorObject.message.includes("jwt expired")) {
-        this.$router.push({
-          name: "login"
-        });
-      }
       return this.$store.state.errorObject.message;
     }
   },
