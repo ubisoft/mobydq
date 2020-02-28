@@ -81,6 +81,15 @@ export default {
         }
       );
     }
+  },
+  created: function() {
+    // Capture notification via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "notification" && message.type == "data") {
+        this.notifications.unshift(message.payload.data.listen.relatedNode); // Push notification to array
+      }
+    };
   }
 };
 </script>

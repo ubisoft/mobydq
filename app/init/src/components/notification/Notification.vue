@@ -1,6 +1,9 @@
 <template>
   <div>
-    <notificatio-button-mar-all-read v-on:markAllNotificationsAsRead="getAllNotifications">
+    <notificatio-button-mar-all-read
+      v-if="show"
+      v-on:markAllNotificationsAsRead="getAllNotifications"
+    >
     </notificatio-button-mar-all-read>
     
     <notification-table
@@ -29,6 +32,9 @@ export default {
     };
   },
   computed: {
+    show() {
+      return this.notifications.length > 0;
+    }
   },
   methods: {
     getAllNotifications() {
@@ -57,7 +63,6 @@ export default {
       );
     },
     removeNotification(value) {
-      console.log(value);
       this.notifications = this.notifications.filter(
         function(item) {
           return item.id != value;

@@ -127,7 +127,7 @@ export default {
   },
   created: function() {
     // Get notifications
-    this.getAllNotifications(this.currentPage);
+    this.getAllNotifications();
 
     // Capture notification via websocket listener
     this.$options.sockets.onmessage = function(data) {
