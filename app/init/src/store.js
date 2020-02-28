@@ -35,8 +35,8 @@ export const store = new Vuex.Store({
 
     // Websocket
     websocket: {
-      isConnected: false
-      //message: "" // Not used
+      isConnected: false,
+      message: ""
     },
 
     // Authenticate user
@@ -148,20 +148,14 @@ export const store = new Vuex.Store({
       let payload = { id: "notification", type: "start", payload: { query: state.subscriptionGetNotification } };
       Vue.prototype.$socket.sendObj(payload);
     },
-    SOCKET_ONCLOSE(state, event) {
+    SOCKET_ONCLOSE(state) {
       state.websocket.isConnected = false;
     },
-    SOCKET_ONERROR(state, event) {
-      console.error(state, event);
-    },
+    SOCKET_ONERROR() {},
     SOCKET_ONMESSAGE(state, message) {
-      //state.websocket.message = message; // Default handler called for all methods
+      state.websocket.message = message; // Default handler called for all methods
     },
-    SOCKET_RECONNECT(state, count) {
-      //console.info(state, count); // Mutations for reconnect methods
-    },
-    SOCKET_RECONNECT_ERROR(state) {
-      //state.websocket.reconnectError = true;
-    }
+    SOCKET_RECONNECT() {},
+    SOCKET_RECONNECT_ERROR() {}
   }
 });
