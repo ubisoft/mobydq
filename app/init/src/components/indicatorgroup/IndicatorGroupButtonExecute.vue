@@ -41,7 +41,8 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            //this.$emit("executedIndicatorGroup", ...);  // Send test status to parent component
+            let batch = response.data.data.executeBatch.batch;
+            this.$emit("executeIndicatorGroup", batch);  // Send batch to parent component
           }
         },
         // Error callback

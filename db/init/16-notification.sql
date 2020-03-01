@@ -17,7 +17,7 @@ CREATE TABLE base.notification (
 );
 
 COMMENT ON TABLE base.notification IS
-E'@omit update,delete\nNotifications pushed during the execution of batches tests of data sources.';
+E'@omit create,delete\nNotifications pushed during the execution of batches tests of data sources.';
 
 
 

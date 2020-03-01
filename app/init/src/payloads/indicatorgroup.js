@@ -66,6 +66,7 @@ export const mutationExecuteIndicatorGroup = `mutation executeBatch($indicatorGr
         batch {
             id
             status
+            sessionsByBatchId { totalCount }
         }
     }
 }`;
