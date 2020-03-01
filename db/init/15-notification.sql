@@ -25,9 +25,10 @@ E'@omit create,delete\nNotifications pushed during the execution of batches test
 CREATE OR REPLACE FUNCTION base.create_notification_message()
 RETURNS TRIGGER AS $$
 DECLARE
-    object_type TEXT; -- Expected values: batch, data_source
+    object_type TEXT;
     notification_message TEXT;
 BEGIN
+    -- Get object type: batch, dataSource
     object_type = TG_ARGV[0];
     
     -- Build and insert notification message for batch
@@ -36,7 +37,7 @@ BEGIN
       INSERT INTO base.notification (message, batch_id, status) VALUES (notification_message, NEW.id, NEW.status);
     
     -- Build and insert notification message for data source
-    ELSEIF object_type = 'data_source' THEN
+    ELSEIF object_type = 'dataSource' THEN
       notification_message = 'Status of data source ' || NEW.name || ' set to ' || NEW.connectivity_status;
       INSERT INTO base.notification (message, data_source_id, status) VALUES (notification_message, NEW.id, NEW.connectivity_status);
     END IF;
@@ -46,21 +47,6 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION base.create_notification_message IS
-'Function used to send notification to frontend via GraphQL subscriptions.';
-
-
-
-/*Create function to send notification to frontend using GraphQL subscriptions*/
-CREATE OR REPLACE FUNCTION base.send_notification()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- First argument of PG_NOTIFY is the channel, it must contain 'postgraphile:' to be captured by PostGraphile simple subscriptions
-    PERFORM(SELECT PG_NOTIFY('postgraphile:notification', JSON_BUILD_OBJECT('__node__', JSON_BUILD_ARRAY('Notification', NEW.id))::text));
-    RETURN NEW;
-END;
-$$ language plpgsql;
-
-COMMENT ON FUNCTION base.send_notification IS
 'Function used to send notification to frontend via GraphQL subscriptions.';
 
 
@@ -85,19 +71,17 @@ REVOKE ALL ON FUNCTION base.mark_all_notifications_as_read FROM PUBLIC;
 
 
 /*Triggers on insert*/
-CREATE TRIGGER batch_insert_notification AFTER INSERT
-ON base.batch FOR EACH ROW EXECUTE PROCEDURE base.create_notification_message('batch');
-
-CREATE TRIGGER notification_insert_send AFTER INSERT
-ON base.notification FOR EACH ROW EXECUTE PROCEDURE base.send_notification();
+CREATE TRIGGER notification_insert_send_update AFTER INSERT
+ON base.notification FOR EACH ROW EXECUTE PROCEDURE
+base.send_update('notification');
 
 
 
 /*Triggers on update*/
-CREATE TRIGGER batch_update_notification AFTER UPDATE
-ON base.batch FOR EACH ROW WHEN (OLD.status <> NEW.status)
+CREATE TRIGGER batch_update_create_notification AFTER UPDATE
+ON base.batch FOR EACH ROW WHEN (NEW.status = 'Success' OR NEW.status = 'Failed')
 EXECUTE PROCEDURE base.create_notification_message('batch');
 
-CREATE TRIGGER data_source_update_notification AFTER UPDATE
-ON base.data_source FOR EACH ROW WHEN (OLD.connectivity_status <> NEW.connectivity_status)
-EXECUTE PROCEDURE base.create_notification_message('data_source');
+CREATE TRIGGER data_source_update_create_notification AFTER UPDATE
+ON base.data_source FOR EACH ROW WHEN (NEW.connectivity_status = 'Success' OR NEW.connectivity_status = 'Failed')
+EXECUTE PROCEDURE base.create_notification_message('dataSource');

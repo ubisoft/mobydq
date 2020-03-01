@@ -71,6 +71,7 @@ export const store = new Vuex.Store({
     mutationDeleteDataSource: DataSourcePayload.mutationDeleteDataSource,
     mutationSearchDataSource: DataSourcePayload.mutationSearchDataSource,
     mutationTestDataSource: DataSourcePayload.mutationTestDataSource,
+    subscriptionGetDataSourceUpdates: DataSourcePayload.subscriptionGetDataSourceUpdates,
 
     // Data source types queries and mutations
     queryGetAllDataSourceTypes: DataSourceTypePayload.queryGetAllDataSourceTypes,
@@ -123,6 +124,7 @@ export const store = new Vuex.Store({
 
     //Batches queries
     mutationKillBatch: BatchPayload.mutationKillBatch,
+    subscriptionGetBatchUpdates: BatchPayload.subscriptionGetBatchUpdates,
 
     //Dashboard queries
     queryGetNbIndicators: DashboardPayload.queryGetNbIndicators,
@@ -145,9 +147,17 @@ export const store = new Vuex.Store({
       let init = { type: "connection_init", payload: {} };
       Vue.prototype.$socket.sendObj(init);
 
-      // Define listener payload and activate listener
-      let payload = { id: "notification", type: "start", payload: { query: state.subscriptionGetNotification } };
-      Vue.prototype.$socket.sendObj(payload);
+      // Define listener payload and activate listener for notifications
+      let payloadNotification = { id: "notification", type: "start", payload: { query: state.subscriptionGetNotification } };
+      Vue.prototype.$socket.sendObj(payloadNotification);
+
+      // Define listener payload and activate listener for data source updates
+      let payloadDataSource = { id: "dataSource", type: "start", payload: { query: state.subscriptionGetDataSourceUpdates } };
+      Vue.prototype.$socket.sendObj(payloadDataSource);
+
+      // Define listener payload and activate listener for data source updates
+      let payloadBatch = { id: "batch", type: "start", payload: { query: state.subscriptionGetBatchUpdates } };
+      Vue.prototype.$socket.sendObj(payloadBatch);
     },
     SOCKET_ONCLOSE(state) {
       state.websocket.isConnected = false;
