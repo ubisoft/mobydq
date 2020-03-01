@@ -7,8 +7,8 @@ services:
         build:
             context: ./test/db-hive/
             dockerfile: Dockerfile
-        expose:
-            - 10000
+        ports:
+            - 10000:10000
         networks:
             - network
         hostname: quickstart.cloudera
@@ -24,8 +24,8 @@ services:
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
-        expose:
-            - 3306
+        ports:
+            - 3306:3306
         networks:
             - network
 
@@ -38,8 +38,8 @@ services:
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
-        expose:
-            - 3306
+        ports:
+            - 3307:3307
         networks:
             - network
 
@@ -52,8 +52,8 @@ services:
             dockerfile: Dockerfile
         environment:
             ORACLE_PWD: "1234-abcd"
-        expose:
-            - 1521
+        ports:
+            - 1521:1521
         networks:
             - network
 
@@ -68,8 +68,8 @@ services:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "1234"
             POSTGRES_DATABASE: "star_wars"
-        expose:
-            - 5432
+        ports:
+            - 5431:5431
         networks:
             - network
 
@@ -83,8 +83,8 @@ services:
         environment:
             ACCEPT_EULA: "Y"
             SA_PASSWORD: "1234-abcd"
-        expose:
-            - 1433
+        ports:
+            - 1433:1433
         networks:
             - network
 
@@ -95,9 +95,6 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["nose2", "-v", "test_db.TestDb"]
-        depends_on:
-            - db
-            - scripts
         networks:
             - network
 
@@ -108,14 +105,6 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["nose2", "-v", "test_scripts"]
-        depends_on:
-            - scripts
-            #- db-hive
-            #- db-sql-server
-            #- db-mysql
-            #- db-mariadb
-            #- db-oracle
-            #- db-postgresql
         networks:
             - network
 
@@ -126,5 +115,3 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["pylint", "scripts", "test"]
-        depends_on:
-            - scripts
