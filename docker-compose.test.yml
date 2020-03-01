@@ -7,8 +7,6 @@ services:
         build:
             context: ./test/db-hive/
             dockerfile: Dockerfile
-        ports:
-            - 10000:10000
         networks:
             - network
         hostname: quickstart.cloudera
@@ -24,8 +22,6 @@ services:
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
-        ports:
-            - 9999:3306
         networks:
             - network
 
@@ -38,8 +34,6 @@ services:
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
-        ports:
-            - 9998:3306
         networks:
             - network
 
@@ -68,8 +62,6 @@ services:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "1234"
             POSTGRES_DATABASE: "star_wars"
-        #ports:
-        #- 9996:5432
         networks:
             - network
 
@@ -83,8 +75,6 @@ services:
         environment:
             ACCEPT_EULA: "Y"
             SA_PASSWORD: "1234-abcd"
-        ports:
-            - 9995:1433
         networks:
             - network
 

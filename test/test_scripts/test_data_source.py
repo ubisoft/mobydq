@@ -26,7 +26,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.HIVE_ID
-        connection_string = 'driver=Cloudera Hive;Host=localhost;Port=10000;'
+        connection_string = 'driver=Cloudera Hive;Host=db-hive;Port=10000;'
         login = 'cloudera'
         password = 'cloudera'
 
@@ -47,7 +47,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.MARIADB_ID
-        connection_string = 'driver={MariaDB Unicode};server=localhost;port=9998;Database=star_wars;'
+        connection_string = 'driver={MariaDB Unicode};server=db-mariadb;port=3306;Database=star_wars;'
         login = 'root'
         password = '1234'
 
@@ -68,7 +68,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.MYSQL_ID
-        connection_string = 'driver={MySQL Unicode};server=localhost;port=9999;Database=star_wars;'
+        connection_string = 'driver={MySQL Unicode};server=db-mysql;port=3306;Database=star_wars;'
         login = 'root'
         password = '1234'
 
@@ -129,7 +129,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.MSSQL_ID
-        connection_string = 'driver={FreeTDS};server=localhost;port=9995;Database=star_wars;tds_version=8.0;'
+        connection_string = 'driver={FreeTDS};server=db-sql-server;port=1433;Database=star_wars;tds_version=8.0;'
         login = 'sa'
         password = '1234-abcd'
 

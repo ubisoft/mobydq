@@ -21,18 +21,16 @@ jobs:
                   echo "MAIL_PASSWORD=change_me" >> ./.env
                   echo "MAIL_BASE_URL=https://localhost" >> ./.env
 
-            # db-hive db-mariadb db-mysql db-sql-server
             - name: Build Docker images
               run: |
                   docker-compose -f docker-compose.yml build db graphql scripts
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-postgresql test-db test-scripts test-lint-python
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
                   docker images
 
-            # db-hive db-mariadb db-mysql db-sql-server
             - name: Run Docker containers
               run: |
                   docker-compose -f docker-compose.yml up -d db graphql
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-postgresql
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mariadb db-mysql db-postgresql db-sql-server
                   docker ps -a
 
             #chmod +x ./test/wait-for-it.sh
