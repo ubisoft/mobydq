@@ -68,8 +68,8 @@ services:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "1234"
             POSTGRES_DATABASE: "star_wars"
-        ports:
-            - 9996:5432
+        #ports:
+        #- 9996:5432
         networks:
             - network
 

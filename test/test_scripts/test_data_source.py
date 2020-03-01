@@ -89,7 +89,7 @@ class TestDataSource(unittest.TestCase):
 
         # Set connection parameters
         data_source_type_id = DataSourceType.POSTGRESQL_ID
-        connection_string = 'driver={PostgreSQL Unicode};server=localhost;port=9996;Database=star_wars;'
+        connection_string = 'driver={PostgreSQL Unicode};server=db-postgresql;port=5432;Database=star_wars;'
         login = 'postgres'
         password = '1234'
 
