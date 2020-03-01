@@ -7,6 +7,8 @@ services:
         build:
             context: ./test/db-hive/
             dockerfile: Dockerfile
+        expose:
+            - 10000
         networks:
             - network
         hostname: quickstart.cloudera
@@ -20,6 +22,8 @@ services:
         build:
             context: ./test/db-mysql/
             dockerfile: Dockerfile
+        expose:
+            - 3306
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         networks:
@@ -32,6 +36,8 @@ services:
         build:
             context: ./test/db-mariadb/
             dockerfile: Dockerfile
+        expose:
+            - 3306
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         networks:
@@ -44,10 +50,10 @@ services:
         build:
             context: ./test/db-oracle/
             dockerfile: Dockerfile
+        expose:
+            - 1521
         environment:
             ORACLE_PWD: "1234-abcd"
-        ports:
-            - 9997:1521
         networks:
             - network
 
@@ -58,6 +64,8 @@ services:
         build:
             context: ./test/db-postgresql/
             dockerfile: Dockerfile
+        expose:
+            - 5432
         environment:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "1234"
