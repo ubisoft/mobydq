@@ -1,0 +1,46 @@
+name: Continuous Integration
+on: [push]
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Create Docker Compose configuration file
+              run: |
+                  echo "POSTGRES_DB=mobydq" >> ./.env
+                  echo "POSTGRES_USER=postgres" >> ./.env
+                  echo "POSTGRES_PASSWORD=change_me" >> ./.env
+                  echo "GRAPHQL_DATABASE_URL=postgres://postgres:change_me@db:5432/mobydq" >> ./.env
+                  echo "GRAPHQL_PORT=5433" >> ./.env
+                  echo "GRAPHQL_SECRET_KEY=change_me" >> ./.env
+                  echo "MAIL_HOST=smtp.server.org" >> ./.env
+                  echo "MAIL_PORT=25" >> ./.env
+                  echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
+                  echo "MAIL_PASSWORD=change_me" >> ./.env
+                  echo "MAIL_BASE_URL=https://localhost" >> ./.env
+
+            - name: Build Docker images
+              run: |
+                  docker-compose -f docker-compose.yml build db graphql scripts
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
+                  docker images
+
+            - name: Run Docker containers
+              run: |
+                  docker-compose -f docker-compose.yml up -d db graphql
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mariadb db-mysql db-postgresql db-sql-server
+                  docker ps -a
+
+            - name: Wait for databases to be up
+              run: sleep 240
+
+            - name: Run database tests
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
+
+            - name: Run scripts tests
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+
+            - name: Run python linter
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
