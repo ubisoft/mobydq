@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body bg-secondary text-light">
-          This will cancel all incomplete sessions in <b>batch Id: {{batchId}}</b><br />
+          This will cancel all incomplete sessions in <b>batch Id {{batchId}}</b><br />
           Are you sure you want to kill the batch?
         </div>
         <div class="modal-footer">

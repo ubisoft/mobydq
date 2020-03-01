@@ -44,7 +44,17 @@ export default {
           if (response.data.errors) {
             this.displayError(response);
           } else {
-            //this.$emit("executedIndicator", ...);  // Send test status to parent component
+            let batch = response.data.data.executeBatch.batch;
+            let session = {
+              batchId: batch.id,
+              batchByBatchId: { status: batch.status },
+              id: batch.sessionsByBatchId.nodes[0].id,
+              status: batch.sessionsByBatchId.nodes[0].status,
+              nbRecords: batch.sessionsByBatchId.nodes[0].nbRecords,
+              nbRecordsAlert: batch.sessionsByBatchId.nodes[0].nbRecordsAlert,
+              nbRecordsNoAlert: batch.sessionsByBatchId.nodes[0].nbRecordsNoAlert
+            };
+            this.$emit("executeIndicator", session);  // Send batch to parent component
           }
         },
         // Error callback

@@ -21,6 +21,7 @@ import ViewDataSource from "./components/ViewDataSource.vue";
 import ViewIndicatorGroup from "./components/ViewIndicatorGroup.vue";
 import ViewIndicator from "./components/ViewIndicator.vue";
 import ViewLog from "./components/ViewLog.vue";
+import ViewNotification from "./components/ViewNotification.vue";
 
 // Tell Vue to use libraries
 Vue.use(VueResource);
@@ -51,7 +52,8 @@ const routes = [
   { name: "edit-indicator", path: "/indicators/:indicatorId", component: EditIndicator },
   { name: "view-batch-log", path: "/indicatorgroups/:indicatorGroupId/batches/:batchId/logs", component: ViewLog },
   { name: "view-session-log", path: "/indicators/:indicatorId/sessions/:sessionId/logs", component: ViewLog },
-  { name: "view-data-source-log", path: "/datasources/:dataSourceId/logs", component: ViewLog }
+  { name: "view-data-source-log", path: "/datasources/:dataSourceId/logs", component: ViewLog },
+  { name: "view-notification", path: "/notifications", component: ViewNotification }
 ];
 
 // Configure router
