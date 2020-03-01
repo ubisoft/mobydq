@@ -24,7 +24,7 @@ jobs:
             - name: Build Docker images
               run: |
                   docker-compose -f docker-compose.yml build db graphql
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mariadb db-mysql db-postgresql test-db
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mariadb db-mysql db-postgresql
                   docker images
 
             - name: Run Docker containers
