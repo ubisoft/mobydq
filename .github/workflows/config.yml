@@ -33,14 +33,20 @@ jobs:
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mariadb db-mysql db-postgresql db-sql-server
                   docker ps -a
 
+            #chmod +x ./test/wait-for-it.sh
+            #./test/wait-for-it.sh -t 0 localhost:10000 -- echo "mobydq-test-db-hive is up"
+            #./test/wait-for-it.sh -t 0 localhost:9999 -- echo "mobydq-test-db-mysql is up"
+            #./test/wait-for-it.sh -t 0 localhost:9998 -- echo "mobydq-test-db-mariadb is up"
+            #./test/wait-for-it.sh -t 0 localhost:9996 -- echo "mobydq-test-db-postgresql is up"
+            #./test/wait-for-it.sh -t 0 localhost:9995 -- echo "mobydq-test-db-sql-server is up"
             - name: Wait for databases to be up
               run: sleep 240
 
             - name: Run database tests
-              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
             - name: Run scripts tests
-              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-scripts
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run python linter
-              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-lint-python
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
