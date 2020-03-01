@@ -23,8 +23,8 @@ jobs:
 
             - name: Build Docker images
               run: |
-                  docker-compose -f docker-compose.yml build db graphql scripts
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mariadb db-mysql db-postgresql test-db test-scripts test-lint-python
+                  docker-compose -f docker-compose.yml build db graphql
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mariadb db-mysql db-postgresql test-db
                   docker images
 
             - name: Run Docker containers
@@ -33,12 +33,16 @@ jobs:
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mariadb db-mysql db-postgresql
                   docker ps -a
 
+            - name: Wait for databases to be up
+            run: |
+                pwd
+                ls -l
+                ./test/wait-for-it.sh -t 0 localhost:9999 -- echo "mobydq-test-db-mysql is up"
+                ./test/wait-for-it.sh -t 0 localhost:9998 -- echo "mobydq-test-db-mariadb is up"
+                ./test/wait-for-it.sh -t 0 localhost:9996 -- echo "mobydq-test-db-postgresql is up"
+
             - name: Run database tests
-              run: |
-                  ./test/wait-for-it.sh -t 0 localhost:9999 -- echo "mobydq-test-db-mysql is up"
-                  ./test/wait-for-it.sh -t 0 localhost:9998 -- echo "mobydq-test-db-mariadb is up"
-                  ./test/wait-for-it.sh -t 0 localhost:9996 -- echo "mobydq-test-db-postgresql is up"
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db
 
             - name: Run scripts tests
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-scripts
