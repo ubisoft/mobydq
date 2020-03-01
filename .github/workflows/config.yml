@@ -1,49 +1,42 @@
 name: Continuous Integration
 on: [push]
 jobs:
+    test:
+        runs-on: ubuntu-latest
 
-  test:
-    runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-    steps:
-    - uses: actions/checkout@v2
+            - name: Create Docker Compose configuration file
+              run: |
+                  echo "POSTGRES_DB=mobydq" >> ./.env
+                  echo "POSTGRES_USER=postgres" >> ./.env
+                  echo "POSTGRES_PASSWORD=change_me" >> ./.env
+                  echo "GRAPHQL_DATABASE_URL=postgres://postgres:change_me@db:5432/mobydq" >> ./.env
+                  echo "GRAPHQL_PORT=5433" >> ./.env
+                  echo "GRAPHQL_SECRET_KEY=change_me" >> ./.env
+                  echo "MAIL_HOST=smtp.server.org" >> ./.env
+                  echo "MAIL_PORT=25" >> ./.env
+                  echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
+                  echo "MAIL_PASSWORD=change_me" >> ./.env
 
-    - name: Create Docker Compose configuration file
-      run: |
-        echo "POSTGRES_DB=mobydq" >> ./.env
-        echo "POSTGRES_USER=postgres" >> ./.env
-        echo "POSTGRES_PASSWORD=change_me" >> ./.env
-        echo "GRAPHQL_DATABASE_URL=postgres://postgres:change_me@db:5432/mobydq" >> ./.env
-        echo "GRAPHQL_PORT=5433" >> ./.env
-        echo "GRAPHQL_SECRET_KEY=change_me" >> ./.env
-        echo "MAIL_HOST=smtp.server.org" >> ./.env
-        echo "MAIL_PORT=25" >> ./.env
-        echo "MAIL_SENDER=change_me@change_me.com" >> ./.env
-        echo "MAIL_PASSWORD=change_me" >> ./.env
+            - name: Build Docker images
+              run: |
+                  docker-compose -f docker-compose.yml build db graphql scripts
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
+                  docker images
 
-    - name: Build Docker images
-      run: |
-        docker-compose -f docker-compose.yml build db graphql scripts
-        docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-hive db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
-        docker images
+            - name: Run Docker containers
+              run: |
+                  docker-compose -f docker-compose.yml up -d db graphql
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mariadb db-mysql db-postgresql db-sql-server
+                  docker ps -a
 
-    - name: Run Docker containers
-      run: |
-        docker-compose -f docker-compose.yml up -d db graphql
-        docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mariadb db-mysql db-postgresql db-sql-server
-        docker ps -a
+            - name: Run database tests
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
-    - name: Run database tests
-      run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
+            - name: Run scripts tests
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
-    - name: Run scripts tests
-      run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-
-    - name: Run python linter
-      run: docker run --name mobydq-test-lint-python mobydq-test-lint-python /bin/bash -c "pylint --output-format=pylint2junit.JunitReporter scripts test > lint-results-python.xml"
-
-    - name: Collect tests results
-      run: |
-        docker cp mobydq-test-db:/srv/test-results.xml ./test/results/test-results-db.xml
-        docker cp mobydq-test-scripts:/srv/test-results.xml ./test/results/test-results-scripts.xml
-        docker cp mobydq-test-lint-python:/srv/lint-results-python.xml ./test/results/
+            - name: Run python linter
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from mobydq-test-lint-python
