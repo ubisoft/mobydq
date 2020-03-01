@@ -46,9 +46,6 @@ export const queryGetIndicator = `query getIndicator($id: Int!, $first: Int, $of
                 nbRecordsNoAlert
                 batchId
                 batchByBatchId { status }
-                createdDate
-                updatedDate
-                userByCreatedById { email }
             }
         }
     }
@@ -98,6 +95,15 @@ export const mutationExecuteIndicator = `mutation executeBatch($indicatorGroupId
         batch {
             id
             status
+            sessionsByBatchId {
+                nodes {
+                    id
+                    status
+                    nbRecords
+                    nbRecordsAlert
+                    nbRecordsNoAlert
+                }
+            }
         }
     }
 }`;

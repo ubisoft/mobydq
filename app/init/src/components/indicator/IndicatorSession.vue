@@ -42,7 +42,9 @@
           <td v-else>
           </td>
           <td>
-            {{ session.batchId }}
+            <router-link v-bind:to="'/indicatorgroups/' + indicatorGroupId">
+              {{ session.batchId }}
+            </router-link>
           </td>
           <td>
             <router-link class="badge badge-secondary" v-bind:to="'/indicators/' + indicatorId + '/sessions/' + session.id + '/logs'">
@@ -72,6 +74,7 @@ export default {
   },
   props: {
     indicatorId: Number,
+    indicatorGroupId: Number,
     sessions: Array
   },
   data: function() {

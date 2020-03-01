@@ -40,7 +40,7 @@
               <!-- Button Menu -->
               <div class="mt-3">
                 <indicator-group-button-save v-bind:indicatorGroup="indicatorGroup"> </indicator-group-button-save>
-                <indicator-group-button-execute v-bind:indicatorGroupId="indicatorGroupId"> </indicator-group-button-execute>
+                <indicator-group-button-execute v-bind:indicatorGroupId="indicatorGroupId" v-on:executeIndicatorGroup="addBatch"> </indicator-group-button-execute>
                 <indicator-group-button-close> </indicator-group-button-close>
                 <indicator-group-button-delete v-bind:indicatorGroupId="indicatorGroupId"> </indicator-group-button-delete>
               </div>
@@ -98,6 +98,11 @@ export default {
     isReadOnly() {
       let roles = ["standard", "advanced", "admin"];
       return !roles.includes(this.$store.state.currentUser.role);
+    }
+  },
+  methods: {
+    addBatch(value) {
+      this.indicatorGroup.batchesByIndicatorGroupId.nodes.unshift(value);
     }
   },
   created: function() {
