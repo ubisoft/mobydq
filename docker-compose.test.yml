@@ -110,12 +110,12 @@ services:
         command: ["nose2", "-v", "test_scripts"]
         depends_on:
             - scripts
-            - db-hive
-            - db-sql-server
-            - db-mysql
-            - db-mariadb
+            #- db-hive
+            #- db-sql-server
+            #- db-mysql
+            #- db-mariadb
             #- db-oracle
-            - db-postgresql
+            #- db-postgresql
         networks:
             - network
 
