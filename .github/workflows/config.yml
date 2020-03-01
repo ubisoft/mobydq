@@ -35,11 +35,10 @@ jobs:
 
             - name: Wait for databases to be up
               run: |
-                  pwd
-                  ls -l
-                  ./test/wait-for-it.sh -t 0 localhost:9999 -- echo "mobydq-test-db-mysql is up"
-                  ./test/wait-for-it.sh -t 0 localhost:9998 -- echo "mobydq-test-db-mariadb is up"
-                  ./test/wait-for-it.sh -t 0 localhost:9996 -- echo "mobydq-test-db-postgresql is up"
+                  chmod +x ./test/wait-for-it.sh
+                  sh ./test/wait-for-it.sh -t 0 localhost:9999 -- echo "mobydq-test-db-mysql is up"
+                  sh ./test/wait-for-it.sh -t 0 localhost:9998 -- echo "mobydq-test-db-mariadb is up"
+                  sh ./test/wait-for-it.sh -t 0 localhost:9996 -- echo "mobydq-test-db-postgresql is up"
 
             - name: Run database tests
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db
