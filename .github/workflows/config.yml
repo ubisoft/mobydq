@@ -39,4 +39,4 @@ jobs:
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run python linter
-              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-lint-python
