@@ -25,7 +25,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         ports:
-            - 9999:9999
+            - 9999:3306
         networks:
             - network
 
@@ -39,7 +39,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
         ports:
-            - 9998:9998
+            - 9998:3306
         networks:
             - network
 
@@ -53,7 +53,7 @@ services:
         environment:
             ORACLE_PWD: "1234-abcd"
         ports:
-            - 9997:9997
+            - 9997:1521
         networks:
             - network
 
@@ -69,7 +69,7 @@ services:
             POSTGRES_PASSWORD: "1234"
             POSTGRES_DATABASE: "star_wars"
         ports:
-            - 9996:9996
+            - 9996:5432
         networks:
             - network
 
@@ -84,7 +84,7 @@ services:
             ACCEPT_EULA: "Y"
             SA_PASSWORD: "1234-abcd"
         ports:
-            - 9995:9995
+            - 9995:1433
         networks:
             - network
 
