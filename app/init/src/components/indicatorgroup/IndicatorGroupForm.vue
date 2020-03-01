@@ -139,7 +139,7 @@ export default {
   created: function() {
     this.getIndicatorGroup();
 
-    // Capture updated data source via websocket listener
+    // Capture updated batch via websocket listener
     this.$options.sockets.onmessage = function(data) {
       let message = JSON.parse(data.data);
       if (message.id == "batch" && message.type == "data") {

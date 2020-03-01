@@ -79,6 +79,16 @@
           </div>
 
           <!-- Meta-Data -->
+          <div>	
+            <data-source-meta-data	
+              v-if="dataSource.id"	
+              v-bind:id="dataSource.id"	
+              v-bind:createdDate="dataSource.createdDate"	
+              v-bind:createdBy="dataSource.userByCreatedById.email"	
+              v-bind:updatedDate="dataSource.updatedDate"	
+              v-bind:updatedBy="dataSource.userByUpdatedById.email"	
+            ></data-source-meta-data>	
+          </div>
           
           <!-- Button Menu -->
           <div class="mt-3">

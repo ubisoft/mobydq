@@ -42,6 +42,10 @@ CREATE TRIGGER session_update_updated_by_id BEFORE UPDATE
 ON base.session FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+CREATE TRIGGER session_update_send_update AFTER UPDATE
+ON base.session FOR EACH ROW EXECUTE PROCEDURE
+base.send_update('session');
+
 
 
 /*Triggers on delete*/

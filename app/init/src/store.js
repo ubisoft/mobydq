@@ -121,6 +121,7 @@ export const store = new Vuex.Store({
     //Sessions queries
     queryGetAllSessions: SessionPayload.queryGetAllSessions,
     mutationSearchSession: SessionPayload.mutationSearchSession,
+    subscriptionGetSessionUpdates: SessionPayload.subscriptionGetSessionUpdates,
 
     //Batches queries
     mutationKillBatch: BatchPayload.mutationKillBatch,
@@ -155,9 +156,13 @@ export const store = new Vuex.Store({
       let payloadDataSource = { id: "dataSource", type: "start", payload: { query: state.subscriptionGetDataSourceUpdates } };
       Vue.prototype.$socket.sendObj(payloadDataSource);
 
-      // Define listener payload and activate listener for data source updates
+      // Define listener payload and activate listener for batch updates
       let payloadBatch = { id: "batch", type: "start", payload: { query: state.subscriptionGetBatchUpdates } };
       Vue.prototype.$socket.sendObj(payloadBatch);
+
+      // Define listener payload and activate listener for session updates
+      let payloadSession = { id: "session", type: "start", payload: { query: state.subscriptionGetSessionUpdates } };
+      Vue.prototype.$socket.sendObj(payloadSession);
     },
     SOCKET_ONCLOSE(state) {
       state.websocket.isConnected = false;

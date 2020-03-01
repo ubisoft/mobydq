@@ -101,14 +101,16 @@ DECLARE
     topic TEXT;
     object_type TEXT;
 BEGIN
-    -- Get topic: notification, batch, dataSource
+    -- Get topic: notification, dataSource, batch, session
     topic = TG_ARGV[0];
     IF (topic = 'notification') THEN
         object_type = 'Notification';
-    ELSEIF (topic = 'batch') THEN
-        object_type = 'Batch';
     ELSEIF (topic = 'dataSource') THEN
         object_type = 'DataSource';
+    ELSEIF (topic = 'batch') THEN
+        object_type = 'Batch';
+    ELSEIF (topic = 'session') THEN
+        object_type = 'Session';
     END IF;
 
     -- First argument of PG_NOTIFY is the channel, it must contain 'postgraphile:' to be captured by PostGraphile simple subscriptions

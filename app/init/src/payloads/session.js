@@ -34,3 +34,19 @@ export const mutationSearchSession = `mutation searchSession($searchKeyword: Str
         }
     }
 }`;
+
+export const subscriptionGetSessionUpdates = `subscription getSessionUpdates {
+    listen(topic: "session") {
+        relatedNode {
+            ... on Session {
+                id
+                status
+                nbRecords
+                nbRecordsAlert
+                nbRecordsNoAlert
+                batchId
+                batchByBatchId { status }
+            }
+        }
+    }
+}`;
