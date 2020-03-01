@@ -63,6 +63,10 @@ CREATE TRIGGER data_source_update_updated_by_id BEFORE UPDATE
 ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+CREATE TRIGGER data_source_update_send AFTER UPDATE
+ON base.data_source FOR EACH ROW EXECUTE PROCEDURE
+base.send_update('dataSource');
+
 
 
 /*Triggers on delete*/

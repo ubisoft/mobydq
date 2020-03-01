@@ -37,11 +37,11 @@
       <div v-for="notification in notifications" v-bind:key="notification.id">
         <router-link class="dropdown-item notification-item" to="/notifications">
           <!-- Batch notification -->
-          <span  v-if="notification.batchId">
+          <span v-if="notification.batchId">
             Status of batch Id <b>{{ notification.batchId }}</b> set to
           </span>
           <!-- Data source notification -->
-          <span  v-if="notification.dataSourceId">
+          <span v-if="notification.dataSourceId">
             Status of data source <b>{{ notification.dataSourceByDataSourceId.name }}</b> set to
           </span>
           <span class="badge badge-pill" v-bind:class="statusCssClass(notification.status)">
@@ -136,7 +136,7 @@ export default {
         this.nbNotifications = this.nbNotifications + 1;
         this.notifications.unshift(message.payload.data.listen.relatedNode); // Push notification to array
       }
-    };
+    }
   }
 };
 </script>

@@ -101,39 +101,56 @@ export default {
     }
   },
   methods: {
+    getIndicatorGroup() {
+      // If indicatorGroupId != new then get data for existing indicator group
+      if (Number.isInteger(this.indicatorGroupId)) {
+        let payload = {
+          query: this.$store.state.queryGetIndicatorGroup,
+          variables: {
+            id: parseInt(this.indicatorGroupId),
+            first: 10,
+            offset: 0,
+            orderBy: "ID_DESC"
+          }
+        };
+        let headers = {};
+        if (this.$session.exists()) {
+          headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+        }
+        this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+          function(response) {
+            if (response.data.errors) {
+              this.displayError(response);
+            } else {
+              this.indicatorGroup = response.data.data.indicatorGroupById;
+            }
+          },
+          // Error callback
+          function(response) {
+            this.displayError(response);
+          }
+        );
+      }
+    },
     addBatch(value) {
       this.indicatorGroup.batchesByIndicatorGroupId.nodes.unshift(value);
     }
   },
   created: function() {
-    // If indicatorGroupId != new then get data for existing indicator group
-    if (Number.isInteger(this.indicatorGroupId)) {
-      let payload = {
-        query: this.$store.state.queryGetIndicatorGroup,
-        variables: {
-          id: parseInt(this.indicatorGroupId),
-          first: 10,
-          offset: 0,
-          orderBy: "ID_DESC"
-        }
-      };
-      let headers = {};
-      if (this.$session.exists()) {
-        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
-      }
-      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
-        function(response) {
-          if (response.data.errors) {
-            this.displayError(response);
-          } else {
-            this.indicatorGroup = response.data.data.indicatorGroupById;
+    this.getIndicatorGroup();
+
+    // Capture updated batch via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "batch" && message.type == "data") {
+        let updatedBatch = message.payload.data.listen.relatedNode;
+        for (let i = 0; i < this.indicatorGroup.batchesByIndicatorGroupId.nodes.length; i++) {
+          if (this.indicatorGroup.batchesByIndicatorGroupId.nodes[i].id == updatedBatch.id) {
+            this.indicatorGroup.batchesByIndicatorGroupId.nodes.splice(i, 1, updatedBatch);
+            break; // Stop this loop, we found it!
           }
-        },
-        // Error callback
-        function(response) {
-          this.displayError(response);
         }
-      );
+      }
     }
   }
 };

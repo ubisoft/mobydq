@@ -35,6 +35,10 @@ CREATE TRIGGER batch_update_updated_by_id BEFORE UPDATE
 ON base.batch FOR EACH ROW EXECUTE PROCEDURE
 base.update_updated_by_id();
 
+CREATE TRIGGER batch_update_send_update AFTER UPDATE
+ON base.batch FOR EACH ROW EXECUTE PROCEDURE
+base.send_update('batch');
+
 
 
 /*Triggers on delete*/

@@ -14,11 +14,6 @@ export default {
   props: {
     dataSourceId: Number
   },
-  data: function() {
-    return {
-      connectivityTestStatus: {}
-    };
-  },
   computed: {
     show() {
       let roles = ["advanced", "admin"];
@@ -27,8 +22,6 @@ export default {
   },
   methods: {
     testConnectivity() {
-      this.connectivityTestStatus["spinner"] = true;
-      this.$emit("connectivityTestStatus", this.connectivityTestStatus);
       let payload = {
         query: this.$store.state.mutationTestDataSource,
         variables: {
@@ -43,10 +36,6 @@ export default {
         function(response) {
           if (response.data.errors) {
             this.displayError(response);
-          } else {
-            this.connectivityTestStatus = response.data.data.testDataSource.dataSource;
-            this.connectivityTestStatus["spinner"] = false;
-            this.$emit("connectivityTestStatus", this.connectivityTestStatus); // Send test results to parent component
           }
         },
         // Error callback

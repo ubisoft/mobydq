@@ -82,3 +82,23 @@ export const queryGetDataSources = `query getAllDataSources {
         }
     }
 }`;
+
+export const subscriptionGetDataSourceUpdates = `subscription getDataSourceUpdates {
+    listen(topic: "dataSource") {
+        relatedNode {
+            ... on DataSource {
+                id
+                name
+                dataSourceTypeId
+                dataSourceTypeByDataSourceTypeId { name }
+                connectionString
+                login
+                connectivityStatus
+                createdDate
+                updatedDate
+                userByCreatedById { email }
+                userByUpdatedById { email }
+            }
+        }
+    }
+}`;

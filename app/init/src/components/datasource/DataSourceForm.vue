@@ -79,22 +79,22 @@
           </div>
 
           <!-- Meta-Data -->
-          <div>
-            <data-source-meta-data
-              v-if="dataSource.id"
-              v-bind:id="dataSource.id"
-              v-bind:createdDate="dataSource.createdDate"
-              v-bind:createdBy="dataSource.userByCreatedById.email"
-              v-bind:updatedDate="dataSource.updatedDate"
-              v-bind:updatedBy="dataSource.userByUpdatedById.email"
-            ></data-source-meta-data>
+          <div>	
+            <data-source-meta-data	
+              v-if="dataSource.id"	
+              v-bind:id="dataSource.id"	
+              v-bind:createdDate="dataSource.createdDate"	
+              v-bind:createdBy="dataSource.userByCreatedById.email"	
+              v-bind:updatedDate="dataSource.updatedDate"	
+              v-bind:updatedBy="dataSource.userByUpdatedById.email"	
+            ></data-source-meta-data>	
           </div>
-
+          
           <!-- Button Menu -->
           <div class="mt-3">
             <data-source-button-save v-bind:dataSource="dataSource" v-bind:showPasswordField="showPasswordField"> </data-source-button-save>
             <data-source-button-reset-password v-on:resetPassword="resetPassword" v-bind:dataSourceId="dataSourceId"> </data-source-button-reset-password>
-            <data-source-button-test-connectivity v-on:connectivityTestStatus="connectivityTestStatus" v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
+            <data-source-button-test-connectivity v-bind:dataSourceId="dataSourceId"> </data-source-button-test-connectivity>
             <data-source-button-log v-bind:dataSourceId="dataSourceId"> </data-source-button-log>
             <data-source-button-close> </data-source-button-close>
             <data-source-button-delete v-bind:dataSourceId="dataSourceId"> </data-source-button-delete>
@@ -145,36 +145,55 @@ export default {
     }
   },
   created: function() {
-    // If dataSourceId != new then get data for existing data source
-    if (Number.isInteger(this.dataSourceId)) {
-      let payload = {
-        query: this.$store.state.queryGetDataSource,
-        variables: {
-          id: parseInt(this.dataSourceId)
+    this.getDataSource();
+
+    // Capture updated data source via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "dataSource" && message.type == "data") {
+        let updatedDataSource = message.payload.data.listen.relatedNode;
+        this.dataSource = updatedDataSource;
+
+        // Display spinner
+        if (updatedDataSource.connectivityStatus == "Running") {
+          this.spinner = true;
+        } else{
+          this.spinner = false;
         }
-      };
-      let headers = {};
-      if (this.$session.exists()) {
-        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
       }
-      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
-        function(response) {
-          if (response.data.errors) {
-            this.displayError(response);
-          } else {
-            this.dataSource = response.data.data.dataSourceById;
-          }
-        },
-        // Error callback
-        function(response) {
-          this.displayError(response);
-        }
-      );
-    } else {
-      this.showPasswordField = true;
     }
   },
   methods: {
+    getDataSource() {
+      // If dataSourceId != new then get data for existing data source
+      if (Number.isInteger(this.dataSourceId)) {
+        let payload = {
+          query: this.$store.state.queryGetDataSource,
+          variables: {
+            id: parseInt(this.dataSourceId)
+          }
+        };
+        let headers = {};
+        if (this.$session.exists()) {
+          headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+        }
+        this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+          function(response) {
+            if (response.data.errors) {
+              this.displayError(response);
+            } else {
+              this.dataSource = response.data.data.dataSourceById;
+            }
+          },
+          // Error callback
+          function(response) {
+            this.displayError(response);
+          }
+        );
+      } else {
+        this.showPasswordField = true;
+      }
+    },
     getDataSourceType(value) {
       // Get data source type from child component
       if (value != null) {
@@ -185,14 +204,6 @@ export default {
     },
     resetPassword(value) {
       this.showPasswordField = value;
-    },
-    connectivityTestStatus(value) {
-      this.spinner = value.spinner;
-      if (!value.spinner) {
-        this.dataSource.connectivityStatus = value.connectivityStatus;
-        this.dataSource.updatedDate = value.updatedDate;
-        this.dataSource.userByUpdatedById.email = value.userByUpdatedById.email;
-      }
     }
   }
 };

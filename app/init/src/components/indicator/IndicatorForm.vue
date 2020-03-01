@@ -216,38 +216,38 @@ export default {
       return !roles.includes(this.$store.state.currentUser.role);
     }
   },
-  created: function() {
-    // If indicatorId != new then get data for existing indicator
-    if (Number.isInteger(this.indicatorId)) {
-      let headers = {};
-      if (this.$session.exists()) {
-        headers = { Authorization: "Bearer " + this.$session.get("jwt") };
-      }
-      let payload = {
-        query: this.$store.state.queryGetIndicator,
-        variables: {
-          id: parseInt(this.indicatorId),
-          first: 10,
-          offset: 0,
-          orderBy: "ID_DESC"
-        }
-      };
-      this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
-        function(response) {
-          if (response.data.errors) {
-            this.displayError(response);
-          } else {
-            this.indicator = response.data.data.indicatorById;
-          }
-        },
-        // Error callback
-        function(response) {
-          this.displayError(response);
-        }
-      );
-    }
-  },
   methods: {
+    getIndicator() {
+      // If indicatorId != new then get data for existing indicator
+      if (Number.isInteger(this.indicatorId)) {
+        let headers = {};
+        if (this.$session.exists()) {
+          headers = { Authorization: "Bearer " + this.$session.get("jwt") };
+        }
+        let payload = {
+          query: this.$store.state.queryGetIndicator,
+          variables: {
+            id: parseInt(this.indicatorId),
+            first: 10,
+            offset: 0,
+            orderBy: "ID_DESC"
+          }
+        };
+        this.$http.post(this.$store.state.graphqlUrl, payload, { headers }).then(
+          function(response) {
+            if (response.data.errors) {
+              this.displayError(response);
+            } else {
+              this.indicator = response.data.data.indicatorById;
+            }
+          },
+          // Error callback
+          function(response) {
+            this.displayError(response);
+          }
+        );
+      }
+    },
     getIndicatorType(value) {
       // Get indicator type from child component
       if (value != null) {
@@ -288,6 +288,23 @@ export default {
     },
     addSession(value) {
       this.indicator.sessionsByIndicatorId.nodes.unshift(value);
+    }
+  },
+  created: function() {
+    this.getIndicator();
+
+    // Capture updated session via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "session" && message.type == "data") {
+        let updatedSession = message.payload.data.listen.relatedNode;
+        for (let i = 0; i < this.indicator.sessionsByIndicatorId.nodes.length; i++) {
+          if (this.indicator.sessionsByIndicatorId.nodes[i].id == updatedSession.id) {
+            this.indicator.sessionsByIndicatorId.nodes.splice(i, 1, updatedSession);
+            break; // Stop this loop, we found it!
+          }
+        }
+      }
     }
   }
 };

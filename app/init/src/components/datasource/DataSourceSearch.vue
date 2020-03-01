@@ -11,7 +11,11 @@
     />
 
     <!-- Data source table -->
-    <data-source-table v-bind:dataSources="dataSources" v-bind:sortAttribute="sortAttribute" v-on:sortAttribute="setSortAttribute"></data-source-table>
+    <data-source-table
+      v-bind:dataSources="dataSources"
+      v-bind:sortAttribute="sortAttribute"
+      v-on:sortAttribute="setSortAttribute"
+    ></data-source-table>
 
     <!-- Data source pagination -->
     <data-source-pagination
@@ -137,6 +141,20 @@ export default {
   },
   created: function() {
     this.getAllDataSources(this.currentPage);
+
+    // Capture updated data source via websocket listener
+    this.$options.sockets.onmessage = function(data) {
+      let message = JSON.parse(data.data);
+      if (message.id == "dataSource" && message.type == "data") {
+        let updatedDataSource = message.payload.data.listen.relatedNode;
+        for (let i = 0; i < this.dataSources.length; i++) {
+          if (this.dataSources[i].id == updatedDataSource.id) {
+            this.dataSources.splice(i, 1, updatedDataSource);
+            break; // Stop this loop, we found it!
+          }
+        }
+      }
+    }
   }
 };
 </script>
