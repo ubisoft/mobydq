@@ -2,59 +2,71 @@ const { makeWrapResolversPlugin } = require("graphile-utils");
 
 // Create custom resolver to test data source
 const runTestDataSourceContainer = () => {
-    return async (resolve, source, args, context, resolveInfo) => {
-        // Let resolver execute against database
-        const result = await resolve();
+    return {
+        // Get prediction id from the database
+        requires: {
+            childColumns: [{ column: "id", alias: "$data_source_id" }],
+        },
+        async resolve(resolve, _source, _args, _context, _resolveInfo) {
+            // Let resolver execute against database
+            const result = await resolve();
 
-        // Capture parameters to run Docker container
-        const authorization = context.authorization;
-        const dataSourceId = result.data["@dataSource"]["id"];
+            // Capture parameters to run Docker container
+            const authorization = _context.authorization;
+            const dataSourceId = result.data.$data_source_id;
 
-        // Instantiate Docker
-        var Docker = require("dockerode");
-        var docker = new Docker({ socketPath: "/var/run/docker.sock" });
+            // Instantiate Docker
+            var Docker = require("dockerode");
+            var docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
-        // Run Docker container
-        docker.run(
-            "mobydq-scripts",
-            ["python", "run.py", authorization, "test_data_source", dataSourceId.toString()],
-            process.stdout,
-            { name: "mobydq-test-data-source-" + dataSourceId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } }, // Start options
-            function(err, data, container) {
-                // Do nothing
-            }
-        );
+            // Run Docker container
+            docker.run(
+                "mobydq-scripts",
+                ["python", "run.py", authorization, "test_data_source", dataSourceId.toString()],
+                process.stdout,
+                { name: "mobydq-test-data-source-" + dataSourceId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } }, // Start options
+                function(err, data, container) {
+                    // Do nothing
+                }
+            );
 
-        return result;
+            return result;
+        }
     };
 };
 
 // Create custom resolver to execute batch of indicators
 const runExecuteBatchContainer = () => {
-    return async (resolve, source, args, context, resolveInfo) => {
-        // Let resolver execute against database
-        const result = await resolve();
+    return {
+        // Get prediction id from the database
+        requires: {
+            childColumns: [{ column: "id", alias: "$batch_id" }],
+        },
+        async resolve(resolve, _source, _args, _context, _resolveInfo) {
+            // Let resolver execute against database
+            const result = await resolve();
 
-        // Capture parameters to run Docker container
-        const authorization = context.authorization;
-        const batchId = result.data["@batch"]["id"];
+            // Capture parameters to run Docker container
+            const authorization = _context.authorization;
+            const batchId = result.data.$batch_id;
 
-        // Instantiate Docker
-        var Docker = require("dockerode");
-        var docker = new Docker({ socketPath: "/var/run/docker.sock" });
+            // Instantiate Docker
+            var Docker = require("dockerode");
+            var docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
-        // Run Docker container
-        docker.run(
-            "mobydq-scripts",
-            ["python", "run.py", authorization, "execute_batch", batchId.toString()],
-            process.stdout,
-            { name: "mobydq-batch-" + batchId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } },
-            function(err, data, container) {
-                // Do nothing
-            }
-        );
+            // Run Docker container
+            docker.run(
+                "mobydq-scripts",
+                ["python", "run.py", authorization, "execute_batch", batchId.toString()],
+                process.stdout,
+                { name: "mobydq-batch-" + batchId, HostConfig: { AutoRemove: true, NetworkMode: "mobydq_network" } },
+                function(err, data, container) {
+                    // Do nothing
+                }
+            );
 
-        return result;
+            return result;
+        }
     };
 };
 
