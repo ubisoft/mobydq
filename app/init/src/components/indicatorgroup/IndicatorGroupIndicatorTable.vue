@@ -4,14 +4,10 @@
       <thead>
         <tr>
           <th scope="col">
-            Name
-            <table-sort v-bind:columnName="'name'" v-bind:sortAttribute="sortAttribute" v-on:sortAttribute="setSortAttribute"></table-sort>
+            Indicator Name
           </th>
           <th scope="col">
             Indicator Type
-          </th>
-          <th scope="col">
-            Indicator Group
           </th>
           <th scope="col">
             Active
@@ -32,18 +28,13 @@
             {{ indicator.indicatorTypeByIndicatorTypeId.name }}
           </td>
           <td>
-            <router-link v-bind:to="'/indicatorgroups/' + indicator.indicatorGroupId">
-              {{ indicator.indicatorGroupByIndicatorGroupId.name }}
-            </router-link>
-          </td>
-           <td>
             {{ indicator.flagActive }}
           </td>
           <td>
             <router-link v-if="showEditIndicator" class="badge badge-secondary" v-bind:to="'/indicators/' + indicator.id">
               Edit
             </router-link>
-            <a v-if="showEditIndicator && indicator.flagActive" class="badge badge-secondary ml-1" v-on:click="execute(indicator.indicatorGroupId, indicator.id)">
+            <a v-if="showEditIndicator && indicator.flagActive" class="badge badge-secondary ml-1" v-on:click="execute(indicatorGroupId, indicator.id)">
               Execute
             </a>
           </td>
@@ -55,16 +46,17 @@
 
 <script>
 import Mixins from "../utils/Mixins.vue";
-import TableSort from "../utils/TableSort.vue";
 
 export default {
   mixins: [Mixins],
-  components: {
-    "table-sort": TableSort
-  },
   props: {
-    indicators: Array,
-    sortAttribute: Object
+    indicatorGroupId: Number,
+    indicators: Array
+  },
+  data: function() {
+    return {
+      selectedParameter: null
+    };
   },
   computed: {
     showEditIndicator() {
@@ -73,9 +65,6 @@ export default {
     }
   },
   methods: {
-    setSortAttribute(attribute) {
-      this.$emit("sortAttribute", attribute);
-    },
     execute(indicatorGroupId, indicatorId){
       let payload = {
         query: this.$store.state.mutationExecuteIndicator,

@@ -16,6 +16,14 @@ export const queryGetIndicatorGroup = `query getIndicatorGroup($id: Int!, $first
         updatedDate
         userByCreatedById { email }
         userByUpdatedById { email }
+        indicatorsByIndicatorGroupId {
+            nodes {
+                id
+                name
+                indicatorTypeByIndicatorTypeId { name }
+                flagActive
+            }
+        }
         batchesByIndicatorGroupId(first: $first, offset: $offset, orderBy: $orderBy) {
             nodes {
                 id

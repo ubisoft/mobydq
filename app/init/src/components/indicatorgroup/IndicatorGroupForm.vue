@@ -54,13 +54,28 @@
         <h1 class="mt-5">Execution History</h1>
 
         <!-- Batch table -->
-        <indicator-group-batch
+        <batch-table
           v-if="indicatorGroup.id"
           v-bind:indicatorGroupId="indicatorGroupId"
           v-bind:batches="batches">
-        </indicator-group-batch>
+        </batch-table>
       </div>
     </div>
+
+    <!-- Indicators -->
+    <h1 class="mt-5" v-if="indicatorGroup.id">Indicators</h1>
+    <p>
+      <indicator-group-button-add-indicator
+        v-if="indicatorGroup.id">
+      </indicator-group-button-add-indicator>
+    </p>
+
+    <!-- Indicator table -->
+    <indicator-table
+      v-if="indicatorGroup.id"
+      v-bind:indicatorGroupId="indicatorGroup.id"
+      v-bind:indicators="indicators">
+    </indicator-table>
   </div>
 </template>
 
@@ -70,6 +85,8 @@ import IndicatorGroupButtonSave from "./IndicatorGroupButtonSave.vue";
 import IndicatorGroupButtonClose from "./IndicatorGroupButtonClose.vue";
 import IndicatorGroupButtonDelete from "./IndicatorGroupButtonDelete.vue";
 import IndicatorGroupButtonExecute from "./IndicatorGroupButtonExecute.vue";
+import IndicatorGroupButtonAddIndicator from "./IndicatorGroupButtonAddIndicator.vue";
+import IndicatorGroupIndicatorTable from "./IndicatorGroupIndicatorTable.vue";
 import IndicatorGroupBatch from "./IndicatorGroupBatch.vue";
 import MetaDataCard from "../utils/MetaDataCard.vue";
 
@@ -80,7 +97,9 @@ export default {
     "indicator-group-button-close": IndicatorGroupButtonClose,
     "indicator-group-button-delete": IndicatorGroupButtonDelete,
     "indicator-group-button-execute": IndicatorGroupButtonExecute,
-    "indicator-group-batch": IndicatorGroupBatch,
+    "indicator-group-button-add-indicator": IndicatorGroupButtonAddIndicator,
+    "indicator-table": IndicatorGroupIndicatorTable,
+    "batch-table": IndicatorGroupBatch,
     "indicator-group-meta-data": MetaDataCard
   },
   data: function() {
@@ -91,6 +110,9 @@ export default {
   computed: {
     indicatorGroupId() {
       return parseInt(this.$route.params.indicatorGroupId);
+    },
+    indicators() {
+      return this.indicatorGroup.indicatorsByIndicatorGroupId.nodes;
     },
     batches() {
       return this.indicatorGroup.batchesByIndicatorGroupId.nodes;
