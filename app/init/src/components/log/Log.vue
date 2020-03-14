@@ -84,6 +84,7 @@ export default {
         this.logs = 'No log found';
       }
 
+      // Byuild http request
       if (payload['query']) {
         let headers = {};
         if (this.$session.exists()) {
@@ -103,8 +104,8 @@ export default {
                 this.indicatorGroupId = response.data.data.batchById.indicatorGroupId;
                 this.indicatorGroup = response.data.data.batchById.indicatorGroupByIndicatorGroupId.name;
                 rawLogs = response.data.data.batchById.logsByBatchId.nodes.map(function(log) {
-                  return log.id + " | " + log.createdDate + " - " + log.fileName + " - " + log.logLevel + " - " + log.message;
-                });
+                  return this.buildLogLine(log.id, log.createdDate, log.fileName, log.logLevel, log.message);
+                }.bind(this));
               }
 
               // Fetch logs for session
@@ -114,16 +115,16 @@ export default {
                 this.indicator = response.data.data.sessionById.indicatorByIndicatorId.name;
                 this.indicatorType = response.data.data.sessionById.indicatorByIndicatorId.indicatorTypeByIndicatorTypeId.name;
                 rawLogs = response.data.data.sessionById.logsBySessionId.nodes.map(function(log) {
-                  return log.id + " | " + log.createdDate + " - " + log.fileName + " - " + log.logLevel + " - " + log.message;
-                });
+                  return this.buildLogLine(log.id, log.createdDate, log.fileName, log.logLevel, log.message);
+                }.bind(this));
               }
               // Fetch logs for data source
               else if (this.dataSourceId) {
                 this.dataSource = response.data.data.dataSourceById.name;
                 this.dataSourceType = response.data.data.dataSourceById.dataSourceTypeByDataSourceTypeId.name;
                 rawLogs = response.data.data.dataSourceById.logsByDataSourceId.nodes.map(function(log) {
-                  return log.id + " | " + log.createdDate + " - " + log.fileName + " - " + log.logLevel + " - " + log.message;
-                });
+                  return this.buildLogLine(log.id, log.createdDate, log.fileName, log.logLevel, log.message);
+                }.bind(this));
               }
 
               // Combine logs into string
@@ -136,6 +137,13 @@ export default {
           }
         );
       }
+    },
+    buildLogLine(id, createdDate, fileName, logLevel, message) {
+      message = message.replace(/\\n/g, "\n"); // Replace string \n by new line
+      message = message.replace(/\\"/g, "\""); // Replace string \" by double quotes
+      message = message.substring(1, message.length-1) // Remove first and last characters which are double quotes
+      let logLine = id + " | " + createdDate + " - " + fileName + " - " + logLevel + " - " + message;
+      return logLine;
     }
   },
   created: function() {
