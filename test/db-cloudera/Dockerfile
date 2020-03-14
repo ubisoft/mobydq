@@ -1,7 +1,7 @@
 FROM cloudera/quickstart:latest
 
 # Project files
-ARG PROJECT_DIR=/srv/db-hive
+ARG PROJECT_DIR=/srv/db-cloudera
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 COPY ./init/ ./
