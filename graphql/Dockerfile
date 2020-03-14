@@ -6,13 +6,13 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 # Copy dependencies
-COPY ./src/package*.json .
+COPY ./init/package*.json .
 
 # Install dependencies
 RUN npm install
 
 # Copy application files
-COPY --chown=node:node ./src .
+COPY --chown=node:node ./init .
 
 # Install MobyDQ plugin
 RUN cd ./mobydq-plugin && npm pack

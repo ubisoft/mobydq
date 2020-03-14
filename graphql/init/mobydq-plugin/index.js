@@ -3,7 +3,7 @@ const { makeWrapResolversPlugin } = require("graphile-utils");
 // Create custom resolver to test data source
 const runTestDataSourceContainer = () => {
     return {
-        // Get prediction id from the database
+        // Get data source id from the database
         requires: {
             childColumns: [{ column: "id", alias: "$data_source_id" }],
         },
@@ -38,7 +38,7 @@ const runTestDataSourceContainer = () => {
 // Create custom resolver to execute batch of indicators
 const runExecuteBatchContainer = () => {
     return {
-        // Get prediction id from the database
+        // Get batch id from the database
         requires: {
             childColumns: [{ column: "id", alias: "$batch_id" }],
         },
@@ -77,7 +77,7 @@ const killContainer = (containerName, objectId) => {
         var Docker = require("dockerode");
         var docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
-        // Get Docker container
+        // Get Docker container name based on data source or batch Id
         const id = args.input[objectId];
         var container = docker.getContainer(containerName + id);
 
