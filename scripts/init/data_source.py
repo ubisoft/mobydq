@@ -24,15 +24,21 @@ class DataSource:
         if password:
             connection_string = connection_string = f'{connection_string}pwd={password};'
 
-        # Hive
-        if data_source_type_id == DataSourceType.HIVE_ID:
+        # Cloudera Hive
+        if data_source_type_id == DataSourceType.CLOUDERA_HIVE_ID:
             connection = pyodbc.connect(connection_string, autocommit=True)
             connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
-        # Impala
+        # Cloudera Impala
         elif data_source_type_id == DataSourceType.IMPALA_ID:
             connection = pyodbc.connect(connection_string)
+            connection.setencoding(encoding='utf-8')
+        
+        # Hortonworks Hive
+        if data_source_type_id == DataSourceType.HORTONWORKS_HIVE_ID:
+            connection = pyodbc.connect(connection_string, autocommit=True)
+            connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
         # MariaDB
@@ -56,6 +62,10 @@ class DataSource:
             connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
+        
+        # Snowflake
+        elif data_source_type_id == DataSourceType.SNOWFLAKE_ID:
+            connection = pyodbc.connect(connection_string)
 
         # SQLite
         elif data_source_type_id == DataSourceType.SQLITE_ID:
