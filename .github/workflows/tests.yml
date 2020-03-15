@@ -21,26 +21,81 @@ jobs:
                   echo "MAIL_PASSWORD=change_me" >> ./.env
                   echo "MAIL_BASE_URL=https://localhost" >> ./.env
 
-            - name: Build Docker images
-              run: |
-                  docker-compose -f docker-compose.yml build db graphql scripts
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-cloudera db-mariadb db-mysql db-postgresql db-sql-server test-db test-scripts test-lint-python
-                  docker images
+            - name: Build application Docker images
+              run: docker-compose -f docker-compose.yml build db graphql scripts
+            
+            - name: Run application Docker containers
+              run: docker-compose -f docker-compose.yml up -d db graphql
 
-            - name: Run Docker containers
-              run: |
-                  docker-compose -f docker-compose.yml up -d db graphql
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-cloudera db-mariadb db-mysql db-postgresql db-sql-server
-                  docker ps -a
+            - name: Build test Docker images
+              run: >-
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml build
+                  db-cloudera
+                  db-mariadb
+                  db-mysql
+                  db-postgresql
+                  db-sql-server
+                  test-db
+                  test-scripts
+                  test-lint-python
 
-            - name: Wait for databases to be up
-              run: sleep 240
+            - name: List Docker images
+              run: docker images
 
-            - name: Run database tests
+            - name: Run Docker containers to test database functions
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
-            - name: Run scripts tests
-              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+            - name: Run Docker containers to test batch methods
+              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_batch
+
+            - name: Run Docker containers to test data source methods
+              run: |
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_password
+                docker rm -f db-sql-sqlite
+
+            - name: Run Docker containers to test connectivity to Cloudera Hive
+              run: |
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-cloudera
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
+                docker rm -f db-cloudera
+
+            - name: Run Docker containers to test connectivity to MariaDB
+              run: |
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mariadb
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_mariadb
+                docker rm -f db-mariadb
+
+            - name: Run Docker containers to test connectivity to MySQL
+              run: |
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
+                docker rm -f db-mysql
+
+            - name: Run Docker containers to test connectivity to PostgreSQL
+              run: |
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-postgresql
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
+                docker rm -f db-postgresql
+
+            - name: Run Docker containers to test connectivity to SQLite
+              run: |
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_sqlite
+                docker rm -f db-sql-sqlite
+
+            - name: Run Docker containers to test connectivity to SQL Server
+              run: |
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-sql-server
+                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_sql_server
+                docker rm -f db-sql-server
+
+            - name: Run Docker containers to test indicator methods
+              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_indicator
+            
+            - name: Run Docker containers to test session methods
+              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_session
+
+            - name: Run Docker containers to test utility methods
+              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_utils
 
             - name: Run python linter
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
