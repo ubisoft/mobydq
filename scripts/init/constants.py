@@ -6,7 +6,7 @@ class DataSourceType:
     """Data source type Ids."""
 
     CLOUDERA_HIVE_ID = 1
-    IMPALA_ID = 2
+    CLOUDERA_IMPALA_ID = 2
     MARIADB_ID = 3
     MSSQL_ID = 4
     MYSQL_ID = 5

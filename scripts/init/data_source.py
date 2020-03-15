@@ -31,7 +31,7 @@ class DataSource:
             connection.setencoding(encoding='utf-8')
 
         # Cloudera Impala
-        elif data_source_type_id == DataSourceType.IMPALA_ID:
+        elif data_source_type_id == DataSourceType.CLOUDERA_IMPALA_ID:
             connection = pyodbc.connect(connection_string)
             connection.setencoding(encoding='utf-8')
         
