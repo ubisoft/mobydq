@@ -46,54 +46,70 @@ jobs:
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
             - name: Run Docker containers to test batch methods
-              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_batch
+              run: |
+                export TEST_CASE=test_scripts.test_batch
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run Docker containers to test data source methods
-              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_password
+              run: |
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_password
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run Docker containers to test data source connectivity to Cloudera Hive
               run: |
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-cloudera
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-cloudera
 
             - name: Run Docker containers to test data source connectivity to MariaDB
               run: |
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mariadb
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_mariadb
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mariadb
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-mariadb
 
             - name: Run Docker containers to test data source connectivity to MySQL
               run: |
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-mysql
 
             - name: Run Docker containers to test data source connectivity to PostgreSQL
               run: |
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-postgresql
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-postgresql
 
             - name: Run Docker containers to test data source connectivity to SQLite
               run: |
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_sqlite
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_sqlite
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-sql-sqlite
 
             - name: Run Docker containers to test data source connectivity to SQL Server
               run: |
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-sql-server
-                docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_data_source.TestDataSource.test_get_connection_sql_server
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_sql_server
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
                 docker rm -f db-sql-server
 
             - name: Run Docker containers to test indicator methods
-              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_indicator
+              run: |
+                export TEST_CASE=test_scripts.test_indicator
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
             
             - name: Run Docker containers to test session methods
-              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_session
+              run: |
+                export TEST_CASE=test_scripts.test_session
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run Docker containers to test utility methods
-              run: docker run --rm --network mobydq_network mobydq-test-scripts nose2 -v test_scripts.test_utils
+              run: |
+                export TEST_CASE=test_scripts.test_utils
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             - name: Run python linter
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
