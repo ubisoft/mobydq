@@ -1,7 +1,7 @@
 # MobyDQ
 
 ![License](https://img.shields.io/github/license/mobydq/mobydq.svg "Apache-2.0")
-![tests](https://github.com/mobydq/mobydq/workflows/tests/badge.svg?branch=master)
+![tests](https://github.com/mobydq/mobydq/workflows/tests/badge.svg)
 
 ![MobyDQ](https://mobydq.github.io/img/logo/mobydq_logo_black_horizontal_small.png)
 
