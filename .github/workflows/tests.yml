@@ -45,43 +45,41 @@ jobs:
             - name: Run Docker containers to test database functions
               run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-db test-db
 
-            - name: Run Docker containers to test batch methods
-              run: |
-                export TEST_CASE=test_scripts.test_batch
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-
-            - name: Run Docker containers to test data source methods
-              run: |
-                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_password
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-
-            - name: Run Docker containers to test data source connectivity to Cloudera Hive
-              run: |
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-cloudera
-                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                docker rm -f db-cloudera
-
             - name: Run Docker containers to test data source connectivity to MariaDB
               run: |
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mariadb
+                export TEST_HOST=db-mariadb
+                export TEST_PORT=3306
                 export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mariadb
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                docker rm -f db-mariadb
+                docker rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to MySQL
               run: |
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
+                export TEST_HOST=db-mysql
+                export TEST_PORT=3306
                 export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                docker rm -f db-mysql
+                docker rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to PostgreSQL
               run: |
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-postgresql
+                export TEST_HOST=db-postgresql
+                export TEST_PORT=5432
                 export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                docker rm -f db-postgresql
+                docker rm -f $TEST_HOST
+
+            - name: Run Docker containers to test data source connectivity to Cloudera Hive
+              run: |
+                export TEST_HOST=db-cloudera
+                export TEST_PORT=10000
+                export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+                docker rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to SQLite
               run: |
@@ -91,10 +89,12 @@ jobs:
 
             - name: Run Docker containers to test data source connectivity to SQL Server
               run: |
-                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-sql-server
+                export TEST_HOST=db-sql-server
+                export TEST_PORT=1433
                 export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_sql_server
+                docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                 docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                docker rm -f db-sql-server
+                docker rm -f $TEST_HOST
 
             - name: Run Docker containers to test indicator methods
               run: |

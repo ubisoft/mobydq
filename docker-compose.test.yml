@@ -122,7 +122,7 @@ services:
         build:
             context: .
             dockerfile: ./test/Dockerfile
-        command: ["nose2", "-v", "${TEST_CASE}"]
+        command: ["./wait-for-it.sh", "-t", "180", "${TEST_HOST}:${TEST_PORT}", "--", "nose2", "-v", "${TEST_CASE}"]
         networks:
             - network
         #depends_on:
