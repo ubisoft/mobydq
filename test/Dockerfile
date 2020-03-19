@@ -24,6 +24,7 @@ COPY ./test/test_scripts ./test/test_scripts
 COPY ./test/shared ./test/shared
 COPY ./test/unittest.cfg .
 COPY ./test/pylintrc .
+COPY ./test/run-tests.sh .
 COPY ./test/wait-for-it.sh .
 
-RUN chmod +x test/db-sqlite/database.sh test/db-sqlite/database.sh wait-for-it.sh
+RUN chmod +x test/db-sqlite/database.sh test/db-sqlite/database.sh run-tests.sh wait-for-it.sh

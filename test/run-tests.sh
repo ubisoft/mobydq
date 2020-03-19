@@ -1,6 +1,8 @@
-# Build images
-cd ..
-docker-compose -f docker-compose.yml -f docker-compose.test.yml build
+#!/usr/bin/env bash
+# Use this script to trigger tests
 
-# Run test on all backend modules
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-scripts
+if [[ "$TEST_HOST" == "" || "$TEST_PORT" == "" ]]; then
+    nose2 -v $TEST_CASE
+else
+    ./wait-for-it.sh -t 180 $TEST_HOST:$TEST_PORT -- nose2 -v $TEST_CASE
+fi
