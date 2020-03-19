@@ -28,4 +28,4 @@ COPY ./test/wait-for-it.sh .
 
 RUN chmod +x test/db-sqlite/database.sh \
     && test/db-sqlite/database.sh \
-    && test/wait-for-it.sh
+    && wait-for-it.sh
