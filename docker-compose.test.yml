@@ -122,7 +122,7 @@ services:
         build:
             context: .
             dockerfile: ./test/Dockerfile
-        command: ["run-tests.sh"]
+        command: ["./run-tests.sh"]
         networks:
             - network
         #depends_on:
