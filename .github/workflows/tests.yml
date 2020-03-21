@@ -105,7 +105,6 @@ jobs:
                   export TEST_HOST=
                   export TEST_PORT=
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f db-sql-sqlite
 
             - name: Run Docker containers to test data source connectivity to SQL Server
               run: |

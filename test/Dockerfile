@@ -27,4 +27,5 @@ COPY ./test/pylintrc .
 COPY ./test/run-tests.sh .
 COPY ./test/wait-for-it.sh .
 
-RUN chmod +x test/db-sqlite/database.sh test/db-sqlite/database.sh run-tests.sh wait-for-it.sh
+RUN chmod +x test/db-sqlite/database.sh run-tests.sh wait-for-it.sh
+RUN test/db-sqlite/database.sh
