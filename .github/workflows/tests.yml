@@ -66,7 +66,8 @@ jobs:
             #      export TEST_PORT=10000
             #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
             #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-            #      docker rm -f $TEST_HOST
+            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to MariaDB
               run: |
@@ -75,7 +76,8 @@ jobs:
                   export TEST_PORT=3306
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to MySQL
               run: |
@@ -84,7 +86,8 @@ jobs:
                   export TEST_PORT=3306
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to PostgreSQL
               run: |
@@ -93,7 +96,8 @@ jobs:
                   export TEST_PORT=5432
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to SQLite
               run: |
@@ -110,7 +114,8 @@ jobs:
                   export TEST_PORT=1433
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
             - name: Run Docker containers to test indicator methods
               run: |
