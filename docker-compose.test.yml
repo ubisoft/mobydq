@@ -134,5 +134,6 @@ services:
         build:
             context: .
             dockerfile: ./test/Dockerfile
+        command: ["pylint", "scripts", "test"]
         depends_on:
             - scripts

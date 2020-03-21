@@ -34,7 +34,7 @@ class DataSource:
         elif data_source_type_id == DataSourceType.CLOUDERA_IMPALA_ID:
             connection = pyodbc.connect(connection_string)
             connection.setencoding(encoding='utf-8')
-        
+
         # Hortonworks Hive
         if data_source_type_id == DataSourceType.HORTONWORKS_HIVE_ID:
             connection = pyodbc.connect(connection_string, autocommit=True)
@@ -62,7 +62,7 @@ class DataSource:
             connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
-        
+
         # Snowflake
         elif data_source_type_id == DataSourceType.SNOWFLAKE_ID:
             connection = pyodbc.connect(connection_string)
