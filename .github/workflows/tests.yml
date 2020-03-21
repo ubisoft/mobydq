@@ -59,14 +59,14 @@ jobs:
                   export TEST_PORT=
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
-            - name: Run Docker containers to test data source connectivity to Cloudera Hive
-              run: |
-                  export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
-                  export TEST_HOST=db-cloudera
-                  export TEST_PORT=10000
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-                  docker rm -f $TEST_HOST
+            #- name: Run Docker containers to test data source connectivity to Cloudera Hive
+            #  run: |
+            #      export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_cloudera_hive
+            #      export TEST_HOST=db-cloudera
+            #      export TEST_PORT=10000
+            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
+            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+            #      docker rm -f $TEST_HOST
 
             - name: Run Docker containers to test data source connectivity to MariaDB
               run: |
