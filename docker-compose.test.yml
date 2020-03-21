@@ -125,15 +125,8 @@ services:
         command: ["./run-tests.sh", "${TEST_CASE}", "${TEST_HOST}", "${TEST_PORT}"]
         networks:
             - network
-        #depends_on:
-        #- scripts
-        #- db-cloudera
-        #- db-hortonworks
-        #- db-mariadb
-        #- db-mysql
-        #- db-oracle
-        #- db-postgresql
-        #- db-sql-server
+        depends_on:
+            - scripts
 
     test-lint-python:
         container_name: mobydq-test-lint-python
