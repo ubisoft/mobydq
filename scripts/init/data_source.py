@@ -24,8 +24,13 @@ class DataSource:
         if password:
             connection_string = connection_string = f'{connection_string}pwd={password};'
 
-        # Create connection object for all data source types
-        connection = pyodbc.connect(connection_string)
+        # Create connection object for SQLite
+        if data_source_type_id == DataSourceType.SQLITE_ID:
+            connection = sqlite3.connect(connection_string)
+
+        # Create connection object for all other data source types using pyodbc
+        else:
+            connection = pyodbc.connect(connection_string)
 
         # Cloudera Hive
         if data_source_type_id == DataSourceType.CLOUDERA_HIVE_ID:
