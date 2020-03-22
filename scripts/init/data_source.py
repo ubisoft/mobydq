@@ -77,11 +77,6 @@ class DataSource:
             connection.setdecoding(pyodbc.SQL_WMETADATA, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
-        else:
-            message = f'Invalid data source type with id {data_source_type_id}'
-            log.error(message)
-            raise ValueError(message)
-
         return connection
 
     def get_password(self, authorization: str, data_source_id: int):
