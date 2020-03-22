@@ -14,19 +14,19 @@ class TestDataSource(unittest.TestCase):
         # Authenticate user
         authorization = get_authorization()
 
-        # Get password for Hive data source
+        # Get password for Cloudera Hive data source
         data_source = DataSource()
         password = data_source.get_password(authorization, 1)
 
         # Assert query result
         self.assertEqual(password, 'cloudera')
 
-    def test_get_connection_hive(self):
-        """Unit tests for method get_connection for Hive database."""
+    def test_get_connection_cloudera_hive(self):
+        """Unit tests for method get_connection for Cloudera Hive database."""
 
         # Set connection parameters
-        data_source_type_id = DataSourceType.HIVE_ID
-        connection_string = 'driver=Cloudera Hive;Host=db-hive;Port=10000;'
+        data_source_type_id = DataSourceType.CLOUDERA_HIVE_ID
+        connection_string = 'driver={Cloudera Hive};Host=db-cloudera;Port=10000;'
         login = 'cloudera'
         password = 'cloudera'
 

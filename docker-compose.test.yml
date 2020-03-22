@@ -1,11 +1,11 @@
 version: "3.1"
 services:
-    db-hive:
-        container_name: mobydq-test-db-hive
-        image: mobydq-test-db-hive
+    db-cloudera:
+        container_name: mobydq-test-db-cloudera
+        image: mobydq-test-db-cloudera
         restart: always
         build:
-            context: ./test/db-hive/
+            context: ./test/db-cloudera/
             dockerfile: Dockerfile
         expose:
             - 10000
@@ -15,12 +15,27 @@ services:
         privileged: true
         tty: true
 
-    db-mysql:
-        container_name: mobydq-test-db-mysql
-        image: mobydq-test-db-mysql
+    db-hortonworks:
+        container_name: mobydq-test-db-hortonworks
+        image: mobydq-test-db-hortonworks
         restart: always
         build:
-            context: ./test/db-mysql/
+            context: ./test/db-hortonworks/
+            dockerfile: Dockerfile
+        expose:
+            - 10000
+        networks:
+            - network
+        hostname: sandbox-hdf.hortonworks.com
+        privileged: true
+        tty: true
+
+    db-mariadb:
+        container_name: mobydq-test-db-mariadb
+        image: mobydq-test-db-mariadb
+        restart: always
+        build:
+            context: ./test/db-mariadb/
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
@@ -29,12 +44,12 @@ services:
         networks:
             - network
 
-    db-mariadb:
-        container_name: mobydq-test-db-mariadb
-        image: mobydq-test-db-mariadb
+    db-mysql:
+        container_name: mobydq-test-db-mysql
+        image: mobydq-test-db-mysql
         restart: always
         build:
-            context: ./test/db-mariadb/
+            context: ./test/db-mysql/
             dockerfile: Dockerfile
         environment:
             MYSQL_ROOT_PASSWORD: "1234"
@@ -107,17 +122,11 @@ services:
         build:
             context: .
             dockerfile: ./test/Dockerfile
-        command: ["nose2", "-v", "test_scripts"]
-        depends_on:
-            - scripts
-            - db-hive
-            - db-sql-server
-            - db-mysql
-            - db-mariadb
-            #- db-oracle
-            - db-postgresql
+        command: ["./run-tests.sh", "${TEST_CASE}", "${TEST_HOST}", "${TEST_PORT}"]
         networks:
             - network
+        depends_on:
+            - scripts
 
     test-lint-python:
         container_name: mobydq-test-lint-python
@@ -125,5 +134,6 @@ services:
         build:
             context: .
             dockerfile: ./test/Dockerfile
+        command: ["pylint", "scripts", "test"]
         depends_on:
             - scripts

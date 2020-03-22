@@ -5,9 +5,10 @@ ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
-# Add dependencies for Python package pyodbc
+# Add dependencies for Python package pyodbc and for Hortonworks Hive ODBC driver
 RUN apt-get update \
-    && apt-get install -y g++ unixodbc unixodbc-dev
+    && apt-get install -y g++ unixodbc unixodbc-dev \
+    && apt-get install -y libsasl2-modules-gssapi-mit libsasl2-modules
 
 # Install Python dependencies
 COPY ./init/requirements.txt ./
@@ -22,6 +23,9 @@ RUN dpkg -i ./drivers/clouderahiveodbc_2.5.25.1020-2_amd64.deb
 
 # Install FreeTDS ODBC driver for Microsoft SQL Server
 RUN apt-get install -y tdsodbc
+
+# Install Hortonworks Hive ODBC driver
+RUN dpkg -i ./drivers/hive-odbc-native_2.6.1.1001-2_amd64.deb
 
 # Install MySQL ODBC driver
 RUN tar xvzf ./drivers/mysql-connector-odbc-8.0.12-linux-debian9-x86-64bit.tar.gz \

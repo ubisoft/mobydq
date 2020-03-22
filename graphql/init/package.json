@@ -1,0 +1,17 @@
+{
+    "name": "postgraphile-as-library",
+    "version": "0.0.1",
+    "description": "PostGraphile as a library in a dockerized Node.js application.",
+    "author": "Alexis ROLLAND",
+    "license": "Apache-2.0",
+    "main": "server.js",
+    "keywords": [
+        "nodejs",
+        "postgraphile"
+    ],
+    "dependencies": {
+        "postgraphile": "^4.5.5",
+        "postgraphile-plugin-connection-filter": "^1.1.3",
+        "@graphile/pg-pubsub": "^4.5.0"
+    }
+}

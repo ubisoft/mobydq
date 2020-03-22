@@ -6,11 +6,11 @@
 /*Create data source*/
 INSERT INTO base.data_source (name, connection_string, login, password, data_source_type_id, user_group_id) VALUES
 (
-   'example_hive'
-  ,'driver={Cloudera Hive};host=db-hive;port=10000;'
+   'example_cloudera_hive'
+  ,'driver={Cloudera Hive};host=db-cloudera;port=10000;'
   ,'cloudera'
   ,'cloudera'
-  ,1  -- Hive
+  ,1  -- Cloudera Hive
   ,1  -- Public user group
 ),
 (

@@ -27,13 +27,13 @@ import ViewNotification from "./components/ViewNotification.vue";
 Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(VueSession, { persist: true });
-Vue.use(VueNativeSock, "wss://localhost/graphql", {
+Vue.use(VueNativeSock, "wss://" + window.location.host + "/graphql", {
   protocol: "graphql-ws",
   store: store,
   format: "json",
-  reconnection: true, // (Boolean) whether to reconnect automatically (false)
-  reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity)
-  reconnectionDelay: 3000 // (Number) how long to initially wait before attempting a new (1000)
+  reconnection: true, // Boolean to reconnect automatically
+  reconnectionAttempts: 5, // Number of reconnection attempts before giving up
+  reconnectionDelay: 3000 // How long to initially wait before attempting a new connection
 });
 
 // Declare application URLs

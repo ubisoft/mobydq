@@ -36,8 +36,8 @@ base.delete_children('data_source', 'data_source_type_id');
 
 /*Order matter since Id values will be generated accordingly, do not change it*/
 INSERT INTO base.data_source_type (name) VALUES
-  ('Hive')
-, ('Impala')
+  ('Cloudera Hive')
+, ('Cloudera Impala')
 , ('MariaDB')
 , ('Microsoft SQL Server')
 , ('MySQL')
@@ -45,4 +45,5 @@ INSERT INTO base.data_source_type (name) VALUES
 , ('PostgreSQL')
 , ('SQLite')
 , ('Teradata')
-, ('Snowflake');
+, ('Snowflake')
+, ('Hortonworks Hive');

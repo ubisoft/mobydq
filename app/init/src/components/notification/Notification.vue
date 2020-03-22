@@ -63,6 +63,7 @@ export default {
       );
     },
     removeNotification(value) {
+      // Function to remove notification from table when it is mark as read
       this.notifications = this.notifications.filter(
         function(item) {
           return item.id != value;

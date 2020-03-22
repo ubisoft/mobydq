@@ -48,7 +48,7 @@ $ cd mobydq
 
 # Start test database instances
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db graphql
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-hive db-mysql db-mariadb db-postgresql db-sql-server
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-cloudera db-mysql db-mariadb db-postgresql db-sql-server
 
 # Run tests
 $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up test-db test-scripts

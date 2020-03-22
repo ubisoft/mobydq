@@ -24,55 +24,63 @@ class DataSource:
         if password:
             connection_string = connection_string = f'{connection_string}pwd={password};'
 
-        # Hive
-        if data_source_type_id == DataSourceType.HIVE_ID:
-            connection = pyodbc.connect(connection_string, autocommit=True)
+        # Create connection object for SQLite
+        if data_source_type_id == DataSourceType.SQLITE_ID:
+            connection = sqlite3.connect(connection_string)
+
+        # Create connection object for all other data source types using pyodbc
+        else:
+            connection = pyodbc.connect(connection_string)
+
+        # Cloudera Hive
+        if data_source_type_id == DataSourceType.CLOUDERA_HIVE_ID:
             connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
-        # Impala
-        elif data_source_type_id == DataSourceType.IMPALA_ID:
-            connection = pyodbc.connect(connection_string)
+        # Cloudera Impala
+        elif data_source_type_id == DataSourceType.CLOUDERA_IMPALA_ID:
+            connection.setencoding(encoding='utf-8')
+
+        # Hortonworks Hive
+        elif data_source_type_id == DataSourceType.HORTONWORKS_HIVE_ID:
+            connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
         # MariaDB
-        elif data_source_type_id == DataSourceType.MARIADB_ID:
-            connection = pyodbc.connect(connection_string)
+        # elif data_source_type_id == DataSourceType.MARIADB_ID:
+        #     Do nothing
 
         # Microsoft SQL Server
-        elif data_source_type_id == DataSourceType.MSSQL_ID:
-            connection = pyodbc.connect(connection_string)
+        # elif data_source_type_id == DataSourceType.MSSQL_ID:
+        #     Do nothing
 
         # MySQL
-        elif data_source_type_id == DataSourceType.MYSQL_ID:
-            connection = pyodbc.connect(connection_string)
+        # elif data_source_type_id == DataSourceType.MYSQL_ID:
+        #     Do nothing
 
         # Oracle
-        elif data_source_type_id == DataSourceType.ORACLE_ID:
-            connection = pyodbc.connect(connection_string)
+        # elif data_source_type_id == DataSourceType.ORACLE_ID:
+        #     Do nothing
 
         # PostgreSQL
         elif data_source_type_id == DataSourceType.POSTGRESQL_ID:
-            connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
 
+        # Snowflake
+        # elif data_source_type_id == DataSourceType.SNOWFLAKE_ID:
+        #     Do nothing
+
         # SQLite
-        elif data_source_type_id == DataSourceType.SQLITE_ID:
-            connection = sqlite3.connect(connection_string)
+        # elif data_source_type_id == DataSourceType.SQLITE_ID:
+        #     Do nothing
 
         # Teradata
         elif data_source_type_id == DataSourceType.TERADATA_ID:
-            connection = pyodbc.connect(connection_string)
             connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
             connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
             connection.setdecoding(pyodbc.SQL_WMETADATA, encoding='utf-8')
             connection.setencoding(encoding='utf-8')
-
-        else:
-            message = f'Invalid data source type with id {data_source_type_id}'
-            log.error(message)
-            raise ValueError(message)
 
         return connection
 

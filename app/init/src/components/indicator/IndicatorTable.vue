@@ -32,7 +32,9 @@
             {{ indicator.indicatorTypeByIndicatorTypeId.name }}
           </td>
           <td>
-            {{ indicator.indicatorGroupByIndicatorGroupId.name }}
+            <router-link v-bind:to="'/indicatorgroups/' + indicator.indicatorGroupId">
+              {{ indicator.indicatorGroupByIndicatorGroupId.name }}
+            </router-link>
           </td>
            <td>
             {{ indicator.flagActive }}
