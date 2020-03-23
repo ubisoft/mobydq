@@ -1,5 +1,12 @@
 FROM python:3.6.6-slim-stretch
 
+RUN echo "deb http://ftp.cn.debian.org/debian/ stretch main" > /etc/apt/sources.list \
+    && echo "deb http://ftp.cn.debian.org/debian/ stretch-updates main" >> /etc/apt/sources.list
+
+# Found on https://mirrors.ustc.edu.cn/help/pypi.html
+RUN pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U \
+    && pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
+
 # Project files
 ARG PROJECT_DIR=/srv/scripts
 RUN mkdir -p $PROJECT_DIR
