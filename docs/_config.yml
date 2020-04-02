@@ -24,21 +24,21 @@ description: Official documentation
 # List of links in the navigation bar
 navbar-links:
     Home: "index"
-    Demo: "pages/demo"
+    Demo: "mobydq/pages/demo"
     Guides:
-        - Getting Started: "pages/gettingstarted"
-        - Production Deployment: "pages/productiondeployment"
-        - Data Source Connection String Examples: "pages/datasourceconnectionstringexamples"
-        - Create & Run Indicators From Web App: "pages/createandrunindicatorsfromwebapp"
-        - Run Indicators From GraphQL API: "pages/runindicatorsfromgraphqlapi"
+        - Getting Started: "mobydq/pages/gettingstarted"
+        - Production Deployment: "mobydq/pages/productiondeployment"
+        - Data Source Connection String Examples: "mobydq/pages/datasourceconnectionstringexamples"
+        - Create & Run Indicators From Web App: "mobydq/pages/createandrunindicatorsfromwebapp"
+        - Run Indicators From GraphQL API: "mobydq/pages/runindicatorsfromgraphqlapi"
     Concepts:
-        - Overview: "pages/overview"
-        - Data Sources: "pages/datasources"
-        - Indicators: "pages/indicators"
-        - Batches & Sessions: "pages/batchesandsessions"
-        - Users & User Groups: "pages/usersandusergroups"
-        - Roles & Permissions: "pages/rolesandpermissions"
-    Architecture: "pages/architecture"
+        - Overview: "mobydq/pages/overview"
+        - Data Sources: "mobydq/pages/datasources"
+        - Indicators: "mobydq/pages/indicators"
+        - Batches & Sessions: "mobydq/pages/batchesandsessions"
+        - Users & User Groups: "mobydq/pages/usersandusergroups"
+        - Roles & Permissions: "mobydq/pages/rolesandpermissions"
+    Architecture: "mobydq/pages/architecture"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -81,7 +81,7 @@ author:
 # You can reorder the items to define the link order.
 # If you want to add a new link that isn't here, you'll need to also edit the file _data/SocialNetworks.yml
 social-network-links:
-    github: mobydq
+    github: ubisoftinc/mobydq
 #  email: "contact.mobydq@gmail.com"
 #  rss: true
 #  facebook: daattali
