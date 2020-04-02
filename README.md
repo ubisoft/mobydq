@@ -1,25 +1,25 @@
 # MobyDQ
 
 ![License](https://img.shields.io/github/license/mobydq/mobydq.svg "Apache-2.0")
-![tests](https://github.com/mobydq/mobydq/workflows/tests/badge.svg)
+![tests](https://github.com/ubisoftinc/mobydq/workflows/tests/badge.svg)
 
-![MobyDQ](https://mobydq.github.io/img/logo/mobydq_logo_black_horizontal_small.png)
+![MobyDQ](https://ubisoftinc.github.io/mobydq/img/logo/mobydq_logo_black_horizontal_small.png)
 
 **MobyDQ** is a tool for data engineering teams to automate data quality checks on their data pipeline, capture data quality issues and trigger alerts in case of anomaly, regardless of the data sources they use.
 
 This tool has been inspired by an internal project developed at <a href="https://www.ubisoft.com">Ubisoft Entertainment</a> in order to measure and improve the data quality of its Enterprise Data Platform. However, this open source version has been reworked to improve its design, simplify it and remove technical dependencies with commercial software.
 
-![Data pipeline](https://mobydq.github.io/img/data_pipeline.png)
+![Data pipeline](https://ubisoftinc.github.io/mobydq/img/data_pipeline.png)
 
 # Getting Started
 
-Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://mobydq.github.io/pages/gettingstarted/). The complete documentation is also available on Github Pages: [https://mobydq.github.io](https://mobydq.github.io).
+Skip the bla bla and run your data quality indicators by following the [Getting Started page](https://ubisoftinc.github.io/mobydq/pages/gettingstarted/). The complete documentation is also available on Github Pages: [https://ubisoftinc.github.io/mobydq](https://ubisoftinc.github.io/mobydq).
 
 # Screenshots
 
 Some screenshot of the web application to give you a taste of how it's like.
 
-![Demo](https://mobydq.github.io/img/demo_screenshot.png)
+![Demo](https://ubisoftinc.github.io/mobydq/img/demo_screenshot.png)
 
 # Run Dev
 

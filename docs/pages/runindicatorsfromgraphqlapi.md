@@ -64,7 +64,7 @@ mutation getToken {
 
 In the screenshot below, the `userEmail` and `userPassword` arguments are provided dynamically through variables.
 
-[![Get Token](https://mobydq.github.io/img/get_token.png)](https://mobydq.github.io/img/get_token.png)
+[![Get Token](https://ubisoftinc.github.io/mobydq/img/get_token.png)](https://ubisoftinc.github.io/mobydq/img/get_token.png)
 
 In the horizontal menu at the top of the page, click on "**Headers**" to display the http headers parameters. Update the `Authorization` parameter so that it includes the token generated in the previous step `{"Authorization": "Bearer <token>"}`.
 
@@ -94,7 +94,7 @@ mutation executeIndicators {
 
 In the screenshot below, the `indicatorGroupId` and `indicatorId` arguments are provided dynamically through variables.
 
-[![Execute Indicators](https://mobydq.github.io/img/execute_indicators.png)](https://mobydq.github.io/img/execute_indicators.png)
+[![Execute Indicators](https://ubisoftinc.github.io/mobydq/img/execute_indicators.png)](https://ubisoftinc.github.io/mobydq/img/execute_indicators.png)
 
 ---
 

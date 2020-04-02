@@ -46,7 +46,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
 -   Click on the button "**Test Connectivity**" to confirm the connection is working.
 -   If the test fails, click on the button "**Logs**" to see the error message.
 
-[![MySQL Data Source](https://mobydq.github.io/img/data_source_mysql.png)](https://mobydq.github.io/img/data_source_mysql.png)
+[![MySQL Data Source](https://ubisoftinc.github.io/mobydq/img/data_source_mysql.png)](https://ubisoftinc.github.io/mobydq/img/data_source_mysql.png)
 
 ## Create Hive Data Source
 
@@ -60,7 +60,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
 
 > Note: Connection to Hive databases is done using Cloudera Hive ODBC driver.
 
-[![Hive Data Source](https://mobydq.github.io/img/data_source_hive.png)](https://mobydq.github.io/img/data_source_hive.png)
+[![Hive Data Source](https://ubisoftinc.github.io/mobydq/img/data_source_hive.png)](https://ubisoftinc.github.io/mobydq/img/data_source_hive.png)
 
 ---
 
@@ -73,7 +73,7 @@ An indicator group is a collection of indicators. It can be used to trigger the 
 -   Fill in the form with the following information and click on the button "**Save**".
     -   Name (must be unique): `tutorial_indicator_group`
 
-[![Indicator Group](https://mobydq.github.io/img/indicator_group.png)](https://mobydq.github.io/img/indicator_group.png)
+[![Indicator Group](https://ubisoftinc.github.io/mobydq/img/indicator_group.png)](https://ubisoftinc.github.io/mobydq/img/indicator_group.png)
 
 ---
 
@@ -93,7 +93,7 @@ Indicators compute datasets on one or several data sources in order to evaluate 
     -   Execution Order: `1`
     -   Active: `true`
 
-[![Indicator](https://mobydq.github.io/img/indicator.png)](https://mobydq.github.io/img/indicator.png)
+[![Indicator](https://ubisoftinc.github.io/mobydq/img/indicator.png)](https://ubisoftinc.github.io/mobydq/img/indicator.png)
 
 The next steps is to create parameters used during the execution of the indicator. For each of the parameter below, click on the button "**Create Parameter**" and fill in the form as described below.
 
@@ -263,7 +263,7 @@ If the expression returns `true`, an e-mail alert is sent to the distribution li
     </tr>
 </table>
 
-[![Parameters](https://mobydq.github.io/img/parameters.png)](https://mobydq.github.io/img/parameters.png)
+[![Parameters](https://ubisoftinc.github.io/mobydq/img/parameters.png)](https://ubisoftinc.github.io/mobydq/img/parameters.png)
 
 ## Create Freshness Indicator
 
