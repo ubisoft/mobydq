@@ -23,7 +23,7 @@ description: Official documentation
 
 # List of links in the navigation bar
 navbar-links:
-    Home: "index"
+    Home: "/mobydq/index"
     Demo: "mobydq/pages/demo"
     Guides:
         - Getting Started: "mobydq/pages/gettingstarted"
