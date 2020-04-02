@@ -6,7 +6,7 @@ use-site-title: true
 
 # Architecture Diagram
 
-![Architecture](/img/architecture.png)
+![Architecture](/mobydq/img/architecture.png)
 
 ---
 
