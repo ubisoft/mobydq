@@ -23,7 +23,7 @@ description: Official documentation
 
 # List of links in the navigation bar
 navbar-links:
-    Home: "https://ubisoftinc.github.io/mobydq"
+    Home: "mobydq"
     Demo: "mobydq/pages/demo"
     Guides:
         - Getting Started: "mobydq/pages/gettingstarted"
