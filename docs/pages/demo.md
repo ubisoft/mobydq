@@ -4,7 +4,7 @@ title: Demo
 use-site-title: true
 ---
 
-> Note: A live demo will come back soon! Until then [get your instance up and running](/pages/gettingstarted) and check the sample data generated.
+> Note: A live demo will come back soon! Until then [get your instance up and running](/mobydq/pages/gettingstarted) and check the sample data generated.
 
 MobyDQ is initialized with some sample data to serve as an example.
 

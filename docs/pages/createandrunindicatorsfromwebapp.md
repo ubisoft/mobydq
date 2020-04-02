@@ -4,7 +4,7 @@ title: Create & Run Indicators From Web App
 use-site-title: true
 ---
 
-The following page guides you step by step to create your first data quality indicators, but first you need to setup your instance of MobyDQ. Refer to the page [Getting Started](/pages/gettingstarted) to get it up and running. Once your instance is up, open a new browser window and navigate to MobyDQ. You can connect on the first time with the user `admin` and password `admin`.
+The following page guides you step by step to create your first data quality indicators, but first you need to setup your instance of MobyDQ. Refer to the page [Getting Started](/mobydq/pages/gettingstarted) to get it up and running. Once your instance is up, open a new browser window and navigate to MobyDQ. You can connect on the first time with the user `admin` and password `admin`.
 
 -   [Create Data Sources](#create-data-sources)
     -   [Create MySQL Data Source](#create-mysql-data-source)
@@ -79,7 +79,7 @@ An indicator group is a collection of indicators. It can be used to trigger the 
 
 # Create Indicators
 
-Indicators compute datasets on one or several data sources in order to evaluate their data quality. See the definition of each indicator type in the page: [Indicators](/pages/indicators).
+Indicators compute datasets on one or several data sources in order to evaluate their data quality. See the definition of each indicator type in the page: [Indicators](/mobydq/pages/indicators).
 
 ## Create Completeness Indicator
 

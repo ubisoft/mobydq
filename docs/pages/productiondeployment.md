@@ -4,7 +4,7 @@ title: Production Deployment
 use-site-title: true
 ---
 
-The deployment of MobyDQ into **production environment** is similar to a local setup but requires some changes for the application to run on a remote server. Follow the steps described in the [Getting Started](/pages/gettingstarted) page and apply the changes below once you are done.
+The deployment of MobyDQ into **production environment** is similar to a local setup but requires some changes for the application to run on a remote server. Follow the steps described in the [Getting Started](/mobydq/pages/gettingstarted) page and apply the changes below once you are done.
 
 -   [Create SSL Certificate](#create-ssl-certificate)
 -   [Update Nginx Configuration](#update-nginx-configuration)
@@ -14,7 +14,7 @@ The deployment of MobyDQ into **production environment** is similar to a local s
 
 # Create SSL Certificate
 
-If you followed the [Getting Started](/pages/gettingstarted) page, you already have a self-signed certificate and its key generated in the project folder `./nginx/config`. See files:
+If you followed the [Getting Started](/mobydq/pages/gettingstarted) page, you already have a self-signed certificate and its key generated in the project folder `./nginx/config`. See files:
 
 -   `./nginx/config/cert.pem`
 -   `./nginx/config/key.pem`
@@ -28,8 +28,8 @@ You can reuse this certificate or generate an official one on [Let's Encrypt](ht
 Update the file `./nginx/config/nginx.conf` to ensure it is aligned with your host name and that it uses the SSL certificate you created. You should modify in particular the following parameters.
 
 -   `server_name`: two occurences in the file. It must contain your host name without `https://`
--   `ssl_certificate`: one occurence in the file. You can keep the default value `/etc/nginx/cert.pem;` if you use the self-signed certificate created in the [Getting Started](/pages/gettingstarted) page.
--   `ssl_certificate_key`: one occurence in the file. You can keep the default value `/etc/nginx/key.pem;` if you use the self-signed certificate created in the [Getting Started](/pages/gettingstarted) page.
+-   `ssl_certificate`: one occurence in the file. You can keep the default value `/etc/nginx/cert.pem;` if you use the self-signed certificate created in the [Getting Started](/mobydq/pages/gettingstarted) page.
+-   `ssl_certificate_key`: one occurence in the file. You can keep the default value `/etc/nginx/key.pem;` if you use the self-signed certificate created in the [Getting Started](/mobydq/pages/gettingstarted) page.
 
 Example:
 

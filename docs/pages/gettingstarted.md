@@ -4,7 +4,7 @@ title: Getting Started
 use-site-title: true
 ---
 
-The following page guides you step by step to setup and run MobyDQ in a **local development environment**. For a deployment to **production**, follow the same steps and refer to the page [Production Deployment](/pages/productiondeployment).
+The following page guides you step by step to setup and run MobyDQ in a **local development environment**. For a deployment to **production**, follow the same steps and refer to the page [Production Deployment](/mobydq/pages/productiondeployment).
 
 -   [Requirements](#requirements)
     -   [Linux](#linux)

@@ -12,8 +12,8 @@ use-site-title: true
 
 # Concepts
 
--   [Data sources](/pages/datasources)
--   [Indicators](/pages/indicators)
--   [Batches and sessions](/pages/batchesandsessions)
--   [Users and user groups](/pages/usersandusergroups)
--   [Roles and permissions](/pages/rolesandpermissions)
+-   [Data sources](/mobydq/pages/datasources)
+-   [Indicators](/mobydq/pages/indicators)
+-   [Batches and sessions](/mobydq/pages/batchesandsessions)
+-   [Users and user groups](/mobydq/pages/usersandusergroups)
+-   [Roles and permissions](/mobydq/pages/rolesandpermissions)
