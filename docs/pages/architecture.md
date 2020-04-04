@@ -27,7 +27,7 @@ When running the container in local development mode, the database is accessible
 
 # GraphQL API
 
-The GraphQL API is used to perform CRUD operations on the database and trigger the execution of data quality indicators. It is powered by the excellent [Postgraphile](https://www.graphile.org/postgraphile) which introspects the database schema to create queries and mutations. The GraphQL API runs into an independent Docker container named `mobydq-graphql`. The interactive documentation GraphiQL is accessible on [https://localhost/graphiql](https://localhost/graphiql).
+The GraphQL API is used to perform CRUD operations on the database and trigger the execution of data quality indicators. It is powered by the excellent [PostGraphile](https://www.graphile.org/postgraphile) which introspects the database schema to create queries and mutations. The GraphQL API runs into an independent Docker container named `mobydq-graphql`. The interactive documentation GraphiQL is accessible on [https://localhost/graphiql](https://localhost/graphiql).
 
 ---
 
