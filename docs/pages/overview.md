@@ -6,7 +6,7 @@ use-site-title: true
 
 # Data Model
 
-![Data Model](/img/data_model.png)
+![Data Model](/mobydq/img/data_model.png)
 
 ---
 
