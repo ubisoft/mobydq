@@ -27,14 +27,13 @@ jobs:
             - name: Run application Docker containers
               run: docker-compose -f docker-compose.yml up -d db graphql
 
+            #db-cloudera, db-sql-server
             - name: Build test Docker images
               run: >-
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml build
-                  db-cloudera
                   db-mariadb
                   db-mysql
                   db-postgresql
-                  db-sql-server
                   test-db
                   test-scripts
                   test-lint-python
