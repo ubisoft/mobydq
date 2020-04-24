@@ -8,10 +8,6 @@ WORKDIR $PROJECT_DIR
 # Copy both 'package.json' and 'package-lock.json' (if available)
 COPY ./init/package*.json ./
 
-ENV http_proxy=http://proxy.ubisoft.org:3128 https_proxy=http://proxy.ubisoft.org:3128
-ENV no_proxy=10.0.0.0/8,192.168.0.0/16,172.16.0.0/12,localhost,127.0.0.1,.ubisoft.org,.ubisoft.onbe,.ubisoft.com
-RUN npm config set registry https://artifactory.ubisoft.org/api/npm/npm/
-
 # Install http-server to serve files to Nginx for production
 RUN npm install -g http-server
 
