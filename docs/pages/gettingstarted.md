@@ -73,7 +73,7 @@ Install Docker Toolbox for Windows from the following the URL: [Docker Toolbox f
 
 ## Create Configuration File
 
-Create a text file named `.env` at the root of the repository using the template below. This file is used by Docker Compose to load configuration parameters into environment variables. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters. Also make sure to update the values for the OAuth providers.
+Create a text file named `.env` at the root of the repository using the template below. This file is used by Docker Compose to load configuration parameters into environment variables. Make sure to update the `postgres` user password for both `POSTGRES_PASSWORD` and `DATABASE_URL` parameters.
 
 ```ini
 # DB
