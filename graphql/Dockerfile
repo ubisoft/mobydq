@@ -19,5 +19,5 @@ RUN cd ./mobydq-plugin && npm pack
 RUN npm install ./mobydq-plugin/mobydq-plugin-0.0.1.tgz
 RUN rm -rf ./mobydq-plugin
 
-EXPOSE 8080
+EXPOSE 5433
 CMD [ "node", "server.js" ]
