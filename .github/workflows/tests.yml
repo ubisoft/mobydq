@@ -51,12 +51,12 @@ jobs:
             #      export TEST_PORT=
             #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
-            - name: Run Docker containers to test data source methods
-              run: |
-                  export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_password
-                  export TEST_HOST=
-                  export TEST_PORT=
-                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+            #- name: Run Docker containers to test data source methods
+            #  run: |
+            #      export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_password
+            #      export TEST_HOST=
+            #      export TEST_PORT=
+            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             #- name: Run Docker containers to test data source connectivity to Cloudera Hive
             #  run: |
@@ -139,5 +139,5 @@ jobs:
             #      export TEST_PORT=
             #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
-            #- name: Run python linter
-            #  run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
+            - name: Run python linter
+              run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-lint-python test-lint-python
