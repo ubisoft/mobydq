@@ -7,7 +7,7 @@ payload = 'query{allDataSourceTypes{nodes{id}}}'
 payload = {'query': payload}  # Convert to dictionary
 print(1)
 #data = utils.execute_graphql_request(None, payload)
-print(data)
+#print(data)
 
 class TestUtils(unittest.TestCase):
     """Unit tests for utility methods."""
