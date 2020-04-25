@@ -84,32 +84,32 @@ jobs:
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
                   docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
-            #- name: Run Docker containers to test data source connectivity to MySQL
-            #  run: |
-            #      export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
-            #      export TEST_HOST=db-mysql
-            #      export TEST_PORT=3306
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
+            - name: Run Docker containers to test data source connectivity to MySQL
+              run: |
+                  export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_mysql
+                  export TEST_HOST=db-mysql
+                  export TEST_PORT=3306
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
-            #- name: Run Docker containers to test data source connectivity to PostgreSQL
-            #  run: |
-            #      export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
-            #      export TEST_HOST=db-postgresql
-            #      export TEST_PORT=5432
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
+            - name: Run Docker containers to test data source connectivity to PostgreSQL
+              run: |
+                  export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_postgresql
+                  export TEST_HOST=db-postgresql
+                  export TEST_PORT=5432
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml stop $TEST_HOST
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -f $TEST_HOST
 
-            #- name: Run Docker containers to test data source connectivity to SQLite
-            #  run: |
-            #      export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_sqlite
-            #      export TEST_HOST=
-            #      export TEST_PORT=
-            #      docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
+            - name: Run Docker containers to test data source connectivity to SQLite
+              run: |
+                  export TEST_CASE=test_scripts.test_data_source.TestDataSource.test_get_connection_sqlite
+                  export TEST_HOST=
+                  export TEST_PORT=
+                  docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from test-scripts test-scripts
 
             #- name: Run Docker containers to test data source connectivity to SQL Server
             #  run: |
