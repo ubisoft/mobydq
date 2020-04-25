@@ -123,10 +123,10 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["./run-tests.sh", "${TEST_CASE}", "${TEST_HOST}", "${TEST_PORT}"]
-        networks:
-            - network
         depends_on:
-            - scripts
+          - graphql
+        networks:
+          - network
 
     test-lint-python:
         container_name: mobydq-test-lint-python
