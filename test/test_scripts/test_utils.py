@@ -6,7 +6,7 @@ from scripts import utils
 payload = 'query{allDataSourceTypes{nodes{id}}}'
 payload = {'query': payload}  # Convert to dictionary
 print(1)
-data = utils.execute_graphql_request(None, payload)
+#data = utils.execute_graphql_request(None, payload)
 print(data)
 
 class TestUtils(unittest.TestCase):
@@ -35,4 +35,6 @@ class TestUtils(unittest.TestCase):
     '''
 
 if __name__ == '__main__':
+    print('Hello world') 
     unittest.main()
+    print('Goodbye world')
