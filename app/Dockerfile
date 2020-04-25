@@ -22,4 +22,5 @@ COPY ./entrypoint.sh ./
 COPY ./init/ ./
 
 # Use entrypoint to differentiate build process between dev and prod
+RUN chmod +x entrypoint.sh
 ENTRYPOINT [ "./entrypoint.sh" ]
