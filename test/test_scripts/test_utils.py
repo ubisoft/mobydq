@@ -16,16 +16,18 @@ class TestUtils(unittest.TestCase):
         self.assertGreater(len(api), 0)
         self.assertGreater(len(url), 0)
 
-    #def test_execute_graphql_request(self):
-    #    """Unit tests for method execute_graphql_request."""
+    def test_execute_graphql_request(self):
+        """Unit tests for method execute_graphql_request."""
 
-    #    payload = 'query{allDataSourceTypes{nodes{id}}}'
-    #    payload = {'query': payload}  # Convert to dictionary
-    #    data = utils.execute_graphql_request(None, payload)
-    #    nb_records = len(data['data']['allDataSourceTypes']['nodes'])
+        payload = 'query{allDataSourceTypes{nodes{id}}}'
+        payload = {'query': payload}  # Convert to dictionary
+        print(1)
+        data = utils.execute_graphql_request(None, payload)
+        print(3)
+        nb_records = len(data['data']['allDataSourceTypes']['nodes'])
 
-    #    # Assert graphql query returned records
-    #    self.assertGreater(nb_records, 0)
+        # Assert graphql query returned records
+        self.assertGreater(nb_records, 0)
 
 
 if __name__ == '__main__':
