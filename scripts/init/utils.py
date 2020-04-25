@@ -72,12 +72,13 @@ def get_parameter(section: str, parameter_name: str = None):
 
 def execute_graphql_request(authorization: str, payload: dict):
     """Method to execute http request on the GraphQL API."""
-
+    print(2)
     url = 'http://graphql:5433/graphql'  # url = get_parameter('graphql', 'url')
     headers = {'Content-Type': 'application/json'}
     if authorization:
         headers['Authorization'] = authorization
     response = requests.post(url, headers=headers, json=payload)
+    print(response)
     data = response.json()
 
     return data

@@ -103,19 +103,6 @@ services:
         networks:
             - network
 
-    test-db:
-        container_name: mobydq-test-db
-        image: mobydq-test-db
-        build:
-            context: .
-            dockerfile: ./test/Dockerfile
-        command: ["nose2", "-v", "test_db.TestDb"]
-        depends_on:
-            - db
-            - scripts
-        networks:
-            - network
-
     test-scripts:
         container_name: mobydq-test-scripts
         image: mobydq-test-scripts
@@ -123,10 +110,11 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["./run-tests.sh", "${TEST_CASE}", "${TEST_HOST}", "${TEST_PORT}"]
-        networks:
-            - network
         depends_on:
-            - scripts
+          - db
+          - graphql
+        networks:
+          - network
 
     test-lint-python:
         container_name: mobydq-test-lint-python
@@ -135,5 +123,3 @@ services:
             context: .
             dockerfile: ./test/Dockerfile
         command: ["pylint", "scripts", "test"]
-        depends_on:
-            - scripts
