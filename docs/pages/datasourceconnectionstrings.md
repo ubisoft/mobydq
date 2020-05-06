@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Data Source Connection String Examples
+title: Data Source Connection Strings
 use-site-title: true
 ---
 
@@ -13,13 +13,13 @@ The following page provides examples of data source connection strings. MobyDQ c
   - [Hive](##hive)
   - [Impala](##impala)
   - [MariaDB](##mariadb)
-  -  [Microsoft SQL Server](##microsoft-sql-server)
-  -  [MySQL](##mysql)
-  -  [Oracle](##oracle)
-  -  [PostgreSQL](##postgresql)
-  -  [Snowflake](##snowflake)
-  -  [SQLite](##sqlite)
-  -  [Teradata](##teradata)
+  - [Microsoft SQL Server](##microsoft-sql-server)
+  - [MySQL](##mysql)
+  - [Oracle](##oracle)
+  - [PostgreSQL](##postgresql)
+  - [Snowflake](##snowflake)
+  - [SQLite](##sqlite)
+  - [Teradata](##teradata)
 
 # Troubleshooting
 
