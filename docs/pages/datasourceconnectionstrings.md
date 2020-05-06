@@ -8,16 +8,18 @@ The following page provides examples of data source connection strings. MobyDQ c
 
 > Note: In case a data source requires a login and password, those **should not** be written in the connection string but rather in their dedicated fields in the web application. MobyDQ will automatically add them to the connection string when connecting to the data source. You can refer to the sample data sources created when initializing MobyDQ.
 
--   [Hive](#hive)
--   [Impala](#impala)
--   [MariaDB](#mariadb)
--   [Microsoft SQL Server](#microsoft-sql-server)
--   [MySQL](#mysql)
--   [Oracle](#oracle)
--   [PostgreSQL](#postgresql)
--   [Snowflake](#snowflake)
--   [SQLite](#sqlite)
--   [Teradata](#teradata)
+- [Troubleshooting](#troubleshooting)
+- [Examples](#examples)
+  - [Hive](##hive)
+  - [Impala](##impala)
+  - [MariaDB](##mariadb)
+  -  [Microsoft SQL Server](##microsoft-sql-server)
+  -  [MySQL](##mysql)
+  -  [Oracle](##oracle)
+  -  [PostgreSQL](##postgresql)
+  -  [Snowflake](##snowflake)
+  -  [SQLite](##sqlite)
+  -  [Teradata](##teradata)
 
 # Troubleshooting
 
