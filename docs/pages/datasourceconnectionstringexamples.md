@@ -19,6 +19,28 @@ The following page provides examples of data source connection strings. MobyDQ c
 -   [SQLite](#sqlite)
 -   [Teradata](#teradata)
 
+# Troubleshooting
+
+Troubleshooting connectivity to a data source can be quite complex because of all the possible configurations, network specificities and various authentication mechanisms used on database servers (active directory, kerberos, database authentication, etc.). You can use the following code snippet in order to test a connectiong string and the connectivity to a data source.
+
+```
+# Run mobydq-scripts Docker container and connect to it in interactive mode
+$ docker run -it --rm --network mobydq_network mobydq-test-scripts sh
+
+# Start the Python interpreter inside the container
+$ python
+
+# Paste the following Python code, make sure you update the connection string parameters, uid, pwd, etc. to test your own
+import pyodbc
+connection_string = "driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;uid=sa;pwd=1234-abcd"
+connection = pyodbc.connect(connection_string)
+cursor = connection.cursor()
+query = "SELECT 'Hello World!';"
+cursor.execute(query)
+row = cursor.fetchone()
+print(row)
+```
+
 ---
 
 # Hive
