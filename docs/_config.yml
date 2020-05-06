@@ -28,7 +28,7 @@ navbar-links:
     Guides:
         - Getting Started: "mobydq/pages/gettingstarted"
         - Production Deployment: "mobydq/pages/productiondeployment"
-        - Data Source Connection String Examples: "mobydq/pages/datasourceconnectionstringexamples"
+        - Data Source Connection Strings: "mobydq/pages/datasourceconnectionstrings"
         - Create & Run Indicators From Web App: "mobydq/pages/createandrunindicatorsfromwebapp"
         - Run Indicators From GraphQL API: "mobydq/pages/runindicatorsfromgraphqlapi"
     Concepts:
