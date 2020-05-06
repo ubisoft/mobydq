@@ -27,7 +27,7 @@ Troubleshooting connectivity to a data source can be quite complex because of al
 
 ```shell
 # Run mobydq-scripts Docker container and connect to it in interactive mode
-$ docker run -it --rm --network mobydq_network mobydq-test-scripts sh
+$ docker run -it --rm --network mobydq_network mobydq-scripts sh
 
 # Start the Python interpreter inside the container
 $ python
