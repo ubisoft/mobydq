@@ -76,8 +76,16 @@ driver={MariaDB Unicode};server=db-mariadb;port=3306;database=star_wars;
 
 ## Microsoft SQL Server
 
+Connection string for database authentication using a database user.
+
 ```
 driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;
+```
+
+Connection string for Active Directory authentication using a Windows user. The user must be supplied in the dedicated field in the web application with the format `domain\user`.
+
+```
+driver={FreeTDS};server=db-sql-server;port=1433;database=star_wars;tds_version=8.0;usentlmv2=yes;
 ```
 
 ---
