@@ -15,7 +15,7 @@ CREATE TABLE base.password (
 );
 
 COMMENT ON TABLE base.password IS
-E'@omit\nUsers password information.';
+'Users password information.';
 
 
 
