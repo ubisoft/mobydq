@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:14.2.0-alpine3.11
 
 # Project files
 ARG PROJECT_DIR=/srv/app
