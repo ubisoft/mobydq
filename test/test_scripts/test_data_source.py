@@ -154,6 +154,16 @@ class TestDataSource(unittest.TestCase):
         # """Unit tests for method get_connection for Teradata database."""
         # TODO: Not implemented because there is no Teradata Docker image
         # pass
+    
+     # def test_get_connection_snowflake(self):
+        # """Unit tests for method get_connection for Snowflake database."""
+        # TODO: Not implemented because there is no Snowflake Docker image
+        # pass
+    
+    # def test_get_connection_hortonworks_hive(self):
+        # """Unit tests for method get_connection for Hortonworks Hive database."""
+        # TODO: To be implemented
+        # pass
 
 
 if __name__ == '__main__':
