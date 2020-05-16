@@ -10,16 +10,17 @@ The following page provides examples of data source connection strings. MobyDQ c
 
 - [Troubleshooting](#troubleshooting)
 - [Examples](#examples)
-  - [Hive](##hive)
-  - [Impala](##impala)
-  - [MariaDB](##mariadb)
-  - [Microsoft SQL Server](##microsoft-sql-server)
-  - [MySQL](##mysql)
-  - [Oracle](##oracle)
-  - [PostgreSQL](##postgresql)
-  - [Snowflake](##snowflake)
-  - [SQLite](##sqlite)
-  - [Teradata](##teradata)
+  - [Cloudera Hive](#cloudera-hive)
+  - [Hortonworks Hive](#hortonworks-hive)
+  - [Impala](#impala)
+  - [MariaDB](#mariadb)
+  - [Microsoft SQL Server](#microsoft-sql-server)
+  - [MySQL](#mysql)
+  - [Oracle](#oracle)
+  - [PostgreSQL](#postgresql)
+  - [Snowflake](#snowflake)
+  - [SQLite](#sqlite)
+  - [Teradata](#teradata)
 
 # Troubleshooting
 
@@ -50,10 +51,18 @@ Paste the following code in the Python interpreter, make sure you update the con
 
 # Examples
 
-## Hive
+## Cloudera Hive
 
 ```
 driver={Cloudera Hive};host=db-hive;port=10000;
+```
+
+---
+
+## Hortonworks Hive
+
+```
+Driver={Hortonworks Hive};host=db-hive;port=10000;
 ```
 
 ---
