@@ -123,7 +123,7 @@ $ docker run -it --rm -v "/<your_path>/mobydq/nginx/config:/openssl-certs" docke
 $ docker run -it --rm -v "C:\<your_path>\mobydq\nginx\config:/openssl-certs" docker-openssl
 
 # For Docker Toolbox (Windows Home)
-$ docker run -it --rm -v "/c/<your_path>/mobydq/nginx/config:/openssl-certs" docker-openssl.
+$ docker run -it --rm -v "/c/<your_path>/mobydq/nginx/config:/openssl-certs" docker-openssl
 ```
 
 Generate the certificate file and its private key:
