@@ -28,4 +28,4 @@ One indicator for each indicator type:
 -   Latency
 -   Validity
 
-[![Demo Screenshot](https://ubisoftinc.github.io/mobydq/img/demo_screenshot.png)](https://ubisoftinc.github.io/mobydq/img/demo_screenshot.png)
+[![Demo Screenshot](https://ubisoft.github.io/mobydq/img/demo_screenshot.png)](https://ubisoft.github.io/mobydq/img/demo_screenshot.png)
