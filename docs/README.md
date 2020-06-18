@@ -1,2 +1,2 @@
 # MobyDQ
-MobyDQ official documentation: [https://ubisoftinc.github.io/mobydq](https://ubisoftinc.github.io/mobydq) 
+MobyDQ official documentation: [https://ubisoft.github.io/mobydq](https://ubisoft.github.io/mobydq) 
