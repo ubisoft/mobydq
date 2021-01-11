@@ -8,7 +8,7 @@ use-site-title: true
 
 Data sources are systems containing or exposing data like relational databases or APIs. The `data_source` table stores information about the systems to which MobyDQ can connect to compute indicators.
 
-> Note: MobyDQ only support connections to data source types described below: [Data Source Type](#data-source-type)
+> Note: MobyDQ only supports connections to data source types listed below: [Data Source Type](#data-source-type). You can refer to [data souce connection strings examples](/mobydq/pages/datasourceconnectionstrings/) to setup your data sources.
 
 **Table:** `data_source`<br/>
 
@@ -117,10 +117,10 @@ Data source types describe the type of systems MobyDQ can connect to.
     <th>id</th><th>name</th>
   </tr>
   <tr>
-    <td>1</td><td>Hive</td>
+    <td>1</td><td>Cloudera Hive</td>
   </tr>
   <tr>
-    <td>2</td><td>Impala (to be supported soon)</td>
+    <td>2</td><td>Cloudera Impala (not support yet)</td>
   </tr>
   <tr>
     <td>3</td><td>MariaDB</td>
@@ -132,7 +132,7 @@ Data source types describe the type of systems MobyDQ can connect to.
     <td>5</td><td>MySQL</td>
   </tr>
   <tr>
-    <td>6</td><td>Oracle (to be supported soon)</td>
+    <td>6</td><td>Oracle</td>
   </tr>
   <tr>
     <td>7</td><td>PostgreSQL</td>
@@ -142,5 +142,11 @@ Data source types describe the type of systems MobyDQ can connect to.
   </tr>
   <tr>
     <td>9</td><td>Teradata</td>
+  </tr>
+  <tr>
+    <td>10</td><td>Snowflake</td>
+  </tr>
+  <tr>
+    <td>11</td><td>Hortonworks Hive</td>
   </tr>
 </table>

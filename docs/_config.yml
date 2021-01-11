@@ -4,7 +4,7 @@
 # baseurl is the website's URL without the hostname
 
 # If you are building a simple GitHub user page (http://username.github.io) then use these settings:
-url: "https://ubisoftinc.github.io/mobydq"
+url: "https://ubisoft.github.io/mobydq"
 baseurl: ""
 
 # If you are building a GitHub project page then use these settings:
@@ -81,7 +81,7 @@ author:
 # You can reorder the items to define the link order.
 # If you want to add a new link that isn't here, you'll need to also edit the file _data/SocialNetworks.yml
 social-network-links:
-    github: ubisoftinc/mobydq
+    github: ubisoft/mobydq
 #  email: "contact.mobydq@gmail.com"
 #  rss: true
 #  facebook: daattali
@@ -109,7 +109,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "ubisoftinc.github.io/mobydq" # eg. "deanattali.com/beautiful-jekyll"
+url-pretty: "ubisoft.github.io/mobydq" # eg. "deanattali.com/beautiful-jekyll"
 
 # --- Web Statistics Section --- #
 
