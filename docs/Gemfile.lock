@@ -58,7 +58,7 @@ GEM
       jekyll-theme-time-machine (= 0.1.0)
       jekyll-titles-from-headings (= 0.4.0)
       jemoji (= 0.8.1)
-      kramdown (= 2.3.0)
+      kramdown (= 2.3.1)
       liquid (= 4.0.0)
       listen (= 3.0.6)
       mercenary (~> 0.3)
