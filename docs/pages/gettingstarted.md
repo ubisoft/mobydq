@@ -145,6 +145,8 @@ Common Name (e.g. server FQDN or YOUR name) []:localhost
 Email Address []:
 ```
 
+The certificate file and its private key are created in the repository folder `/mobydq/nginx/config`. Exit from the OpenSSL Docker container (ctrl+D) and move on to the next step.
+
 ## Build Docker Images
 
 Go to the project root and execute the following command in your terminal window.
