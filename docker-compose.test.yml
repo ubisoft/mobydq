@@ -9,8 +9,6 @@ services:
             dockerfile: Dockerfile
         expose:
             - 10000
-        networks:
-            - network
         hostname: quickstart.cloudera
         privileged: true
         tty: true
@@ -24,8 +22,6 @@ services:
             dockerfile: Dockerfile
         expose:
             - 10000
-        networks:
-            - network
         hostname: sandbox-hdf.hortonworks.com
         privileged: true
         tty: true
@@ -41,8 +37,6 @@ services:
             MYSQL_ROOT_PASSWORD: "1234"
         expose:
             - 3306
-        networks:
-            - network
 
     db-mysql:
         container_name: mobydq-test-db-mysql
@@ -55,8 +49,6 @@ services:
             MYSQL_ROOT_PASSWORD: "1234"
         expose:
             - 3306
-        networks:
-            - network
 
     db-oracle:
         container_name: mobydq-test-db-oracle
@@ -69,8 +61,6 @@ services:
             ORACLE_PWD: "1234-abcd"
         expose:
             - 1521
-        networks:
-            - network
 
     db-postgresql:
         container_name: mobydq-test-db-postgresql
@@ -85,8 +75,6 @@ services:
             POSTGRES_DATABASE: "star_wars"
         expose:
             - 5432
-        networks:
-            - network
 
     db-sql-server:
         container_name: mobydq-test-db-sql-server
@@ -100,8 +88,6 @@ services:
             SA_PASSWORD: "1234-abcd"
         expose:
             - 1433
-        networks:
-            - network
 
     test-scripts:
         container_name: mobydq-test-scripts
@@ -113,8 +99,6 @@ services:
         depends_on:
           - db
           - graphql
-        networks:
-          - network
 
     test-lint-python:
         container_name: mobydq-test-lint-python
