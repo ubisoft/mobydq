@@ -54,7 +54,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
 -   Fill in the form with the following information and click on the button "**Save**".
     -   Name (must be unique): `tutorial_hive`
     -   Data Source Type: `Cloudera Hive`
-    -   Connection String: `driver=Cloudera Hive;Host=db-hive;Port=10000;`
+    -   Connection String: `driver=Cloudera Hive;Host=db-cloudera;Port=10000;`
     -   Login: `cloudera`
     -   Password: `cloudera`
 
