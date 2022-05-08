@@ -8,7 +8,7 @@ The following page guides you step by step to create your first data quality ind
 
 -   [Create Data Sources](#create-data-sources)
     -   [Create MySQL Data Source](#create-mysql-data-source)
-    -   [Create Hive Data Source](#create-hive-data-source)
+    -   [Create Cloudera Hive Data Source](#create-cloudera-hive-data-source)
 -   [Create Indicator Group](#create-indicator-group)
 -   [Create Indicators](#create-indicators)
     -   [Create Completeness Indicator](#create-completeness-indicator)
