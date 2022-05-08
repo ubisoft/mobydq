@@ -54,7 +54,7 @@ Paste the following code in the Python interpreter, make sure you update the con
 ## Cloudera Hive
 
 ```
-driver={Cloudera Hive};host=db-hive;port=10000;
+driver={Cloudera Hive};host=db-cloudera;port=10000;
 ```
 
 ---
@@ -62,7 +62,7 @@ driver={Cloudera Hive};host=db-hive;port=10000;
 ## Hortonworks Hive
 
 ```
-Driver={Hortonworks Hive};host=db-hive;port=10000;
+Driver={Hortonworks Hive};host=db-hortonworks;port=10000;
 ```
 
 ---
