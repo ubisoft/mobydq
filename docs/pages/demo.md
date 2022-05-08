@@ -12,7 +12,7 @@ MobyDQ is initialized with some sample data to serve as an example.
 
 One data source for each of the following database types:
 
--   Hive
+-   Cloudera Hive
 -   MariaDB
 -   Microsoft SQL Server
 -   MySQL

@@ -120,7 +120,7 @@ Data source types describe the type of systems MobyDQ can connect to.
     <td>1</td><td>Cloudera Hive</td>
   </tr>
   <tr>
-    <td>2</td><td>Cloudera Impala (not support yet)</td>
+    <td>2</td><td>Cloudera Impala (not supported yet)</td>
   </tr>
   <tr>
     <td>3</td><td>MariaDB</td>

@@ -8,7 +8,7 @@ The following page guides you step by step to create your first data quality ind
 
 -   [Create Data Sources](#create-data-sources)
     -   [Create MySQL Data Source](#create-mysql-data-source)
-    -   [Create Hive Data Source](#create-hive-data-source)
+    -   [Create Cloudera Hive Data Source](#create-cloudera-hive-data-source)
 -   [Create Indicator Group](#create-indicator-group)
 -   [Create Indicators](#create-indicators)
     -   [Create Completeness Indicator](#create-completeness-indicator)
@@ -20,17 +20,17 @@ The following page guides you step by step to create your first data quality ind
 
 # Create Data Sources
 
-Data sources are systems containing or exposing data such as relational databases or APIs. The first step is to create at least one data source to which MobyDQ will connect to compute indicators. In this example we will create two data sources, one **MySQL** database and one **Hive** database. You can actually run these two data sources directly on your machine using the following command.
+Data sources are systems containing or exposing data such as relational databases or APIs. The first step is to create at least one data source to which MobyDQ will connect to compute indicators. In this example we will create two data sources, one **MySQL** database and one **Cloudera Hive** database. You can actually run these two data sources directly on your machine using the following command.
 
 ```shell
 # Go to repository root
 $ cd mobydq
 
 # Build Docker images for both data sources
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mysql db-hive
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml build db-mysql db-cloudera
 
 # Run Docker containers for both data sources
-$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql db-hive
+$ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql db-cloudera
 ```
 
 ## Create MySQL Data Source
@@ -48,19 +48,19 @@ $ docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d db-mysql
 
 [![MySQL Data Source](https://ubisoft.github.io/mobydq/img/data_source_mysql.png)](https://ubisoft.github.io/mobydq/img/data_source_mysql.png)
 
-## Create Hive Data Source
+## Create Cloudera Hive Data Source
 
 -   Follow the same steps as for the MySQL data source above.
 -   Fill in the form with the following information and click on the button "**Save**".
     -   Name (must be unique): `tutorial_hive`
-    -   Data Source Type: `Hive`
-    -   Connection String: `driver=Cloudera Hive;Host=db-hive;Port=10000;`
+    -   Data Source Type: `Cloudera Hive`
+    -   Connection String: `driver=Cloudera Hive;Host=db-cloudera;Port=10000;`
     -   Login: `cloudera`
     -   Password: `cloudera`
 
-> Note: Connection to Hive databases is done using Cloudera Hive ODBC driver.
+> Note: Connection to Cloudera Hive databases is done using Cloudera Hive ODBC driver.
 
-[![Hive Data Source](https://ubisoft.github.io/mobydq/img/data_source_hive.png)](https://ubisoft.github.io/mobydq/img/data_source_hive.png)
+[![Cloudera Hive Data Source](https://ubisoft.github.io/mobydq/img/data_source_hive.png)](https://ubisoft.github.io/mobydq/img/data_source_hive.png)
 
 ---
 
