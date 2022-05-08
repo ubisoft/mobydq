@@ -10,8 +10,6 @@ services:
             - db:/var/lib/postgresql/data
         env_file:
             - ./.env
-        networks:
-            - network
 
     graphql:
         container_name: mobydq-graphql
@@ -25,8 +23,6 @@ services:
             - ./.env
         depends_on:
             - db
-        networks:
-            - network
 
     app:
         container_name: mobydq-app
@@ -38,8 +34,6 @@ services:
             - ./.env
         depends_on:
             - graphql
-        networks:
-            - network
         command: ["prod"]
 
     nginx:
@@ -55,8 +49,6 @@ services:
             - 443:443
         depends_on:
             - graphql
-        networks:
-            - network
 
     scripts:
         container_name: mobydq-scripts
@@ -74,11 +66,10 @@ services:
             - ./.env
         depends_on:
             - graphql
-        networks:
-            - network
 
 networks:
-    network:
+    default:
+        name: mobydq_network
 
 volumes:
     db:
