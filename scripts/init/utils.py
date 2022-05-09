@@ -135,12 +135,13 @@ def send_mail(session_id: int, distribution_list: list, template: str = None, at
         email.attach(part)
 
     # Connect to smtp server
-    connection = smtplib.SMTP_SSL(config['host'], config['port'])
-
     # If smtp server is Gmail activate encryption and authenticate user
     if config['host'] == 'smtp.gmail.com':
+        connection = smtplib.SMTP(config['host'], config['port'])
         connection.ehlo()
         connection.starttls()
+    else:
+        connection = smtplib.SMTP_SSL(config['host'], config['port'])
 
     # Send email
     try:
